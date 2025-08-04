@@ -156,6 +156,83 @@
         background-color: #2d3748;
         color: white;
     }
+    
+    /* Modal Styles */
+    .modal-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0,0,0,0.5);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 1050;
+        padding: 1rem;
+    }
+    .modal-content-wrapper {
+        background-color: #fff;
+        border-radius: .5rem;
+        box-shadow: 0 5px 15px rgba(0,0,0,.5);
+        width: 100%;
+        max-width: 900px; /* Wider modal */
+        max-height: 90vh;
+        display: flex;
+        flex-direction: column;
+    }
+    .modal-header-custom {
+        background: linear-gradient(to right, #059669, #047857);
+        color: white;
+        padding: 1.25rem;
+        border-top-left-radius: .5rem;
+        border-top-right-radius: .5rem;
+    }
+    .modal-header-custom h5 {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .modal-body-custom {
+        padding: 1.5rem;
+        overflow-y: auto;
+    }
+    .modal-footer-custom {
+        padding: 1rem;
+        display: flex;
+        justify-content: flex-end;
+        gap: .5rem;
+        border-top: 1px solid #e2e8f0;
+    }
+    .upload-area {
+        border: 2px dashed #dee2e6;
+        border-radius: .5rem;
+        padding: 2rem;
+        text-align: center;
+        cursor: pointer;
+        transition: background-color .2s;
+    }
+    .upload-area:hover {
+        background-color: #f8f9fa;
+    }
+    .upload-area i {
+        font-size: 2rem;
+        color: #6c757d;
+    }
+    .upload-area p {
+        margin-top: 1rem;
+        color: #6c757d;
+    }
+    .dynamic-row-close-btn {
+        position: absolute;
+        top: 0.25rem;
+        right: 0.25rem;
+        line-height: 1;
+        padding: 0.25rem 0.5rem;
+    }
   </style>
 </head>
 <body>
@@ -221,7 +298,7 @@
                         <input type="text" class="form-control border-start-0" placeholder="Cari Data ....">
                     </div>
                 </div>
-                <a href="#" class="btn btn-tambah fw-bold"><i class="fa fa-plus me-2"></i> Tambah Data</a>
+                <a href="#" class="btn btn-tambah fw-bold" onclick="openModal('pengabdianModal')"><i class="fa fa-plus me-2"></i> Tambah Data</a>
             </div>
 
             <!-- Table -->
@@ -259,7 +336,7 @@
                                           <div class="d-flex gap-2 justify-content-center">
                                               <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a>
                                               <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail"><i class="fa fa-eye"></i></a>
-                                              <a href="#" class="btn-aksi btn-edit" title="Edit Data"><i class="fa fa-edit"></i></a>
+                                              <a href="#" class="btn-aksi btn-edit" title="Edit Data" onclick="openEditModal()"><i class="fa fa-edit"></i></a>
                                               <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
                                           </div>
                                       </td>
@@ -291,6 +368,64 @@
     </div>
   </div>
 
+  <!-- Modal Tambah/Edit Pengabdian -->
+    <div class="modal-backdrop" id="pengabdianModal">
+        <div class="modal-content-wrapper">
+            <div class="modal-header-custom">
+                <h5 id="modalTitle"><i class="fas fa-plus-circle"></i> Tambah Data Pengabdian</h5>
+            </div>
+            <div class="modal-body-custom">
+                <form id="pengabdianForm">
+                    <div class="row">
+                        <!-- Left Column -->
+                        <div class="col-md-7">
+                            <div class="row g-3">
+                                <div class="col-12"><label class="form-label">Kegiatan</label><input type="text" class="form-control" placeholder="Melaksanakan Perkuliahan/Tutorial/..."></div>
+                                <div class="col-12"><label class="form-label">Nama Kegiatan</label><select class="form-select"><option selected>-- Pilih Salah Satu --</option></select></div>
+                                <div class="col-md-6"><label class="form-label">Afiliasi Non PT</label><input type="text" class="form-control" placeholder="Contoh: Dinas Kehutanan"></div>
+                                <div class="col-md-6"><label class="form-label">Jenis SKIM</label><select class="form-select"><option selected>-- Pilih Salah Satu --</option></select></div>
+                                <div class="col-12"><label class="form-label">Tahun</label><div class="d-flex gap-2"><input type="number" class="form-control" placeholder="Usulan"><input type="number" class="form-control" placeholder="Kegiatan"><input type="number" class="form-control" placeholder="Pelaksanaan"></div></div>
+                                <div class="col-md-6"><label class="form-label">Terhitung Mulai Tanggal</label><input type="date" class="form-control"></div>
+                                <div class="col-md-6"><label class="form-label">Terhitung Sampai Tanggal</label><input type="date" class="form-control"></div>
+                                <div class="col-12"><label class="form-label">Lama Kegiatan</label><input type="text" class="form-control" placeholder="Contoh: 6 Bulan"></div>
+                                <div class="col-12"><label class="form-label">In Kind</label><input type="text" class="form-control" placeholder="Deskripsi In Kind"></div>
+                                <div class="col-12"><label class="form-label">No SK Penugasan</label><input type="text" class="form-control" placeholder="Nomor SK"></div>
+                                <div class="col-12"><label class="form-label">Tanggal SK Penugasan</label><input type="date" class="form-control"></div>
+                                <div class="col-12"><label class="form-label">Litabmas</label><input type="text" class="form-control" placeholder="Keterangan Litabmas"></div>
+                                <div class="col-12"><label class="form-label">Dana</label><div class="row g-2"><div class="col-md-4"><input type="number" class="form-control" placeholder="DIKTI"></div><div class="col-md-4"><input type="number" class="form-control" placeholder="Perguruan Tinggi"></div><div class="col-md-4"><input type="number" class="form-control" placeholder="Institusi Lain"></div></div></div>
+                            </div>
+                        </div>
+                        <!-- Right Column -->
+                        <div class="col-md-5">
+                            <div class="d-grid gap-2 mb-3">
+                                <button type="button" class="btn btn-outline-primary" onclick="addAnggota('dosen')">+ Tambah Dosen</button>
+                                <div id="dosen-list"></div>
+                                <button type="button" class="btn btn-outline-primary mt-2" onclick="addAnggota('mahasiswa')">+ Tambah Mahasiswa</button>
+                                <div id="mahasiswa-list"></div>
+                                <button type="button" class="btn btn-outline-primary mt-2" onclick="addAnggota('kolaborator')">+ Tambah Kolaborator</button>
+                                <div id="kolaborator-list"></div>
+                            </div>
+                            <hr>
+                            <div class="mb-3">
+                                <label class="form-label">Jenis Dokumen</label>
+                                <select class="form-select"><option selected>-- Pilih Salah Satu --</option></select>
+                            </div>
+                            <div class="upload-area">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Drag & Drop File here<br><small>Ukuran Maksimal 5 MB</small></p>
+                                <input type="file" hidden>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer-custom">
+                <button type="button" class="btn btn-danger" onclick="closeModal('pengabdianModal')">Batal</button>
+                <button type="button" class="btn btn-success">Simpan</button>
+            </div>
+        </div>
+    </div>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     function updateClock() {
@@ -301,6 +436,88 @@
     }
     setInterval(updateClock, 1000);
     updateClock();
+    
+    // Modal Functions
+    function openModal(modalId) {
+        const modal = document.getElementById(modalId);
+        const modalTitle = modal.querySelector('#modalTitle');
+        modalTitle.innerHTML = '<i class="fas fa-plus-circle"></i> Tambah Data Pengabdian';
+        modal.querySelector('form').reset();
+        
+        // Clear dynamic lists
+        document.getElementById('dosen-list').innerHTML = '';
+        document.getElementById('mahasiswa-list').innerHTML = '';
+        document.getElementById('kolaborator-list').innerHTML = '';
+
+        if (modal) {
+            modal.style.display = 'flex';
+        }
+    }
+    
+    function openEditModal() {
+        const modal = document.getElementById('pengabdianModal');
+        const modalTitle = modal.querySelector('#modalTitle');
+        modalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Data Pengabdian';
+        // Di sini Anda akan mengisi form dengan data yang ada
+        if (modal) {
+            modal.style.display = 'flex';
+        }
+    }
+
+    function closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.style.display = 'none';
+        }
+    }
+    
+    function addAnggota(type) {
+        let container, content;
+        if (type === 'dosen') {
+            container = document.getElementById('dosen-list');
+            content = `
+                <div class="row g-2">
+                    <div class="col-12"><input type="text" class="form-control form-control-sm" placeholder="Nama Dosen"></div>
+                    <div class="col-md-6"><select class="form-select form-select-sm"><option selected>Jabatan</option></select></div>
+                    <div class="col-md-6"><select class="form-select form-select-sm"><option selected>Aktif</option></select></div>
+                </div>
+            `;
+        } else if (type === 'mahasiswa') {
+            container = document.getElementById('mahasiswa-list');
+            content = `
+                <div class="row g-2">
+                    <div class="col-md-6"><select class="form-select form-select-sm"><option selected>Strata</option></select></div>
+                    <div class="col-md-6"><input type="text" class="form-control form-control-sm" placeholder="Nama Mahasiswa"></div>
+                    <div class="col-md-6"><select class="form-select form-select-sm"><option selected>Jabatan</option></select></div>
+                    <div class="col-md-6"><select class="form-select form-select-sm"><option selected>Aktif</option></select></div>
+                </div>
+            `;
+        } else { // kolaborator
+            container = document.getElementById('kolaborator-list');
+            content = `
+                <div class="row g-2">
+                    <div class="col-12"><input type="text" class="form-control form-control-sm" placeholder="Nama Kolaborator"></div>
+                    <div class="col-md-6"><select class="form-select form-select-sm"><option selected>Jabatan</option></select></div>
+                    <div class="col-md-6"><select class="form-select form-select-sm"><option selected>Aktif</option></select></div>
+                </div>
+            `;
+        }
+
+        const newRow = document.createElement('div');
+        newRow.className = 'border rounded p-2 mt-2 position-relative';
+        newRow.innerHTML = `
+            ${content}
+            <button class="btn btn-sm btn-outline-danger dynamic-row-close-btn" type="button" onclick="this.parentElement.remove()"><i class="fa fa-times"></i></button>
+        `;
+        container.appendChild(newRow);
+    }
+
+    // Close modal if backdrop is clicked
+    window.onclick = function(event) {
+        if (event.target.classList.contains('modal-backdrop')) {
+            closeModal(event.target.id);
+        }
+    }
   </script>
 </body>
 </html>
