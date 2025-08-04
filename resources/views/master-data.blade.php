@@ -142,7 +142,57 @@
             background-color: #059669; 
             border-color: #059669; 
         }
-
+        
+        /* Modal Styles */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1050;
+            padding: 1rem;
+        }
+        .modal-content-wrapper {
+            background-color: #fff;
+            border-radius: .5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,.5);
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .modal-header-custom {
+            background: linear-gradient(to right, #059669, #047857);
+            color: white;
+            padding: 1.25rem;
+            border-top-left-radius: .5rem;
+            border-top-right-radius: .5rem;
+        }
+        .modal-header-custom h5 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .modal-body-custom {
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+        .modal-footer-custom {
+            padding: 1rem;
+            display: flex;
+            justify-content: flex-end;
+            gap: .5rem;
+            border-top: 1px solid #e2e8f0;
+        }
     </style>
 </head>
 <body>
@@ -191,7 +241,7 @@
 
         <div class="content-area">
             <div class="d-flex justify-content-end mb-3">
-                <button class="btn btn-tambah fw-bold"><i class="fas fa-plus me-2"></i> Tambah Data</button>
+                <button class="btn btn-tambah fw-bold" onclick="openModal('tambahDataModal')"><i class="fas fa-plus me-2"></i> Tambah Data</button>
             </div>
 
             <div class="card">
@@ -212,11 +262,9 @@
                                 <script>
                                     const data = [
                                         { name: 'Dr. Soni Trison, S.Hut, M.Si', user: 'Kadep_soni', role: 'Admin' },
-                                        { name: 'Ria Kodariah, S.Si', user: 'Kadep_soni', role: 'Admin' },
-                                        { name: 'Meli Surnami', user: 'Kadep_soni', role: 'Administrasi Kepegawaian' },
-                                        { name: 'Saeful Rohim', user: 'Kadep_soni', role: 'Administrasi Kepegawaian' },
-                                        { name: 'Saeful Rohim', user: 'Kadep_soni', role: 'Administrasi Kepegawaian' },
-                                        { name: 'Saeful Rohim', user: 'Kadep_soni', role: 'Administrasi Kepegawaian' }
+                                        { name: 'Ria Kodariah, S.Si', user: 'Kadep_ria', role: 'Admin' },
+                                        { name: 'Meli Surnami', user: 'Staff_meli', role: 'Administrasi Kepegawaian' },
+                                        { name: 'Saeful Rohim', user: 'Staff_saeful', role: 'Administrasi Kepegawaian' }
                                     ];
                                     data.forEach((item, index) => {
                                         document.write(`
@@ -228,7 +276,7 @@
                                                 <td>${item.role}</td>
                                                 <td>
                                                     <div class="d-flex gap-2 justify-content-center">
-                                                        <button class="btn btn-aksi btn-edit-row" title="Edit"><i class="fas fa-pencil-alt"></i></button>
+                                                        <button class="btn btn-aksi btn-edit-row" title="Edit" onclick="openEditModal('${item.name}', '${item.user}', '${item.role}')"><i class="fas fa-pencil-alt"></i></button>
                                                         <button class="btn btn-aksi btn-delete-row" title="Hapus"><i class="fas fa-trash"></i></button>
                                                     </div>
                                                 </td>
@@ -240,7 +288,7 @@
                         </table>
                     </div>
                     <div class="d-flex justify-content-between align-items-center mt-3">
-                        <span class="text-muted small">Menampilkan 1 sampai 6 dari 13 data</span>
+                        <span class="text-muted small">Menampilkan 1 sampai 4 dari 13 data</span>
                         <nav>
                             <ul class="pagination pagination-sm mb-0">
                                 <li class="page-item disabled"><a class="page-link" href="#">Sebelumnya</a></li>
@@ -260,6 +308,52 @@
     </div>
 </div>
 
+<!-- Modal Tambah Data -->
+<div class="modal-backdrop" id="tambahDataModal">
+    <div class="modal-content-wrapper">
+        <div class="modal-header-custom">
+            <h5><i class="fas fa-plus-circle"></i> Tambah Data Pengguna</h5>
+        </div>
+        <div class="modal-body-custom">
+            <form>
+                <div class="mb-3"><label class="form-label">Nama Pegawai</label><select class="form-select"><option selected>-- Pilih Salah Satu --</option><option>Dr. Soni Trison, S.Hut, M.Si</option><option>Ria Kodariah, S.Si</option></select></div>
+                <div class="mb-3"><label class="form-label">ID Pengguna</label><input type="text" class="form-control"></div>
+                <div class="row">
+                    <div class="col-md-6 mb-3"><label class="form-label">Hak Akses</label><select class="form-select"><option selected>-- Pilih Salah Satu --</option><option>Admin</option><option>Administrasi Kepegawaian</option></select></div>
+                    <div class="col-md-6 mb-3"><label class="form-label">Password</label><input type="password" class="form-control"></div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer-custom">
+            <button type="button" class="btn btn-danger" onclick="closeModal('tambahDataModal')">Batal</button>
+            <button type="button" class="btn btn-success">Simpan</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Edit Data -->
+<div class="modal-backdrop" id="editDataModal">
+    <div class="modal-content-wrapper">
+        <div class="modal-header-custom">
+            <h5><i class="fas fa-edit"></i> Edit Data Pengguna</h5>
+        </div>
+        <div class="modal-body-custom">
+            <form>
+                <div class="mb-3"><label class="form-label">Nama Pegawai</label><select id="editNamaPegawai" class="form-select"><option>Dr. Soni Trison, S.Hut, M.Si</option><option>Ria Kodariah, S.Si</option></select></div>
+                <div class="mb-3"><label class="form-label">ID Pengguna</label><input id="editIdPengguna" type="text" class="form-control"></div>
+                <div class="row">
+                    <div class="col-md-6 mb-3"><label class="form-label">Hak Akses</label><select id="editHakAkses" class="form-select"><option>Admin</option><option>Administrasi Kepegawaian</option></select></div>
+                    <div class="col-md-6 mb-3"><label class="form-label">Password (Kosongkan jika tidak diubah)</label><input type="password" class="form-control"></div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer-custom">
+            <button type="button" class="btn btn-danger" onclick="closeModal('editDataModal')">Batal</button>
+            <button type="button" class="btn btn-success">Simpan Perubahan</button>
+        </div>
+    </div>
+</div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     // Update date and time
@@ -272,6 +366,35 @@ document.addEventListener('DOMContentLoaded', function () {
     setInterval(updateClock, 1000);
     updateClock();
 });
+
+// Modal Functions
+function openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.style.display = 'flex';
+    }
+}
+
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+function openEditModal(nama, user, role) {
+    document.getElementById('editNamaPegawai').value = nama;
+    document.getElementById('editIdPengguna').value = user;
+    document.getElementById('editHakAkses').value = role;
+    openModal('editDataModal');
+}
+
+// Close modal if backdrop is clicked
+window.onclick = function(event) {
+    if (event.target.classList.contains('modal-backdrop')) {
+        closeModal(event.target.id);
+    }
+}
 </script>
 
 </body>
