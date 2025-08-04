@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>SIKEMAH - Daftar Pegawai</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
@@ -22,22 +23,13 @@
       height: 100vh;
     }
 
-    a.detail-link i {
-      color: gray;
-      cursor: pointer;
-      transition: color 0.2s;
-    }
-
-    a.detail-link:hover i {
-      color: black;
-    }
-
     .sidebar {
       width: 250px;
       background: white;
       padding: 20px;
       box-shadow: 2px 0 5px rgba(0,0,0,0.1);
       overflow-y: auto;
+      flex-shrink: 0;
     }
 
     .sidebar ul {
@@ -72,22 +64,11 @@
       font-weight: 600;
     }
 
-    .btn-blue {
-      background-color: #3B82F6;
-      color: white;
-      padding: 8px 16px;
-      border: none;
-      border-radius: 6px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-
     .main {
       flex: 1;
       display: flex;
       flex-direction: column;
-      overflow-x: auto;
+      overflow-y: auto;
     }
 
     .header {
@@ -97,12 +78,14 @@
       padding: 15px 30px;
       border-bottom: 1px solid #e2e8f0;
       align-items: center;
+      flex-shrink: 0;
     }
 
     .title-bar {
       background: linear-gradient(to right, #059669, #047857);
       color: white;
       padding: 20px 30px;
+      flex-shrink: 0;
     }
 
     .title-bar h1 {
@@ -113,68 +96,47 @@
       gap: 10px;
     }
 
-    .content {
+    .content-area {
       padding: 30px;
+      flex-grow: 1;
     }
 
     .table-card {
       background: white;
-      padding: 20px;
+      padding: 2rem;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-      overflow-x: auto;
+    }
+    
+    .table {
+        vertical-align: middle;
     }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 14px;
+    .table th {
+        font-weight: 600;
     }
-
-    table th, table td {
-      border: 1px solid #e2e8f0;
-      padding: 10px;
-      text-align: left;
+    
+    .btn-aksi {
+        width: 32px;
+        height: 32px;
+        border-radius: 6px !important;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        color: white;
+        text-decoration: none;
     }
-
-    table th {
-      background-color: #f9fafb;
-    }
-
-    .actions i {
-      margin: 0 5px;
-      cursor: pointer;
-    }
-
-    .btn-primary {
-      background-color: #059669;
-      color: white;
-      padding: 8px 16px;
-      border: none;
-      border-radius: 6px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .search-box {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 15px;
-      flex-wrap: wrap;
-    }
-
-    .search-box input {
-      padding: 8px 12px;
-      width: 250px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
+    .btn-lihat { background-color: #0dcaf0; border-color: #0dcaf0; }
+    .btn-edit { background-color: #ffc107; border-color: #ffc107; }
+    .btn-hapus { background-color: #dc3545; border-color: #dc3545; }
 
     .footer {
       text-align: right;
       font-size: 12px;
       color: #a0aec0;
       padding: 10px 30px;
+      flex-shrink: 0;
     }
   </style>
 </head>
@@ -194,7 +156,6 @@
               </a>
           </li>
           <li>
-              <!-- Tag yang diperbaiki dan kelas 'active' ditambahkan agar sesuai dengan konteks halaman -->
               <a href="/daftar-pegawai" class="menu-item active">
                   <i class="fa fa-users"></i> Daftar Pegawai
               </a>
@@ -205,13 +166,11 @@
               </a>
           </li>
           <li>
-              <!-- Diubah menjadi tautan ke halaman editor umum -->
               <a href="/editor" class="menu-item">
                   <i class="fa fa-edit"></i> Editor Kegiatan
               </a>
           </li>
           <ul style="margin-left: 20px;">
-              <!-- Semua item sub-menu sekarang menjadi tautan -->
               <li><a href="/pendidikan" class="menu-item">🎓 Pendidikan</a></li>
               <li><a href="/penelitian" class="menu-item">🔬 Penelitian</a></li>
               <li><a href="/pengabdian" class="menu-item">🤝 Pengabdian</a></li>
@@ -221,21 +180,18 @@
               <li><a href="/sk-non-pns" class="menu-item">📄 SK Non PNS</a></li>
           </ul>
           <li>
-              <!-- Diubah menjadi tautan -->
               <a href="/kerjasama" class="menu-item">
                   <i class="fa fa-handshake"></i> Kerjasama
               </a>
           </li>
-
           <li>
             <a href="/master-data" class="menu-item">
                 <i class="fa fa-database"></i> Master Data
             </a>
-        </li>
+          </li>
       </ul>
     </div>
 
-    <!-- Main Content -->
     <div class="main">
       <div class="header">
         <div style="display: flex; align-items: center; gap: 20px;">
@@ -258,71 +214,86 @@
         <h1><i class="fa fa-users"></i> Daftar Pegawai</h1>
       </div>
 
-<!-- ... (tidak berubah sampai bagian .content) -->
-<div class="content">
-  <div class="table-card">
-    <div class="search-box">
-      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-        <input type="text" placeholder="🔍 Cari Data ...." />
-        <select style="padding: 8px 12px; border: 1px solid #ccc; border-radius: 6px;">
-          <option value="">-- Filter Status --</option>
-          <option value="aktif">Aktif</option>
-          <option value="nonaktif">Nonaktif</option>
-        </select>
+      <div class="content-area">
+        <div class="table-card">
+          <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+              <div class="d-flex gap-2 flex-wrap">
+                  <div class="input-group" style="width: 250px;">
+                      <span class="input-group-text bg-light border-end-0"><i class="fas fa-search"></i></span>
+                      <input type="text" class="form-control border-start-0" placeholder="Cari Data ....">
+                  </div>
+                  <select class="form-select" style="width: auto;">
+                      <option selected>-- Filter Status --</option>
+                      <option value="aktif">Aktif</option>
+                      <option value="nonaktif">Nonaktif</option>
+                  </select>
+              </div>
+              <a href="#" class="btn btn-success fw-bold"><i class="fa fa-plus me-2"></i> Tambah Data</a>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered">
+              <thead class="table-light">
+                <tr class="text-center">
+                  <th>No</th>
+                  <th class="text-start">Nama Lengkap</th>
+                  <th>NIP</th>
+                  <th>Status Kepegawaian</th>
+                  <th>Jabatan Fungsional</th>
+                  <th>Jabatan Struktural</th>
+                  <th>Pangkat/Golongan</th>
+                  <th>Status Pegawai</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <script>
+                    const data = [
+                        { name: 'Joko Anwar S.pd', nip: '292281910', status_kepegawaian: 'Tenaga Pendidik - Dosen', jabatan_fungsional: 'Lektor', jabatan_struktural: 'Ketua Departemen', pangkat: 'Penata Muda / III-a', status_pegawai: 'Aktif' },
+                        { name: 'Dr. Soni Trison, S.Hut, M.Si', nip: '197801012003121002', status_kepegawaian: 'Tenaga Pendidik - Dosen', jabatan_fungsional: 'Lektor Kepala', jabatan_struktural: 'Kepala Divisi', pangkat: 'Pembina / IV-a', status_pegawai: 'Aktif' },
+                        { name: 'Ria Kodariah, S.Si', nip: '198103152005012001', status_kepegawaian: 'Tenaga Kependidikan', jabatan_fungsional: '-', jabatan_struktural: 'Staf Administrasi', pangkat: 'Pengatur / II-c', status_pegawai: 'Aktif' },
+                        { name: 'Meli Surnami', nip: '198505202015042001', status_kepegawaian: 'Tenaga Kependidikan', jabatan_fungsional: '-', jabatan_struktural: 'Staf Keuangan', pangkat: 'Penata Muda / III-a', status_pegawai: 'Nonaktif' },
+                    ];
+                    data.forEach((item, index) => {
+                        document.write(`
+                            <tr>
+                                <td class="text-center">${index + 1}</td>
+                                <td>${item.name}</td>
+                                <td class="text-center">${item.nip}</td>
+                                <td class="text-center">${item.status_kepegawaian}</td>
+                                <td class="text-center">${item.jabatan_fungsional}</td>
+                                <td class="text-center">${item.jabatan_struktural}</td>
+                                <td class="text-center">${item.pangkat}</td>
+                                <td class="text-center"><span class="badge ${item.status_pegawai === 'Aktif' ? 'text-bg-success' : 'text-bg-secondary'}">${item.status_pegawai}</span></td>
+                                <td class="text-center">
+                                    <div class="d-flex gap-2 justify-content-center">
+                                        <a href="/detail-pegawai" class="btn-aksi btn-lihat" title="Lihat Detail"><i class="fa fa-eye"></i></a>
+                                        <a href="#" class="btn-aksi btn-edit" title="Edit Data"><i class="fa fa-edit"></i></a>
+                                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        `);
+                    });
+                </script>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center mt-3">
+            <span class="text-muted small">Menampilkan 4 dari 13 data</span>
+            <nav aria-label="Page navigation">
+              <ul class="pagination pagination-sm mb-0">
+                <li class="page-item disabled"><a class="page-link" href="#">Sebelumnya</a></li>
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">Berikutnya</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
       </div>
-      <button class=" btn-blue"><i class="fa fa-plus"></i> Tambah Data</button>
-    </div>
-
-    <table>
-      <thead>
-        <tr>
-          <th>No</th>
-          <th>Nama Lengkap</th>
-          <th>NIP</th>
-          <th>Status Kepegawaian</th>
-          <th>Jabatan Fungsional</th>
-          <th>Jabatan Struktural</th>
-          <th>Pangkat/Golongan</th>
-          <th>Status Pegawai</th>
-          <th>Aksi</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>Joko Anwar S.pd</td>
-          <td>292281910</td>
-          <td>Tenaga Pendidik - Dosen</td>
-          <td>Lektor</td>
-          <td>Ketua Departemen</td>
-          <td>Penata Muda / III-a</td>
-          <td>Aktif</td>
-          <td class="actions">
-            <a href="/detail-pegawai" class="detail-link" title="Lihat Detail">
-              <i class="fa fa-eye"></i>
-            </a>
-
-
-            <i class="fa fa-edit" style="color: orange;"></i>
-            <i class="fa fa-trash" style="color: red;"></i>
-          </td>
-        </tr>
-        <!-- Tambahkan baris lainnya sesuai kebutuhan -->
-      </tbody>
-    </table>
-
-    <div style="margin-top: 10px; display: flex; justify-content: space-between; font-size: 12px;">
-      <div>Menampilkan 1 sampai 10 dari 13 data</div>
-      <div>
-        <button>⬅ Sebelumnya</button>
-        <button style="background-color: #059669; color: white;">1</button>
-        <button>2</button>
-        <button>Berikutnya ➡</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 
       <div class="footer">
         © 2025 Forest Management — All Rights Reserved
