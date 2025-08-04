@@ -3,22 +3,44 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SIKEMAH - Dashboard</title>
+  <title>SIKEMAH - Manajemen Surat Tugas</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; }
-    body { font-family: 'Poppins', sans-serif; margin: 0; background-color: #f7fafc; }
-    .layout { display: flex; height: 100vh; overflow: hidden; }
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background-color: #f7fafc;
+    }
+
+    .layout {
+      display: flex;
+      height: 100vh;
+    }
+
     .sidebar {
       width: 250px;
       background: white;
       padding: 20px;
       box-shadow: 2px 0 5px rgba(0,0,0,0.1);
       overflow-y: auto;
+      flex-shrink: 0;
     }
-    .sidebar ul { list-style: none; padding-left: 0; }
-    .sidebar li { margin-bottom: 10px; }
+
+    .sidebar ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .sidebar li {
+      margin-bottom: 10px;
+    }
+
     .menu-item {
       display: flex;
       align-items: center;
@@ -30,18 +52,25 @@
       cursor: pointer;
       transition: background-color 0.2s ease;
     }
-    .menu-item:hover { background-color: #f0fdf4; color: #059669; }
+
+    .menu-item:hover {
+      background-color: #f0fdf4;
+      color: #059669;
+    }
+
     .menu-item.active {
       background-color: #d1fae5;
       color: #059669;
       font-weight: 600;
     }
+
     .main {
       flex: 1;
       display: flex;
       flex-direction: column;
-      overflow: auto;
+      overflow-y: auto;
     }
+
     .header {
       background: white;
       display: flex;
@@ -49,12 +78,16 @@
       padding: 15px 30px;
       border-bottom: 1px solid #e2e8f0;
       align-items: center;
+      flex-shrink: 0;
     }
+
     .title-bar {
       background: linear-gradient(to right, #059669, #047857);
       color: white;
       padding: 20px 30px;
+      flex-shrink: 0;
     }
+
     .title-bar h1 {
       font-size: 24px;
       margin: 0;
@@ -62,80 +95,52 @@
       align-items: center;
       gap: 10px;
     }
-    .content {
+
+    .content-area {
       padding: 30px;
+      flex-grow: 1;
     }
 
     .table-card {
       background: white;
-      padding: 20px;
+      padding: 2rem;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-      overflow-x: auto;
     }
-    .btn-primary {
-      background-color: #3b82f6;
-      color: white;
-      padding: 8px 16px;
-      border: none;
-      border-radius: 6px;
-      font-weight: 600;
-      cursor: pointer;
+    
+    .table {
+        vertical-align: middle;
     }
 
-    .search-box {
-      margin-bottom: 15px;
-      flex-wrap: wrap;
+    .table th {
+        font-weight: 600;
+    }
+    
+    .btn-aksi {
+        width: 32px;
+        height: 32px;
+        border-radius: 6px !important;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        color: white;
+        text-decoration: none;
+    }
+    .btn-lihat { background-color: #0dcaf0; border-color: #0dcaf0; }
+    .btn-edit { background-color: #ffc107; border-color: #ffc107; }
+    .btn-hapus { background-color: #dc3545; border-color: #dc3545; }
+    
+    .btn-export {
+        background-color: #10b981;
     }
 
-    .search-box input {
-      padding: 8px 12px;
-      width: 250px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 14px;
-    }
-
-    table th, table td {
-      border: 1px solid #e2e8f0;
-      padding: 10px;
-      text-align: left;
-    }
-
-    td button {
-      min-width: 32px;
-      height: 32px;
-    }
-
-    table th {
-      background-color: #f9fafb;
-    }
-    .badge {
-      background-color: #3b82f6;
-      color: white;
-      padding: 6px 12px;
-      border-radius: 6px;
+    .footer {
+      text-align: right;
       font-size: 12px;
-    }
-    .btn-edit {
-      background-color: #f59e0b;
-      border: none;
-      padding: 6px 10px;
-      border-radius: 6px;
-      color: white;
-      cursor: pointer;
-    }
-    .btn-delete {
-      background-color: #ef4444;
-      border: none;
-      padding: 6px 10px;
-      border-radius: 6px;
-      color: white;
-      cursor: pointer;
+      color: #a0aec0;
+      padding: 10px 30px;
+      flex-shrink: 0;
     }
   </style>
 </head>
@@ -155,24 +160,21 @@
               </a>
           </li>
           <li>
-              <!-- Tag yang diperbaiki dan kelas 'active' ditambahkan agar sesuai dengan konteks halaman -->
-              <a href="/daftar-pegawai" class="menu-item active">
+              <a href="/daftar-pegawai" class="menu-item">
                   <i class="fa fa-users"></i> Daftar Pegawai
               </a>
           </li>
           <li>
-              <a href="/surat-tugas" class="menu-item">
+              <a href="/surat-tugas" class="menu-item active">
                   <i class="fa fa-envelope"></i> Manajemen Surat Tugas
               </a>
           </li>
           <li>
-              <!-- Diubah menjadi tautan ke halaman editor umum -->
               <a href="/editor" class="menu-item">
                   <i class="fa fa-edit"></i> Editor Kegiatan
               </a>
           </li>
           <ul style="margin-left: 20px;">
-              <!-- Semua item sub-menu sekarang menjadi tautan -->
               <li><a href="/pendidikan" class="menu-item">🎓 Pendidikan</a></li>
               <li><a href="/penelitian" class="menu-item">🔬 Penelitian</a></li>
               <li><a href="/pengabdian" class="menu-item">🤝 Pengabdian</a></li>
@@ -182,30 +184,27 @@
               <li><a href="/sk-non-pns" class="menu-item">📄 SK Non PNS</a></li>
           </ul>
           <li>
-              <!-- Diubah menjadi tautan -->
               <a href="/kerjasama" class="menu-item">
                   <i class="fa fa-handshake"></i> Kerjasama
               </a>
           </li>
-
           <li>
             <a href="/master-data" class="menu-item">
                 <i class="fa fa-database"></i> Master Data
             </a>
-        </li>
+          </li>
       </ul>
     </div>
 
-    <!-- Main -->
     <div class="main">
       <div class="header">
-        <div style="display: flex; gap: 20px;">
+        <div style="display: flex; align-items: center; gap: 20px;">
           <div style="display: flex; align-items: center; gap: 8px;">
-            <i class="fa fa-calendar-days" style="color: #4b5563;"></i>
+            <i class="fa-solid fa-calendar-days" style="color: #4b5563;"></i>
             <span id="current-date"></span>
           </div>
           <div style="display: flex; align-items: center; gap: 8px;">
-            <i class="fa fa-clock" style="color: #4b5563;"></i>
+            <i class="fa-solid fa-clock" style="color: #4b5563;"></i>
             <strong id="current-time"></strong>
           </div>
         </div>
@@ -219,85 +218,104 @@
         <h1><i class="fa fa-envelope"></i> Manajemen Surat Tugas</h1>
       </div>
 
-<div class="content">
-  <div class="table-card">
-    <div class="search-box" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 15px;">
-  <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-    <input type="text" placeholder=" Cari Data ...." /> 
-    <select style="padding: 8px 12px; border: 1px solid #ccc; border-radius: 6px;">
-      <option value="">-- Filter Tahun --</option>
-      <option value="2025">2025</option>
-      <option value="2024">2024</option>
-      <option value="2023">2023</option>
-    </select>
-  </div>
-  <div style="display: flex; gap: 10px;">
-    <button class="btn-primary" style="background-color: #10b981;"><i class="fa fa-file-excel"></i> Export Excel</button>
-    <button class="btn-primary" style="background-color: #3b82f6;"><i class="fa fa-plus"></i> Tambah Data</button>
-  </div>
-</div>
+      <div class="content-area">
+        <div class="table-card">
+          <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+              <div class="d-flex gap-2 flex-wrap">
+                  <div class="input-group" style="width: 250px;">
+                      <span class="input-group-text bg-light border-end-0"><i class="fas fa-search"></i></span>
+                      <input type="text" class="form-control border-start-0" placeholder="Cari Data ....">
+                  </div>
+                  <select class="form-select" style="width: auto;">
+                      <option selected>-- Filter Tahun --</option>
+                      <option value="2025">2025</option>
+                      <option value="2024">2024</option>
+                      <option value="2023">2023</option>
+                  </select>
+              </div>
+              <div class="d-flex gap-2">
+                <a href="#" class="btn btn-export text-white fw-bold"><i class="fa fa-file-excel me-2"></i> Export Excel</a>
+                <a href="#" class="btn btn-primary fw-bold"><i class="fa fa-plus me-2"></i> Tambah Data</a>
+              </div>
+          </div>
 
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered">
+              <thead class="table-light">
+                <tr class="text-center">
+                  <th>No</th>
+                  <th class="text-start">Nama Dosen</th>
+                  <th>Peran</th>
+                  <th>Diminta Sebagai</th>
+                  <th>Mitra/Instansi</th>
+                  <th>No & Tgl Surat Instansi</th>
+                  <th>No & Tgl Surat Kadep</th>
+                  <th>Tgl Kegiatan</th>
+                  <th>Ket. Lokasi</th>
+                  <th>Dokumen</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <script>
+                    const data = [
+                        { nama: 'Dr. Stone', peran: 'Dosen', sebagai: 'Penelitian', mitra: 'Pt. Lele Berkumis', surat_instansi: '001/INT/2025 - 1 Juni 2025', surat_kadep: '001/INT/2025 - 1 Juni 2025', tgl_kegiatan: '20 Juni 2021', lokasi: 'Empang Hj Ujang' },
+                        { nama: 'Joko Anwar S.pd', peran: 'Dosen', sebagai: 'Pengabdian', mitra: 'Desa Cikoneng', surat_instansi: '002/EXT/2025 - 5 Juni 2025', surat_kadep: '002/EXT/2025 - 6 Juni 2025', tgl_kegiatan: '25 Juli 2021', lokasi: 'Balai Desa' },
+                        { nama: 'Ria Kodariah, S.Si', peran: 'Dosen', sebagai: 'Narasumber', mitra: 'Universitas Maju Jaya', surat_instansi: '003/UMJ/2025 - 10 Juni 2025', surat_kadep: '003/UMJ/2025 - 11 Juni 2025', tgl_kegiatan: '1 Agustus 2021', lokasi: 'Auditorium Univ' },
+                    ];
+                    data.forEach((item, index) => {
+                        document.write(`
+                            <tr>
+                                <td class="text-center">${index + 1}</td>
+                                <td>${item.nama}</td>
+                                <td class="text-center">${item.peran}</td>
+                                <td class="text-center">${item.sebagai}</td>
+                                <td>${item.mitra}</td>
+                                <td class="text-center">${item.surat_instansi}</td>
+                                <td class="text-center">${item.surat_kadep}</td>
+                                <td class="text-center">${item.tgl_kegiatan}</td>
+                                <td>${item.lokasi}</td>
+                                <td class="text-center"><a href="#" class="btn btn-sm btn-info text-white">Lihat</a></td>
+                                <td class="text-center">
+                                    <div class="d-flex gap-2 justify-content-center">
+                                        <a href="#" class="btn-aksi btn-edit" title="Edit Data"><i class="fa fa-edit"></i></a>
+                                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        `);
+                    });
+                </script>
+              </tbody>
+            </table>
+          </div>
 
-    <div class="table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>No</th>
-            <th>Nama Dosen</th>
-            <th>Peran</th>
-            <th>Diminta Sebagai</th>
-            <th>Mitra/Instansi</th>
-            <th>No dan tgl Surat Instansi</th>
-            <th>No dan tgl Surat Kadep</th>
-            <th>Tgl Kegiatan</th>
-            <th>Ket. Lokasi</th>
-            <th>Dokumen</th>
-            <th>Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>Dr. Stone</td>
-            <td>Dosen</td>
-            <td>Penelitian</td>
-            <td>Pt. Lele Berkumis</td>
-            <td>001/INT/2025 - 1 Juni 2025</td>
-            <td>001/INT/2025 - 1 Juni 2025</td>
-            <td>20 Juni 2021</td>
-            <td>Empang Hj Ujang</td>
-            <td><span class="badge">Lihat</span></td>
-            <td>
-            <div style="display: flex; gap: 8px; justify-content: center; align-items: center; height: 100%;">
-              <button class="btn-edit"><i class="fa fa-pen"></i></button>
-              <button class="btn-delete"><i class="fa fa-trash"></i></button>
-            </div>
-          </td>
-
-          </tr>
-        </tbody>
-      </table>
-      <div style="margin-top: 10px; display: flex; justify-content: space-between; font-size: 12px;">
-      <div>Menampilkan 1 sampai 10 dari 13 data</div>
-      <div>
-        <button>⬅ Sebelumnya</button>
-        <button style="background-color: #059669; color: white;">1</button>
-        <button>2</button>
-        <button>Berikutnya ➡</button>
+          <div class="d-flex justify-content-between align-items-center mt-3">
+            <span class="text-muted small">Menampilkan 3 dari 13 data</span>
+            <nav aria-label="Page navigation">
+              <ul class="pagination pagination-sm mb-0">
+                <li class="page-item disabled"><a class="page-link" href="#">Sebelumnya</a></li>
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">Berikutnya</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
       </div>
-    </div>
-    </div>
-  </div>
-</div>
 
+      <div class="footer">
+        © 2025 Forest Management — All Rights Reserved
+      </div>
     </div>
   </div>
 
   <script>
     function updateClock() {
       const now = new Date();
-      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-      document.getElementById('current-date').textContent = now.toLocaleDateString('id-ID', options);
+      const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      document.getElementById('current-date').textContent = now.toLocaleDateString('id-ID', dateOptions);
       document.getElementById('current-time').textContent = now.toLocaleTimeString('id-ID', { hour12: false });
     }
     setInterval(updateClock, 1000);
