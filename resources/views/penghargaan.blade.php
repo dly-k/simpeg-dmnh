@@ -156,6 +156,76 @@
         background-color: #2d3748;
         color: white;
     }
+    
+    /* Modal Styles */
+    .modal-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0,0,0,0.5);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 1050;
+        padding: 1rem;
+    }
+    .modal-content-wrapper {
+        background-color: #fff;
+        border-radius: .5rem;
+        box-shadow: 0 5px 15px rgba(0,0,0,.5);
+        width: 100%;
+        max-width: 800px;
+        max-height: 90vh;
+        display: flex;
+        flex-direction: column;
+    }
+    .modal-header-custom {
+        background: linear-gradient(to right, #059669, #047857);
+        color: white;
+        padding: 1.25rem;
+        border-top-left-radius: .5rem;
+        border-top-right-radius: .5rem;
+    }
+    .modal-header-custom h5 {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .modal-body-custom {
+        padding: 1.5rem;
+        overflow-y: auto;
+    }
+    .modal-footer-custom {
+        padding: 1rem;
+        display: flex;
+        justify-content: flex-end;
+        gap: .5rem;
+        border-top: 1px solid #e2e8f0;
+    }
+    .upload-area {
+        border: 2px dashed #dee2e6;
+        border-radius: .5rem;
+        padding: 2rem;
+        text-align: center;
+        cursor: pointer;
+        transition: background-color .2s;
+    }
+    .upload-area:hover {
+        background-color: #f8f9fa;
+    }
+    .upload-area i {
+        font-size: 2rem;
+        color: #6c757d;
+    }
+    .upload-area p {
+        margin-top: 1rem;
+        color: #6c757d;
+    }
   </style>
 </head>
 <body>
@@ -219,7 +289,7 @@
                         <input type="text" class="form-control border-start-0" placeholder="Cari Data ....">
                     </div>
                 </div>
-                <a href="#" class="btn btn-tambah fw-bold"><i class="fa fa-plus me-2"></i> Tambah Data</a>
+                <a href="#" class="btn btn-tambah fw-bold" onclick="openModal('penghargaanModal')"><i class="fa fa-plus me-2"></i> Tambah Data</a>
             </div>
 
             <!-- Table -->
@@ -254,7 +324,7 @@
                                       <td class="text-center">
                                           <div class="d-flex gap-2 justify-content-center">
                                               <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail"><i class="fa fa-eye"></i></a>
-                                              <a href="#" class="btn-aksi btn-edit" title="Edit Data"><i class="fa fa-edit"></i></a>
+                                              <a href="#" class="btn-aksi btn-edit" title="Edit Data" onclick="openEditModal()"><i class="fa fa-edit"></i></a>
                                               <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
                                           </div>
                                       </td>
@@ -285,6 +355,52 @@
       </div>
     </div>
   </div>
+  
+  <!-- Modal Tambah/Edit Penghargaan -->
+    <div class="modal-backdrop" id="penghargaanModal">
+        <div class="modal-content-wrapper">
+            <div class="modal-header-custom">
+                <h5 id="modalTitle"><i class="fas fa-plus-circle"></i> Tambah Data Penghargaan</h5>
+            </div>
+            <div class="modal-body-custom">
+                <form id="penghargaanForm">
+                    <div class="row g-3">
+                        <div class="col-12"><label class="form-label">Pegawai</label><input type="text" class="form-control" placeholder="Lorem Ipsum"></div>
+                        <div class="col-12"><label class="form-label">Kegiatan</label><select class="form-select"><option selected>Lorem Ipsum</option></select></div>
+                        <div class="col-12"><label class="form-label">Nama Penghargaan</label><input type="text" class="form-control" placeholder="Lorem Ipsum"></div>
+                        <div class="col-md-6"><label class="form-label">Nomor</label><input type="text" class="form-control" placeholder="2020/2021"></div>
+                        <div class="col-md-6"><label class="form-label">Tanggal Perolehan</label><input type="date" class="form-control"></div>
+                        <div class="col-md-6"><label class="form-label">Lingkup</label><select class="form-select"><option selected>2020/2021</option></select></div>
+                        <div class="col-md-6"><label class="form-label">Negara</label><input type="text" class="form-control" placeholder="2020/2021"></div>
+                        <div class="col-12"><label class="form-label">Instansi</label><input type="text" class="form-control" placeholder="Lorem Ipsum"></div>
+                        
+                        <div class="col-12"><label class="form-label">Jenis Dokumen</label><select class="form-select"><option selected>-- Pilih Salah Satu --</option></select></div>
+                        
+                        <div class="col-12">
+                            <div class="upload-area">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Drag & Drop File here<br><small>Ukuran Maksimal 5 MB</small></p>
+                                <input type="file" hidden>
+                            </div>
+                        </div>
+                        
+                        <div class="col-12">
+                            <div class="row g-2">
+                                <div class="col-md-4"><input type="text" class="form-control" placeholder="Nama Dokumen"></div>
+                                <div class="col-md-4"><input type="text" class="form-control" placeholder="Nomor"></div>
+                                <div class="col-md-4"><input type="text" class="form-control" placeholder="Tautan"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer-custom">
+                <button type="button" class="btn btn-danger" onclick="closeModal('penghargaanModal')">Batal</button>
+                <button type="button" class="btn btn-success">Simpan</button>
+            </div>
+        </div>
+    </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
@@ -296,6 +412,41 @@
     }
     setInterval(updateClock, 1000);
     updateClock();
+    
+    // Modal Functions
+    function openModal(modalId) {
+        const modal = document.getElementById(modalId);
+        const modalTitle = modal.querySelector('#modalTitle');
+        modalTitle.innerHTML = '<i class="fas fa-plus-circle"></i> Tambah Data Penghargaan';
+        modal.querySelector('form').reset();
+        if (modal) {
+            modal.style.display = 'flex';
+        }
+    }
+    
+    function openEditModal() {
+        const modal = document.getElementById('penghargaanModal');
+        const modalTitle = modal.querySelector('#modalTitle');
+        modalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Data Penghargaan';
+        // Di sini Anda akan mengisi form dengan data yang ada
+        if (modal) {
+            modal.style.display = 'flex';
+        }
+    }
+
+    function closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.style.display = 'none';
+        }
+    }
+
+    // Close modal if backdrop is clicked
+    window.onclick = function(event) {
+        if (event.target.classList.contains('modal-backdrop')) {
+            closeModal(event.target.id);
+        }
+    }
   </script>
 </body>
 </html>
