@@ -200,11 +200,15 @@
         </div>
         </li>
         <ul style="margin-left: 20px;">
-        <li><div class="menu-item">📘 Pendidikan</div></li>
-        <li><div class="menu-item">🔬 Penelitian</div></li>
-        <li><div class="menu-item">🤝 Pengabdian</div></li>
-        <li><div class="menu-item">🧾 Penunjang</div></li>
+          <li><div class="menu-item">🎓 Pendidikan</div></li>
+          <li><div class="menu-item">🔬 Penelitian</div></li>
+          <li><div class="menu-item">🤝 Pengabdian</div></li>
+          <li><div class="menu-item">📎 Penunjang</div></li>
+          <li><div class="menu-item">📚 Pelatihan</div></li>
+          <li><div class="menu-item">🏅 Penghargaan</div></li>
+          <li><div class="menu-item">📄 SK Non PNS</div></li>
         </ul>
+
         <li>
         <div class="menu-item">
             <i class="fa fa-handshake" style="min-width: 20px;"></i>

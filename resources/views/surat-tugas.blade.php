@@ -152,10 +152,13 @@
         <li><a href="#" class="menu-item  active"><i class="fa fa-envelope"></i> Manajemen Surat Tugas</a></li>
         <li><div class="menu-item"><i class="fa fa-edit"></i> Editor Kegiatan</div></li>
         <ul style="margin-left: 20px;">
-          <li><div class="menu-item">📘 Pendidikan</div></li>
+          <li><div class="menu-item">🎓 Pendidikan</div></li>
           <li><div class="menu-item">🔬 Penelitian</div></li>
           <li><div class="menu-item">🤝 Pengabdian</div></li>
-          <li><div class="menu-item">🧾 Penunjang</div></li>
+          <li><div class="menu-item">📎 Penunjang</div></li>
+          <li><div class="menu-item">📚 Pelatihan</div></li>
+          <li><div class="menu-item">🏅 Penghargaan</div></li>
+          <li><div class="menu-item">📄 SK Non PNS</div></li>
         </ul>
         <li><div class="menu-item"><i class="fa fa-handshake"></i> Kerjasama</div></li>
       </ul>

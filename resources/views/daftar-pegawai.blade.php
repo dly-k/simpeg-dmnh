@@ -22,6 +22,16 @@
       height: 100vh;
     }
 
+    a.detail-link i {
+      color: gray;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    a.detail-link:hover i {
+      color: black;
+    }
+
     .sidebar {
       width: 250px;
       background: white;
@@ -188,10 +198,13 @@
         <li><a href="/surat-tugas" class="menu-item"><i class="fa fa-envelope"></i> Manajemen Surat Tugas</a></li>
         <li><div class="menu-item"><i class="fa fa-edit"></i> Editor Kegiatan</div></li>
         <ul style="margin-left: 20px;">
-          <li><div class="menu-item">📘 Pendidikan</div></li>
+          <li><div class="menu-item">🎓 Pendidikan</div></li>
           <li><div class="menu-item">🔬 Penelitian</div></li>
           <li><div class="menu-item">🤝 Pengabdian</div></li>
-          <li><div class="menu-item">🧾 Penunjang</div></li>
+          <li><div class="menu-item">📎 Penunjang</div></li>
+          <li><div class="menu-item">📚 Pelatihan</div></li>
+          <li><div class="menu-item">🏅 Penghargaan</div></li>
+          <li><div class="menu-item">📄 SK Non PNS</div></li>
         </ul>
         <li><div class="menu-item"><i class="fa fa-handshake"></i> Kerjasama</div></li>
       </ul>
@@ -260,7 +273,11 @@
           <td>Penata Muda / III-a</td>
           <td>Aktif</td>
           <td class="actions">
-            <i class="fa fa-eye" style="color: gray;"></i>
+            <a href="/detail-pegawai" class="detail-link" title="Lihat Detail">
+              <i class="fa fa-eye"></i>
+            </a>
+
+
             <i class="fa fa-edit" style="color: orange;"></i>
             <i class="fa fa-trash" style="color: red;"></i>
           </td>
