@@ -295,7 +295,7 @@
                 </div>
                 <div class="d-flex gap-2 ms-3">
                     <button class="btn btn-export fw-bold"><i class="fas fa-file-export me-2"></i> Export Excel</button>
-                    <button class="btn btn-tambah fw-bold" onclick="openModal('tambahKerjasamaModal')"><i class="fas fa-plus me-2"></i> Tambah Data</button>
+                    <button class="btn btn-tambah fw-bold" onclick="openModal('kerjasamaModal')"><i class="fas fa-plus me-2"></i> Tambah Data</button>
                 </div>
             </div>
 
@@ -321,13 +321,9 @@
                             <tbody>
                                 <script>
                                     const kerjasamaData = [
-                                        { judul: 'Kerja Sama Penelitian AI', mitra: 'Dinas Kehutanan DKI Jakarta', noDoc: 'MoU/001/AI/24', tglDoc: '10 April 2004', ketua: 'Ketua: Anton Jaya Puspita Anggota: Ferdy', lokasi: 'Bogor', dana: 'Rp 10.000.000', jenis: 'MoU' },
-                                        { judul: 'Kerja Sama Penelitian AI', mitra: 'Dinas Kehutanan DKI Jakarta', noDoc: 'MoU/001/AI/24', tglDoc: '10 April 2004', ketua: 'Ketua: Anton Jaya Puspita Anggota: Ferdy', lokasi: 'Bogor', dana: 'Rp 10.000.000', jenis: 'LoA' },
-                                        { judul: 'Kerja Sama Penelitian AI', mitra: 'Dinas Kehutanan DKI Jakarta', noDoc: 'MoU/001/AI/24', tglDoc: '10 April 2004', ketua: 'Ketua: Anton Jaya Puspita Anggota: Ferdy', lokasi: 'Bogor', dana: 'Rp 10.000.000', jenis: 'SPK' },
-                                        { judul: 'Kerja Sama Penelitian AI', mitra: 'Dinas Kehutanan DKI Jakarta', noDoc: 'MoU/001/AI/24', tglDoc: '10 April 2004', ketua: 'Ketua: Anton Jaya Puspita Anggota: Ferdy', lokasi: 'Bogor', dana: 'Rp 10.000.000', jenis: 'MoU' },
-                                        { judul: 'Kerja Sama Penelitian AI', mitra: 'Dinas Kehutanan DKI Jakarta', noDoc: 'MoU/001/AI/24', tglDoc: '10 April 2004', ketua: 'Ketua: Anton Jaya Puspita Anggota: Ferdy', lokasi: 'Bogor', dana: 'Rp 10.000.000', jenis: 'MoU' },
-                                        { judul: 'Kerja Sama Penelitian AI', mitra: 'Dinas Kehutanan DKI Jakarta', noDoc: 'MoU/001/AI/24', tglDoc: '10 April 2004', ketua: 'Ketua: Anton Jaya Puspita Anggota: Ferdy', lokasi: 'Bogor', dana: 'Rp 10.000.000', jenis: 'MoU' },
-                                        { judul: 'Kerja Sama Penelitian AI', mitra: 'Dinas Kehutanan DKI Jakarta', noDoc: 'MoU/001/AI/24', tglDoc: '10 April 2004', ketua: 'Ketua: Anton Jaya Puspita Anggota: Ferdy', lokasi: 'Bogor', dana: 'Rp 10.000.000', jenis: 'MoU' }
+                                        { judul: 'Kerja Sama Penelitian AI', mitra: 'Dinas Kehutanan DKI Jakarta', noDoc: 'MoU/001/AI/24', tglDoc: '2004-04-10', tmt: '2024-05-01', tst: '2025-05-01', departemen: 'Manajemen Hutan', ketua: 'Anton Jaya Puspita', anggota: ['Ferdy'], lokasi: 'Bogor', dana: '10000000', jenis: 'MoU' },
+                                        { judul: 'Kerja Sama Penelitian AI', mitra: 'Dinas Kehutanan DKI Jakarta', noDoc: 'MoU/001/AI/24', tglDoc: '2004-04-10', tmt: '2024-05-01', tst: '2025-05-01', departemen: 'Konservasi Sumberdaya Hutan', ketua: 'Anton Jaya Puspita', anggota: ['Ferdy'], lokasi: 'Bogor', dana: '10000000', jenis: 'LoA' },
+                                        { judul: 'Kerja Sama Penelitian AI', mitra: 'Dinas Kehutanan DKI Jakarta', noDoc: 'MoU/001/AI/24', tglDoc: '2004-04-10', tmt: '2024-05-01', tst: '2025-05-01', departemen: 'Teknologi Hasil Hutan', ketua: 'Anton Jaya Puspita', anggota: ['Ferdy'], lokasi: 'Bogor', dana: '10000000', jenis: 'SPK' }
                                     ];
                                     kerjasamaData.forEach((item, index) => {
                                         document.write(`
@@ -336,16 +332,16 @@
                                                 <td class="text-start">${item.judul}</td>
                                                 <td>${item.mitra}</td>
                                                 <td>${item.noDoc}</td>
-                                                <td>${item.tglDoc}</td>
-                                                <td>${item.ketua}</td>
+                                                <td>${new Date(item.tglDoc).toLocaleDateString('id-ID', {day: '2-digit', month: 'long', year: 'numeric'})}</td>
+                                                <td>Ketua: ${item.ketua} Anggota: ${item.anggota.join(', ')}</td>
                                                 <td>${item.lokasi}</td>
-                                                <td>${item.dana}</td>
+                                                <td>${new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(item.dana)}</td>
                                                 <td>${item.jenis}</td>
                                                 <td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
                                                 <td>
                                                     <div class="d-flex gap-2 justify-content-center">
                                                         <button class="btn btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="fas fa-eye"></i></button>
-                                                        <button class="btn btn-aksi btn-edit-row" title="Edit"><i class="fas fa-pencil-alt"></i></button>
+                                                        <button class="btn btn-aksi btn-edit-row" title="Edit" onclick='openEditModal(${JSON.stringify(item)})'><i class="fas fa-pencil-alt"></i></button>
                                                         <button class="btn btn-aksi btn-delete-row" title="Hapus"><i class="fas fa-trash"></i></button>
                                                     </div>
                                                 </td>
@@ -357,7 +353,7 @@
                         </table>
                     </div>
                     <div class="d-flex justify-content-between align-items-center mt-3">
-                        <span class="text-muted small">Menampilkan 1 sampai 7 dari 13 data</span>
+                        <span class="text-muted small">Menampilkan 1 sampai 3 dari 13 data</span>
                         <nav>
                             <ul class="pagination pagination-sm mb-0">
                                 <li class="page-item disabled"><a class="page-link" href="#">Sebelumnya</a></li>
@@ -377,35 +373,35 @@
     </div>
 </div>
 
-<!-- Modal Tambah Kerjasama -->
-<div class="modal-backdrop" id="tambahKerjasamaModal">
+<!-- Modal Tambah/Edit Kerjasama -->
+<div class="modal-backdrop" id="kerjasamaModal">
     <div class="modal-content-wrapper">
         <div class="modal-header-custom">
-            <h5><i class="fas fa-plus-circle"></i> Tambah Kerjasama</h5>
+            <h5 id="modalTitle"><i class="fas fa-plus-circle"></i> Tambah Kerjasama</h5>
         </div>
         <div class="modal-body-custom">
-            <form>
+            <form id="kerjasamaForm">
                 <div class="row g-3">
-                    <div class="col-12"><label class="form-label">Judul</label><input type="text" class="form-control" placeholder="Melaksanakan Perkuliahan/Tutorial/Perkuliahan Praktikum & Membimbing...."></div>
-                    <div class="col-12"><label class="form-label">Mitra</label><input type="text" class="form-control" placeholder="Melaksanakan Perkuliahan/Tutorial/Perkuliahan Praktikum & Membimbing...."></div>
-                    <div class="col-md-6"><label class="form-label">No Dokumen</label><input type="date" class="form-control"></div>
-                    <div class="col-md-6"><label class="form-label">Tgl. Dokumen</label><select class="form-select"><option selected>Praktikum</option></select></div>
-                    <div class="col-md-6"><label class="form-label">TMT</label><input type="date" class="form-control"></div>
-                    <div class="col-md-6"><label class="form-label">TST</label><select class="form-select"><option selected>Praktikum</option></select></div>
-                    <div class="col-12"><label class="form-label">Departemen/Program Studi</label><select class="form-select"><option selected>-- Pilih Salah Satu --</option></select></div>
-                    <div class="col-12"><label class="form-label">Ketua</label><input type="text" class="form-control" placeholder="Nama"></div>
+                    <div class="col-12"><label class="form-label">Judul</label><input type="text" class="form-control" name="judul" placeholder="Judul Kerjasama"></div>
+                    <div class="col-12"><label class="form-label">Mitra</label><input type="text" class="form-control" name="mitra" placeholder="Nama Mitra atau Instansi"></div>
+                    <div class="col-md-6"><label class="form-label">No Dokumen</label><input type="text" class="form-control" name="noDoc" placeholder="Nomor Dokumen"></div>
+                    <div class="col-md-6"><label class="form-label">Tgl. Dokumen</label><input type="date" name="tglDoc" class="form-control"></div>
+                    <div class="col-md-6"><label class="form-label">TMT</label><input type="date" class="form-control" name="tmt"></div>
+                    <div class="col-md-6"><label class="form-label">TST</label><input type="date" class="form-control" name="tst"></div>
+                    <div class="col-12"><label class="form-label">Departemen/Program Studi</label><select class="form-select" name="departemen"><option selected>-- Pilih Salah Satu --</option><option>Manajemen Hutan</option><option>Konservasi Sumberdaya Hutan</option><option>Teknologi Hasil Hutan</option></select></div>
+                    <div class="col-12"><label class="form-label">Ketua</label><input type="text" class="form-control" name="ketua" placeholder="Nama Ketua Tim"></div>
                     <div class="col-12">
                         <label class="form-label">Anggota</label>
                         <div id="anggota-list">
                             <div class="input-group mb-2">
                                 <input type="text" class="form-control" placeholder="Nama Anggota">
-                                <button class="btn btn-outline-success" type="button" onclick="addAnggota()">+ Tambah</button>
+                                <button class="btn btn-outline-success" type="button" onclick="addAnggota('anggota-list')">+ Tambah</button>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6"><label class="form-label">Lokasi</label><input type="text" class="form-control" placeholder="2020/2021"></div>
-                    <div class="col-md-6"><label class="form-label">Besaran Dana</label><input type="text" class="form-control" placeholder="2020/2021"></div>
-                    <div class="col-12"><label class="form-label">Jenis Kerjasama</label><select class="form-select"><option selected>-- Pilih Salah Satu --</option></select></div>
+                    <div class="col-md-6"><label class="form-label">Lokasi</label><input type="text" name="lokasi" class="form-control" placeholder="Lokasi Kegiatan"></div>
+                    <div class="col-md-6"><label class="form-label">Besaran Dana</label><input type="number" name="dana" class="form-control" placeholder="Contoh: 10000000"></div>
+                    <div class="col-12"><label class="form-label">Jenis Kerjasama</label><select class="form-select" name="jenis"><option selected>-- Pilih Salah Satu --</option><option>MoU</option><option>LoA</option><option>SPK</option></select></div>
                     <div class="col-12">
                         <label class="form-label">Upload File</label>
                         <div class="upload-area" id="uploadArea">
@@ -418,7 +414,7 @@
             </form>
         </div>
         <div class="modal-footer-custom">
-            <button type="button" class="btn btn-danger" onclick="closeModal('tambahKerjasamaModal')">Batal</button>
+            <button type="button" class="btn btn-danger" onclick="closeModal('kerjasamaModal')">Batal</button>
             <button type="button" class="btn btn-success">Simpan</button>
         </div>
     </div>
@@ -441,6 +437,63 @@ document.addEventListener('DOMContentLoaded', function () {
 // Modal Functions
 function openModal(modalId) {
     const modal = document.getElementById(modalId);
+    const modalTitle = modal.querySelector('#modalTitle');
+    const form = modal.querySelector('form');
+    
+    modalTitle.innerHTML = '<i class="fas fa-plus-circle"></i> Tambah Kerjasama';
+    form.reset();
+    
+    // Reset anggota list
+    const anggotaList = document.getElementById('anggota-list');
+    anggotaList.innerHTML = `
+        <div class="input-group mb-2">
+            <input type="text" class="form-control" placeholder="Nama Anggota">
+            <button class="btn btn-outline-success" type="button" onclick="addAnggota('anggota-list')">+ Tambah</button>
+        </div>
+    `;
+
+    if (modal) {
+        modal.style.display = 'flex';
+    }
+}
+
+function openEditModal(data) {
+    const modal = document.getElementById('kerjasamaModal'); // Reusing the same modal
+    const modalTitle = modal.querySelector('#modalTitle');
+    const form = modal.querySelector('form');
+
+    modalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Kerjasama';
+    
+    // Populate form fields
+    form.querySelector('[name="judul"]').value = data.judul;
+    form.querySelector('[name="mitra"]').value = data.mitra;
+    form.querySelector('[name="noDoc"]').value = data.noDoc;
+    form.querySelector('[name="tglDoc"]').value = data.tglDoc;
+    form.querySelector('[name="tmt"]').value = data.tmt;
+    form.querySelector('[name="tst"]').value = data.tst;
+    form.querySelector('[name="departemen"]').value = data.departemen;
+    form.querySelector('[name="ketua"]').value = data.ketua;
+    form.querySelector('[name="lokasi"]').value = data.lokasi;
+    form.querySelector('[name="dana"]').value = data.dana;
+    form.querySelector('[name="jenis"]').value = data.jenis;
+    
+    // Handle Anggota list
+    const anggotaList = document.getElementById('anggota-list');
+    anggotaList.innerHTML = ''; // Clear existing
+    data.anggota.forEach((anggota, index) => {
+        const isFirst = index === 0;
+        const newInput = document.createElement('div');
+        newInput.className = 'input-group mb-2';
+        newInput.innerHTML = `
+            <input type="text" class="form-control" value="${anggota}" placeholder="Nama Anggota">
+            <button class="btn ${isFirst ? 'btn-outline-success' : 'btn-outline-danger'}" type="button" onclick="${isFirst ? 'addAnggota(\'anggota-list\')' : 'this.parentElement.remove()'}">${isFirst ? '+' : '-'}</button>
+        `;
+        anggotaList.appendChild(newInput);
+    });
+    if (data.anggota.length === 0) { // Add a blank one if empty
+         addAnggota('anggota-list');
+    }
+    
     if (modal) {
         modal.style.display = 'flex';
     }
@@ -453,8 +506,8 @@ function closeModal(modalId) {
     }
 }
 
-function addAnggota() {
-    const list = document.getElementById('anggota-list');
+function addAnggota(listId = 'anggota-list') {
+    const list = document.getElementById(listId);
     const newInput = document.createElement('div');
     newInput.className = 'input-group mb-2';
     newInput.innerHTML = `
