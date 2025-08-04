@@ -298,7 +298,7 @@
             <div class="search-and-actions">
                 <div class="main-search-bar"><input type="text" class="form-control" placeholder="🔍 Cari Data Pegawai"></div>
                 <div class="action-buttons">
-                    <a href="#" class="btn btn-outline-secondary"><i class="fas fa-arrow-left"></i> Kembali Ke Daftar</a>
+                    <a href="/daftar-pegawai" class="btn btn-outline-secondary"><i class="fas fa-arrow-left"></i> Kembali Ke Daftar</a>
                     <button class="btn btn-success"><i class="fas fa-save"></i> Simpan</button>
                     <button class="btn btn-danger"><i class="fas fa-trash"></i> Hapus</button>
                 </div>
