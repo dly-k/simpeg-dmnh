@@ -27,7 +27,7 @@ Route::get('/pendidikan', function () {
 });
 
 Route::get('/penelitian', function () {
-    return view('penenelitian');
+    return view('penelitian');
 });
 
 Route::get('/pengabdian', function () {
@@ -44,4 +44,20 @@ Route::get('/kerjasama', function () {
 
 Route::get('/detail-pegawai', function () {
     return view('detail-pegawai');
+});
+
+Route::get('/pelatihan', function () {
+    return view('pelatihan');
+});
+
+Route::get('/sk-non-pns', function () {
+    return view('sk-non-pns');
+});
+
+Route::get('/penghargaan', function () {
+    return view('penghargaan');
+});
+
+Route::get('/master-data', function () {
+    return view('master-data');
 });

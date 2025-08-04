@@ -167,55 +167,58 @@
 <body>
   <div class="layout">
     <!-- Sidebar -->
-    <div class="sidebar">
-    <h1 style="font-weight: 700;">
+        <div class="sidebar">
+      <h1 style="font-weight: 700;">
         <span style="color: #000;">SI</span><span style="color: #059669;">KEMAH</span>
-    </h1>
-    <hr/>
-    <p style="font-weight: 600; margin-top: 30px;">Menu Utama</p>
-    <ul>
-        <li>
-        <div class="menu-item active">
-            <i class="fa fa-chart-bar" style="min-width: 20px;"></i>
-            Dashboard
-        </div>
-        </li>
+      </h1>
+      <hr/>
+      <p style="font-weight: 600; margin-top: 30px;">Menu Utama</p>
+      <ul>
+          <li>
+              <a href="/dashboard" class="menu-item active">
+                  <i class="fa fa-chart-bar"></i> Dashboard
+              </a>
+          </li>
+          <li>
+              <!-- Tag yang diperbaiki dan kelas 'active' ditambahkan agar sesuai dengan konteks halaman -->
+              <a href="/daftar-pegawai" class="menu-item">
+                  <i class="fa fa-users"></i> Daftar Pegawai
+              </a>
+          </li>
+          <li>
+              <a href="/surat-tugas" class="menu-item">
+                  <i class="fa fa-envelope"></i> Manajemen Surat Tugas
+              </a>
+          </li>
+          <li>
+              <!-- Diubah menjadi tautan ke halaman editor umum -->
+              <a href="/editor" class="menu-item">
+                  <i class="fa fa-edit"></i> Editor Kegiatan
+              </a>
+          </li>
+          <ul style="margin-left: 20px;">
+              <!-- Semua item sub-menu sekarang menjadi tautan -->
+              <li><a href="/pendidikan" class="menu-item">🎓 Pendidikan</a></li>
+              <li><a href="/penelitian" class="menu-item">🔬 Penelitian</a></li>
+              <li><a href="/pengabdian" class="menu-item">🤝 Pengabdian</a></li>
+              <li><a href="/penunjang" class="menu-item">📎 Penunjang</a></li>
+              <li><a href="/pelatihan" class="menu-item">📚 Pelatihan</a></li>
+              <li><a href="/penghargaan" class="menu-item">🏅 Penghargaan</a></li>
+              <li><a href="/sk-non-pns" class="menu-item">📄 SK Non PNS</a></li>
+          </ul>
+          <li>
+              <!-- Diubah menjadi tautan -->
+              <a href="/kerjasama" class="menu-item">
+                  <i class="fa fa-handshake"></i> Kerjasama
+              </a>
+          </li>
 
-        <li>
-          <a href="/daftar-pegawai" class="menu-item">
-            <i class="fa fa-users "></i> Daftar Pegawai
-          </a>
+          <li>
+            <a href="/master-data" class="menu-item">
+                <i class="fa fa-database"></i> Master Data
+            </a>
         </li>
-
-        <li>
-          <a href="/surat-tugas" class="menu-item">
-            <i class="fa fa-envelope"></i> Manajemen Surat Tugas
-          </a>
-        </li>
-
-        <li>
-        <div class="menu-item">
-            <i class="fa fa-edit" style="min-width: 20px;"></i>
-            Editor Kegiatan
-        </div>
-        </li>
-        <ul style="margin-left: 20px;">
-          <li><div class="menu-item">🎓 Pendidikan</div></li>
-          <li><div class="menu-item">🔬 Penelitian</div></li>
-          <li><div class="menu-item">🤝 Pengabdian</div></li>
-          <li><div class="menu-item">📎 Penunjang</div></li>
-          <li><div class="menu-item">📚 Pelatihan</div></li>
-          <li><div class="menu-item">🏅 Penghargaan</div></li>
-          <li><div class="menu-item">📄 SK Non PNS</div></li>
-        </ul>
-
-        <li>
-        <div class="menu-item">
-            <i class="fa fa-handshake" style="min-width: 20px;"></i>
-            Kerjasama
-        </div>
-        </li>
-    </ul>
+      </ul>
     </div>
 
 
