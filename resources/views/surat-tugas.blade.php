@@ -142,6 +142,76 @@
       padding: 10px 30px;
       flex-shrink: 0;
     }
+    
+    /* Modal Styles */
+    .modal-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0,0,0,0.5);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 1050;
+        padding: 1rem;
+    }
+    .modal-content-wrapper {
+        background-color: #fff;
+        border-radius: .5rem;
+        box-shadow: 0 5px 15px rgba(0,0,0,.5);
+        width: 100%;
+        max-width: 800px;
+        max-height: 90vh;
+        display: flex;
+        flex-direction: column;
+    }
+    .modal-header-custom {
+        background: linear-gradient(to right, #059669, #047857);
+        color: white;
+        padding: 1.25rem;
+        border-top-left-radius: .5rem;
+        border-top-right-radius: .5rem;
+    }
+    .modal-header-custom h5 {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .modal-body-custom {
+        padding: 1.5rem;
+        overflow-y: auto;
+    }
+    .modal-footer-custom {
+        padding: 1rem;
+        display: flex;
+        justify-content: flex-end;
+        gap: .5rem;
+        border-top: 1px solid #e2e8f0;
+    }
+    .upload-area {
+        border: 2px dashed #dee2e6;
+        border-radius: .5rem;
+        padding: 2rem;
+        text-align: center;
+        cursor: pointer;
+        transition: background-color .2s;
+    }
+    .upload-area:hover {
+        background-color: #f8f9fa;
+    }
+    .upload-area i {
+        font-size: 2rem;
+        color: #6c757d;
+    }
+    .upload-area p {
+        margin-top: 1rem;
+        color: #6c757d;
+    }
   </style>
 </head>
 <body>
@@ -235,7 +305,7 @@
               </div>
               <div class="d-flex gap-2">
                 <a href="#" class="btn btn-export text-white fw-bold"><i class="fa fa-file-excel me-2"></i> Export Excel</a>
-                <a href="#" class="btn btn-primary fw-bold"><i class="fa fa-plus me-2"></i> Tambah Data</a>
+                <a href="#" class="btn btn-primary fw-bold" onclick="openModal('suratTugasModal')"><i class="fa fa-plus me-2"></i> Tambah Data</a>
               </div>
           </div>
 
@@ -278,7 +348,7 @@
                                 <td class="text-center"><a href="#" class="btn btn-sm btn-info text-white">Lihat</a></td>
                                 <td class="text-center">
                                     <div class="d-flex gap-2 justify-content-center">
-                                        <a href="#" class="btn-aksi btn-edit" title="Edit Data"><i class="fa fa-edit"></i></a>
+                                        <a href="#" class="btn-aksi btn-edit" title="Edit Data" onclick="openEditModal()"><i class="fa fa-edit"></i></a>
                                         <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
                                     </div>
                                 </td>
@@ -310,6 +380,42 @@
       </div>
     </div>
   </div>
+  
+  <!-- Modal Tambah/Edit Surat Tugas -->
+    <div class="modal-backdrop" id="suratTugasModal">
+        <div class="modal-content-wrapper">
+            <div class="modal-header-custom">
+                <h5 id="modalTitle"><i class="fas fa-plus-circle"></i> Tambah Surat Tugas</h5>
+            </div>
+            <div class="modal-body-custom">
+                <form>
+                    <div class="row g-3">
+                        <div class="col-12"><label class="form-label">Nama Dosen</label><select class="form-select"><option selected>-- Pilih Salah Satu --</option><option>Dr. Stone</option></select></div>
+                        <div class="col-12"><label class="form-label">Peran</label><input type="text" class="form-control" placeholder="Masukkan peran. Contoh: Narasumber, Pembicara, Moderator"></div>
+                        <div class="col-12"><label class="form-label">Pemohon / Menjadi</label><input type="text" class="form-control" placeholder="2020/2021"></div>
+                        <div class="col-12"><label class="form-label">Mitra / Nama Instansi</label><input type="text" class="form-control" placeholder="2020/2021"></div>
+                        <div class="col-md-6"><label class="form-label">No & Tanggal Surat Instansi</label><input type="text" class="form-control" placeholder="001/INT/2025 - 1 Juni 2025"></div>
+                        <div class="col-md-6"><label class="form-label">No & Tanggal Surat Kadep</label><input type="text" class="form-control" placeholder="001/INT/2025 - 1 Juni 2025"></div>
+                        <div class="col-md-6"><label class="form-label">Tanggal Kegiatan</label><input type="date" class="form-control"></div>
+                        <div class="col-md-6"><label class="form-label">Link Surat Tugas Dekan</label><input type="text" class="form-control" placeholder="Praktikum"></div>
+                        <div class="col-12"><label class="form-label">Lokasi Kegiatan</label><input type="text" class="form-control" placeholder="Praktikum"></div>
+                        <div class="col-12">
+                            <label class="form-label">Upload File</label>
+                            <div class="upload-area">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Drag & Drop File here<br><small>Ukuran Maksimal 5 MB</small></p>
+                                <input type="file" hidden>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer-custom">
+                <button type="button" class="btn btn-danger" onclick="closeModal('suratTugasModal')">Batal</button>
+                <button type="button" class="btn btn-success">Simpan</button>
+            </div>
+        </div>
+    </div>
 
   <script>
     function updateClock() {
@@ -320,6 +426,41 @@
     }
     setInterval(updateClock, 1000);
     updateClock();
+
+    // Modal Functions
+    function openModal(modalId) {
+        const modal = document.getElementById(modalId);
+        const modalTitle = modal.querySelector('#modalTitle');
+        modalTitle.innerHTML = '<i class="fas fa-plus-circle"></i> Tambah Surat Tugas';
+        modal.querySelector('form').reset();
+        if (modal) {
+            modal.style.display = 'flex';
+        }
+    }
+    
+    function openEditModal() {
+        const modal = document.getElementById('suratTugasModal');
+        const modalTitle = modal.querySelector('#modalTitle');
+        modalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Surat Tugas';
+        // Di sini Anda akan mengisi form dengan data yang ada
+        if (modal) {
+            modal.style.display = 'flex';
+        }
+    }
+
+    function closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.style.display = 'none';
+        }
+    }
+
+    // Close modal if backdrop is clicked
+    window.onclick = function(event) {
+        if (event.target.classList.contains('modal-backdrop')) {
+            closeModal(event.target.id);
+        }
+    }
   </script>
 </body>
 </html>
