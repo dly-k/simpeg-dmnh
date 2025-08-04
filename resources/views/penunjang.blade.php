@@ -259,10 +259,10 @@
                                       <td class="text-center"><a href="#" class="btn btn-sm btn-info text-white">Lihat</a></td>
                                       <td class="text-center">
                                           <div class="d-flex gap-2 justify-content-center">
+                                              <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a>
                                               <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail"><i class="fa fa-eye"></i></a>
                                               <a href="#" class="btn-aksi btn-edit" title="Edit Data"><i class="fa fa-edit"></i></a>
                                               <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
-                                              <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a>
                                           </div>
                                       </td>
                                   </tr>
