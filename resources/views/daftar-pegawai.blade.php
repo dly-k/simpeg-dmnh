@@ -6,16 +6,23 @@
   <title>SIKEMAH - Daftar Pegawai</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
     }
 
+    :root {
+      --primary: #049466;
+      --primary-light: #e3f7ec;
+      --border-color: #e2e8f0;
+    }
+
     body {
       font-family: 'Poppins', sans-serif;
       margin: 0;
-      background-color: #f7fafc;
+      background-color: #f5f6fa;
     }
 
     .layout {
@@ -23,84 +30,192 @@
       height: 100vh;
     }
 
+    /* Sidebar */
     .sidebar {
       width: 250px;
-      background: white;
-      padding: 20px;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-      overflow-y: auto;
-      flex-shrink: 0;
-    }
-
-    .sidebar ul {
-      list-style: none;
-      padding-left: 0;
-    }
-
-    .sidebar li {
-      margin-bottom: 10px;
-    }
-
-    .menu-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px;
-      border-radius: 8px;
-      color: #2d3748;
-      text-decoration: none;
-      cursor: pointer;
-      transition: background-color 0.2s ease;
-    }
-
-    .menu-item:hover {
-      background-color: #f0fdf4;
-      color: #059669;
-    }
-
-    .menu-item.active {
-      background-color: #d1fae5;
-      color: #059669;
-      font-weight: 600;
-    }
-
-    .main {
-      flex: 1;
+      height: 100vh;
+      background-color: #fff;
+      border-right: 1px solid var(--border-color);
+      position: fixed;
+      top: 0;
+      left: 0;
       display: flex;
       flex-direction: column;
+      transition: transform 0.3s ease-in-out;
+      z-index: 1001;
+      transform: translateX(0);
+    }
+    .sidebar.hidden { transform: translateX(-100%); }
+
+    .sidebar .brand {
+      font-size: 24px;
+      font-weight: 700;
+      color: #222;
+      text-align: center;
+      padding: 14.5px 0;
+      border-bottom: 1px solid #ccc;
+      letter-spacing: 1px;
+    }
+    .sidebar .brand span { color: var(--primary); }
+
+    .sidebar .menu-wrapper {
       overflow-y: auto;
+      flex-grow: 1;
     }
 
-    .header {
-      background: white;
+    .menu p {
+      font-size: 13px;
+      font-weight: 500;
+      padding: 0 20px;
+      margin: 12px 0 8px;
+      color: #888;
+    }
+
+    .sidebar .menu a,
+    .sidebar .menu button {
       display: flex;
-      justify-content: space-between;
-      padding: 15px 30px;
-      border-bottom: 1px solid #e2e8f0;
       align-items: center;
+      padding: 12px 20px;
+      text-decoration: none;
+      color: #333;
+      font-size: 13px;
+      transition: all 0.2s ease-in-out;
+      width: 100%;
+      background: none;
+      border: none;
+      text-align: left;
+    }
+    .sidebar .menu a:hover,
+    .sidebar .menu button:hover {
+      background-color: var(--primary-light);
+      color: var(--primary);
+    }
+    .sidebar .menu a.active {
+      background-color: var(--primary);
+      color: #fff;
+      font-weight: 600;
+    }
+    .sidebar .menu a i,
+    .sidebar .menu button i {
+      margin-right: 12px;
+      font-size: 16px;
+      min-width: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sidebar .submenu a {
+      padding: 9px 20px 9px 45px;
+      font-size: 12.5px;
+    }
+    
+    .toggle-icon {
+      margin-left: auto;
+      transition: transform 0.3s;
+    }
+    .collapsed .toggle-icon { transform: rotate(-90deg); }
+
+    /* Overlay for mobile sidebar */
+    .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.4);
+      z-index: 1000;
+      display: none;
+    }
+    .overlay.show { display: block; }
+
+    /* Main Area */
+    .main-wrapper {
+        flex-grow: 1;
+        margin-left: 250px;
+        transition: margin-left 0.3s ease-in-out;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+    }
+    .sidebar.hidden ~ .main-wrapper {
+        margin-left: 0;
+    }
+
+    /* Navbar */
+    .navbar-custom {
+      height: 66px;
+      background: #fff;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
       flex-shrink: 0;
     }
+    
+    .time-date {
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-weight: 400;
+    }
+    .time-date div {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .time-date i { color: #4b5563; font-size: 13px; }
 
+    .account {
+      display: flex;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 400;
+      cursor: pointer;
+      margin-left: 10px;
+      gap: 6px;
+    }
+    .account-circle {
+      background: orange;
+      color: #fff;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    /* Title Bar */
     .title-bar {
       background: linear-gradient(to right, #059669, #047857);
       color: white;
-      padding: 20px 30px;
+      padding: 20px 25px;
+      display: flex;
+      align-items: center;
       flex-shrink: 0;
     }
 
     .title-bar h1 {
-      font-size: 24px;
+      font-size: 20px;
       margin: 0;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+      font-weight: 600;
     }
+    .title-bar h1 i { font-size: 22px; }
 
-    .content-area {
-      padding: 30px;
+    /* Main Content */
+    .main-content {
+      padding: 25px;
+      background-color: #f5f6fa;
       flex-grow: 1;
+      overflow-y: auto;
     }
-
+    
     .table-card {
       background: white;
       padding: 2rem;
@@ -131,90 +246,144 @@
     .btn-edit { background-color: #ffc107; border-color: #ffc107; }
     .btn-hapus { background-color: #dc3545; border-color: #dc3545; }
 
-    .footer {
-      text-align: right;
+    /* Footer */
+    .footer-custom {
+      background: #fff;
+      border-top: 1px solid var(--border-color);
+      height: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0 20px;
       font-size: 12px;
-      color: #a0aec0;
-      padding: 10px 30px;
+      color: #555;
       flex-shrink: 0;
+    }
+    
+    /* Modal Styles */
+    .modal-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0,0,0,0.5);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 1050;
+        padding: 1rem;
+    }
+    .modal-content-wrapper {
+        background-color: #fff;
+        border-radius: .5rem;
+        box-shadow: 0 5px 15px rgba(0,0,0,.5);
+        width: 100%;
+        max-width: 800px;
+        max-height: 90vh;
+        display: flex;
+        flex-direction: column;
+    }
+    .modal-header-custom {
+        background: linear-gradient(to right, #059669, #047857);
+        color: white;
+        padding: 1.25rem;
+        border-top-left-radius: .5rem;
+        border-top-right-radius: .5rem;
+    }
+    .modal-header-custom h5 {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .modal-body-custom {
+        padding: 1.5rem;
+        overflow-y: auto;
+    }
+    .modal-footer-custom {
+        padding: 1rem;
+        display: flex;
+        justify-content: flex-end;
+        gap: .5rem;
+        border-top: 1px solid #e2e8f0;
+    }
+
+    /* Responsive */
+    @media (max-width: 991px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.show { transform: translateX(0); }
+      .main-wrapper { margin-left: 0; }
+      .time-date { flex-direction: column; gap: 6px; align-items: flex-start; }
+      .account span { font-size: 12px; }
+      .sidebar .menu a, .sidebar .menu button { font-size: 12.5px; }
     }
   </style>
 </head>
 <body>
-  <div class="layout">
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <h1 style="font-weight: 700;">
-        <span style="color: #000;">SI</span><span style="color: #059669;">KEMAH</span>
-      </h1>
-      <hr/>
-      <p style="font-weight: 600; margin-top: 30px;">Menu Utama</p>
-      <ul>
-          <li>
-              <a href="/dashboard" class="menu-item">
-                  <i class="fa fa-chart-bar"></i> Dashboard
-              </a>
-          </li>
-          <li>
-              <a href="/daftar-pegawai" class="menu-item active">
-                  <i class="fa fa-users"></i> Daftar Pegawai
-              </a>
-          </li>
-          <li>
-              <a href="/surat-tugas" class="menu-item">
-                  <i class="fa fa-envelope"></i> Manajemen Surat Tugas
-              </a>
-          </li>
-          <li>
-              <a href="/editor" class="menu-item">
-                  <i class="fa fa-edit"></i> Editor Kegiatan
-              </a>
-          </li>
-          <ul style="margin-left: 20px;">
-              <li><a href="/pendidikan" class="menu-item">🎓 Pendidikan</a></li>
-              <li><a href="/penelitian" class="menu-item">🔬 Penelitian</a></li>
-              <li><a href="/pengabdian" class="menu-item">🤝 Pengabdian</a></li>
-              <li><a href="/penunjang" class="menu-item">📎 Penunjang</a></li>
-              <li><a href="/pelatihan" class="menu-item">📚 Pelatihan</a></li>
-              <li><a href="/penghargaan" class="menu-item">🏅 Penghargaan</a></li>
-              <li><a href="/sk-non-pns" class="menu-item">📄 SK Non PNS</a></li>
-          </ul>
-          <li>
-              <a href="/kerjasama" class="menu-item">
-                  <i class="fa fa-handshake"></i> Kerjasama
-              </a>
-          </li>
-          <li>
-            <a href="/master-data" class="menu-item">
-                <i class="fa fa-database"></i> Master Data
-            </a>
-          </li>
-      </ul>
+
+<div class="layout">
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <div class="brand">SI<span>KEMAH</span></div>
+    <div class="menu-wrapper">
+      <div class="menu">
+        <a href="/dashboard" aria-label="Dashboard"><i class="lni lni-grid-alt"></i> Dashboard</a>
+        <p>Menu Utama</p>
+        <a href="/daftar-pegawai" aria-label="Daftar Pegawai" class="active"><i class="lni lni-users"></i> Daftar Pegawai</a>
+        <a href="/surat-tugas" aria-label="Manajemen Surat Tugas"><i class="lni lni-folder"></i> Manajemen Surat Tugas</a>
+        <button class="collapsed" data-bs-toggle="collapse" data-bs-target="#editorKegiatan" aria-expanded="false" aria-controls="editorKegiatan">
+          <i class="lni lni-pencil-alt"></i> Editor Kegiatan
+          <i class="lni lni-chevron-down toggle-icon"></i>
+        </button>
+        <div class="collapse submenu" id="editorKegiatan">
+          <a href="/pendidikan" aria-label="Pendidikan">Pendidikan</a>
+          <a href="/penelitian" aria-label="Penelitian">Penelitian</a>
+          <a href="/pengabdian" aria-label="Pengabdian">Pengabdian</a>
+          <a href="/penunjang" aria-label="Penunjang">Penunjang</a>
+          <a href="/pelatihan" aria-label="Pelatihan">Pelatihan</a>
+          <a href="/penghargaan" aria-label="Penghargaan">Penghargaan</a>
+          <a href="/sk-non-pns" aria-label="SK Non PNS">SK Non PNS</a>
+        </div>
+        <a href="/kerjasama" aria-label="Kerjasama"><i class="lni lni-handshake"></i> Kerjasama</a>
+        <a href="/master-data" aria-label="Master Data"><i class="lni lni-database"></i> Master Data</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Overlay -->
+  <div class="overlay" id="overlay"></div>
+
+  <div class="main-wrapper">
+    <!-- Navbar -->
+    <div class="navbar-custom">
+      <div class="d-flex align-items-center">
+        <button class="btn btn-link text-dark me-3" id="toggleSidebar" aria-label="Toggle Sidebar">
+          <i class="lni lni-menu"></i>
+        </button>
+      </div>
+      <div class="d-flex align-items-center">
+        <div class="time-date me-2">
+          <div><i class="lni lni-calendar"></i> <span id="current-date"></span></div>
+          <div><i class="lni lni-timer"></i> <span id="current-time"></span></div>
+        </div>
+        <div class="account">
+          <div class="account-circle">KTU</div>
+          <span>Halo, Ketua TU</span>
+          <i class="lni lni-chevron-down"></i>
+        </div>
+      </div>
     </div>
 
-    <div class="main">
-      <div class="header">
-        <div style="display: flex; align-items: center; gap: 20px;">
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <i class="fa-solid fa-calendar-days" style="color: #4b5563;"></i>
-            <span id="current-date"></span>
-          </div>
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <i class="fa-solid fa-clock" style="color: #4b5563;"></i>
-            <strong id="current-time"></strong>
-          </div>
-        </div>
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <div style="background-color: orange; width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-weight: bold;">KTU</div>
-          <div>Halo, Ketua TU</div>
-        </div>
-      </div>
+    <!-- Title Bar -->
+    <div class="title-bar">
+      <h1><i class="lni lni-users"></i> <span id="page-title">Daftar Pegawai</span></h1>
+    </div>
 
-      <div class="title-bar">
-        <h1><i class="fa fa-users"></i> Daftar Pegawai</h1>
-      </div>
-
-      <div class="content-area">
+    <!-- Main Content -->
+    <div class="main-content">
         <div class="table-card">
           <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
               <div class="d-flex gap-2 flex-wrap">
@@ -228,7 +397,7 @@
                       <option value="nonaktif">Nonaktif</option>
                   </select>
               </div>
-              <a href="#" class="btn btn-success fw-bold"><i class="fa fa-plus me-2"></i> Tambah Data</a>
+              <button class="btn btn-success fw-bold" onclick="openModal('pegawaiModal')"><i class="fa fa-plus me-2"></i> Tambah Data</button>
           </div>
 
           <div class="table-responsive">
@@ -268,7 +437,7 @@
                                 <td class="text-center">
                                     <div class="d-flex gap-2 justify-content-center">
                                         <a href="/detail-pegawai" class="btn-aksi btn-lihat" title="Lihat Detail"><i class="fa fa-eye"></i></a>
-                                        <a href="#" class="btn-aksi btn-edit" title="Edit Data"><i class="fa fa-edit"></i></a>
+                                        <button class="btn-aksi btn-edit" title="Edit Data" onclick='openEditModal(${JSON.stringify(item)})'><i class="fa fa-edit"></i></button>
                                         <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
                                     </div>
                                 </td>
@@ -293,23 +462,119 @@
             </nav>
           </div>
         </div>
-      </div>
-
-      <div class="footer">
-        © 2025 Forest Management — All Rights Reserved
-      </div>
     </div>
-  </div>
 
+    <!-- Footer -->
+    <footer class="footer-custom">
+      <span>© 2025 Forest Management — All Rights Reserved</span>
+    </footer>
+  </div>
+  
+  <!-- Modal Tambah/Edit Pegawai -->
+    <div class="modal-backdrop" id="pegawaiModal">
+        <div class="modal-content-wrapper">
+            <div class="modal-header-custom">
+                <h5 id="modalTitle"><i class="fas fa-plus-circle"></i> Tambah Data Pegawai</h5>
+            </div>
+            <div class="modal-body-custom">
+                <form id="pegawaiForm">
+                    <div class="row g-3">
+                        <div class="col-md-6"><label class="form-label">Nama Lengkap</label><input type="text" class="form-control" name="name"></div>
+                        <div class="col-md-6"><label class="form-label">NIP</label><input type="text" class="form-control" name="nip"></div>
+                        <div class="col-md-6"><label class="form-label">Status Kepegawaian</label><select class="form-select" name="status_kepegawaian"><option>Tenaga Pendidik - Dosen</option><option>Tenaga Kependidikan</option></select></div>
+                        <div class="col-md-6"><label class="form-label">Jabatan Fungsional</label><input type="text" class="form-control" name="jabatan_fungsional"></div>
+                        <div class="col-md-6"><label class="form-label">Jabatan Struktural</label><input type="text" class="form-control" name="jabatan_struktural"></div>
+                        <div class="col-md-6"><label class="form-label">Pangkat/Golongan</label><input type="text" class="form-control" name="pangkat"></div>
+                        <div class="col-md-6"><label class="form-label">Status Pegawai</label><select class="form-select" name="status_pegawai"><option value="Aktif">Aktif</option><option value="Nonaktif">Nonaktif</option></select></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer-custom">
+                <button type="button" class="btn btn-danger" onclick="closeModal('pegawaiModal')">Batal</button>
+                <button type="button" class="btn btn-success">Simpan</button>
+            </div>
+        </div>
+    </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    function updateClock() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    const toggleSidebarBtn = document.getElementById('toggleSidebar');
+
+    toggleSidebarBtn.addEventListener('click', function () {
+      const isMobile = window.innerWidth <= 991;
+      if (isMobile) {
+        sidebar.classList.toggle('show');
+        overlay.classList.toggle('show', sidebar.classList.contains('show'));
+      } else {
+        sidebar.classList.toggle('hidden');
+      }
+    });
+
+    overlay.addEventListener('click', function () {
+      sidebar.classList.remove('show');
+      overlay.classList.remove('show');
+    });
+
+    function updateDateTime() {
       const now = new Date();
-      const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-      document.getElementById('current-date').textContent = now.toLocaleDateString('id-ID', dateOptions);
-      document.getElementById('current-time').textContent = now.toLocaleTimeString('id-ID', { hour12: false });
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      document.getElementById('current-date').textContent = now.toLocaleDateString('id-ID', options);
+      document.getElementById('current-time').textContent = now.toLocaleTimeString('id-ID', { 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        second: '2-digit'
+      });
     }
-    setInterval(updateClock, 1000);
-    updateClock();
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
+    
+    // Modal Functions
+    function openModal(modalId) {
+        const modal = document.getElementById(modalId);
+        const modalTitle = modal.querySelector('#modalTitle');
+        modalTitle.innerHTML = '<i class="fas fa-plus-circle"></i> Tambah Data Pegawai';
+        modal.querySelector('form').reset();
+        if (modal) {
+            modal.style.display = 'flex';
+        }
+    }
+    
+    function openEditModal(data) {
+        const modal = document.getElementById('pegawaiModal');
+        const modalTitle = modal.querySelector('#modalTitle');
+        modalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Data Pegawai';
+        
+        // Populate form
+        const form = modal.querySelector('form');
+        form.querySelector('[name="name"]').value = data.name;
+        form.querySelector('[name="nip"]').value = data.nip;
+        form.querySelector('[name="status_kepegawaian"]').value = data.status_kepegawaian;
+        form.querySelector('[name="jabatan_fungsional"]').value = data.jabatan_fungsional;
+        form.querySelector('[name="jabatan_struktural"]').value = data.jabatan_struktural;
+        form.querySelector('[name="pangkat"]').value = data.pangkat;
+        form.querySelector('[name="status_pegawai"]').value = data.status_pegawai;
+
+        if (modal) {
+            modal.style.display = 'flex';
+        }
+    }
+
+    function closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.style.display = 'none';
+        }
+    }
+
+    // Close modal if backdrop is clicked
+    window.onclick = function(event) {
+        if (event.target.classList.contains('modal-backdrop')) {
+            closeModal(event.target.id);
+        }
+    }
   </script>
 </body>
 </html>

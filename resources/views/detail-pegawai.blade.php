@@ -7,6 +7,7 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
     <style>
@@ -14,93 +15,229 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --primary: #049466;
+            --primary-light: #e3f7ec;
+            --border-color: #bbb;
+            --primary-green: #28a745;
+            --dark-gray: #343a40;
+            --light-text: #6c757d;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #f7fafc;
             margin: 0;
+            background-color: #f5f6fa;
         }
 
-    .layout {
-      display: flex;
-      height: 100vh;
-    }
+        .layout {
+            display: flex;
+            height: 100vh;
+        }
 
-    a.detail-link i {
-      color: gray;
-      cursor: pointer;
-      transition: color 0.2s;
-    }
-
-    a.detail-link:hover i {
-      color: black;
-    }
-    .sidebar {
-      width: 250px;
-      background: white;
-      padding: 20px;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-      overflow-y: auto;
-    }
-    .sidebar ul { list-style: none; padding-left: 0; }
-    .sidebar li { margin-bottom: 10px; }
-    .menu-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px;
-      border-radius: 8px;
-      color: #2d3748;
-      text-decoration: none;
-      cursor: pointer;
-      transition: background-color 0.2s ease;
-    }
-    .menu-item:hover { background-color: #f0fdf4; color: #059669; }
-    .menu-item.active {
-      background-color: #d1fae5;
-      color: #059669;
-      font-weight: 600;
-    }
-
-        .main {
-            flex: 1;
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background-color: #fff;
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            top: 0;
+            left: 0;
             display: flex;
             flex-direction: column;
-            overflow-x: hidden;
+            transition: transform 0.3s ease-in-out;
+            z-index: 1001;
+            transform: translateX(0);
+        }
+        .sidebar.hidden { transform: translateX(-100%); }
+
+        .sidebar .brand {
+            font-size: 24px;
+            font-weight: 700;
+            color: #222;
+            text-align: center;
+            padding: 14.5px 0;
+            border-bottom: 1px solid #ccc;
+            letter-spacing: 1px;
+        }
+        .sidebar .brand span { color: var(--primary); }
+
+        .sidebar .menu-wrapper {
+            overflow-y: auto;
+            flex-grow: 1;
+            padding-bottom: 80px;
+            max-height: calc(100vh - 66px);
         }
 
-        .header {
-            background: white;
+        .menu p {
+            font-size: 13px;
+            font-weight: 500;
+            padding: 0 20px;
+            margin: 12px 0 8px;
+            color: #888;
+        }
+
+        .sidebar .menu a,
+        .sidebar .menu button {
             display: flex;
-            justify-content: space-between;
-            padding: 15px 30px;
-            border-bottom: 1px solid #e2e8f0;
             align-items: center;
+            padding: 12px 20px;
+            text-decoration: none;
+            color: #333;
+            font-size: 13px;
+            transition: all 0.2s ease-in-out;
+            width: 100%;
+            background: none;
+            border: none;
+            text-align: left;
+        }
+        .sidebar .menu a:hover,
+        .sidebar .menu button:hover {
+            background-color: var(--primary-light);
+            color: var(--primary);
+            box-shadow: inset 3px 0 0 var(--primary);
+        }
+        .sidebar .menu a.active {
+            background-color: var(--primary);
+            color: #fff;
+            font-weight: 600;
+            box-shadow: inset 4px 0 0 #034d26;
+        }
+        .sidebar .menu a i,
+        .sidebar .menu button i {
+            margin-right: 12px;
+            font-size: 16px;
+            min-width: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
+        .sidebar .submenu a {
+            padding: 9px 35px;
+            font-size: 12.5px;
+        }
+        .sidebar .menu a:first-of-type {
+            margin-top: 10px;
+        }
+
+        .toggle-icon {
+            margin-left: auto;
+            transition: transform 0.3s;
+        }
+        .collapsed .toggle-icon { transform: rotate(-90deg); }
+
+        /* Overlay for mobile sidebar */
+        .overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4);
+            z-index: 1000;
+            display: none;
+        }
+        .overlay.show { display: block; }
+
+        /* Main Area */
+        .main-wrapper {
+            flex-grow: 1;
+            margin-left: 250px;
+            transition: margin-left 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        .sidebar.hidden ~ .main-wrapper {
+            margin-left: 0;
+        }
+
+        /* Navbar */
+        .navbar-custom {
+            height: 66px;
+            background: #fff;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            flex-shrink: 0;
+        }
+
+        .time-date {
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-weight: 400;
+        }
+        .time-date div {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .time-date i { color: #4b5563; font-size: 13px; }
+
+        .account {
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            font-weight: 400;
+            cursor: pointer;
+            margin-left: 10px;
+            gap: 6px;
+        }
+        .account-circle {
+            background: orange;
+            color: #fff;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        /* Title Bar */
         .title-bar {
             background: linear-gradient(to right, #059669, #047857);
             color: white;
-            padding: 20px 30px;
+            padding: 20px 25px;
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
         }
 
         .title-bar h1 {
-            font-size: 24px;
+            font-size: 20px;
             margin: 0;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            font-weight: 600;
+        }
+        .title-bar h1 i { font-size: 22px; }
+
+        /* Main Content */
+        .main-content {
+            padding: 25px;
+            background-color: #f5f6fa;
+            flex-grow: 1;
+            overflow-y: auto;
         }
 
-        :root {
-            --primary-green: #28a745;
-            --secondary-green: #218838;
-            --dark-gray: #343a40;
-            --light-gray-bg: #f8f9fa;
-            --light-text: #6c757d;
-            --border-color: #dee2e6;
-            --info-blue: #0dcaf0;
+        a.detail-link i {
+            color: gray;
+            cursor: pointer;
+            transition: color 0.2s;
         }
-        
+
+        a.detail-link:hover i {
+            color: black;
+        }
+
         .card { border: none; box-shadow: 0 0.1rem 0.5rem rgba(0,0,0,.075); }
         .form-group label { display: block; margin-bottom: 0.25rem; }
         .form-group .form-text { font-size: 0.75rem; margin-top: -0.2rem; }
@@ -131,7 +268,7 @@
             align-items: center; justify-content: center; padding: 0;
         }
         .btn-lihat { background-color: #17a2b8; border-color: #17a2b8; }
-        .btn-lihat-detail { background-color: var(--info-blue); border-color: var(--info-blue); }
+        .btn-lihat-detail { background-color: #0dcaf0; border-color: #0dcaf0; }
         .btn-delete-row { background-color: #dc3545; border-color: #dc3545; }
 
         .pagination .page-link { font-size: 0.85rem; }
@@ -219,82 +356,94 @@
             pointer-events: none;
             color: #6c757d;
         }
+
+        /* Footer */
+        .footer-custom {
+            background: #fff;
+            border-top: 1px solid var(--border-color);
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 20px;
+            font-size: 12px;
+            color: #555;
+            flex-shrink: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 991px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.show { transform: translateX(0); }
+            .main-wrapper { margin-left: 0; }
+            .time-date { flex-direction: column; gap: 6px; align-items: flex-start; }
+            .account span { font-size: 12px; }
+            .sidebar .menu a, .sidebar .menu button { font-size: 12.5px; }
+        }
     </style>
 </head>
 <body>
 
 <div class="layout">
-    <div class="sidebar">
-      <h1 style="font-weight: 700;">
-        <span style="color: #000;">SI</span><span style="color: #059669;">KEMAH</span>
-      </h1>
-      <hr/>
-      <p style="font-weight: 600; margin-top: 30px;">Menu Utama</p>
-      <ul>
-          <li>
-              <a href="/dashboard" class="menu-item">
-                  <i class="fa fa-chart-bar"></i> Dashboard
-              </a>
-          </li>
-          <li>
-              <!-- Tag yang diperbaiki dan kelas 'active' ditambahkan agar sesuai dengan konteks halaman -->
-              <a href="/daftar-pegawai" class="menu-item active">
-                  <i class="fa fa-users"></i> Daftar Pegawai
-              </a>
-          </li>
-          <li>
-              <a href="/surat-tugas" class="menu-item">
-                  <i class="fa fa-envelope"></i> Manajemen Surat Tugas
-              </a>
-          </li>
-          <li>
-              <!-- Diubah menjadi tautan ke halaman editor umum -->
-              <a href="/editor" class="menu-item">
-                  <i class="fa fa-edit"></i> Editor Kegiatan
-              </a>
-          </li>
-          <ul style="margin-left: 20px;">
-              <!-- Semua item sub-menu sekarang menjadi tautan -->
-              <li><a href="/pendidikan" class="menu-item">🎓 Pendidikan</a></li>
-              <li><a href="/penelitian" class="menu-item">🔬 Penelitian</a></li>
-              <li><a href="/pengabdian" class="menu-item">🤝 Pengabdian</a></li>
-              <li><a href="/penunjang" class="menu-item">📎 Penunjang</a></li>
-              <li><a href="/pelatihan" class="menu-item">📚 Pelatihan</a></li>
-              <li><a href="/penghargaan" class="menu-item">🏅 Penghargaan</a></li>
-              <li><a href="/sk-non-pns" class="menu-item">📄 SK Non PNS</a></li>
-          </ul>
-          <li>
-              <!-- Diubah menjadi tautan -->
-              <a href="/kerjasama" class="menu-item">
-                  <i class="fa fa-handshake"></i> Kerjasama
-              </a>
-          </li>
-
-          <li>
-            <a href="/master-data" class="menu-item">
-                <i class="fa fa-database"></i> Master Data
-            </a>
-        </li>
-      </ul>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="brand">SI<span>KEMAH</span></div>
+        <div class="menu-wrapper">
+            <div class="menu">
+                <a href="/dashboard" aria-label="Dashboard" class="menu-first"><i class="lni lni-grid-alt"></i> Dashboard</a>
+                <p>Menu Utama</p>
+                <a href="/daftar-pegawai" aria-label="Daftar Pegawai" class="active"><i class="lni lni-users"></i> Daftar Pegawai</a>
+                <a href="/surat-tugas" aria-label="Manajemen Surat Tugas"><i class="lni lni-folder"></i> Manajemen Surat Tugas</a>
+                <button class="collapsed" data-bs-toggle="collapse" data-bs-target="#editorKegiatan" aria-expanded="true" aria-controls="editorKegiatan">
+                    <i class="lni lni-pencil-alt"></i> Editor Kegiatan
+                    <i class="lni lni-chevron-down toggle-icon"></i>
+                </button>
+                <div class="collapse show submenu" id="editorKegiatan">
+                    <a href="/pendidikan" aria-label="Pendidikan">Pendidikan</a>
+                    <a href="/penelitian" aria-label="Penelitian">Penelitian</a>
+                    <a href="/pengabdian" aria-label="Pengabdian">Pengabdian</a>
+                    <a href="/penunjang" aria-label="Penunjang">Penunjang</a>
+                    <a href="/pelatihan" aria-label="Pelatihan">Pelatihan</a>
+                    <a href="/penghargaan" aria-label="Penghargaan">Penghargaan</a>
+                    <a href="/sk-non-pns" aria-label="SK Non PNS">SK Non PNS</a>
+                </div>
+                <a href="/kerjasama" aria-label="Kerjasama"><i class="lni lni-handshake"></i> Kerjasama</a>
+                <a href="/master-data" aria-label="Master Data"><i class="lni lni-database"></i> Master Data</a>
+            </div>
+        </div>
     </div>
 
-    <div class="main">
-        <div class="header">
-            <div style="display: flex; align-items: center; gap: 20px;">
-                <div style="display: flex; align-items: center; gap: 8px;"><i class="fa-solid fa-calendar-days" style="color: #4b5563;"></i><span id="current-date"></span></div>
-                <div style="display: flex; align-items: center; gap: 8px;"><i class="fa-solid fa-clock" style="color: #4b5563;"></i><strong id="current-time"></strong></div>
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <div class="main-wrapper">
+        <!-- Navbar -->
+        <div class="navbar-custom">
+            <div class="d-flex align-items-center">
+                <button class="btn btn-link text-dark me-3" id="toggleSidebar" aria-label="Toggle Sidebar">
+                    <i class="lni lni-menu"></i>
+                </button>
             </div>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <div style="background-color: orange; width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-weight: bold;">KTU</div>
-                <div>Halo, Ketua TU</div>
+            <div class="d-flex align-items-center">
+                <div class="time-date me-2">
+                    <div><i class="lni lni-calendar"></i> <span id="current-date"></span></div>
+                    <div><i class="lni lni-timer"></i> <span id="current-time"></span></div>
+                </div>
+                <div class="account">
+                    <div class="account-circle">KTU</div>
+                    <span>Halo, Ketua TU</span>
+                    <i class="lni lni-chevron-down"></i>
+                </div>
             </div>
         </div>
 
+        <!-- Title Bar -->
         <div class="title-bar">
-            <h1 class="fs-4 fw-semibold"><i class="fas fa-users text-white"></i> Detail Pegawai</h1>
+            <h1><i class="lni lni-users"></i> <span id="page-title">Detail Pegawai</span></h1>
         </div>
 
-        <div class="content-area">
+        <!-- Main Content -->
+        <div class="main-content">
             <div class="search-and-actions">
                 <div class="main-search-bar"><input type="text" class="form-control" placeholder="🔍 Cari Data Pegawai"></div>
                 <div class="action-buttons">
@@ -357,7 +506,8 @@
                             <!-- Pendidikan Content -->
                             <div class="main-tab-content" id="pendidikan-content" style="display: none;">
                                 <div id="pendidikan-sub-tabs" class="btn-group flex-wrap gap-2 mb-3">
-                                    <button type="button" class="btn active" data-tab="pengajaran-luar">Pengajaran Luar IPB</button>
+                                    <button type="button" class="btn active" data-tab="pengajaran-lama">Pengajaran Lama</button>
+                                    <button type="button" class="btn" data-tab="pengajaran-luar">Pengajaran Luar IPB</button>
                                     <button type="button" class="btn" data-tab="pengujian-lama">Pengujian Lama</button>
                                     <button type="button" class="btn" data-tab="pembimbing-lama">Pembimbing Lama</button>
                                     <button type="button" class="btn" data-tab="penguji-luar">Penguji Luar IPB</button>
@@ -371,7 +521,119 @@
                                     </div>
                                     <div class="input-group input-group-sm" style="width: auto; max-width: 300px;"><span class="input-group-text bg-white"><i class="fas fa-search text-muted"></i></span><input type="text" class="form-control" placeholder="Cari Data..."></div>
                                 </div>
-                                <div class="sub-tab-content" id="pengajaran-luar" style="display: block;"><table class="table table-bordered table-hover table-sm"><thead><tr><th>No</th><th>Tahun Semester</th><th>Mata Kuliah</th><th>SKS</th><th>Kelas Paralel (Jenis)</th><th>Jumlah Pertemuan</th><th>Dokumen</th><th>Aksi</th></tr></thead><tbody><script>for(let i=1; i<=5; i++){ document.write(`<tr><td>${i}</td><td>2018/2019 Ganjil</td><td>Biometrika Hutan</td><td>3 (3-0)</td><td>1 (K)</td><td>K,S, P,O, R,O</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="fas fa-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-delete-row" title="Hapus"><i class="fas fa-trash"></i></button></div></td></tr>`);}</script></tbody></table><div class="d-flex justify-content-between align-items-center mt-3"><span class="text-muted small">Menampilkan 1 sampai 5 dari 13 data</span><nav><ul class="pagination pagination-sm mb-0"><li class="page-item"><a class="page-link" href="#">Sebelumnya</a></li><li class="page-item active"><a class="page-link" href="#">1</a></li><li class="page-item"><a class="page-link" href="#">2</a></li><li class="page-item"><a class="page-link" href="#">Berikutnya</a></li></ul></nav></div></div>
+                                
+                                <!-- Pengajaran Lama -->
+                                <div class="sub-tab-content" id="pengajaran-lama" style="display: block;">
+                                    <table class="table table-bordered table-hover table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Tahun Semester</th>
+                                                <th>Mata Kuliah</th>
+                                                <th>SKS</th>
+                                                <th>Kelas Paralel (Jenis)</th>
+                                                <th>Jumlah Pertemuan</th>
+                                                <th>Institusi</th>
+                                                <th>Program Studi</th>
+                                                <th>Dokumen</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <script>
+                                                for(let i=1; i<=5; i++){ 
+                                                    document.write(`
+                                                        <tr>
+                                                            <td>${i}</td>
+                                                            <td>2018/2019 Ganjil</td>
+                                                            <td>Biometrika Hutan</td>
+                                                            <td>3 (3-0)</td>
+                                                            <td>1 (K)</td>
+                                                            <td>K,S, P,O, R,O</td>
+                                                            <td>IPB University</td>
+                                                            <td>Manajemen Hutan</td>
+                                                            <td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
+                                                            <td>
+                                                                <div class="d-flex gap-2 justify-content-center">
+                                                                    <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="fas fa-eye"></i></button>
+                                                                    <button class="btn btn-sm text-white btn-aksi btn-delete-row" title="Hapus"><i class="fas fa-trash"></i></button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    `);
+                                                }
+                                            </script>
+                                        </tbody>
+                                    </table>
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <span class="text-muted small">Menampilkan 1 sampai 5 dari 13 data</span>
+                                        <nav>
+                                            <ul class="pagination pagination-sm mb-0">
+                                                <li class="page-item"><a class="page-link" href="#">Sebelumnya</a></li>
+                                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                                <li class="page-item"><a class="page-link" href="#">Berikutnya</a></li>
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                </div>
+                                
+                                <!-- Pengajaran Luar IPB (updated with new columns) -->
+                                <div class="sub-tab-content" id="pengajaran-luar" style="display: none;">
+                                    <table class="table table-bordered table-hover table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Tahun Semester</th>
+                                                <th>Mata Kuliah</th>
+                                                <th>SKS</th>
+                                                <th>Kelas Paralel (Jenis)</th>
+                                                <th>Jumlah Pertemuan</th>
+                                                <th>Institusi</th>
+                                                <th>Program Studi</th>
+                                                <th>Dokumen</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <script>
+                                                for(let i=1; i<=5; i++){ 
+                                                    document.write(`
+                                                        <tr>
+                                                            <td>${i}</td>
+                                                            <td>2018/2019 Ganjil</td>
+                                                            <td>Biometrika Hutan</td>
+                                                            <td>3 (3-0)</td>
+                                                            <td>1 (K)</td>
+                                                            <td>K,S, P,O, R,O</td>
+                                                            <td>Universitas Indonesia</td>
+                                                            <td>Kehutanan</td>
+                                                            <td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
+                                                            <td>
+                                                                <div class="d-flex gap-2 justify-content-center">
+                                                                    <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="fas fa-eye"></i></button>
+                                                                    <button class="btn btn-sm text-white btn-aksi btn-delete-row" title="Hapus"><i class="fas fa-trash"></i></button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    `);
+                                                }
+                                            </script>
+                                        </tbody>
+                                    </table>
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <span class="text-muted small">Menampilkan 1 sampai 5 dari 13 data</span>
+                                        <nav>
+                                            <ul class="pagination pagination-sm mb-0">
+                                                <li class="page-item"><a class="page-link" href="#">Sebelumnya</a></li>
+                                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                                <li class="page-item"><a class="page-link" href="#">Berikutnya</a></li>
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                </div>
+
                                 <div class="sub-tab-content" id="pengujian-lama" style="display: none;"><table class="table table-bordered table-hover table-sm"><thead><tr><th>No</th><th>Tahun Semester</th><th>NIM</th><th>Nama Mahasiswa</th><th>Strata</th><th>Departemen</th><th>Status</th><th>Dokumen</th><th>Aksi</th></tr></thead><tbody><tr><td>1</td><td>2018/2019 Ganjil</td><td>E14070026</td><td>Alex Ferguso</td><td>S1</td><td>Manajemen Hutan</td><td>Anggota Penguji</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="fas fa-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-delete-row" title="Hapus"><i class="fas fa-trash"></i></button></div></td></tr></tbody></table></div>
                                 <div class="sub-tab-content" id="pembimbing-lama" style="display: none;"><table class="table table-bordered table-hover table-sm"><thead><tr><th>No</th><th>Tahun Semester</th><th>Kegiatan</th><th>NIM</th><th>Nama Mahasiswa</th><th>Strata</th><th>Departemen</th><th>Status</th><th>Dokumen</th><th>Aksi</th></tr></thead><tbody><tr><td>1</td><td>2018/2019 Ganjil</td><td>Membimbing dan ikut membimbing</td><td>E2039383</td><td>Alex Ferguso</td><td>S1</td><td>Manajemen Hutan</td><td>Pembimbing Pendamping</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="fas fa-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-delete-row" title="Hapus"><i class="fas fa-trash"></i></button></div></td></tr></tbody></table></div>
                                 <div class="sub-tab-content" id="penguji-luar" style="display: none;"><table class="table table-bordered table-hover table-sm"><thead><tr><th>No</th><th>Tahun Semester</th><th>NIM</th><th>Nama Mahasiswa</th><th>Strata</th><th>Universitas</th><th>Status</th><th>Dokumen</th><th>Aksi</th></tr></thead><tbody><tr><td>1</td><td>2018/2019 Ganjil</td><td>160648032</td><td>HAQQI ANNAZILLI</td><td>S2</td><td>Universitas Indonesia</td><td>Anggota Penguji</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="fas fa-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-delete-row" title="Hapus"><i class="fas fa-trash"></i></button></div></td></tr></tbody></table></div>
@@ -479,81 +741,107 @@
             </div>
         </div>
         
-        <div class="footer">
-            © 2025 Forest Management - All Rights Reserved
-        </div>
+        <!-- Footer -->
+        <footer class="footer-custom">
+            <span>© 2025 Forest Management — All Rights Reserved</span>
+        </footer>
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    // Update date and time
-    function updateClock() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    const toggleSidebarBtn = document.getElementById('toggleSidebar');
+
+    toggleSidebarBtn.addEventListener('click', function () {
+        const isMobile = window.innerWidth <= 991;
+        if (isMobile) {
+            sidebar.classList.toggle('show');
+            overlay.classList.toggle('show', sidebar.classList.contains('show'));
+        } else {
+            sidebar.classList.toggle('hidden');
+        }
+    });
+
+    overlay.addEventListener('click', function () {
+        sidebar.classList.remove('show');
+        overlay.classList.remove('show');
+    });
+
+    function updateDateTime() {
         const now = new Date();
-        const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        document.getElementById('current-date').textContent = now.toLocaleDateString('id-ID', dateOptions);
-        document.getElementById('current-time').textContent = now.toLocaleTimeString('id-ID', { hour12: false });
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('current-date').textContent = now.toLocaleDateString('id-ID', options);
+        document.getElementById('current-time').textContent = now.toLocaleTimeString('id-ID', { 
+            hour: '2-digit', 
+            minute: '2-digit', 
+            second: '2-digit'
+        });
     }
-    setInterval(updateClock, 1000);
-    updateClock();
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
 
-    // Generic tab functionality for buttons
-    const setupTabs = (containerId, buttonSelector, contentClass) => {
-        const container = document.getElementById(containerId);
-        if (!container) return;
-
-        const parentContentArea = container.closest('.main-tab-content') || document;
-
-        container.addEventListener('click', function (e) {
-            const button = e.target.closest(buttonSelector);
-            if (!button || button.classList.contains('active')) return;
-
-            container.querySelectorAll(buttonSelector).forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-
-            const contentElements = parentContentArea.querySelectorAll(contentClass);
-            contentElements.forEach(content => {
-                content.style.display = 'none';
-            });
+    // Tab functionality
+    document.getElementById('main-tab-nav').addEventListener('click', function(e) {
+        if (e.target && e.target.matches('button.nav-link')) {
+            // Deactivate all tabs
+            document.querySelectorAll('.main-tab-nav .nav-link').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.main-tab-content').forEach(content => content.style.display = 'none');
             
-            const tabId = button.dataset.mainTab || button.dataset.tab;
-            let contentEl;
-            if (contentClass === '.main-tab-content') {
-                 contentEl = document.getElementById(`${tabId}-content`);
-            } else {
-                 contentEl = parentContentArea.querySelector(`#${tabId}`);
-            }
-            
-            if (contentEl) {
+            // Activate clicked tab
+            e.target.classList.add('active');
+            const tabId = e.target.dataset.mainTab;
+            const contentEl = document.getElementById(`${tabId}-content`);
+            if(contentEl) {
                 contentEl.style.display = 'block';
             }
-        });
-    };
+        }
+    });
 
-    // Initialize all button-based tab systems
-    setupTabs('main-tab-nav', '.nav-link', '.main-tab-content');
-    setupTabs('pendidikan-sub-tabs', 'button', '.sub-tab-content');
-    setupTabs('biodata-sub-tabs', 'button', '.sub-tab-content');
-    
-    // Specific handler for Penunjang dropdown filter
+    // Sub-tab functionality
+    document.querySelectorAll('#pendidikan-sub-tabs, #biodata-sub-tabs').forEach(tabContainer => {
+        tabContainer.addEventListener('click', function(e) {
+            if (e.target && e.target.matches('button')) {
+                const parentContent = this.closest('.main-tab-content');
+                const tabId = e.target.dataset.tab;
+                
+                // Deactivate all buttons in this tab group
+                this.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+                // Activate clicked button
+                e.target.classList.add('active');
+                
+                // Hide all sub-tab contents in this main tab
+                parentContent.querySelectorAll('.sub-tab-content').forEach(content => {
+                    content.style.display = 'none';
+                });
+                
+                // Show selected sub-tab content
+                const contentEl = document.getElementById(tabId);
+                if(contentEl) {
+                    contentEl.style.display = 'block';
+                }
+            }
+        });
+    });
+
+    // Penunjang filter functionality
     const penunjangFilter = document.getElementById('penunjang-filter');
     if (penunjangFilter) {
         penunjangFilter.addEventListener('change', function() {
             const selectedValue = this.value;
-            const parentContentArea = this.closest('.main-tab-content');
+            const parentContent = this.closest('.main-tab-content');
             
-            parentContentArea.querySelectorAll('.sub-tab-content').forEach(tab => {
+            parentContent.querySelectorAll('.sub-tab-content').forEach(tab => {
                 tab.style.display = 'none';
             });
 
-            const activeTab = parentContentArea.querySelector(`#${selectedValue}`);
+            const activeTab = document.getElementById(selectedValue);
             if (activeTab) {
                 activeTab.style.display = 'block';
             }
         });
     }
-});
 </script>
-
 </body>
 </html>

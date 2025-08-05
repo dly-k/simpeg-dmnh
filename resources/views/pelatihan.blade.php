@@ -6,113 +6,222 @@
   <title>SIKEMAH - Editor Kegiatan Pelatihan</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
     }
 
+    :root {
+      --primary: #049466;
+      --primary-light: #e3f7ec;
+      --border-color: #e2e8f0;
+    }
+
     body {
       font-family: 'Poppins', sans-serif;
       margin: 0;
-      background-color: #f7fafc;
+      background-color: #f5f6fa;
     }
 
     .layout {
       display: flex;
       height: 100vh;
-      overflow: hidden;
     }
 
+    /* Sidebar */
     .sidebar {
       width: 250px;
-      background: white;
-      padding: 20px;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-      overflow-y: auto;
-      flex-shrink: 0;
-    }
-
-    .sidebar ul {
-      list-style: none;
-      padding-left: 0;
-    }
-
-    .sidebar li {
-      margin-bottom: 10px;
-    }
-
-    .menu-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px;
-      border-radius: 8px;
-      color: #2d3748;
-      text-decoration: none;
-      cursor: pointer;
-      transition: background-color 0.2s ease;
-    }
-
-    .menu-item:hover {
-      background-color: #f0fdf4;
-      color: #059669;
-    }
-
-    .menu-item.active, .sidebar ul ul .menu-item.active-sub {
-      background-color: #d1fae5;
-      color: #059669;
-      font-weight: 600;
-    }
-    
-    .menu-item.active-main {
-        background-color: #059669;
-        color: white;
-        font-weight: 600;
-    }
-     .menu-item.active-main i {
-        color: white;
-    }
-
-
-    .main {
-      flex: 1;
+      height: 100vh;
+      background-color: #fff;
+      border-right: 1px solid var(--border-color);
+      position: fixed;
+      top: 0;
+      left: 0;
       display: flex;
       flex-direction: column;
-      overflow-y: hidden;
+      transition: transform 0.3s ease-in-out;
+      z-index: 1001;
+      transform: translateX(0);
+    }
+    .sidebar.hidden { transform: translateX(-100%); }
+
+    .sidebar .brand {
+      font-size: 24px;
+      font-weight: 700;
+      color: #222;
+      text-align: center;
+      padding: 14.5px 0;
+      border-bottom: 1px solid #ccc;
+      letter-spacing: 1px;
+    }
+    .sidebar .brand span { color: var(--primary); }
+
+    .sidebar .menu-wrapper {
+      overflow-y: auto;
+      flex-grow: 1;
     }
 
-    .header {
-      background: white;
+    .menu p {
+      font-size: 13px;
+      font-weight: 500;
+      padding: 0 20px;
+      margin: 12px 0 8px;
+      color: #888;
+    }
+
+    .sidebar .menu a,
+    .sidebar .menu button {
       display: flex;
-      justify-content: space-between;
-      padding: 15px 30px;
-      border-bottom: 1px solid #e2e8f0;
       align-items: center;
+      padding: 12px 20px;
+      text-decoration: none;
+      color: #333;
+      font-size: 13px;
+      transition: all 0.2s ease-in-out;
+      width: 100%;
+      background: none;
+      border: none;
+      text-align: left;
+    }
+    .sidebar .menu a:hover,
+    .sidebar .menu button:hover {
+      background-color: var(--primary-light);
+      color: var(--primary);
+    }
+    .sidebar .menu a.active,
+    .sidebar .menu button.active {
+      background-color: var(--primary);
+      color: #fff;
+      font-weight: 600;
+    }
+    .sidebar .menu a i,
+    .sidebar .menu button i {
+      margin-right: 12px;
+      font-size: 16px;
+      min-width: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sidebar .submenu a {
+      padding: 9px 20px 9px 45px;
+      font-size: 12.5px;
+    }
+     .sidebar .submenu a.active {
+        color: var(--primary);
+        font-weight: 600;
+        background-color: var(--primary-light);
+    }
+    
+    .toggle-icon {
+      margin-left: auto;
+      transition: transform 0.3s;
+    }
+    .collapsed .toggle-icon { transform: rotate(-90deg); }
+
+    /* Overlay for mobile sidebar */
+    .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.4);
+      z-index: 1000;
+      display: none;
+    }
+    .overlay.show { display: block; }
+    
+    /* Main Area */
+    .main-wrapper {
+        flex-grow: 1;
+        margin-left: 250px;
+        transition: margin-left 0.3s ease-in-out;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+    }
+    .sidebar.hidden ~ .main-wrapper {
+        margin-left: 0;
+    }
+
+    /* Navbar */
+    .navbar-custom {
+      height: 66px;
+      background: #fff;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
       flex-shrink: 0;
     }
+    
+    .time-date {
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-weight: 400;
+    }
+    .time-date div {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .time-date i { color: #4b5563; font-size: 13px; }
 
+    .account {
+      display: flex;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 400;
+      cursor: pointer;
+      margin-left: 10px;
+      gap: 6px;
+    }
+    .account-circle {
+      background: orange;
+      color: #fff;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    /* Title Bar */
     .title-bar {
       background: linear-gradient(to right, #059669, #047857);
       color: white;
-      padding: 20px 30px;
+      padding: 20px 25px;
+      display: flex;
+      align-items: center;
       flex-shrink: 0;
     }
 
     .title-bar h1 {
-      font-size: 24px;
+      font-size: 20px;
       margin: 0;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+      font-weight: 600;
     }
+    .title-bar h1 i { font-size: 22px; }
 
-    .content-area {
-      padding: 30px;
+    /* Main Content */
+    .main-content {
+      padding: 25px;
+      background-color: #f5f6fa;
       flex-grow: 1;
       overflow-y: auto;
     }
-
+    
     .card {
       background: white;
       padding: 2rem;
@@ -144,17 +253,27 @@
     .btn-hapus { background-color: #dc3545; border-color: #dc3545; }
     .btn-verifikasi { background-color: #10b981; border-color: #10b981; }
 
-
-    .footer {
-      text-align: right;
-      font-size: 12px;
-      color: #a0aec0;
-      padding: 10px 30px;
-      flex-shrink: 0;
-    }
     .btn-tambah {
         background-color: #2d3748;
         color: white;
+    }
+    .btn-tambah:hover {
+        background-color: #1a202c;
+        color: white;
+    }
+
+    /* Footer */
+    .footer-custom {
+      background: #fff;
+      border-top: 1px solid var(--border-color);
+      height: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0 20px;
+      font-size: 12px;
+      color: #555;
+      flex-shrink: 0;
     }
     
     /* Modal Styles */
@@ -237,59 +356,80 @@
         top: .5rem;
         right: .5rem;
     }
+
+    /* Responsive */
+    @media (max-width: 991px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.show { transform: translateX(0); }
+      .main-wrapper { margin-left: 0; }
+      .time-date { flex-direction: column; gap: 6px; align-items: flex-start; }
+      .account span { font-size: 12px; }
+      .sidebar .menu a, .sidebar .menu button { font-size: 12.5px; }
+    }
   </style>
 </head>
 <body>
-  <div class="layout">
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <h1 style="font-weight: 700;">
-        <span style="color: #000;">SI</span><span style="color: #059669;">KEMAH</span>
-      </h1>
-      <hr/>
-      <p style="font-weight: 600; margin-top: 30px;">Menu Utama</p>
-      <ul>
-          <li><a href="/dashboard" class="menu-item"><i class="fa fa-chart-bar"></i> Dashboard</a></li>
-          <li><a href="/daftar-pegawai" class="menu-item"><i class="fa fa-users"></i> Daftar Pegawai</a></li>
-          <li><a href="/surat-tugas" class="menu-item"><i class="fa fa-envelope"></i> Manajemen Surat Tugas</a></li>
-          <li><a href="/editor" class="menu-item active-main"><i class="fa fa-edit"></i> Editor Kegiatan</a></li>
-          <ul style="margin-left: 20px;">
-              <li><a href="/pendidikan" class="menu-item">🎓 Pendidikan</a></li>
-              <li><a href="/penelitian" class="menu-item">🔬 Penelitian</a></li>
-              <li><a href="/pengabdian" class="menu-item">🤝 Pengabdian</a></li>
-              <li><a href="/penunjang" class="menu-item">📎 Penunjang</a></li>
-              <li><a href="/pelatihan" class="menu-item active-sub">📚 Pelatihan</a></li>
-              <li><a href="/penghargaan" class="menu-item">🏅 Penghargaan</a></li>
-              <li><a href="/sk-non-pns" class="menu-item">📄 SK Non PNS</a></li>
-          </ul>
-          <li><a href="/kerjasama" class="menu-item"><i class="fa fa-handshake"></i> Kerjasama</a></li>
-          <li><a href="/master-data" class="menu-item"><i class="fa fa-database"></i> Master Data</a></li>
-      </ul>
+
+<div class="layout">
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <div class="brand">SI<span>KEMAH</span></div>
+    <div class="menu-wrapper">
+      <div class="menu">
+        <a href="/dashboard" aria-label="Dashboard"><i class="lni lni-grid-alt"></i> Dashboard</a>
+        <p>Menu Utama</p>
+        <a href="/daftar-pegawai" aria-label="Daftar Pegawai"><i class="lni lni-users"></i> Daftar Pegawai</a>
+        <a href="/surat-tugas" aria-label="Manajemen Surat Tugas"><i class="lni lni-folder"></i> Manajemen Surat Tugas</a>
+        <button class="active" data-bs-toggle="collapse" data-bs-target="#editorKegiatan" aria-expanded="true" aria-controls="editorKegiatan">
+          <i class="lni lni-pencil-alt"></i> Editor Kegiatan
+          <i class="lni lni-chevron-down toggle-icon"></i>
+        </button>
+        <div class="collapse show submenu" id="editorKegiatan">
+          <a href="/pendidikan" aria-label="Pendidikan">Pendidikan</a>
+          <a href="/penelitian" aria-label="Penelitian">Penelitian</a>
+          <a href="/pengabdian" aria-label="Pengabdian">Pengabdian</a>
+          <a href="/penunjang" aria-label="Penunjang">Penunjang</a>
+          <a href="/pelatihan" aria-label="Pelatihan" class="active">Pelatihan</a>
+          <a href="/penghargaan" aria-label="Penghargaan">Penghargaan</a>
+          <a href="/sk-non-pns" aria-label="SK Non PNS">SK Non PNS</a>
+        </div>
+        <a href="/kerjasama" aria-label="Kerjasama"><i class="lni lni-handshake"></i> Kerjasama</a>
+        <a href="/master-data" aria-label="Master Data"><i class="lni lni-database"></i> Master Data</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Overlay -->
+  <div class="overlay" id="overlay"></div>
+
+  <div class="main-wrapper">
+    <!-- Navbar -->
+    <div class="navbar-custom">
+      <div class="d-flex align-items: center">
+        <button class="btn btn-link text-dark me-3" id="toggleSidebar" aria-label="Toggle Sidebar">
+          <i class="lni lni-menu"></i>
+        </button>
+      </div>
+      <div class="d-flex align-items: center">
+        <div class="time-date me-2">
+          <div><i class="lni lni-calendar"></i> <span id="current-date"></span></div>
+          <div><i class="lni lni-timer"></i> <span id="current-time"></span></div>
+        </div>
+        <div class="account">
+          <div class="account-circle">KTU</div>
+          <span>Halo, Ketua TU</span>
+          <i class="lni lni-chevron-down"></i>
+        </div>
+      </div>
     </div>
 
-    <div class="main">
-      <div class="header">
-        <div style="display: flex; align-items: center; gap: 20px;">
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <i class="fa-solid fa-calendar-days" style="color: #4b5563;"></i>
-            <span id="current-date"></span>
-          </div>
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <i class="fa-solid fa-clock" style="color: #4b5563;"></i>
-            <strong id="current-time"></strong>
-          </div>
-        </div>
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <div style="background-color: orange; width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-weight: bold;">KTU</div>
-          <div>Halo, Ketua TU</div>
-        </div>
-      </div>
+    <!-- Title Bar -->
+    <div class="title-bar">
+      <h1><i class="lni lni-pencil-alt"></i> <span id="page-title">Editor Kegiatan - Pelatihan</span></h1>
+    </div>
 
-      <div class="title-bar">
-        <h1><i class="fa fa-edit"></i> Editor Kegiatan - Pelatihan</h1>
-      </div>
-
-      <div class="content-area">
+    <!-- Main Content -->
+    <div class="main-content">
         <div class="card">
             <!-- Filters and Actions -->
             <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
@@ -360,12 +500,12 @@
                 </nav>
             </div>
         </div>
-      </div>
-
-      <div class="footer">
-        © 2025 Forest Management — All Rights Reserved
-      </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="footer-custom">
+      <span>© 2025 Forest Management — All Rights Reserved</span>
+    </footer>
   </div>
   
   <!-- Modal Tambah/Edit Pelatihan -->
@@ -429,16 +569,40 @@
         </div>
     </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    function updateClock() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    const toggleSidebarBtn = document.getElementById('toggleSidebar');
+
+    toggleSidebarBtn.addEventListener('click', function () {
+      const isMobile = window.innerWidth <= 991;
+      if (isMobile) {
+        sidebar.classList.toggle('show');
+        overlay.classList.toggle('show', sidebar.classList.contains('show'));
+      } else {
+        sidebar.classList.toggle('hidden');
+      }
+    });
+
+    overlay.addEventListener('click', function () {
+      sidebar.classList.remove('show');
+      overlay.classList.remove('show');
+    });
+
+    function updateDateTime() {
       const now = new Date();
-      const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-      document.getElementById('current-date').textContent = now.toLocaleDateString('id-ID', dateOptions);
-      document.getElementById('current-time').textContent = now.toLocaleTimeString('id-ID', { hour12: false });
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      document.getElementById('current-date').textContent = now.toLocaleDateString('id-ID', options);
+      document.getElementById('current-time').textContent = now.toLocaleTimeString('id-ID', { 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        second: '2-digit'
+      });
     }
-    setInterval(updateClock, 1000);
-    updateClock();
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
     
     // Modal Functions
     function openModal(modalId) {

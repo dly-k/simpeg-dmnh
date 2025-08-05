@@ -61,3 +61,7 @@ Route::get('/penghargaan', function () {
 Route::get('/master-data', function () {
     return view('master-data');
 });
+
+Route::get('/sidebar', function () {
+    return view('sidebar');
+});
