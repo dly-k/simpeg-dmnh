@@ -1,529 +1,766 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kerjasama - SIKEMAH</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SIKEMAH - Kerjasama</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+  <style>
+    :root {
+      --primary: #049466;
+      --primary-light: #e3f7ec;
+      --border-color: #bbb;
+    }
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f7fafc;
-            margin: 0;
-        }
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background-color: #f5f6fa;
+    }
 
-        .layout {
-          display: flex;
-          height: 100vh;
-        }
+    /* Sidebar */
+    .sidebar {
+      width: 250px;
+      height: 100vh;
+      background-color: #fff;
+      border-right: 1px solid var(--border-color);
+      position: fixed;
+      top: 0;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease-in-out;
+      z-index: 1001;
+      transform: translateX(0);
+    }
+    .sidebar.hidden { transform: translateX(-100%); }
 
-        .sidebar {
-          width: 250px;
-          background: white;
-          padding: 20px;
-          box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-          overflow-y: auto;
-        }
-        .sidebar ul { list-style: none; padding-left: 0; }
-        .sidebar li { margin-bottom: 10px; }
-        .menu-item {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          padding: 10px;
-          border-radius: 8px;
-          color: #2d3748;
-          text-decoration: none;
-          cursor: pointer;
-          transition: background-color 0.2s ease, color 0.2s ease;
-        }
-        .menu-item:hover { background-color: #f0fdf4; color: #059669; }
-        .menu-item.active {
-          background-color: #059669;
-          color: white;
-          font-weight: 600;
-        }
-        .menu-item.active i {
-            color: white;
-        }
+    .sidebar .brand {
+      font-size: 24px;
+      font-weight: 700;
+      color: #222;
+      text-align: center;
+      padding: 14.5px 0;
+      border-bottom: 1px solid #ccc;
+      letter-spacing: 1px;
+    }
+    .sidebar .brand span { color: var(--primary); }
 
-        .main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
-        }
+    .sidebar .menu-wrapper {
+      overflow-y: auto;
+      flex-grow: 1;
+      padding-bottom: 80px;
+      max-height: calc(100vh - 66px);
+    }
 
-        .header {
-            background: white;
-            display: flex;
-            justify-content: space-between;
-            padding: 15px 30px;
-            border-bottom: 1px solid #e2e8f0;
-            align-items: center;
-        }
+    .menu p {
+      font-size: 13px;
+      font-weight: 500;
+      padding: 0 20px;
+      margin: 12px 0 8px;
+      color: #888;
+    }
 
-        .title-bar {
-            background: linear-gradient(to right, #059669, #047857);
-            color: white;
-            padding: 20px 30px;
-        }
+    .sidebar .menu a,
+    .sidebar .menu button {
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
+      text-decoration: none;
+      color: #333;
+      font-size: 13px;
+      transition: all 0.2s ease-in-out;
+      width: 100%;
+      background: none;
+      border: none;
+      text-align: left;
+    }
+    .sidebar .menu a:hover,
+    .sidebar .menu button:hover {
+      background-color: var(--primary-light);
+      color: var(--primary);
+      box-shadow: inset 3px 0 0 var(--primary);
+    }
+    .sidebar .menu a.active {
+      background-color: var(--primary);
+      color: #fff;
+      font-weight: 600;
+      box-shadow: inset 4px 0 0 #034d26;
+    }
+    .sidebar .menu a i,
+    .sidebar .menu button i {
+      margin-right: 12px;
+      font-size: 16px;
+      min-width: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-        .title-bar h1 {
-            font-size: 24px;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .content-area {
-            padding: 20px 30px;
-            flex: 1;
-            overflow-y: auto;
-        }
-        
-        .footer {
-            text-align: right;
-            font-size: 12px;
-            color: #a0aec0;
-            padding: 10px 30px;
-        }
+    .sidebar .submenu a {
+      padding: 9px 35px;
+      font-size: 12.5px;
+    }
+    .sidebar .menu a:first-of-type {
+      margin-top: 10px;
+    }
 
-        .card { 
-            border: none; 
-            box-shadow: 0 0.1rem 0.5rem rgba(0,0,0,.075); 
-            border-radius: .5rem;
-        }
-        
-        .table {
-            text-align: center;
-            vertical-align: middle;
-        }
-        .table th { 
-            font-weight: 600; 
-            background-color: #f8f9fa; 
-        }
-        .table td, .table th { 
-            padding: 1rem; 
-        }
-        .table-hover > tbody > tr:hover {
-            background-color: #f8f9fa;
-        }
+    .toggle-icon {
+      margin-left: auto;
+      transition: transform 0.3s;
+    }
+    .collapsed .toggle-icon { transform: rotate(-90deg); }
 
-        .btn-aksi {
-            width: 32px; height: 32px; border-radius: 6px !important;
-            display: inline-flex;
-            align-items: center; justify-content: center; padding: 0;
-            color: white;
-        }
-        .btn-lihat { background-color: #17a2b8; border-color: #17a2b8; }
-        .btn-lihat-detail { background-color: #0dcaf0; border-color: #0dcaf0; }
-        .btn-edit-row { background-color: #ffc107; border-color: #ffc107; }
-        .btn-delete-row { background-color: #dc3545; border-color: #dc3545; }
-        
-        .btn-tambah {
-            background-color: #2d3748;
-            color: white;
-            border: none;
-        }
-        .btn-tambah:hover {
-            background-color: #4a5568;
-            color: white;
-        }
-        .btn-export {
-            background-color: #059669;
-            color: white;
-            border: none;
-        }
-        .btn-export:hover {
-            background-color: #047857;
-            color: white;
-        }
+    /* Overlay for mobile sidebar */
+    .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.4);
+      z-index: 1000;
+      display: none;
+    }
+    .overlay.show { display: block; }
 
-        .pagination .page-item.active .page-link { 
-            background-color: #059669; 
-            border-color: #059669; 
-        }
-        .filter-bar {
-            background-color: white;
-            padding: 1rem;
-            border-radius: .5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 0.1rem 0.5rem rgba(0,0,0,.075);
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-        
-        /* Modal Styles */
-        .modal-backdrop {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: rgba(0,0,0,0.5);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1050;
-            padding: 1rem;
-        }
-        .modal-content-wrapper {
-            background-color: #fff;
-            border-radius: .5rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,.5);
-            width: 100%;
-            max-width: 800px;
-            max-height: 90vh;
-            display: flex;
-            flex-direction: column;
-        }
-        .modal-header-custom {
-            background: linear-gradient(to right, #059669, #047857);
-            color: white;
-            padding: 1.25rem;
-            border-top-left-radius: .5rem;
-            border-top-right-radius: .5rem;
-        }
-        .modal-header-custom h5 {
-            margin: 0;
-            font-size: 1.25rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .modal-body-custom {
-            padding: 1.5rem;
-            overflow-y: auto;
-        }
-        .modal-footer-custom {
-            padding: 1rem;
-            display: flex;
-            justify-content: flex-end;
-            gap: .5rem;
-            border-top: 1px solid #e2e8f0;
-        }
-        .upload-area {
-            border: 2px dashed #dee2e6;
-            border-radius: .5rem;
-            padding: 2rem;
-            text-align: center;
-            cursor: pointer;
-            transition: background-color .2s;
-        }
-        .upload-area:hover {
-            background-color: #f8f9fa;
-        }
-        .upload-area i {
-            font-size: 2rem;
-            color: #6c757d;
-        }
-        .upload-area p {
-            margin-top: 1rem;
-            color: #6c757d;
-        }
-    </style>
+    /* Navbar */
+    .navbar-custom {
+      height: 66px;
+      background: #fff;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      margin-left: 250px;
+      transition: margin-left 0.3s ease-in-out;
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      z-index: 999;
+    }
+    .sidebar.hidden ~ .navbar-custom { margin-left: 0; }
+
+    .time-date {
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-weight: 400;
+    }
+    .time-date div {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .time-date i { color: #4b5563; font-size: 13px; }
+
+    .account {
+      display: flex;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 400;
+      cursor: pointer;
+      margin-left: 10px;
+      gap: 6px;
+    }
+    .account-circle {
+      background: orange;
+      color: #fff;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    /* Title Bar */
+    .title-bar {
+      background: linear-gradient(to right, #059669, #047857);
+      color: white;
+      padding: 20px 25px;
+      margin-left: 250px;
+      transition: margin-left 0.3s ease-in-out;
+      position: fixed;
+      top: 66px;
+      left: 0;
+      right: 0;
+      z-index: 998;
+      display: flex;
+      align-items: center;
+    }
+    .sidebar.hidden ~ .navbar-custom ~ .title-bar { margin-left: 0; }
+
+    .title-bar h1 {
+      font-size: 20px;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 600;
+    }
+    .title-bar h1 i { font-size: 22px; }
+
+    /* Main Content */
+    .main-content {
+      margin-left: 250px;
+      padding: 25px;
+      transition: margin-left 0.3s ease-in-out;
+      background-color: #f5f6fa;
+      margin-top: 130px;
+      font-size: 14px;
+      padding-bottom: 70px; /* Jarak untuk footer */
+    }
+    .sidebar.hidden ~ .navbar-custom ~ .title-bar ~ .main-content { margin-left: 0; }
+
+    .card { 
+      border: none; 
+      box-shadow: 0 0.1rem 0.5rem rgba(0,0,0,.075); 
+      border-radius: .5rem;
+    }
+    
+    .table {
+      text-align: center;
+      vertical-align: middle;
+      font-size: 13.5px;
+    }
+    .table th { 
+      font-weight: 600; 
+      background-color: #f8f9fa; 
+    }
+    .table td, .table th { 
+      padding: 1rem; 
+    }
+    .table-hover > tbody > tr:hover {
+      background-color: #f8f9fa;
+    }
+
+    .btn-aksi {
+      width: 32px; height: 32px; border-radius: 6px !important;
+      display: inline-flex;
+      align-items: center; justify-content: center; padding: 0;
+      color: white;
+    }
+    .btn-lihat { background-color: #17a2b8; border-color: #17a2b8; }
+    .btn-lihat-detail { background-color: #0dcaf0; border-color: #0dcaf0; }
+    .btn-edit-row { background-color: #ffc107; border-color: #ffc107; }
+    .btn-delete-row { background-color: #dc3545; border-color: #dc3545; }
+    
+    .btn-lihat:hover {
+        background-color: #0c7e8f;
+        color: white;
+        transform: scale(1.15); /* Sedikit membesar */
+        filter: brightness(1.2); /* Mencerahkan warna tombol */
+        box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+
+    .btn-lihat-detail:hover {
+        background-color: #0c7e8f;
+        color: white;
+        transform: scale(1.15); /* Sedikit membesar */
+        filter: brightness(1.2); /* Mencerahkan warna tombol */
+        box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+
+    .btn-edit-row:hover {
+        background-color: #b58802;
+        color: white;
+        transform: scale(1.15); /* Sedikit membesar */
+        filter: brightness(1.2); /* Mencerahkan warna tombol */
+        box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+
+    .btn-delete-row:hover {
+        background-color: #a21927;
+        color: white;
+        transform: scale(1.15); /* Sedikit membesar */
+        filter: brightness(1.2); /* Mencerahkan warna tombol */
+        box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+
+    .btn-tambah {
+        background-color: #2d3748;
+        color: white;
+        border: none;
+    }
+
+    .btn-tambah:hover{
+        background-color: #1a202c;
+        color: white;
+    }
+    
+    .btn-export:hover{
+        background-color: #1a202c;
+        color: white;
+    }
+
+    .btn-export {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+    }
+
+    .pagination .page-item.active .page-link { 
+      background-color: var(--primary); 
+      border-color: var(--primary); 
+    }
+    
+    /* Modal Styles */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0,0,0,0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1050;
+      padding: 1rem;
+    }
+    .modal-content-wrapper {
+      background-color: #fff;
+      border-radius: .5rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,.5);
+      width: 100%;
+      max-width: 800px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .modal-header-custom {
+      background: linear-gradient(to right, #059669, #047857);
+      color: white;
+      padding: 1.25rem;
+      border-top-left-radius: .5rem;
+      border-top-right-radius: .5rem;
+    }
+    .modal-header-custom h5 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .modal-body-custom {
+      padding: 1.5rem;
+      overflow-y: auto;
+    }
+    .modal-footer-custom {
+      padding: 1rem;
+      display: flex;
+      justify-content: flex-end;
+      gap: .5rem;
+      border-top: 1px solid #e2e8f0;
+    }
+    .upload-area {
+      border: 2px dashed #dee2e6;
+      border-radius: .5rem;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: background-color .2s;
+    }
+    .upload-area:hover {
+      background-color: #f8f9fa;
+    }
+    .upload-area i {
+      font-size: 2rem;
+      color: #6c757d;
+    }
+    .upload-area p {
+      margin-top: 1rem;
+      color: #6c757d;
+    }
+
+    /* Footer */
+    .footer-custom {
+      background: #fff;
+      border-top: 1px solid var(--border-color);
+      height: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0 20px;
+      font-size: 12px;
+      color: #555;
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      margin-left: 250px;
+      transition: margin-left 0.3s ease-in-out;
+      z-index: 997;
+    }
+    .sidebar.hidden ~ .navbar-custom ~ .title-bar ~ .main-content ~ .footer-custom {
+      margin-left: 0;
+    }
+
+    /* Efek Hover untuk Tombol */
+    .btn-tambah, .btn-export, .btn-aksi, .modal-footer-custom .btn, #toggleSidebar, .btn-lihat {
+      transition: all 0.2s ease-in-out;
+    }
+    .btn-tambah:hover, .btn-export:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    .btn-export:hover { background-color: #047857; }
+    .btn-tambah:hover { background-color: #4a5568; }
+    .btn-aksi:hover {
+      transform: scale(1.15);
+      filter: brightness(1.2);
+    }
+    .btn-lihat:hover { filter: brightness(1.1); }
+    .modal-footer-custom .btn:hover { filter: brightness(1.1); }
+    #toggleSidebar:hover {
+      background-color: #e9ecef;
+      border-radius: 6px;
+    }
+
+    /* Responsive */
+    @media (max-width: 1200px) {
+      .top-action-bar {
+        flex-direction: column;
+        align-items: stretch !important;
+      }
+    }
+    @media (max-width: 991px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.show { transform: translateX(0); }
+      .navbar-custom, .title-bar, .main-content, .footer-custom { margin-left: 0; }
+      .main-content { margin-top: 130px; font-size: 13px; }
+      .account span { font-size: 12px; }
+      .sidebar .menu a, .sidebar .menu button { font-size: 12.5px; }
+    }
+  </style>
 </head>
 <body>
 
-<div class="layout">
-    <div class="sidebar">
-        <h1 style="font-weight: 700;">
-            <span style="color: #000;">SI</span><span style="color: #059669;">KEMAH</span>
-        </h1>
-        <hr/>
-        <p style="font-weight: 600; margin-top: 30px;">Menu Utama</p>
-        <ul>
-            <li><a href="/dashboard" class="menu-item"><i class="fa fa-chart-bar"></i> Dashboard</a></li>
-            <li><a href="/daftar-pegawai" class="menu-item"><i class="fa fa-users"></i> Daftar Pegawai</a></li>
-            <li><a href="/surat-tugas" class="menu-item"><i class="fa fa-envelope"></i> Manajemen Surat Tugas</a></li>
-            <li><a href="/editor" class="menu-item"><i class="fa fa-edit"></i> Editor Kegiatan</a></li>
-            <ul style="margin-left: 20px;">
-                <li><a href="/pendidikan" class="menu-item">🎓 Pendidikan</a></li>
-                <li><a href="/penelitian" class="menu-item">🔬 Penelitian</a></li>
-                <li><a href="/pengabdian" class="menu-item">🤝 Pengabdian</a></li>
-                <li><a href="/penunjang" class="menu-item">📎 Penunjang</a></li>
-                <li><a href="/pelatihan" class="menu-item">📚 Pelatihan</a></li>
-                <li><a href="/penghargaan" class="menu-item">🏅 Penghargaan</a></li>
-                <li><a href="/sk-non-pns" class="menu-item">📄 SK Non PNS</a></li>
+  <div class="sidebar" id="sidebar">
+    <div class="brand">SI<span>KEMAH</span></div>
+    <div class="menu-wrapper">
+      <div class="menu">
+        <a href="/dashboard" aria-label="Dashboard"><i class="lni lni-grid-alt"></i> Dashboard</a>
+        <p>Menu Utama</p>
+        <a href="/daftar-pegawai" aria-label="Daftar Pegawai"><i class="lni lni-users"></i> Daftar Pegawai</a>
+        <a href="/surat-tugas" aria-label="Manajemen Surat Tugas"><i class="lni lni-folder"></i> Manajemen Surat Tugas</a>
+        <button class="collapsed" data-bs-toggle="collapse" data-bs-target="#editorKegiatan" aria-expanded="true" aria-controls="editorKegiatan">
+          <i class="lni lni-pencil-alt"></i> Editor Kegiatan
+          <i class="lni lni-chevron-down toggle-icon"></i>
+        </button>
+        <div class="collapse show submenu" id="editorKegiatan">
+          <a href="/pendidikan" aria-label="Pendidikan">Pendidikan</a>
+          <a href="/penelitian" aria-label="Penelitian">Penelitian</a>
+          <a href="/pengabdian" aria-label="Pengabdian">Pengabdian</a>
+          <a href="/penunjang" aria-label="Penunjang">Penunjang</a>
+          <a href="/pelatihan" aria-label="Pelatihan">Pelatihan</a>
+          <a href="/penghargaan" aria-label="Penghargaan">Penghargaan</a>
+          <a href="/sk-non-pns" aria-label="SK Non PNS">SK Non PNS</a>
+        </div>
+        <a href="/kerjasama" aria-label="Kerjasama" class="active"><i class="lni lni-handshake"></i> Kerjasama</a>
+        <a href="/master-data" aria-label="Master Data"><i class="lni lni-database"></i> Master Data</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+
+  <div class="navbar-custom">
+    <div class="d-flex align-items-center">
+      <button class="btn btn-link text-dark me-3" id="toggleSidebar" aria-label="Toggle Sidebar">
+        <i class="lni lni-menu"></i>
+      </button>
+    </div>
+    <div class="d-flex align-items-center">
+      <div class="time-date me-2">
+        <div><i class="lni lni-calendar"></i> <span id="current-date">Selasa, 5 Agustus 2025</span></div>
+        <div><i class="lni lni-timer"></i> <span id="current-time">10:20:45</span></div>
+      </div>
+      <div class="account">
+        <div class="account-circle">KTU</div>
+        <span>Halo, Ketua TU</span>
+        <i class="lni lni-chevron-down"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="title-bar">
+    <h1><i class="lni lni-handshake"></i> <span id="page-title">Kerjasama</span></h1>
+  </div>
+
+  <div class="main-content">
+    <div class="top-action-bar d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+        <div class="d-flex align-items-center gap-3 flex-grow-1">
+            <div class="input-group bg-white shadow-sm" style="border-radius: .5rem; min-width: 300px;">
+                <span class="input-group-text bg-transparent border-0"><i class="lni lni-search-alt"></i></span>
+                <input type="text" class="form-control bg-transparent border-0" placeholder="Cari berdasarkan judul, mitra...">
+            </div>
+            <select class="form-select shadow-sm" style="width: 180px;">
+                <option selected>Semua Jenis</option>
+                <option>MoU</option>
+                <option>LoA</option>
+                <option>SPK</option>
+            </select>
+        </div>
+
+        <div class="d-flex gap-2">
+            <button class="btn btn-export fw-bold"><i class="lni lni-download me-2"></i> Export Excel</button>
+            <button class="btn btn-tambah fw-bold" onclick="openModal()"><i class="lni lni-plus me-2"></i> Tambah Data</button>
+        </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body p-4">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th class="text-start">Judul</th>
+                <th>Mitra/Instansi</th>
+                <th>No Dokumen</th>
+                <th>Tgl. Dokumen</th>
+                <th>Ketua/Anggota Tim</th>
+                <th>Lokasi</th>
+                <th>Besaran Dana</th>
+                <th>Jenis</th>
+                <th>Dokumen</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="kerjasamaTableBody">
+              </tbody>
+          </table>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mt-3">
+          <span class="text-muted small">Menampilkan 1 sampai 3 dari 13 data</span>
+          <nav>
+            <ul class="pagination pagination-sm mb-0">
+              <li class="page-item disabled"><a class="page-link" href="#">Sebelumnya</a></li>
+              <li class="page-item active"><a class="page-link" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item"><a class="page-link" href="#">Berikutnya</a></li>
             </ul>
-            <li><a href="/kerjasama" class="menu-item active"><i class="fa fa-handshake"></i> Kerjasama</a></li>
-            <li><a href="/master-data" class="menu-item"><i class="fa fa-database"></i> Master Data</a></li>
-        </ul>
+          </nav>
+        </div>
+      </div>
     </div>
-
-    <div class="main">
-        <div class="header">
-            <div style="display: flex; align-items: center; gap: 20px;">
-                <div style="display: flex; align-items: center; gap: 8px;"><i class="fa-solid fa-calendar-days" style="color: #4b5563;"></i><span id="current-date"></span></div>
-                <div style="display: flex; align-items: center; gap: 8px;"><i class="fa-solid fa-clock" style="color: #4b5563;"></i><strong id="current-time"></strong></div>
-            </div>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <div style="background-color: orange; width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-weight: bold;">KTU</div>
-                <div>Halo, Ketua TU</div>
-            </div>
-        </div>
-
-        <div class="title-bar">
-            <h1 class="fs-4 fw-semibold"><i class="fas fa-handshake text-white"></i> Kerjasama</h1>
-        </div>
-
-        <div class="content-area">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <div class="filter-bar flex-grow-1">
-                    <div class="input-group">
-                        <span class="input-group-text bg-transparent border-0"><i class="fas fa-search"></i></span>
-                        <input type="text" class="form-control border-0" placeholder="Cari Data...">
-                    </div>
-                    <select class="form-select" style="width: auto;">
-                        <option selected>Jenis Kerjasama</option>
-                        <option>MoU</option>
-                        <option>LoA</option>
-                        <option>SPK</option>
-                    </select>
-                </div>
-                <div class="d-flex gap-2 ms-3">
-                    <button class="btn btn-export fw-bold"><i class="fas fa-file-export me-2"></i> Export Excel</button>
-                    <button class="btn btn-tambah fw-bold" onclick="openModal('kerjasamaModal')"><i class="fas fa-plus me-2"></i> Tambah Data</button>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-body p-4">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th class="text-start">Judul</th>
-                                    <th>Mitra/Instansi</th>
-                                    <th>No Dokumen</th>
-                                    <th>Tgl. Dokumen</th>
-                                    <th>Ketua/Anggota Tim</th>
-                                    <th>Lokasi</th>
-                                    <th>Besaran Dana</th>
-                                    <th>Jenis Kerjasama</th>
-                                    <th>Dokumen</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <script>
-                                    const kerjasamaData = [
-                                        { judul: 'Kerja Sama Penelitian AI', mitra: 'Dinas Kehutanan DKI Jakarta', noDoc: 'MoU/001/AI/24', tglDoc: '2004-04-10', tmt: '2024-05-01', tst: '2025-05-01', departemen: 'Manajemen Hutan', ketua: 'Anton Jaya Puspita', anggota: ['Ferdy'], lokasi: 'Bogor', dana: '10000000', jenis: 'MoU' },
-                                        { judul: 'Kerja Sama Penelitian AI', mitra: 'Dinas Kehutanan DKI Jakarta', noDoc: 'MoU/001/AI/24', tglDoc: '2004-04-10', tmt: '2024-05-01', tst: '2025-05-01', departemen: 'Konservasi Sumberdaya Hutan', ketua: 'Anton Jaya Puspita', anggota: ['Ferdy'], lokasi: 'Bogor', dana: '10000000', jenis: 'LoA' },
-                                        { judul: 'Kerja Sama Penelitian AI', mitra: 'Dinas Kehutanan DKI Jakarta', noDoc: 'MoU/001/AI/24', tglDoc: '2004-04-10', tmt: '2024-05-01', tst: '2025-05-01', departemen: 'Teknologi Hasil Hutan', ketua: 'Anton Jaya Puspita', anggota: ['Ferdy'], lokasi: 'Bogor', dana: '10000000', jenis: 'SPK' }
-                                    ];
-                                    kerjasamaData.forEach((item, index) => {
-                                        document.write(`
-                                            <tr>
-                                                <td>${index + 1}</td>
-                                                <td class="text-start">${item.judul}</td>
-                                                <td>${item.mitra}</td>
-                                                <td>${item.noDoc}</td>
-                                                <td>${new Date(item.tglDoc).toLocaleDateString('id-ID', {day: '2-digit', month: 'long', year: 'numeric'})}</td>
-                                                <td>Ketua: ${item.ketua} Anggota: ${item.anggota.join(', ')}</td>
-                                                <td>${item.lokasi}</td>
-                                                <td>${new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(item.dana)}</td>
-                                                <td>${item.jenis}</td>
-                                                <td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
-                                                <td>
-                                                    <div class="d-flex gap-2 justify-content-center">
-                                                        <button class="btn btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="fas fa-eye"></i></button>
-                                                        <button class="btn btn-aksi btn-edit-row" title="Edit" onclick='openEditModal(${JSON.stringify(item)})'><i class="fas fa-pencil-alt"></i></button>
-                                                        <button class="btn btn-aksi btn-delete-row" title="Hapus"><i class="fas fa-trash"></i></button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        `);
-                                    });
-                                </script>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center mt-3">
-                        <span class="text-muted small">Menampilkan 1 sampai 3 dari 13 data</span>
-                        <nav>
-                            <ul class="pagination pagination-sm mb-0">
-                                <li class="page-item disabled"><a class="page-link" href="#">Sebelumnya</a></li>
-                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">Berikutnya</a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="footer">
-            © 2025 Forest Management - All Rights Reserved
-        </div>
-    </div>
-</div>
-
-<!-- Modal Tambah/Edit Kerjasama -->
-<div class="modal-backdrop" id="kerjasamaModal">
+  </div>
+  
+  <div class="modal-backdrop" id="kerjasamaModal">
     <div class="modal-content-wrapper">
-        <div class="modal-header-custom">
-            <h5 id="modalTitle"><i class="fas fa-plus-circle"></i> Tambah Kerjasama</h5>
-        </div>
-        <div class="modal-body-custom">
-            <form id="kerjasamaForm">
-                <div class="row g-3">
-                    <div class="col-12"><label class="form-label">Judul</label><input type="text" class="form-control" name="judul" placeholder="Judul Kerjasama"></div>
-                    <div class="col-12"><label class="form-label">Mitra</label><input type="text" class="form-control" name="mitra" placeholder="Nama Mitra atau Instansi"></div>
-                    <div class="col-md-6"><label class="form-label">No Dokumen</label><input type="text" class="form-control" name="noDoc" placeholder="Nomor Dokumen"></div>
-                    <div class="col-md-6"><label class="form-label">Tgl. Dokumen</label><input type="date" name="tglDoc" class="form-control"></div>
-                    <div class="col-md-6"><label class="form-label">TMT</label><input type="date" class="form-control" name="tmt"></div>
-                    <div class="col-md-6"><label class="form-label">TST</label><input type="date" class="form-control" name="tst"></div>
-                    <div class="col-12"><label class="form-label">Departemen/Program Studi</label><select class="form-select" name="departemen"><option selected>-- Pilih Salah Satu --</option><option>Manajemen Hutan</option><option>Konservasi Sumberdaya Hutan</option><option>Teknologi Hasil Hutan</option></select></div>
-                    <div class="col-12"><label class="form-label">Ketua</label><input type="text" class="form-control" name="ketua" placeholder="Nama Ketua Tim"></div>
-                    <div class="col-12">
-                        <label class="form-label">Anggota</label>
-                        <div id="anggota-list">
-                            <div class="input-group mb-2">
-                                <input type="text" class="form-control" placeholder="Nama Anggota">
-                                <button class="btn btn-outline-success" type="button" onclick="addAnggota('anggota-list')">+ Tambah</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6"><label class="form-label">Lokasi</label><input type="text" name="lokasi" class="form-control" placeholder="Lokasi Kegiatan"></div>
-                    <div class="col-md-6"><label class="form-label">Besaran Dana</label><input type="number" name="dana" class="form-control" placeholder="Contoh: 10000000"></div>
-                    <div class="col-12"><label class="form-label">Jenis Kerjasama</label><select class="form-select" name="jenis"><option selected>-- Pilih Salah Satu --</option><option>MoU</option><option>LoA</option><option>SPK</option></select></div>
-                    <div class="col-12">
-                        <label class="form-label">Upload File</label>
-                        <div class="upload-area" id="uploadArea">
-                            <i class="fas fa-cloud-upload-alt"></i>
-                            <p>Drag & Drop File here<br><small>Ukuran Maksimal 5 MB</small></p>
-                            <input type="file" hidden>
-                        </div>
-                    </div>
+      <div class="modal-header-custom">
+        <h5 id="modalTitle"><i class="lni lni-plus-circle"></i> Tambah Kerjasama</h5>
+      </div>
+      <div class="modal-body-custom">
+        <form id="kerjasamaForm">
+          <div class="row g-3">
+            <div class="col-12"><label class="form-label">Judul</label><input type="text" class="form-control" name="judul" placeholder="Judul Kerjasama"></div>
+            <div class="col-12"><label class="form-label">Mitra</label><input type="text" class="form-control" name="mitra" placeholder="Nama Mitra atau Instansi"></div>
+            <div class="col-md-6"><label class="form-label">No Dokumen</label><input type="text" class="form-control" name="noDoc" placeholder="Nomor Dokumen"></div>
+            <div class="col-md-6"><label class="form-label">Tgl. Dokumen</label><input type="date" name="tglDoc" class="form-control"></div>
+            <div class="col-md-6"><label class="form-label">TMT</label><input type="date" class="form-control" name="tmt"></div>
+            <div class="col-md-6"><label class="form-label">TST</label><input type="date" class="form-control" name="tst"></div>
+            <div class="col-12"><label class="form-label">Departemen/Program Studi</label><select class="form-select" name="departemen"><option selected>-- Pilih Salah Satu --</option><option>Manajemen Hutan</option><option>Konservasi Sumberdaya Hutan</option><option>Teknologi Hasil Hutan</option></select></div>
+            <div class="col-12"><label class="form-label">Ketua</label><input type="text" class="form-control" name="ketua" placeholder="Nama Ketua Tim"></div>
+            <div class="col-12">
+              <label class="form-label">Anggota Tim</label>
+              <div id="anggota-list">
                 </div>
-            </form>
-        </div>
-        <div class="modal-footer-custom">
-            <button type="button" class="btn btn-danger" onclick="closeModal('kerjasamaModal')">Batal</button>
-            <button type="button" class="btn btn-success">Simpan</button>
-        </div>
+            </div>
+            <div class="col-md-6"><label class="form-label">Lokasi</label><input type="text" name="lokasi" class="form-control" placeholder="Lokasi Kegiatan"></div>
+            <div class="col-md-6"><label class="form-label">Besaran Dana</label><input type="number" name="dana" class="form-control" placeholder="Contoh: 10000000"></div>
+            <div class="col-12"><label class="form-label">Jenis Kerjasama</label><select class="form-select" name="jenis"><option selected>-- Pilih Salah Satu --</option><option>MoU</option><option>LoA</option><option>SPK</option></select></div>
+            <div class="col-12">
+              <label class="form-label">Upload File</label>
+              <div class="upload-area" id="uploadArea">
+                <i class="lni lni-cloud-upload"></i>
+                <p>Seret & Lepas File di sini<br><small>Ukuran Maksimal 5 MB</small></p>
+                <input type="file" hidden>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer-custom">
+        <button type="button" class="btn btn-danger" onclick="closeModal()">Batal</button>
+        <button type="button" class="btn btn-success">Simpan</button>
+      </div>
     </div>
-</div>
+  </div>
 
+  <footer class="footer-custom">
+    <span>© 2025 Forest Management — All Rights Reserved</span>
+  </footer>
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    // Update date and time
-    function updateClock() {
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // === Bagian Inisialisasi & Event Listener Utama ===
+    document.addEventListener('DOMContentLoaded', function () {
+      setupSidebar();
+      startDateTimeUpdater();
+      renderKerjasamaTable();
+    });
+
+    // === Logika Sidebar ===
+    function setupSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('overlay');
+      const toggleSidebarBtn = document.getElementById('toggleSidebar');
+
+      toggleSidebarBtn.addEventListener('click', function () {
+        const isMobile = window.innerWidth <= 991;
+        if (isMobile) {
+          sidebar.classList.toggle('show');
+          overlay.classList.toggle('show', sidebar.classList.contains('show'));
+        } else {
+          sidebar.classList.toggle('hidden');
+        }
+      });
+
+      overlay.addEventListener('click', function () {
+        sidebar.classList.remove('show');
+        overlay.classList.remove('show');
+      });
+    }
+
+    // === Logika Waktu & Tanggal ===
+    function startDateTimeUpdater() {
+      const dateEl = document.getElementById('current-date');
+      const timeEl = document.getElementById('current-time');
+      
+      function update() {
         const now = new Date();
         const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        document.getElementById('current-date').textContent = now.toLocaleDateString('id-ID', dateOptions);
-        document.getElementById('current-time').textContent = now.toLocaleTimeString('id-ID', { hour12: false });
+        const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+        dateEl.textContent = now.toLocaleDateString('id-ID', dateOptions);
+        timeEl.textContent = now.toLocaleTimeString('id-ID', timeOptions);
+      }
+      setInterval(update, 1000);
+      update();
     }
-    setInterval(updateClock, 1000);
-    updateClock();
-});
 
-// Modal Functions
-function openModal(modalId) {
-    const modal = document.getElementById(modalId);
-    const modalTitle = modal.querySelector('#modalTitle');
-    const form = modal.querySelector('form');
-    
-    modalTitle.innerHTML = '<i class="fas fa-plus-circle"></i> Tambah Kerjasama';
-    form.reset();
-    
-    // Reset anggota list
-    const anggotaList = document.getElementById('anggota-list');
-    anggotaList.innerHTML = `
-        <div class="input-group mb-2">
-            <input type="text" class="form-control" placeholder="Nama Anggota">
-            <button class="btn btn-outline-success" type="button" onclick="addAnggota('anggota-list')">+ Tambah</button>
-        </div>
-    `;
+    // === Logika Tabel Kerjasama ===
+    function renderKerjasamaTable() {
+      const kerjasamaData = [
+        { judul: 'Pengembangan Model Hutan Tanaman Cerdas Iklim', mitra: 'Dinas Kehutanan Provinsi Jawa Barat', noDoc: 'MoU/001/AI/24', tglDoc: '2024-04-10', tmt: '2024-05-01', tst: '2025-05-01', departemen: 'Manajemen Hutan', ketua: 'Dr. Anton Jaya Puspita', anggota: ['Dr. Budi Santoso', 'Ir. Rina Melati, M.Sc.'], lokasi: 'Bogor', dana: '150000000', jenis: 'MoU' },
+        { judul: 'Analisis Keanekaragaman Hayati di Cagar Alam', mitra: 'Balai Konservasi Sumber Daya Alam (BKSDA)', noDoc: 'LoA/015/BIO/24', tglDoc: '2024-02-20', tmt: '2024-03-01', tst: '2024-09-01', departemen: 'Konservasi Sumberdaya Hutan', ketua: 'Prof. Dr. Endang Sulistyawati', anggota: ['Ahmad Zulkifli, S.Hut.'], lokasi: 'Gunung Gede Pangrango', dana: '75000000', jenis: 'LoA' },
+        { judul: 'Pemanfaatan Limbah Kayu untuk Produk Bernilai Tambah', mitra: 'PT. Kayu Sejahtera', noDoc: 'SPK/032/IND/24', tglDoc: '2024-06-05', tmt: '2024-06-10', tst: '2024-12-10', departemen: 'Teknologi Hasil Hutan', ketua: 'Ir. Heru Purnomo, M.T.', anggota: ['Siti Nurbaya, S.T.', 'Joko Widodo, S.T.'], lokasi: 'Jepara', dana: '250000000', jenis: 'SPK' }
+      ];
 
-    if (modal) {
-        modal.style.display = 'flex';
-    }
-}
-
-function openEditModal(data) {
-    const modal = document.getElementById('kerjasamaModal'); // Reusing the same modal
-    const modalTitle = modal.querySelector('#modalTitle');
-    const form = modal.querySelector('form');
-
-    modalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Kerjasama';
-    
-    // Populate form fields
-    form.querySelector('[name="judul"]').value = data.judul;
-    form.querySelector('[name="mitra"]').value = data.mitra;
-    form.querySelector('[name="noDoc"]').value = data.noDoc;
-    form.querySelector('[name="tglDoc"]').value = data.tglDoc;
-    form.querySelector('[name="tmt"]').value = data.tmt;
-    form.querySelector('[name="tst"]').value = data.tst;
-    form.querySelector('[name="departemen"]').value = data.departemen;
-    form.querySelector('[name="ketua"]').value = data.ketua;
-    form.querySelector('[name="lokasi"]').value = data.lokasi;
-    form.querySelector('[name="dana"]').value = data.dana;
-    form.querySelector('[name="jenis"]').value = data.jenis;
-    
-    // Handle Anggota list
-    const anggotaList = document.getElementById('anggota-list');
-    anggotaList.innerHTML = ''; // Clear existing
-    data.anggota.forEach((anggota, index) => {
-        const isFirst = index === 0;
-        const newInput = document.createElement('div');
-        newInput.className = 'input-group mb-2';
-        newInput.innerHTML = `
-            <input type="text" class="form-control" value="${anggota}" placeholder="Nama Anggota">
-            <button class="btn ${isFirst ? 'btn-outline-success' : 'btn-outline-danger'}" type="button" onclick="${isFirst ? 'addAnggota(\'anggota-list\')' : 'this.parentElement.remove()'}">${isFirst ? '+' : '-'}</button>
+      const tableBody = document.getElementById('kerjasamaTableBody');
+      if (!tableBody) return;
+      
+      let rowsHtml = '';
+      kerjasamaData.forEach((item, index) => {
+        rowsHtml += `
+          <tr>
+            <td>${index + 1}</td>
+            <td class="text-start" style="min-width: 250px;">${item.judul}</td>
+            <td style="min-width: 200px;">${item.mitra}</td>
+            <td>${item.noDoc}</td>
+            <td>${new Date(item.tglDoc).toLocaleDateString('id-ID', {day: '2-digit', month: 'short', year: 'numeric'})}</td>
+            <td class="text-start" style="min-width: 250px;"><b>Ketua:</b> ${item.ketua}<br><b>Anggota:</b> ${item.anggota.join(', ')}</td>
+            <td>${item.lokasi}</td>
+            <td class="text-end">${new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(item.dana)}</td>
+            <td><span class="badge text-bg-light border">${item.jenis}</span></td>
+            <td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
+            <td>
+              <div class="d-flex gap-2 justify-content-center">
+                <button class="btn btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button>
+                <button class="btn btn-aksi btn-edit-row" title="Edit" onclick='openEditModal(${JSON.stringify(item)})'><i class="lni lni-pencil-alt"></i></button>
+                <button class="btn btn-aksi btn-delete-row" title="Hapus"><i class="lni lni-trash-can"></i></button>
+              </div>
+            </td>
+          </tr>
         `;
-        anggotaList.appendChild(newInput);
-    });
-    if (data.anggota.length === 0) { // Add a blank one if empty
-         addAnggota('anggota-list');
+      });
+      tableBody.innerHTML = rowsHtml;
     }
-    
-    if (modal) {
-        modal.style.display = 'flex';
+
+    // === Logika Modal Umum ===
+    const kerjasamaModalEl = document.getElementById('kerjasamaModal');
+    function closeModal() {
+        if (kerjasamaModalEl) kerjasamaModalEl.style.display = 'none';
     }
-}
-
-function closeModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.style.display = 'none';
+    window.onclick = function(event) {
+      if (event.target === kerjasamaModalEl) closeModal();
     }
-}
 
-function addAnggota(listId = 'anggota-list') {
-    const list = document.getElementById(listId);
-    const newInput = document.createElement('div');
-    newInput.className = 'input-group mb-2';
-    newInput.innerHTML = `
-        <input type="text" class="form-control" placeholder="Nama Anggota">
-        <button class="btn btn-outline-danger" type="button" onclick="this.parentElement.remove()">-</button>
-    `;
-    list.appendChild(newInput);
-}
-
-// Close modal if backdrop is clicked
-window.onclick = function(event) {
-    if (event.target.classList.contains('modal-backdrop')) {
-        closeModal(event.target.id);
+    // --- Buka Modal untuk Tambah Data ---
+    function openModal() {
+      const modalTitle = kerjasamaModalEl.querySelector('#modalTitle');
+      const form = kerjasamaModalEl.querySelector('form');
+      
+      modalTitle.innerHTML = '<i class="lni lni-plus-circle"></i> Tambah Kerjasama';
+      form.reset();
+      setupAnggotaList([]); // Siapkan daftar anggota kosong
+      kerjasamaModalEl.style.display = 'flex';
     }
-}
-</script>
 
+    // --- Buka Modal untuk Edit Data ---
+    function openEditModal(data) {
+      const modalTitle = kerjasamaModalEl.querySelector('#modalTitle');
+      const form = kerjasamaModalEl.querySelector('form');
+
+      modalTitle.innerHTML = '<i class="lni lni-pencil-alt"></i> Edit Kerjasama';
+      
+      // Isi form dengan data yang ada
+      for (const key in data) {
+        if (Object.hasOwnProperty.call(data, key) && key !== 'anggota') {
+          const field = form.querySelector(`[name="${key}"]`);
+          if (field) field.value = data[key];
+        }
+      }
+      setupAnggotaList(data.anggota || []);
+      kerjasamaModalEl.style.display = 'flex';
+    }
+
+    // === Logika Daftar Anggota Tim di Modal ===
+    function setupAnggotaList(members = []) {
+      const listContainer = document.getElementById('anggota-list');
+      listContainer.innerHTML = ''; 
+
+      // Tambahkan baris untuk setiap anggota yang sudah ada
+      members.forEach(member => createAnggotaRow(listContainer, member));
+      
+      // Tambahkan baris kosong di akhir untuk menambah anggota baru
+      createAnggotaRow(listContainer, '', true);
+    }
+
+    function createAnggotaRow(container, name, isAdder) {
+      const row = document.createElement('div');
+      row.className = 'input-group mb-2';
+      const buttonHtml = isAdder
+        ? `<button class="btn btn-outline-success" type="button" onclick="addNewAnggotaField(this)">+</button>`
+        : `<button class="btn btn-outline-danger" type="button" onclick="this.parentElement.remove()">-</button>`;
+      
+      row.innerHTML = `<input type="text" class="form-control" placeholder="Nama Anggota" value="${name}">${buttonHtml}`;
+      container.appendChild(row);
+    }
+
+    function addNewAnggotaField(addButton) {
+      const row = addButton.parentElement;
+      const input = row.querySelector('input');
+      if (input.value.trim() === '') {
+        input.focus();
+        return;
+      }
+      // Ubah tombol '+' menjadi '-'
+      addButton.outerHTML = `<button class="btn btn-outline-danger" type="button" onclick="this.parentElement.remove()">-</button>`;
+      // Tambahkan baris baru dengan tombol '+'
+      createAnggotaRow(document.getElementById('anggota-list'), '', true);
+      document.getElementById('anggota-list').lastElementChild.querySelector('input').focus();
+    }
+  </script>
 </body>
 </html>
