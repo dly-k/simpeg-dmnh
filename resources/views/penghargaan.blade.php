@@ -319,10 +319,14 @@
     }
 
     .table {
-      vertical-align: middle;
+        vertical-align: middle;
+        font-size: 12px;
     }
+
     .table th {
-      font-weight: 600;
+        font-weight: 600;
+        vertical-align: middle !important;
+        text-align: center !important;
     }
     
     .btn-aksi {

@@ -277,11 +277,16 @@
     }
     
     .table {
-      vertical-align: middle;
+        vertical-align: middle;
+        font-size: 12px;
     }
+
     .table th {
-      font-weight: 600;
+        font-weight: 600;
+        vertical-align: middle !important;
+        text-align: center !important;
     }
+
     
     .btn-aksi {
       width: 32px;
@@ -294,25 +299,53 @@
       color: white;
       text-decoration: none;
     }
-    .btn-lihat { background-color: #0dcaf0; }
-    .btn-edit { background-color: #ffc107; }
-    .btn-hapus { background-color: #dc3545; }
-    .btn-verifikasi { background-color: #10b981; }
+/* Tombol Aksi */
+.btn-lihat {
+  background-color: #0dcaf0;
+}
 
-    .nav-tabs .nav-link {
-      border: none;
-      color: #6c757d;
-      font-weight: 600;
-      padding: .75rem 1.25rem;
-    }
-    .nav-tabs .nav-link.active {
-      background-color: var(--primary);
-      color: white;
-      border-radius: .375rem;
-    }
-    .nav-tabs {
-      border-bottom: none;
-    }
+.btn-edit {
+  background-color: #ffc107;
+}
+
+.btn-hapus {
+  background-color: #dc3545;
+}
+
+.btn-verifikasi {
+  background-color: #10b981;
+}
+
+/* Nav Tabs */
+.nav-tabs {
+  border-bottom: none;
+}
+
+.nav-tabs .nav-item {
+  margin-right: 0.5rem; /* Jarak antar tab */
+}
+
+.nav-tabs .nav-link {
+  border: none;
+  color: #6c757d;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 0.375rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-tabs .nav-link:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.nav-tabs .nav-link.active {
+  background-color: var(--primary);
+  color: white;
+  border-radius: 0.375rem !important;
+}
+
     .btn-tambah {
       background-color: #2d3748;
       color: white;

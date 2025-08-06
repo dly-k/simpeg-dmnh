@@ -272,14 +272,16 @@
     }
     
     .table {
-      text-align: center;
-      vertical-align: middle;
-      font-size: 13.5px;
+        vertical-align: middle;
+        font-size: 12px;
     }
-    .table th { 
-      font-weight: 600; 
-      background-color: #f8f9fa; 
+
+    .table th {
+        font-weight: 600;
+        vertical-align: middle !important;
+        text-align: center !important;
     }
+
     .table td, .table th { 
       padding: 1rem; 
     }
