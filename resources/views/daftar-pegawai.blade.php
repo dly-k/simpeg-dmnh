@@ -555,12 +555,12 @@
         <!-- Search Input -->
         <div class="search-group flex-grow-1">
           <div class="input-group bg-white shadow-sm" style="border-radius: .5rem; min-width: 180px;">
-            <span class="input-group-text bg-transparent border-0 p-1">
+            <span class="input-group-text bg-light border-end-0">
               <i class="lni lni-search-alt small"></i>
             </span>
             <input type="text" 
                   class="form-control form-control-sm bg-transparent border-0" 
-                  placeholder="Cari nama atau NIP...">
+                  placeholder="Cari Data...">
           </div>
         </div>
 

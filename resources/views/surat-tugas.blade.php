@@ -9,10 +9,6 @@
   <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
     :root {
       --primary: #049466;
       --primary-light: #e3f7ec;
@@ -25,12 +21,7 @@
       background-color: #f5f6fa;
     }
 
-    .layout {
-      display: flex;
-      height: 100vh;
-    }
-
-    /* Sidebar */
+/* Sidebar */
     .sidebar {
       width: 250px;
       height: 100vh;
@@ -45,7 +36,9 @@
       z-index: 1001;
       transform: translateX(0);
     }
-    .sidebar.hidden { transform: translateX(-100%); }
+    .sidebar.hidden {
+      transform: translateX(-100%);
+    }
 
     .sidebar .brand {
       font-size: 24px;
@@ -61,6 +54,8 @@
     .sidebar .menu-wrapper {
       overflow-y: auto;
       flex-grow: 1;
+      padding-bottom: 80px;
+      max-height: calc(100vh - 66px);
     }
 
     .menu p {
@@ -94,6 +89,7 @@
       background-color: var(--primary);
       color: #fff;
       font-weight: 600;
+      box-shadow: inset 4px 0 0 #034d26;
     }
     .sidebar .menu a i,
     .sidebar .menu button i {
@@ -104,20 +100,31 @@
       align-items: center;
       justify-content: center;
     }
+    .sidebar a[href="/surat-tugas"] {
+      font-size: 14px;
+    }
 
-    .sidebar .submenu a {
-      padding: 9px 20px 9px 45px;
+    .sidebar a[href="/surat-tugas"]:active,
+    .sidebar a[href="/surat-tugas"].active,
+    .sidebar a[href="/surat-tugas"]:focus {
       font-size: 12.5px;
     }
-    
+
+    .sidebar .submenu a {
+      padding: 9px 35px;
+      font-size: 12.5px;
+    }
+    .sidebar .menu a:first-of-type {
+      margin-top: 10px;
+    }
+
     .toggle-icon {
       margin-left: auto;
       transition: transform 0.3s;
     }
     .collapsed .toggle-icon { transform: rotate(-90deg); }
 
-    /* Overlay for mobile sidebar */
-    .overlay {
+   .overlay {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
@@ -126,21 +133,7 @@
       display: none;
     }
     .overlay.show { display: block; }
-    
-    /* Main Area */
-    .main-wrapper {
-        flex-grow: 1;
-        margin-left: 250px;
-        transition: margin-left 0.3s ease-in-out;
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-    }
-    .sidebar.hidden ~ .main-wrapper {
-        margin-left: 0;
-    }
 
-    /* Navbar */
     .navbar-custom {
       height: 66px;
       background: #fff;
@@ -149,9 +142,18 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 20px;
-      flex-shrink: 0;
+      margin-left: 250px;
+      transition: margin-left 0.3s ease-in-out;
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      z-index: 999;
     }
-    
+    body.sidebar-collapsed .navbar-custom {
+      margin-left: 0;
+    }
+
     .time-date {
       font-size: 13px;
       display: flex;
@@ -175,27 +177,78 @@
       margin-left: 10px;
       gap: 6px;
     }
-    .account-circle {
-      background: orange;
-      color: #fff;
+
+    .icon-circle {
+      background: var(--primary);  /* hijau sesuai tema */
+      color: white;
       border-radius: 50%;
-      width: 32px;
-      height: 32px;
+      width: 28px;
+      height: 28px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 700;
-      font-size: 12px;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .dropdown-item i {
+        min-width: 24px;
+        text-align: center;
+    }
+    .dropdown-item:hover,
+    .dropdown-item:focus {
+      background-color: #f0f0f0; /* warna hover abu-abu terang */
+      color: #111;               /* warna teks tetap gelap */
+      text-decoration: none;
+      outline: none;
+      box-shadow: none;
     }
 
-    /* Title Bar */
+    /* Hilangkan efek biru saat diklik/fokus */
+    .dropdown-item:active {
+      background-color: #e9e9e9;
+      color: #111;
+    }
+    .dropdown-menu {
+      margin-top: 5px !important;
+      padding: 0;               /* Hapus padding agar elemen menempel */
+      overflow: hidden;         /* Pastikan tidak terpotong */
+      border-radius: 0.375rem;  /* Tetap rounded */
+    }
+
+    .dropdown-item {
+      padding: 10px 16px;       /* Sedikit lebih kecil dari default */
+      font-size: 13px;
+    }
+
+    .dropdown-divider {
+      margin: 0;                /* Hapus margin atas-bawah garis */
+    }
+
+    .dropdown-item-danger {
+      color: #dc3545;
+    }
+
+    .dropdown-item-danger:hover,
+    .dropdown-item-danger:focus {
+      color: #fff;
+      background-color: #dc3545;
+    }
     .title-bar {
       background: linear-gradient(to right, #059669, #047857);
       color: white;
       padding: 20px 25px;
+      margin-left: 250px;
+      transition: margin-left 0.3s ease-in-out;
+      position: fixed;
+      top: 66px;
+      left: 0;
+      right: 0;
+      z-index: 998;
       display: flex;
       align-items: center;
-      flex-shrink: 0;
+    }
+     body.sidebar-collapsed .title-bar {
+      margin-left: 0;
     }
 
     .title-bar h1 {
@@ -208,28 +261,50 @@
     }
     .title-bar h1 i { font-size: 22px; }
 
-    /* Main Content */
-    .main-content {
+    
+    /* Main Area */
+    .main-wrapper {
+        flex-grow: 1;
+        margin-left: 250px;
+        transition: margin-left 0.3s ease-in-out;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+    }
+    .sidebar.hidden ~ .main-wrapper {
+        margin-left: 0;
+    }
+
+      .main-content {
       padding: 25px;
+      transition: margin-left 0.3s ease-in-out;
       background-color: #f5f6fa;
-      flex-grow: 1;
-      overflow-y: auto;
+      margin-top: 130px;
+      font-size: 14px;
+      padding-bottom: 70px;
+    }
+     body.sidebar-collapsed .main-content {
+      margin-left: 0;
     }
     
     .table-card {
       background: white;
-      padding: 2rem;
+      padding: 1.5rem;
       border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
     
     .table {
         vertical-align: middle;
+        font-size: 12px;
     }
 
     .table th {
         font-weight: 600;
+        vertical-align: middle !important;
+        text-align: center !important;
     }
+
     
     .btn-aksi {
         width: 32px;
@@ -242,13 +317,113 @@
         color: white;
         text-decoration: none;
     }
-    .btn-lihat { background-color: #0dcaf0; border-color: #0dcaf0; }
+    .btn-lihat { background-color: #0c7e8f; border-color: #0c7e8f; }
     .btn-edit { background-color: #ffc107; border-color: #ffc107; }
     .btn-hapus { background-color: #dc3545; border-color: #dc3545; }
-    .btn-export { background-color: #10b981; }
 
-    /* Footer */
-    .footer-custom {
+    .btn-lihat:hover {
+        background-color: #0a7181;
+        color: white;
+        transform: scale(1.15); /* Sedikit membesar */
+        filter: brightness(1.2); /* Mencerahkan warna tombol */
+        box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+.btn-export {
+  background-color: var(--primary); /* hijau */
+  color: white;
+  border: none;
+}
+.btn-export:hover {
+  background-color: #04885e !important;
+  color: white;
+  border: none;
+}
+
+.btn-tambah {
+  background-color: #2d3748;
+  color: white;
+  border: none;
+}
+.btn-tambah:hover {
+  background-color: #1a202c !important;
+  color: white;
+}
+
+    .btn-edit:hover {
+        background-color: #b58802;
+        color: white;
+        transform: scale(1.15); /* Sedikit membesar */
+        filter: brightness(1.2); /* Mencerahkan warna tombol */
+        box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+
+    .btn-hapus:hover {
+        background-color: #a21927;
+        color: white;
+        transform: scale(1.15); /* Sedikit membesar */
+        filter: brightness(1.2); /* Mencerahkan warna tombol */
+        box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+
+.btn.fw-bold:hover {
+  background-color: #545454; /* ganti sesuai kebutuhan */
+  color: #fff;
+  transform: scale(1.03); /* contoh efek membesar sedikit */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* bayangan lembut */
+  transition: all 0.2s ease-in-out;
+}
+
+   .search-group {
+  border: 1px solid #e2e8f0; /* abu terang */
+  border-radius: .5rem;
+  background-color: white;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.search-group:focus-within {
+  border-color: var(--primary); /* hijau lembut */
+  box-shadow: 0 0 0 2px rgba(4, 148, 102, 0.15); /* glow hijau tipis */
+}
+
+.search-group .input-group-text {
+  background-color: transparent;
+  border: none;
+  color: var(--primary); /* hijau */
+  font-size: 1rem;
+}
+
+.search-group .form-control {
+  border: none;
+  background-color: transparent;
+  color: #2d3748; /* abu gelap */
+  font-size: 14px;
+}
+
+.search-group .form-control::placeholder {
+  color: #a0aec0; /* placeholder abu muda */
+  font-weight: 400;
+}
+
+
+
+        /* Pagination Kustom */
+    .pagination .page-item.active .page-link {
+        background-color: var(--primary);
+        border-color: var(--primary);
+        color: white;
+    }
+    .pagination .page-link {
+        color: var(--primary);
+    }
+    .pagination .page-link:hover {
+        background-color: var(--primary-light);
+    }
+    .pagination .page-item.disabled .page-link {
+        color: #6c757d;
+    }
+
+   .footer-custom {
       background: #fff;
       border-top: 1px solid var(--border-color);
       height: 45px;
@@ -258,7 +433,16 @@
       padding: 0 20px;
       font-size: 12px;
       color: #555;
-      flex-shrink: 0;
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      margin-left: 250px;
+      transition: margin-left 0.3s ease-in-out;
+      z-index: 997;
+    }
+    body.sidebar-collapsed .footer-custom {
+      margin-left: 0;
     }
     
     /* Modal Styles */
@@ -335,6 +519,7 @@
     @media (max-width: 991px) {
       .sidebar { transform: translateX(-100%); }
       .sidebar.show { transform: translateX(0); }
+      .navbar-custom, .title-bar, .main-content, .footer-custom { margin-left: 0 !important; }
       .main-wrapper { margin-left: 0; }
       .time-date { flex-direction: column; gap: 6px; align-items: flex-start; }
       .account span { font-size: 12px; }
@@ -389,10 +574,25 @@
           <div><i class="lni lni-calendar"></i> <span id="current-date"></span></div>
           <div><i class="lni lni-timer"></i> <span id="current-time"></span></div>
         </div>
-        <div class="account">
-          <div class="account-circle">KTU</div>
+       <div class="dropdown">
+        <a href="#" class="account text-decoration-none text-dark" data-bs-toggle="dropdown" aria-expanded="false">
+          <span class="icon-circle"><i class="lni lni-user"></i></span>
           <span>Halo, Ketua TU</span>
           <i class="lni lni-chevron-down"></i>
+        </a>
+          <ul class="dropdown-menu dropdown-menu-end shadow">
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="/ubah-password">
+                <i class="lni lni-key me-2"></i> Ubah Password
+              </a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center dropdown-item-danger" href="/logout">
+                <i class="lni lni-exit me-2"></i> Keluar
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -405,24 +605,34 @@
     <!-- Main Content -->
     <div class="main-content">
         <div class="table-card">
-          <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-              <div class="d-flex gap-2 flex-wrap">
-                  <div class="input-group" style="width: 250px;">
-                      <span class="input-group-text bg-light border-end-0"><i class="fas fa-search"></i></span>
-                      <input type="text" class="form-control border-start-0" placeholder="Cari Data ....">
-                  </div>
-                  <select class="form-select" style="width: auto;">
-                      <option selected>-- Filter Tahun --</option>
-                      <option value="2025">2025</option>
-                      <option value="2024">2024</option>
-                      <option value="2023">2023</option>
-                  </select>
-              </div>
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+      
+      <!-- Left side: Search & Filter -->
+      <div class="d-flex align-items-center flex-wrap gap-2 flex-grow-1" style="min-width: 0;">
+        
+        <!-- Search Input -->
+        <div class="search-group flex-grow-1">
+          <div class="input-group bg-white shadow-sm" style="border-radius: .5rem; min-width: 180px;">
+            <span class="input-group-text bg-light border-end-0">
+              <i class="lni lni-search-alt small"></i>
+            </span>
+            <input type="text" 
+                  class="form-control form-control-sm bg-transparent border-0" 
+                  placeholder="Cari Data...">
+          </div>
+        </div>
+
+      <!-- Filter Tanggal -->
+      <div style="min-width: 120px;">
+        <input type="date" class="form-control form-control-sm w-100" />
+      </div>
+
               <div class="d-flex gap-2">
-                <a href="#" class="btn btn-export text-white fw-bold"><i class="fa fa-file-excel me-2"></i> Export Excel</a>
-                <a href="#" class="btn btn-primary fw-bold" onclick="openModal('suratTugasModal')"><i class="fa fa-plus me-2"></i> Tambah Data</a>
+                  <a href="#" class="btn btn-export fw-bold"><i class="fa fa-file-excel me-2"></i> Export Excel</a>
+                  <a href="#" class="btn btn-tambah fw-bold" onclick="openModal('suratTugasModal')"><i class="fa fa-plus me-2"></i> Tambah Data</a>
               </div>
           </div>
+      </div>
 
           <div class="table-responsive">
             <table class="table table-hover table-bordered">
@@ -460,7 +670,7 @@
                                 <td class="text-center">${item.surat_kadep}</td>
                                 <td class="text-center">${item.tgl_kegiatan}</td>
                                 <td>${item.lokasi}</td>
-                                <td class="text-center"><a href="#" class="btn btn-sm btn-info text-white">Lihat</a></td>
+                               <td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
                                 <td class="text-center">
                                     <div class="d-flex gap-2 justify-content-center">
                                         <a href="#" class="btn-aksi btn-edit" title="Edit Data" onclick="openEditModal()"><i class="fa fa-edit"></i></a>
@@ -535,19 +745,31 @@
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-    const toggleSidebarBtn = document.getElementById('toggleSidebar');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const toggleSidebarBtn = document.getElementById('toggleSidebar');
+  const body = document.body;
 
-    toggleSidebarBtn.addEventListener('click', function () {
-      const isMobile = window.innerWidth <= 991;
-      if (isMobile) {
-        sidebar.classList.toggle('show');
-        overlay.classList.toggle('show', sidebar.classList.contains('show'));
-      } else {
-        sidebar.classList.toggle('hidden');
-      }
-    });
+  toggleSidebarBtn.addEventListener('click', function () {
+    const isMobile = window.innerWidth <= 991;
+    if (isMobile) {
+      sidebar.classList.toggle('show');
+      overlay.classList.toggle('show', sidebar.classList.contains('show'));
+    } else {
+      sidebar.classList.toggle('hidden');
+      body.classList.toggle('sidebar-collapsed');
+    }
+  });
+
+  document.addEventListener("DOMContentLoaded", function() {
+  const editorBtn = document.querySelector('[data-bs-target="#editorKegiatan"]');
+  const editorMenu = document.getElementById("editorKegiatan");
+
+  editorBtn.classList.remove("collapsed");
+  editorBtn.setAttribute("aria-expanded", "true");
+  editorMenu.classList.add("show");
+  });
+
 
     overlay.addEventListener('click', function () {
       sidebar.classList.remove('show');
