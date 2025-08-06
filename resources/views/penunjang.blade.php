@@ -219,7 +219,7 @@
     }
 
     .dropdown-divider {
-      margin: 0;                /* Hapus margin atas-bawah garis */
+      margin: 0;
     }
 
     .dropdown-item-danger {
@@ -272,6 +272,7 @@
     .sidebar.hidden ~ .navbar-custom ~ .title-bar ~ .main-content { margin-left: 0; }
 
     .card {
+      border: none; 
       background: white;
       padding: 1.5rem;
       border-radius: 10px;
@@ -349,7 +350,7 @@
       bottom: 0;
       right: 0;
       left: 0;
-      margin-left: 250px;
+      margin-left: 250px; 
       transition: margin-left 0.3s ease-in-out;
       z-index: 997;
     }

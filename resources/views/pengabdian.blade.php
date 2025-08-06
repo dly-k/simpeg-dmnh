@@ -611,8 +611,39 @@
                   </div>
                 </div>
                 <select class="form-select filter-select"><option selected>Tahun</option><option>2012</option></select>
-                <select class="form-select filter-select"><option selected>Jenis SKIM</option></select>
-                <select class="form-select filter-select"><option selected>Afiliasi</option></select>
+                <select class="form-select filter-select">
+                  <option selected>Jenis SKIM</option>
+                  <option value="Biomedik">Biomedik</option>
+                  <option value="Hibah HI-LINK">Hibah HI-LINK</option>
+                  <option value="Ipteks">Ipteks</option>
+                  <option value="Ipteks Bagi Inovasi Kreativitas Kampus">Ipteks Bagi Inovasi Kreativitas Kampus</option>
+                  <option value="Ipteks Bagi Kewirausahaan">Ipteks Bagi Kewirausahaan</option>
+                  <option value="Iptek Bagi Masyarakat">Iptek Bagi Masyarakat</option>
+                  <option value="Iptek Bagi Produk Ekspor">Iptek Bagi Produk Ekspor</option>
+                  <option value="Iptek Bagi Wilayah">Iptek Bagi Wilayah</option>
+                  <option value="Iptek Bagi Wilayah Antara PT-CSR/PT-PEMDA-CSR">Iptek Bagi Wilayah Antara PT-CSR/PT-PEMDA-CSR</option>
+                  <option value="Kerjasama Luar Negeri dan Publikasi Internasional">Kerjasama Luar Negeri dan Publikasi Internasional</option>
+                  <option value="KKN Pembelajaran Pemberdayaan Masyarakat">KKN Pembelajaran Pemberdayaan Masyarakat</option>
+                  <option value="Mobil Listrik Nasional">Mobil Listrik Nasional</option>
+                  <option value="MP3EI">MP3EI</option>
+                  <option value="Pendidikan Magister Doktor Sarjana Unggul">Pendidikan Magister Doktor Sarjana Unggul</option>
+                  <option value="Penelitian Disertasi Doktor">Penelitian Disertasi Doktor</option>
+                  <option value="Penelitian Dosen Pemula">Penelitian Dosen Pemula</option>
+                  <option value="Penelitian Fundamental">Penelitian Fundamental</option>
+                  <option value="Penelitian Hibah Bersaing">Penelitian Hibah Bersaing</option>
+                  <option value="Penelitian Kerjasama Antar Perguruan Tinggi">Penelitian Kerjasama Antar Perguruan Tinggi</option>
+                  <option value="Penelitian Kompetensi">Penelitian Kompetensi</option>
+                  <option value="Penelitian Srategis Nasional">Penelitian Srategis Nasional</option>
+                  <option value="Penelitian Tim Pascasarjana">Penelitian Tim Pascasarjana</option>
+                  <option value="Penelitian Unggulan Perguruan Tinggi">Penelitian Unggulan Perguruan Tinggi</option>
+                  <option value="Penelitian Unggulan Strategis Nasional">Penelitian Unggulan Strategis Nasional</option>
+                  <option value="Riset Andalan Perguruan Tinggi dan Industri">Riset Andalan Perguruan Tinggi dan Industri</option>
+                </select>
+                <select class="form-select filter-select">
+                  <option selected>Afiliasi</option>
+                  <option value="Ya">Ya</option>
+                  <option value="Tidak">Tidak</option>
+                </select>
                 <div class="btn-tambah-container">
                   <a href="#" class="btn btn-tambah fw-bold" onclick="openModal('pengabdianModal')"><i class="fa fa-plus me-2"></i> Tambah Data</a>
                 </div>

@@ -25,11 +25,6 @@
       background-color: #f5f6fa;
     }
 
-    .layout {
-      display: flex;
-      height: 100vh;
-    }
-
     /* Sidebar */
     .sidebar {
       width: 250px;
@@ -113,10 +108,10 @@
       padding: 9px 20px 9px 45px;
       font-size: 12.5px;
     }
-     .sidebar .submenu a.active {
-        color: var(--primary);
-        font-weight: 600;
-        background-color: var(--primary-light);
+    .sidebar .submenu a.active {
+      color: var(--primary);
+      font-weight: 600;
+      background-color: var(--primary-light);
     }
     
     .toggle-icon {
@@ -136,19 +131,6 @@
     }
     .overlay.show { display: block; }
     
-    /* Main Area */
-    .main-wrapper {
-        flex-grow: 1;
-        margin-left: 250px;
-        transition: margin-left 0.3s ease-in-out;
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-    }
-    .sidebar.hidden ~ .main-wrapper {
-        margin-left: 0;
-    }
-
     /* Navbar */
     .navbar-custom {
       height: 66px;
@@ -158,8 +140,15 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 20px;
-      flex-shrink: 0;
+      margin-left: 250px;
+      transition: margin-left 0.3s ease-in-out;
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      z-index: 999;
     }
+    .sidebar.hidden ~ .navbar-custom { margin-left: 0; }
     
     .time-date {
       font-size: 13px;
@@ -175,6 +164,7 @@
     }
     .time-date i { color: #4b5563; font-size: 13px; }
 
+    /*akunnn*/
     .account {
       display: flex;
       align-items: center;
@@ -184,28 +174,80 @@
       margin-left: 10px;
       gap: 6px;
     }
-    .account-circle {
-      background: orange;
-      color: #fff;
+
+    .icon-circle {
+      background: var(--primary);  /* hijau sesuai tema */
+      color: white;
       border-radius: 50%;
-      width: 32px;
-      height: 32px;
+      width: 28px;
+      height: 28px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 700;
-      font-size: 12px;
+      font-size: 14px;
+      flex-shrink: 0;
     }
+    .dropdown-item i {
+        min-width: 24px;
+        text-align: center;
+    }
+    .dropdown-item:hover,
+    .dropdown-item:focus {
+      background-color: #f0f0f0; /* warna hover abu-abu terang */
+      color: #111;               /* warna teks tetap gelap */
+      text-decoration: none;
+      outline: none;
+      box-shadow: none;
+    }
+
+    /* Hilangkan efek biru saat diklik/fokus */
+    .dropdown-item:active {
+      background-color: #e9e9e9;
+      color: #111;
+    }
+    .dropdown-menu {
+      margin-top: 5px !important;
+      padding: 0;               /* Hapus padding agar elemen menempel */
+      overflow: hidden;         /* Pastikan tidak terpotong */
+      border-radius: 0.375rem;  /* Tetap rounded */
+    }
+
+    .dropdown-item {
+      padding: 10px 16px;       /* Sedikit lebih kecil dari default */
+      font-size: 13px;
+    }
+
+    .dropdown-divider {
+      margin: 0;
+    }
+
+    .dropdown-item-danger {
+      color: #dc3545;
+    }
+
+    .dropdown-item-danger:hover,
+    .dropdown-item-danger:focus {
+      color: #fff;
+      background-color: #dc3545;
+    }
+
 
     /* Title Bar */
     .title-bar {
       background: linear-gradient(to right, #059669, #047857);
       color: white;
       padding: 20px 25px;
+      margin-left: 250px;
+      transition: margin-left 0.3s ease-in-out;
+      position: fixed;
+      top: 66px;
+      left: 0;
+      right: 0;
+      z-index: 998;
       display: flex;
       align-items: center;
-      flex-shrink: 0;
     }
+    .sidebar.hidden ~ .navbar-custom ~ .title-bar { margin-left: 0; }
 
     .title-bar h1 {
       font-size: 20px;
@@ -219,50 +261,76 @@
 
     /* Main Content */
     .main-content {
+      margin-left: 250px;
       padding: 25px;
+      transition: margin-left 0.3s ease-in-out;
       background-color: #f5f6fa;
-      flex-grow: 1;
-      overflow-y: auto;
+      margin-top: 130px;
+      font-size: 14px;
+      padding-bottom: 70px;
     }
+    .sidebar.hidden ~ .navbar-custom ~ .title-bar ~ .main-content { margin-left: 0; }
     
     .card {
+      border: none;
       background: white;
-      padding: 2rem;
+      padding: 1.5rem;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      border: none;
     }
     
-    .table {
-        vertical-align: middle;
+    /* Filter Section */
+    .search-filter-container {
+      padding: 0;
+      margin-bottom: 1.5rem;
+    }
+    .search-filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+    }
+    .search-box {
+      flex: 1;
+      min-width: 250px;
+    }
+    .filter-select {
+      width: 180px;
+    }
+    .btn-tambah-container {
+      margin-left: auto;
     }
 
+    .table {
+      vertical-align: middle;
+    }
     .table th {
-        font-weight: 600;
+      font-weight: 600;
     }
     
     .btn-aksi {
-        width: 32px;
-        height: 32px;
-        border-radius: 6px !important;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0;
-        color: white;
-        text-decoration: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 6px !important;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      color: white;
+      text-decoration: none;
     }
     .btn-lihat { background-color: #0dcaf0; border-color: #0dcaf0; }
     .btn-edit { background-color: #ffc107; border-color: #ffc107; }
     .btn-hapus { background-color: #dc3545; border-color: #dc3545; }
-    .btn-verifikasi { background-color: #10b981; border-color: #10b981; }
 
     .btn-tambah {
-        background-color: #2d3748;
-        color: white;
+      background-color: #2d3748;
+      color: white;
     }
     .btn-tambah:hover {
-        background-color: #1a202c;
-        color: white;
+      background-color: #1a202c;
+      color: white;
     }
 
     /* Footer */
@@ -276,94 +344,117 @@
       padding: 0 20px;
       font-size: 12px;
       color: #555;
-      flex-shrink: 0;
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      margin-left: 250px;
+      transition: margin-left 0.3s ease-in-out;
+      z-index: 997;
+    }
+    .sidebar.hidden ~ .navbar-custom ~ .title-bar ~ .main-content ~ .footer-custom {
+      margin-left: 0;
     }
     
     /* Modal Styles */
     .modal-backdrop {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background-color: rgba(0,0,0,0.5);
-        display: none;
-        align-items: center;
-        justify-content: center;
-        z-index: 1050;
-        padding: 1rem;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0,0,0,0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1050;
+      padding: 1rem;
     }
     .modal-content-wrapper {
-        background-color: #fff;
-        border-radius: .5rem;
-        box-shadow: 0 5px 15px rgba(0,0,0,.5);
-        width: 100%;
-        max-width: 800px;
-        max-height: 90vh;
-        display: flex;
-        flex-direction: column;
+      background-color: #fff;
+      border-radius: .5rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,.5);
+      width: 100%;
+      max-width: 800px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
     }
     .modal-header-custom {
-        background: linear-gradient(to right, #059669, #047857);
-        color: white;
-        padding: 1.25rem;
-        border-top-left-radius: .5rem;
-        border-top-right-radius: .5rem;
+      background: linear-gradient(to right, #059669, #047857);
+      color: white;
+      padding: 1.25rem;
+      border-top-left-radius: .5rem;
+      border-top-right-radius: .5rem;
     }
     .modal-header-custom h5 {
-        margin: 0;
-        font-size: 1.25rem;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        gap: 10px;
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
     .modal-body-custom {
-        padding: 1.5rem;
-        overflow-y: auto;
+      padding: 1.5rem;
+      overflow-y: auto;
     }
     .modal-footer-custom {
-        padding: 1rem;
-        display: flex;
-        justify-content: flex-end;
-        gap: .5rem;
-        border-top: 1px solid #e2e8f0;
+      padding: 1rem;
+      display: flex;
+      justify-content: flex-end;
+      gap: .5rem;
+      border-top: 1px solid #e2e8f0;
     }
     .upload-area {
-        border: 2px dashed #dee2e6;
-        border-radius: .5rem;
-        padding: 2rem;
-        text-align: center;
-        cursor: pointer;
-        transition: background-color .2s;
+      border: 2px dashed #dee2e6;
+      border-radius: .5rem;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: background-color .2s;
     }
     .upload-area:hover {
-        background-color: #f8f9fa;
+      background-color: #f8f9fa;
     }
     .upload-area i {
-        font-size: 2rem;
-        color: #6c757d;
+      font-size: 2rem;
+      color: #6c757d;
     }
     .upload-area p {
-        margin-top: 1rem;
-        color: #6c757d;
+      margin-top: 1rem;
+      color: #6c757d;
     }
 
     /* Responsive */
     @media (max-width: 991px) {
       .sidebar { transform: translateX(-100%); }
       .sidebar.show { transform: translateX(0); }
-      .main-wrapper { margin-left: 0; }
+      .navbar-custom, .title-bar, .main-content, .footer-custom { margin-left: 0; }
       .time-date { flex-direction: column; gap: 6px; align-items: flex-start; }
       .account span { font-size: 12px; }
       .sidebar .menu a, .sidebar .menu button { font-size: 12.5px; }
+
+      .search-filter-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .search-box,
+      .filter-select {
+        width: 100%;
+      }
+      .btn-tambah-container {
+        margin-left: 0;
+        width: 100%;
+      }
+      .btn-tambah {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
 
-<div class="layout">
-  <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
     <div class="brand">SI<span>KEMAH</span></div>
     <div class="menu-wrapper">
@@ -391,116 +482,125 @@
     </div>
   </div>
 
-  <!-- Overlay -->
   <div class="overlay" id="overlay"></div>
 
-  <div class="main-wrapper">
-    <!-- Navbar -->
-    <div class="navbar-custom">
-      <div class="d-flex align-items: center">
-        <button class="btn btn-link text-dark me-3" id="toggleSidebar" aria-label="Toggle Sidebar">
-          <i class="lni lni-menu"></i>
-        </button>
+  <div class="navbar-custom">
+    <div class="d-flex align-items: center">
+      <button class="btn btn-link text-dark me-3" id="toggleSidebar" aria-label="Toggle Sidebar">
+        <i class="lni lni-menu"></i>
+      </button>
+    </div>
+    <div class="d-flex align-items: center">
+      <div class="time-date me-2">
+        <div><i class="lni lni-calendar"></i> <span id="current-date"></span></div>
+        <div><i class="lni lni-timer"></i> <span id="current-time"></span></div>
       </div>
-      <div class="d-flex align-items: center">
-        <div class="time-date me-2">
-          <div><i class="lni lni-calendar"></i> <span id="current-date"></span></div>
-          <div><i class="lni lni-timer"></i> <span id="current-time"></span></div>
-        </div>
-        <div class="account">
-          <div class="account-circle">KTU</div>
+      <div class="dropdown">
+        <a href="#" class="account text-decoration-none text-dark" data-bs-toggle="dropdown" aria-expanded="false">
+          <span class="icon-circle"><i class="lni lni-user"></i></span>
           <span>Halo, Ketua TU</span>
           <i class="lni lni-chevron-down"></i>
-        </div>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end shadow">
+          <li>
+            <a class="dropdown-item d-flex align-items-center" href="/ubah-password">
+              <i class="lni lni-key me-2"></i> Ubah Password
+            </a>
+          </li>
+          <li><hr class="dropdown-divider"></li>
+          <li>
+            <a class="dropdown-item d-flex align-items-center dropdown-item-danger" href="/logout">
+              <i class="lni lni-exit me-2"></i> Keluar
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
+  </div>
 
-    <!-- Title Bar -->
-    <div class="title-bar">
-      <h1><i class="lni lni-pencil-alt"></i> <span id="page-title">Editor Kegiatan - Penghargaan</span></h1>
-    </div>
+  <div class="title-bar">
+    <h1><i class="lni lni-pencil-alt"></i> <span id="page-title">Editor Kegiatan - Penghargaan</span></h1>
+  </div>
 
-    <!-- Main Content -->
-    <div class="main-content">
-        <div class="card">
-            <!-- Filters and Actions -->
-            <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-                <div class="d-flex gap-2 flex-wrap">
-                    <select class="form-select" style="width: auto;"><option selected>Tahun</option><option>2023</option></select>
-                    <div class="input-group" style="width: 250px;">
-                        <span class="input-group-text bg-light border-end-0"><i class="fas fa-search"></i></span>
+  <div class="main-content">
+      <div class="card">
+          <div class="search-filter-container">
+            <div class="search-filter-row">
+                <div class="search-box">
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0"><i class="fas fa-search" style="color: green;"></i></span>
                         <input type="text" class="form-control border-start-0" placeholder="Cari Data ....">
                     </div>
                 </div>
-                <a href="#" class="btn btn-tambah fw-bold" onclick="openModal('penghargaanModal')"><i class="fa fa-plus me-2"></i> Tambah Data</a>
+                <select class="form-select filter-select"><option selected>Tahun</option><option>2023</option></select>
+                <div class="btn-tambah-container">
+                    <a href="#" class="btn btn-tambah fw-bold" onclick="openModal('penghargaanModal')"><i class="fa fa-plus me-2"></i> Tambah Data</a>
+                </div>
             </div>
+          </div>
 
-            <!-- Table -->
-            <div class="table-responsive">
-              <table class="table table-hover table-bordered">
-                  <thead class="table-light">
-                      <tr class="text-center">
-                          <th>No</th>
-                          <th class="text-start">Nama Kegiatan</th>
-                          <th>Unit</th>
-                          <th>Nomor</th>
-                          <th>Penghargaan</th>
-                          <th>Lingkup</th>
-                          <th>Tahun</th>
-                          <th>Dokumen</th>
-                          <th>Aksi</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      <script>
-                          for(let i=1; i<=6; i++){ 
-                              document.write(`
-                                  <tr>
-                                      <td class="text-center">${i}</td>
-                                      <td class="text-start">Alex Kurniawan</td>
-                                      <td class="text-center">IPDN</td>
-                                      <td class="text-center">Biometrika Hutan</td>
-                                      <td class="text-center">Magos</td>
-                                      <td class="text-center">12 Januari 2023</td>
-                                      <td class="text-center">19 Januari 2023</td>
-                                      <td class="text-center"><a href="#" class="btn btn-sm btn-info text-white">Lihat</a></td>
-                                      <td class="text-center">
-                                          <div class="d-flex gap-2 justify-content-center">
-                                              <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail"><i class="fa fa-eye"></i></a>
-                                              <a href="#" class="btn-aksi btn-edit" title="Edit Data" onclick="openEditModal()"><i class="fa fa-edit"></i></a>
-                                              <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
-                                          </div>
-                                      </td>
-                                  </tr>
-                              `);
-                          }
-                      </script>
-                  </tbody>
-              </table>
-            </div>
-            
-            <div class="d-flex justify-content-between align-items-center mt-4">
-                <span class="text-muted small">Menampilkan 1 sampai 10 dari 13 data</span>
-                <nav aria-label="Page navigation">
-                  <ul class="pagination pagination-sm mb-0">
-                    <li class="page-item disabled"><a class="page-link" href="#">Sebelumnya</a></li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">Berikutnya</a></li>
-                  </ul>
-                </nav>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="footer-custom">
-      <span>© 2025 Forest Management — All Rights Reserved</span>
-    </footer>
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered">
+                <thead class="table-light">
+                    <tr class="text-center">
+                        <th>No</th>
+                        <th class="text-start">Nama Kegiatan</th>
+                        <th>Unit</th>
+                        <th>Nomor</th>
+                        <th>Penghargaan</th>
+                        <th>Lingkup</th>
+                        <th>Tahun</th>
+                        <th>Dokumen</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <script>
+                      for(let i=1; i<=6; i++){ 
+                          document.write(`
+                              <tr>
+                                  <td class="text-center">${i}</td>
+                                  <td class="text-start">Alex Kurniawan</td>
+                                  <td class="text-center">IPDN</td>
+                                  <td class="text-center">Biometrika Hutan</td>
+                                  <td class="text-center">Magos</td>
+                                  <td class="text-center">Nasional</td>
+                                  <td class="text-center">2023</td>
+                                  <td class="text-center"><a href="#" class="btn btn-sm btn-info text-white">Lihat</a></td>
+                                  <td class="text-center">
+                                      <div class="d-flex gap-2 justify-content-center">
+                                          <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail"><i class="fa fa-eye"></i></a>
+                                          <a href="#" class="btn-aksi btn-edit" title="Edit Data" onclick="openEditModal()"><i class="fa fa-edit"></i></a>
+                                          <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
+                                      </div>
+                                  </td>
+                              </tr>
+                          `);
+                      }
+                    </script>
+                </tbody>
+            </table>
+          </div>
+          
+          <div class="d-flex justify-content-between align-items-center mt-4">
+              <span class="text-muted small">Menampilkan 1 sampai 10 dari 13 data</span>
+              <nav aria-label="Page navigation">
+                <ul class="pagination pagination-sm mb-0">
+                  <li class="page-item disabled"><a class="page-link" href="#">Sebelumnya</a></li>
+                  <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                  <li class="page-item"><a class="page-link" href="#">2</a></li>
+                  <li class="page-item"><a class="page-link" href="#">Berikutnya</a></li>
+                </ul>
+              </nav>
+          </div>
+      </div>
   </div>
+
+  <footer class="footer-custom">
+    <span>© 2025 Forest Management — All Rights Reserved</span>
+  </footer>
   
-  <!-- Modal Tambah/Edit Penghargaan -->
-    <div class="modal-backdrop" id="penghargaanModal">
+  <div class="modal-backdrop" id="penghargaanModal">
         <div class="modal-content-wrapper">
             <div class="modal-header-custom">
                 <h5 id="modalTitle"><i class="fas fa-plus-circle"></i> Tambah Data Penghargaan</h5>
@@ -545,40 +645,45 @@
         </div>
     </div>
 
-  <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-    const toggleSidebarBtn = document.getElementById('toggleSidebar');
+    document.addEventListener('DOMContentLoaded', function() {
+      // === Sidebar Logic ===
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('overlay');
+      const toggleSidebarBtn = document.getElementById('toggleSidebar');
 
-    toggleSidebarBtn.addEventListener('click', function () {
-      const isMobile = window.innerWidth <= 991;
-      if (isMobile) {
-        sidebar.classList.toggle('show');
-        overlay.classList.toggle('show', sidebar.classList.contains('show'));
-      } else {
-        sidebar.classList.toggle('hidden');
+      if (toggleSidebarBtn) {
+        toggleSidebarBtn.addEventListener('click', function () {
+          const isMobile = window.innerWidth <= 991;
+          if (isMobile) {
+            sidebar.classList.toggle('show');
+            overlay.classList.toggle('show', sidebar.classList.contains('show'));
+          } else {
+            sidebar.classList.toggle('hidden');
+          }
+        });
       }
-    });
 
-    overlay.addEventListener('click', function () {
-      sidebar.classList.remove('show');
-      overlay.classList.remove('show');
+      if (overlay) {
+        overlay.addEventListener('click', function () {
+          sidebar.classList.remove('show');
+          overlay.classList.remove('show');
+        });
+      }
+      
+      // === Date and Time Logic ===
+      function updateDateTime() {
+        const now = new Date();
+        const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone: 'Asia/Jakarta' };
+        
+        document.getElementById('current-date').textContent = now.toLocaleDateString('id-ID', dateOptions);
+        document.getElementById('current-time').textContent = now.toLocaleTimeString('id-ID', timeOptions);
+      }
+      setInterval(updateDateTime, 1000);
+      updateDateTime();
     });
-
-    function updateDateTime() {
-      const now = new Date();
-      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-      document.getElementById('current-date').textContent = now.toLocaleDateString('id-ID', options);
-      document.getElementById('current-time').textContent = now.toLocaleTimeString('id-ID', { 
-        hour: '2-digit', 
-        minute: '2-digit', 
-        second: '2-digit'
-      });
-    }
-    setInterval(updateDateTime, 1000);
-    updateDateTime();
     
     // Modal Functions
     function openModal(modalId) {
