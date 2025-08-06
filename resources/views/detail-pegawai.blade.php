@@ -178,27 +178,52 @@
         }
         .time-date i { color: #4b5563; font-size: 13px; }
 
-        .account {
-            display: flex;
-            align-items: center;
-            font-size: 13px;
-            font-weight: 400;
-            cursor: pointer;
-            margin-left: 10px;
-            gap: 6px;
-        }
-        .account-circle {
-            background: orange;
-            color: #fff;
-            border-radius: 50%;
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 12px;
-        }
+       .account {
+      display: flex;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 400;
+      cursor: pointer;
+      margin-left: 10px;
+      gap: 6px;
+    }
+    .icon-circle {
+      background: var(--primary);
+      color: white;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .dropdown-item i {
+      min-width: 24px;
+      text-align: center;
+    }
+    .dropdown-menu {
+      margin-top: 5px !important;
+      padding: 0;
+      overflow: hidden;
+      border-radius: 0.375rem;
+    }
+    .dropdown-item {
+      padding: 10px 16px;
+      font-size: 13px;
+    }
+    .dropdown-divider {
+      margin: 0;
+    }
+    .dropdown-item-danger {
+      color: #dc3545;
+    }
+    .dropdown-item-danger:hover,
+    .dropdown-item-danger:focus {
+      color: #fff;
+      background-color: #dc3545;
+    }
 
         /* Title Bar */
         .title-bar {
@@ -357,6 +382,47 @@
             color: #6c757d;
         }
 
+        /* Filter Section */
+.search-filter-container {
+  padding: 0;
+  margin-bottom: 1.5rem;
+}
+.search-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+.search-box {
+  flex: 1;
+  min-width: 250px;
+}
+.filter-select {
+  width: 180px;
+}
+.btn-tambah-container {
+  margin-left: auto;
+}
+
+/* Penyesuaian untuk Tampilan Mobile */
+@media (max-width: 991px) {
+  .search-filter-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .search-box,
+  .filter-select {
+    width: 100%;
+  }
+  .btn-tambah-container {
+    margin-left: 0;
+    width: 100%;
+  }
+  .btn-tambah-container .d-flex {
+    flex-direction: column;
+    width: 100%;
+  }
+}
         /* Footer */
         .footer-custom {
             background: #fff;
@@ -429,11 +495,26 @@
                     <div><i class="lni lni-calendar"></i> <span id="current-date"></span></div>
                     <div><i class="lni lni-timer"></i> <span id="current-time"></span></div>
                 </div>
-                <div class="account">
-                    <div class="account-circle">KTU</div>
-                    <span>Halo, Ketua TU</span>
-                    <i class="lni lni-chevron-down"></i>
-                </div>
+                <div class="dropdown">
+        <a href="#" class="account text-decoration-none text-dark" data-bs-toggle="dropdown" aria-expanded="false">
+          <span class="icon-circle"><i class="lni lni-user"></i></span>
+          <span>Halo, Ketua TU</span>
+          <i class="lni lni-chevron-down"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end shadow">
+          <li>
+            <a class="dropdown-item d-flex align-items-center" href="/ubah-password">
+              <i class="lni lni-key me-2"></i> Ubah Password
+            </a>
+          </li>
+          <li><hr class="dropdown-divider"></li>
+          <li>
+            <a class="dropdown-item d-flex align-items-center dropdown-item-danger" href="/logout">
+              <i class="lni lni-exit me-2"></i> Keluar
+            </a>
+          </li>
+        </ul>
+      </div>
             </div>
         </div>
 
@@ -444,14 +525,23 @@
 
         <!-- Main Content -->
         <div class="main-content">
-            <div class="search-and-actions">
-                <div class="main-search-bar"><input type="text" class="form-control" placeholder="🔍 Cari Data Pegawai"></div>
-                <div class="action-buttons">
-                    <a href="/daftar-pegawai" class="btn btn-outline-secondary"><i class="fas fa-arrow-left"></i> Kembali Ke Daftar</a>
-                    <button class="btn btn-success"><i class="fas fa-save"></i> Simpan</button>
-                    <button class="btn btn-danger"><i class="fas fa-trash"></i> Hapus</button>
-                </div>
+            <div class="search-filter-container">
+    <div class="search-filter-row">
+        <div class="search-box">
+            <div class="input-group">
+                <span class="input-group-text bg-light border-end-0"><i class="fas fa-search"></i></span>
+                <input type="text" class="form-control border-start-0" placeholder="Cari Data Pegawai...">
             </div>
+        </div>
+        <div class="btn-tambah-container">
+            <div class="d-flex gap-2 flex-wrap">
+                <a href="/daftar-pegawai" class="btn btn-outline-secondary"><i class="fas fa-arrow-left me-2"></i>Kembali</a>
+                <button class="btn btn-success"><i class="fas fa-save me-2"></i>Simpan</button>
+                <button class="btn btn-danger"><i class="fas fa-trash me-2"></i>Hapus</button>
+            </div>
+        </div>
+    </div>
+</div>
 
             <div class="card">
                 <div class="card-body p-4">
@@ -513,6 +603,7 @@
                                     <button type="button" class="btn" data-tab="penguji-luar">Penguji Luar IPB</button>
                                     <button type="button" class="btn" data-tab="pembimbing-luar">Pembimbing Luar IPB</button>
                                 </div>
+                                
                                 <div class="tab-filters">
                                     <div class="filter-group">
                                         <div class="filter-dropdown-wrapper">
