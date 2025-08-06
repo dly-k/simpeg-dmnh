@@ -9,10 +9,6 @@
   <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
     :root {
       --primary: #049466;
       --primary-light: #e3f7ec;
@@ -25,12 +21,7 @@
       background-color: #f5f6fa;
     }
 
-    .layout {
-      display: flex;
-      height: 100vh;
-    }
-
-    /* Sidebar */
+/* Sidebar */
     .sidebar {
       width: 250px;
       height: 100vh;
@@ -45,7 +36,9 @@
       z-index: 1001;
       transform: translateX(0);
     }
-    .sidebar.hidden { transform: translateX(-100%); }
+    .sidebar.hidden {
+      transform: translateX(-100%);
+    }
 
     .sidebar .brand {
       font-size: 24px;
@@ -61,6 +54,8 @@
     .sidebar .menu-wrapper {
       overflow-y: auto;
       flex-grow: 1;
+      padding-bottom: 80px;
+      max-height: calc(100vh - 66px);
     }
 
     .menu p {
@@ -94,6 +89,7 @@
       background-color: var(--primary);
       color: #fff;
       font-weight: 600;
+      box-shadow: inset 4px 0 0 #034d26;
     }
     .sidebar .menu a i,
     .sidebar .menu button i {
@@ -106,18 +102,20 @@
     }
 
     .sidebar .submenu a {
-      padding: 9px 20px 9px 45px;
+      padding: 9px 35px;
       font-size: 12.5px;
     }
-    
+    .sidebar .menu a:first-of-type {
+      margin-top: 10px;
+    }
+
     .toggle-icon {
       margin-left: auto;
       transition: transform 0.3s;
     }
     .collapsed .toggle-icon { transform: rotate(-90deg); }
 
-    /* Overlay for mobile sidebar */
-    .overlay {
+   .overlay {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
@@ -127,20 +125,6 @@
     }
     .overlay.show { display: block; }
 
-    /* Main Area */
-    .main-wrapper {
-        flex-grow: 1;
-        margin-left: 250px;
-        transition: margin-left 0.3s ease-in-out;
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-    }
-    .sidebar.hidden ~ .main-wrapper {
-        margin-left: 0;
-    }
-
-    /* Navbar */
     .navbar-custom {
       height: 66px;
       background: #fff;
@@ -149,9 +133,18 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 20px;
-      flex-shrink: 0;
+      margin-left: 250px;
+      transition: margin-left 0.3s ease-in-out;
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      z-index: 999;
     }
-    
+    body.sidebar-collapsed .navbar-custom {
+      margin-left: 0;
+    }
+
     .time-date {
       font-size: 13px;
       display: flex;
@@ -175,27 +168,78 @@
       margin-left: 10px;
       gap: 6px;
     }
-    .account-circle {
-      background: orange;
-      color: #fff;
+
+    .icon-circle {
+      background: var(--primary);  /* hijau sesuai tema */
+      color: white;
       border-radius: 50%;
-      width: 32px;
-      height: 32px;
+      width: 28px;
+      height: 28px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 700;
-      font-size: 12px;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .dropdown-item i {
+        min-width: 24px;
+        text-align: center;
+    }
+    .dropdown-item:hover,
+    .dropdown-item:focus {
+      background-color: #f0f0f0; /* warna hover abu-abu terang */
+      color: #111;               /* warna teks tetap gelap */
+      text-decoration: none;
+      outline: none;
+      box-shadow: none;
     }
 
-    /* Title Bar */
+    /* Hilangkan efek biru saat diklik/fokus */
+    .dropdown-item:active {
+      background-color: #e9e9e9;
+      color: #111;
+    }
+    .dropdown-menu {
+      margin-top: 5px !important;
+      padding: 0;               /* Hapus padding agar elemen menempel */
+      overflow: hidden;         /* Pastikan tidak terpotong */
+      border-radius: 0.375rem;  /* Tetap rounded */
+    }
+
+    .dropdown-item {
+      padding: 10px 16px;       /* Sedikit lebih kecil dari default */
+      font-size: 13px;
+    }
+
+    .dropdown-divider {
+      margin: 0;                /* Hapus margin atas-bawah garis */
+    }
+
+    .dropdown-item-danger {
+      color: #dc3545;
+    }
+
+    .dropdown-item-danger:hover,
+    .dropdown-item-danger:focus {
+      color: #fff;
+      background-color: #dc3545;
+    }
     .title-bar {
       background: linear-gradient(to right, #059669, #047857);
       color: white;
       padding: 20px 25px;
+      margin-left: 250px;
+      transition: margin-left 0.3s ease-in-out;
+      position: fixed;
+      top: 66px;
+      left: 0;
+      right: 0;
+      z-index: 998;
       display: flex;
       align-items: center;
-      flex-shrink: 0;
+    }
+     body.sidebar-collapsed .title-bar {
+      margin-left: 0;
     }
 
     .title-bar h1 {
@@ -208,28 +252,37 @@
     }
     .title-bar h1 i { font-size: 22px; }
 
-    /* Main Content */
     .main-content {
+      margin-left: 250px;
       padding: 25px;
+      transition: margin-left 0.3s ease-in-out;
       background-color: #f5f6fa;
-      flex-grow: 1;
-      overflow-y: auto;
+      margin-top: 130px;
+      font-size: 14px;
+      padding-bottom: 70px;
+    }
+     body.sidebar-collapsed .main-content {
+      margin-left: 0;
     }
     
     .table-card {
       background: white;
-      padding: 2rem;
+      padding: 1.5rem;
       border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
     
     .table {
         vertical-align: middle;
+        font-size: 12px;
     }
 
     .table th {
         font-weight: 600;
+        vertical-align: middle !important;
+        text-align: center !important;
     }
+
     
     .btn-aksi {
         width: 32px;
@@ -246,8 +299,89 @@
     .btn-edit { background-color: #ffc107; border-color: #ffc107; }
     .btn-hapus { background-color: #dc3545; border-color: #dc3545; }
 
-    /* Footer */
-    .footer-custom {
+    .btn-lihat:hover {
+        background-color: #0593b0;
+        color: white;
+        transform: scale(1.15); /* Sedikit membesar */
+        filter: brightness(1.2); /* Mencerahkan warna tombol */
+        box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+
+    .btn-edit:hover {
+        background-color: #b58802;
+        color: white;
+        transform: scale(1.15); /* Sedikit membesar */
+        filter: brightness(1.2); /* Mencerahkan warna tombol */
+        box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+
+    .btn-hapus:hover {
+        background-color: #a21927;
+        color: white;
+        transform: scale(1.15); /* Sedikit membesar */
+        filter: brightness(1.2); /* Mencerahkan warna tombol */
+        box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+
+.btn.fw-bold:hover {
+  background-color: #545454; /* ganti sesuai kebutuhan */
+  color: #fff;
+  transform: scale(1.03); /* contoh efek membesar sedikit */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* bayangan lembut */
+  transition: all 0.2s ease-in-out;
+}
+
+   .search-group {
+  border: 1px solid #e2e8f0; /* abu terang */
+  border-radius: .5rem;
+  background-color: white;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.search-group:focus-within {
+  border-color: var(--primary); /* hijau lembut */
+  box-shadow: 0 0 0 2px rgba(4, 148, 102, 0.15); /* glow hijau tipis */
+}
+
+.search-group .input-group-text {
+  background-color: transparent;
+  border: none;
+  color: var(--primary); /* hijau */
+  font-size: 1rem;
+}
+
+.search-group .form-control {
+  border: none;
+  background-color: transparent;
+  color: #2d3748; /* abu gelap */
+  font-size: 14px;
+}
+
+.search-group .form-control::placeholder {
+  color: #a0aec0; /* placeholder abu muda */
+  font-weight: 400;
+}
+
+
+
+        /* Pagination Kustom */
+    .pagination .page-item.active .page-link {
+        background-color: var(--primary);
+        border-color: var(--primary);
+        color: white;
+    }
+    .pagination .page-link {
+        color: var(--primary);
+    }
+    .pagination .page-link:hover {
+        background-color: var(--primary-light);
+    }
+    .pagination .page-item.disabled .page-link {
+        color: #6c757d;
+    }
+
+   .footer-custom {
       background: #fff;
       border-top: 1px solid var(--border-color);
       height: 45px;
@@ -257,7 +391,16 @@
       padding: 0 20px;
       font-size: 12px;
       color: #555;
-      flex-shrink: 0;
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      margin-left: 250px;
+      transition: margin-left 0.3s ease-in-out;
+      z-index: 997;
+    }
+    body.sidebar-collapsed .footer-custom {
+      margin-left: 0;
     }
     
     /* Modal Styles */
@@ -315,6 +458,7 @@
     @media (max-width: 991px) {
       .sidebar { transform: translateX(-100%); }
       .sidebar.show { transform: translateX(0); }
+      .navbar-custom, .title-bar, .main-content, .footer-custom { margin-left: 0 !important; }
       .main-wrapper { margin-left: 0; }
       .time-date { flex-direction: column; gap: 6px; align-items: flex-start; }
       .account span { font-size: 12px; }
@@ -369,12 +513,29 @@
           <div><i class="lni lni-calendar"></i> <span id="current-date"></span></div>
           <div><i class="lni lni-timer"></i> <span id="current-time"></span></div>
         </div>
-        <div class="account">
-          <div class="account-circle">KTU</div>
+       <div class="dropdown">
+        <a href="#" class="account text-decoration-none text-dark" data-bs-toggle="dropdown" aria-expanded="false">
+          <span class="icon-circle"><i class="lni lni-user"></i></span>
           <span>Halo, Ketua TU</span>
           <i class="lni lni-chevron-down"></i>
+        </a>
+          <ul class="dropdown-menu dropdown-menu-end shadow">
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="/ubah-password">
+                <i class="lni lni-key me-2"></i> Ubah Password
+              </a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center dropdown-item-danger" href="/logout">
+                <i class="lni lni-exit me-2"></i> Keluar
+              </a>
+            </li>
+          </ul>
         </div>
+
       </div>
+    </div>
     </div>
 
     <!-- Title Bar -->
@@ -384,85 +545,145 @@
 
     <!-- Main Content -->
     <div class="main-content">
-        <div class="table-card">
-          <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-              <div class="d-flex gap-2 flex-wrap">
-                  <div class="input-group" style="width: 250px;">
-                      <span class="input-group-text bg-light border-end-0"><i class="fas fa-search"></i></span>
-                      <input type="text" class="form-control border-start-0" placeholder="Cari Data ....">
-                  </div>
-                  <select class="form-select" style="width: auto;">
-                      <option selected>-- Filter Status --</option>
-                      <option value="aktif">Aktif</option>
-                      <option value="nonaktif">Nonaktif</option>
-                  </select>
-              </div>
-              <button class="btn btn-success fw-bold" onclick="openModal('pegawaiModal')"><i class="fa fa-plus me-2"></i> Tambah Data</button>
-          </div>
-
-          <div class="table-responsive">
-            <table class="table table-hover table-bordered">
-              <thead class="table-light">
-                <tr class="text-center">
-                  <th>No</th>
-                  <th class="text-start">Nama Lengkap</th>
-                  <th>NIP</th>
-                  <th>Status Kepegawaian</th>
-                  <th>Jabatan Fungsional</th>
-                  <th>Jabatan Struktural</th>
-                  <th>Pangkat/Golongan</th>
-                  <th>Status Pegawai</th>
-                  <th>Aksi</th>
-                </tr>
-              </thead>
-              <tbody>
-                <script>
-                    const data = [
-                        { name: 'Joko Anwar S.pd', nip: '292281910', status_kepegawaian: 'Tenaga Pendidik - Dosen', jabatan_fungsional: 'Lektor', jabatan_struktural: 'Ketua Departemen', pangkat: 'Penata Muda / III-a', status_pegawai: 'Aktif' },
-                        { name: 'Dr. Soni Trison, S.Hut, M.Si', nip: '197801012003121002', status_kepegawaian: 'Tenaga Pendidik - Dosen', jabatan_fungsional: 'Lektor Kepala', jabatan_struktural: 'Kepala Divisi', pangkat: 'Pembina / IV-a', status_pegawai: 'Aktif' },
-                        { name: 'Ria Kodariah, S.Si', nip: '198103152005012001', status_kepegawaian: 'Tenaga Kependidikan', jabatan_fungsional: '-', jabatan_struktural: 'Staf Administrasi', pangkat: 'Pengatur / II-c', status_pegawai: 'Aktif' },
-                        { name: 'Meli Surnami', nip: '198505202015042001', status_kepegawaian: 'Tenaga Kependidikan', jabatan_fungsional: '-', jabatan_struktural: 'Staf Keuangan', pangkat: 'Penata Muda / III-a', status_pegawai: 'Nonaktif' },
-                    ];
-                    data.forEach((item, index) => {
-                        document.write(`
-                            <tr>
-                                <td class="text-center">${index + 1}</td>
-                                <td>${item.name}</td>
-                                <td class="text-center">${item.nip}</td>
-                                <td class="text-center">${item.status_kepegawaian}</td>
-                                <td class="text-center">${item.jabatan_fungsional}</td>
-                                <td class="text-center">${item.jabatan_struktural}</td>
-                                <td class="text-center">${item.pangkat}</td>
-                                <td class="text-center"><span class="badge ${item.status_pegawai === 'Aktif' ? 'text-bg-success' : 'text-bg-secondary'}">${item.status_pegawai}</span></td>
-                                <td class="text-center">
-                                    <div class="d-flex gap-2 justify-content-center">
-                                        <a href="/detail-pegawai" class="btn-aksi btn-lihat" title="Lihat Detail"><i class="fa fa-eye"></i></a>
-                                        <button class="btn-aksi btn-edit" title="Edit Data" onclick='openEditModal(${JSON.stringify(item)})'><i class="fa fa-edit"></i></button>
-                                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                        `);
-                    });
-                </script>
-              </tbody>
-            </table>
-          </div>
-
-          <div class="d-flex justify-content-between align-items-center mt-3">
-            <span class="text-muted small">Menampilkan 4 dari 13 data</span>
-            <nav aria-label="Page navigation">
-              <ul class="pagination pagination-sm mb-0">
-                <li class="page-item disabled"><a class="page-link" href="#">Sebelumnya</a></li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">Berikutnya</a></li>
-              </ul>
-            </nav>
+      <div class="table-card">
+        <!-- Top Action Bar -->
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+      
+      <!-- Left side: Search & Filter -->
+      <div class="d-flex align-items-center flex-wrap gap-2 flex-grow-1" style="min-width: 0;">
+        
+        <!-- Search Input -->
+        <div class="search-group flex-grow-1">
+          <div class="input-group bg-white shadow-sm" style="border-radius: .5rem; min-width: 180px;">
+            <span class="input-group-text bg-transparent border-0 p-1">
+              <i class="lni lni-search-alt small"></i>
+            </span>
+            <input type="text" 
+                  class="form-control form-control-sm bg-transparent border-0" 
+                  placeholder="Cari nama atau NIP...">
           </div>
         </div>
+
+        <!-- Filter Status Pegawai -->
+        <div style="min-width: 120px;">
+          <select class="form-select form-select-sm w-100">
+            <option selected disabled>Status</option>
+            <option value="aktif">Aktif</option>
+            <option value="pensiun">Pensiun</option>
+            <option value="diberhentikan">Diberhentikan</option>
+            <option value="meninggal">Meninggal</option>
+            <option value="kontrak_selesai">Kontrak Selesai</option>
+            <option value="mengundurkan_diri">Mengundurkan Diri</option>
+            <option value="mutasi">Mutasi</option>
+            <option value="nonaktif">Nonaktif</option>
+          </select>
+        </div>
+
+        <!-- Filter Kepegawaian -->
+        <div style="min-width: 180px;">
+          <select class="form-select form-select-sm w-100">
+            <option selected disabled>Kepegawaian</option>
+            <option value="pns">Dosen PNS</option>
+            <option value="pppk">Dosen Tetap</option>
+            <option value="honorer">Tendik Tetap</option>
+            <option value="kontrak">Tendik Kontrak</option>
+            <option value="dosen_tamu">Dosen Tamu</option>
+            <option value="thl">THL</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Right side: Add Data Button -->
+      <div>
+        <button class="btn btn-sm fw-bold" style="background-color: #2d3748; color: white;" onclick="openModal('pegawaiModal')">
+          <i class="fa fa-plus me-2"></i> Tambah Data
+        </button>
+      </div>
     </div>
+
+
+        <!-- Table -->
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered">
+            <thead class="table-light">
+              <tr class="text-center">
+                <th>No</th>
+                <th class="text-start">Nama Lengkap</th>
+                <th>NIP</th>
+                <th>Status Kepegawaian</th>
+                <th>Jabatan Fungsional</th>
+                <th>Jabatan Struktural</th>
+                <th>Pangkat/Gol</th>
+                <th>Status Pegawai</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <script>
+                const data = [
+                  { name: 'Joko Anwar S.pd', nip: '194909061979031001', status_kepegawaian: 'Dosen tetap', jabatan_fungsional: 'Lektor', jabatan_struktural: 'Ketua Departemen', pangkat: 'Penata Muda / III-a', status_pegawai: 'Meninggal' },
+                  { name: 'Dr. Soni Trison, S.Hut, M.Si', nip: '197801012003121002', status_kepegawaian: 'Dosen PNS', jabatan_fungsional: 'Lektor Kepala', jabatan_struktural: 'Kepala Divisi', pangkat: 'Pembina / IV-a', status_pegawai: 'Aktif' },
+                  { name: 'Ria Kodariah, S.Si', nip: '198103152005012001', status_kepegawaian: 'Tendik Tetap', jabatan_fungsional: '-', jabatan_struktural: 'Staf Administrasi', pangkat: 'Pengatur / II-c', status_pegawai: 'Pensiun' },
+                  { name: 'Meli Surnami', nip: '198505202015042001', status_kepegawaian: 'Tendik Tetap', jabatan_fungsional: '-', jabatan_struktural: 'Staf Keuangan', pangkat: 'Penata Muda / III-a', status_pegawai: 'Nonaktif' },
+                ];
+                
+                data.forEach((item, index) => {
+                  document.write(`
+                    <tr>
+                      <td class="text-center">${index + 1}</td>
+                      <td>${item.name}</td>
+                      <td class="text-center">${item.nip}</td>
+                      <td class="text-center">${item.status_kepegawaian}</td>
+                      <td class="text-center">${item.jabatan_fungsional}</td>
+                      <td class="text-center">${item.jabatan_struktural}</td>
+                      <td class="text-center">${item.pangkat}</td>
+                      <td class="text-center">
+                        <span class="badge 
+                          ${item.status_pegawai === 'Aktif' ? 'text-bg-success' : 
+                            item.status_pegawai === 'Pensiun' ? 'text-bg-warning' :
+                            item.status_pegawai === 'Diberhentikan' ? 'text-bg-danger' :
+                            item.status_pegawai === 'Meninggal' ? 'text-bg-dark' :
+                            item.status_pegawai === 'Kontrak Selesai' ? 'text-bg-info' :
+                            item.status_pegawai === 'Mengundurkan Diri' ? 'text-bg-primary' :
+                            item.status_pegawai === 'Mutasi' ? 'text-bg-secondary' :
+                            item.status_pegawai === 'Nonaktif' ? 'text-bg-secondary' :
+                            'text-bg-light'}">
+                          ${item.status_pegawai}
+                        </span>
+                      </td>
+                      <td class="text-center">
+                        <div class="d-flex gap-2 justify-content-center">
+                          <a href="/detail-pegawai" class="btn-aksi btn-lihat" title="Lihat Detail">
+                            <i class="fa fa-eye"></i>
+                          </a>
+                         <button class="btn btn-aksi btn-edit" title="Edit" onclick='openEditModal(${JSON.stringify(item)})'><i class="lni lni-pencil-alt"></i></button>
+                          <a href="#" class="btn-aksi btn-hapus" title="Hapus Data">
+                            <i class="fa fa-trash"></i>
+                          </a>
+                        </div>
+                      </td>
+                    </tr>
+                  `);
+                });
+              </script>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+      <div class="d-flex justify-content-between align-items-center flex-wrap mt-3 w-100">
+        <span class="text-muted small mb-2 mb-md-0">Menampilkan 4 dari 13 data</span>
+        <nav aria-label="Page navigation">
+          <ul class="pagination pagination-sm mb-0">
+            <li class="page-item disabled"><a class="page-link" href="#">Sebelumnya</a></li>
+            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">Berikutnya</a></li>
+          </ul>
+        </nav>
+      </div>
+
 
     <!-- Footer -->
     <footer class="footer-custom">
@@ -499,19 +720,30 @@
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-    const toggleSidebarBtn = document.getElementById('toggleSidebar');
+ const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const toggleSidebarBtn = document.getElementById('toggleSidebar');
+  const body = document.body;
 
-    toggleSidebarBtn.addEventListener('click', function () {
-      const isMobile = window.innerWidth <= 991;
-      if (isMobile) {
-        sidebar.classList.toggle('show');
-        overlay.classList.toggle('show', sidebar.classList.contains('show'));
-      } else {
-        sidebar.classList.toggle('hidden');
-      }
-    });
+  toggleSidebarBtn.addEventListener('click', function () {
+    const isMobile = window.innerWidth <= 991;
+    if (isMobile) {
+      sidebar.classList.toggle('show');
+      overlay.classList.toggle('show', sidebar.classList.contains('show'));
+    } else {
+      sidebar.classList.toggle('hidden');
+      body.classList.toggle('sidebar-collapsed');
+    }
+  });
+
+  document.addEventListener("DOMContentLoaded", function() {
+  const editorBtn = document.querySelector('[data-bs-target="#editorKegiatan"]');
+  const editorMenu = document.getElementById("editorKegiatan");
+
+  editorBtn.classList.remove("collapsed");
+  editorBtn.setAttribute("aria-expanded", "true");
+  editorMenu.classList.add("show");
+});
 
     overlay.addEventListener('click', function () {
       sidebar.classList.remove('show');

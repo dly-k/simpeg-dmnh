@@ -200,7 +200,7 @@
             <!-- Kiri: Logo & Deskripsi -->
             <div class="col-md-6 text-white px-4 logo-section">
                 <div class="d-flex align-items-center mb-3 text-start">
-                    <img src="/images/Logo.png" alt="Logo IPB" class="me-3 shadow" style="width: 90px; height: 90px;">
+                    <img src="/images/Logo.png" alt="Logo IPB" class="me-3" style="width: 90px; height: 90px;">
                     <div>
                         <h1 class="fw-bold mb-1">SI<span class="text-green-custom">KEMAH</span></h1>
                         <p class="small fw-medium text-light mb-0">
