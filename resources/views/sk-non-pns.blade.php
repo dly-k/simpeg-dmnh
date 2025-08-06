@@ -71,6 +71,9 @@
       color: #888;
     }
 
+    .sidebar .menu a:first-of-type {
+      margin-top: 10px;
+    }
     .sidebar .menu a,
     .sidebar .menu button {
       display: flex;

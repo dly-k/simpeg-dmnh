@@ -96,6 +96,9 @@
       color: #fff;
       font-weight: 600;
     }
+    .sidebar .menu a:first-of-type {
+      margin-top: 10px;
+    }
     .sidebar .menu a i,
     .sidebar .menu button i {
       margin-right: 12px;

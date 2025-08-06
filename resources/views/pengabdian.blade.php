@@ -9,10 +9,6 @@
   <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
     :root {
       --primary: #049466;
       --primary-light: #e3f7ec;
@@ -23,11 +19,6 @@
       font-family: 'Poppins', sans-serif;
       margin: 0;
       background-color: #f5f6fa;
-    }
-
-    .layout {
-      display: flex;
-      height: 100vh;
     }
 
     /* Sidebar */
@@ -106,14 +97,18 @@
       justify-content: center;
     }
 
+    .sidebar .menu a:first-of-type {
+      margin-top: 10px;
+    }
+
     .sidebar .submenu a {
       padding: 9px 20px 9px 45px;
       font-size: 12.5px;
     }
-     .sidebar .submenu a.active {
-        color: var(--primary);
-        font-weight: 600;
-        background-color: var(--primary-light);
+    .sidebar .submenu a.active {
+      color: var(--primary);
+      font-weight: 600;
+      background-color: var(--primary-light);
     }
     
     .toggle-icon {
@@ -133,19 +128,6 @@
     }
     .overlay.show { display: block; }
     
-    /* Main Area */
-    .main-wrapper {
-        flex-grow: 1;
-        margin-left: 250px;
-        transition: margin-left 0.3s ease-in-out;
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-    }
-    .sidebar.hidden ~ .main-wrapper {
-        margin-left: 0;
-    }
-
     /* Navbar */
     .navbar-custom {
       height: 66px;
@@ -155,8 +137,15 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 20px;
-      flex-shrink: 0;
+      margin-left: 250px;
+      transition: margin-left 0.3s ease-in-out;
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      z-index: 999;
     }
+    .sidebar.hidden ~ .navbar-custom { margin-left: 0; }
     
     .time-date {
       font-size: 13px;
@@ -172,6 +161,7 @@
     }
     .time-date i { color: #4b5563; font-size: 13px; }
 
+    /*akunnn*/
     .account {
       display: flex;
       align-items: center;
@@ -181,17 +171,61 @@
       margin-left: 10px;
       gap: 6px;
     }
-    .account-circle {
-      background: orange;
-      color: #fff;
+
+    .icon-circle {
+      background: var(--primary);  /* hijau sesuai tema */
+      color: white;
       border-radius: 50%;
-      width: 32px;
-      height: 32px;
+      width: 28px;
+      height: 28px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 700;
-      font-size: 12px;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .dropdown-item i {
+        min-width: 24px;
+        text-align: center;
+    }
+    .dropdown-item:hover,
+    .dropdown-item:focus {
+      background-color: #f0f0f0; /* warna hover abu-abu terang */
+      color: #111;               /* warna teks tetap gelap */
+      text-decoration: none;
+      outline: none;
+      box-shadow: none;
+    }
+
+    /* Hilangkan efek biru saat diklik/fokus */
+    .dropdown-item:active {
+      background-color: #e9e9e9;
+      color: #111;
+    }
+    .dropdown-menu {
+      margin-top: 5px !important;
+      padding: 0;               /* Hapus padding agar elemen menempel */
+      overflow: hidden;         /* Pastikan tidak terpotong */
+      border-radius: 0.375rem;  /* Tetap rounded */
+    }
+
+    .dropdown-item {
+      padding: 10px 16px;       /* Sedikit lebih kecil dari default */
+      font-size: 13px;
+    }
+
+    .dropdown-divider {
+      margin: 0;                /* Hapus margin atas-bawah garis */
+    }
+
+    .dropdown-item-danger {
+      color: #dc3545;
+    }
+
+    .dropdown-item-danger:hover,
+    .dropdown-item-danger:focus {
+      color: #fff;
+      background-color: #dc3545;
     }
 
     /* Title Bar */
@@ -199,10 +233,17 @@
       background: linear-gradient(to right, #059669, #047857);
       color: white;
       padding: 20px 25px;
+      margin-left: 250px;
+      transition: margin-left 0.3s ease-in-out;
+      position: fixed;
+      top: 66px;
+      left: 0;
+      right: 0;
+      z-index: 998;
       display: flex;
       align-items: center;
-      flex-shrink: 0;
     }
+    .sidebar.hidden ~ .navbar-custom ~ .title-bar { margin-left: 0; }
 
     .title-bar h1 {
       font-size: 20px;
@@ -216,50 +257,111 @@
 
     /* Main Content */
     .main-content {
+      margin-left: 250px;
       padding: 25px;
+      transition: margin-left 0.3s ease-in-out;
       background-color: #f5f6fa;
-      flex-grow: 1;
-      overflow-y: auto;
+      margin-top: 130px;
+      font-size: 14px;
+      padding-bottom: 70px;
     }
+    .sidebar.hidden ~ .navbar-custom ~ .title-bar ~ .main-content { margin-left: 0; }
     
     .card {
+      border: none;
       background: white;
-      padding: 2rem;
+      padding: 1.5rem 1.5rem 0 1.5rem;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.05);
     }
-    
-    .table {
-        vertical-align: middle;
-    }
 
-    .table th {
-        font-weight: 600;
+    /* Filter Section */
+    .search-filter-container {
+      padding: 0;
+      margin-bottom: 1.5rem;
+      border-radius: 0.5rem;
+    }
+    .search-filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+    }
+    .search-box {
+      flex: 1;
+      min-width: 250px;
+    }
+    .filter-select {
+      width: 180px;
+    }
+    .btn-tambah-container {
+      margin-left: auto;
     }
     
+    /* Table Styles */
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid #e0e0e0;
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
+    }
+    .table th,
+    .table td {
+      padding: 0.75rem 1rem;
+      border: 1px solid #e0e0e0;
+      vertical-align: middle;
+    }
+    .table thead th {
+      background-color: #f8f9fa;
+      border-bottom-width: 2px;
+      font-weight: 600;
+      color: #333;
+      text-align: center;
+    }
+    .table tbody tr:hover {
+      background-color: rgba(0, 0, 0, 0.02);
+    }
+    .table .text-center { text-align: center; }
+    .table .text-start { text-align: left; }
+    .table-hover tbody tr {
+      transition: background-color 0.2s ease;
+    }
+    .table-hover tbody tr:hover {
+      background-color: rgba(0, 0, 0, 0.03);
+    }
+    
+    /* Action Buttons */
     .btn-aksi {
-        width: 32px;
-        height: 32px;
-        border-radius: 6px !important;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0;
-        color: white;
-        text-decoration: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 6px !important;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      color: white;
+      text-decoration: none;
+      transition: all 0.2s ease;
     }
     .btn-lihat { background-color: #0dcaf0; border-color: #0dcaf0; }
     .btn-edit { background-color: #ffc107; border-color: #ffc107; }
     .btn-hapus { background-color: #dc3545; border-color: #dc3545; }
     .btn-verifikasi { background-color: #10b981; border-color: #10b981; }
-
+    .btn-aksi:hover {
+      transform: scale(1.1);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
     .btn-tambah {
-        background-color: #2d3748;
-        color: white;
+      background-color: #2d3748;
+      color: white;
+      transition: all 0.2s ease;
     }
     .btn-tambah:hover {
-        background-color: #1a202c;
-        color: white;
+      background-color: #1a202c;
+      color: white;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 
     /* Footer */
@@ -273,105 +375,163 @@
       padding: 0 20px;
       font-size: 12px;
       color: #555;
-      flex-shrink: 0;
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      margin-left: 250px;
+      transition: margin-left 0.3s ease-in-out;
+      z-index: 997;
+    }
+     .sidebar.hidden ~ .navbar-custom ~ .title-bar ~ .main-content ~ .footer-custom {
+      margin-left: 0;
     }
     
     /* Modal Styles */
     .modal-backdrop {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background-color: rgba(0,0,0,0.5);
-        display: none;
-        align-items: center;
-        justify-content: center;
-        z-index: 1050;
-        padding: 1rem;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0,0,0,0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1050;
+      padding: 1rem;
     }
     .modal-content-wrapper {
-        background-color: #fff;
-        border-radius: .5rem;
-        box-shadow: 0 5px 15px rgba(0,0,0,.5);
-        width: 100%;
-        max-width: 900px; /* Wider modal */
-        max-height: 90vh;
-        display: flex;
-        flex-direction: column;
+      background-color: #fff;
+      border-radius: .5rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,.1);
+      width: 100%;
+      max-width: 900px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
     }
     .modal-header-custom {
-        background: linear-gradient(to right, #059669, #047857);
-        color: white;
-        padding: 1.25rem;
-        border-top-left-radius: .5rem;
-        border-top-right-radius: .5rem;
+      background: linear-gradient(to right, #059669, #047857);
+      color: white;
+      padding: 1.25rem;
+      border-top-left-radius: .5rem;
+      border-top-right-radius: .5rem;
     }
     .modal-header-custom h5 {
-        margin: 0;
-        font-size: 1.25rem;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        gap: 10px;
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
     .modal-body-custom {
-        padding: 1.5rem;
-        overflow-y: auto;
+      padding: 1.5rem;
+      overflow-y: auto;
     }
     .modal-footer-custom {
-        padding: 1rem;
-        display: flex;
-        justify-content: flex-end;
-        gap: .5rem;
-        border-top: 1px solid #e2e8f0;
+      padding: 1rem;
+      display: flex;
+      justify-content: flex-end;
+      gap: .5rem;
+      border-top: 1px solid #e2e8f0;
     }
     .upload-area {
-        border: 2px dashed #dee2e6;
-        border-radius: .5rem;
-        padding: 2rem;
-        text-align: center;
-        cursor: pointer;
-        transition: background-color .2s;
+      border: 2px dashed #dee2e6;
+      border-radius: .5rem;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background-color: #f8f9fa;
     }
     .upload-area:hover {
-        background-color: #f8f9fa;
+      background-color: #e9ecef;
+      border-color: #adb5bd;
     }
     .upload-area i {
-        font-size: 2rem;
-        color: #6c757d;
+      font-size: 2rem;
+      color: #6c757d;
     }
     .upload-area p {
-        margin-top: 1rem;
-        color: #6c757d;
+      margin-top: 1rem;
+      color: #6c757d;
     }
     .dynamic-row {
-        border: 1px solid #e2e8f0;
-        border-radius: .375rem;
-        padding: 1rem;
-        position: relative;
+      border: 1px solid #e2e8f0;
+      border-radius: .375rem;
+      padding: 1rem;
+      position: relative;
+      margin-bottom: 1rem;
+      background-color: #f9f9f9;
     }
     .dynamic-row-close-btn {
-        position: absolute;
-        top: .5rem;
-        right: .5rem;
+      position: absolute;
+      top: .5rem;
+      right: .5rem;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background-color: #f8f9fa;
+      border: 1px solid #e2e8f0;
+      color: #dc3545;
+      font-size: 0.75rem;
+    }
+
+    /* Form Controls */
+    .form-control, .form-select {
+      border-radius: 0.375rem;
+      border: 1px solid #ced4da;
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+    .form-control:focus, .form-select:focus {
+      border-color: #80bdff;
+      outline: 0;
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
     }
 
     /* Responsive */
     @media (max-width: 991px) {
       .sidebar { transform: translateX(-100%); }
       .sidebar.show { transform: translateX(0); }
-      .main-wrapper { margin-left: 0; }
+      .navbar-custom, .title-bar, .main-content, .footer-custom { margin-left: 0; }
       .time-date { flex-direction: column; gap: 6px; align-items: flex-start; }
       .account span { font-size: 12px; }
       .sidebar .menu a, .sidebar .menu button { font-size: 12.5px; }
+      
+      .search-filter-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .search-box,
+      .filter-select {
+        width: 100%;
+      }
+      .btn-tambah-container {
+        margin-left: 0;
+        width: 100%;
+      }
+      .btn-tambah {
+        width: 100%;
+      }
+    }
+     @media (max-width: 768px) {
+      .table {
+        font-size: 0.8125rem;
+      }
+      .table th,
+      .table td {
+        padding: 0.5rem 0.75rem;
+      }
     }
   </style>
 </head>
 <body>
 
-<div class="layout">
-  <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
     <div class="brand">SI<span>KEMAH</span></div>
     <div class="menu-wrapper">
@@ -399,213 +559,228 @@
     </div>
   </div>
 
-  <!-- Overlay -->
   <div class="overlay" id="overlay"></div>
 
-  <div class="main-wrapper">
-    <!-- Navbar -->
-    <div class="navbar-custom">
-      <div class="d-flex align-items: center">
-        <button class="btn btn-link text-dark me-3" id="toggleSidebar" aria-label="Toggle Sidebar">
-          <i class="lni lni-menu"></i>
-        </button>
+  <div class="navbar-custom">
+    <div class="d-flex align-items-center">
+      <button class="btn btn-link text-dark me-3" id="toggleSidebar" aria-label="Toggle Sidebar">
+        <i class="lni lni-menu"></i>
+      </button>
+    </div>
+    <div class="d-flex align-items-center">
+      <div class="time-date me-2">
+        <div><i class="lni lni-calendar"></i> <span id="current-date"></span></div>
+        <div><i class="lni lni-timer"></i> <span id="current-time"></span></div>
       </div>
-      <div class="d-flex align-items: center">
-        <div class="time-date me-2">
-          <div><i class="lni lni-calendar"></i> <span id="current-date"></span></div>
-          <div><i class="lni lni-timer"></i> <span id="current-time"></span></div>
-        </div>
-        <div class="account">
-          <div class="account-circle">KTU</div>
+      <div class="dropdown">
+        <a href="#" class="account text-decoration-none text-dark" data-bs-toggle="dropdown" aria-expanded="false">
+          <span class="icon-circle"><i class="lni lni-user"></i></span>
           <span>Halo, Ketua TU</span>
           <i class="lni lni-chevron-down"></i>
-        </div>
-      </div>
-    </div>
-
-    <!-- Title Bar -->
-    <div class="title-bar">
-      <h1><i class="lni lni-pencil-alt"></i> <span id="page-title">Editor Kegiatan - Pengabdian</span></h1>
-    </div>
-
-    <!-- Main Content -->
-    <div class="main-content">
-        <div class="card">
-            <!-- Filters and Actions -->
-            <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-                <div class="d-flex gap-2 flex-wrap">
-                    <select class="form-select" style="width: auto;"><option selected>Tahun</option><option>2012</option></select>
-                    <select class="form-select" style="width: auto;"><option selected>Jenis SKIM</option></select>
-                    <select class="form-select" style="width: auto;"><option selected>Afiliasi</option></select>
-                    <div class="input-group" style="width: 250px;">
-                        <span class="input-group-text bg-light border-end-0"><i class="fas fa-search"></i></span>
-                        <input type="text" class="form-control border-start-0" placeholder="Cari Data ....">
-                    </div>
-                </div>
-                <a href="#" class="btn btn-tambah fw-bold" onclick="openModal('pengabdianModal')"><i class="fa fa-plus me-2"></i> Tambah Data</a>
-            </div>
-
-            <!-- Table -->
-            <div class="table-responsive">
-              <table class="table table-hover table-bordered">
-                  <thead class="table-light">
-                      <tr class="text-center">
-                          <th>No</th>
-                          <th class="text-start">Kegiatan</th>
-                          <th>Nama Kegiatan</th>
-                          <th>Afiliasi</th>
-                          <th>Lokasi</th>
-                          <th>Nomor SK</th>
-                          <th>Tahun</th>
-                          <th>Verifikasi</th>
-                          <th>Dokumen</th>
-                          <th>Aksi</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      <script>
-                          for(let i=1; i<=11; i++){ 
-                              document.write(`
-                                  <tr>
-                                      <td class="text-center">${i}</td>
-                                      <td class="text-start">Pengaruh Air Terhadap Tumbuh Kembang Lele</td>
-                                      <td class="text-center">24 Desember 2021</td>
-                                      <td class="text-center">Jurnal</td>
-                                      <td class="text-center">Ya</td>
-                                      <td class="text-center">SK-129013a7uw</td>
-                                      <td class="text-center">2012</td>
-                                      <td class="text-center">${i % 2 === 0 ? '<i class="fas fa-check-circle text-success"></i>' : '<i class="fas fa-times-circle text-danger"></i>'}</td>
-                                      <td class="text-center"><a href="#" class="btn btn-sm btn-info text-white">Lihat</a></td>
-                                      <td class="text-center">
-                                          <div class="d-flex gap-2 justify-content-center">
-                                              <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a>
-                                              <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail"><i class="fa fa-eye"></i></a>
-                                              <a href="#" class="btn-aksi btn-edit" title="Edit Data" onclick="openEditModal()"><i class="fa fa-edit"></i></a>
-                                              <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
-                                          </div>
-                                      </td>
-                                  </tr>
-                              `);
-                          }
-                      </script>
-                  </tbody>
-              </table>
-            </div>
-            
-            <div class="d-flex justify-content-between align-items-center mt-4">
-                <span class="text-muted small">Menampilkan 1 sampai 10 dari 13 data</span>
-                <nav aria-label="Page navigation">
-                  <ul class="pagination pagination-sm mb-0">
-                    <li class="page-item disabled"><a class="page-link" href="#">Sebelumnya</a></li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">Berikutnya</a></li>
-                  </ul>
-                </nav>
-            </div>
+        </a>
+          <ul class="dropdown-menu dropdown-menu-end shadow">
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="/ubah-password">
+                <i class="lni lni-key me-2"></i> Ubah Password
+              </a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center dropdown-item-danger" href="/logout">
+                <i class="lni lni-exit me-2"></i> Keluar
+              </a>
+            </li>
+          </ul>
         </div>
     </div>
-
-    <!-- Footer -->
-    <footer class="footer-custom">
-      <span>© 2025 Forest Management — All Rights Reserved</span>
-    </footer>
+    </div>
   </div>
-  
-  <!-- Modal Tambah/Edit Pengabdian -->
-    <div class="modal-backdrop" id="pengabdianModal">
-        <div class="modal-content-wrapper">
-            <div class="modal-header-custom">
-                <h5 id="modalTitle"><i class="fas fa-plus-circle"></i> Tambah Data Pengabdian</h5>
-            </div>
-            <div class="modal-body-custom">
-                <form id="pengabdianForm">
-                    <div class="row">
-                        <!-- Left Column -->
-                        <div class="col-md-7">
-                            <div class="row g-3">
-                                <div class="col-12"><label class="form-label">Kegiatan</label><input type="text" class="form-control" placeholder="Melaksanakan Perkuliahan/Tutorial/..."></div>
-                                <div class="col-12"><label class="form-label">Nama Kegiatan</label><select class="form-select"><option selected>-- Pilih Salah Satu --</option></select></div>
-                                <div class="col-md-6"><label class="form-label">Afiliasi Non PT</label><input type="text" class="form-control" placeholder="Contoh: Dinas Kehutanan"></div>
-                                <div class="col-md-6"><label class="form-label">Jenis SKIM</label><select class="form-select"><option selected>-- Pilih Salah Satu --</option></select></div>
-                                <div class="col-12"><label class="form-label">Tahun</label><div class="d-flex gap-2"><input type="number" class="form-control" placeholder="Usulan"><input type="number" class="form-control" placeholder="Kegiatan"><input type="number" class="form-control" placeholder="Pelaksanaan"></div></div>
-                                <div class="col-md-6"><label class="form-label">Terhitung Mulai Tanggal</label><input type="date" class="form-control"></div>
-                                <div class="col-md-6"><label class="form-label">Terhitung Sampai Tanggal</label><input type="date" class="form-control"></div>
-                                <div class="col-12"><label class="form-label">Lama Kegiatan</label><input type="text" class="form-control" placeholder="Contoh: 6 Bulan"></div>
-                                <div class="col-12"><label class="form-label">In Kind</label><input type="text" class="form-control" placeholder="Deskripsi In Kind"></div>
-                                <div class="col-12"><label class="form-label">No SK Penugasan</label><input type="text" class="form-control" placeholder="Nomor SK"></div>
-                                <div class="col-12"><label class="form-label">Tanggal SK Penugasan</label><input type="date" class="form-control"></div>
-                                <div class="col-12"><label class="form-label">Litabmas</label><input type="text" class="form-control" placeholder="Keterangan Litabmas"></div>
-                                <div class="col-12"><label class="form-label">Dana</label><div class="row g-2"><div class="col-md-4"><input type="number" class="form-control" placeholder="DIKTI"></div><div class="col-md-4"><input type="number" class="form-control" placeholder="Perguruan Tinggi"></div><div class="col-md-4"><input type="number" class="form-control" placeholder="Institusi Lain"></div></div></div>
-                            </div>
-                        </div>
-                        <!-- Right Column -->
-                        <div class="col-md-5">
-                            <div class="d-grid gap-2 mb-3">
-                                <button type="button" class="btn btn-outline-primary" onclick="addAnggota('dosen')">+ Tambah Dosen</button>
-                                <div id="dosen-list"></div>
-                                <button type="button" class="btn btn-outline-primary mt-2" onclick="addAnggota('mahasiswa')">+ Tambah Mahasiswa</button>
-                                <div id="mahasiswa-list"></div>
-                                <button type="button" class="btn btn-outline-primary mt-2" onclick="addAnggota('kolaborator')">+ Tambah Kolaborator</button>
-                                <div id="kolaborator-list"></div>
-                            </div>
-                            <hr>
-                            <div class="mb-3">
-                                <label class="form-label">Jenis Dokumen</label>
-                                <select class="form-select"><option selected>-- Pilih Salah Satu --</option></select>
-                            </div>
-                            <div class="upload-area">
-                                <i class="fas fa-cloud-upload-alt"></i>
-                                <p>Drag & Drop File here<br><small>Ukuran Maksimal 5 MB</small></p>
-                                <input type="file" hidden>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer-custom">
-                <button type="button" class="btn btn-danger" onclick="closeModal('pengabdianModal')">Batal</button>
-                <button type="button" class="btn btn-success">Simpan</button>
-            </div>
-        </div>
-    </div>
 
-  <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+  <div class="title-bar">
+    <h1><i class="lni lni-pencil-alt"></i> <span id="page-title">Editor Kegiatan - Pengabdian</span></h1>
+  </div>
+
+  <div class="main-content">
+      <div class="card">
+          <div class="search-filter-container">
+            <div class="search-filter-row">
+                <div class="search-box">
+                  <div class="input-group">
+                    <span class="input-group-text bg-light border-end-0"><i class="fas fa-search" style="color: green;"></i></span>
+                    <input type="text" class="form-control border-start-0" placeholder="Cari Data ....">
+                  </div>
+                </div>
+                <select class="form-select filter-select"><option selected>Tahun</option><option>2012</option></select>
+                <select class="form-select filter-select"><option selected>Jenis SKIM</option></select>
+                <select class="form-select filter-select"><option selected>Afiliasi</option></select>
+                <div class="btn-tambah-container">
+                  <a href="#" class="btn btn-tambah fw-bold" onclick="openModal('pengabdianModal')"><i class="fa fa-plus me-2"></i> Tambah Data</a>
+                </div>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr class="text-center">
+                        <th>No</th>
+                        <th class="text-start">Kegiatan</th>
+                        <th>Nama Kegiatan</th>
+                        <th>Afiliasi</th>
+                        <th>Lokasi</th>
+                        <th>Nomor SK</th>
+                        <th>Tahun</th>
+                        <th>Verifikasi</th>
+                        <th>Dokumen</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <script>
+                      for(let i=1; i<=11; i++){ 
+                          document.write(`
+                              <tr>
+                                  <td class="text-center">${i}</td>
+                                  <td class="text-start">Pengaruh Air Terhadap Tumbuh Kembang Lele</td>
+                                  <td class="text-center">24 Desember 2021</td>
+                                  <td class="text-center">Jurnal</td>
+                                  <td class="text-center">Ya</td>
+                                  <td class="text-center">SK-129013a7uw</td>
+                                  <td class="text-center">2012</td>
+                                  <td class="text-center">${i % 2 === 0 ? '<i class="fas fa-check-circle text-success"></i>' : '<i class="fas fa-times-circle text-danger"></i>'}</td>
+                                  <td class="text-center"><a href="#" class="btn btn-sm btn-info text-white">Lihat</a></td>
+                                  <td class="text-center">
+                                      <div class="d-flex gap-2 justify-content-center">
+                                          <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a>
+                                          <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail"><i class="fa fa-eye"></i></a>
+                                          <a href="#" class="btn-aksi btn-edit" title="Edit Data" onclick="openEditModal()"><i class="fa fa-edit"></i></a>
+                                          <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
+                                      </div>
+                                  </td>
+                              </tr>
+                          `);
+                      }
+                    </script>
+                </tbody>
+            </table>
+          </div>
+          
+          <div class="d-flex justify-content-between align-items-center mt-4 mb-4">
+              <span class="text-muted small">Menampilkan 1 sampai 10 dari 13 data</span>
+              <nav aria-label="Page navigation">
+                <ul class="pagination pagination-sm mb-0">
+                  <li class="page-item disabled"><a class="page-link" href="#">Sebelumnya</a></li>
+                  <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                  <li class="page-item"><a class="page-link" href="#">2</a></li>
+                  <li class="page-item"><a class="page-link" href="#">Berikutnya</a></li>
+                </ul>
+              </nav>
+          </div>
+      </div>
+  </div>
+
+  <footer class="footer-custom">
+    <span>© 2025 Forest Management — All Rights Reserved</span>
+  </footer>
+  
+  <div class="modal-backdrop" id="pengabdianModal">
+      <div class="modal-content-wrapper">
+          <div class="modal-header-custom">
+              <h5 id="modalTitle"><i class="fas fa-plus-circle"></i> Tambah Data Pengabdian</h5>
+          </div>
+          <div class="modal-body-custom">
+              <form id="pengabdianForm">
+                  <div class="row">
+                      <div class="col-md-7">
+                          <div class="row g-3">
+                              <div class="col-12"><label class="form-label">Kegiatan</label><input type="text" class="form-control" placeholder="Melaksanakan Perkuliahan/Tutorial/..."></div>
+                              <div class="col-12"><label class="form-label">Nama Kegiatan</label><select class="form-select"><option selected>-- Pilih Salah Satu --</option></select></div>
+                              <div class="col-md-6"><label class="form-label">Afiliasi Non PT</label><input type="text" class="form-control" placeholder="Contoh: Dinas Kehutanan"></div>
+                              <div class="col-md-6"><label class="form-label">Jenis SKIM</label><select class="form-select"><option selected>-- Pilih Salah Satu --</option></select></div>
+                              <div class="col-12"><label class="form-label">Tahun</label><div class="d-flex gap-2"><input type="number" class="form-control" placeholder="Usulan"><input type="number" class="form-control" placeholder="Kegiatan"><input type="number" class="form-control" placeholder="Pelaksanaan"></div></div>
+                              <div class="col-md-6"><label class="form-label">Terhitung Mulai Tanggal</label><input type="date" class="form-control"></div>
+                              <div class="col-md-6"><label class="form-label">Terhitung Sampai Tanggal</label><input type="date" class="form-control"></div>
+                              <div class="col-12"><label class="form-label">Lama Kegiatan</label><input type="text" class="form-control" placeholder="Contoh: 6 Bulan"></div>
+                              <div class="col-12"><label class="form-label">In Kind</label><input type="text" class="form-control" placeholder="Deskripsi In Kind"></div>
+                              <div class="col-12"><label class="form-label">No SK Penugasan</label><input type="text" class="form-control" placeholder="Nomor SK"></div>
+                              <div class="col-12"><label class="form-label">Tanggal SK Penugasan</label><input type="date" class="form-control"></div>
+                              <div class="col-12"><label class="form-label">Litabmas</label><input type="text" class="form-control" placeholder="Keterangan Litabmas"></div>
+                              <div class="col-12"><label class="form-label">Dana</label><div class="row g-2"><div class="col-md-4"><input type="number" class="form-control" placeholder="DIKTI"></div><div class="col-md-4"><input type="number" class="form-control" placeholder="Perguruan Tinggi"></div><div class="col-md-4"><input type="number" class="form-control" placeholder="Institusi Lain"></div></div></div>
+                          </div>
+                      </div>
+                      <div class="col-md-5">
+                          <div class="d-grid gap-2 mb-3">
+                              <button type="button" class="btn btn-outline-primary" onclick="addAnggota('dosen')">+ Tambah Dosen</button>
+                              <div id="dosen-list"></div>
+                              <button type="button" class="btn btn-outline-primary mt-2" onclick="addAnggota('mahasiswa')">+ Tambah Mahasiswa</button>
+                              <div id="mahasiswa-list"></div>
+                              <button type="button" class="btn btn-outline-primary mt-2" onclick="addAnggota('kolaborator')">+ Tambah Kolaborator</button>
+                              <div id="kolaborator-list"></div>
+                          </div>
+                          <hr>
+                          <div class="mb-3">
+                              <label class="form-label">Jenis Dokumen</label>
+                              <select class="form-select"><option selected>-- Pilih Salah Satu --</option></select>
+                          </div>
+                          <div class="upload-area">
+                              <i class="fas fa-cloud-upload-alt"></i>
+                              <p>Drag & Drop File here<br><small>Ukuran Maksimal 5 MB</small></p>
+                              <input type="file" hidden>
+                          </div>
+                      </div>
+                  </div>
+              </form>
+          </div>
+          <div class="modal-footer-custom">
+              <button type="button" class="btn btn-danger" onclick="closeModal('pengabdianModal')">Batal</button>
+              <button type="button" class="btn btn-success">Simpan</button>
+          </div>
+      </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    // === Sidebar Logic ===
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
     const toggleSidebarBtn = document.getElementById('toggleSidebar');
 
-    toggleSidebarBtn.addEventListener('click', function () {
-      const isMobile = window.innerWidth <= 991;
-      if (isMobile) {
-        sidebar.classList.toggle('show');
-        overlay.classList.toggle('show', sidebar.classList.contains('show'));
-      } else {
-        sidebar.classList.toggle('hidden');
-      }
-    });
-
-    overlay.addEventListener('click', function () {
-      sidebar.classList.remove('show');
-      overlay.classList.remove('show');
-    });
-
-    function updateDateTime() {
-      const now = new Date();
-      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-      document.getElementById('current-date').textContent = now.toLocaleDateString('id-ID', options);
-      document.getElementById('current-time').textContent = now.toLocaleTimeString('id-ID', { 
-        hour: '2-digit', 
-        minute: '2-digit', 
-        second: '2-digit'
+    if (toggleSidebarBtn) {
+      toggleSidebarBtn.addEventListener('click', function () {
+        const isMobile = window.innerWidth <= 991;
+        if (isMobile) {
+          // Logika untuk Mobile (menampilkan overlay)
+          sidebar.classList.toggle('show');
+          overlay.classList.toggle('show', sidebar.classList.contains('show'));
+        } else {
+          // Logika untuk Desktop (menggeser konten)
+          sidebar.classList.toggle('hidden');
+        }
       });
     }
-    setInterval(updateDateTime, 1000);
-    updateDateTime();
+
+    if (overlay) {
+      overlay.addEventListener('click', function () {
+        sidebar.classList.remove('show');
+        overlay.classList.remove('show');
+      });
+    }
+      
+      // === Date and Time Logic ===
+      function updateDateTime() {
+        const now = new Date();
+        const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone: 'Asia/Jakarta' };
+        
+        document.getElementById('current-date').textContent = now.toLocaleDateString('id-ID', dateOptions);
+        document.getElementById('current-time').textContent = now.toLocaleTimeString('id-ID', timeOptions);
+      }
+      setInterval(updateDateTime, 1000);
+      updateDateTime();
+    });
     
-    // Modal Functions
+    // === Modal Logic ===
     function openModal(modalId) {
         const modal = document.getElementById(modalId);
         const modalTitle = modal.querySelector('#modalTitle');
@@ -626,7 +801,7 @@
         const modal = document.getElementById('pengabdianModal');
         const modalTitle = modal.querySelector('#modalTitle');
         modalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Data Pengabdian';
-        // Di sini Anda akan mengisi form dengan data yang ada
+        // Logic to fill the form with existing data would go here
         if (modal) {
             modal.style.display = 'flex';
         }
@@ -639,45 +814,49 @@
         }
     }
     
+    // === Dynamic Member Add Logic ===
     function addAnggota(type) {
         let container, content;
         if (type === 'dosen') {
             container = document.getElementById('dosen-list');
             content = `
-                <div class="row g-2">
-                    <div class="col-12"><input type="text" class="form-control form-control-sm" placeholder="Nama Dosen"></div>
-                    <div class="col-md-6"><select class="form-select form-select-sm"><option selected>Jabatan</option></select></div>
-                    <div class="col-md-6"><select class="form-select form-select-sm"><option selected>Aktif</option></select></div>
+                <div class="dynamic-row">
+                    <div class="row g-2">
+                        <div class="col-12"><input type="text" class="form-control form-control-sm" placeholder="Nama Dosen"></div>
+                        <div class="col-md-6"><select class="form-select form-select-sm"><option selected>Jabatan</option></select></div>
+                        <div class="col-md-6"><select class="form-select form-select-sm"><option selected>Aktif</option></select></div>
+                    </div>
+                    <button class="btn btn-sm dynamic-row-close-btn" type="button" onclick="this.parentElement.remove()"><i class="fa fa-times"></i></button>
                 </div>
             `;
         } else if (type === 'mahasiswa') {
             container = document.getElementById('mahasiswa-list');
             content = `
-                <div class="row g-2">
-                    <div class="col-md-6"><select class="form-select form-select-sm"><option selected>Strata</option></select></div>
-                    <div class="col-md-6"><input type="text" class="form-control form-control-sm" placeholder="Nama Mahasiswa"></div>
-                    <div class="col-md-6"><select class="form-select form-select-sm"><option selected>Jabatan</option></select></div>
-                    <div class="col-md-6"><select class="form-select form-select-sm"><option selected>Aktif</option></select></div>
+                <div class="dynamic-row">
+                    <div class="row g-2">
+                        <div class="col-md-6"><select class="form-select form-select-sm"><option selected>Strata</option></select></div>
+                        <div class="col-md-6"><input type="text" class="form-control form-control-sm" placeholder="Nama Mahasiswa"></div>
+                        <div class="col-md-6"><select class="form-select form-select-sm"><option selected>Jabatan</option></select></div>
+                        <div class="col-md-6"><select class="form-select form-select-sm"><option selected>Aktif</option></select></div>
+                    </div>
+                    <button class="btn btn-sm dynamic-row-close-btn" type="button" onclick="this.parentElement.remove()"><i class="fa fa-times"></i></button>
                 </div>
             `;
         } else { // kolaborator
             container = document.getElementById('kolaborator-list');
             content = `
-                <div class="row g-2">
-                    <div class="col-12"><input type="text" class="form-control form-control-sm" placeholder="Nama Kolaborator"></div>
-                    <div class="col-md-6"><select class="form-select form-select-sm"><option selected>Jabatan</option></select></div>
-                    <div class="col-md-6"><select class="form-select form-select-sm"><option selected>Aktif</option></select></div>
+                <div class="dynamic-row">
+                    <div class="row g-2">
+                        <div class="col-12"><input type="text" class="form-control form-control-sm" placeholder="Nama Kolaborator"></div>
+                        <div class="col-md-6"><select class="form-select form-select-sm"><option selected>Jabatan</option></select></div>
+                        <div class="col-md-6"><select class="form-select form-select-sm"><option selected>Aktif</option></select></div>
+                    </div>
+                    <button class="btn btn-sm dynamic-row-close-btn" type="button" onclick="this.parentElement.remove()"><i class="fa fa-times"></i></button>
                 </div>
             `;
         }
 
-        const newRow = document.createElement('div');
-        newRow.className = 'border rounded p-2 mt-2 position-relative';
-        newRow.innerHTML = `
-            ${content}
-            <button class="btn btn-sm btn-outline-danger dynamic-row-close-btn" type="button" onclick="this.parentElement.remove()"><i class="fa fa-times"></i></button>
-        `;
-        container.appendChild(newRow);
+        container.insertAdjacentHTML('beforeend', content);
     }
 
     // Close modal if backdrop is clicked
