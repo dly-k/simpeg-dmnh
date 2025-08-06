@@ -303,22 +303,15 @@
     }
     
     .table {
-      border: 1px solid #dee2e6; /* Garis luar tabel */
+        vertical-align: middle;
+        font-size: 12px;
     }
 
-.table th, 
-.table td {
-  border: 1px solid #dee2e6; /* Garis sel header dan data */
-}
-
-.table thead th {
-  border-bottom-width: 2px; /* Garis header lebih tebal */
-}
-
-/* Untuk hover tetap smooth */
-.table-hover tbody tr:hover {
-  background-color: rgba(0, 0, 0, 0.03);
-}
+    .table th {
+        font-weight: 600;
+        vertical-align: middle !important;
+        text-align: center !important;
+    }
 
     /* Action Buttons */
     .btn-aksi {
@@ -330,14 +323,58 @@
       text-decoration: none !important;
     }
     .btn-verifikasi { background-color: #10b981; border-color: #10b981; }
+    .btn-lihatdokumen { background-color: #118394; border-color: #118394; }
     .btn-lihat { background-color: #0dcaf0; border-color: #0dcaf0; }
     .btn-edit { background-color: #ffc107; border-color: #ffc107; }
     .btn-hapus { background-color: #dc3545; border-color: #dc3545; }
-    
-    .btn-aksi:hover {
-      transform: scale(1.15);
-      filter: brightness(1.2);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+
+        .btn-lihatdokumen:hover {
+        background-color: #0d7585;
+        color: white;
+        transform: scale(1.15); /* Sedikit membesar */
+        filter: brightness(1.2); /* Mencerahkan warna tombol */
+        box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+        .btn-verifikasi:hover {
+        background-color: #059867;
+        color: white;
+        transform: scale(1.15); /* Sedikit membesar */
+        filter: brightness(1.2); /* Mencerahkan warna tombol */
+        box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+
+        .btn-lihat:hover {
+        background-color: #0892ad;
+        color: white;
+        transform: scale(1.15); /* Sedikit membesar */
+        filter: brightness(1.2); /* Mencerahkan warna tombol */
+        box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+
+    .btn-tambah {
+      background-color: #2d3748;
+      color: white;
+      border: none;
+    }
+    .btn-tambah:hover {
+      background-color: #1a202c !important;
+      color: white;
+    }
+
+    .btn-edit:hover {
+        background-color: #b58802;
+        color: white;
+        transform: scale(1.15); /* Sedikit membesar */
+        filter: brightness(1.2); /* Mencerahkan warna tombol */
+        box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+
+    .btn-hapus:hover {
+        background-color: #a21927;
+        color: white;
+        transform: scale(1.15); /* Sedikit membesar */
+        filter: brightness(1.2); /* Mencerahkan warna tombol */
+        box-shadow: 0 2px 8px rgba(0,0,0,0.25);
     }
 
     /* Main Buttons */
@@ -480,11 +517,13 @@
       }
     }
     
+    /* Responsive */
     @media (max-width: 991px) {
       .sidebar { transform: translateX(-100%); }
       .sidebar.show { transform: translateX(0); }
-      .navbar-custom, .title-bar, .main-content, .footer-custom { margin-left: 0; }
-      .main-content { margin-top: 130px; font-size: 13px; }
+      .navbar-custom, .title-bar, .main-content, .footer-custom { margin-left: 0 !important; }
+      .main-wrapper { margin-left: 0; }
+      .time-date { flex-direction: column; gap: 6px; align-items: flex-start; }
       .account span { font-size: 12px; }
       .sidebar .menu a, .sidebar .menu button { font-size: 12.5px; }
     }
@@ -621,8 +660,8 @@
     </div>
       <div class="card-body px-4 pb-4 pt-2">
         <div class="table-responsive">
-          <table class="table table-hover">
-            <thead>
+          <table class="table table-hover table-bordered">
+            <thead class="table-light">
               <tr class="text-center">
                 <th style="width: 5%">No</th>
                 <th style="width: 30%" class="text-start">Judul</th>
@@ -649,7 +688,9 @@
                     <i class="fas fa-times-circle text-danger"></i>
                   @endif
                 </td>
-                <td class="text-center"><a href="#" class="btn btn-sm btn-info text-white">Lihat</a></td>
+              <td class="text-center">
+                <button class="btn btn-sm text-white px-3 btn-lihatdokumen">Lihat</button>
+              </td>
                 <td class="text-center">
                   <div class="d-flex gap-2 justify-content-center">
                     <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a>

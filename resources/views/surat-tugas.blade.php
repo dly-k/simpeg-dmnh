@@ -624,7 +624,12 @@
 
       <!-- Filter Tanggal -->
       <div style="min-width: 120px;">
-        <input type="date" class="form-control form-control-sm w-100" />
+        <select class="form-select filter-select">
+          <option selected>Tahun</option>
+          <option>2021</option>
+          <option>2022</option>
+          <option>2023</option>
+        </select>      
       </div>
 
               <div class="d-flex gap-2">
@@ -670,7 +675,9 @@
                                 <td class="text-center">${item.surat_kadep}</td>
                                 <td class="text-center">${item.tgl_kegiatan}</td>
                                 <td>${item.lokasi}</td>
-                               <td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
+                                <td class="text-center">
+                               <button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button>
+                               </td>
                                 <td class="text-center">
                                     <div class="d-flex gap-2 justify-content-center">
                                         <a href="#" class="btn-aksi btn-edit" title="Edit Data" onclick="openEditModal()"><i class="fa fa-edit"></i></a>

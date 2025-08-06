@@ -306,31 +306,22 @@
       font-size: 0.875rem;
       margin-bottom: 1rem;
     }
+        .table {
+        vertical-align: middle;
+        font-size: 12px;
+    }
+
+    .table th {
+        font-weight: 600;
+        vertical-align: middle !important;
+        text-align: center !important;
+    }
     .table th,
     .table td {
       padding: 0.75rem 1rem;
       border: 1px solid #e0e0e0;
       vertical-align: middle;
     }
-    .table thead th {
-      background-color: #f8f9fa;
-      border-bottom-width: 2px;
-      font-weight: 600;
-      color: #333;
-      text-align: center;
-    }
-    .table tbody tr:hover {
-      background-color: rgba(0, 0, 0, 0.02);
-    }
-    .table .text-center { text-align: center; }
-    .table .text-start { text-align: left; }
-    .table-hover tbody tr {
-      transition: background-color 0.2s ease;
-    }
-    .table-hover tbody tr:hover {
-      background-color: rgba(0, 0, 0, 0.03);
-    }
-    
     /* Action Buttons */
     .btn-aksi {
       width: 32px;
@@ -665,8 +656,8 @@
           </div>
 
           <div class="table-responsive">
-            <table class="table table-hover">
-                <thead>
+            <table class="table table-hover table-bordered">
+                <thead class="table-light">
                     <tr class="text-center">
                         <th>No</th>
                         <th class="text-start">Kegiatan</th>
