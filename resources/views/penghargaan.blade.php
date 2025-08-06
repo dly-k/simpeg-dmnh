@@ -231,6 +231,22 @@
       background-color: #dc3545;
     }
 
+            /* Pagination Kustom */
+    .pagination .page-item.active .page-link {
+        background-color: var(--primary);
+        border-color: var(--primary);
+        color: white;
+    }
+    .pagination .page-link {
+        color: var(--primary);
+    }
+    .pagination .page-link:hover {
+        background-color: var(--primary-light);
+    }
+    .pagination .page-item.disabled .page-link {
+        color: #6c757d;
+    }
+
 
     /* Title Bar */
     .title-bar {

@@ -363,7 +363,21 @@
       transform: translateY(-1px);
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
-
+            /* Pagination Kustom */
+    .pagination .page-item.active .page-link {
+        background-color: var(--primary);
+        border-color: var(--primary);
+        color: white;
+    }
+    .pagination .page-link {
+        color: var(--primary);
+    }
+    .pagination .page-link:hover {
+        background-color: var(--primary-light);
+    }
+    .pagination .page-item.disabled .page-link {
+        color: #6c757d;
+    }
     /* Footer */
     .footer-custom {
       background: #fff;

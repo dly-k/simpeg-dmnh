@@ -7,7 +7,7 @@
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -159,6 +159,7 @@
     }
     .time-date i { color: #4b5563; font-size: 13px; }
 
+   /*akunnn*/
     .account {
       display: flex;
       align-items: center;
@@ -168,17 +169,61 @@
       margin-left: 10px;
       gap: 6px;
     }
-    .account-circle {
-      background: orange;
-      color: #fff;
+
+    .icon-circle {
+      background: var(--primary);  /* hijau sesuai tema */
+      color: white;
       border-radius: 50%;
-      width: 32px;
-      height: 32px;
+      width: 28px;
+      height: 28px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 700;
-      font-size: 12px;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .dropdown-item i {
+        min-width: 24px;
+        text-align: center;
+    }
+    .dropdown-item:hover,
+    .dropdown-item:focus {
+      background-color: #f0f0f0; /* warna hover abu-abu terang */
+      color: #111;               /* warna teks tetap gelap */
+      text-decoration: none;
+      outline: none;
+      box-shadow: none;
+    }
+
+    /* Hilangkan efek biru saat diklik/fokus */
+    .dropdown-item:active {
+      background-color: #e9e9e9;
+      color: #111;
+    }
+    .dropdown-menu {
+      margin-top: 5px !important;
+      padding: 0;               /* Hapus padding agar elemen menempel */
+      overflow: hidden;         /* Pastikan tidak terpotong */
+      border-radius: 0.375rem;  /* Tetap rounded */
+    }
+
+    .dropdown-item {
+      padding: 10px 16px;       /* Sedikit lebih kecil dari default */
+      font-size: 13px;
+    }
+
+    .dropdown-divider {
+      margin: 0;
+    }
+
+    .dropdown-item-danger {
+      color: #dc3545;
+    }
+
+    .dropdown-item-danger:hover,
+    .dropdown-item-danger:focus {
+      color: #fff;
+      background-color: #dc3545;
     }
 
     /* Title Bar */
@@ -307,9 +352,20 @@
       border: none;
     }
 
-    .pagination .page-item.active .page-link { 
-      background-color: var(--primary); 
-      border-color: var(--primary); 
+            /* Pagination Kustom */
+    .pagination .page-item.active .page-link {
+        background-color: var(--primary);
+        border-color: var(--primary);
+        color: white;
+    }
+    .pagination .page-link {
+        color: var(--primary);
+    }
+    .pagination .page-link:hover {
+        background-color: var(--primary-light);
+    }
+    .pagination .page-item.disabled .page-link {
+        color: #6c757d;
     }
     
     /* Modal Styles */
@@ -485,10 +541,25 @@
         <div><i class="lni lni-calendar"></i> <span id="current-date">Selasa, 5 Agustus 2025</span></div>
         <div><i class="lni lni-timer"></i> <span id="current-time">10:20:45</span></div>
       </div>
-      <div class="account">
-        <div class="account-circle">KTU</div>
-        <span>Halo, Ketua TU</span>
-        <i class="lni lni-chevron-down"></i>
+      <div class="dropdown">
+        <a href="#" class="account text-decoration-none text-dark" data-bs-toggle="dropdown" aria-expanded="false">
+          <span class="icon-circle"><i class="lni lni-user"></i></span>
+          <span>Halo, Ketua TU</span>
+          <i class="lni lni-chevron-down"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end shadow">
+          <li>
+            <a class="dropdown-item d-flex align-items-center" href="/ubah-password">
+              <i class="lni lni-key me-2"></i> Ubah Password
+            </a>
+          </li>
+          <li><hr class="dropdown-divider"></li>
+          <li>
+            <a class="dropdown-item d-flex align-items-center dropdown-item-danger" href="/logout">
+              <i class="lni lni-exit me-2"></i> Keluar
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -521,7 +592,7 @@
     <div class="card">
       <div class="card-body p-4">
         <div class="table-responsive">
-          <table class="table table-hover">
+          <table class="table table-hover table-bordered">
             <thead>
               <tr>
                 <th>No</th>

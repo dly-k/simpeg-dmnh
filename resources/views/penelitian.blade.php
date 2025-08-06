@@ -354,10 +354,20 @@
       box-shadow: 0 4px 8px rgba(0,0,0,0.15);
     }
 
-    /* Pagination */
-    .pagination .page-item.active .page-link { 
-      background-color: var(--primary); 
-      border-color: var(--primary); 
+        /* Pagination Kustom */
+    .pagination .page-item.active .page-link {
+        background-color: var(--primary);
+        border-color: var(--primary);
+        color: white;
+    }
+    .pagination .page-link {
+        color: var(--primary);
+    }
+    .pagination .page-link:hover {
+        background-color: var(--primary-light);
+    }
+    .pagination .page-item.disabled .page-link {
+        color: #6c757d;
     }
     
     /* Modal Styles */
