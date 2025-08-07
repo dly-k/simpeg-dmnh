@@ -10,9 +10,29 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #049466;
-      --primary-light: #e3f7ec;
-      --border-color: #e2e8f0;
+  --primary: #049466;
+  --primary-light: #e3f7ec;
+  --primary-dark: #047857;
+  --border-color: #e2e8f0;
+
+  --info: #03b9de;
+  --info-hover: #0aa6c6;
+
+  --verifikasi: #11ba82;
+  --verifikasi-hover: #0ba572;
+
+  --warning: #ffc107;
+  --warning-hover: #d39e00;
+
+  --danger: #dc3545;
+  --danger-hover: #b02a37;
+
+  --dark: #2d3748;
+  --dark-hover: #1a202c;
+
+  --light: #f5f6fa;
+  --gray: #6c757d;
+  --white: #ffffff;
     }
 
     body {
@@ -346,14 +366,67 @@
   border-radius: 0.375rem !important;
 }
 
-    .btn-tambah {
-      background-color: #2d3748;
-      color: white;
-    }
-    .btn-tambah:hover {
-      background-color: #1a202c;
-      color: white;
-    }
+.search-input::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+  opacity: 1;
+}
+
+.btn-tambah {
+  background-color: var(--dark);
+  color: var(--white);
+  transition: all 0.3s ease;
+}
+.btn-tambah:hover {
+  background-color: var(--dark-hover);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.btn-verifikasi {
+  background-color: var(--verifikasi);
+  color: var(--white);
+  transition: all 0.3s ease;
+}
+.btn-verifikasi:hover {
+  background-color: var(--verifikasi-hover);
+  color: var(--white);
+  transform: scale(1.15);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.btn-lihat, .btn-lihat-detail {
+  background-color: var(--info);
+  color: var(--white);
+  transition: all 0.3s ease;
+}
+.btn-lihat:hover, .btn-lihat-detail:hover {
+  background-color: var(--info-hover);
+  color: var(--white);
+  transform: scale(1.15);
+}
+
+.btn-edit {
+  background-color: var(--warning);
+  color: var(--white);
+  transition: all 0.3s ease;
+}
+.btn-edit:hover {
+  background-color: var(--warning-hover);
+  color: var(--white);
+  transform: scale(1.15);
+}
+
+.btn-hapus {
+  background-color: var(--danger);
+  color: var(--white);
+  transition: all 0.3s ease;
+}
+.btn-hapus:hover {
+  background-color: var(--danger-hover);
+  color: var(--white);
+  transform: scale(1.15);
+}
 
     /* Footer */
     .footer-custom {
@@ -503,13 +576,14 @@
             <div class="search-filter-row">
                 <div class="search-box">
                     <div class="input-group">
-                        <span class="input-group-text bg-light border-end-0"><i class="fas fa-search"></i></span>
-                        <input type="text" class="form-control border-start-0" placeholder="Cari Data ....">
+                        <span class="input-group-text bg-light border-end-0"><i class="fas fa-search" style="color: green;"></i></span>
+                        <input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ....">
                     </div>
                 </div>
                 <select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select>
-                <select class="form-select filter-select"><option selected>Status</option><option>Terverifikasi</option><option>Ditolak</option></select>
-                <div class="btn-tambah-container">
+                <select class="form-select filter-select">
+                  <option selected>Status</option><option>Sudah Diverifikasi</option><option>Belum Diverifikasi</option><option>Ditolak</option>
+                </select>                <div class="btn-tambah-container">
                     <a href="#" class="btn btn-tambah fw-bold"><i class="fa fa-plus me-2"></i> Tambah Data</a>
                 </div>
             </div>
@@ -524,7 +598,7 @@
                           <tr class="text-center"><th>No</th><th class="text-start">Nama</th><th>Tahun Semester</th><th>Kode MK</th><th>Mata Kuliah</th><th>SKS</th><th>Kelas Paralel (Jenis)</th><th>Jumlah Pertemuan</th><th>Verifikasi</th><th>Dokumen</th><th>Aksi</th></tr>
                       </thead>
                       <tbody>
-                          <script>for(let i=1; i<=8; i++){ document.write(`<tr><td class="text-center">${i}</td><td>Alex Kurniawan</td><td class="text-center">2018/2019 Ganjil</td><td class="text-center">MNH211</td><td>Biometrika Hutan</td><td class="text-center">3 (3-0)</td><td class="text-center">1 (K)</td><td class="text-center">K,S, P,O, R,O</td><td class="text-center">${i % 2 === 0 ? '<i class="fas fa-check-circle text-success"></i>' : '<i class="fas fa-times-circle text-danger"></i>'}</td><td class="text-center"><a href="#" class="btn btn-sm btn-info text-white">Lihat</a></td><td class="text-center"><div class="d-flex gap-2 justify-content-center"><a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a><a href="#" class="btn-aksi btn-lihat" title="Lihat Detail"><i class="fa fa-eye"></i></a><a href="#" class="btn-aksi btn-edit" title="Edit Data"><i class="fa fa-edit"></i></a><a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a></div></td></tr>`);}</script>
+                          <script>for(let i=1; i<=8; i++){ document.write(`<tr><td class="text-center">${i}</td><td>Alex Kurniawan</td><td class="text-center">2018/2019 Ganjil</td><td class="text-center">MNH211</td><td>Biometrika Hutan</td><td class="text-center">3 (3-0)</td><td class="text-center">1 (K)</td><td class="text-center">K,S, P,O, R,O</td><td class="text-center">${i % 2 === 0 ? '<i class="fas fa-check-circle text-success"></i>' : '<i class="fas fa-times-circle text-danger"></i>'}</td><td class="text-center"><a href="#" class="btn btn-sm btn-lihat text-white">Lihat</a></td><td class="text-center"><div class="d-flex gap-2 justify-content-center"><a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a><a href="#" class="btn-aksi btn-lihat" title="Lihat Detail"><i class="fa fa-eye"></i></a><a href="#" class="btn-aksi btn-edit" title="Edit Data"><i class="fa fa-edit"></i></a><a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a></div></td></tr>`);}</script>
                       </tbody>
                   </table>
                 </div>
@@ -537,7 +611,7 @@
                           <tr class="text-center"><th>No</th><th class="text-start">Nama</th><th>Tahun Semester</th><th>Kode MK</th><th>Mata Kuliah</th><th>Jumlah Pertemuan</th><th>Institusi</th><th>Program Studi</th><th>Verifikasi</th><th>Dokumen</th><th>Aksi</th></tr>
                       </thead>
                       <tbody>
-                          <script>for(let i=1; i<=6; i++){ document.write(`<tr><td class="text-center">${i}</td><td>Alex Kurniawan</td><td class="text-center">2018/2019 Ganjil</td><td class="text-center">MNH211</td><td>Biometrika Hutan</td><td class="text-center">K,S, P,O, R,O</td><td>Universitas Indonesia</td><td>Magos</td><td class="text-center"><i class="fas fa-check-circle text-success"></i></td><td class="text-center"><a href="#" class="btn btn-sm btn-info text-white">Lihat</a></td><td class="text-center"><div class="d-flex gap-2 justify-content-center"><a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a><a href="#" class="btn-aksi btn-lihat" title="Lihat Detail"><i class="fa fa-eye"></i></a><a href="#" class="btn-aksi btn-edit" title="Edit Data"><i class="fa fa-edit"></i></a><a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a></div></td></tr>`);}</script>
+                          <script>for(let i=1; i<=6; i++){ document.write(`<tr><td class="text-center">${i}</td><td>Alex Kurniawan</td><td class="text-center">2018/2019 Ganjil</td><td class="text-center">MNH211</td><td>Biometrika Hutan</td><td class="text-center">K,S, P,O, R,O</td><td>Universitas Indonesia</td><td>Magos</td><td class="text-center"><i class="fas fa-check-circle text-success"></i></td><td class="text-center"><a href="#" class="btn btn-sm btn-lihat text-white">Lihat</a></td><td class="text-center"><div class="d-flex gap-2 justify-content-center"><a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a><a href="#" class="btn-aksi btn-lihat" title="Lihat Detail"><i class="fa fa-eye"></i></a><a href="#" class="btn-aksi btn-edit" title="Edit Data"><i class="fa fa-edit"></i></a><a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a></div></td></tr>`);}</script>
                       </tbody>
                   </table>
                 </div>
@@ -550,7 +624,7 @@
                           <tr class="text-center"><th>No</th><th class="text-start">Nama</th><th>Tahun Semester</th><th>NIM</th><th>Nama Mahasiswa</th><th>Strata</th><th>Departemen</th><th>Status</th><th>Verifikasi</th><th>Dokumen</th><th>Aksi</th></tr>
                       </thead>
                       <tbody>
-                          <script>for(let i=1; i<=6; i++){ document.write(`<tr><td class="text-center">${i}</td><td>Alex Kurniawan</td><td class="text-center">2018/2019 Ganjil</td><td class="text-center">E1232019</td><td>Alex Ramdana</td><td class="text-center">S1</td><td>Manajemen Hutan</td><td>Anggota Penguji</td><td class="text-center"><i class="fas fa-check-circle text-success"></i></td><td class="text-center"><a href="#" class="btn btn-sm btn-info text-white">Lihat</a></td><td class="text-center"><div class="d-flex gap-2 justify-content-center"><a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a><a href="#" class="btn-aksi btn-lihat" title="Lihat Detail"><i class="fa fa-eye"></i></a><a href="#" class="btn-aksi btn-edit" title="Edit Data"><i class="fa fa-edit"></i></a><a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a></div></td></tr>`);}</script>
+                          <script>for(let i=1; i<=6; i++){ document.write(`<tr><td class="text-center">${i}</td><td>Alex Kurniawan</td><td class="text-center">2018/2019 Ganjil</td><td class="text-center">E1232019</td><td>Alex Ramdana</td><td class="text-center">S1</td><td>Manajemen Hutan</td><td>Anggota Penguji</td><td class="text-center"><i class="fas fa-check-circle text-success"></i></td><td class="text-center"><a href="#" class="btn btn-sm btn-lihat text-white">Lihat</a></td><td class="text-center"><div class="d-flex gap-2 justify-content-center"><a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a><a href="#" class="btn-aksi btn-lihat" title="Lihat Detail"><i class="fa fa-eye"></i></a><a href="#" class="btn-aksi btn-edit" title="Edit Data"><i class="fa fa-edit"></i></a><a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a></div></td></tr>`);}</script>
                       </tbody>
                   </table>
                 </div>
@@ -563,7 +637,7 @@
                           <tr class="text-center"><th>No</th><th class="text-start">Kegiatan</th><th>Nama</th><th>Tahun Semester</th><th>NIM</th><th>Nama Mahasiswa</th><th>Strata</th><th>Departemen</th><th>Status</th><th>Verifikasi</th><th>Dokumen</th><th>Aksi</th></tr>
                       </thead>
                       <tbody>
-                          <script>for(let i=1; i<=5; i++){ document.write(`<tr><td class="text-center">${i}</td><td class="text-start">Membimbing dan ikut membimbing..</td><td>Dr. Ir Kevin Ms</td><td class="text-center">2018/2019 Ganjil</td><td class="text-center">E1292019</td><td>Eni Murtini</td><td class="text-center">S1</td><td>Manajemen Hutan</td><td>Pembimbing Pendamping</td><td class="text-center"><i class="fas fa-check-circle text-success"></i></td><td class="text-center"><a href="#" class="btn btn-sm btn-info text-white">Lihat</a></td><td class="text-center"><div class="d-flex gap-2 justify-content-center"><a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a><a href="#" class="btn-aksi btn-lihat" title="Lihat Detail"><i class="fa fa-eye"></i></a><a href="#" class="btn-aksi btn-edit" title="Edit Data"><i class="fa fa-edit"></i></a><a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a></div></td></tr>`);}</script>
+                          <script>for(let i=1; i<=5; i++){ document.write(`<tr><td class="text-center">${i}</td><td class="text-start">Membimbing dan ikut membimbing..</td><td>Dr. Ir Kevin Ms</td><td class="text-center">2018/2019 Ganjil</td><td class="text-center">E1292019</td><td>Eni Murtini</td><td class="text-center">S1</td><td>Manajemen Hutan</td><td>Pembimbing Pendamping</td><td class="text-center"><i class="fas fa-check-circle text-success"></i></td><td class="text-center"><a href="#" class="btn btn-sm btn-lihat text-white">Lihat</a></td><td class="text-center"><div class="d-flex gap-2 justify-content-center"><a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a><a href="#" class="btn-aksi btn-lihat" title="Lihat Detail"><i class="fa fa-eye"></i></a><a href="#" class="btn-aksi btn-edit" title="Edit Data"><i class="fa fa-edit"></i></a><a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a></div></td></tr>`);}</script>
                       </tbody>
                   </table>
                 </div>
@@ -576,7 +650,7 @@
                           <tr class="text-center"><th>No</th><th class="text-start">Nama</th><th>Tahun Semester</th><th>NIM</th><th>Nama Mahasiswa</th><th>Universitas</th><th>Status</th><th>Verifikasi</th><th>Dokumen</th><th>Aksi</th></tr>
                       </thead>
                       <tbody>
-                          <script>for(let i=1; i<=10; i++){ document.write(`<tr><td class="text-center">${i}</td><td>Nama Dosen</td><td class="text-center">Genap 2024</td><td class="text-center">Jurnal</td><td>Siapa nama</td><td>IPB University</td><td>Anggota Penguji</td><td class="text-center"><i class="fas fa-check-circle text-success"></i></td><td class="text-center"><a href="#" class="btn btn-sm btn-info text-white">Lihat</a></td><td class="text-center"><div class="d-flex gap-2 justify-content-center"><a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a><a href="#" class="btn-aksi btn-lihat" title="Lihat Detail"><i class="fa fa-eye"></i></a><a href="#" class="btn-aksi btn-edit" title="Edit Data"><i class="fa fa-edit"></i></a><a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a></div></td></tr>`);}</script>
+                          <script>for(let i=1; i<=10; i++){ document.write(`<tr><td class="text-center">${i}</td><td>Nama Dosen</td><td class="text-center">Genap 2024</td><td class="text-center">Jurnal</td><td>Siapa nama</td><td>IPB University</td><td>Anggota Penguji</td><td class="text-center"><i class="fas fa-check-circle text-success"></i></td><td class="text-center"><a href="#" class="btn btn-sm btn-lihat text-white">Lihat</a></td><td class="text-center"><div class="d-flex gap-2 justify-content-center"><a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a><a href="#" class="btn-aksi btn-lihat" title="Lihat Detail"><i class="fa fa-eye"></i></a><a href="#" class="btn-aksi btn-edit" title="Edit Data"><i class="fa fa-edit"></i></a><a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a></div></td></tr>`);}</script>
                       </tbody>
                   </table>
                 </div>
@@ -589,7 +663,7 @@
                           <tr class="text-center"><th>No</th><th class="text-start">Nama</th><th>Tahun Semester</th><th>NIM</th><th>Nama Mahasiswa</th><th>Universitas</th><th>Status</th><th>Verifikasi</th><th>Dokumen</th><th>Aksi</th></tr>
                       </thead>
                       <tbody>
-                          <script>for(let i=1; i<=10; i++){ document.write(`<tr><td class="text-center">${i}</td><td>Nama Dosen</td><td class="text-center">Genap 2024</td><td class="text-center">Jurnal</td><td>Siapa nama</td><td>IPB University</td><td>Pembimbing</td><td class="text-center"><i class="fas fa-check-circle text-success"></i></td><td class="text-center"><a href="#" class="btn btn-sm btn-info text-white">Lihat</a></td><td class="text-center"><div class="d-flex gap-2 justify-content-center"><a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a><a href="#" class="btn-aksi btn-lihat" title="Lihat Detail"><i class="fa fa-eye"></i></a><a href="#" class="btn-aksi btn-edit" title="Edit Data"><i class="fa fa-edit"></i></a><a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a></div></td></tr>`);}</script>
+                          <script>for(let i=1; i<=10; i++){ document.write(`<tr><td class="text-center">${i}</td><td>Nama Dosen</td><td class="text-center">Genap 2024</td><td class="text-center">Jurnal</td><td>Siapa nama</td><td>IPB University</td><td>Pembimbing</td><td class="text-center"><i class="fas fa-check-circle text-success"></i></td><td class="text-center"><a href="#" class="btn btn-sm btn-lihat text-white">Lihat</a></td><td class="text-center"><div class="d-flex gap-2 justify-content-center"><a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a><a href="#" class="btn-aksi btn-lihat" title="Lihat Detail"><i class="fa fa-eye"></i></a><a href="#" class="btn-aksi btn-edit" title="Edit Data"><i class="fa fa-edit"></i></a><a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a></div></td></tr>`);}</script>
                       </tbody>
                   </table>
                 </div>

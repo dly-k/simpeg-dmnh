@@ -21,6 +21,9 @@
         --info: #03b9de;
         --info-hover: #0aa6c6;
 
+          --verifikasi: #11ba82;
+          --verifikasi-hover: #0ba572;
+
         --warning: #ffc107;
         --warning-hover: #d39e00;
 
@@ -346,18 +349,17 @@
         box-shadow: 0 4px 8px rgba(0,0,0,0.15);
       }
 
-      /* Primary */
-      .btn-export {
-        background-color: var(--primary);
-        color: var(--white);
-        transition: all 0.3s ease;
-      }
-      .btn-export:hover {
-        background-color: var(--primary-hover);
-        color: var(--white);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-      }
+.btn-export {
+  background-color: var(--verifikasi-hover);
+  color: var(--white);
+  transition: all 0.3s ease;
+}
+.btn-export:hover {
+  background-color: var(--primary);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
 
       /* Placeholder abu/transparan */
       .search-input::placeholder {
