@@ -1,7 +1,27 @@
     :root {
-      --primary: #049466;
-      --primary-light: #e3f7ec;
-      --border-color: #e2e8f0;
+  --primary: #049466;
+  --primary-light: #e3f7ec;
+  --primary-dark: #047857;
+  --border-color: #e2e8f0;
+
+  --info: #03b9de;
+  --info-hover: #0aa6c6;
+
+  --verifikasi: #11ba82;
+  --verifikasi-hover: #0ba572;
+
+  --warning: #ffc107;
+  --warning-hover: #d39e00;
+
+  --danger: #dc3545;
+  --danger-hover: #b02a37;
+
+  --dark: #2d3748;
+  --dark-hover: #1a202c;
+
+  --light: #f5f6fa;
+  --gray: #6c757d;
+  --white: #ffffff;
     }
 
     body {
@@ -284,40 +304,50 @@
         color: white;
         text-decoration: none;
     }
-    .btn-lihat { background-color: #0dcaf0; border-color: #0dcaf0; }
-    .btn-edit { background-color: #ffc107; border-color: #ffc107; }
-    .btn-hapus { background-color: #dc3545; border-color: #dc3545; }
 
-    .btn-lihat:hover {
-        background-color: #0593b0;
-        color: white;
-        transform: scale(1.15); /* Sedikit membesar */
-        filter: brightness(1.2); /* Mencerahkan warna tombol */
-        box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-    }
+.btn-tambah {
+  background-color: var(--dark);
+  color: var(--white);
+  transition: all 0.3s ease;
+}
+.btn-tambah:hover {
+  background-color: var(--dark-hover);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
 
-    .btn-edit:hover {
-        background-color: #b58802;
-        color: white;
-        transform: scale(1.15); /* Sedikit membesar */
-        filter: brightness(1.2); /* Mencerahkan warna tombol */
-        box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-    }
+.btn-edit {
+  background-color: var(--warning);
+  color: var(--white);
+  transition: all 0.3s ease;
+}
+.btn-edit:hover {
+  background-color: var(--warning-hover);
+  color: var(--white);
+  transform: scale(1.15);
+}
 
-    .btn-hapus:hover {
-        background-color: #a21927;
-        color: white;
-        transform: scale(1.15); /* Sedikit membesar */
-        filter: brightness(1.2); /* Mencerahkan warna tombol */
-        box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-    }
+.btn-lihat, .btn-lihat-detail {
+  background-color: var(--info);
+  color: var(--white);
+  transition: all 0.3s ease;
+}
+.btn-lihat:hover, .btn-lihat-detail:hover {
+  background-color: var(--info-hover);
+  color: var(--white);
+  transform: scale(1.15);
+}
 
-.btn.fw-bold:hover {
-  background-color: #545454; /* ganti sesuai kebutuhan */
-  color: #fff;
-  transform: scale(1.03); /* contoh efek membesar sedikit */
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* bayangan lembut */
-  transition: all 0.2s ease-in-out;
+.btn-hapus {
+  background-color: var(--danger);
+  color: var(--white);
+  transition: all 0.3s ease;
+}
+.btn-hapus:hover {
+  background-color: var(--danger-hover);
+  color: var(--white);
+  transform: scale(1.15);
 }
 
    .search-group {
