@@ -11,9 +11,29 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #049466;
-      --primary-light: #e3f7ec;
-      --border-color: #bbb;
+  --primary: #049466;
+  --primary-light: #e3f7ec;
+  --primary-dark: #047857;
+  --border-color: #e2e8f0;
+
+  --info: #03b9de;
+  --info-hover: #0aa6c6;
+
+  --verifikasi: #11ba82;
+  --verifikasi-hover: #0ba572;
+
+  --warning: #ffc107;
+  --warning-hover: #d39e00;
+
+  --danger: #dc3545;
+  --danger-hover: #b02a37;
+
+  --dark: #2d3748;
+  --dark-hover: #1a202c;
+
+  --light: #f5f6fa;
+  --gray: #6c757d;
+  --white: #ffffff;
     }
 
     body {
@@ -322,74 +342,68 @@
       transition: all 0.2s ease-in-out;
       text-decoration: none !important;
     }
-    .btn-verifikasi { background-color: #10b981; border-color: #10b981; }
-    .btn-lihatdokumen { background-color: #118394; border-color: #118394; }
-    .btn-lihat { background-color: #0dcaf0; border-color: #0dcaf0; }
-    .btn-edit { background-color: #ffc107; border-color: #ffc107; }
-    .btn-hapus { background-color: #dc3545; border-color: #dc3545; }
 
-        .btn-lihatdokumen:hover {
-        background-color: #0d7585;
-        color: white;
-        transform: scale(1.15); /* Sedikit membesar */
-        filter: brightness(1.2); /* Mencerahkan warna tombol */
-        box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-    }
-        .btn-verifikasi:hover {
-        background-color: #059867;
-        color: white;
-        transform: scale(1.15); /* Sedikit membesar */
-        filter: brightness(1.2); /* Mencerahkan warna tombol */
-        box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-    }
+.search-input::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+  opacity: 1;
+}
 
-        .btn-lihat:hover {
-        background-color: #0892ad;
-        color: white;
-        transform: scale(1.15); /* Sedikit membesar */
-        filter: brightness(1.2); /* Mencerahkan warna tombol */
-        box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-    }
+.btn-tambah {
+  background-color: var(--dark);
+  color: var(--white);
+  transition: all 0.3s ease;
+}
+.btn-tambah:hover {
+  background-color: var(--dark-hover);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
 
-    .btn-tambah {
-      background-color: #2d3748;
-      color: white;
-      border: none;
-    }
-    .btn-tambah:hover {
-      background-color: #1a202c !important;
-      color: white;
-    }
+.btn-verifikasi {
+  background-color: var(--verifikasi);
+  color: var(--white);
+  transition: all 0.3s ease;
+}
+.btn-verifikasi:hover {
+  background-color: var(--verifikasi-hover);
+  color: var(--white);
+  transform: scale(1.15);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
 
-    .btn-edit:hover {
-        background-color: #b58802;
-        color: white;
-        transform: scale(1.15); /* Sedikit membesar */
-        filter: brightness(1.2); /* Mencerahkan warna tombol */
-        box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-    }
+.btn-lihat, .btn-lihat-detail {
+  background-color: var(--info);
+  color: var(--white);
+  transition: all 0.3s ease;
+}
+.btn-lihat:hover, .btn-lihat-detail:hover {
+  background-color: var(--info-hover);
+  color: var(--white);
+  transform: scale(1.15);
+}
 
-    .btn-hapus:hover {
-        background-color: #a21927;
-        color: white;
-        transform: scale(1.15); /* Sedikit membesar */
-        filter: brightness(1.2); /* Mencerahkan warna tombol */
-        box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-    }
+.btn-edit {
+  background-color: var(--warning);
+  color: var(--white);
+  transition: all 0.3s ease;
+}
+.btn-edit:hover {
+  background-color: var(--warning-hover);
+  color: var(--white);
+  transform: scale(1.15);
+}
 
-    /* Main Buttons */
-    .btn-tambah {
-      background-color: #2d3748;
-      color: white;
-      border: none;
-      transition: all 0.2s ease-in-out;
-    }
-    .btn-tambah:hover {
-      background-color: #1a202c;
-      color: white;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-    }
+.btn-hapus {
+  background-color: var(--danger);
+  color: var(--white);
+  transition: all 0.3s ease;
+}
+.btn-hapus:hover {
+  background-color: var(--danger-hover);
+  color: var(--white);
+  transform: scale(1.15);
+}
 
         /* Pagination Kustom */
     .pagination .page-item.active .page-link {
@@ -609,7 +623,7 @@
             <span class="input-group-text bg-light border-end-0">
               <i class="fas fa-search" style="color: green;"></i>
             </span>
-            <input type="text" class="form-control border-start-0" placeholder="Cari Data...">
+            <input type="text" class="form-control border-start-0 search-input" placeholder="Cari Data...">
           </div>
         </div>
         
@@ -621,7 +635,7 @@
         </select>
         
         <select class="form-select filter-select" name="jenis_karya_lengkap">
-          <option selected disabled>Pilih Jenis Karya</option>
+          <option selected disabled>Jenis Karya</option>
                       <option value="Buku Monograf">Buku Monograf</option>
                       <option value="Buku Referensi">Buku Referensi</option>
                       <option value="Book Chapter Internasional">Book Chapter Tingkat Internasional</option>
@@ -650,6 +664,9 @@
                       <option value="Karya Cipta/Desain Industri">Karya Cipta/Desain Industri/Indikasi Geografis</option>
                       <option value="Rumusan Kebijakan Monumental">Rumusan Kebijakan Monumental</option>
         </select>
+                        <select class="form-select filter-select">
+                  <option selected>Status</option><option>Sudah Diverifikasi</option><option>Belum Diverifikasi</option><option>Ditolak</option>
+                </select>
         
         <div class="btn-tambah-container">
           <a href="#" class="btn btn-tambah fw-bold" onclick="openModal('penelitianModal')">
@@ -689,7 +706,7 @@
                   @endif
                 </td>
               <td class="text-center">
-                <button class="btn btn-sm text-white px-3 btn-lihatdokumen">Lihat</button>
+                <button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button>
               </td>
                 <td class="text-center">
                   <div class="d-flex gap-2 justify-content-center">
