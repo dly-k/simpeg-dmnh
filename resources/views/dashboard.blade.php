@@ -2,18 +2,19 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
   <title>SIKEMAH - Dashboard</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="{{ asset('assets/css/dashboard.css') }}">
+  
+  <link rel="icon" href="{{ asset('assets/images/logo.png') }}" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
   <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link rel="icon" href="{{ asset('assets/images/logo.png') }}"/>
-
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />  
+  <link rel="stylesheet" href="{{ asset('assets/css/dashboard.css') }}" />
 </head>
-<body class="">
 
+<body>
 <div class="layout">
   <div class="sidebar" id="sidebar">
     <div class="brand">SI<span>KEMAH</span></div>
@@ -132,128 +133,8 @@
   </div>
 </div>
 
+<script src="{{ asset('assets/js/dashboard.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-  const sidebar = document.getElementById('sidebar');
-  const overlay = document.getElementById('overlay');
-  const toggleSidebarBtn = document.getElementById('toggleSidebar');
-  const body = document.body;
-
-  toggleSidebarBtn.addEventListener('click', function () {
-    const isMobile = window.innerWidth <= 991;
-    if (isMobile) {
-      sidebar.classList.toggle('show');
-      overlay.classList.toggle('show', sidebar.classList.contains('show'));
-    } else {
-      sidebar.classList.toggle('hidden');
-      body.classList.toggle('sidebar-collapsed');
-    }
-  });
-
-  document.addEventListener("DOMContentLoaded", function() {
-  const editorBtn = document.querySelector('[data-bs-target="#editorKegiatan"]');
-  const editorMenu = document.getElementById("editorKegiatan");
-
-  editorBtn.classList.remove("collapsed");
-  editorBtn.setAttribute("aria-expanded", "true");
-  editorMenu.classList.add("show");
-});
-
-
-  overlay.addEventListener('click', function () {
-    sidebar.classList.remove('show');
-    overlay.classList.remove('show');
-  });
-
-  function updateDateTime() {
-    const now = new Date();
-    document.getElementById('current-date').textContent = now.toLocaleDateString('id-ID', { 
-      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
-    });
-    document.getElementById('current-time').textContent = now.toLocaleTimeString('id-ID', { 
-      hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
-    });
-  }
-  setInterval(updateDateTime, 1000);
-  updateDateTime();
-
-  const ctxJenis = document.getElementById('jenisChart').getContext('2d');
-  new Chart(ctxJenis, {
-    type: 'bar',
-    data: {
-      labels: ['Pendidikan', 'Penelitian', 'Pengabdian', 'Penunjang'],
-      datasets: [{
-        label: 'Jumlah',
-        data: [88, 25, 12, 10],
-        backgroundColor: '#059669',
-        borderRadius: 5,
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        tooltip: {
-          callbacks: {
-            label: function(context) {
-              return ` Jumlah: ${context.parsed.y}`;
-            }
-          }
-        },
-        legend: { display: false }
-      },
-      onClick: (e, elements) => {
-        if (elements.length > 0) {
-          const index = elements[0].index;
-          const label = elements[0].chart.data.labels[index];
-          alert(`Klik pada: ${label}`);
-        }
-      },
-      scales: { y: { beginAtZero: true } }
-    }
-  });
-
-  const ctxBulan = document.getElementById('bulanChart').getContext('2d');
-  const gradient = ctxBulan.createLinearGradient(0, 0, 0, 300);
-  gradient.addColorStop(0, '#05966999');
-  gradient.addColorStop(1, '#05966911');
-
-  new Chart(ctxBulan, {
-    type: 'line',
-    data: {
-      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul'],
-      datasets: [{
-        label: 'Kegiatan',
-        data: [2, 10, 8, 18, 17, 20, 22],
-        fill: true,
-        backgroundColor: gradient,
-        borderColor: '#059669',
-        tension: 0.4,
-        pointBackgroundColor: '#059669',
-        pointRadius: 5
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        tooltip: {
-          callbacks: {
-            label: function(context) {
-              return ` Kegiatan: ${context.parsed.y}`;
-            }
-          }
-        },
-        legend: { display: false }
-      },
-      onClick: (e, elements) => {
-        if (elements.length > 0) {
-          const index = elements[0].index;
-          const label = elements[0].chart.data.labels[index];
-          alert(`Klik pada bulan: ${label}`);
-        }
-      },
-      scales: { y: { beginAtZero: true } }
-    }
-  });
-</script>
 </body>
 </html>

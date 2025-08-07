@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Pegawai - SIKEMAH</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('assets/css/detail-pegawai.css') }}">
-    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" href="{{ asset('assets/images/logo.png') }}"/>
+  <title>Detail Pegawai - SIKEMAH</title>
+
+  <link rel="icon" href="{{ asset('assets/images/logo.png') }}" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ asset('assets/css/detail-pegawai.css') }}" />
 </head>
-<body>
 
+<body>
 <div class="layout">
     <div class="sidebar" id="sidebar">
         <div class="brand">SI<span>KEMAH</span></div>
@@ -779,62 +781,7 @@
     </div>
 </div>
 
+<script src="{{ asset('assets/js/detail-pegawai.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('overlay');
-        const toggleSidebarBtn = document.getElementById('toggleSidebar');
-        toggleSidebarBtn.addEventListener('click', function () {
-            if (window.innerWidth <= 991) {
-                sidebar.classList.toggle('show');
-                overlay.classList.toggle('show', sidebar.classList.contains('show'));
-            } else {
-                sidebar.classList.toggle('hidden');
-            }
-        });
-        overlay.addEventListener('click', function () {
-            sidebar.classList.remove('show');
-            overlay.classList.remove('show');
-        });
-        function updateDateTime() {
-            const now = new Date();
-            document.getElementById('current-date').textContent = now.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-            document.getElementById('current-time').textContent = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' }).replace(/\./g, ':');
-        }
-        setInterval(updateDateTime, 1000);
-        updateDateTime();
-        document.getElementById('main-tab-nav').addEventListener('click', function(e) {
-            if (e.target.matches('button.nav-link')) {
-                document.querySelectorAll('.main-tab-nav .nav-link').forEach(tab => tab.classList.remove('active'));
-                document.querySelectorAll('.main-tab-content').forEach(content => content.style.display = 'none');
-                e.target.classList.add('active');
-                const contentEl = document.getElementById(`${e.target.dataset.mainTab}-content`);
-                if(contentEl) contentEl.style.display = 'block';
-            }
-        });
-        document.querySelectorAll('#pendidikan-sub-tabs, #biodata-sub-tabs').forEach(tabContainer => {
-            tabContainer.addEventListener('click', function(e) {
-                if (e.target.matches('button')) {
-                    const parentContent = this.closest('.main-tab-content');
-                    this.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
-                    e.target.classList.add('active');
-                    parentContent.querySelectorAll('.sub-tab-content').forEach(content => content.style.display = 'none');
-                    const contentEl = parentContent.querySelector(`#${e.target.dataset.tab}`);
-                    if(contentEl) contentEl.style.display = 'block';
-                }
-            });
-        });
-        const penunjangFilter = document.getElementById('penunjang-filter');
-        if (penunjangFilter) {
-            penunjangFilter.addEventListener('change', function() {
-                const parentContent = this.closest('.main-tab-content');
-                parentContent.querySelectorAll('.sub-tab-content').forEach(tab => tab.style.display = 'none');
-                const activeTab = document.getElementById(this.value);
-                if (activeTab) activeTab.style.display = 'block';
-            });
-        }
-    });
-</script>
 </body>
 </html>

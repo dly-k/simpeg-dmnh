@@ -2,17 +2,19 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
   <title>SIKEMAH - Daftar Pegawai</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="{{ asset('assets/css/daftar-pegawai.css') }}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
+  <link rel="icon" href="{{ asset('assets/images/logo.png') }}" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
   <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="icon" href="{{ asset('assets/images/logo.png') }}"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ asset('assets/css/daftar-pegawai.css') }}" />
 </head>
-<body>
 
+<body>
 <div class="layout">
   <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
@@ -261,96 +263,7 @@
         </div>
     </div>
 
-  <!-- Scripts -->
+  <script src="{{ asset('assets/js/daftar-pegawai.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
- const sidebar = document.getElementById('sidebar');
-  const overlay = document.getElementById('overlay');
-  const toggleSidebarBtn = document.getElementById('toggleSidebar');
-  const body = document.body;
-
-  toggleSidebarBtn.addEventListener('click', function () {
-    const isMobile = window.innerWidth <= 991;
-    if (isMobile) {
-      sidebar.classList.toggle('show');
-      overlay.classList.toggle('show', sidebar.classList.contains('show'));
-    } else {
-      sidebar.classList.toggle('hidden');
-      body.classList.toggle('sidebar-collapsed');
-    }
-  });
-
-  document.addEventListener("DOMContentLoaded", function() {
-  const editorBtn = document.querySelector('[data-bs-target="#editorKegiatan"]');
-  const editorMenu = document.getElementById("editorKegiatan");
-
-  editorBtn.classList.remove("collapsed");
-  editorBtn.setAttribute("aria-expanded", "true");
-  editorMenu.classList.add("show");
-});
-
-    overlay.addEventListener('click', function () {
-      sidebar.classList.remove('show');
-      overlay.classList.remove('show');
-    });
-
-    function updateDateTime() {
-      const now = new Date();
-      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-      document.getElementById('current-date').textContent = now.toLocaleDateString('id-ID', options);
-      document.getElementById('current-time').textContent = now.toLocaleTimeString('id-ID', { 
-        hour: '2-digit', 
-        minute: '2-digit', 
-        second: '2-digit'
-      });
-    }
-    setInterval(updateDateTime, 1000);
-    updateDateTime();
-    
-    // Modal Functions
-    function openModal(modalId) {
-        const modal = document.getElementById(modalId);
-        const modalTitle = modal.querySelector('#modalTitle');
-        modalTitle.innerHTML = '<i class="fas fa-plus-circle"></i> Tambah Data Pegawai';
-        modal.querySelector('form').reset();
-        if (modal) {
-            modal.style.display = 'flex';
-        }
-    }
-    
-    function openEditModal(data) {
-        const modal = document.getElementById('pegawaiModal');
-        const modalTitle = modal.querySelector('#modalTitle');
-        modalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Data Pegawai';
-        
-        // Populate form
-        const form = modal.querySelector('form');
-        form.querySelector('[name="name"]').value = data.name;
-        form.querySelector('[name="nip"]').value = data.nip;
-        form.querySelector('[name="status_kepegawaian"]').value = data.status_kepegawaian;
-        form.querySelector('[name="jabatan_fungsional"]').value = data.jabatan_fungsional;
-        form.querySelector('[name="jabatan_struktural"]').value = data.jabatan_struktural;
-        form.querySelector('[name="pangkat"]').value = data.pangkat;
-        form.querySelector('[name="status_pegawai"]').value = data.status_pegawai;
-
-        if (modal) {
-            modal.style.display = 'flex';
-        }
-    }
-
-    function closeModal(modalId) {
-        const modal = document.getElementById(modalId);
-        if (modal) {
-            modal.style.display = 'none';
-        }
-    }
-
-    // Close modal if backdrop is clicked
-    window.onclick = function(event) {
-        if (event.target.classList.contains('modal-backdrop')) {
-            closeModal(event.target.id);
-        }
-    }
-  </script>
 </body>
 </html>

@@ -2,15 +2,18 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SIKEMAH - Editor Kegiatan ( Pelatihan )</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="{{ asset('assets/css/pelatihan.css') }}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>SIKEMAH - Editor Kegiatan (Pelatihan)</title>
+
+  <link rel="icon" href="{{ asset('assets/images/logo.png') }}" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
   <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="icon" href="{{ asset('assets/images/logo.png') }}"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ asset('assets/css/pelatihan.css') }}" />
 </head>
+
 <body>
   <div class="sidebar" id="sidebar">
     <div class="brand">SI<span>KEMAH</span></div>
@@ -216,106 +219,7 @@
         </div>
     </div>
 
+  <script src="{{ asset('assets/js/pelatihan.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // === Sidebar Logic ===
-      const sidebar = document.getElementById('sidebar');
-      const overlay = document.getElementById('overlay');
-      const toggleSidebarBtn = document.getElementById('toggleSidebar');
-
-      if (toggleSidebarBtn) {
-        toggleSidebarBtn.addEventListener('click', function () {
-          const isMobile = window.innerWidth <= 991;
-          if (isMobile) {
-            sidebar.classList.toggle('show');
-            overlay.classList.toggle('show', sidebar.classList.contains('show'));
-          } else {
-            sidebar.classList.toggle('hidden');
-          }
-        });
-      }
-
-      if (overlay) {
-        overlay.addEventListener('click', function () {
-          sidebar.classList.remove('show');
-          overlay.classList.remove('show');
-        });
-      }
-      
-      // === Date and Time Logic ===
-      function updateDateTime() {
-        const now = new Date();
-        const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone: 'Asia/Jakarta' };
-        
-        document.getElementById('current-date').textContent = now.toLocaleDateString('id-ID', dateOptions);
-        document.getElementById('current-time').textContent = now.toLocaleTimeString('id-ID', timeOptions);
-      }
-      setInterval(updateDateTime, 1000);
-      updateDateTime();
-    });
-    
-    // === Modal Functions ===
-    function openModal(modalId) {
-        const modal = document.getElementById(modalId);
-        const modalTitle = modal.querySelector('#modalTitle');
-        modalTitle.innerHTML = '<i class="fas fa-plus-circle"></i> Tambah Data Pelatihan';
-        modal.querySelector('form').reset();
-        
-        document.getElementById('anggota-list').innerHTML = '';
-
-        if (modal) {
-            modal.style.display = 'flex';
-        }
-    }
-    
-    function openEditModal() {
-        const modal = document.getElementById('pelatihanModal');
-        const modalTitle = modal.querySelector('#modalTitle');
-        modalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Data Pelatihan';
-        if (modal) {
-            modal.style.display = 'flex';
-        }
-    }
-
-    function closeModal(modalId) {
-        const modal = document.getElementById(modalId);
-        if (modal) {
-            modal.style.display = 'none';
-        }
-    }
-    
-    function addAnggota() {
-        const list = document.getElementById('anggota-list');
-        const newRow = document.createElement('div');
-        newRow.className = 'dynamic-row';
-        newRow.innerHTML = `
-            <button type="button" class="btn-close dynamic-row-close-btn" aria-label="Close" onclick="this.parentElement.remove()"></button>
-            <div class="row g-2">
-                <div class="col-12">
-                    <label class="form-label form-label-sm">Nama Anggota</label>
-                    <input type="text" class="form-control form-control-sm" placeholder="Nama Anggota">
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label form-label-sm">Angkatan</label>
-                    <input type="text" class="form-control form-control-sm" placeholder="Angkatan">
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label form-label-sm">Predikat</label>
-                    <input type="text" class="form-control form-control-sm" placeholder="Predikat">
-                </div>
-            </div>
-        `;
-        list.appendChild(newRow);
-    }
-
-    // Close modal if backdrop is clicked
-    window.onclick = function(event) {
-        if (event.target.classList.contains('modal-backdrop')) {
-            closeModal(event.target.id);
-        }
-    }
-  </script>
 </body>
 </html>

@@ -2,17 +2,19 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SIKEMAH - Editor Kegiatan ( Penghargaan )</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="{{ asset('assets/css/penghargaan.css') }}">
-  <link rel="icon" href="{{ asset('assets/images/logo.png') }}"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <title>SIKEMAH - Editor Kegiatan (Penghargaan)</title>
+
+  <link rel="icon" href="{{ asset('assets/images/logo.png') }}" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ asset('assets/css/penghargaan.css') }}" />
+</head>
+
+<body>
   <div class="sidebar" id="sidebar">
     <div class="brand">SI<span>KEMAH</span></div>
     <div class="menu-wrapper">
@@ -210,80 +212,7 @@
         </div>
     </div>
 
+  <script src="{{ asset('assets/js/penghargaan.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // === Sidebar Logic ===
-      const sidebar = document.getElementById('sidebar');
-      const overlay = document.getElementById('overlay');
-      const toggleSidebarBtn = document.getElementById('toggleSidebar');
-
-      if (toggleSidebarBtn) {
-        toggleSidebarBtn.addEventListener('click', function () {
-          const isMobile = window.innerWidth <= 991;
-          if (isMobile) {
-            sidebar.classList.toggle('show');
-            overlay.classList.toggle('show', sidebar.classList.contains('show'));
-          } else {
-            sidebar.classList.toggle('hidden');
-          }
-        });
-      }
-
-      if (overlay) {
-        overlay.addEventListener('click', function () {
-          sidebar.classList.remove('show');
-          overlay.classList.remove('show');
-        });
-      }
-      
-      // === Date and Time Logic ===
-      function updateDateTime() {
-        const now = new Date();
-        const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone: 'Asia/Jakarta' };
-        
-        document.getElementById('current-date').textContent = now.toLocaleDateString('id-ID', dateOptions);
-        document.getElementById('current-time').textContent = now.toLocaleTimeString('id-ID', timeOptions);
-      }
-      setInterval(updateDateTime, 1000);
-      updateDateTime();
-    });
-    
-    // Modal Functions
-    function openModal(modalId) {
-        const modal = document.getElementById(modalId);
-        const modalTitle = modal.querySelector('#modalTitle');
-        modalTitle.innerHTML = '<i class="fas fa-plus-circle"></i> Tambah Data Penghargaan';
-        modal.querySelector('form').reset();
-        if (modal) {
-            modal.style.display = 'flex';
-        }
-    }
-    
-    function openEditModal() {
-        const modal = document.getElementById('penghargaanModal');
-        const modalTitle = modal.querySelector('#modalTitle');
-        modalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Data Penghargaan';
-        // Di sini Anda akan mengisi form dengan data yang ada
-        if (modal) {
-            modal.style.display = 'flex';
-        }
-    }
-
-    function closeModal(modalId) {
-        const modal = document.getElementById(modalId);
-        if (modal) {
-            modal.style.display = 'none';
-        }
-    }
-
-    // Close modal if backdrop is clicked
-    window.onclick = function(event) {
-        if (event.target.classList.contains('modal-backdrop')) {
-            closeModal(event.target.id);
-        }
-    }
-  </script>
 </body>
 </html>

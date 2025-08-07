@@ -2,18 +2,19 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SIKEMAH - Editor Kegiatan ( Penelitian )</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="icon" href="{{ asset('assets/images/logo.png') }}"/>
-  <link rel="stylesheet" href="{{ asset('assets/css/penelitian.css') }}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <title>SIKEMAH - Editor Kegiatan (Penelitian)</title>
+
+  <link rel="icon" href="{{ asset('assets/images/logo.png') }}" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
   <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ asset('assets/css/penelitian.css') }}" />
 </head>
-<body>
 
+<body>
   <div class="sidebar" id="sidebar">
     <div class="brand">SI<span>KEMAH</span></div>
     <div class="menu-wrapper">
@@ -283,126 +284,7 @@
     <span>© 2025 Forest Management — All Rights Reserved</span>
   </footer>
 
+  <script src="{{ asset('assets/js/penelitian.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    // === Inisialisasi & Event Listener Utama ===
-    document.addEventListener('DOMContentLoaded', function() {
-      setupSidebar();
-      startDateTimeUpdater();
-    });
-
-    // === Logika Sidebar ===
-    function setupSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      const overlay = document.getElementById('overlay');
-      const toggleSidebarBtn = document.getElementById('toggleSidebar');
-
-      toggleSidebarBtn.addEventListener('click', function() {
-        const isMobile = window.innerWidth <= 991;
-        if (isMobile) {
-          sidebar.classList.toggle('show');
-          overlay.classList.toggle('show', sidebar.classList.contains('show'));
-        } else {
-          sidebar.classList.toggle('hidden');
-        }
-      });
-
-      overlay.addEventListener('click', function() {
-        sidebar.classList.remove('show');
-        overlay.classList.remove('show');
-      });
-    }
-
-    // === Logika Waktu & Tanggal ===
-    function startDateTimeUpdater() {
-      const dateEl = document.getElementById('current-date');
-      const timeEl = document.getElementById('current-time');
-      
-      function update() {
-        const now = new Date();
-        const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
-        dateEl.textContent = now.toLocaleDateString('id-ID', dateOptions);
-        timeEl.textContent = now.toLocaleTimeString('id-ID', timeOptions);
-      }
-      setInterval(update, 1000);
-      update();
-    }
-
-    // === Logika Modal ===
-    function openModal(modalId) {
-      const modal = document.getElementById(modalId);
-      const modalTitle = modal.querySelector('#modalTitle');
-      
-      modalTitle.innerHTML = '<i class="fas fa-plus-circle"></i> Tambah Data Penelitian';
-      modal.querySelector('form').reset();
-      
-      // Reset dynamic fields
-      document.getElementById('penulis-ipb-list').innerHTML = `
-        <div class="input-group mb-2">
-          <input type="text" class="form-control" placeholder="Nama">
-          <label class="input-group-text">Upload SK</label>
-          <input type="file" class="form-control">
-          <button class="btn btn-outline-success" type="button" onclick="addPenulis('penulis-ipb-list')">+ Tambah</button>
-        </div>`;
-      
-      document.getElementById('penulis-luar-list').innerHTML = `
-        <div class="input-group mb-2">
-          <input type="text" class="form-control" placeholder="Nama">
-          <label class="input-group-text">Upload SK</label>
-          <input type="file" class="form-control">
-          <button class="btn btn-outline-success" type="button" onclick="addPenulis('penulis-luar-list')">+ Tambah</button>
-        </div>`;
-      
-      document.getElementById('penulis-mahasiswa-list').innerHTML = `
-        <div class="input-group mb-2">
-          <input type="text" class="form-control" placeholder="Nama">
-          <button class="btn btn-outline-success" type="button" onclick="addPenulis('penulis-mahasiswa-list')">+ Tambah</button>
-        </div>`;
-
-      modal.style.display = 'flex';
-    }
-
-    function openEditModal() {
-      const modal = document.getElementById('penelitianModal');
-      const modalTitle = modal.querySelector('#modalTitle');
-      
-      modalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Data Penelitian';
-      // Di sini Anda akan mengisi form dengan data yang ada
-      modal.style.display = 'flex';
-    }
-
-    function closeModal(modalId) {
-      const modal = document.getElementById(modalId);
-      modal.style.display = 'none';
-    }
-
-    // === Logika Penulis Dinamis ===
-    let penulisCounter = 0;
-    
-    function addPenulis(listId) {
-      penulisCounter++;
-      const list = document.getElementById(listId);
-      const newInput = document.createElement('div');
-      newInput.className = 'input-group mb-2';
-      
-      let inputFields = `<input type="text" class="form-control" placeholder="Nama">`;
-      
-      if (listId !== 'penulis-mahasiswa-list') {
-        inputFields += `<label class="input-group-text" for="upload-sk-${penulisCounter}">Upload SK</label>
-                        <input type="file" class="form-control" id="upload-sk-${penulisCounter}">`;
-      }
-      
-      newInput.innerHTML = `${inputFields}<button class="btn btn-outline-danger" type="button" onclick="this.parentElement.remove()">-</button>`;
-      list.appendChild(newInput);
-    }
-
-    // Close modal when clicking outside
-    window.onclick = function(event) {
-      if (event.target.classList.contains('modal-backdrop')) {
-        closeModal(event.target.id);
-      }
-    }
-  </script>
 </body>
 </html>

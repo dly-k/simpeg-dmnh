@@ -2,17 +2,19 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SIKEMAH - Editor Kegiatan ( Penunjang )</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="{{ asset('assets/css/penunjang.css') }}">
-  <link rel="icon" href="{{ asset('assets/images/logo.png') }}"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <title>SIKEMAH - Editor Kegiatan (Penunjang)</title>
+
+  <link rel="icon" href="{{ asset('assets/images/logo.png') }}" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ asset('assets/css/penunjang.css') }}" />
+</head>
+
+<body>
   <div class="sidebar" id="sidebar">
     <div class="brand">SI<span>KEMAH</span></div>
     <div class="menu-wrapper">
@@ -210,124 +212,7 @@
         </div>
     </div>
 
+  <script src="{{ asset('assets/js/penunjang.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // === Sidebar Logic ===
-      const sidebar = document.getElementById('sidebar');
-      const overlay = document.getElementById('overlay');
-      const toggleSidebarBtn = document.getElementById('toggleSidebar');
-
-      if (toggleSidebarBtn) {
-        toggleSidebarBtn.addEventListener('click', function () {
-          const isMobile = window.innerWidth <= 991;
-          if (isMobile) {
-            sidebar.classList.toggle('show');
-            overlay.classList.toggle('show', sidebar.classList.contains('show'));
-          } else {
-            sidebar.classList.toggle('hidden');
-          }
-        });
-      }
-
-      if (overlay) {
-        overlay.addEventListener('click', function () {
-          sidebar.classList.remove('show');
-          overlay.classList.remove('show');
-        });
-      }
-      
-      // === Date and Time Logic ===
-      function updateDateTime() {
-        const now = new Date();
-        const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone: 'Asia/Jakarta' };
-        
-        document.getElementById('current-date').textContent = now.toLocaleDateString('id-ID', dateOptions);
-        document.getElementById('current-time').textContent = now.toLocaleTimeString('id-ID', timeOptions);
-      }
-      setInterval(updateDateTime, 1000);
-      updateDateTime();
-    });
-    
-    // === Modal Functions ===
-    function openModal(modalId) {
-        const modal = document.getElementById(modalId);
-        const modalTitle = modal.querySelector('#modalTitle');
-        modalTitle.innerHTML = '<i class="fas fa-plus-circle"></i> Tambah Data Penunjang';
-        modal.querySelector('form').reset();
-        
-        document.getElementById('dokumen-list').innerHTML = '';
-        document.getElementById('anggota-list').innerHTML = '';
-
-        if (modal) {
-            modal.style.display = 'flex';
-        }
-    }
-    
-    function openEditModal() {
-        const modal = document.getElementById('penunjangModal');
-        const modalTitle = modal.querySelector('#modalTitle');
-        modalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Data Penunjang';
-        if (modal) {
-            modal.style.display = 'flex';
-        }
-    }
-
-    function closeModal(modalId) {
-        const modal = document.getElementById(modalId);
-        if (modal) {
-            modal.style.display = 'none';
-        }
-    }
-    
-    function addDokumen() {
-        const list = document.getElementById('dokumen-list');
-        const newRow = document.createElement('div');
-        newRow.className = 'border rounded p-3 mb-3';
-        newRow.innerHTML = `
-            <div class="row g-2">
-                <div class="col-12">
-                    <select class="form-select form-select-sm">
-                        <option selected>-- Pilih Jenis Dokumen --</option>
-                    </select>
-                </div>
-                <div class="col-md-4"><input type="text" class="form-control form-control-sm" placeholder="Nama Dokumen"></div>
-                <div class="col-md-4"><input type="text" class="form-control form-control-sm" placeholder="Nomor"></div>
-                <div class="col-md-4"><input type="text" class="form-control form-control-sm" placeholder="Tautan"></div>
-                <div class="col-12">
-                    <div class="upload-area" style="padding: 1rem;">
-                        <i class="fas fa-cloud-upload-alt"></i>
-                        <p class="mb-0"><small>Drag & Drop File / Max 5 MB</small></p>
-                        <input type="file" hidden>
-                    </div>
-                </div>
-            </div>
-             <button type="button" class="btn btn-sm btn-outline-danger mt-2" onclick="this.parentElement.remove()"><i class="fa fa-trash"></i> Hapus Dokumen</button>
-        `;
-        list.appendChild(newRow);
-    }
-    
-    function addAnggota() {
-        const list = document.getElementById('anggota-list');
-        const newRow = document.createElement('div');
-        newRow.className = 'input-group mb-2';
-        newRow.innerHTML = `
-            <input type="text" class="form-control" placeholder="Nama Dosen">
-            <select class="form-select">
-                <option selected>-- Pilih Salah Satu Peran --</option>
-            </select>
-            <button class="btn btn-outline-danger" type="button" onclick="this.parentElement.remove()"><i class="fa fa-trash"></i></button>
-        `;
-        list.appendChild(newRow);
-    }
-
-    // Close modal if backdrop is clicked
-    window.onclick = function(event) {
-        if (event.target.classList.contains('modal-backdrop')) {
-            closeModal(event.target.id);
-        }
-    }
-  </script>
 </body>
 </html>
