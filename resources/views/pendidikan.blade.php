@@ -11,7 +11,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-
   <div class="sidebar" id="sidebar">
     <div class="brand">SI<span>KEMAH</span></div>
     <div class="menu-wrapper">
@@ -90,26 +89,25 @@
             <li class="nav-item" role="presentation"><button class="nav-link" id="pembimbing-luar-tab" data-bs-toggle="tab" data-bs-target="#pembimbing-luar" type="button" role="tab">Pembimbing Luar IPB</button></li>
           </ul>
 
-          <div class="search-filter-container">
-            <div class="search-filter-row">
-                <div class="search-box">
-                    <div class="input-group">
-                        <span class="input-group-text bg-light border-end-0"><i class="fas fa-search" style="color: green;"></i></span>
-                        <input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ....">
-                    </div>
-                </div>
-                <select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select>
-                <select class="form-select filter-select">
-                  <option selected>Status</option><option>Sudah Diverifikasi</option><option>Belum Diverifikasi</option><option>Ditolak</option>
-                </select>                <div class="btn-tambah-container">
-                    <a href="#" class="btn btn-tambah fw-bold"><i class="fa fa-plus me-2"></i> Tambah Data</a>
-                </div>
-            </div>
-          </div>
-
           <div class="tab-content" id="pendidikanTabContent">
-            
             <div class="tab-pane fade show active" id="pengajaran-lama" role="tabpanel">
+                    <div class="search-filter-container">
+                      <div class="search-filter-row">
+                          <div class="search-box">
+                              <div class="input-group">
+                                  <span class="input-group-text bg-light border-end-0"><i class="fas fa-search" style="color: green;"></i></span>
+                                  <input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ....">
+                              </div>
+                          </div>
+                          <select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select>
+                          <select class="form-select filter-select">
+                            <option selected>Status</option><option>Sudah Diverifikasi</option><option>Belum Diverifikasi</option><option>Ditolak</option>
+                          </select>                  
+                          <div class="btn-tambah-container">
+                              <a href="#" class="btn btn-tambah fw-bold"><i class="fa fa-plus me-2"></i> Tambah Data</a>
+                          </div>
+                      </div>
+                    </div>
                 <div class="table-responsive">
                   <table class="table table-hover table-bordered">
                       <thead class="table-light">
@@ -123,6 +121,23 @@
             </div>
 
             <div class="tab-pane fade" id="pengajaran-luar" role="tabpanel">
+                    <div class="search-filter-container">
+                      <div class="search-filter-row">
+                          <div class="search-box">
+                              <div class="input-group">
+                                  <span class="input-group-text bg-light border-end-0"><i class="fas fa-search" style="color: green;"></i></span>
+                                  <input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ....">
+                              </div>
+                          </div>
+                          <select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select>
+                          <select class="form-select filter-select">
+                            <option selected>Status</option><option>Sudah Diverifikasi</option><option>Belum Diverifikasi</option><option>Ditolak</option>
+                          </select>                  
+                          <div class="btn-tambah-container">
+                              <a href="#" class="btn btn-tambah fw-bold"><i class="fa fa-plus me-2"></i> Tambah Data</a>
+                          </div>
+                      </div>
+                    </div>
                 <div class="table-responsive">
                   <table class="table table-hover table-bordered">
                       <thead class="table-light">
@@ -136,6 +151,23 @@
             </div>
 
             <div class="tab-pane fade" id="pengujian-lama" role="tabpanel">
+                    <div class="search-filter-container">
+                      <div class="search-filter-row">
+                          <div class="search-box">
+                              <div class="input-group">
+                                  <span class="input-group-text bg-light border-end-0"><i class="fas fa-search" style="color: green;"></i></span>
+                                  <input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ....">
+                              </div>
+                          </div>
+                          <select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select>
+                          <select class="form-select filter-select">
+                            <option selected>Status</option><option>Sudah Diverifikasi</option><option>Belum Diverifikasi</option><option>Ditolak</option>
+                          </select>                  
+                          <div class="btn-tambah-container">
+                              <a href="#" class="btn btn-tambah fw-bold"><i class="fa fa-plus me-2"></i> Tambah Data</a>
+                          </div>
+                      </div>
+                    </div>
                 <div class="table-responsive">
                   <table class="table table-hover table-bordered">
                       <thead class="table-light">
@@ -149,6 +181,23 @@
             </div>
 
             <div class="tab-pane fade" id="pembimbing-lama" role="tabpanel">
+                    <div class="search-filter-container">
+                      <div class="search-filter-row">
+                          <div class="search-box">
+                              <div class="input-group">
+                                  <span class="input-group-text bg-light border-end-0"><i class="fas fa-search" style="color: green;"></i></span>
+                                  <input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ....">
+                              </div>
+                          </div>
+                          <select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select>
+                          <select class="form-select filter-select">
+                            <option selected>Status</option><option>Sudah Diverifikasi</option><option>Belum Diverifikasi</option><option>Ditolak</option>
+                          </select>                  
+                          <div class="btn-tambah-container">
+                              <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalTambahPembimbing"><i class="fa fa-plus me-2"></i> Tambah Data</a>
+                          </div>
+                      </div>
+                    </div>
                 <div class="table-responsive">
                   <table class="table table-hover table-bordered">
                       <thead class="table-light">
@@ -162,6 +211,23 @@
             </div>
 
             <div class="tab-pane fade" id="penguji-luar" role="tabpanel">
+                    <div class="search-filter-container">
+                      <div class="search-filter-row">
+                          <div class="search-box">
+                              <div class="input-group">
+                                  <span class="input-group-text bg-light border-end-0"><i class="fas fa-search" style="color: green;"></i></span>
+                                  <input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ....">
+                              </div>
+                          </div>
+                          <select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select>
+                          <select class="form-select filter-select">
+                            <option selected>Status</option><option>Sudah Diverifikasi</option><option>Belum Diverifikasi</option><option>Ditolak</option>
+                          </select>                  
+                          <div class="btn-tambah-container">
+                              <a href="#" class="btn btn-tambah fw-bold"><i class="fa fa-plus me-2"></i> Tambah Data</a>
+                          </div>
+                      </div>
+                    </div>
                 <div class="table-responsive">
                   <table class="table table-hover table-bordered">
                       <thead class="table-light">
@@ -175,6 +241,23 @@
             </div>
 
             <div class="tab-pane fade" id="pembimbing-luar" role="tabpanel">
+                    <div class="search-filter-container">
+                      <div class="search-filter-row">
+                          <div class="search-box">
+                              <div class="input-group">
+                                  <span class="input-group-text bg-light border-end-0"><i class="fas fa-search" style="color: green;"></i></span>
+                                  <input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ....">
+                              </div>
+                          </div>
+                          <select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select>
+                          <select class="form-select filter-select">
+                            <option selected>Status</option><option>Sudah Diverifikasi</option><option>Belum Diverifikasi</option><option>Ditolak</option>
+                          </select>                  
+                          <div class="btn-tambah-container">
+                              <a href="#" class="btn btn-tambah fw-bold"><i class="fa fa-plus me-2"></i> Tambah Data</a>
+                          </div>
+                      </div>
+                    </div>
                 <div class="table-responsive">
                   <table class="table table-hover table-bordered">
                       <thead class="table-light">
@@ -250,4 +333,6 @@
     });
   </script>
 </body>
+
 </html>
+
