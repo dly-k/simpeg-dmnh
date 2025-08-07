@@ -98,9 +98,9 @@
         
         <!-- Search Input -->
         <div class="search-group flex-grow-1">
-          <div class="input-group bg-white shadow-sm" style="border-radius: .5rem; min-width: 180px;">
+          <div class="input-group bg-white" style="border-radius: .5rem; min-width: 180px;">
             <span class="input-group-text bg-light border-end-0">
-              <i class="lni lni-search-alt small"></i>
+              <i class="fas fa-search" style="color: green;"></i>
             </span>
             <input type="text" 
                   class="form-control form-control-sm bg-transparent border-0" 
@@ -139,7 +139,7 @@
 
       <!-- Right side: Add Data Button -->
       <div>
-        <button class="btn btn-sm fw-bold" style="background-color: #2d3748; color: white;" onclick="openModal('pegawaiModal')">
+        <button class="btn btn-tambah btn-sm fw-bold" style="background-color: #2d3748; color: white;" onclick="openModal('pegawaiModal')">
           <i class="fa fa-plus me-2"></i> Tambah Data
         </button>
       </div>
