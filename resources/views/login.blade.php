@@ -13,6 +13,7 @@
 
     <!-- LineIcons CDN -->
     <link rel="stylesheet" href="https://cdn.lineicons.com/4.0/lineicons.css">
+    <link rel="icon" href="{{ asset('assets/images/logo.png') }}"/>
 
     <style>
         body {
