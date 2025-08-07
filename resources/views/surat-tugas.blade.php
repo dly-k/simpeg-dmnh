@@ -10,9 +10,29 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #049466;
-      --primary-light: #e3f7ec;
-      --border-color: #e2e8f0;
+ --primary: #049466;
+  --primary-light: #e3f7ec;
+  --primary-dark: #047857;
+  --border-color: #e2e8f0;
+
+  --info: #03b9de;
+  --info-hover: #0aa6c6;
+
+  --verifikasi: #11ba82;
+  --verifikasi-hover: #0ba572;
+
+  --warning: #ffc107;
+  --warning-hover: #d39e00;
+
+  --danger: #dc3545;
+  --danger-hover: #b02a37;
+
+  --dark: #2d3748;
+  --dark-hover: #1a202c;
+
+  --light: #f5f6fa;
+  --gray: #6c757d;
+  --white: #ffffff;
     }
 
     body {
@@ -317,96 +337,68 @@
         color: white;
         text-decoration: none;
     }
-    .btn-lihat { background-color: #0c7e8f; border-color: #0c7e8f; }
-    .btn-edit { background-color: #ffc107; border-color: #ffc107; }
-    .btn-hapus { background-color: #dc3545; border-color: #dc3545; }
-
-    .btn-lihat:hover {
-        background-color: #0a7181;
-        color: white;
-        transform: scale(1.15); /* Sedikit membesar */
-        filter: brightness(1.2); /* Mencerahkan warna tombol */
-        box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-    }
-.btn-export {
-  background-color: var(--primary); /* hijau */
-  color: white;
-  border: none;
-}
-.btn-export:hover {
-  background-color: #04885e !important;
-  color: white;
-  border: none;
-}
+      /* Placeholder abu/transparan */
+      .search-input::placeholder {
+        color: rgba(0, 0, 0, 0.4); /* Abu-abu muda */
+        opacity: 1; /* Pastikan placeholder terlihat */
+      }
 
 .btn-tambah {
-  background-color: #2d3748;
-  color: white;
-  border: none;
+  background-color: var(--dark);
+  color: var(--white);
+  transition: all 0.3s ease;
 }
 .btn-tambah:hover {
-  background-color: #1a202c !important;
-  color: white;
+  background-color: var(--dark-hover);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
-    .btn-edit:hover {
-        background-color: #b58802;
-        color: white;
-        transform: scale(1.15); /* Sedikit membesar */
-        filter: brightness(1.2); /* Mencerahkan warna tombol */
-        box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-    }
-
-    .btn-hapus:hover {
-        background-color: #a21927;
-        color: white;
-        transform: scale(1.15); /* Sedikit membesar */
-        filter: brightness(1.2); /* Mencerahkan warna tombol */
-        box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-    }
-
-.btn.fw-bold:hover {
-  background-color: #545454; /* ganti sesuai kebutuhan */
-  color: #fff;
-  transform: scale(1.03); /* contoh efek membesar sedikit */
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* bayangan lembut */
-  transition: all 0.2s ease-in-out;
-}
-
-   .search-group {
-  border: 1px solid #e2e8f0; /* abu terang */
-  border-radius: .5rem;
-  background-color: white;
+.btn-edit {
+  background-color: var(--warning);
+  color: var(--white);
   transition: all 0.3s ease;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+.btn-edit:hover {
+  background-color: var(--warning-hover);
+  color: var(--white);
+  transform: scale(1.15);
 }
 
-.search-group:focus-within {
-  border-color: var(--primary); /* hijau lembut */
-  box-shadow: 0 0 0 2px rgba(4, 148, 102, 0.15); /* glow hijau tipis */
+.btn-lihat, .btn-lihat-detail {
+  background-color: var(--info);
+  color: var(--white);
+  transition: all 0.3s ease;
+}
+.btn-lihat:hover, .btn-lihat-detail:hover {
+  background-color: var(--info-hover);
+  color: var(--white);
+  transform: scale(1.15);
 }
 
-.search-group .input-group-text {
-  background-color: transparent;
-  border: none;
-  color: var(--primary); /* hijau */
-  font-size: 1rem;
+.btn-export {
+  background-color: var(--verifikasi-hover);
+  color: var(--white);
+  transition: all 0.3s ease;
+}
+.btn-export:hover {
+  background-color: var(--primary);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
-.search-group .form-control {
-  border: none;
-  background-color: transparent;
-  color: #2d3748; /* abu gelap */
-  font-size: 14px;
+.btn-hapus {
+  background-color: var(--danger);
+  color: var(--white);
+  transition: all 0.3s ease;
 }
-
-.search-group .form-control::placeholder {
-  color: #a0aec0; /* placeholder abu muda */
-  font-weight: 400;
+.btn-hapus:hover {
+  background-color: var(--danger-hover);
+  color: var(--white);
+  transform: scale(1.15);
 }
-
-
-
         /* Pagination Kustom */
     .pagination .page-item.active .page-link {
         background-color: var(--primary);
@@ -602,111 +594,84 @@
       <h1><i class="lni lni-folder"></i> <span id="page-title">Manajemen Surat Tugas</span></h1>
     </div>
 
-    <!-- Main Content -->
-    <div class="main-content">
-        <div class="table-card">
-      <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+  <!-- Main Content -->
+<div class="main-content">
+  <div class="table-card">
+    <!-- Header: Search, Filter, Button -->
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
       
       <!-- Left side: Search & Filter -->
       <div class="d-flex align-items-center flex-wrap gap-2 flex-grow-1" style="min-width: 0;">
         
         <!-- Search Input -->
         <div class="search-group flex-grow-1">
-          <div class="input-group bg-white shadow-sm" style="border-radius: .5rem; min-width: 180px;">
+          <div class="input-group search-box bg-white shadow-sm" style="border-radius: .5rem; min-width: 280px;">
             <span class="input-group-text bg-light border-end-0">
-              <i class="lni lni-search-alt small"></i>
+              <i class="fas fa-search" style="color: green;"></i>
             </span>
-            <input type="text" 
-                  class="form-control form-control-sm bg-transparent border-0" 
-                  placeholder="Cari Data...">
+            <input type="text" class="form-control border-start-0 search-input" placeholder="Cari Data...">
           </div>
         </div>
 
-      <!-- Filter Tanggal -->
-      <div style="min-width: 120px;">
-        <select class="form-select filter-select">
-          <option selected>Tahun</option>
-          <option>2021</option>
-          <option>2022</option>
-          <option>2023</option>
-        </select>      
-      </div>
-
-              <div class="d-flex gap-2">
-                  <a href="#" class="btn btn-export fw-bold"><i class="fa fa-file-excel me-2"></i> Export Excel</a>
-                  <a href="#" class="btn btn-tambah fw-bold" onclick="openModal('suratTugasModal')"><i class="fa fa-plus me-2"></i> Tambah Data</a>
-              </div>
-          </div>
-      </div>
-
-          <div class="table-responsive">
-            <table class="table table-hover table-bordered">
-              <thead class="table-light">
-                <tr class="text-center">
-                  <th>No</th>
-                  <th class="text-start">Nama Dosen</th>
-                  <th>Peran</th>
-                  <th>Diminta Sebagai</th>
-                  <th>Mitra/Instansi</th>
-                  <th>No & Tgl Surat Instansi</th>
-                  <th>No & Tgl Surat Kadep</th>
-                  <th>Tgl Kegiatan</th>
-                  <th>Ket. Lokasi</th>
-                  <th>Dokumen</th>
-                  <th>Aksi</th>
-                </tr>
-              </thead>
-              <tbody>
-                <script>
-                    const data = [
-                        { nama: 'Dr. Stone', peran: 'Dosen', sebagai: 'Penelitian', mitra: 'Pt. Lele Berkumis', surat_instansi: '001/INT/2025 - 1 Juni 2025', surat_kadep: '001/INT/2025 - 1 Juni 2025', tgl_kegiatan: '20 Juni 2021', lokasi: 'Empang Hj Ujang' },
-                        { nama: 'Joko Anwar S.pd', peran: 'Dosen', sebagai: 'Pengabdian', mitra: 'Desa Cikoneng', surat_instansi: '002/EXT/2025 - 5 Juni 2025', surat_kadep: '002/EXT/2025 - 6 Juni 2025', tgl_kegiatan: '25 Juli 2021', lokasi: 'Balai Desa' },
-                        { nama: 'Ria Kodariah, S.Si', peran: 'Dosen', sebagai: 'Narasumber', mitra: 'Universitas Maju Jaya', surat_instansi: '003/UMJ/2025 - 10 Juni 2025', surat_kadep: '003/UMJ/2025 - 11 Juni 2025', tgl_kegiatan: '1 Agustus 2021', lokasi: 'Auditorium Univ' },
-                    ];
-                    data.forEach((item, index) => {
-                        document.write(`
-                            <tr>
-                                <td class="text-center">${index + 1}</td>
-                                <td>${item.nama}</td>
-                                <td class="text-center">${item.peran}</td>
-                                <td class="text-center">${item.sebagai}</td>
-                                <td>${item.mitra}</td>
-                                <td class="text-center">${item.surat_instansi}</td>
-                                <td class="text-center">${item.surat_kadep}</td>
-                                <td class="text-center">${item.tgl_kegiatan}</td>
-                                <td>${item.lokasi}</td>
-                                <td class="text-center">
-                               <button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button>
-                               </td>
-                                <td class="text-center">
-                                    <div class="d-flex gap-2 justify-content-center">
-                                        <a href="#" class="btn-aksi btn-edit" title="Edit Data" onclick="openEditModal()"><i class="fa fa-edit"></i></a>
-                                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                        `);
-                    });
-                </script>
-              </tbody>
-            </table>
-          </div>
-
-          <div class="d-flex justify-content-between align-items-center mt-3">
-            <span class="text-muted small">Menampilkan 3 dari 13 data</span>
-            <nav aria-label="Page navigation">
-              <ul class="pagination pagination-sm mb-0">
-                <li class="page-item disabled"><a class="page-link" href="#">Sebelumnya</a></li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">Berikutnya</a></li>
-              </ul>
-            </nav>
-          </div>
+        <!-- Filter Tanggal -->
+        <div style="min-width: 120px;">
+          <select class="form-select filter-select">
+            <option selected>Tahun</option>
+            <option>2021</option>
+            <option>2022</option>
+            <option>2023</option>
+          </select>
         </div>
+
+        <!-- Button Group -->
+        <div class="d-flex gap-2">
+          <a href="#" class="btn btn-export fw-bold">
+            <i class="fa fa-file-excel me-2"></i> Export Excel
+          </a>
+          <a href="#" class="btn btn-tambah fw-bold" onclick="openModal('suratTugasModal')">
+            <i class="fa fa-plus me-2"></i> Tambah Data
+          </a>
+        </div>
+      </div>
     </div>
 
+    <!-- Table -->
+    <div class="table-responsive">
+      <table class="table table-hover table-bordered">
+        <thead class="table-light">
+          <tr class="text-center">
+            <th>No</th>
+            <th class="text-start">Nama Dosen</th>
+            <th>Peran</th>
+            <th>Diminta Sebagai</th>
+            <th>Mitra/Instansi</th>
+            <th>No & Tgl Surat Instansi</th>
+            <th>No & Tgl Surat Kadep</th>
+            <th>Tgl Kegiatan</th>
+            <th>Ket. Lokasi</th>
+            <th>Dokumen</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="data-body"></tbody>
+      </table>
+    </div>
+
+    <!-- Pagination & Info -->
+    <div class="d-flex justify-content-between align-items-center mt-3">
+      <span class="text-muted small">Menampilkan 3 dari 13 data</span>
+      <nav aria-label="Page navigation">
+        <ul class="pagination pagination-sm mb-0">
+          <li class="page-item disabled"><a class="page-link" href="#">Sebelumnya</a></li>
+          <li class="page-item active"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item"><a class="page-link" href="#">Berikutnya</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
     <!-- Footer -->
     <footer class="footer-custom">
       <span>© 2025 Forest Management — All Rights Reserved</span>
@@ -830,6 +795,70 @@
             closeModal(event.target.id);
         }
     }
-  </script>
+
+    <!-- Script to Load Data -->
+  const data = [
+    {
+      nama: 'Dr. Stone',
+      peran: 'Dosen',
+      sebagai: 'Penelitian',
+      mitra: 'Pt. Lele Berkumis',
+      surat_instansi: '001/INT/2025 - 1 Juni 2025',
+      surat_kadep: '001/INT/2025 - 1 Juni 2025',
+      tgl_kegiatan: '20 Juni 2021',
+      lokasi: 'Empang Hj Ujang'
+    },
+    {
+      nama: 'Joko Anwar S.pd',
+      peran: 'Dosen',
+      sebagai: 'Pengabdian',
+      mitra: 'Desa Cikoneng',
+      surat_instansi: '002/EXT/2025 - 5 Juni 2025',
+      surat_kadep: '002/EXT/2025 - 6 Juni 2025',
+      tgl_kegiatan: '25 Juli 2021',
+      lokasi: 'Balai Desa'
+    },
+    {
+      nama: 'Ria Kodariah, S.Si',
+      peran: 'Dosen',
+      sebagai: 'Narasumber',
+      mitra: 'Universitas Maju Jaya',
+      surat_instansi: '003/UMJ/2025 - 10 Juni 2025',
+      surat_kadep: '003/UMJ/2025 - 11 Juni 2025',
+      tgl_kegiatan: '1 Agustus 2021',
+      lokasi: 'Auditorium Univ'
+    }
+  ];
+
+  const tbody = document.getElementById('data-body');
+  data.forEach((item, index) => {
+    tbody.innerHTML += `
+      <tr>
+        <td class="text-center">${index + 1}</td>
+        <td>${item.nama}</td>
+        <td class="text-center">${item.peran}</td>
+        <td class="text-center">${item.sebagai}</td>
+        <td>${item.mitra}</td>
+        <td class="text-center">${item.surat_instansi}</td>
+        <td class="text-center">${item.surat_kadep}</td>
+        <td class="text-center">${item.tgl_kegiatan}</td>
+        <td>${item.lokasi}</td>
+        <td class="text-center">
+          <button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button>
+        </td>
+        <td class="text-center">
+          <div class="d-flex gap-2 justify-content-center">
+            <a href="#" class="btn-aksi btn-edit" title="Edit Data" onclick="openEditModal()">
+              <i class="fa fa-edit"></i>
+            </a>
+            <a href="#" class="btn-aksi btn-hapus" title="Hapus Data">
+              <i class="fa fa-trash"></i>
+            </a>
+          </div>
+        </td>
+      </tr>
+    `;
+  });
+ </script>
 </body>
 </html>
