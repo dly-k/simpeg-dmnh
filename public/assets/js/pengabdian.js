@@ -166,3 +166,29 @@ window.onclick = function (event) {
     closeModal(event.target.id);
   }
 };
+
+// DETAIL MODAL
+// Ambil elemen-elemen untuk modal Detail Pengabdian dengan nama baru
+const pengabdianDetailModal = document.getElementById("pengabdianDetailModal");
+const openPengabdianDetailBtn = document.getElementById("btnLihatPengabdian");
+const closePengabdianDetailBtn = document.getElementById("closePengabdianDetailBtn");
+
+// Pastikan elemen tombol ada sebelum menambahkan event listener
+if (openPengabdianDetailBtn) {
+    // Tampilkan modal ketika tombol 'Lihat Detail' diklik
+    openPengabdianDetailBtn.onclick = function() {
+      pengabdianDetailModal.style.display = "block";
+    }
+}
+
+// Sembunyikan modal ketika tombol 'Tutup' diklik
+closePengabdianDetailBtn.onclick = function() {
+  pengabdianDetailModal.style.display = "none";
+}
+
+// Sembunyikan modal ketika pengguna mengklik area di luar modal
+window.onclick = function(event) {
+  if (event.target == pengabdianDetailModal) {
+    pengabdianDetailModal.style.display = "none";
+  }
+}

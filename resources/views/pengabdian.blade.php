@@ -164,7 +164,7 @@
                                   <td class="text-center">
                                       <div class="d-flex gap-2 justify-content-center">
                                           <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a>
-                                          <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail"><i class="fa fa-eye"></i></a>
+                                          <a href="javascript:void(0);" id="btnLihatPengabdian" class="btn-aksi btn-lihat" title="Lihat Detail Pengabdian"><i class="fa fa-eye"></i></a>
                                           <a href="#" class="btn-aksi btn-edit" title="Edit Data" onclick="openEditModal()"><i class="fa fa-edit"></i></a>
                                           <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
                                       </div>
@@ -249,6 +249,136 @@
           </div>
       </div>
   </div>
+
+<div id="pengabdianDetailModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="modal-title-group">
+                <i class="fas fa-info-circle"></i>
+                <h2>Detail Pengabdian</h2>
+            </div>
+        </div>
+
+        <div class="modal-body">
+            <div class="modal-row">
+                <strong>Judul</strong>
+                <p class="detail-value">Analisis Pengaruh Kotoran Sapi Terhadap Pertumbuhan Kecambah Pada Media Kapas</p>
+            </div>
+            <div class="modal-row">
+                <strong>Nama Kegiatan</strong>
+                <p class="detail-value">Analisis Pengaruh Kotoran Sapi Terhadap Pertumbuhan Kecambah Pada Media Kapas</p>
+            </div>
+             <div class="modal-row multi-column">
+                <div class="detail-field">
+                    <strong>Afiliasi Non-PT</strong>
+                    <p class="detail-value">UGE - 912</p>
+                </div>
+                <div class="detail-field">
+                    <strong>Jenis SKIM</strong>
+                    <p class="detail-value">Pembudidayaan Ikan Lele</p>
+                </div>
+                <div class="detail-field">
+                    <strong>Lama Kegiatan</strong>
+                    <p class="detail-value">Teknologi Rekayasa Empang</p>
+                </div>
+            </div>
+             <div class="modal-row multi-column">
+                <div class="detail-field">
+                    <strong>Tahun Usulan</strong>
+                    <p class="detail-value">2025</p>
+                </div>
+                <div class="detail-field">
+                    <strong>Tahun Kegiatan</strong>
+                    <p class="detail-value">2025</p>
+                </div>
+                <div class="detail-field">
+                    <strong>Tahun Pelaksanaan</strong>
+                    <p class="detail-value">2025</p>
+                </div>
+            </div>
+             <div class="modal-row multi-column">
+                <div class="detail-field">
+                    <strong>In Kind</strong>
+                    <p class="detail-value">2025</p>
+                </div>
+                <div class="detail-field">
+                    <strong>Libtamas</strong>
+                    <p class="detail-value">2025</p>
+                </div>
+                <div class="detail-field">
+                    <strong>Tanggal SK Penugasan</strong>
+                    <p class="detail-value">2025</p>
+                </div>
+            </div>
+             <div class="modal-row">
+                <strong>No SK Penugasan</strong>
+                <p class="detail-value">2025</p>
+            </div>
+             <div class="modal-row multi-column">
+                <div class="detail-field">
+                    <strong>Dana DIKTI</strong>
+                    <p class="detail-value">2025</p>
+                </div>
+                <div class="detail-field">
+                    <strong>Dana Perguruan Tinggi</strong>
+                    <p class="detail-value">2025</p>
+                </div>
+                <div class="detail-field">
+                    <strong>Dana Institusi Lain</strong>
+                    <p class="detail-value">2025</p>
+                </div>
+            </div>
+             <div class="modal-row multi-column">
+                <div class="detail-field">
+                    <strong>Dokumen Pendukung</strong>
+                    <p class="detail-value"><a href="#" class="dokumen-link">Dokumen</a></p>
+                </div>
+                <div class="detail-field">
+                    <strong>Jenis Dokumen</strong>
+                    <p class="detail-value">Dokumen</p>
+                </div>
+            </div>
+             <div class="modal-row multi-column">
+                <div class="detail-field">
+                    <strong>Nama Dokumen</strong>
+                    <p class="detail-value">2025</p>
+                </div>
+                <div class="detail-field">
+                    <strong>Nomor</strong>
+                    <p class="detail-value">2025</p>
+                </div>
+                <div class="detail-field">
+                    <strong>Tautan</strong>
+                    <p class="detail-value">2025</p>
+                </div>
+            </div>
+             <div class="sub-header">Dosen</div>
+            <div class="modal-row multi-column">
+                <div class="detail-field"><strong>Strata</strong><p class="detail-value">Siapa gatau</p></div>
+                <div class="detail-field"><strong>Nama</strong><p class="detail-value">Siapa gatau</p></div>
+                <div class="detail-field"><strong>Jabatan</strong><p class="detail-value">Siapa gatau</p></div>
+                <div class="detail-field"><strong>Aktif</strong><p class="detail-value">Siapa gatau</p></div>
+            </div>
+             <div class="sub-header">Mahasiswa</div>
+            <div class="modal-row multi-column">
+                <div class="detail-field"><strong>Nama</strong><p class="detail-value">Siapa gatau</p></div>
+                <div class="detail-field"><strong>Jabatan</strong><p class="detail-value">2025</p></div>
+                <div class="detail-field"><strong>Aktif</strong><p class="detail-value">2025</p></div>
+            </div>
+             <div class="sub-header">Kolaborator</div>
+            <div class="modal-row multi-column no-border">
+                <div class="detail-field"><strong>Nama</strong><p class="detail-value">Siapa gatau</p></div>
+                <div class="detail-field"><strong>Jabatan</strong><p class="detail-value">2025</p></div>
+                <div class="detail-field"><strong>Aktif</strong><p class="detail-value">2025</p></div>
+            </div>
+            
+        </div>
+
+        <div class="modal-footer">
+            <button id="closePengabdianDetailBtn" class="btn-tutup">Tutup</button>
+        </div>
+    </div>
+</div>  
 
   <script src="{{ asset('assets/js/pengabdian.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
