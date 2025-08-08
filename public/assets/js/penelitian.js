@@ -156,3 +156,26 @@ window.onclick = function (event) {
     closeModal(event.target.id);
   }
 };
+
+//-modal detail
+// Ambil elemen-elemen yang diperlukan
+const detailModal = document.getElementById("detailModal");
+const openModalBtn = document.getElementById("btnLihatDetail");
+const closeModalBtn = document.getElementById("tutupBtn");
+
+// Tampilkan modal ketika tombol 'Lihat Detail' diklik
+openModalBtn.onclick = function() {
+  detailModal.style.display = "block";
+}
+
+// Sembunyikan modal ketika tombol 'Tutup' diklik
+closeModalBtn.onclick = function() {
+  detailModal.style.display = "none";
+}
+
+// Sembunyikan modal ketika pengguna mengklik area di luar modal
+window.onclick = function(event) {
+  if (event.target == detailModal) {
+    detailModal.style.display = "none";
+  }
+}

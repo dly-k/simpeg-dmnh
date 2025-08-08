@@ -178,14 +178,14 @@
               <td class="text-center">
                 <button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button>
               </td>
-                <td class="text-center">
+              <td class="text-center">
                   <div class="d-flex gap-2 justify-content-center">
-                    <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a>
-                    <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail"><i class="fa fa-eye"></i></a>
-                    <a href="#" class="btn-aksi btn-edit" title="Edit Data" onclick="openEditModal()"><i class="fa fa-edit"></i></a>
-                    <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
+                      <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a>
+                      <a href="javascript:void(0);" id="btnLihatDetail" class="btn-aksi btn-lihat" title="Lihat Detail"><i class="fa fa-eye"></i></a>
+                      <a href="#" class="btn-aksi btn-edit" title="Edit Data"><i class="fa fa-edit"></i></a>
+                      <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
                   </div>
-                </td>
+              </td>
               </tr>
               @endfor
             </tbody>
@@ -283,6 +283,101 @@
   <footer class="footer-custom">
     <span>© 2025 Forest Management — All Rights Reserved</span>
   </footer>
+
+<div id="detailModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="modal-title-group">
+                <i class="fas fa-info-circle"></i>
+                <h2>Detail Penelitian</h2>
+            </div>
+            </div>
+
+        <div class="modal-body">
+            <div class="modal-row">
+                <strong>Judul</strong>
+                <p class="detail-value">Analisis Pengaruh Kotoran Sapi Terhadap Pertumbuhan Kecambah Pada Media Kapas</p>
+            </div>
+            
+            <div class="modal-row multi-column">
+                <div class="detail-field">
+                    <strong>Jenis Karya</strong>
+                    <p class="detail-value">UGE - 912</p>
+                </div>
+                <div class="detail-field">
+                    <strong>Volume/Issue</strong>
+                    <p class="detail-value">Pembudidayaan Ikan Lele</p>
+                </div>
+                <div class="detail-field">
+                    <strong>Jumlah Halaman</strong>
+                    <p class="detail-value">Teknologi Rekayasa Empang</p>
+                </div>
+            </div>
+
+            <div class="modal-row multi-column">
+                <div class="detail-field">
+                    <strong>Tanggal Terbit</strong>
+                    <p class="detail-value">-</p>
+                </div>
+                <div class="detail-field">
+                    <strong>Publik</strong>
+                    <p class="detail-value">Ya</p>
+                </div>
+                <div class="detail-field">
+                    <strong>ISBN</strong>
+                    <p class="detail-value">Tidak Ber Jenis</p>
+                </div>
+            </div>
+
+            <div class="modal-row multi-column">
+                <div class="detail-field">
+                    <strong>ISSN</strong>
+                    <p class="detail-value">1</p>
+                </div>
+                <div class="detail-field">
+                    <strong>DOI</strong>
+                    <p class="detail-value">6</p>
+                </div>
+                <div class="detail-field">
+                    <strong>URL</strong>
+                    <p class="detail-value">6</p>
+                </div>
+            </div>
+
+            <div class="modal-row">
+                <strong>Dokumen Pendukung</strong>
+                <p class="detail-value"><a href="#" class="dokumen-link">Dokumen</a></p>
+            </div>
+
+            <div class="modal-row">
+                <div class="penulis-header">
+                    <strong>Penulis IPB</strong>
+                    <a href="#" class="dokumen-link">Dokumen</a>
+                </div>
+                <p class="detail-value nama-penulis">Siapa gatau</p>
+            </div>
+            
+            <div class="modal-row">
+                <div class="penulis-header">
+                    <strong>Penulis Luar IPB</strong>
+                    <a href="#" class="dokumen-link">Dokumen</a>
+                </div>
+                <p class="detail-value nama-penulis">Siapa gatau</p>
+            </div>
+
+            <div class="modal-row no-border">
+                <div class="penulis-header">
+                    <strong>Penulis Mahasiswa</strong>
+                </div>
+                <p class="detail-value nama-penulis">Siapa gatau</p>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button id="tutupBtn" class="btn-tutup">Tutup</button>
+        </div>
+    </div>
+</div>
 
   <script src="{{ asset('assets/js/penelitian.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
