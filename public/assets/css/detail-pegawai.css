@@ -355,8 +355,8 @@ body {
 
 #pendidikan-sub-tabs .btn.active,
 #biodata-sub-tabs .btn.active {
-  background-color: var(--dark-gray) !important;
-  color: white !important;
+  background-color: var(--primary) !important;
+  color: rgb(255, 255, 255) !important;
   border-color: var(--dark-gray) !important;
 }
 
@@ -382,6 +382,9 @@ body {
 }
 
 /* === Aksi Buttons === */
+/* ========================
+   Buttons
+========================= */
 .btn-aksi {
   width: 32px;
   height: 32px;
@@ -390,18 +393,67 @@ body {
   align-items: center;
   justify-content: center;
   padding: 0;
-  transition: all 0.2s ease-in-out;
+  color: var(--white);
+  text-decoration: none;
 }
-
-.btn-aksi:hover {
+.btn-tambah {
+  background-color: var(--dark);
+  color: white;
+  transition: all 0.3s ease;
+}
+.btn-tambah:hover {
+  background-color: var(--dark-hover);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+.btn-edit {
+  background-color: var(--warning);
+  transition: all 0.3s ease;
+}
+.btn-edit:hover {
+  background-color: var(--warning-hover);
+  color: var(--white);
   transform: scale(1.15);
-  filter: brightness(1.1);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
-
-.btn-lihat { background-color: #17a2b8; border-color: #17a2b8; }
-.btn-lihat-detail { background-color: #0dcaf0; border-color: #0dcaf0; }
-.btn-delete-row { background-color: #dc3545; border-color: #dc3545; }
+.btn-lihat, .btn-lihat-detail {
+  background-color: var(--info);
+  transition: all 0.3s ease;
+}
+.btn-lihat:hover, .btn-lihat-detail:hover {
+  background-color: var(--info-hover);
+  transform: scale(1.15);
+}
+.btn-hapus {
+  background-color: var(--danger);
+  color: white;
+  transition: all 0.3s ease;
+}
+.btn-hapus:hover {
+  background-color: var(--danger-hover);
+  color: white;
+  transform: scale(1.05);
+}
+.btn-simpan,.btn-unduh {
+  background-color: var(--verifikasi-hover);
+  color: white;
+  transition: all 0.3s ease;
+}
+.btn-simpan:hover, .btn-unduh:hover{
+  background-color: var(--primary);
+  color: white;
+  transform: scale(1.05);
+}
+.btn-kembali {
+  background-color: var(--gray);
+  color: white;
+  transition: all 0.3s ease;
+}
+.btn-kembali:hover {
+  background-color: rgb(110, 110, 110);
+  color: white;
+  transform: scale(1.05);
+}
 
 /* === Pagination === */
 .pagination .page-link {

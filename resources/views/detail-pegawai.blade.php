@@ -66,21 +66,21 @@
         <div class="title-bar">
             <h1><i class="lni lni-users"></i> Detail Pegawai</h1>
         </div>
-
+   
         <div class="main-content">
             <div class="search-filter-container">
                 <div class="search-filter-row">
                     <div class="search-box">
                         <div class="input-group">
-                            <span class="input-group-text bg-white border-end-0"><i class="lni lni-search-alt"></i></span>
+                            <span class="input-group-text bg-light border-end-0"><i class="fas fa-search" style="color: green;"></i></span>
                             <input type="text" class="form-control border-start-0" placeholder="Cari Data Pegawai...">
                         </div>
                     </div>
                     <div class="btn-tambah-container">
                         <div class="d-flex gap-2 flex-wrap">
-                            <a href="/daftar-pegawai" class="btn btn-outline-secondary"><i class="lni lni-arrow-left me-2"></i>Kembali</a>
-                            <button class="btn btn-success"><i class="lni lni-save me-2"></i>Simpan</button>
-                            <button class="btn btn-danger"><i class="lni lni-trash-can me-2"></i>Hapus</button>
+                            <a href="/daftar-pegawai" class="btn btn-kembali"><i class="lni lni-arrow-left me-2"></i>Kembali</a>
+                            <button class="btn btn-simpan"><i class="lni lni-save me-2"></i>Simpan</button>
+                            <button class="btn btn-hapus"><i class="lni lni-trash-can me-2"></i>Hapus</button>
                         </div>
                     </div>
                 </div>
@@ -88,18 +88,27 @@
 
             <div class="card">
                 <div class="card-body p-4">
-                    <div class="d-flex flex-column flex-md-row gap-4 mb-5">
+                    <div class="d-flex flex-column flex-md-row gap-4 mb-5" style=" margin-bottom: 30px !important">
                         <div class="text-center flex-shrink-0">
-                            <div style="width: 120px; height: 120px; background-color: #e9ecef;" class="rounded-circle mb-2 mx-auto d-flex align-items-center justify-content-center">
-                                <i class="lni lni-user" style="font-size: 3rem; color: var(--light-text);"></i>
+                            <!-- Foto -->
+                            <div style="width: 220px; height: 250px; background-color: #e9ecef; position: relative; overflow: hidden; border-radius: 3px;" 
+                                class="mb-2 mx-auto d-flex align-items-center justify-content-center">
+                                <i class="lni lni-user" style="font-size: 5rem; color: #bfbfbf;"></i>
                             </div>
-                            <button class="btn btn-success btn-sm w-100">Edit</button>
+
+                            <!-- Tombol Edit -->
+                            <button class="btn btn-success btn-sm w-100" style="max-width: 220px" onclick="editPhoto()">
+                                Edit Foto
+                            </button>
                         </div>
                         <div class="flex-grow-1">
                             <div class="row g-3">
                                 <div class="col-md-6 form-group"><label class="small text-secondary">NIP*</label><input type="text" class="form-control form-control-sm" value="3212302291827320009"></div>
                                 <div class="col-md-6 form-group"><label class="small text-secondary">Agama*</label><select class="form-select form-select-sm"><option selected>Islam</option><option>Kristen</option></select></div>
-                                <div class="col-md-6 form-group"><label class="small text-secondary">Nama Lengkap*</label><small class="form-text text-muted">termasuk gelar jika ada</small><input type="text" class="form-control form-control-sm" value="Alex Ferguso"></div>
+                            <div class="col-md-6 form-group">
+                                <label class="small text-secondary">Nama Lengkap*</label>
+                                <input type="text" class="form-control form-control-sm" placeholder="termasuk gelar jika ada">
+                            </div>
                                 <div class="col-md-6 form-group"><label class="small text-secondary">Status Pernikahan*</label><select class="form-select form-select-sm"><option>--Pilih Salah Satu--</option><option>Menikah</option></select></div>
                                 <div class="col-md-6 form-group">
                                     <label class="small text-secondary">Jenis Kelamin*</label>
@@ -121,9 +130,9 @@
                             </div>
                         </div>
                     </div>
-
+                    <hr class="mb-4" style="color: #939393">
                     <div class="d-flex flex-column flex-lg-row gap-4">
-                        <div class="nav flex-column nav-pills main-tab-nav" id="main-tab-nav" style="min-width: 220px; flex-shrink:0;">
+                        <div class="nav flex-column nav-pills main-tab-nav" id="main-tab-nav" style="min-width: 20px; flex-shrink:0;">
                             <button class="nav-link text-start active" data-main-tab="biodata">Biodata</button>
                             <button class="nav-link text-start" data-main-tab="pendidikan">Pelaksanaan Pendidikan</button>
                             <button class="nav-link text-start" data-main-tab="penelitian">Pelaksanaan Penelitian</button>
@@ -146,11 +155,77 @@
                                 <div class="sub-tab-content" id="kepegawaian" style="display: block;"><div class="row g-3"><div class="col-md-6 form-group"><label class="small text-secondary">Status Kepegawaian</label><select class="form-select form-select-sm"><option selected>Dosen PNS</option></select></div><div class="col-md-6 form-group"><label class="small text-secondary">Status Pegawai</label><select class="form-select form-select-sm"><option selected>Aktif</option></select></div><div class="col-md-6 form-group"><label class="small text-secondary">Unit Kerja</label><select class="form-select form-select-sm"><option selected>Fakultas Kehutanan dan Lingkungan</option></select></div><div class="col-md-6 form-group"><label class="small text-secondary">Divisi</label><select class="form-select form-select-sm"><option selected>Departemen Manajemen Hutan</option></select></div><div class="col-md-6 form-group"><label class="small text-secondary">Nomor Arsip Berkas Kepegawaian</label><input type="text" class="form-control form-control-sm"></div><div class="col-md-6 form-group"><label class="small text-secondary">Jabatan Fungsional</label><select class="form-select form-select-sm"><option>--Pilih Salah Satu--</option></select></div><div class="col-md-6 form-group"><label class="small text-secondary">Pangkat/Golongan</label><select class="form-select form-select-sm"><option selected>Penata III/c</option></select></div><div class="col-md-6 form-group"><label class="small text-secondary">TMT Pangkat Terakhir</label><input type="text" class="form-control form-control-sm" placeholder="mm/dd/yyyy"></div><div class="col-md-6 form-group"><label class="small text-secondary">Jabatan Struktural (jika ada)</label><input type="text" class="form-control form-control-sm"></div><div class="col-md-6 form-group"><label class="small text-secondary">Periode Jabatan Struktural (TMT s/d TST)</label><input type="text" class="form-control form-control-sm" placeholder="mm/dd/yyyy"></div><div class="col-md-6 form-group"><label class="small text-secondary">ID Finger Print</label><input type="text" class="form-control form-control-sm"></div><div class="col-md-6 form-group"><label class="small text-secondary">NPWP</label><input type="text" class="form-control form-control-sm"></div><div class="col-md-6 form-group"><label class="small text-secondary">Nama Bank</label><input type="text" class="form-control form-control-sm"></div><div class="col-md-6 form-group"><label class="small text-secondary">No Rekening</label><input type="text" class="form-control form-control-sm"></div></div></div>
                                 <div class="sub-tab-content" id="dosen" style="display: none;"><div class="row g-3"><div class="col-md-6 form-group"><label class="small text-secondary">NUPTK</label><input type="text" class="form-control form-control-sm" placeholder="Contoh: 23071959"></div><div class="col-md-6 form-group"><label class="small text-secondary">SINTA ID</label><input type="text" class="form-control form-control-sm" placeholder="Opsional"></div><div class="col-md-6 form-group"><label class="small text-secondary">NIDN</label><input type="text" class="form-control form-control-sm"></div><div class="col-md-6 form-group"><label class="small text-secondary">Scopus ID</label><input type="text" class="form-control form-control-sm" placeholder="Opsional"></div><div class="col-md-6 form-group"><label class="small text-secondary">No. Sertifikasi Dosen</label><input type="text" class="form-control form-control-sm" placeholder="SERDOS-0123-00123"></div><div class="col-md-6 form-group"><label class="small text-secondary">Orchid ID</label><input type="text" class="form-control form-control-sm" placeholder="Opsional"></div><div class="col-md-6 form-group"><label class="small text-secondary">Tgl. Sertifikasi Dosen</label><input type="text" class="form-control form-control-sm" placeholder="mm/dd/yyyy"></div><div class="col-md-6 form-group"><label class="small text-secondary">Google Scholar ID</label><input type="text" class="form-control form-control-sm" placeholder="Opsional"></div></div></div>
                                 <div class="sub-tab-content" id="domisili" style="display: none;"><div class="row g-3"><div class="col-md-6 form-group"><label class="small text-secondary">Provinsi</label><select class="form-select form-select-sm"><option selected>Jawa Barat</option></select></div><div class="col-md-6 form-group"><label class="small text-secondary">Alamat</label><textarea class="form-control form-control-sm">JL. Lodaya</textarea></div><div class="col-md-6 form-group"><label class="small text-secondary">Kota</label><select class="form-select form-select-sm"><option selected>Bandung</option></select></div><div class="col-md-6 form-group"><label class="small text-secondary">Kode Pos</label><input type="text" class="form-control form-control-sm" value="10021"></div><div class="col-md-6 form-group"><label class="small text-secondary">Kecamatan</label><select class="form-select form-select-sm"><option selected>Bandung Tengah</option></select></div><div class="col-md-6 form-group"><label class="small text-secondary">No. Telepon/HP</label><input type="text" class="form-control form-control-sm" value="081239128991"></div><div class="col-md-6 form-group"><label class="small text-secondary">Kelurahan</label><select class="form-select form-select-sm"><option selected>Ciawi</option></select></div><div class="col-md-6 form-group"><label class="small text-secondary">Email Pribadi / Institusi</label><input type="text" class="form-control form-control-sm" value="aexyifshsi@gmail.com"></div></div></div>
-                                <div class="sub-tab-content" id="kependudukan" style="display: none;"><div class="row g-3"><div class="col-md-6 form-group"><label class="small text-secondary">Nomor KTP</label><input type="text" class="form-control form-control-sm" value="31862908812645811"></div><div class="col-md-6 form-group"><label class="small text-secondary">Kecamatan</label><select class="form-select form-select-sm"><option selected>Talang Ubi</option></select></div><div class="col-md-6 form-group"><label class="small text-secondary">Nomor KK</label><input type="text" class="form-control form-control-sm" value="8011447152211029"></div><div class="col-md-6 form-group"><label class="small text-secondary">Kelurahan</label><select class="form-select form-select-sm"><option selected>Talang Ubi Barat</option></select></div><div class="col-md-6 form-group"><label class="small text-secondary">Warga Negara</label><select class="form-select form-select-sm"><option>--Pilih Salah Satu--</option></select></div><div class="col-md-6 form-group"><label class="small text-secondary">Alamat</label><textarea class="form-control form-control-sm">Jl Pendopo</textarea></div><div class="col-md-6 form-group"><label class="small text-secondary">Provinsi</label><select class="form-select form-select-sm"><option selected>Sumatera Selatan</option></select></div><div class="col-md-6 form-group"><label class="small text-secondary">Kode Pos</label><input type="text" class="form-control form-control-sm" value="01984"></div><div class="col-md-6 form-group"><label class="small text-secondary">Kabupaten/Kota</label><select class="form-select form-select-sm"><option selected>Sumatera Selatan</option></select></div></div></div>
+                                <div class="sub-tab-content" id="kependudukan" style="display: none;">
+                                <div class="row g-3">
+                                    <!-- Nomor KTP -->
+                                    <div class="col-md-6 form-group">
+                                    <label class="small text-secondary">Nomor KTP</label>
+                                    <input type="text" class="form-control form-control-sm" value="31862908812645811">
+                                    </div>
+
+                                    <!-- Kecamatan -->
+                                    <div class="col-md-6 form-group">
+                                    <label class="small text-secondary">Kecamatan</label>
+                                    <select class="form-select form-select-sm">
+                                        <option selected>Talang Ubi</option>
+                                    </select>
+                                    </div>
+
+                                    <!-- Nomor KK -->
+                                    <div class="col-md-6 form-group">
+                                    <label class="small text-secondary">Nomor KK</label>
+                                    <input type="text" class="form-control form-control-sm" value="8011447152211029">
+                                    </div>
+
+                                    <!-- Kelurahan -->
+                                    <div class="col-md-6 form-group">
+                                    <label class="small text-secondary">Kelurahan</label>
+                                    <select class="form-select form-select-sm">
+                                        <option selected>Talang Ubi Barat</option>
+                                    </select>
+                                    </div>
+
+                                    <!-- Warga Negara -->
+                                    <div class="col-md-6 form-group">
+                                    <label class="small text-secondary">Warga Negara</label>
+                                    <select class="form-select form-select-sm">
+                                        <option>--Pilih Salah Satu--</option>
+                                    </select>
+                                    </div>
+
+                                    <!-- Kode Pos -->
+                                    <div class="col-md-6 form-group">
+                                    <label class="small text-secondary">Kode Pos</label>
+                                    <input type="text" class="form-control form-control-sm" value="01984">
+                                    </div>
+
+                                    <!-- Provinsi -->
+                                    <div class="col-md-6 form-group">
+                                    <label class="small text-secondary">Provinsi</label>
+                                    <select class="form-select form-select-sm">
+                                        <option selected>Sumatera Selatan</option>
+                                    </select>
+                                    </div>
+
+                                    <!-- Kabupaten/Kota (DIPINDAH agar sejajar dengan Provinsi) -->
+                                    <div class="col-md-6 form-group">
+                                    <label class="small text-secondary">Kabupaten/Kota</label>
+                                    <select class="form-select form-select-sm">
+                                        <option selected>Sumatera Selatan</option>
+                                    </select>
+                                    </div>
+
+                                    <!-- Alamat -->
+                                    <div class="col-md-12 form-group">
+                                    <label class="small text-secondary">Alamat</label>
+                                    <textarea class="form-control form-control-sm" rows="2">Jl Pendopo</textarea>
+                                    </div>
+                                </div>
+                                </div>
                                 <div class="sub-tab-content" id="efile" style="display: none;">
                                     <div class="efile-header">
                                         <h4>Dokumen</h4>
-                                        <button class="btn btn-success"><i class="lni lni-plus me-1"></i> Tambah</button>
+                                        <button class="btn btn-tambah"><i class="lni lni-plus me-1"></i> Tambah</button>
                                     </div>
 
                                     <div class="file-category">
@@ -161,17 +236,8 @@
                                                 <div class="file-item-icon"><i class="lni lni-files"></i></div>
                                                 <p>Dokumen <span class="d-block">(2020)</span></p>
                                                 <div class="file-item-actions">
-                                                    <button class="btn btn-sm btn-success"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                    <button class="btn btn-sm btn-danger"><i class="lni lni-trash-can me-1"></i> Hapus</button>
-                                                </div>
-                                            </div>
-                                            <div class="file-item">
-                                                <span class="file-badge badge-asli">Asli</span>
-                                                <div class="file-item-icon"><i class="lni lni-files"></i></div>
-                                                <p>Dokumen <span class="d-block">(2020)</span></p>
-                                                <div class="file-item-actions">
-                                                    <button class="btn btn-sm btn-success"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                    <button class="btn btn-sm btn-danger"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                                 </div>
                                             </div>
                                             <div class="file-item">
@@ -179,8 +245,8 @@
                                                 <div class="file-item-icon"><i class="lni lni-files"></i></div>
                                                 <p>Dokumen <span class="d-block">(2020)</span></p>
                                                 <div class="file-item-actions">
-                                                    <button class="btn btn-sm btn-success"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                    <button class="btn btn-sm btn-danger"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                                 </div>
                                             </div>
                                             <div class="file-item">
@@ -188,8 +254,8 @@
                                                 <div class="file-item-icon"><i class="lni lni-files"></i></div>
                                                 <p>Dokumen <span class="d-block">(2020)</span></p>
                                                 <div class="file-item-actions">
-                                                    <button class="btn btn-sm btn-success"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                    <button class="btn btn-sm btn-danger"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -203,8 +269,8 @@
                                                 <div class="file-item-icon"><i class="lni lni-files"></i></div>
                                                 <p>Dokumen <span class="d-block">(2020)</span></p>
                                                 <div class="file-item-actions">
-                                                    <button class="btn btn-sm btn-success"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                    <button class="btn btn-sm btn-danger"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                                 </div>
                                             </div>
                                             <div class="file-item">
@@ -212,8 +278,8 @@
                                                 <div class="file-item-icon"><i class="lni lni-files"></i></div>
                                                 <p>Dokumen <span class="d-block">(2020)</span></p>
                                                 <div class="file-item-actions">
-                                                    <button class="btn btn-sm btn-success"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                    <button class="btn btn-sm btn-danger"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                                 </div>
                                             </div>
                                             <div class="file-item">
@@ -221,8 +287,23 @@
                                                 <div class="file-item-icon"><i class="lni lni-files"></i></div>
                                                 <p>Dokumen <span class="d-block">(2020)</span></p>
                                                 <div class="file-item-actions">
-                                                    <button class="btn btn-sm btn-success"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                    <button class="btn btn-sm btn-danger"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="file-category">
+                                        <p class="file-category-title">Jabatan Fungsional</p>
+                                        <div class="file-grid">
+                                            <div class="file-item">
+                                                <span class="file-badge badge-legalisir">Legalisir</span>
+                                                <div class="file-item-icon"><i class="lni lni-files"></i></div>
+                                                <p>Dokumen <span class="d-block">(2020)</span></p>
+                                                <div class="file-item-actions">
+                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                                 </div>
                                             </div>
                                             <div class="file-item">
@@ -230,8 +311,116 @@
                                                 <div class="file-item-icon"><i class="lni lni-files"></i></div>
                                                 <p>Dokumen <span class="d-block">(2020)</span></p>
                                                 <div class="file-item-actions">
-                                                    <button class="btn btn-sm btn-success"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                    <button class="btn btn-sm btn-danger"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                </div>
+                                            </div>
+                                            <div class="file-item">
+                                                <span class="file-badge badge-scan">Scan</span>
+                                                <div class="file-item-icon"><i class="lni lni-files"></i></div>
+                                                <p>Dokumen <span class="d-block">(2020)</span></p>
+                                                <div class="file-item-actions">
+                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="file-category">
+                                        <p class="file-category-title">Surat Keputusan Kepangkatan</p>
+                                        <div class="file-grid">
+                                            <div class="file-item">
+                                                <span class="file-badge badge-legalisir">Legalisir</span>
+                                                <div class="file-item-icon"><i class="lni lni-files"></i></div>
+                                                <p>Dokumen <span class="d-block">(2020)</span></p>
+                                                <div class="file-item-actions">
+                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                </div>
+                                            </div>
+                                            <div class="file-item">
+                                                <span class="file-badge badge-asli">Asli</span>
+                                                <div class="file-item-icon"><i class="lni lni-files"></i></div>
+                                                <p>Dokumen <span class="d-block">(2020)</span></p>
+                                                <div class="file-item-actions">
+                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                </div>
+                                            </div>
+                                            <div class="file-item">
+                                                <span class="file-badge badge-scan">Scan</span>
+                                                <div class="file-item-icon"><i class="lni lni-files"></i></div>
+                                                <p>Dokumen <span class="d-block">(2020)</span></p>
+                                                <div class="file-item-actions">
+                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="file-category">
+                                        <p class="file-category-title">Surat Penting</p>
+                                        <div class="file-grid">
+                                            <div class="file-item">
+                                                <span class="file-badge badge-legalisir">Legalisir</span>
+                                                <div class="file-item-icon"><i class="lni lni-files"></i></div>
+                                                <p>Dokumen <span class="d-block">(2020)</span></p>
+                                                <div class="file-item-actions">
+                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                </div>
+                                            </div>
+                                            <div class="file-item">
+                                                <span class="file-badge badge-asli">Asli</span>
+                                                <div class="file-item-icon"><i class="lni lni-files"></i></div>
+                                                <p>Dokumen <span class="d-block">(2020)</span></p>
+                                                <div class="file-item-actions">
+                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                </div>
+                                            </div>
+                                            <div class="file-item">
+                                                <span class="file-badge badge-scan">Scan</span>
+                                                <div class="file-item-icon"><i class="lni lni-files"></i></div>
+                                                <p>Dokumen <span class="d-block">(2020)</span></p>
+                                                <div class="file-item-actions">
+                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="file-category">
+                                        <p class="file-category-title">Dokumen Pendukung Lainnya</p>
+                                        <div class="file-grid">
+                                            <div class="file-item">
+                                                <span class="file-badge badge-legalisir">Legalisir</span>
+                                                <div class="file-item-icon"><i class="lni lni-files"></i></div>
+                                                <p>Dokumen <span class="d-block">(2020)</span></p>
+                                                <div class="file-item-actions">
+                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                </div>
+                                            </div>
+                                            <div class="file-item">
+                                                <span class="file-badge badge-asli">Asli</span>
+                                                <div class="file-item-icon"><i class="lni lni-files"></i></div>
+                                                <p>Dokumen <span class="d-block">(2020)</span></p>
+                                                <div class="file-item-actions">
+                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                </div>
+                                            </div>
+                                            <div class="file-item">
+                                                <span class="file-badge badge-scan">Scan</span>
+                                                <div class="file-item-icon"><i class="lni lni-files"></i></div>
+                                                <p>Dokumen <span class="d-block">(2020)</span></p>
+                                                <div class="file-item-actions">
+                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -285,7 +474,7 @@
                                                             <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
                                                                 <i class="lni lni-eye"></i>
                                                             </button>
-                                                            <button class="btn btn-sm text-white btn-aksi btn-delete-row" title="Hapus">
+                                                            <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
                                                                 <i class="lni lni-trash-can"></i>
                                                             </button>
                                                         </div>
@@ -305,7 +494,7 @@
                                                             <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
                                                                 <i class="lni lni-eye"></i>
                                                             </button>
-                                                            <button class="btn btn-sm text-white btn-aksi btn-delete-row" title="Hapus">
+                                                            <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
                                                                 <i class="lni lni-trash-can"></i>
                                                             </button>
                                                         </div>
@@ -325,7 +514,7 @@
                                                             <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
                                                                 <i class="lni lni-eye"></i>
                                                             </button>
-                                                            <button class="btn btn-sm text-white btn-aksi btn-delete-row" title="Hapus">
+                                                            <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
                                                                 <i class="lni lni-trash-can"></i>
                                                             </button>
                                                         </div>
@@ -345,7 +534,7 @@
                                                             <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
                                                                 <i class="lni lni-eye"></i>
                                                             </button>
-                                                            <button class="btn btn-sm text-white btn-aksi btn-delete-row" title="Hapus">
+                                                            <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
                                                                 <i class="lni lni-trash-can"></i>
                                                             </button>
                                                         </div>
@@ -365,7 +554,7 @@
                                                             <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
                                                                 <i class="lni lni-eye"></i>
                                                             </button>
-                                                            <button class="btn btn-sm text-white btn-aksi btn-delete-row" title="Hapus">
+                                                            <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
                                                                 <i class="lni lni-trash-can"></i>
                                                             </button>
                                                         </div>
@@ -407,7 +596,7 @@
                                                             <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
                                                                 <i class="lni lni-eye"></i>
                                                             </button>
-                                                            <button class="btn btn-sm text-white btn-aksi btn-delete-row" title="Hapus">
+                                                            <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
                                                                 <i class="lni lni-trash-can"></i>
                                                             </button>
                                                         </div>
@@ -427,7 +616,7 @@
                                                             <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
                                                                 <i class="lni lni-eye"></i>
                                                             </button>
-                                                            <button class="btn btn-sm text-white btn-aksi btn-delete-row" title="Hapus">
+                                                            <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
                                                                 <i class="lni lni-trash-can"></i>
                                                             </button>
                                                         </div>
@@ -447,7 +636,7 @@
                                                             <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
                                                                 <i class="lni lni-eye"></i>
                                                             </button>
-                                                            <button class="btn btn-sm text-white btn-aksi btn-delete-row" title="Hapus">
+                                                            <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
                                                                 <i class="lni lni-trash-can"></i>
                                                             </button>
                                                         </div>
@@ -467,7 +656,7 @@
                                                             <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
                                                                 <i class="lni lni-eye"></i>
                                                             </button>
-                                                            <button class="btn btn-sm text-white btn-aksi btn-delete-row" title="Hapus">
+                                                            <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
                                                                 <i class="lni lni-trash-can"></i>
                                                             </button>
                                                         </div>
@@ -487,7 +676,7 @@
                                                             <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
                                                                 <i class="lni lni-eye"></i>
                                                             </button>
-                                                            <button class="btn btn-sm text-white btn-aksi btn-delete-row" title="Hapus">
+                                                            <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
                                                                 <i class="lni lni-trash-can"></i>
                                                             </button>
                                                         </div>
@@ -529,7 +718,7 @@
                                                             <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
                                                                 <i class="lni lni-eye"></i>
                                                             </button>
-                                                            <button class="btn btn-sm text-white btn-aksi btn-delete-row" title="Hapus">
+                                                            <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
                                                                 <i class="lni lni-trash-can"></i>
                                                             </button>
                                                         </div>
@@ -549,7 +738,7 @@
                                                             <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
                                                                 <i class="lni lni-eye"></i>
                                                             </button>
-                                                            <button class="btn btn-sm text-white btn-aksi btn-delete-row" title="Hapus">
+                                                            <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
                                                                 <i class="lni lni-trash-can"></i>
                                                             </button>
                                                         </div>
@@ -569,7 +758,7 @@
                                                             <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
                                                                 <i class="lni lni-eye"></i>
                                                             </button>
-                                                            <button class="btn btn-sm text-white btn-aksi btn-delete-row" title="Hapus">
+                                                            <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
                                                                 <i class="lni lni-trash-can"></i>
                                                             </button>
                                                         </div>
@@ -585,9 +774,9 @@
                                         <table class="table table-bordered table-hover table-sm">
                                             <thead><tr><th>No</th><th>Tahun Semester</th><th>Kegiatan</th><th>Nim</th><th>Nama Mahasiswa</th><th>Strata</th><th>Status</th><th>Dokumen</th><th>Aksi</th></tr></thead>
                                             <tbody>
-                                                <tr><td>1</td><td>2020/2021 Genap</td><td>Membimbing dan ikut membimbing.. </td><td>E2039383</td><td>Alex Feruso</td><td>S1</td><td>Pembimbing Pendamping</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-delete-row" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>
-                                                <tr><td>2</td><td>2020/2021 Genap</td><td>Membimbing dan ikut membimbing.. </td><td>E2039383</td><td>Alex Feruso</td><td>S1</td><td>Pembimbing Pendamping</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-delete-row" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>
-                                                <tr><td>3</td><td>2020/2021 Genap</td><td>Membimbing dan ikut membimbing.. </td><td>E2039383</td><td>Alex Feruso</td><td>S1</td><td>Pembimbing Pendamping</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-delete-row" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>
+                                                <tr><td>1</td><td>2020/2021 Genap</td><td>Membimbing dan ikut membimbing.. </td><td>E2039383</td><td>Alex Feruso</td><td>S1</td><td>Pembimbing Pendamping</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>
+                                                <tr><td>2</td><td>2020/2021 Genap</td><td>Membimbing dan ikut membimbing.. </td><td>E2039383</td><td>Alex Feruso</td><td>S1</td><td>Pembimbing Pendamping</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>
+                                                <tr><td>3</td><td>2020/2021 Genap</td><td>Membimbing dan ikut membimbing.. </td><td>E2039383</td><td>Alex Feruso</td><td>S1</td><td>Pembimbing Pendamping</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -625,7 +814,7 @@
                                                             <td class="text-center">
                                                                 <div class="d-flex gap-2 justify-content-center">
                                                                     <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button>
-                                                                    <button class="btn btn-sm text-white btn-aksi btn-delete-row" title="Hapus"><i class="lni lni-trash-can"></i></button>
+                                                                    <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button>
                                                                 </div>
                                                             </td>
                                                         </tr>`);
@@ -668,7 +857,7 @@
                                                             <td class="text-center">
                                                                 <div class="d-flex gap-2 justify-content-center">
                                                                     <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button>
-                                                                    <button class="btn btn-sm text-white btn-aksi btn-delete-row" title="Hapus"><i class="lni lni-trash-can"></i></button>
+                                                                    <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button>
                                                                 </div>
                                                             </td>
                                                         </tr>`);
@@ -690,7 +879,7 @@
                                     <table class="table table-bordered table-hover table-sm">
                                         <thead><tr><th>No</th><th>Judul</th><th>Tgl. Terbit</th><th>Jenis</th><th>Publik</th><th>Dokumen</th><th>Aksi</th></tr></thead>
                                         <tbody>
-                                            <script>for(let i=1; i<=5; i++){ document.write(`<tr><td>${i}</td><td>Pengaruh Air Terhadap Tumbuh Kembang Leles</td><td>24 Desember 2021</td><td>Karya</td><td>Ya</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-delete-row" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>`);}</script>
+                                            <script>for(let i=1; i<=5; i++){ document.write(`<tr><td>${i}</td><td>Pengaruh Air Terhadap Tumbuh Kembang Leles</td><td>24 Desember 2021</td><td>Karya</td><td>Ya</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>`);}</script>
                                         </tbody>
                                     </table>
                                 </div>
@@ -705,7 +894,7 @@
                                     <table class="table table-bordered table-hover table-sm">
                                         <thead><tr><th>No</th><th>Judul</th><th>Lokasi</th><th>Tgl. Pelaksanaan</th><th>Dana</th><th>Dokumen</th><th>Aksi</th></tr></thead>
                                         <tbody>
-                                            <tr><td>1</td><td>Penyuluhan Pengelolaan Hutan Lestari</td><td>Desa Cibodas, Bogor</td><td>15-17 Agustus 2022</td><td>Rp 5.000.000</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-delete-row" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>
+                                            <tr><td>1</td><td>Penyuluhan Pengelolaan Hutan Lestari</td><td>Desa Cibodas, Bogor</td><td>15-17 Agustus 2022</td><td>Rp 5.000.000</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -722,7 +911,7 @@
                                         <table class="table table-bordered table-hover table-sm">
                                             <thead><tr><th>No</th><th>Nama Organisasi</th><th>Jabatan</th><th>Periode</th><th>Dokumen</th><th>Aksi</th></tr></thead>
                                             <tbody>
-                                                <tr><td>1</td><td>Ikatan Sarjana Kehutanan Indonesia</td><td>Anggota</td><td>2020-2025</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-delete-row" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>
+                                                <tr><td>1</td><td>Ikatan Sarjana Kehutanan Indonesia</td><td>Anggota</td><td>2020-2025</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -733,7 +922,7 @@
                                         <table class="table table-bordered table-hover table-sm">
                                             <thead><tr><th>No</th><th>Jabatan</th><th>Unit Kerja</th><th>Periode</th><th>Dokumen</th><th>Aksi</th></tr></thead>
                                             <tbody>
-                                                <tr><td>1</td><td>Ketua Program Studi</td><td>Manajemen Hutan</td><td>2018-2022</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-delete-row" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>
+                                                <tr><td>1</td><td>Ketua Program Studi</td><td>Manajemen Hutan</td><td>2018-2022</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -749,7 +938,7 @@
                                     <table class="table table-bordered table-hover table-sm">
                                         <thead><tr><th>No</th><th>Nama Pelatihan</th><th>Penyelenggara</th><th>Tgl. Pelaksanaan</th><th>Lokasi</th><th>Sertifikat</th><th>Aksi</th></tr></thead>
                                         <tbody>
-                                            <tr><td>1</td><td>Pelatihan Manajemen Hutan Berkelanjutan</td><td>Kementerian Lingkungan Hidup</td><td>10-12 Januari 2023</td><td>Bogor</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-delete-row" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>
+                                            <tr><td>1</td><td>Pelatihan Manajemen Hutan Berkelanjutan</td><td>Kementerian Lingkungan Hidup</td><td>10-12 Januari 2023</td><td>Bogor</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -764,7 +953,7 @@
                                     <table class="table table-bordered table-hover table-sm">
                                         <thead><tr><th>No</th><th>Nama Penghargaan</th><th>Pemberi</th><th>Tahun</th><th>Keterangan</th><th>Dokumen</th><th>Aksi</th></tr></thead>
                                         <tbody>
-                                            <tr><td>1</td><td>Dosen Berprestasi</td><td>IPB University</td><td>2021</td><td>Juara 2 Tingkat Fakultas</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-delete-row" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>
+                                            <tr><td>1</td><td>Dosen Berprestasi</td><td>IPB University</td><td>2021</td><td>Juara 2 Tingkat Fakultas</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>
                                         </tbody>
                                     </table>
                                 </div>
