@@ -136,7 +136,7 @@
                                   <td class="text-center">
                                       <div class="d-flex gap-2 justify-content-center">
                                           <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a>
-                                          <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail"><i class="fa fa-eye"></i></a>
+                                          <a href="javascript:void(0);" id="btnLihatPenunjangDetail" class="btn-aksi btn-lihat" title="Lihat Detail Penunjang"><i class="fa fa-eye"></i></a>
                                           <a href="#" class="btn-aksi btn-edit" title="Edit Data" onclick="openEditModal()"><i class="fa fa-edit"></i></a>
                                           <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
                                       </div>
@@ -211,6 +211,94 @@
             </div>
         </div>
     </div>
+
+<div id="penunjangDetailModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="modal-title-group">
+                <i class="fas fa-info-circle"></i>
+                <h2>Detail Penunjang</h2>
+            </div>
+        </div>
+
+        <div class="modal-body">
+            <div class="modal-row">
+                <strong>Kegiatan</strong>
+                <p class="detail-value">Analisis Pengaruh Kotoran Sapi Terhadap Pertumbuhan Kecambah Pada Media Kapas</p>
+            </div>
+            <div class="modal-row">
+                <strong>Jenis Kegiatan</strong>
+                <p class="detail-value">Analisis Pengaruh Kotoran Sapi Terhadap Pertumbuhan Kecambah Pada Media Kapas</p>
+            </div>
+            
+            <div class="modal-row multi-column">
+                <div class="detail-field">
+                    <strong>Lingkup</strong>
+                    <p class="detail-value">UGE - 912</p>
+                </div>
+                <div class="detail-field">
+                    <strong>Nama Kegiatan</strong>
+                    <p class="detail-value">Pembudidayaan Ikan Lele</p>
+                </div>
+                <div class="detail-field">
+                    <strong>Instansi</strong>
+                    <p class="detail-value">Teknologi Rekayasa Empang</p>
+                </div>
+            </div>
+
+            <div class="modal-row multi-column">
+                <div class="detail-field">
+                    <strong>Nomor SK</strong>
+                    <p class="detail-value">2025</p>
+                </div>
+                <div class="detail-field">
+                    <strong>Terhitung Mulai Tanggal</strong>
+                    <p class="detail-value">2025</p>
+                </div>
+                <div class="detail-field">
+                    <strong>Terhitung Sampai Tanggal</strong>
+                    <p class="detail-value">2025</p>
+                </div>
+            </div>
+
+            <div class="modal-row multi-column">
+                <div class="detail-field">
+                    <strong>Dokumen Pendukung</strong>
+                    <p class="detail-value"><a href="#" class="dokumen-link">Dokumen</a></p>
+                </div>
+                <div class="detail-field">
+                    <strong>Jenis Dokumen</strong>
+                    <p class="detail-value">Dokumen</p>
+                </div>
+            </div>
+
+            <div class="modal-row multi-column">
+                <div class="detail-field">
+                    <strong>Nama Dokumen</strong>
+                    <p class="detail-value">2025</p>
+                </div>
+                <div class="detail-field">
+                    <strong>Nomor</strong>
+                    <p class="detail-value">2025</p>
+                </div>
+                <div class="detail-field">
+                    <strong>Tautan</strong>
+                    <p class="detail-value">2025</p>
+                </div>
+            </div>
+
+            <div class="sub-header">Anggota</div>
+            <div class="modal-row multi-column no-border">
+                <div class="detail-field"><strong>Nama Dosen</strong><p class="detail-value">Siapa gatau</p></div>
+                <div class="detail-field"><strong>Peran</strong><p class="detail-value">Siapa gatau</p></div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button id="closePenunjangDetailBtn" class="btn-tutup">Tutup</button>
+        </div>
+    </div>
+</div>
 
   <script src="{{ asset('assets/js/penunjang.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

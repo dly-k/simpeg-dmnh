@@ -163,3 +163,29 @@ window.onclick = function (event) {
     closeModal(event.target.id);
   }
 };
+
+// --detail pepnunnjang--
+// Ambil elemen-elemen untuk modal Detail Penunjang
+const penunjangDetailModal = document.getElementById("penunjangDetailModal");
+const openPenunjangDetailBtn = document.getElementById("btnLihatPenunjangDetail");
+const closePenunjangDetailBtn = document.getElementById("closePenunjangDetailBtn");
+
+// Pastikan tombol pemicu ada sebelum menambahkan event listener
+if (openPenunjangDetailBtn) {
+    // Tampilkan modal ketika tombol 'Lihat Detail' diklik
+    openPenunjangDetailBtn.onclick = function() {
+      penunjangDetailModal.style.display = "block";
+    }
+}
+
+// Sembunyikan modal ketika tombol 'Tutup' diklik
+closePenunjangDetailBtn.onclick = function() {
+  penunjangDetailModal.style.display = "none";
+}
+
+// Sembunyikan modal ketika pengguna mengklik area di luar modal
+window.onclick = function(event) {
+  if (event.target == penunjangDetailModal) {
+    penunjangDetailModal.style.display = "none";
+  }
+}
