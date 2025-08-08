@@ -16,6 +16,7 @@ background: linear-gradient(to bottom, rgba(6, 78, 59, 0.7), rgba(0,0,0,0.7), rg
 }
 .text-green-custom {
 background: linear-gradient(135deg, #00e676, #00c853);
+background-clip: text;
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
 }
