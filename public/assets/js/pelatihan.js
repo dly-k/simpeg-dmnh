@@ -115,3 +115,29 @@ window.addEventListener('click', function (event) {
     closeModal(event.target.id);
   }
 });
+
+// --modal detail pelatihan ---
+// Ambil elemen-elemen untuk modal Detail Pelatihan
+const pelatihanDetailModal = document.getElementById("pelatihanDetailModal");
+const openPelatihanDetailBtn = document.getElementById("btnLihatPelatihanDetail");
+const closePelatihanDetailBtn = document.getElementById("closePelatihanDetailBtn");
+
+// Pastikan tombol pemicu ada sebelum menambahkan event listener
+if (openPelatihanDetailBtn) {
+    // Tampilkan modal ketika tombol 'Lihat Detail' diklik
+    openPelatihanDetailBtn.onclick = function() {
+      pelatihanDetailModal.style.display = "block";
+    }
+}
+
+// Sembunyikan modal ketika tombol 'Tutup' diklik
+closePelatihanDetailBtn.onclick = function() {
+  pelatihanDetailModal.style.display = "none";
+}
+
+// Sembunyikan modal ketika pengguna mengklik area di luar modal
+window.onclick = function(event) {
+  if (event.target == pelatihanDetailModal) {
+    pelatihanDetailModal.style.display = "none";
+  }
+}
