@@ -505,77 +505,91 @@ body {
     to { opacity: 1; transform: scale(1); }
 }
 
-/* Header modal */
-.modal-header {
-    display: flex; align-items: center; padding: 16px 25px;
-    background-color: #006843; color: white;
-}
-.modal-title-group {
-    display: flex; align-items: center;
-}
-.modal-title-group .fa-info-circle {
-    font-size: 1.3rem; margin-right: 10px;
-}
-.modal-title-group h2 {
-    margin: 0; font-size: 1.2rem; font-weight: 500;
+/* ======================================================= */
+/* PERBAIKAN UTAMA TATA LETAK (CSS-ONLY)                   */
+/* ======================================================= */
+
+/* 1. Jadikan .modal-body sebagai Grid Container Utama */
+#penunjangDetailModal .modal-body {
+    padding: 10px 25px 20px 25px;
+    max-height: 70vh;
+    overflow-y: auto;
+    
+    display: grid;
+    /* Membuat 3 kolom dengan lebar yang sama */
+    grid-template-columns: repeat(3, 1fr);
+    /* Atur jarak antar item */
+    gap: 20px;
 }
 
-/* Body modal */
-.modal-body {
-    padding: 10px 25px 20px 25px;
-    max-height: 70vh; /* Batas tinggi maksimal dan aktifkan scroll */
-    overflow-y: auto;
+/* 2. 'Leburkan' baris multi-kolom dengan display: contents */
+/* Ini membuat semua .detail-field menjadi bagian dari grid utama,
+   sehingga posisinya bisa lurus secara vertikal. */
+#penunjangDetailModal .modal-row.multi-column {
+    display: contents;
 }
-.modal-row {
+
+/* 3. Atur item yang harus 1 baris penuh (Judul, Sub-header, dll) */
+#penunjangDetailModal .modal-body > .modal-row:not(.multi-column),
+#penunjangDetailModal .modal-body > .sub-header {
+    grid-column: 1 / -1; /* Membuat elemen ini melintasi semua 3 kolom */
+}
+
+/* Hapus aturan flexbox lama karena sudah diganti grid */
+/* #penunjangDetailModal .modal-row.multi-column {
+    display: flex; flex-wrap: wrap; gap: 20px;
+}
+*/
+
+/* Hapus flex & min-width dari .detail-field karena sudah diatur grid */
+#penunjangDetailModal .detail-field {
+    /* flex: 1; min-width: 160px; */ /* Tidak diperlukan lagi */
+}
+
+
+#penunjangDetailModal .modal-row {
     padding: 15px 0;
     border-bottom: 1px solid #e9ecef;
 }
-.modal-row.no-border {
+#penunjangDetailModal .modal-row.no-border {
     border-bottom: none;
 }
-.modal-row.multi-column {
-    display: flex; flex-wrap: wrap; gap: 20px;
-}
-.detail-field {
-    flex: 1; min-width: 160px; /* Sedikit ruang ekstra */
-}
-
-/* Perbedaan visual antara label dan isi */
-.modal-row strong {
+#penunjangDetailModal .modal-row strong {
     display: block; font-size: 0.8rem; font-weight: 700; color: #343a40;
     text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;
 }
-.modal-row .detail-value {
+#penunjangDetailModal .modal-row .detail-value {
     margin: 0; font-size: 0.95rem; color: #6c757d;
 }
-
-/** GAYA BARU untuk sub-judul **/
-.sub-header {
-    font-size: 1rem;
-    font-weight: 600;
-    color: #006843; /* Warna hijau agar senada */
-    padding-top: 20px;
-    padding-bottom: 10px;
+#penunjangDetailModal .sub-header {
+    font-size: 1rem; font-weight: 600; color: #006843;
+    padding-top: 20px; padding-bottom: 10px;
     border-bottom: 1px solid #e9ecef;
 }
 
-a.dokumen-link {
-    color: #0d6efd; text-decoration: none; font-size: 0.9rem;
+/* Header dan Footer (Tidak ada perubahan) */
+#penunjangDetailModal .modal-header {
+    display: flex; align-items: center; padding: 16px 25px;
+    background-color: #006843; color: white;
 }
-a.dokumen-link:hover {
-    text-decoration: underline;
+#penunjangDetailModal .modal-title-group {
+    display: flex; align-items: center;
 }
-
-/* Footer modal */
-.modal-footer {
+#penunjangDetailModal .modal-title-group .fa-info-circle {
+    font-size: 1.3rem; margin-right: 10px;
+}
+#penunjangDetailModal .modal-title-group h2 {
+    margin: 0; font-size: 1.2rem; font-weight: 500;
+}
+#penunjangDetailModal .modal-footer {
     padding: 15px 25px; text-align: right; background-color: #f7f7f7;
     border-top: 1px solid #e9ecef;
 }
-.btn-tutup {
+#penunjangDetailModal .btn-tutup {
     background-color: #f0f0f0; border: 1px solid #dcdcdc; color: #333;
     padding: 8px 24px; border-radius: 5px; cursor: pointer;
     font-size: 0.9rem; transition: background-color 0.2s;
 }
-.btn-tutup:hover {
+#penunjangDetailModal .btn-tutup:hover {
     background-color: #e2e2e2;
 }
