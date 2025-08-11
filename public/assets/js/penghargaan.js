@@ -148,3 +148,42 @@ window.addEventListener('click', function (event) {
     detailModal.style.display = "none";
   }
 });
+
+// Logika untuk Modal Detail Penghargaan
+document.addEventListener('DOMContentLoaded', function () {
+    // Gunakan selector yang lebih umum ke <tbody> tabel penghargaan Anda
+    const tableBody = document.querySelector('#penghargaan-table-body'); 
+    if (!tableBody) return;
+
+    tableBody.addEventListener('click', function(event) {
+        const detailButton = event.target.closest('.btn-lihat-detail-penghargaan');
+        
+        if (detailButton) {
+            const data = detailButton.dataset;
+
+            // Mengisi data utama
+            document.getElementById('detail_penghargaan_pegawai').textContent = data.pegawai || '-';
+            document.getElementById('detail_penghargaan_kegiatan').textContent = data.kegiatan || '-';
+            document.getElementById('detail_penghargaan_nama_penghargaan').textContent = data.nama_penghargaan || '-';
+            document.getElementById('detail_penghargaan_nomor').textContent = data.nomor || '-';
+            document.getElementById('detail_penghargaan_tanggal_perolehan').textContent = data.tanggal_perolehan || '-';
+            document.getElementById('detail_penghargaan_lingkup').textContent = data.lingkup || '-';
+            document.getElementById('detail_penghargaan_negara').textContent = data.negara || '-';
+            document.getElementById('detail_penghargaan_instansi').textContent = data.instansi || '-';
+
+            // Mengisi data dokumen
+            document.getElementById('detail_penghargaan_jenis_dokumen').textContent = data.jenis_dokumen || '-';
+            document.getElementById('detail_penghargaan_nama_dokumen').textContent = data.nama_dokumen || '-';
+            document.getElementById('detail_penghargaan_nomor_dokumen').textContent = data.nomor_dokumen || '-';
+            document.getElementById('detail_penghargaan_tautan').textContent = data.tautan || '-';
+
+            // Memperbarui viewer dokumen
+            const docViewer = document.getElementById('detail_penghargaan_document_viewer');
+            if (docViewer && data.dokumen_path) {
+                docViewer.setAttribute('src', data.dokumen_path);
+            } else if (docViewer) {
+                docViewer.setAttribute('src', '');
+            }
+        }
+    });
+});

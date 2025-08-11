@@ -106,48 +106,77 @@
             </div>
           </div>
 
-          <div class="table-responsive">
-            <table class="table table-hover table-bordered">
-                <thead class="table-light">
-                    <tr class="text-center">
-                        <th>No</th>
-                        <th class="text-start">Nama Kegiatan</th>
-                        <th>Unit</th>
-                        <th>Nomor</th>
-                        <th>Penghargaan</th>
-                        <th>Lingkup</th>
-                        <th>Tahun</th>
-                        <th>Dokumen</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <script>
-                      for(let i=1; i<=6; i++){ 
-                          document.write(`
-                              <tr>
-                                  <td class="text-center">${i}</td>
-                                  <td class="text-start">Alex Kurniawan</td>
-                                  <td class="text-center">IPDN</td>
-                                  <td class="text-center">Biometrika Hutan</td>
-                                  <td class="text-center">Magos</td>
-                                  <td class="text-center">Nasional</td>
-                                  <td class="text-center">2023</td>
-                                  <td class="text-center"><a href="#" class="btn btn-sm btn-lihat text-white">Lihat</a></td>
-                                  <td class="text-center">
-                                      <div class="d-flex gap-2 justify-content-center">
-                                          <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail"><i class="fa fa-eye"></i></a>
-                                          <a href="#" class="btn-aksi btn-edit" title="Edit Data" onclick="openEditModal()"><i class="fa fa-edit"></i></a>
-                                          <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
-                                      </div>
-                                  </td>
-                              </tr>
-                          `);
-                      }
-                    </script>
-                </tbody>
-            </table>
-          </div>
+<div class="table-responsive">
+    <table class="table table-hover table-bordered">
+        <thead class="table-light">
+            <tr class="text-center">
+                <th>No</th>
+                <th class="text-start">Nama Kegiatan</th>
+                <th>Unit</th>
+                <th>Nomor</th>
+                <th>Penghargaan</th>
+                <th>Lingkup</th>
+                <th>Tahun</th>
+                <th>Dokumen</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody id="penghargaan-table-body"> {{-- Tambahkan ID untuk target JavaScript --}}
+            @php
+                // Contoh data dinamis. Idealnya, variabel ini dikirim dari Controller.
+                $dataPenghargaan = collect(json_decode('[
+                    {"id": 1, "nama_kegiatan": "Inovasi Pembibitan Lele", "unit": "Fakultas Perikanan", "nomor": "SK-123/FP/2023", "penghargaan": "Dosen Inovatif", "lingkup": "Nasional", "tahun": "2023", "pegawai": "Dr. Stone Pamungkas", "tanggal_perolehan": "2023-11-20", "negara": "Indonesia", "instansi": "Kementerian Kelautan", "jenis_dokumen": "Sertifikat", "nama_dokumen": "Sertifikat Dosen Inovatif 2023", "nomor_dokumen": "SERT-001", "tautan": "https://sertifikat.id/001", "dokumen_path": "assets/pdf/example.pdf"},
+                    {"id": 2, "nama_kegiatan": "Pengabdian Masyarakat Desa Ciaruteun", "unit": "LPPM", "nomor": "LPPM-456/PM/2024", "penghargaan": "Pengabdi Terbaik", "lingkup": "Kabupaten", "tahun": "2024", "pegawai": "Senam Lele Merdeka", "tanggal_perolehan": "2024-05-10", "negara": "Indonesia", "instansi": "Pemkab Bogor", "jenis_dokumen": "Piagam", "nama_dokumen": "Piagam Pengabdi Terbaik", "nomor_dokumen": "PGM-002", "tautan": "https://sertifikat.id/002", "dokumen_path": "assets/pdf/example.pdf"}
+                ]'));
+            @endphp
+
+            @foreach ($dataPenghargaan as $index => $item)
+            <tr>
+                <td class="text-center">{{ $index + 1 }}</td>
+                <td class="text-start">{{ $item->nama_kegiatan }}</td>
+                <td class="text-center">{{ $item->unit }}</td>
+                <td class="text-center">{{ $item->nomor }}</td>
+                <td class="text-center">{{ $item->penghargaan }}</td>
+                <td class="text-center">{{ $item->lingkup }}</td>
+                <td class="text-center">{{ $item->tahun }}</td>
+                <td class="text-center"><a href="#" class="btn btn-sm btn-lihat text-white">Lihat</a></td>
+                <td class="text-center">
+                    <div class="d-flex gap-2 justify-content-center">
+                        {{-- Tombol Lihat Detail yang sudah fungsional --}}
+                        <a href="#" class="btn-aksi btn-lihat-detail btn-lihat-detail-penghargaan" title="Lihat Detail"
+                           data-bs-toggle="modal"
+                           data-bs-target="#modalDetailPenghargaan"
+                           data-pegawai="{{ $item->pegawai }}"
+                           data-kegiatan="{{ $item->nama_kegiatan }}"
+                           data-nama_penghargaan="{{ $item->penghargaan }}"
+                           data-nomor="{{ $item->nomor }}"
+                           data-tanggal_perolehan="{{ $item->tanggal_perolehan }}"
+                           data-lingkup="{{ $item->lingkup }}"
+                           data-negara="{{ $item->negara }}"
+                           data-instansi="{{ $item->instansi }}"
+                           data-jenis_dokumen="{{ $item->jenis_dokumen }}"
+                           data-nama_dokumen="{{ $item->nama_dokumen }}"
+                           data-nomor_dokumen="{{ $item->nomor_dokumen }}"
+                           data-tautan="{{ $item->tautan }}"
+                           data-dokumen_path="{{ $item->dokumen_path }}">
+                            <i class="fa fa-eye"></i>
+                        </a>
+                        
+                        {{-- Tombol Edit (disesuaikan dengan standar Bootstrap) --}}
+                        <a href="#" class="btn-aksi btn-edit" title="Edit Data"
+                           data-bs-toggle="modal"
+                           data-bs-target="#modalTambahEditPenghargaan"> {{-- Pastikan ID modal edit benar --}}
+                           <i class="fa fa-edit"></i>
+                        </a>
+
+                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
+                    </div>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
           
           <div class="d-flex justify-content-between align-items-center mt-4">
               <span class="text-muted small">Menampilkan 1 sampai 10 dari 13 data</span>
@@ -167,6 +196,7 @@
     <span>© 2025 Forest Management — All Rights Reserved</span>
   </footer>
   
+  <!--TAMBAH PENGHARGAAN-->
   <div class="modal-backdrop" id="penghargaanModal">
         <div class="modal-content-wrapper">
             <div class="modal-header-custom">
@@ -212,6 +242,47 @@
         </div>
     </div>
 
+  <!--DETAIL PENGHARGAAN-->
+<div class="modal fade" id="modalDetailPenghargaan" tabindex="-1" aria-labelledby="modalDetailPenghargaanLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalDetailPenghargaanLabel">
+          <i class="fas fa-info-circle"></i>
+          <span>Detail Penghargaan</span>
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="detail-grid-container">
+            <div class="detail-item"><small>Pegawai</small><p id="detail_penghargaan_pegawai">-</p></div>
+            <div class="detail-item"><small>Kegiatan</small><p id="detail_penghargaan_kegiatan">-</p></div>
+            <div class="detail-item"><small>Nama Penghargaan</small><p id="detail_penghargaan_nama_penghargaan">-</p></div>
+            <div class="detail-item"><small>Nomor</small><p id="detail_penghargaan_nomor">-</p></div>
+            <div class="detail-item"><small>Tanggal Perolehan</small><p id="detail_penghargaan_tanggal_perolehan">-</p></div>
+            <div class="detail-item"><small>Lingkup</small><p id="detail_penghargaan_lingkup">-</p></div>
+            <div class="detail-item"><small>Negara</small><p id="detail_penghargaan_negara">-</p></div>
+            <div class="detail-item"><small>Instansi</small><p id="detail_penghargaan_instansi">-</p></div>
+        </div>
+        
+        <h6 class="mt-4">Dokumen</h6>
+        <div class="detail-grid-container">
+            <div class="detail-item"><small>Jenis Dokumen</small><p id="detail_penghargaan_jenis_dokumen">-</p></div>
+            <div class="detail-item"><small>Nama Dokumen</small><p id="detail_penghargaan_nama_dokumen">-</p></div>
+            <div class="detail-item"><small>Nomor Dokumen</small><p id="detail_penghargaan_nomor_dokumen">-</p></div>
+            <div class="detail-item"><small>Tautan</small><p id="detail_penghargaan_tautan">-</p></div>
+        </div>
+
+        <div class="document-viewer-container mt-4">
+            <embed id="detail_penghargaan_document_viewer" src="" type="application/pdf" width="100%" height="600px" />
+        </div>
+      </div>
+      <div class="modal-footer justify-content-end">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+      </div>
+    </div>
+  </div>
+</div>
   <script src="{{ asset('assets/js/penghargaan.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

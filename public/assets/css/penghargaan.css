@@ -463,3 +463,96 @@ transition: all 0.3s ease;
   .btn-tambah-container { margin-left: 0; width: 100%; }
   .btn-tambah { width: 100%; }
 }
+
+#modalDetailPenelitian .modal-header,
+#modalDetailPelatihan .modal-header,
+#modalDetailPenghargaan .modal-header,
+#modalDetailPembimbingLuar .modal-header,
+#modalDetailPengujiLuar .modal-header,
+#modalDetailPembimbingLama .modal-header,
+#modalDetailPengujianLama .modal-header,
+#modalDetailPengajaranLuar .modal-header,
+#modalDetailPengajaranLama .modal-header {
+    background-color: #047857;
+    color: white;
+    border-bottom: none;
+}
+
+/* Penataan umum untuk semua modal (termasuk yang bukan detail) */
+.modal-header .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+.modal-title {
+    font-weight: bold;
+    display: flex; 
+    align-items: center;
+}
+
+.modal-title i {
+    margin-right: 10px; 
+    font-size: 1.2rem;
+}
+
+
+/*
+ * BODY MODAL
+ * Menata tata letak grid untuk menampilkan data.
+*/
+.detail-grid-container {
+    display: grid;
+    /* Membuat 3 kolom jika ruang cukup, atau menyesuaikan secara responsif */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+}
+
+/* Setiap item data di dalam grid */
+.detail-item {
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 0.5rem;
+    word-wrap: break-word; /* Memastikan teks panjang tidak merusak layout */
+}
+
+/* Label kecil di atas data (contoh: "Nama Pelatihan") */
+.detail-item small {
+    color: #6c757d;
+    display: block;
+    margin-bottom: 0.25rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* Teks data utama */
+.detail-item p {
+    font-weight: 500;
+    margin: 0;
+    color: #212529;
+    font-size: 0.95rem;
+}
+
+/* Kelas khusus untuk item yang butuh lebar penuh (contoh: Judul) */
+.full-width-detail {
+    grid-column: 1 / -1; 
+}
+
+
+/*
+ * DOKUMEN VIEWER
+ * Menata area pratinjau PDF.
+*/
+.document-viewer-container {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 1rem;
+    background-color: #525659; /* Latar belakang gelap jika PDF gagal dimuat */
+}
+
+.document-viewer-container embed {
+    display: block; /* Menghilangkan spasi ekstra di bawah embed */
+}
