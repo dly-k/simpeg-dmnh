@@ -535,17 +535,6 @@ body {
     grid-column: 1 / -1; /* Membuat elemen ini melintasi semua 3 kolom */
 }
 
-/* Hapus aturan flexbox lama karena sudah diganti grid */
-/* #penunjangDetailModal .modal-row.multi-column {
-    display: flex; flex-wrap: wrap; gap: 20px;
-}
-*/
-
-/* Hapus flex & min-width dari .detail-field karena sudah diatur grid */
-#penunjangDetailModal .detail-field {
-    /* flex: 1; min-width: 160px; */ /* Tidak diperlukan lagi */
-}
-
 
 #penunjangDetailModal .modal-row {
     padding: 15px 0;
