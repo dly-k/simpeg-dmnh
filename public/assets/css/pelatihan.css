@@ -414,6 +414,7 @@ body {
 }
 
 /* MODAL */
+
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -538,14 +539,7 @@ body {
 
 /* Header Modal */
 /* Selector ini menargetkan semua header modal detail yang kita buat */
-#modalDetailPelatihan .modal-header,
-#modalDetailPenelitian .modal-header,
-#modalDetailPembimbingLuar .modal-header,
-#modalDetailPengujiLuar .modal-header,
-#modalDetailPembimbingLama .modal-header,
-#modalDetailPengujianLama .modal-header,
-#modalDetailPengajaranLuar .modal-header,
-#modalDetailPengajaranLama .modal-header {
+#modalDetailPelatihan .modal-header{
     background-color: #047857;
     color: white;
     border-bottom: none;
