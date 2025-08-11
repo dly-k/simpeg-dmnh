@@ -488,3 +488,853 @@ body.sidebar-collapsed .footer-custom {
     width: 100%;
   }
 }
+
+
+
+/* CSS Form Pengajaran Lama */
+#modalTambahEditPengajaranLama .modal-header {
+    background-color: #047857; /* Warna hijau seperti di gambar */
+    color: white;
+    border-bottom: none;
+    padding: 1rem 1.5rem;
+}
+
+/* GANTI aturan .modal-title yang lama dengan ini */
+#modalTambahEditPengajaranLama .modal-title {
+    font-weight: bold;
+    display: flex; /* Menggunakan flexbox untuk menyejajarkan ikon dan teks */
+    align-items: center; /* Membuat ikon dan teks sejajar secara vertikal */
+}
+
+/* TAMBAHKAN aturan baru ini untuk ikon di dalam judul */
+#modalTambahEditPengajaranLama .modal-title i {
+    margin-right: 10px; /* Memberi jarak antara ikon dan teks */
+    font-size: 1.2rem;  /* Sedikit memperbesar ikon */
+}
+
+/* Mengubah warna tombol close (X) menjadi putih */
+#modalTambahEditPengajaranLama .modal-header .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+    margin: -0.5rem -0.5rem -0.5rem auto;
+}
+
+#modalTambahEditPengajaranLama .modal-body {
+    padding: 1.5rem;
+}
+
+/* Styling untuk area Upload File */
+.file-drop-area {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.file-drop-area:hover {
+    background-color: #e9ecef;
+}
+
+.file-drop-area .file-input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+    opacity: 0; /* Sembunyikan input file asli */
+}
+
+/* Styling untuk tombol Batal dan Simpan */
+#modalTambahEditPengajaranLama .modal-footer {
+    padding: 1rem 1.5rem;
+}
+
+#btnBatalPengajaran {
+    background-color: #dc3545; /* Merah */
+    color: white;
+    border: none;
+    font-weight: bold;
+    padding: 0.5rem 1.5rem;
+}
+
+#btnBatalPengajaran:hover {
+    background-color: #c82333;
+}
+
+#btnSimpanPengajaran {
+    background-color: #28a745; /* Hijau */
+    color: white;
+    border: none;
+    font-weight: bold;
+    padding: 0.5rem 1.5rem;
+}
+
+#btnSimpanPengajaran:hover {
+    background-color: #218838;
+}
+
+
+/* CSS Form Pengajaran Luar IPB */
+#modalPengajaranLuar .modal-header {
+    background-color: #047857;
+    color: white;
+    border-bottom: none;
+    padding: 1rem 1.5rem;
+}
+
+#modalPengajaranLuar .modal-title {
+    font-weight: bold;
+    display: flex; 
+    align-items: center;
+}
+
+#modalPengajaranLuar .modal-title i {
+    margin-right: 10px; 
+    font-size: 1.2rem;
+}
+
+#modalPengajaranLuar .modal-header .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+    margin: -0.5rem -0.5rem -0.5rem auto;
+}
+
+#modalPengajaranLuar .modal-body {
+    padding: 1.5rem;
+}
+
+/* Tombol Batal dan Simpan spesifik untuk modal ini */
+#btnBatalPengajaranLuar {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    font-weight: bold;
+    padding: 0.5rem 1.5rem;
+}
+
+#btnBatalPengajaranLuar:hover {
+    background-color: #c82333;
+}
+
+#btnSimpanPengajaranLuar {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    font-weight: bold;
+    padding: 0.5rem 1.5rem;
+}
+
+#btnSimpanPengajaranLuar:hover {
+    background-color: #218838;
+}
+
+
+/* CSS Form Pengujian Lama */
+#modalPengujianLama .modal-header {
+    background-color: #047857;
+    color: white;
+    border-bottom: none;
+    padding: 1rem 1.5rem;
+}
+
+#modalPengujianLama .modal-title {
+    font-weight: bold;
+    display: flex; 
+    align-items: center;
+}
+
+#modalPengujianLama .modal-title i {
+    margin-right: 10px; 
+    font-size: 1.2rem;
+}
+
+#modalPengujianLama .modal-header .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+    margin: -0.5rem -0.5rem -0.5rem auto;
+}
+
+#modalPengujianLama .modal-body {
+    padding: 1.5rem;
+}
+
+/* Tombol Batal dan Simpan spesifik untuk modal ini */
+#btnBatalPengujianLama {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    font-weight: bold;
+    padding: 0.5rem 1.5rem;
+}
+
+#btnBatalPengujianLama:hover {
+    background-color: #c82333;
+}
+
+#btnSimpanPengujianLama {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    font-weight: bold;
+    padding: 0.5rem 1.5rem;
+}
+
+#btnSimpanPengujianLama:hover {
+    background-color: #218838;
+}
+
+
+
+/* CSS Form Pembimbing Lama */
+#modalPembimbingLama .modal-header {
+    background-color: #047857;
+    color: white;
+    border-bottom: none;
+    padding: 1rem 1.5rem;
+}
+
+#modalPembimbingLama .modal-title {
+    font-weight: bold;
+    display: flex; 
+    align-items: center;
+}
+
+#modalPembimbingLama .modal-title i {
+    margin-right: 10px; 
+    font-size: 1.2rem;
+}
+
+#modalPembimbingLama .modal-header .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+    margin: -0.5rem -0.5rem -0.5rem auto;
+}
+
+#modalPembimbingLama .modal-body {
+    padding: 1.5rem;
+}
+
+/* Tombol Batal dan Simpan spesifik untuk modal ini */
+#btnBatalPembimbingLama {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    font-weight: bold;
+    padding: 0.5rem 1.5rem;
+}
+
+#btnBatalPembimbingLama:hover {
+    background-color: #c82333;
+}
+
+#btnSimpanPembimbingLama {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    font-weight: bold;
+    padding: 0.5rem 1.5rem;
+}
+
+#btnSimpanPembimbingLama:hover {
+    background-color: #218838;
+}
+
+
+
+/* CSS Form Penguji Luar IPB */
+#modalPengujiLuar .modal-header {
+    background-color: #047857;
+    color: white;
+    border-bottom: none;
+    padding: 1rem 1.5rem;
+}
+
+#modalPengujiLuar .modal-title {
+    font-weight: bold;
+    display: flex; 
+    align-items: center;
+}
+
+#modalPengujiLuar .modal-title i {
+    margin-right: 10px; 
+    font-size: 1.2rem;
+}
+
+#modalPengujiLuar .modal-header .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+    margin: -0.5rem -0.5rem -0.5rem auto;
+}
+
+#modalPengujiLuar .modal-body {
+    padding: 1.5rem;
+}
+
+/* Tombol Batal dan Simpan spesifik untuk modal ini */
+#btnBatalPengujiLuar {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    font-weight: bold;
+    padding: 0.5rem 1.5rem;
+}
+
+#btnBatalPengujiLuar:hover {
+    background-color: #c82333;
+}
+
+#btnSimpanPengujiLuar {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    font-weight: bold;
+    padding: 0.5rem 1.5rem;
+}
+
+#btnSimpanPengujiLuar:hover {
+    background-color: #218838;
+}
+
+
+/* CSS Form Pembimbing Luar IPB */
+#modalPembimbingLuar .modal-header {
+    background-color: #047857;
+    color: white;
+    border-bottom: none;
+    padding: 1rem 1.5rem;
+}
+
+#modalPembimbingLuar .modal-title {
+    font-weight: bold;
+    display: flex; 
+    align-items: center;
+}
+
+#modalPembimbingLuar .modal-title i {
+    margin-right: 10px; 
+    font-size: 1.2rem;
+}
+
+#modalPembimbingLuar .modal-header .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+    margin: -0.5rem -0.5rem -0.5rem auto;
+}
+
+#modalPembimbingLuar .modal-body {
+    padding: 1.5rem;
+}
+
+/* Tombol Batal dan Simpan spesifik untuk modal ini */
+#btnBatalPembimbingLuar {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    font-weight: bold;
+    padding: 0.5rem 1.5rem;
+}
+
+#btnBatalPembimbingLuar:hover {
+    background-color: #c82333;
+}
+
+#btnSimpanPembimbingLuar {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    font-weight: bold;
+    padding: 0.5rem 1.5rem;
+}
+
+#btnSimpanPembimbingLuar:hover {
+    background-color: #218838;
+}
+
+
+/* CSS untuk Modal Detail Pengajaran Lama */
+#modalDetailPengajaranLama .modal-header {
+    background-color: #047857;
+    color: white;
+    border-bottom: none;
+    padding: 1rem 1.5rem;
+}
+
+#modalDetailPengajaranLama .modal-title {
+    font-weight: bold;
+    display: flex; 
+    align-items: center;
+}
+
+#modalDetailPengajaranLama .modal-title i {
+    margin-right: 10px; 
+    font-size: 1.2rem;
+}
+
+#modalDetailPengajaranLama .modal-header .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+.detail-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+}
+
+.detail-item {
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 0.5rem;
+}
+
+.detail-item small {
+    color: #6c757d;
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.detail-item p {
+    font-weight: 500;
+    margin: 0;
+    color: #212529;
+}
+
+.document-viewer-container {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    overflow: hidden; /* agar embed tidak keluar dari border */
+    margin-top: 1rem;
+}
+
+.document-viewer-container embed {
+    display: block; /* Menghilangkan spasi ekstra di bawah embed */
+}
+
+
+/* ================================================ */
+/* CSS Umum untuk Modal Detail */
+/* ================================================ */
+#modalDetailPengajaranLama .modal-header,
+#modalDetailPengajaranLuar .modal-header {
+    background-color: #047857;
+    color: white;
+    border-bottom: none;
+    padding: 1rem 1.5rem;
+}
+
+#modalDetailPengajaranLama .modal-title,
+#modalDetailPengajaranLuar .modal-title {
+    font-weight: bold;
+    display: flex; 
+    align-items: center;
+}
+
+#modalDetailPengajaranLama .modal-title i,
+#modalDetailPengajaranLuar .modal-title i {
+    margin-right: 10px; 
+    font-size: 1.2rem;
+}
+
+#modalDetailPengajaranLama .modal-header .btn-close,
+#modalDetailPengajaranLuar .modal-header .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+.detail-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+}
+
+.detail-item {
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 0.5rem;
+}
+
+.detail-item small {
+    color: #6c757d;
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.detail-item p {
+    font-weight: 500;
+    margin: 0;
+    color: #212529;
+}
+
+.document-viewer-container {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 1rem;
+    background-color: #525659;
+}
+
+.document-viewer-container embed {
+    display: block;
+}
+
+
+/* ================================================ */
+/* CSS Umum untuk Modal Detail */
+/* ================================================ */
+#modalDetailPengajaranLama .modal-header,
+#modalDetailPengajaranLuar .modal-header,
+#modalDetailPengujianLama .modal-header {
+    background-color: #047857;
+    color: white;
+    border-bottom: none;
+    padding: 1rem 1.5rem;
+}
+
+#modalDetailPengajaranLama .modal-title,
+#modalDetailPengajaranLuar .modal-title,
+#modalDetailPengujianLama .modal-title {
+    font-weight: bold;
+    display: flex; 
+    align-items: center;
+}
+
+#modalDetailPengajaranLama .modal-title i,
+#modalDetailPengajaranLuar .modal-title i,
+#modalDetailPengujianLama .modal-title i {
+    margin-right: 10px; 
+    font-size: 1.2rem;
+}
+
+#modalDetailPengajaranLama .modal-header .btn-close,
+#modalDetailPengajaranLuar .modal-header .btn-close,
+#modalDetailPengujianLama .modal-header .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+.detail-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+}
+
+.detail-item {
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 0.5rem;
+}
+
+.detail-item small {
+    color: #6c757d;
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.detail-item p {
+    font-weight: 500;
+    margin: 0;
+    color: #212529;
+}
+
+.document-viewer-container {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 1rem;
+    background-color: #525659;
+}
+
+.document-viewer-container embed {
+    display: block;
+}
+
+
+
+/* ================================================ */
+/* CSS Umum untuk Modal Detail */
+/* ================================================ */
+#modalDetailPengajaranLama .modal-header,
+#modalDetailPengajaranLuar .modal-header,
+#modalDetailPengujianLama .modal-header,
+#modalDetailPembimbingLama .modal-header {
+    background-color: #047857;
+    color: white;
+    border-bottom: none;
+    padding: 1rem 1.5rem;
+}
+
+#modalDetailPengajaranLama .modal-title,
+#modalDetailPengajaranLuar .modal-title,
+#modalDetailPengujianLama .modal-title,
+#modalDetailPembimbingLama .modal-title {
+    font-weight: bold;
+    display: flex; 
+    align-items: center;
+}
+
+#modalDetailPengajaranLama .modal-title i,
+#modalDetailPengajaranLuar .modal-title i,
+#modalDetailPengujianLama .modal-title i,
+#modalDetailPembimbingLama .modal-title i {
+    margin-right: 10px; 
+    font-size: 1.2rem;
+}
+
+#modalDetailPengajaranLama .modal-header .btn-close,
+#modalDetailPengajaranLuar .modal-header .btn-close,
+#modalDetailPengujianLama .modal-header .btn-close,
+#modalDetailPembimbingLama .modal-header .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+.detail-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+}
+/* CSS Tambahan untuk membuat item detail membentang satu baris penuh */
+.full-width-detail {
+    grid-column: 1 / -1; /* Membuat item membentang dari kolom pertama hingga terakhir */
+}
+
+
+/* ================================================ */
+/* CSS Umum untuk Modal Detail */
+/* ================================================ */
+#modalDetailPengajaranLama .modal-header,
+#modalDetailPengajaranLuar .modal-header,
+#modalDetailPengujianLama .modal-header,
+#modalDetailPengujiLuar .modal-header {
+    background-color: #047857;
+    color: white;
+    border-bottom: none;
+    padding: 1rem 1.5rem;
+}
+
+#modalDetailPengajaranLama .modal-title,
+#modalDetailPengajaranLuar .modal-title,
+#modalDetailPengujianLama .modal-title,
+#modalDetailPengujiLuar .modal-title {
+    font-weight: bold;
+    display: flex; 
+    align-items: center;
+}
+
+#modalDetailPengajaranLama .modal-title i,
+#modalDetailPengajaranLuar .modal-title i,
+#modalDetailPengujianLama .modal-title i,
+#modalDetailPengujiLuar .modal-title i {
+    margin-right: 10px; 
+    font-size: 1.2rem;
+}
+
+#modalDetailPengajaranLama .modal-header .btn-close,
+#modalDetailPengajaranLuar .modal-header .btn-close,
+#modalDetailPengujianLama .modal-header .btn-close,
+#modalDetailPengujiLuar .modal-header .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+.detail-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+}
+
+.detail-item {
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 0.5rem;
+}
+
+.detail-item small {
+    color: #6c757d;
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.detail-item p {
+    font-weight: 500;
+    margin: 0;
+    color: #212529;
+}
+
+.document-viewer-container {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 1rem;
+    background-color: #525659;
+}
+
+.document-viewer-container embed {
+    display: block;
+}
+
+/* ================================================ */
+/* CSS Umum untuk Modal Detail */
+/* ================================================ */
+#modalDetailPengajaranLama .modal-header,
+#modalDetailPengajaranLuar .modal-header,
+#modalDetailPengujianLama .modal-header,
+#modalDetailPembimbingLama .modal-header,
+#modalDetailPembimbingLuar .modal-header {
+    background-color: #047857;
+    color: white;
+    border-bottom: none;
+    padding: 1rem 1.5rem;
+}
+
+#modalDetailPengajaranLama .modal-title,
+#modalDetailPengajaranLuar .modal-title,
+#modalDetailPengujianLama .modal-title,
+#modalDetailPembimbingLama .modal-title,
+#modalDetailPembimbingLuar .modal-title {
+    font-weight: bold;
+    display: flex; 
+    align-items: center;
+}
+
+#modalDetailPengajaranLama .modal-title i,
+#modalDetailPengajaranLuar .modal-title i,
+#modalDetailPengujianLama .modal-title i,
+#modalDetailPembimbingLama .modal-title i,
+#modalDetailPembimbingLuar .modal-title i {
+    margin-right: 10px; 
+    font-size: 1.2rem;
+}
+
+#modalDetailPengajaranLama .modal-header .btn-close,
+#modalDetailPengajaranLuar .modal-header .btn-close,
+#modalDetailPengujianLama .modal-header .btn-close,
+#modalDetailPembimbingLama .modal-header .btn-close,
+#modalDetailPembimbingLuar .modal-header .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+.detail-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+}
+
+.detail-item {
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 0.5rem;
+}
+
+.detail-item small {
+    color: #6c757d;
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.detail-item p {
+    font-weight: 500;
+    margin: 0;
+    color: #212529;
+}
+
+.document-viewer-container {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 1rem;
+    background-color: #525659;
+}
+
+.document-viewer-container embed {
+    display: block;
+}
+
+/* CSS untuk Popup Konfirmasi Pendidikan */
+#modalKonfirmasiPendidikan {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.confirmation-popup-box {
+    background-color: #f0f0f0;
+    padding: 30px 40px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    width: 90%;
+    max-width: 500px;
+}
+
+.popup-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #047857;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.popup-subtitle {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+.popup-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.btn-popup {
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.btn-popup:hover {
+    transform: scale(1.05);
+}
+
+.btn-terima {
+    background-color: #5CB85C;
+    color: white;
+}
+
+.btn-tolak {
+    background-color: #DC2626;
+    color: white;
+}
+
+.btn-kembali {
+    background-color: #9ca3af;
+    color: white;
+}
