@@ -35,12 +35,71 @@ document.addEventListener('DOMContentLoaded', function () {
       timeEl.textContent = now.toLocaleTimeString('id-ID', timeOptions);
     }
   }
-
-  setInterval(updateDateTime, 1000);
+  // Panggil sekali di awal, lalu set interval
   updateDateTime();
+  setInterval(updateDateTime, 1000);
+
+  // === PENINGKATAN: Event Delegation untuk Hapus Anggota ===
+  const anggotaList = document.getElementById('anggota-list');
+  if (anggotaList) {
+    anggotaList.addEventListener('click', function(event) {
+      // Cek jika yang diklik adalah tombol close
+      if (event.target.closest('.dynamic-row-close-btn')) {
+        // Hapus elemen .dynamic-row terdekat
+        event.target.closest('.dynamic-row').remove();
+      }
+    });
+  }
+
+  // === PENINGKATAN: File Upload Logic ===
+  function setupUploadArea() {
+    document.querySelectorAll('.upload-area').forEach(uploadArea => {
+      const fileInput = uploadArea.querySelector('input[type="file"]');
+      const uploadText = uploadArea.querySelector('p');
+      if (!fileInput || !uploadText) return;
+
+      const originalText = uploadText.innerHTML;
+
+      uploadArea.addEventListener('click', function () {
+        fileInput.click();
+      });
+
+      fileInput.addEventListener('change', function () {
+        if (this.files.length > 0) {
+          uploadText.textContent = this.files[0].name;
+        }
+      });
+
+      // Menyimpan fungsi reset untuk dipanggil nanti
+      uploadArea.reset = function() {
+        uploadText.innerHTML = originalText;
+        // Juga reset nilai input file-nya
+        fileInput.value = '';
+      };
+    });
+  }
+  setupUploadArea();
+
+  // === PENINGKATAN: Detail Modal Logic ===
+  const pelatihanDetailModal = document.getElementById("pelatihanDetailModal");
+  const openPelatihanDetailBtn = document.getElementById("btnLihatPelatihanDetail");
+  const closePelatihanDetailBtn = document.getElementById("closePelatihanDetailBtn");
+
+  if (openPelatihanDetailBtn && pelatihanDetailModal) {
+    openPelatihanDetailBtn.addEventListener('click', function() {
+      pelatihanDetailModal.style.display = "block";
+    });
+  }
+  if (closePelatihanDetailBtn && pelatihanDetailModal) {
+    closePelatihanDetailBtn.addEventListener('click', function() {
+      pelatihanDetailModal.style.display = "none";
+    });
+  }
 });
 
-// === Modal Functions ===
+
+// === Global Modal Functions ===
+
 function openModal(modalId) {
   const modal = document.getElementById(modalId);
   if (!modal) return;
@@ -61,18 +120,22 @@ function openModal(modalId) {
     anggotaList.innerHTML = '';
   }
 
+  // PENINGKATAN: Reset text pada upload area
+  const uploadArea = modal.querySelector('.upload-area');
+  if (uploadArea && typeof uploadArea.reset === 'function') {
+    uploadArea.reset();
+  }
+
   modal.style.display = 'flex';
 }
 
 function openEditModal() {
   const modal = document.getElementById('pelatihanModal');
   if (!modal) return;
-
   const modalTitle = modal.querySelector('#modalTitle');
   if (modalTitle) {
     modalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Data Pelatihan';
   }
-
   modal.style.display = 'flex';
 }
 
@@ -89,8 +152,9 @@ function addAnggota() {
 
   const newRow = document.createElement('div');
   newRow.className = 'dynamic-row';
+  // PERBAIKAN: Menghilangkan `onclick` dari tombol
   newRow.innerHTML = `
-    <button type="button" class="btn-close dynamic-row-close-btn" aria-label="Close" onclick="this.parentElement.remove()"></button>
+    <button type="button" class="btn-close dynamic-row-close-btn" aria-label="Close"></button>
     <div class="row g-2">
       <div class="col-12">
         <label class="form-label form-label-sm">Nama Anggota</label>
@@ -109,35 +173,16 @@ function addAnggota() {
   list.appendChild(newRow);
 }
 
-// === Close modal if backdrop is clicked ===
+// PERBAIKAN: Menggabungkan semua logika klik di luar modal
 window.addEventListener('click', function (event) {
+  // Untuk modal utama dengan backdrop
   if (event.target.classList.contains('modal-backdrop')) {
     closeModal(event.target.id);
   }
-});
 
-// --modal detail pelatihan ---
-// Ambil elemen-elemen untuk modal Detail Pelatihan
-const pelatihanDetailModal = document.getElementById("pelatihanDetailModal");
-const openPelatihanDetailBtn = document.getElementById("btnLihatPelatihanDetail");
-const closePelatihanDetailBtn = document.getElementById("closePelatihanDetailBtn");
-
-// Pastikan tombol pemicu ada sebelum menambahkan event listener
-if (openPelatihanDetailBtn) {
-    // Tampilkan modal ketika tombol 'Lihat Detail' diklik
-    openPelatihanDetailBtn.onclick = function() {
-      pelatihanDetailModal.style.display = "block";
-    }
-}
-
-// Sembunyikan modal ketika tombol 'Tutup' diklik
-closePelatihanDetailBtn.onclick = function() {
-  pelatihanDetailModal.style.display = "none";
-}
-
-// Sembunyikan modal ketika pengguna mengklik area di luar modal
-window.onclick = function(event) {
-  if (event.target == pelatihanDetailModal) {
+  // Untuk modal detail tanpa backdrop
+  const pelatihanDetailModal = document.getElementById("pelatihanDetailModal");
+  if (event.target === pelatihanDetailModal) {
     pelatihanDetailModal.style.display = "none";
   }
-}
+});

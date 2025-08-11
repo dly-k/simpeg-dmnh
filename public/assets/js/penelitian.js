@@ -2,6 +2,7 @@
 document.addEventListener('DOMContentLoaded', function () {
   setupSidebar();
   startDateTimeUpdater();
+  setupUploadArea(); // Panggil fungsi untuk upload area
 });
 
 // === Logika Sidebar ===
@@ -58,6 +59,35 @@ function startDateTimeUpdater() {
   setInterval(update, 1000);
 }
 
+// === Logika Upload File (BARU) ===
+function setupUploadArea() {
+  const uploadArea = document.querySelector('.upload-area');
+  if (!uploadArea) return;
+
+  const fileInput = uploadArea.querySelector('input[type="file"]');
+  const uploadText = uploadArea.querySelector('p');
+  const originalText = uploadText.innerHTML; // Simpan teks asli
+
+  // 1. Buka dialog file saat area diklik
+  uploadArea.addEventListener('click', function () {
+    fileInput.click();
+  });
+
+  // 2. Tampilkan nama file setelah dipilih
+  fileInput.addEventListener('change', function () {
+    if (this.files.length > 0) {
+      // Ganti teks dengan nama file yang dipilih
+      uploadText.textContent = this.files[0].name;
+    }
+  });
+
+  // Simpan fungsi untuk mereset teks ke elemen itu sendiri
+  uploadArea.resetText = () => {
+    uploadText.innerHTML = originalText;
+  };
+}
+
+
 // === Logika Modal ===
 function openModal(modalId) {
   const modal = document.getElementById(modalId);
@@ -72,6 +102,12 @@ function openModal(modalId) {
 
   if (form) {
     form.reset();
+  }
+
+  // Reset tampilan area upload
+  const uploadArea = modal.querySelector('.upload-area');
+  if (uploadArea && typeof uploadArea.resetText === 'function') {
+    uploadArea.resetText(); // Reset teks area upload ke default
   }
 
   // Reset dynamic fields
@@ -164,18 +200,22 @@ const openModalBtn = document.getElementById("btnLihatDetail");
 const closeModalBtn = document.getElementById("tutupBtn");
 
 // Tampilkan modal ketika tombol 'Lihat Detail' diklik
-openModalBtn.onclick = function() {
-  detailModal.style.display = "block";
+if (openModalBtn) {
+  openModalBtn.onclick = function() {
+    detailModal.style.display = "block";
+  }
 }
 
 // Sembunyikan modal ketika tombol 'Tutup' diklik
-closeModalBtn.onclick = function() {
-  detailModal.style.display = "none";
-}
-
-// Sembunyikan modal ketika pengguna mengklik area di luar modal
-window.onclick = function(event) {
-  if (event.target == detailModal) {
+if (closeModalBtn) {
+  closeModalBtn.onclick = function() {
     detailModal.style.display = "none";
   }
 }
+
+// Sembunyikan modal ketika pengguna mengklik area di luar modal
+window.addEventListener('click', function(event) {
+  if (event.target == detailModal) {
+    detailModal.style.display = "none";
+  }
+});

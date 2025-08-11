@@ -194,7 +194,7 @@
   <footer class="footer-custom">
     <span>© 2025 Forest Management — All Rights Reserved</span>
   </footer>
-  
+  {{-- Tambah Data Pengabdian --}}
   <div class="modal-backdrop" id="pengabdianModal">
       <div class="modal-content-wrapper">
           <div class="modal-header-custom">

@@ -161,6 +161,7 @@
     <span>© 2025 Forest Management — All Rights Reserved</span>
   </footer>
   
+  {{-- Tambah Edit Pelatihan --}}
   <div class="modal-backdrop" id="pelatihanModal">
         <div class="modal-content-wrapper">
             <div class="modal-header-custom">
@@ -219,7 +220,7 @@
         </div>
     </div>
 
-
+{{-- Detail Pelatihan --}}
 <div id="pelatihanDetailModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
