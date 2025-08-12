@@ -94,9 +94,9 @@
                 </div>
                 <select class="form-select filter-select"><option selected>Tahun</option><option>2023</option></select>
                 <select class="form-select filter-select"><option selected>-- posisi --</option><option>Peserta</option><option>Pembicara</option><option>Panitia</option></select>
-                <div class="btn-tambah-container">
-                    <a href="#" class="btn btn-tambah fw-bold" onclick="openModal('pelatihanModal')"><i class="fa fa-plus me-2"></i> Tambah Data</a>
-                </div>
+                <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#pelatihanModal">
+                    <i class="fa fa-plus me-2"></i> Tambah Data
+                </a>
             </div>
           </div>
 
@@ -149,7 +149,9 @@
                                             data-dokumen_path="assets/pdf/example.pdf">
                                                 <i class="fa fa-eye"></i>
                                             </a>
-                                          <a href="#" class="btn-aksi btn-edit" title="Edit Data" onclick="openEditModal()"><i class="fa fa-edit"></i></a>
+                                          <a href="#" class="btn-aksi btn-edit" title="Edit Data" data-bs-toggle="modal" data-bs-target="#pelatihanModal">
+                                              <i class="fa fa-edit"></i>
+                                          </a>
                                           <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
                                       </div>
                                   </td>
@@ -180,63 +182,160 @@
   </footer>
   
   {{-- Tambah Edit Pelatihan --}}
-  <div class="modal-backdrop" id="pelatihanModal">
-        <div class="modal-content-wrapper">
-            <div class="modal-header-custom">
-                <h5 id="modalTitle"><i class="fas fa-plus-circle"></i> Tambah Data Pelatihan</h5>
-            </div>
-            <div class="modal-body-custom">
-                <form id="pelatihanForm">
-                    <div class="row g-3">
-                        <div class="col-12"><label class="form-label">Nama Pelatihan</label><input type="text" class="form-control" placeholder="Lorem Ipsum"></div>
-                        <div class="col-12"><label class="form-label">Posisi Pelatihan</label><select class="form-select"><option selected>Lorem Ipsum</option></select></div>
-                        <div class="col-12"><label class="form-label">Kota/Kabupaten</label><input type="text" class="form-control" placeholder="Lorem Ipsum"></div>
-                        <div class="col-12"><label class="form-label">Lokasi</label><input type="text" class="form-control" placeholder="Lorem Ipsum"></div>
-                        <div class="col-12"><label class="form-label">Penyelenggara</label><input type="text" class="form-control" placeholder="Lorem Ipsum"></div>
-                        <div class="col-md-6"><label class="form-label">Tanggal Mulai</label><input type="date" class="form-control"></div>
-                        <div class="col-md-6"><label class="form-label">Tanggal Selesai</label><input type="date" class="form-control"></div>
-                        <div class="col-md-6"><label class="form-label">Jumlah Jam</label><input type="number" class="form-control" placeholder="Contoh: 8"></div>
-                        <div class="col-md-6"><label class="form-label">Jumlah Hari</label><input type="number" class="form-control" placeholder="Contoh: 3"></div>
-                        <div class="col-md-6"><label class="form-label">Jenis Diklat</label><input type="text" class="form-control" placeholder="Contoh: Teknis"></div>
-                        <div class="col-md-6"><label class="form-label">Lingkup</label><input type="text" class="form-control" placeholder="Contoh: Nasional"></div>
-                        <div class="col-md-6"><label class="form-label">Struktural</label><select class="form-select"><option selected>-- Pilih --</option></select></div>
-                        <div class="col-md-6"><label class="form-label">Sertifikasi</label><select class="form-select"><option selected>-- Pilih --</option></select></div>
-                        
-                        <div class="col-12">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <label class="form-label mb-0">Anggota Kegiatan</label>
-                                <button type="button" class="btn btn-sm btn-primary" onclick="addAnggota()">+ Tambah Anggota</button>
-                            </div>
-                            <div id="anggota-list" class="vstack gap-2">
-                                </div>
-                        </div>
+<div class="modal fade" id="pelatihanModal" tabindex="-1" aria-labelledby="pelatihanModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <h5 class="modal-title" id="pelatihanModalLabel"><i class="fas fa-plus-circle"></i> Tambah Data Pelatihan</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      
+      <div class="modal-body">
+        <form id="pelatihanForm">
+          <div class="row g-3">
 
-                        <div class="col-12"><label class="form-label">Jenis Dokumen</label><select class="form-select"><option selected>-- Pilih Salah Satu --</option></select></div>
-                        
-                        <div class="col-12">
-                            <div class="upload-area">
-                                <i class="fas fa-cloud-upload-alt"></i>
-                                <p>Drag & Drop File here<br><small>Ukuran Maksimal 5 MB</small></p>
-                                <input type="file" hidden>
-                            </div>
-                        </div>
-                        
-                        <div class="col-12">
-                            <div class="row g-2" id="dokumen-info">
-                                <div class="col-md-4"><input type="text" class="form-control" placeholder="Nama Dokumen"></div>
-                                <div class="col-md-4"><input type="text" class="form-control" placeholder="Nomor"></div>
-                                <div class="col-md-4"><input type="text" class="form-control" placeholder="Tautan"></div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+            <div class="col-12">
+              <label class="form-label">Nama Pelatihan</label>
+              <input type="text" class="form-control" placeholder="Masukkan nama kegiatan pelatihan">
             </div>
-            <div class="modal-footer-custom">
-                <button type="button" class="btn btn-danger" onclick="closeModal('pelatihanModal')">Batal</button>
-                <button type="button" class="btn btn-success">Simpan</button>
+
+            <div class="col-12">
+              <label class="form-label">Posisi Pelatihan</label>
+              <select class="form-select">
+                <option selected>-- Pilih Posisi --</option>
+                <option value="Peserta">Peserta</option>
+                <option value="Pembicara">Pembicara</option>
+                <option value="Panitia">Panitia</option>
+              </select>
             </div>
-        </div>
+
+            <div class="col-12">
+              <label class="form-label">Kota/Kabupaten</label>
+              <input type="text" class="form-control" placeholder="Contoh: Bogor">
+            </div>
+
+            <div class="col-12">
+              <label class="form-label">Lokasi</label>
+              <input type="text" class="form-control" placeholder="Contoh: Kampus IPB Dramaga">
+            </div>
+
+            <div class="col-12">
+              <label class="form-label">Penyelenggara</label>
+              <input type="text" class="form-control" placeholder="Contoh: Fakultas Kehutanan IPB">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Tanggal Mulai</label>
+              <input type="date" class="form-control">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Tanggal Selesai</label>
+              <input type="date" class="form-control">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Jumlah Jam</label>
+              <input type="number" class="form-control" placeholder="Contoh: 8">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Jumlah Hari</label>
+              <input type="number" class="form-control" placeholder="Contoh: 3">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Jenis Diklat</label>
+              <input type="text" class="form-control" placeholder="Contoh: Teknis, Fungsional">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Lingkup</label>
+              <input type="text" class="form-control" placeholder="Contoh: Internal, Nasional, Internasional">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Struktural</label>
+              <select class="form-select">
+                <option selected>-- Pilih --</option>
+                <option value="Ya">Ya</option>
+                <option value="Tidak">Tidak</option>
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Sertifikasi</label>
+              <select class="form-select">
+                <option selected>-- Pilih --</option>
+                <option value="Ya">Ya</option>
+                <option value="Tidak">Tidak</option>
+              </select>
+            </div>
+            
+            <div class="col-12">
+              <hr>
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <label class="form-label mb-0 fw-bold">Anggota Kegiatan</label>
+                <button type="button" class="btn btn-sm btn-primary" onclick="addAnggota()">+ Tambah Anggota</button>
+              </div>
+              <div id="anggota-list" class="vstack gap-2">
+                </div>
+            </div>
+
+            <div class="col-12">
+                <hr>
+                <label class="form-label fw-bold">Dokumen Pendukung</label>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label">Jenis Dokumen</label>
+              <select class="form-select">
+                <option selected>-- Pilih Jenis Dokumen --</option>
+                <option value="Sertifikat">Sertifikat</option>
+                <option value="Surat Tugas">Surat Tugas</option>
+                <option value="Lainnya">Lainnya</option>
+              </select>
+            </div>
+            
+            <div class="col-12">
+              <label class="form-label">Unggah File</label>
+              <div class="upload-area">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <p>Seret & Lepas File di sini<br><small>Ukuran Maksimal 5 MB, Format: PDF, JPG, PNG</small></p>
+                <input type="file" hidden>
+              </div>
+            </div>
+            
+            <div class="col-12">
+              <div class="row g-2" id="dokumen-info">
+                <div class="col-md-4">
+                    <label class="form-label">Nama Dokumen</label>
+                    <input type="text" class="form-control" placeholder="Contoh: Sertifikat Pelatihan GIS">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Nomor Dokumen</label>
+                    <input type="text" class="form-control" placeholder="Jika ada">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Tautan Dokumen</label>
+                    <input type="text" class="form-control" placeholder="Jika ada (Google Drive, dll.)">
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-success">Simpan Data</button>
+      </div>
+      
     </div>
+  </div>
+</div>
 
 {{-- Detail Pelatihan --}}
 <div class="modal fade" id="modalDetailPelatihan" tabindex="-1" aria-labelledby="modalDetailPelatihanLabel" aria-hidden="true">

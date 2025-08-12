@@ -1,5 +1,7 @@
+// Menunggu seluruh konten halaman dimuat sebelum menjalankan skrip
 document.addEventListener('DOMContentLoaded', function () {
-    // === Sidebar Logic ===
+    
+    // === Logic untuk Sidebar (Tidak Berubah) ===
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
     const toggleSidebarBtn = document.getElementById('toggleSidebar');
@@ -21,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // === Date and Time Logic ===
+    // === Logic untuk Jam & Tanggal (Tidak Berubah) ===
     function updateDateTime() {
         const now = new Date();
         const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -38,17 +40,17 @@ document.addEventListener('DOMContentLoaded', function () {
     updateDateTime();
     setInterval(updateDateTime, 1000);
 
-    // === Event Delegation untuk Hapus Anggota ===
-    const anggotaList = document.getElementById('anggota-list');
-    if (anggotaList) {
-        anggotaList.addEventListener('click', function(event) {
+    // === Logic untuk Hapus Anggota (Tidak Berubah) ===
+    const anggotaListContainer = document.getElementById('anggota-list');
+    if (anggotaListContainer) {
+        anggotaListContainer.addEventListener('click', function(event) {
             if (event.target.closest('.dynamic-row-close-btn')) {
                 event.target.closest('.dynamic-row').remove();
             }
         });
     }
 
-    // === File Upload Logic ===
+    // === Logic untuk Area Upload File (Tidak Berubah) ===
     function setupUploadArea() {
         document.querySelectorAll('.upload-area').forEach(uploadArea => {
             const fileInput = uploadArea.querySelector('input[type="file"]');
@@ -69,22 +71,59 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     setupUploadArea();
 
-    // ================================================================= //
-    // === BLOK BARU: Logika untuk Modal Detail (Sistem Bootstrap 5) === //
-    // ================================================================= //
-    
-    // Logika ini hanya akan berjalan jika menemukan tombol dengan kelas .btn-lihat-detail-pelatihan
-    // dan tidak akan mengganggu fungsi openModal() atau openEditModal() Anda.
+
+    // ====================================================================
+    // === LOGIKA BARU: Menggunakan Event Listener Bawaan Bootstrap 5 ===
+    // ====================================================================
+
+    // 1. Logika untuk Modal Tambah/Edit Pelatihan
+    const pelatihanModal = document.getElementById('pelatihanModal');
+    if (pelatihanModal) {
+        const modalTitle = pelatihanModal.querySelector('.modal-title');
+        const pelatihanForm = document.getElementById('pelatihanForm');
+
+        // Mendengarkan event 'show.bs.modal' yang dipicu oleh Bootstrap
+        // setiap kali modal ini akan ditampilkan
+        pelatihanModal.addEventListener('show.bs.modal', function(event) {
+            // event.relatedTarget adalah elemen (tombol) yang memicu modal
+            const button = event.relatedTarget;
+
+            // Memeriksa apakah tombol yang diklik adalah tombol "Edit"
+            if (button && button.classList.contains('btn-edit')) {
+                // Jika ya, ubah judul modal menjadi "Edit"
+                modalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Data Pelatihan';
+                // Di masa depan, Anda bisa menambahkan logika di sini untuk mengisi form
+                // dengan data yang ada, contoh:
+                // document.getElementById('nama-pelatihan-input').value = button.dataset.namaPelatihan;
+            } else {
+                // Jika bukan tombol Edit (berarti tombol "Tambah Data"), ubah judul
+                modalTitle.innerHTML = '<i class="fas fa-plus-circle"></i> Tambah Data Pelatihan';
+                
+                // Pastikan form dikosongkan saat menambah data baru
+                if (pelatihanForm) {
+                    pelatihanForm.reset();
+                }
+                
+                // Kosongkan juga daftar anggota dinamis
+                const anggotaList = document.getElementById('anggota-list');
+                if (anggotaList) {
+                    anggotaList.innerHTML = '';
+                }
+
+                // Reset area upload file
+                const uploadArea = pelatihanModal.querySelector('.upload-area');
+                if (uploadArea && typeof uploadArea.reset === 'function') {
+                    uploadArea.reset();
+                }
+            }
+        });
+    }
+
+    // 2. Logika untuk Modal Detail (Tidak berubah, hanya dipindahkan ke sini)
     document.addEventListener('click', function(event) {
         const detailButton = event.target.closest('.btn-lihat-detail-pelatihan');
         if (detailButton) {
-            // Kita tidak perlu membuka modal secara manual karena atribut
-            // data-bs-toggle="modal" di HTML sudah menanganinya.
-            // Kita hanya perlu mengisi datanya.
-            
             const data = detailButton.dataset;
-
-            // Mengisi setiap elemen di modal detail
             document.getElementById('detail_pelatihan_nama').textContent = data.nama_pelatihan || '-';
             document.getElementById('detail_pelatihan_posisi').textContent = data.posisi || '-';
             document.getElementById('detail_pelatihan_kota').textContent = data.kota || '-';
@@ -98,66 +137,17 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('detail_pelatihan_hari').textContent = data.hari || '-';
             document.getElementById('detail_pelatihan_struktural').textContent = data.struktural || '-';
             document.getElementById('detail_pelatihan_sertifikasi').textContent = data.sertifikasi || '-';
-
-            // Memperbarui viewer dokumen untuk menampilkan PDF
+            
             const docViewer = document.getElementById('detail_pelatihan_document_viewer');
             if (docViewer) {
-                if (data.dokumen_path) {
-                    docViewer.setAttribute('src', data.dokumen_path);
-                } else {
-                    docViewer.setAttribute('src', '');
-                }
+                docViewer.setAttribute('src', data.dokumen_path || '');
             }
         }
     });
-
-    // ================================================================= //
-    // === AKHIR BLOK BARU                                           === //
-    // ================================================================= //
 });
 
-
-// === Global Modal Functions (Milik Anda - Tidak Diubah) ===
-
-function openModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (!modal) return;
-    const modalTitle = modal.querySelector('#modalTitle');
-    const form = modal.querySelector('form');
-    const anggotaList = document.getElementById('anggota-list');
-    if (modalTitle) {
-        modalTitle.innerHTML = '<i class="fas fa-plus-circle"></i> Tambah Data Pelatihan';
-    }
-    if (form) {
-        form.reset();
-    }
-    if (anggotaList) {
-        anggotaList.innerHTML = '';
-    }
-    const uploadArea = modal.querySelector('.upload-area');
-    if (uploadArea && typeof uploadArea.reset === 'function') {
-        uploadArea.reset();
-    }
-    modal.style.display = 'flex';
-}
-
-function openEditModal() {
-    const modal = document.getElementById('pelatihanModal');
-    if (!modal) return;
-    const modalTitle = modal.querySelector('#modalTitle');
-    if (modalTitle) {
-        modalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Data Pelatihan';
-    }
-    modal.style.display = 'flex';
-}
-
-function closeModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.style.display = 'none';
-    }
-}
-
+// === Fungsi Global yang Masih Diperlukan ===
+// Fungsi ini tetap di luar karena dipanggil oleh `onclick` di dalam HTML.
 function addAnggota() {
     const list = document.getElementById('anggota-list');
     if (!list) return;
@@ -173,13 +163,3 @@ function addAnggota() {
     `;
     list.appendChild(newRow);
 }
-
-window.addEventListener('click', function (event) {
-    if (event.target.classList.contains('modal-backdrop')) {
-        closeModal(event.target.id);
-    }
-    const pelatihanDetailModal = document.getElementById("pelatihanDetailModal");
-    if (event.target === pelatihanDetailModal) {
-        pelatihanDetailModal.style.display = "none";
-    }
-});
