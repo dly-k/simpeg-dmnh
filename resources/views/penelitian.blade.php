@@ -180,7 +180,9 @@
               </td>
               <td class="text-center">
                   <div class="d-flex gap-2 justify-content-center">
-                      <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a>
+                      <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data" data-id="{{ $i }}">
+                          <i class="fa fa-check"></i>
+                      </a>
                       <a href="javascript:void(0);" id="btnLihatDetail" class="btn-aksi btn-lihat" title="Lihat Detail"><i class="fa fa-eye"></i></a>
                       <a href="#" class="btn-aksi btn-edit" title="Edit Data"  onclick="openEditModal()"><i class="fa fa-edit"></i></a>
                       <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
@@ -378,6 +380,19 @@
         </div>
     </div>
 </div>
+
+<div id="modalKonfirmasiPenelitian">
+    <div class="confirmation-popup-box">
+        <h3 class="popup-title">Konfirmasi Verifikasi Data</h3>
+        <p class="popup-subtitle">Apakah Anda yakin ingin melanjutkan proses ini?</p>
+        <div class="popup-buttons">
+            <button class="btn-popup btn-terima" id="popupBtnTerima">Terima</button>
+            <button class="btn-popup btn-tolak" id="popupBtnTolak">Tolak</button>
+            <button class="btn-popup btn-kembali" id="popupBtnKembali">Kembali</button>
+        </div>
+    </div>
+</div>
+
 
   <script src="{{ asset('assets/js/penelitian.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>

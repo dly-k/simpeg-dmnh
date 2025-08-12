@@ -623,3 +623,88 @@ a.dokumen-link:hover {
 .btn-tutup:hover {
     background-color: #e2e2e2;
 }
+
+
+/* Overlay */
+#modalKonfirmasiPenelitian {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+#modalKonfirmasiPenelitian.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Box */
+.confirmation-popup-box {
+    background-color: #f4f4f4;
+    padding: 30px 40px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+    width: 90%;
+    max-width: 500px;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+#modalKonfirmasiPenelitian.show .confirmation-popup-box {
+    transform: scale(1);
+}
+
+/* Title & subtitle */
+.popup-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #047857; /* Hijau utama */
+    margin-bottom: 8px;
+}
+.popup-subtitle {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 25px;
+}
+
+/* Button group */
+.popup-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+/* Base button style */
+.btn-popup {
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    color: white;
+}
+.btn-popup:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* Variasi tombol */
+.btn-terima {
+    background-color: #4caf50; /* Hijau */
+}
+.btn-tolak {
+    background-color: #e53935; /* Merah */
+}
+.btn-kembali {
+    background-color: #9ea4ad; /* Abu */
+}
