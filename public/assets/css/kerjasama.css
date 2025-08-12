@@ -4,6 +4,7 @@
 :root {
   --primary: #049466;
   --primary-hover: #037856;
+  --primary-dark: #047857;
   --primary-light: #e3f7ec;
 
   --info: #03b9de;
@@ -360,57 +361,82 @@ body {
   opacity: 1;
 }
 
-/* === Modal === */
-.modal-backdrop {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  background-color: rgba(0,0,0,0.5);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 1050;
-  padding: 1rem;
-}
-.modal-content-wrapper {
-  background-color: var(--white);
-  border-radius: .5rem;
-  box-shadow: 0 5px 15px rgba(0,0,0,.5);
-  width: 100%;
-  max-width: 800px;
-  max-height: 90vh;
-  display: flex;
-  flex-direction: column;
-}
-.modal-header-custom {
-  background: linear-gradient(to right, var(--primary), var(--primary-hover));
+/* Header untuk semua modal Tambah/Edit (form) */
+#kerjasamaModal .modal-header {
+  background: linear-gradient(to right, var(--primary), var(--primary-dark));
   color: var(--white);
-  padding: 1.25rem;
-  border-top-left-radius: .5rem;
-  border-top-right-radius: .5rem;
 }
-.modal-header-custom h5 {
-  margin: 0;
-  font-size: 1.25rem;
+
+/* Header untuk SEMUA modal Detail (tampilan info) */
+#modalDetailKerjasama .modal-header {
+  background-color: var(--primary-dark);
+  color: var(--white);
+}
+
+
+/* 2. Gaya Umum untuk Komponen Modal */
+/* ----------------------------------- */
+/* Gaya ini berlaku untuk SEMUA header modal */
+.modal-header {
+  border-bottom: none;
+}
+.modal-header .btn-close {
+  filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+/* Gaya ini berlaku untuk SEMUA judul modal */
+.modal-title {
   font-weight: 600;
   display: flex;
   align-items: center;
-  gap: 10px;
+  color: white;
 }
-.modal-body-custom {
-  padding: 1.5rem;
-  overflow-y: auto;
+.modal-title i {
+  margin-right: 10px;
+  font-size: 1.2rem;
 }
-.modal-footer-custom {
+
+
+/* 3. Gaya untuk Konten di Dalam Modal (Reusable) */
+/* -------------------------------------------------- */
+/* Untuk semua modal detail */
+.detail-grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
   padding: 1rem;
-  display: flex;
-  justify-content: flex-end;
-  gap: .5rem;
-  border-top: 1px solid #e2e8f0;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
 }
-.modal-footer-custom .btn:hover {
-  filter: brightness(1.1);
+.detail-item {
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 0.5rem;
+  word-wrap: break-word;
 }
+.detail-item small {
+  color: #6c757d;
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.detail-item p {
+  font-weight: 500;
+  margin: 0;
+  color: #212529;
+  font-size: 0.95rem;
+}
+.document-viewer-container {
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 1rem;
+  background-color: #525659;
+}
+.document-viewer-container embed { display: block; }
+.full-width-detail { grid-column: 1 / -1; }
 
 /* === File Upload Area === */
 .upload-area {

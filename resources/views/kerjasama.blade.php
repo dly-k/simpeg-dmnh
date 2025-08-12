@@ -104,7 +104,9 @@
         </div>
         <div class="d-flex gap-2">
           <button class="btn btn-export fw-bold"><i class="lni lni-download me-2"></i> Export Excel</button>
-          <button class="btn btn-tambah fw-bold" onclick="openModal()"><i class="lni lni-plus me-2"></i> Tambah Data</button>
+            <button class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#kerjasamaModal">
+                <i class="lni lni-plus me-2"></i> Tambah Data
+            </button>
         </div>
       </div>
 
@@ -147,25 +149,34 @@
     </div>
   </div>
 </div>
-  
-  <div class="modal-backdrop" id="kerjasamaModal">
-    <div class="modal-content-wrapper">
-      <div class="modal-header-custom">
-        <h5 id="modalTitle"><i class="fas fa-plus-circle"></i> Tambah Kerjasama</h5>
+
+  <footer class="footer-custom">
+    <span>© 2025 Forest Management — All Rights Reserved</span>
+  </footer>
+
+
+
+<!--Tambah dan Edit-->
+<div class="modal fade" id="kerjasamaModal" tabindex="-1" aria-labelledby="kerjasamaModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="kerjasamaModalLabel"><i class="fas fa-plus-circle"></i> Tambah Kerjasama</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body-custom">
+      <div class="modal-body">
         <form id="kerjasamaForm">
           <div class="row g-3">
             <div class="col-12"><label class="form-label">Judul</label><input type="text" class="form-control" name="judul" placeholder="Judul Kerjasama"></div>
             <div class="col-12"><label class="form-label">Mitra</label><input type="text" class="form-control" name="mitra" placeholder="Nama Mitra atau Instansi"></div>
             <div class="col-md-6"><label class="form-label">No Dokumen</label><input type="text" class="form-control" name="noDoc" placeholder="Nomor Dokumen"></div>
             <div class="col-md-6"><label class="form-label">Tgl. Dokumen</label><input type="date" name="tglDoc" class="form-control"></div>
-            <div class="col-md-6"><label class="form-label">TMT</label><input type="date" class="form-control" name="tmt"></div>
-            <div class="col-md-6"><label class="form-label">TST</label><input type="date" class="form-control" name="tst"></div>
+            <div class="col-md-6"><label class="form-label">TMT (Tanggal Mulai Efektif)</label><input type="date" class="form-control" name="tmt"></div>
+            <div class="col-md-6"><label class="form-label">TST (Tanggal Selesai Efektif)</label><input type="date" class="form-control" name="tst"></div>
             <div class="col-12"><label class="form-label">Departemen/Program Studi</label><select class="form-select" name="departemen"><option selected>-- Pilih Salah Satu --</option><option>Manajemen Hutan</option><option>Konservasi Sumberdaya Hutan</option><option>Teknologi Hasil Hutan</option></select></div>
             <div class="col-12"><label class="form-label">Ketua</label><input type="text" class="form-control" name="ketua" placeholder="Nama Ketua Tim"></div>
             <div class="col-12">
-              <label class="form-label">Anggota Tim</label>
+              <label class="form-label">Anggota Tim (jika ada)</label>
               <div id="anggota-list">
                 </div>
             </div>
@@ -183,16 +194,49 @@
           </div>
         </form>
       </div>
-      <div class="modal-footer-custom">
-        <button type="button" class="btn btn-danger" onclick="closeModal()">Batal</button>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
         <button type="button" class="btn btn-success">Simpan</button>
       </div>
     </div>
   </div>
+</div>
 
-  <footer class="footer-custom">
-    <span>© 2025 Forest Management — All Rights Reserved</span>
-  </footer>
+
+
+<!--Detail Modal-->
+<div class="modal fade" id="modalDetailKerjasama" tabindex="-1" aria-labelledby="modalDetailKerjasamaLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalDetailKerjasamaLabel"><i class="fas fa-info-circle"></i> Detail Kerjasama</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="detail-grid-container">
+          <div class="detail-item full-width-detail"><small>Judul</small><p id="detail_kerjasama_judul">-</p></div>
+          <div class="detail-item"><small>Mitra/Instansi</small><p id="detail_kerjasama_mitra">-</p></div>
+          <div class="detail-item"><small>No Dokumen</small><p id="detail_kerjasama_no_dokumen">-</p></div>
+          <div class="detail-item"><small>Tgl. Dokumen</small><p id="detail_kerjasama_tgl_dokumen">-</p></div>
+          <div class="detail-item"><small>TMT</small><p id="detail_kerjasama_tmt">-</p></div>
+          <div class="detail-item"><small>TST</small><p id="detail_kerjasama_tst">-</p></div>
+          <div class="detail-item"><small>Departemen/Prodi</small><p id="detail_kerjasama_departemen">-</p></div>
+          <div class="detail-item full-width-detail"><small>Ketua/Anggota</small><p id="detail_kerjasama_tim">-</p></div>
+          <div class="detail-item"><small>Lokasi</small><p id="detail_kerjasama_lokasi">-</p></div>
+          <div class="detail-item"><small>Besaran Dana</small><p id="detail_kerjasama_dana">-</p></div>
+          <div class="detail-item"><small>Jenis Kerjasama</small><p id="detail_kerjasama_jenis">-</p></div>
+        </div>
+        <h6 class="mt-4">Dokumen</h6>
+        <div class="document-viewer-container">
+          <embed id="detail_kerjasama_document_viewer" src="" type="application/pdf" width="100%" height="600px" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+      </div>
+    </div>
+  </div>
+</div>
 
   <script src="{{ asset('assets/js/kerjasama.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
