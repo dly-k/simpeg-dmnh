@@ -93,9 +93,9 @@
                     </div>
                 </div>
                 <select class="form-select filter-select "><option selected>Tahun</option><option>2023</option></select>
-                <div class="btn-tambah-container">
-                    <a href="#" class="btn btn-tambah fw-bold" onclick="openModal('skNonPnsModal')"><i class="fa fa-plus me-2"></i> Tambah Data</a>
-                </div>
+                <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#skNonPnsModal">
+                    <i class="fa fa-plus me-2"></i> Tambah Data
+                </a>
             </div>
           </div>
 
@@ -125,8 +125,23 @@
                                   <td class="text-center"><a href="#" class="btn btn-sm btn-lihat-detail text-white">Lihat</a></td>
                                   <td class="text-center">
                                       <div class="d-flex gap-2 justify-content-center">
-                                          <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail"><i class="fa fa-eye"></i></a>
-                                          <a href="#" class="btn-aksi btn-edit" title="Edit Data" onclick="openEditModal()"><i class="fa fa-edit"></i></a>
+                                        <a href="#" class="btn-aksi btn-lihat btn-lihat-detail-sk" title="Lihat Detail" 
+                                          data-bs-toggle="modal" 
+                                          data-bs-target="#modalDetailSkNonPns"
+                                          data-nama_kegiatan="Pengelolaan Keuangan Departemen"
+                                          data-unit="Departemen Kehutanan"
+                                          data-jenis_sk="Tenaga Kependidikan"
+                                          data-nomor_sk="012/SK/IV/2024"
+                                          data-tanggal_sk="15 April 2024"
+                                          data-pegawai="Alex Kurniawan"
+                                          data-tgl_mulai="01 Januari 2024"
+                                          data-tgl_selesai="31 Desember 2024"
+                                          data-dokumen_path="{{ asset('assets/pdf/example.pdf') }}">
+                                          <i class="fa fa-eye"></i>
+                                        </a>
+                                          <a href="#" class="btn-aksi btn-edit" title="Edit Data" data-bs-toggle="modal" data-bs-target="#skNonPnsModal">
+                                              <i class="fa fa-edit"></i>
+                                          </a>
                                           <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
                                       </div>
                                   </td>
@@ -155,40 +170,111 @@
   <footer class="footer-custom">
     <span>© 2025 Forest Management — All Rights Reserved</span>
   </footer>
-  
-  <div class="modal-backdrop" id="skNonPnsModal">
-        <div class="modal-content-wrapper">
-            <div class="modal-header-custom">
-                <h5 id="modalTitle"><i class="fas fa-plus-circle"></i> Tambah Data SK Non PNS</h5>
-            </div>
-            <div class="modal-body-custom">
-                <form id="skNonPnsForm">
-                    <div class="row g-3">
-                        <div class="col-12"><label class="form-label">Pegawai</label><input type="text" class="form-control" placeholder="Lorem Ipsum"></div>
-                        <div class="col-12"><label class="form-label">Unit</label><select class="form-select"><option selected>Lorem Ipsum</option></select></div>
-                        <div class="col-md-6"><label class="form-label">Tanggal Mulai</label><input type="date" class="form-control"></div>
-                        <div class="col-md-6"><label class="form-label">Tanggal Selesai</label><input type="date" class="form-control"></div>
-                        <div class="col-12"><label class="form-label">Nomor SK</label><input type="text" class="form-control" placeholder="Lorem Ipsum"></div>
-                        <div class="col-12"><label class="form-label">Tanggal SK</label><input type="date" class="form-control"></div>
-                        <div class="col-12"><label class="form-label">Jenis SK</label><select class="form-select"><option selected>Lorem Ipsum</option></select></div>
-                        <div class="col-12">
-                            <label class="form-label">Jenis Dokumen</label>
-                            <div class="upload-area">
-                                <i class="fas fa-cloud-upload-alt"></i>
-                                <p>Drag & Drop File here<br><small>Ukuran Maksimal 5 MB</small></p>
-                                <input type="file" hidden>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer-custom">
-                <button type="button" class="btn btn-danger" onclick="closeModal('skNonPnsModal')">Batal</button>
-                <button type="button" class="btn btn-success">Simpan</button>
-            </div>
-        </div>
-    </div>
+  <!--Edit & Tambah modal-->  
+  <div class="modal fade" id="skNonPnsModal" tabindex="-1" aria-labelledby="skNonPnsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
 
+      <div class="modal-header">
+        <h5 class="modal-title" id="skNonPnsModalLabel"><i class="fas fa-plus-circle"></i> Tambah Data SK Non PNS</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <form id="skNonPnsForm">
+          <div class="row g-3">
+            <div class="col-12">
+              <label class="form-label">Pegawai</label>
+              <select class="form-select">
+                  <option selected>-- Pilih Pegawai --</option>
+                  </select>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Unit</label>
+              <select class="form-select">
+                  <option selected>-- Pilih Unit --</option>
+                  </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Tanggal Mulai</label>
+              <input type="date" class="form-control">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Tanggal Selesai</label>
+              <input type="date" class="form-control">
+            </div>
+            <div class="col-12">
+              <label class="form-label">Nomor SK</label>
+              <input type="text" class="form-control" placeholder="Masukkan Nomor SK">
+            </div>
+            <div class="col-12">
+              <label class="form-label">Tanggal SK</label>
+              <input type="date" class="form-control">
+            </div>
+            <div class="col-12">
+              <label class="form-label">Jenis SK</label>
+              <select class="form-select">
+                  <option selected>-- Pilih Jenis SK --</option>
+                  <option>Tenaga Kependidikan</option>
+                  <option>Dosen</option>
+              </select>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Unggah Dokumen SK</label>
+              <div class="upload-area">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <p>Seret & Lepas File di sini<br><small>Ukuran Maksimal 5 MB</small></p>
+                <input type="file" hidden>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-success">Simpan</button>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+  <!--Detail Modal-->
+  <div class="modal fade" id="modalDetailSkNonPns" tabindex="-1" aria-labelledby="modalDetailSkNonPnsLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalDetailSkNonPnsLabel"><i class="fas fa-info-circle"></i> Detail SK Non PNS</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="detail-grid-container">
+          <div class="detail-item"><small>Nama Kegiatan</small><p id="detail_sk_nama_kegiatan">-</p></div>
+          <div class="detail-item"><small>Unit</small><p id="detail_sk_unit">-</p></div>
+          <div class="detail-item"><small>Jenis SK</small><p id="detail_sk_jenis_sk">-</p></div>
+          <div class="detail-item"><small>Nomor SK</small><p id="detail_sk_nomor_sk">-</p></div>
+          <div class="detail-item"><small>Tanggal SK</small><p id="detail_sk_tanggal_sk">-</p></div>
+          <div class="detail-item"><small>Pegawai</small><p id="detail_sk_pegawai">-</p></div>
+          <div class="detail-item"><small>Tanggal Mulai</small><p id="detail_sk_tgl_mulai">-</p></div>
+          <div class="detail-item"><small>Tanggal Selesai</small><p id="detail_sk_tgl_selesai">-</p></div>
+        </div>
+
+        <h6 class="mt-4">Dokumen</h6>
+        <div class="document-viewer-container">
+          <embed id="detail_sk_document_viewer" src="" type="application/pdf" width="100%" height="600px" />
+        </div>
+      </div>
+
+      <div class="modal-footer justify-content-end">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+      </div>
+
+    </div>
+  </div>
+</div>
   <script src="{{ asset('assets/js/sk-non-pns.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
