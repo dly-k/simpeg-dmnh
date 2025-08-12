@@ -379,54 +379,7 @@ transition: all 0.3s ease;
   margin-left: 0;
 }
 
-/* Modal */
-.modal-backdrop {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  background-color: rgba(0,0,0,0.5);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 1050;
-  padding: 1rem;
-}
-.modal-content-wrapper {
-  background-color: var(--white);
-  border-radius: .5rem;
-  box-shadow: 0 5px 15px rgba(0,0,0,.5);
-  width: 100%;
-  max-width: 800px;
-  max-height: 90vh;
-  display: flex;
-  flex-direction: column;
-}
-.modal-header-custom {
-  background: linear-gradient(to right, var(--primary), var(--primary-dark));
-  color: var(--white);
-  padding: 1.25rem;
-  border-top-left-radius: .5rem;
-  border-top-right-radius: .5rem;
-}
-.modal-header-custom h5 {
-  margin: 0;
-  font-size: 1.25rem;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.modal-body-custom {
-  padding: 1.5rem;
-  overflow-y: auto;
-}
-.modal-footer-custom {
-  padding: 1rem;
-  display: flex;
-  justify-content: flex-end;
-  gap: .5rem;
-  border-top: 1px solid var(--border-color);
-}
+
 .upload-area {
   border: 2px dashed #dee2e6;
   border-radius: .5rem;
@@ -464,95 +417,105 @@ transition: all 0.3s ease;
   .btn-tambah { width: 100%; }
 }
 
-#modalDetailPenelitian .modal-header,
+
+#pelatihanModal .modal-header,
+#penghargaanModal .modal-header {
+  background: linear-gradient(to right, var(--primary), var(--primary-dark));
+  color: var(--white);
+}
+
 #modalDetailPelatihan .modal-header,
-#modalDetailPenghargaan .modal-header,
-#modalDetailPembimbingLuar .modal-header,
-#modalDetailPengujiLuar .modal-header,
-#modalDetailPembimbingLama .modal-header,
-#modalDetailPengujianLama .modal-header,
-#modalDetailPengajaranLuar .modal-header,
-#modalDetailPengajaranLama .modal-header {
-    background-color: #047857;
-    color: white;
-    border-bottom: none;
+#modalDetailPenghargaan .modal-header {
+  background-color: var(--primary-dark);
+  color: var(--white);
 }
 
-/* Penataan umum untuk semua modal (termasuk yang bukan detail) */
+
+/* 2. Gaya Umum untuk Komponen Modal */
+/* ----------------------------------- */
+/* Gaya ini berlaku untuk SEMUA header modal */
+.modal-header {
+  border-bottom: none;
+}
 .modal-header .btn-close {
-    filter: invert(1) grayscale(100%) brightness(200%);
+  filter: invert(1) grayscale(100%) brightness(200%);
 }
 
+/* Gaya ini berlaku untuk SEMUA judul modal */
 .modal-title {
-    font-weight: bold;
-    display: flex; 
-    align-items: center;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
 }
-
 .modal-title i {
-    margin-right: 10px; 
-    font-size: 1.2rem;
+  margin-right: 10px;
+  font-size: 1.2rem;
 }
 
 
-/*
- * BODY MODAL
- * Menata tata letak grid untuk menampilkan data.
-*/
+/* 3. Gaya untuk Konten di Dalam Modal */
+/* ----------------------------------- */
+/* Untuk semua modal detail (Pelatihan & Penghargaan) */
 .detail-grid-container {
-    display: grid;
-    /* Membuat 3 kolom jika ruang cukup, atau menyesuaikan secara responsif */
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-    padding: 1rem;
-    background-color: #f8f9fa;
-    border: 1px solid #dee2e6;
-    border-radius: 8px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
 }
-
-/* Setiap item data di dalam grid */
 .detail-item {
-    border-bottom: 1px solid #e9ecef;
-    padding-bottom: 0.5rem;
-    word-wrap: break-word; /* Memastikan teks panjang tidak merusak layout */
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 0.5rem;
+  word-wrap: break-word;
 }
-
-/* Label kecil di atas data (contoh: "Nama Pelatihan") */
 .detail-item small {
-    color: #6c757d;
-    display: block;
-    margin-bottom: 0.25rem;
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-transform: uppercase;
+  color: #6c757d;
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
 }
-
-/* Teks data utama */
 .detail-item p {
-    font-weight: 500;
-    margin: 0;
-    color: #212529;
-    font-size: 0.95rem;
+  font-weight: 500;
+  margin: 0;
+  color: #212529;
+  font-size: 0.95rem;
 }
-
-/* Kelas khusus untuk item yang butuh lebar penuh (contoh: Judul) */
-.full-width-detail {
-    grid-column: 1 / -1; 
-}
-
-
-/*
- * DOKUMEN VIEWER
- * Menata area pratinjau PDF.
-*/
 .document-viewer-container {
-    border: 1px solid #dee2e6;
-    border-radius: 8px;
-    overflow: hidden;
-    margin-top: 1rem;
-    background-color: #525659; /* Latar belakang gelap jika PDF gagal dimuat */
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 1rem;
+  background-color: #525659;
 }
+.document-viewer-container embed { display: block; }
+.full-width-detail { grid-column: 1 / -1; }
 
-.document-viewer-container embed {
-    display: block; /* Menghilangkan spasi ekstra di bawah embed */
+
+/* Untuk semua form di modal (Tambah/Edit) */
+.upload-area {
+  border: 2px dashed #dee2e6;
+  border-radius: .5rem;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color .2s;
+}
+.upload-area:hover { background-color: #f8f9fa; }
+.upload-area i { font-size: 2rem; color: var(--gray); }
+.upload-area p { margin-top: 1rem; color: var(--gray); }
+
+.dynamic-row {
+  border: 1px solid var(--border-color);
+  border-radius: .375rem;
+  padding: 1rem;
+  position: relative;
+}
+.dynamic-row-close-btn {
+  position: absolute;
+  top: .5rem;
+  right: .5rem;
 }
