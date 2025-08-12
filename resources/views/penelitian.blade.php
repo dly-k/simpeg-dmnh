@@ -182,7 +182,7 @@
                   <div class="d-flex gap-2 justify-content-center">
                       <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a>
                       <a href="javascript:void(0);" id="btnLihatDetail" class="btn-aksi btn-lihat" title="Lihat Detail"><i class="fa fa-eye"></i></a>
-                      <a href="#" class="btn-aksi btn-edit" title="Edit Data"><i class="fa fa-edit"></i></a>
+                      <a href="#" class="btn-aksi btn-edit" title="Edit Data"  onclick="openEditModal()"><i class="fa fa-edit"></i></a>
                       <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
                   </div>
               </td>
