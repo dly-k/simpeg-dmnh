@@ -112,7 +112,22 @@ function initKerjasamaPage() {
                 setText('detail_kerjasama_tmt', data.tmt);
                 setText('detail_kerjasama_tst', data.tst);
                 setText('detail_kerjasama_departemen', data.departemen);
-                setText('detail_kerjasama_tim', data.tim);
+                const ketuaEl = document.getElementById('detail_ketua');
+                if (ketuaEl) ketuaEl.textContent = itemData.ketua || '-';
+
+                const anggotaListEl = document.getElementById('detail_anggota_list');
+                if (anggotaListEl) {
+                    anggotaListEl.innerHTML = '';
+                    if (itemData.anggota && itemData.anggota.length > 0) {
+                        itemData.anggota.forEach(anggota => {
+                            const li = document.createElement('li');
+                            li.textContent = anggota;
+                            anggotaListEl.appendChild(li);
+                        });
+                    } else {
+                        anggotaListEl.innerHTML = '<li>-</li>';
+                    }
+                }
                 setText('detail_kerjasama_lokasi', data.lokasi);
                 setText('detail_kerjasama_dana', data.dana);
                 setText('detail_kerjasama_jenis', data.jenis);

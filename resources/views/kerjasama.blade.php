@@ -221,7 +221,15 @@
           <div class="detail-item"><small>TMT</small><p id="detail_kerjasama_tmt">-</p></div>
           <div class="detail-item"><small>TST</small><p id="detail_kerjasama_tst">-</p></div>
           <div class="detail-item"><small>Departemen/Prodi</small><p id="detail_kerjasama_departemen">-</p></div>
-          <div class="detail-item full-width-detail"><small>Ketua/Anggota</small><p id="detail_kerjasama_tim">-</p></div>
+          <div class="detail-item full-width-detail">
+              <small>Ketua Tim</small>
+              <p id="detail_ketua" class="fw">-</p>
+          </div>
+          <div class="detail-item full-width-detail">
+              <small>Anggota Tim</small>
+              <ul id="detail_anggota_list" class="list-unstyled mb-0 ps-2">
+                  </ul>
+          </div>
           <div class="detail-item"><small>Lokasi</small><p id="detail_kerjasama_lokasi">-</p></div>
           <div class="detail-item"><small>Besaran Dana</small><p id="detail_kerjasama_dana">-</p></div>
           <div class="detail-item"><small>Jenis Kerjasama</small><p id="detail_kerjasama_jenis">-</p></div>
