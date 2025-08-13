@@ -251,65 +251,65 @@ function initKerjasamaPage() {
     }
 }
 
-// === Fungsi untuk Modal Konfirmasi Hapus ===
 function initDeleteModal() {
     const modal = document.getElementById('modalKonfirmasiHapus');
     const btnKonfirmasi = document.getElementById('btnKonfirmasiHapus');
     const btnBatal = document.getElementById('btnBatalHapus');
-    
+
     let currentItemToDelete = null;
     let currentRowElement = null;
 
-    // Fungsi untuk menampilkan modal hapus
+    // Fungsi untuk menampilkan modal hapus dengan animasi
     window.showDeleteModal = function(itemData, rowElement) {
         currentItemToDelete = itemData;
         currentRowElement = rowElement;
-        
-        // Isi informasi yang akan dihapus
-        // const modalTitle = document.querySelector('#modalKonfirmasiHapus .konfirmasi-hapus-title');
-        // if (modalTitle) {
-        //     modalTitle.textContent = `Apakah Anda yakin menghapus "${itemData.judul}"?`;
-        // }
-        
-        // Tampilkan modal
+
         if (modal) {
+            // Pastikan modal terlihat dulu (display flex) tapi belum ada animasi
             modal.style.display = 'flex';
+
+            // Sedikit delay supaya CSS transition bisa ke-trigger
+            requestAnimationFrame(() => {
+                modal.classList.add('show');
+            });
+
             document.body.style.overflow = 'hidden';
         }
-    }
+    };
 
-    // Fungsi untuk menyembunyikan modal
+    // Fungsi untuk menyembunyikan modal dengan animasi
     function hideDeleteModal() {
         if (modal) {
-            modal.style.display = 'none';
-            document.body.style.overflow = '';
+            // Hapus class show untuk memicu fade-out
+            modal.classList.remove('show');
+
+            // Tunggu transisi selesai sebelum benar-benar sembunyikan
+            setTimeout(() => {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            }, 300); // sesuai transition: 0.3s di CSS
         }
         currentItemToDelete = null;
         currentRowElement = null;
     }
 
-    // Event listener untuk tombol konfirmasi hapus
+    // Event tombol konfirmasi hapus
     if (btnKonfirmasi) {
         btnKonfirmasi.addEventListener('click', function() {
             if (currentItemToDelete && currentRowElement) {
-                // Hapus dari tampilan tabel
                 currentRowElement.remove();
-                
-                // Tampilkan notifikasi
                 showToast('success', `Data "${currentItemToDelete.judul}" berhasil dihapus`);
-                
-                // Sembunyikan modal
                 hideDeleteModal();
             }
         });
     }
 
-    // Event listener untuk tombol batal
+    // Event tombol batal
     if (btnBatal) {
         btnBatal.addEventListener('click', hideDeleteModal);
     }
 
-    // Tutup modal ketika klik di luar area modal
+    // Klik di luar modal untuk menutup
     if (modal) {
         modal.addEventListener('click', function(e) {
             if (e.target === modal) {
@@ -318,13 +318,14 @@ function initDeleteModal() {
         });
     }
 
-    // Tutup modal ketika tekan tombol ESC
+    // Tekan ESC untuk menutup
     document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && modal.style.display === 'flex') {
+        if (e.key === 'Escape' && modal.classList.contains('show')) {
             hideDeleteModal();
         }
     });
 }
+
 
 // === Fungsi Helper ===
 

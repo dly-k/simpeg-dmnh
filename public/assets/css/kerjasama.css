@@ -572,7 +572,7 @@ body {
   }
 }
 
-  /* ======================================= */
+/* ======================================= */
 /* ===   CSS UNTUK MODAL KONFIRMASI    === */
 /* ======================================= */
 
@@ -588,6 +588,17 @@ body {
     justify-content: center;
     align-items: center;
     z-index: 9999;
+
+    /* Awal disembunyikan */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+}
+
+/* Saat aktif (ditampilkan) */
+.konfirmasi-hapus-overlay.show {
+    opacity: 1;
+    visibility: visible;
 }
 
 /* Kotak Konten */
@@ -599,6 +610,17 @@ body {
     width: 90%;
     max-width: 500px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+
+    /* Animasi scale */
+    transform: scale(0.9);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+/* Saat overlay aktif, konten akan fade-in & zoom-in */
+.konfirmasi-hapus-overlay.show .konfirmasi-hapus-box {
+    transform: scale(1);
+    opacity: 1;
 }
 
 /* Ikon Lingkaran Kuning */
