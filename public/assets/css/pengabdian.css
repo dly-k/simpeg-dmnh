@@ -979,9 +979,6 @@
     animation: modalContentShow 0.3s ease-out;
 }
 
-/* Animasi untuk Modal Detail (hanya kontennya) */
-/* Animasi pada konten modal detail sudah ada dari @keyframes fadeIn */
-
 /* Animasi untuk Modal Konfirmasi Verifikasi */
 .konfirmasi-pengabdian-box {
     animation: modalContentZoomIn 0.3s ease-out;
