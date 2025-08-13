@@ -153,6 +153,52 @@ document.addEventListener('DOMContentLoaded', function () {
       if (verifModal) verifModal.style.display = 'none';
     });
   }
+
+  // === Delete Confirmation Modal Logic ===
+  const deleteModal = document.getElementById('modalKonfirmasiHapus');
+  const btnBatalHapus = document.getElementById('btnBatalHapus');
+  const btnKonfirmasiHapus = document.getElementById('btnKonfirmasiHapus');
+  let dataToDelete = null;
+
+  document.addEventListener('click', function(event) {
+    if (event.target.closest('.btn-hapus')) {
+      event.preventDefault();
+      dataToDelete = event.target.closest('tr').querySelector('td:first-child').textContent;
+      if (deleteModal) deleteModal.style.display = 'flex';
+    }
+  });
+
+  if (deleteModal) {
+    deleteModal.addEventListener('click', function(e) {
+      if (e.target === deleteModal) {
+        deleteModal.style.display = 'none';
+      }
+    });
+  }
+
+  if (btnBatalHapus) {
+    btnBatalHapus.addEventListener('click', function() {
+      if (deleteModal) deleteModal.style.display = 'none';
+    });
+  }
+
+  if (btnKonfirmasiHapus) {
+    btnKonfirmasiHapus.addEventListener('click', function() {
+      if (dataToDelete) {
+        alert(`Data dengan ID ${dataToDelete} berhasil dihapus`);
+        // Here you would typically make an AJAX call to delete the data
+        // Example:
+        // fetch(`/api/pengabdian/${dataToDelete}`, {
+        //   method: 'DELETE'
+        // }).then(response => {
+        //   if(response.ok) {
+        //     location.reload();
+        //   }
+        // });
+      }
+      if (deleteModal) deleteModal.style.display = 'none';
+    });
+  }
 });
 
 // === Modal Functions ===
@@ -242,5 +288,10 @@ window.addEventListener('click', function (event) {
   const pengabdianDetailModal = document.getElementById("pengabdianDetailModal");
   if (event.target === pengabdianDetailModal) {
     pengabdianDetailModal.style.display = "none";
+  }
+
+  const deleteModal = document.getElementById("modalKonfirmasiHapus");
+  if (event.target === deleteModal) {
+    deleteModal.style.display = "none";
   }
 });
