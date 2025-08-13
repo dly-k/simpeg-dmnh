@@ -1,4 +1,4 @@
-    :root {
+:root {
   --primary: #049466;
   --primary-light: #e3f7ec;
   --primary-dark: #047857;
@@ -946,4 +946,48 @@
 }
 .btn-popup.btn-hapus:hover {
     background-color: #16a34a;
+}
+
+/* ======================================= */
+/* ===         ANIMASI MODAL           === */
+/* ======================================= */
+
+@keyframes modalContentShow {
+    from {
+        opacity: 0;
+        transform: translateY(-25px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes modalContentZoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Animasi untuk Modal Tambah/Edit Data */
+#pengabdianModal .modal-content-wrapper {
+    animation: modalContentShow 0.3s ease-out;
+}
+
+/* Animasi untuk Modal Detail (hanya kontennya) */
+/* Animasi pada konten modal detail sudah ada dari @keyframes fadeIn */
+
+/* Animasi untuk Modal Konfirmasi Verifikasi */
+.konfirmasi-pengabdian-box {
+    animation: modalContentZoomIn 0.3s ease-out;
+}
+
+/* Animasi untuk Modal Konfirmasi Hapus */
+.konfirmasi-hapus-box {
+    animation: modalContentZoomIn 0.3s ease-out;
 }
