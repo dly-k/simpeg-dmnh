@@ -65,3 +65,7 @@ Route::get('/master-data', function () {
 Route::get('/sidebar', function () {
     return view('sidebar');
 });
+
+Route::get('/edit-pegawai', function () {
+    return view('edit-pegawai');
+});

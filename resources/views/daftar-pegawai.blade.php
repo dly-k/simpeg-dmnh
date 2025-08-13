@@ -203,7 +203,9 @@
                           <a href="/detail-pegawai" class="btn-aksi btn-lihat" title="Lihat Detail">
                             <i class="fa fa-eye"></i>
                           </a>
-                         <button class="btn btn-aksi btn-edit" title="Edit" onclick='openEditModal(${JSON.stringify(item)})'><i class="lni lni-pencil-alt"></i></button>
+                          <a href="/edit-pegawai" class="btn-aksi btn-edit" title="Edit Data">
+                            <i class="fa fa-edit"></i>
+                          </a>
                           <a href="#" class="btn-aksi btn-hapus" title="Hapus Data">
                             <i class="fa fa-trash"></i>
                           </a>
