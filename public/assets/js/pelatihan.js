@@ -71,46 +71,29 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     setupUploadArea();
 
-
-    // ====================================================================
-    // === LOGIKA BARU: Menggunakan Event Listener Bawaan Bootstrap 5 ===
-    // ====================================================================
-
-    // 1. Logika untuk Modal Tambah/Edit Pelatihan
+    // === Logic untuk Modal Tambah/Edit Pelatihan (Tidak Berubah) ===
     const pelatihanModal = document.getElementById('pelatihanModal');
     if (pelatihanModal) {
         const modalTitle = pelatihanModal.querySelector('.modal-title');
         const pelatihanForm = document.getElementById('pelatihanForm');
 
-        // Mendengarkan event 'show.bs.modal' yang dipicu oleh Bootstrap
-        // setiap kali modal ini akan ditampilkan
         pelatihanModal.addEventListener('show.bs.modal', function(event) {
-            // event.relatedTarget adalah elemen (tombol) yang memicu modal
             const button = event.relatedTarget;
 
-            // Memeriksa apakah tombol yang diklik adalah tombol "Edit"
             if (button && button.classList.contains('btn-edit')) {
-                // Jika ya, ubah judul modal menjadi "Edit"
                 modalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Data Pelatihan';
-                // Di masa depan, Anda bisa menambahkan logika di sini untuk mengisi form
-                // dengan data yang ada, contoh:
-                // document.getElementById('nama-pelatihan-input').value = button.dataset.namaPelatihan;
             } else {
-                // Jika bukan tombol Edit (berarti tombol "Tambah Data"), ubah judul
                 modalTitle.innerHTML = '<i class="fas fa-plus-circle"></i> Tambah Data Pelatihan';
                 
-                // Pastikan form dikosongkan saat menambah data baru
                 if (pelatihanForm) {
                     pelatihanForm.reset();
                 }
                 
-                // Kosongkan juga daftar anggota dinamis
                 const anggotaList = document.getElementById('anggota-list');
                 if (anggotaList) {
                     anggotaList.innerHTML = '';
                 }
 
-                // Reset area upload file
                 const uploadArea = pelatihanModal.querySelector('.upload-area');
                 if (uploadArea && typeof uploadArea.reset === 'function') {
                     uploadArea.reset();
@@ -119,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // 2. Logika untuk Modal Detail (Tidak berubah, hanya dipindahkan ke sini)
+    // === Logic untuk Modal Detail (Tidak Berubah) ===
     document.addEventListener('click', function(event) {
         const detailButton = event.target.closest('.btn-lihat-detail-pelatihan');
         if (detailButton) {
@@ -144,10 +127,122 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     });
+
+    // === Logic untuk Modal Konfirmasi Hapus (Yang Diperbarui) ===
+    const modalKonfirmasiHapus = document.getElementById('modalKonfirmasiHapus');
+    const btnKonfirmasiHapus = document.getElementById('btnKonfirmasiHapus');
+    const btnBatalHapus = document.getElementById('btnBatalHapus');
+    let dataToDelete = null;
+
+// Fungsi untuk menampilkan modal
+function showDeleteModal() {
+    const modal = document.getElementById('modalKonfirmasiHapus');
+    if (modal) {
+        modal.style.display = 'flex'; // Ubah ke flex
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+// Fungsi untuk menyembunyikan modal
+function hideDeleteModal() {
+    const modal = document.getElementById('modalKonfirmasiHapus');
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+}
+
+// Event listener untuk tombol hapus
+document.addEventListener('click', function(e) {
+    if (e.target.closest('.btn-hapus')) {
+        e.preventDefault();
+        showDeleteModal();
+    }
+});
+
+// Event listener untuk tombol batal
+document.getElementById('btnBatalHapus')?.addEventListener('click', hideDeleteModal);
+
+// Event listener untuk klik di luar modal
+document.getElementById('modalKonfirmasiHapus')?.addEventListener('click', function(e) {
+    if (e.target === this) {
+        hideDeleteModal();
+    }
+});
+
+    // Event delegation untuk tombol hapus
+    document.addEventListener('click', function(event) {
+        const deleteButton = event.target.closest('.btn-hapus');
+        if (deleteButton) {
+            event.preventDefault();
+            // Simpan data yang akan dihapus
+            const row = deleteButton.closest('tr');
+            dataToDelete = {
+                id: deleteButton.dataset.id || row?.querySelector('td:first-child')?.textContent,
+                nama: deleteButton.dataset.nama || row?.querySelector('td:nth-child(2)')?.textContent,
+                element: row
+            };
+            // Tampilkan modal konfirmasi
+            showDeleteModal();
+        }
+    });
+
+    // Handler untuk tombol konfirmasi hapus
+    if (btnKonfirmasiHapus) {
+        btnKonfirmasiHapus.addEventListener('click', function() {
+            if (dataToDelete) {
+                // Lakukan penghapusan data (AJAX atau lainnya)
+                console.log('Menghapus data:', dataToDelete);
+                
+                // Contoh AJAX call:
+                /*
+                fetch(`/api/pelatihan/${dataToDelete.id}`, {
+                    method: 'DELETE'
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // Hapus baris dari tabel jika sukses
+                        dataToDelete.element?.remove();
+                        alert(`Data "${dataToDelete.nama}" berhasil dihapus`);
+                    } else {
+                        alert('Gagal menghapus data');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat menghapus data');
+                });
+                */
+                
+                // Untuk demo langsung hapus elemen
+                dataToDelete.element?.remove();
+                alert(`Data "${dataToDelete.nama}" berhasil dihapus`);
+            }
+            hideDeleteModal();
+        });
+    }
+
+    // Handler untuk tombol batal
+    if (btnBatalHapus) {
+        btnBatalHapus.addEventListener('click', hideDeleteModal);
+    }
+
+    // Tutup modal ketika klik di luar area modal
+    modalKonfirmasiHapus?.addEventListener('click', function(event) {
+        if (event.target === modalKonfirmasiHapus) {
+            hideDeleteModal();
+        }
+    });
+
+    // Tutup modal ketika tekan tombol ESC
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && modalKonfirmasiHapus.style.display === 'block') {
+            hideDeleteModal();
+        }
+    });
 });
 
 // === Fungsi Global yang Masih Diperlukan ===
-// Fungsi ini tetap di luar karena dipanggil oleh `onclick` di dalam HTML.
 function addAnggota() {
     const list = document.getElementById('anggota-list');
     if (!list) return;
