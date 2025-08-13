@@ -428,6 +428,18 @@ body {
     font-size: 13px;
 }
 
+.detail-box {
+    border: 1px solid #e7e7e7; /* warna border form Bootstrap */
+    border-radius: 0.25rem; /* sudut tumpul */
+    padding: 0.375rem 0.75rem; /* padding mirip form-control-sm */
+    font-size: 0.875rem; /* ukuran kecil */
+    color: #495057; /* warna teks default */
+    min-height: calc(1.5em + 0.75rem + 2px); /* tinggi seperti input */
+    display: flex;
+    align-items: center;
+    white-space: pre-wrap; /* biar multiline tetap rapi */
+}
+
 /* === Aksi Buttons === */
 .btn-aksi {
   width: 32px;
