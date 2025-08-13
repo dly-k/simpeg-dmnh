@@ -101,20 +101,20 @@ document.addEventListener('DOMContentLoaded', function () {
             if (detailButton) {
                 const data = detailButton.dataset;
                 // Mengisi data utama
-            document.getElementById('detail_penghargaan_pegawai').textContent = data.pegawai || '-';
-            document.getElementById('detail_penghargaan_kegiatan').textContent = data.kegiatan || '-';
-            document.getElementById('detail_penghargaan_nama_penghargaan').textContent = data.nama_penghargaan || '-';
-            document.getElementById('detail_penghargaan_nomor').textContent = data.nomor || '-';
-            document.getElementById('detail_penghargaan_tanggal_perolehan').textContent = data.tanggal_perolehan || '-';
-            document.getElementById('detail_penghargaan_lingkup').textContent = data.lingkup || '-';
-            document.getElementById('detail_penghargaan_negara').textContent = data.negara || '-';
-            document.getElementById('detail_penghargaan_instansi').textContent = data.instansi || '-';
+                document.getElementById('detail_penghargaan_pegawai').textContent = data.pegawai || '-';
+                document.getElementById('detail_penghargaan_kegiatan').textContent = data.kegiatan || '-';
+                document.getElementById('detail_penghargaan_nama_penghargaan').textContent = data.nama_penghargaan || '-';
+                document.getElementById('detail_penghargaan_nomor').textContent = data.nomor || '-';
+                document.getElementById('detail_penghargaan_tanggal_perolehan').textContent = data.tanggal_perolehan || '-';
+                document.getElementById('detail_penghargaan_lingkup').textContent = data.lingkup || '-';
+                document.getElementById('detail_penghargaan_negara').textContent = data.negara || '-';
+                document.getElementById('detail_penghargaan_instansi').textContent = data.instansi || '-';
 
-            // Mengisi data dokumen
-            document.getElementById('detail_penghargaan_jenis_dokumen').textContent = data.jenis_dokumen || '-';
-            document.getElementById('detail_penghargaan_nama_dokumen').textContent = data.nama_dokumen || '-';
-            document.getElementById('detail_penghargaan_nomor_dokumen').textContent = data.nomor_dokumen || '-';
-            document.getElementById('detail_penghargaan_tautan').textContent = data.tautan || '-';
+                // Mengisi data dokumen
+                document.getElementById('detail_penghargaan_jenis_dokumen').textContent = data.jenis_dokumen || '-';
+                document.getElementById('detail_penghargaan_nama_dokumen').textContent = data.nama_dokumen || '-';
+                document.getElementById('detail_penghargaan_nomor_dokumen').textContent = data.nomor_dokumen || '-';
+                document.getElementById('detail_penghargaan_tautan').textContent = data.tautan || '-';
 
                 // Memperbarui viewer dokumen
                 const docViewer = document.getElementById('detail_penghargaan_document_viewer');
@@ -124,7 +124,97 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
-});
 
-// FUNGSI LAMA (openModal, openEditModal, closeModal, window.addEventListener) SUDAH DIHAPUS
-// KARENA SUDAH TIDAK DIPERLUKAN LAGI.
+    // === 3. Logika untuk Modal Konfirmasi Hapus ===
+    const modalKonfirmasiHapus = document.getElementById('modalKonfirmasiHapus');
+    const btnKonfirmasiHapus = document.getElementById('btnKonfirmasiHapus');
+    const btnBatalHapus = document.getElementById('btnBatalHapus');
+    let dataToDelete = null;
+
+    // Fungsi untuk menampilkan modal hapus
+    function showDeleteModal() {
+        if (modalKonfirmasiHapus) {
+            modalKonfirmasiHapus.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    // Fungsi untuk menyembunyikan modal hapus
+    function hideDeleteModal() {
+        if (modalKonfirmasiHapus) {
+            modalKonfirmasiHapus.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+    }
+
+    // Event delegation untuk tombol hapus
+    document.addEventListener('click', function(event) {
+        const deleteButton = event.target.closest('.btn-hapus');
+        if (deleteButton) {
+            event.preventDefault();
+            // Simpan data yang akan dihapus
+            const row = deleteButton.closest('tr');
+            dataToDelete = {
+                id: deleteButton.dataset.id || row?.querySelector('td:first-child')?.textContent,
+                nama: deleteButton.dataset.nama || row?.querySelector('td:nth-child(2)')?.textContent,
+                element: row
+            };
+            // Tampilkan modal konfirmasi
+            showDeleteModal();
+        }
+    });
+
+    // Handler untuk tombol konfirmasi hapus
+    if (btnKonfirmasiHapus) {
+        btnKonfirmasiHapus.addEventListener('click', function() {
+            if (dataToDelete) {
+                // Lakukan penghapusan data (AJAX atau lainnya)
+                console.log('Menghapus data:', dataToDelete);
+                
+                // Contoh AJAX call:
+                /*
+                fetch(`/api/penghargaan/${dataToDelete.id}`, {
+                    method: 'DELETE'
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // Hapus baris dari tabel jika sukses
+                        dataToDelete.element?.remove();
+                        alert(`Data "${dataToDelete.nama}" berhasil dihapus`);
+                    } else {
+                        alert('Gagal menghapus data');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat menghapus data');
+                });
+                */
+                
+                // Untuk demo langsung hapus elemen
+                dataToDelete.element?.remove();
+                alert(`Data "${dataToDelete.nama}" berhasil dihapus`);
+            }
+            hideDeleteModal();
+        });
+    }
+
+    // Handler untuk tombol batal
+    if (btnBatalHapus) {
+        btnBatalHapus.addEventListener('click', hideDeleteModal);
+    }
+
+    // Tutup modal ketika klik di luar area modal
+    modalKonfirmasiHapus?.addEventListener('click', function(event) {
+        if (event.target === modalKonfirmasiHapus) {
+            hideDeleteModal();
+        }
+    });
+
+    // Tutup modal ketika tekan tombol ESC
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && modalKonfirmasiHapus.style.display === 'flex') {
+            hideDeleteModal();
+        }
+    });
+});
