@@ -170,7 +170,7 @@
                                     <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Ilmu Pengelolaan Hutan">
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small text-secondary">Tgl. Lahir*</label>
+                                    <label class="small text-secondary">Tanggal Lahir*</label>
                                     <input type="date" class="form-control form-control-sm">
                                 </div>
                             </div>

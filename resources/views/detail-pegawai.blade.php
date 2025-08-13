@@ -94,929 +94,1083 @@
             </div>
             <div class="card">
                 <div class="card-body p-4">
-                    <div class="d-flex flex-column flex-md-row gap-4 mb-5" style=" margin-bottom: 20px !important">
+                    <div class="d-flex flex-column flex-md-row gap-4 mb-5" style=" margin-bottom: 30px !important">
                         <div class="text-center flex-shrink-0">
                             <!-- Foto -->
                             <div style="width: 220px; height: 250px; background-color: #e9ecef; position: relative; overflow: hidden; border-radius: 3px;" 
                                 class="mb-2 mx-auto d-flex align-items-center justify-content-center">
                                 <i class="lni lni-user" style="font-size: 5rem; color: #bfbfbf;"></i>
                             </div>
-
                             <!-- Tombol Edit -->
                             <button class="btn btn-editfoto btn-sm w-100" style="max-width: 220px" onclick="editPhoto()">
                                 Edit Foto
                             </button>
                         </div>
-                        <div class="flex-grow-1">      
-                        <table class="table table-bordered table-sm table-sm detail-pegawai">
-                            <tbody>
-                                <tr>
-                                    <th class="text-start" style="width: 200px;">NIP</th>
-                                    <td>3212302291827320009</td>
-                                </tr>
-                                <tr>
-                                    <th class="text-start">Nama Lengkap</th>
-                                    <td>Joko Anwar S.pd</td>
-                                </tr>
-                                <tr>
-                                    <th class="text-start">Jenis Kelamin</th>
-                                    <td>Laki-laki</td>
-                                </tr>
-                                <tr>
-                                    <th class="text-start">Tempat Lahir</th>
-                                    <td>Jakarta</td>
-                                </tr>
-                                <tr>
-                                    <th class="text-start">Tgl. Lahir</th>
-                                    <td>13-08-1961</td>
-                                </tr>
-                                                                <tr>
-                                    <th class="text-start">Agama</th>
-                                    <td>Islam</td>
-                                </tr>
-                                <tr>
-                                    <th class="text-start">Status Pernikahan</th>
-                                    <td>Belum Menikah</td>
-                                </tr>
-                                <tr>
-                                    <th class="text-start">Pendidikan Terakhir</th>
-                                    <td>S3</td>
-                                </tr>
-                                <tr>
-                                    <th class="text-start">Bidang Ilmu</th>
-                                    <td>Ilmu Pengelolaan Hutan</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                     </div>
+                        <div class="flex-grow-1">
+                            <div class="row g-3">
+
+                                <div class="col-md-6">
+                                    <label class="small text-secondary">NIP</label>
+                                    <div class="detail-box">3212302291827320009</div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="small text-secondary">Agama</label>
+                                    <div class="detail-box">Islam</div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="small text-secondary">Nama Lengkap</label>
+                                    <div class="detail-box">Joko Anwar S.Hut</div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="small text-secondary">Status Pernikahan</label>
+                                    <div class="detail-box">Belum Menikah</div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="small text-secondary">Jenis Kelamin</label>
+                                    <div class="detail-box">Laki-laki</div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="small text-secondary">Pendidikan Terakhir</label>
+                                    <div class="detail-box">S3</div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="small text-secondary">Tempat Lahir</label>
+                                    <div class="detail-box">Jakarta</div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="small text-secondary">Bidang Ilmu</label>
+                                    <div class="detail-box">Ilmu Pengelolaan Hutan</div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="small text-secondary">Tanggal Lahir</label>
+                                    <div class="detail-box">13 Agustus 1961</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <hr class="mb-4" style="color: #939393">
-                    <div class="d-flex flex-column flex-lg-row gap-4">
-                        <div class="nav flex-column nav-pills main-tab-nav" id="main-tab-nav" style="min-width: 20px; flex-shrink:0;">
-                            <button class="nav-link text-start active" data-main-tab="biodata">Biodata</button>
-                            <button class="nav-link text-start" data-main-tab="pendidikan">Pelaksanaan Pendidikan</button>
-                            <button class="nav-link text-start" data-main-tab="penelitian">Pelaksanaan Penelitian</button>
-                            <button class="nav-link text-start" data-main-tab="pengabdian">Pelaksanaan Pengabdian</button>
-                            <button class="nav-link text-start" data-main-tab="penunjang">Penunjang</button>
-                            <button class="nav-link text-start" data-main-tab="pelatihan">Pelatihan</button>
-                            <button class="nav-link text-start" data-main-tab="penghargaan">Penghargaan</button>
-                        </div>
-                        
-                        <div class="flex-grow-1">
-                            <!-- Biodata Content -->
-                            <div class="main-tab-content" id="biodata-content" style="display: block;">
-                                <div id="biodata-sub-tabs" class="btn-group flex-wrap gap-2 mb-4">
-                                    <button type="button" class="btn active" data-tab="kepegawaian">Kepegawaian</button>
-                                    <button type="button" class="btn" data-tab="dosen">Dosen</button>
-                                    <button type="button" class="btn" data-tab="domisili">Alamat Domisili & Kontak</button>
-                                    <button type="button" class="btn" data-tab="kependudukan">Kependudukan</button>
-                                    <button type="button" class="btn" data-tab="efile">E-File</button>
-                                </div>
-                                <div class="sub-tab-content" id="kepegawaian" style="display: block;"><div class="row g-3"><div class="col-md-6 form-group"><label class="small text-secondary">Status Kepegawaian</label><select class="form-select form-select-sm"><option selected>Dosen PNS</option><option>Tendik PNS</option><option>Dosen Tetap</option><option>Tendik Tetap</option><option>Tendik Kontrak</option><option>Dosen Tamu</option><option>Tenaga Harian Lepas (THL)</option></select></div><div class="col-md-6 form-group"><label class="small text-secondary">Status Pegawai</label><select class="form-select form-select-sm"><option selected>Aktif</option><option>Pensiun</option><option>Diberhentikan</option><option>Meninggal Dunia</option><option>Kontrak Selesai</option><option>Mengundurkan diri</option><option>Mutasi</option></select></div><div class="col-md-6 form-group"><label class="small text-secondary">Unit Kerja</label><input type="text" class="form-control form-control-sm"  style="background-color: #e9ecef; color: #495057" value="Fakultas Kehutanan dan Lingkungan" readonly></div><div class="col-md-6 form-group"><label class="small text-secondary">Divisi</label><input type="text" class="form-control form-control-sm"  style="background-color: #e9ecef; color: #495057" value="Departemen Manajemen Hutan" readonly></div><div class="col-md-6 form-group"><label class="small text-secondary">Nomor Arsip Berkas Kepegawaian</label><input type="text" class="form-control form-control-sm"></div><div class="col-md-6 form-group"><label class="small text-secondary">Jabatan Fungsional</label><select class="form-select form-select-sm"><option>Tidak ada</option><option>Dosen</option><option>Asisten Ahli</option><option>Lektor</option><option>Lektor Kepala</option><option>Guru Besar</option><option>Pranata Laboratorium Pendidikan Pelaksana Lanjutan</option><option>Pranata Laboratorium Pendidikan Muda</option><option>Pranata Laboratorium Pendidikan Pertama</option><option>Teknisi Hardware dan Software</option><option>Pengadministrasi Akademik & Kemahasiswaan PS IPH</option><option>Pengadministrasi Akademik & Kemahasiswaan MNH</option><option>Pengadministrasi Umum, Sarana & Prasarana</option><option>Pengadministrasi Persuratan & Arsip</option><option>Pengadministrasi Jurnal Ilmiah</option><option>Adm. Bagian/Divisi</option><option>Staf Kepegawaian</option><option>Laboran Penafsiran Potret Udara</option><option>Pramu Kantor</option><option>Pramu Gedung dan Halaman</option><option>Media Branding & Staf Jurnal Departemen</option></select></div><div class="col-md-6 form-group"><label class="small text-secondary">Pangkat/Golongan</label><select class="form-select form-select-sm"><option selected>Juru Muda / I-a</option><option>Juru Muda Tingkat I / I-b</option><option>Juru / I-c</option><option>Juru Tingkat I / I-d</option><option>Pengatur Muda / II-a</option><option>Pengatur Muda Tingkat I / II-b</option><option>Pengatur / II-c</option><option>Pengatur Tingkat I / II-d</option><option>Penata Muda / III-a</option><option>Penata Muda Tingkat I / III-b</option><option>Penata III/c</option><option>Penata Tingkat I / III-d</option><option>Pembina / IV-a</option><option>Pembina Tingkat I / IV-b</option><option>Pembina Utama Muda / IV-c</option><option>Pembina Utama Madya / IV-d</option><option>Pembina Utama / IV-e</option></select></div><div class="col-md-6 form-group"><label class="small text-secondary">TMT Pangkat Terakhir</label><input type="date" class="form-control form-control-sm"></div><div class="col-md-6 form-group"><label class="small text-secondary">Jabatan Struktural (jika ada)</label>
-                                    <select class="form-select form-select-sm">
-                                    <option selected>Tidak ada</option>
-                                    <option value="ketua-departemen-mnh">Ketua Departemen MNH</option>
-                                    <option value="sekretaris-departemen-mnh">Sekretaris Departemen MNH</option>
-                                    <option value="sekretaris-prodi">Sekretaris Program Studi</option>
-                                    <option value="ketua-prodi-pp-ip-h">Ketua Program Studi Pascasarjana IPH</option>
-                                    <option value="sekretaris-prodi-pp-ip-h">Sekretaris Program Studi Pascasarjana IPH</option>
-                                    <option value="ktu">Kepala Tata Usaha (KTU)</option>
-                                    <option value="sub-koordinator-akademik">Sub Koordinator Administrasi Akademik</option>
-                                    <option value="sub-koordinator-keuangan-umum">Sub Koordinator Keuangan dan Umum</option>
-                                    <option value="komisi-akademik">Komisi Akademik</option>
-                                    <option value="anggota-komisi-akademik">Anggota Komisi Akademik</option>
-                                    <option value="komisi-kemahasiswaan">Komisi Kemahasiswaan</option>
-                                    <option value="anggota-komisi-kemahasiswaan">Anggota Komisi Kemahasiswaan</option>
-                                    <option value="kepala-divisi-perencanaan-kehutanan">Kepala Divisi Perencanaan Kehutanan</option>
-                                    <option value="kepala-divisi-kebijakan-kehutanan">Kepala Divisi Kebijakan Kehutanan</option>
-                                    <option value="kepala-divisi-pemanfaatan-sdh">Kepala Divisi Pemanfaatan Sumberdaya Hutan</option>
-                                    </select>
-                                    </div><div class="col-md-6 form-group"><label class="small text-secondary">Periode Jabatan Struktural (TMT s/d TST)</label><input type="text" class="form-control form-control-sm" placeholder="mm/dd/yyyy"></div><div class="col-md-6 form-group"><label class="small text-secondary">Finger Print ID</label><input type="text" class="form-control form-control-sm"></div><div class="col-md-6 form-group"><label class="small text-secondary">NPWP</label><input type="text" class="form-control form-control-sm"></div><div class="col-md-6 form-group"><label class="small text-secondary">Nama Bank</label><input type="text" class="form-control form-control-sm"></div><div class="col-md-6 form-group"><label class="small text-secondary">No Rekening</label><input type="text" class="form-control form-control-sm"></div></div></div>
-                                <div class="sub-tab-content" id="dosen" style="display: none;"><div class="row g-3"><div class="col-md-6 form-group"><label class="small text-secondary">NUPTK</label><input type="text" class="form-control form-control-sm" required></div><div class="col-md-6 form-group"><label class="small text-secondary">SINTA ID</label><input type="text" class="form-control form-control-sm search-input" placeholder="Opsional"></div><div class="col-md-6 form-group"><label class="small text-secondary">NIDN</label><input type="text" class="form-control form-control-sm"></div><div class="col-md-6 form-group"><label class="small text-secondary">Scopus ID</label><input type="text" class="form-control form-control-sm search-input" placeholder="Opsional"></div><div class="col-md-6 form-group"><label class="small text-secondary">No. Sertifikasi Dosen</label><input type="text" class="form-control form-control-sm"></div><div class="col-md-6 form-group"><label class="small text-secondary">Orchid ID</label><input type="text" class="form-control form-control-sm search-input" placeholder="Opsional"></div><div class="col-md-6 form-group"><label class="small text-secondary">Tgl. Sertifikasi Dosen</label><input type="date" class="form-control form-control-sm"></div><div class="col-md-6 form-group"><label class="small text-secondary">Google Scholar ID</label><input type="text" class="form-control form-control-sm search-input" placeholder="Opsional"></div></div></div>
-                                <div class="sub-tab-content" id="domisili" style="display: none;"><div class="row g-3"><div class="col-md-6 form-group"><label class="small text-secondary">Provinsi</label><input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Jawa Barat"></select></div><div class="col-md-6 form-group"><label class="small text-secondary">Alamat</label><textarea class="form-control form-control-sm">JL. Lodaya</textarea></div><div class="col-md-6 form-group"><label class="small text-secondary">Kota</label><input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Bandung"></div><div class="col-md-6 form-group"><label class="small text-secondary">Kode Pos</label><input type="text" class="form-control form-control-sm" value="10021"></div><div class="col-md-6 form-group"><label class="small text-secondary">Kecamatan</label><input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Bandung Tengah"></div><div class="col-md-6 form-group"><label class="small text-secondary">No. Telepon/HP</label><input type="text" class="form-control form-control-sm" value="081239128991"></div><div class="col-md-6 form-group"><label class="small text-secondary">Kelurahan</label><input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Ciawi"></div><div class="col-md-6 form-group"><label class="small text-secondary">Email Pribadi / Institusi</label><input type="text" class="form-control form-control-sm" value="aexyifshsi@gmail.com"></div></div></div>
-                                <div class="sub-tab-content" id="kependudukan" style="display: none;">
+                     
+                  <!-- Kolom Main-Tab (Biodata)-->
+                  <div class="d-flex flex-column flex-lg-row gap-4">
+                    <div class="nav flex-column nav-pills main-tab-nav" id="main-tab-nav" style="min-width: 20px; flex-shrink:0;">
+                        <button class="nav-link text-start active" data-main-tab="biodata">Biodata</button>
+                        <button class="nav-link text-start" data-main-tab="pendidikan">Pelaksanaan Pendidikan</button>
+                        <button class="nav-link text-start" data-main-tab="penelitian">Pelaksanaan Penelitian</button>
+                        <button class="nav-link text-start" data-main-tab="pengabdian">Pelaksanaan Pengabdian</button>
+                        <button class="nav-link text-start" data-main-tab="penunjang">Penunjang</button>
+                        <button class="nav-link text-start" data-main-tab="pelatihan">Pelatihan</button>
+                        <button class="nav-link text-start" data-main-tab="penghargaan">Penghargaan</button>
+                    </div>
+                    <div class="flex-grow-1">
+                        <!-- Biodata Content -->
+                        <div class="main-tab-content" id="biodata-content" style="display: block;">
+                            <div id="biodata-sub-tabs" class="btn-group flex-wrap gap-2 mb-4">
+                                <button type="button" class="btn active" data-tab="kepegawaian">Kepegawaian</button>
+                                <button type="button" class="btn" data-tab="dosen">Dosen</button>
+                                <button type="button" class="btn" data-tab="domisili">Alamat Domisili & Kontak</button>
+                                <button type="button" class="btn" data-tab="kependudukan">Kependudukan</button>
+                                <button type="button" class="btn" data-tab="efile">E-File</button>
+                            </div>
+
+                            <!-- Kepegawaian Content -->
+                            <div class="sub-tab-content" id="kepegawaian" style="display: block;">
                                 <div class="row g-3">
-                                    <!-- Nomor KTP -->
+
                                     <div class="col-md-6 form-group">
-                                    <label class="small text-secondary">Nomor KTP</label>
-                                    <input type="text" class="form-control form-control-sm" value="31862908812645811">
+                                        <label class="small text-secondary">Status Kepegawaian</label>
+                                        <div class="detail-box">Dosen PNS</div>
                                     </div>
 
-                                    <!-- Kecamatan -->
                                     <div class="col-md-6 form-group">
-                                    <label class="small text-secondary">Kecamatan</label>
-                                    <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Talang Ubi">
+                                        <label class="small text-secondary">Status Pegawai</label>
+                                        <div class="detail-box">Aktif</div>
                                     </div>
 
-                                    <!-- Nomor KK -->
                                     <div class="col-md-6 form-group">
-                                    <label class="small text-secondary">Nomor KK</label>
-                                    <input type="text" class="form-control form-control-sm" value="8011447152211029">
+                                        <label class="small text-secondary">Unit Kerja</label>
+                                        <div class="detail-box">Fakultas Kehutanan dan Lingkungan</div>
                                     </div>
 
-                                    <!-- Kelurahan -->
                                     <div class="col-md-6 form-group">
-                                    <label class="small text-secondary">Kelurahan</label>
-                                    <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Pisangan Timur">
+                                        <label class="small text-secondary">Divisi</label>
+                                        <div class="detail-box">Departemen Manajemen Hutan</div>
                                     </div>
 
-                                    <!-- Warga Negara -->
                                     <div class="col-md-6 form-group">
-                                    <label class="small text-secondary">Warga Negara</label>
-                                    <select class="form-select form-select-sm">
-                                        <option>--Pilih Salah Satu--</option>
-                                        <option>Indonesia</option>
-                                        <option>Warga Negara Asing (WNA)</option>
-                                    </select>
+                                        <label class="small text-secondary">Nomor Arsip Berkas Kepegawaian</label>
+                                        <div class="detail-box">046</div>
                                     </div>
 
-                                    <!-- Kode Pos -->
                                     <div class="col-md-6 form-group">
-                                    <label class="small text-secondary">Kode Pos</label>
-                                    <input type="text" class="form-control form-control-sm" value="01984">
+                                        <label class="small text-secondary">Jabatan Fungsional</label>
+                                        <div class="detail-box">Tidak ada</div>
                                     </div>
 
-                                    <!-- Provinsi -->
                                     <div class="col-md-6 form-group">
-                                    <label class="small text-secondary">Provinsi</label>
-                                    <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Sumatera Barat">
+                                        <label class="small text-secondary">Pangkat/Golongan</label>
+                                        <div class="detail-box">Juru Muda / I-a</div>
                                     </div>
 
-                                    <!-- Kabupaten/Kota (DIPINDAH agar sejajar dengan Provinsi) -->
                                     <div class="col-md-6 form-group">
-                                    <label class="small text-secondary">Kabupaten/Kota</label>
-                                    <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Cimahi">
+                                        <label class="small text-secondary">TMT Pangkat Terakhir</label>
+                                        <div class="detail-box">01 Maret 2021</div>
                                     </div>
 
-                                    <!-- Alamat -->
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-secondary">Jabatan Struktural (jika ada)</label>
+                                        <div class="detail-box">Tidak ada</div>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-secondary">Periode Jabatan Struktural (TMT s/d TST)</label>
+                                        <div class="detail-box">14 Juli 2023 s/d 01 Maret 2028</div>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-secondary">Finger Print ID</label>
+                                        <div class="detail-box">15213</div>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-secondary">NPWP</label>
+                                        <div class="detail-box">764906129203000</div>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-secondary">Nama Bank</label>
+                                        <div class="detail-box">Bank BRI</div>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-secondary">No Rekening</label>
+                                        <div class="detail-box">012819102912191</div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            
+                            <!-- Dosen Content -->
+                            <div class="sub-tab-content" id="dosen" style="display: none;">
+                                <div class="row g-3">
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-secondary">NUPTK</label>
+                                        <div class="detail-box">1234567890123456</div>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-secondary">SINTA ID</label>
+                                        <div class="detail-box">1234-5678</div>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-secondary">NIDN</label>
+                                        <div class="detail-box">123456781273811</div>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-secondary">Scopus ID</label>
+                                        <div class="detail-box">56766236300</div>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-secondary">No. Sertifikasi Dosen</label>
+                                        <div class="detail-box">24-001013-0100</div>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-secondary">Orchid ID</label>
+                                        <div class="detail-box">0000-0002-1825-0097</div>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-secondary">Tgl. Sertifikasi Dosen</label>
+                                        <div class="detail-box">17 Agustus 1880</div>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-secondary">Google Scholar ID</label>
+                                        <div class="detail-box">abcdefg12345678</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Domisili Content -->
+                            <div class="sub-tab-content" id="domisili" style="display: none;">
+                                <div class="row g-3">
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-secondary">Provinsi</label>
+                                        <div class="detail-box">Jawa Barat</div>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-secondary">Alamat</label>
+                                        <div class="detail-box">JL. Lodaya</div>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-secondary">Kota</label>
+                                        <div class="detail-box">Bandung</div>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-secondary">Kode Pos</label>
+                                        <div class="detail-box">10021</div>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-secondary">Kecamatan</label>
+                                        <div class="detail-box">Bandung Tengah</div>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-secondary">No. Telepon/HP</label>
+                                        <div class="detail-box">081239128991</div>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-secondary">Kelurahan</label>
+                                        <div class="detail-box">Ciawi</div>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-secondary">Email Pribadi / Institusi</label>
+                                        <div class="detail-box">aexyifshsi@gmail.com</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Kependudukan Content -->
+                            <div class="sub-tab-content" id="kependudukan" style="display: none;">
+                                <div class="row g-3">
+
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-secondary">Nomor KTP</label>
+                                        <div class="detail-box">31862908812645811</div>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-secondary">Kecamatan</label>
+                                        <div class="detail-box">Talang Ubi</div>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-secondary">Nomor KK</label>
+                                        <div class="detail-box">8011447152211029</div>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-secondary">Kelurahan</label>
+                                        <div class="detail-box">Pisangan Timur</div>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-secondary">Warga Negara</label>
+                                        <div class="detail-box">Indonesia</div>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-secondary">Kode Pos</label>
+                                        <div class="detail-box">01984</div>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-secondary">Provinsi</label>
+                                        <div class="detail-box">Sumatera Barat</div>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-secondary">Kabupaten/Kota</label>
+                                        <div class="detail-box">Cimahi</div>
+                                    </div>
+
                                     <div class="col-md-12 form-group">
-                                    <label class="small text-secondary">Alamat</label>
-                                    <textarea class="form-control form-control-sm" rows="2">Jl Pendopo</textarea>
+                                        <label class="small text-secondary">Alamat</label>
+                                        <div class="detail-box">Jalan Cendrawasih No. 25, RT 03/RW 05</div>
                                     </div>
                                 </div>
+                            </div>
+
+                            <!-- Kependudukan Content -->
+                            <div class="sub-tab-content" id="efile" style="display: none;">
+                                <div class="efile-header">
+                                    <h4>Dokumen</h4>
+                                    <button class="btn btn-tambah"><i class="lni lni-plus me-1"></i> Tambah</button>
                                 </div>
-                                <div class="sub-tab-content" id="efile" style="display: none;">
-                                    <div class="efile-header">
-                                        <h4>Dokumen</h4>
-                                        <button class="btn btn-tambah"><i class="lni lni-plus me-1"></i> Tambah</button>
-                                    </div>
 
-                                    <div class="file-category">
-                                        <p class="file-category-title">Biodata</p>
-                                        <div class="file-grid">
-                                            <div class="file-item">
-                                                <span class="file-badge badge-asli">Asli</span>
-                                                <div class="file-item-icon"><i class="lni lni-files"></i></div>
-                                                <p>Dokumen <span class="d-block">(2020)</span></p>
-                                                <div class="file-item-actions">
-                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
-                                                </div>
+                                <div class="file-category">
+                                    <p class="file-category-title">Biodata</p>
+                                    <div class="file-grid">
+                                        <div class="file-item">
+                                            <span class="file-badge badge-asli">Asli</span>
+                                            <div class="file-item-icon"><i class="lni lni-files"></i></div>
+                                            <p>Dokumen <span class="d-block">(2020)</span></p>
+                                            <div class="file-item-actions">
+                                                <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
-                                            <div class="file-item">
-                                                <span class="file-badge badge-legalisir">Legalisir</span>
-                                                <div class="file-item-icon"><i class="lni lni-files"></i></div>
-                                                <p>Dokumen <span class="d-block">(2020)</span></p>
-                                                <div class="file-item-actions">
-                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
-                                                </div>
+                                        </div>
+                                        <div class="file-item">
+                                            <span class="file-badge badge-legalisir">Legalisir</span>
+                                            <div class="file-item-icon"><i class="lni lni-files"></i></div>
+                                            <p>Dokumen <span class="d-block">(2020)</span></p>
+                                            <div class="file-item-actions">
+                                                <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
-                                            <div class="file-item">
-                                                <span class="file-badge badge-scan">Scan</span>
-                                                <div class="file-item-icon"><i class="lni lni-files"></i></div>
-                                                <p>Dokumen <span class="d-block">(2020)</span></p>
-                                                <div class="file-item-actions">
-                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
-                                                </div>
+                                        </div>
+                                        <div class="file-item">
+                                            <span class="file-badge badge-scan">Scan</span>
+                                            <div class="file-item-icon"><i class="lni lni-files"></i></div>
+                                            <p>Dokumen <span class="d-block">(2020)</span></p>
+                                            <div class="file-item-actions">
+                                                <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
 
-                                    <div class="file-category">
-                                        <p class="file-category-title">Pendidikan</p>
-                                        <div class="file-grid">
-                                            <div class="file-item">
-                                                <span class="file-badge badge-legalisir">Legalisir</span>
-                                                <div class="file-item-icon"><i class="lni lni-files"></i></div>
-                                                <p>Dokumen <span class="d-block">(2020)</span></p>
-                                                <div class="file-item-actions">
-                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
-                                                </div>
+                                <div class="file-category">
+                                    <p class="file-category-title">Pendidikan</p>
+                                    <div class="file-grid">
+                                        <div class="file-item">
+                                            <span class="file-badge badge-legalisir">Legalisir</span>
+                                            <div class="file-item-icon"><i class="lni lni-files"></i></div>
+                                            <p>Dokumen <span class="d-block">(2020)</span></p>
+                                            <div class="file-item-actions">
+                                                <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
-                                            <div class="file-item">
-                                                <span class="file-badge badge-asli">Asli</span>
-                                                <div class="file-item-icon"><i class="lni lni-files"></i></div>
-                                                <p>Dokumen <span class="d-block">(2020)</span></p>
-                                                <div class="file-item-actions">
-                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
-                                                </div>
+                                        </div>
+                                        <div class="file-item">
+                                            <span class="file-badge badge-asli">Asli</span>
+                                            <div class="file-item-icon"><i class="lni lni-files"></i></div>
+                                            <p>Dokumen <span class="d-block">(2020)</span></p>
+                                            <div class="file-item-actions">
+                                                <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
-                                            <div class="file-item">
-                                                <span class="file-badge badge-scan">Scan</span>
-                                                <div class="file-item-icon"><i class="lni lni-files"></i></div>
-                                                <p>Dokumen <span class="d-block">(2020)</span></p>
-                                                <div class="file-item-actions">
-                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
-                                                </div>
+                                        </div>
+                                        <div class="file-item">
+                                            <span class="file-badge badge-scan">Scan</span>
+                                            <div class="file-item-icon"><i class="lni lni-files"></i></div>
+                                            <p>Dokumen <span class="d-block">(2020)</span></p>
+                                            <div class="file-item-actions">
+                                                <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
 
-                                    <div class="file-category">
-                                        <p class="file-category-title">Jabatan Fungsional</p>
-                                        <div class="file-grid">
-                                            <div class="file-item">
-                                                <span class="file-badge badge-legalisir">Legalisir</span>
-                                                <div class="file-item-icon"><i class="lni lni-files"></i></div>
-                                                <p>Dokumen <span class="d-block">(2020)</span></p>
-                                                <div class="file-item-actions">
-                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
-                                                </div>
+                                <div class="file-category">
+                                    <p class="file-category-title">Jabatan Fungsional</p>
+                                    <div class="file-grid">
+                                        <div class="file-item">
+                                            <span class="file-badge badge-legalisir">Legalisir</span>
+                                            <div class="file-item-icon"><i class="lni lni-files"></i></div>
+                                            <p>Dokumen <span class="d-block">(2020)</span></p>
+                                            <div class="file-item-actions">
+                                                <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
-                                            <div class="file-item">
-                                                <span class="file-badge badge-asli">Asli</span>
-                                                <div class="file-item-icon"><i class="lni lni-files"></i></div>
-                                                <p>Dokumen <span class="d-block">(2020)</span></p>
-                                                <div class="file-item-actions">
-                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
-                                                </div>
+                                        </div>
+                                        <div class="file-item">
+                                            <span class="file-badge badge-asli">Asli</span>
+                                            <div class="file-item-icon"><i class="lni lni-files"></i></div>
+                                            <p>Dokumen <span class="d-block">(2020)</span></p>
+                                            <div class="file-item-actions">
+                                                <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
-                                            <div class="file-item">
-                                                <span class="file-badge badge-scan">Scan</span>
-                                                <div class="file-item-icon"><i class="lni lni-files"></i></div>
-                                                <p>Dokumen <span class="d-block">(2020)</span></p>
-                                                <div class="file-item-actions">
-                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
-                                                </div>
+                                        </div>
+                                        <div class="file-item">
+                                            <span class="file-badge badge-scan">Scan</span>
+                                            <div class="file-item-icon"><i class="lni lni-files"></i></div>
+                                            <p>Dokumen <span class="d-block">(2020)</span></p>
+                                            <div class="file-item-actions">
+                                                <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
 
-                                    <div class="file-category">
-                                        <p class="file-category-title">Surat Keputusan Kepangkatan</p>
-                                        <div class="file-grid">
-                                            <div class="file-item">
-                                                <span class="file-badge badge-legalisir">Legalisir</span>
-                                                <div class="file-item-icon"><i class="lni lni-files"></i></div>
-                                                <p>Dokumen <span class="d-block">(2020)</span></p>
-                                                <div class="file-item-actions">
-                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
-                                                </div>
+                                <div class="file-category">
+                                    <p class="file-category-title">Surat Keputusan Kepangkatan</p>
+                                    <div class="file-grid">
+                                        <div class="file-item">
+                                            <span class="file-badge badge-legalisir">Legalisir</span>
+                                            <div class="file-item-icon"><i class="lni lni-files"></i></div>
+                                            <p>Dokumen <span class="d-block">(2020)</span></p>
+                                            <div class="file-item-actions">
+                                                <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
-                                            <div class="file-item">
-                                                <span class="file-badge badge-asli">Asli</span>
-                                                <div class="file-item-icon"><i class="lni lni-files"></i></div>
-                                                <p>Dokumen <span class="d-block">(2020)</span></p>
-                                                <div class="file-item-actions">
-                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
-                                                </div>
+                                        </div>
+                                        <div class="file-item">
+                                            <span class="file-badge badge-asli">Asli</span>
+                                            <div class="file-item-icon"><i class="lni lni-files"></i></div>
+                                            <p>Dokumen <span class="d-block">(2020)</span></p>
+                                            <div class="file-item-actions">
+                                                <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
-                                            <div class="file-item">
-                                                <span class="file-badge badge-scan">Scan</span>
-                                                <div class="file-item-icon"><i class="lni lni-files"></i></div>
-                                                <p>Dokumen <span class="d-block">(2020)</span></p>
-                                                <div class="file-item-actions">
-                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
-                                                </div>
+                                        </div>
+                                        <div class="file-item">
+                                            <span class="file-badge badge-scan">Scan</span>
+                                            <div class="file-item-icon"><i class="lni lni-files"></i></div>
+                                            <p>Dokumen <span class="d-block">(2020)</span></p>
+                                            <div class="file-item-actions">
+                                                <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
 
-                                    <div class="file-category">
-                                        <p class="file-category-title">Surat Penting</p>
-                                        <div class="file-grid">
-                                            <div class="file-item">
-                                                <span class="file-badge badge-legalisir">Legalisir</span>
-                                                <div class="file-item-icon"><i class="lni lni-files"></i></div>
-                                                <p>Dokumen <span class="d-block">(2020)</span></p>
-                                                <div class="file-item-actions">
-                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
-                                                </div>
+                                <div class="file-category">
+                                    <p class="file-category-title">Surat Penting</p>
+                                    <div class="file-grid">
+                                        <div class="file-item">
+                                            <span class="file-badge badge-legalisir">Legalisir</span>
+                                            <div class="file-item-icon"><i class="lni lni-files"></i></div>
+                                            <p>Dokumen <span class="d-block">(2020)</span></p>
+                                            <div class="file-item-actions">
+                                                <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
-                                            <div class="file-item">
-                                                <span class="file-badge badge-asli">Asli</span>
-                                                <div class="file-item-icon"><i class="lni lni-files"></i></div>
-                                                <p>Dokumen <span class="d-block">(2020)</span></p>
-                                                <div class="file-item-actions">
-                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
-                                                </div>
+                                        </div>
+                                        <div class="file-item">
+                                            <span class="file-badge badge-asli">Asli</span>
+                                            <div class="file-item-icon"><i class="lni lni-files"></i></div>
+                                            <p>Dokumen <span class="d-block">(2020)</span></p>
+                                            <div class="file-item-actions">
+                                                <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
-                                            <div class="file-item">
-                                                <span class="file-badge badge-scan">Scan</span>
-                                                <div class="file-item-icon"><i class="lni lni-files"></i></div>
-                                                <p>Dokumen <span class="d-block">(2020)</span></p>
-                                                <div class="file-item-actions">
-                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
-                                                </div>
+                                        </div>
+                                        <div class="file-item">
+                                            <span class="file-badge badge-scan">Scan</span>
+                                            <div class="file-item-icon"><i class="lni lni-files"></i></div>
+                                            <p>Dokumen <span class="d-block">(2020)</span></p>
+                                            <div class="file-item-actions">
+                                                <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
 
-                                    <div class="file-category">
-                                        <p class="file-category-title">Dokumen Pendukung Lainnya</p>
-                                        <div class="file-grid">
-                                            <div class="file-item">
-                                                <span class="file-badge badge-legalisir">Legalisir</span>
-                                                <div class="file-item-icon"><i class="lni lni-files"></i></div>
-                                                <p>Dokumen <span class="d-block">(2020)</span></p>
-                                                <div class="file-item-actions">
-                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
-                                                </div>
+                                <div class="file-category">
+                                    <p class="file-category-title">Dokumen Pendukung Lainnya</p>
+                                    <div class="file-grid">
+                                        <div class="file-item">
+                                            <span class="file-badge badge-legalisir">Legalisir</span>
+                                            <div class="file-item-icon"><i class="lni lni-files"></i></div>
+                                            <p>Dokumen <span class="d-block">(2020)</span></p>
+                                            <div class="file-item-actions">
+                                                <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
-                                            <div class="file-item">
-                                                <span class="file-badge badge-asli">Asli</span>
-                                                <div class="file-item-icon"><i class="lni lni-files"></i></div>
-                                                <p>Dokumen <span class="d-block">(2020)</span></p>
-                                                <div class="file-item-actions">
-                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
-                                                </div>
+                                        </div>
+                                        <div class="file-item">
+                                            <span class="file-badge badge-asli">Asli</span>
+                                            <div class="file-item-icon"><i class="lni lni-files"></i></div>
+                                            <p>Dokumen <span class="d-block">(2020)</span></p>
+                                            <div class="file-item-actions">
+                                                <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
-                                            <div class="file-item">
-                                                <span class="file-badge badge-scan">Scan</span>
-                                                <div class="file-item-icon"><i class="lni lni-files"></i></div>
-                                                <p>Dokumen <span class="d-block">(2020)</span></p>
-                                                <div class="file-item-actions">
-                                                    <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                    <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
-                                                </div>
+                                        </div>
+                                        <div class="file-item">
+                                            <span class="file-badge badge-scan">Scan</span>
+                                            <div class="file-item-icon"><i class="lni lni-files"></i></div>
+                                            <p>Dokumen <span class="d-block">(2020)</span></p>
+                                            <div class="file-item-actions">
+                                                <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
+                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="main-tab-content" id="pendidikan-content" style="display: none;">
-                                <div id="pendidikan-sub-tabs" class="btn-group flex-wrap gap-2 mb-3">
-                                    <button type="button" class="btn active" data-tab="pengajaran-lama">Pengajaran Lama</button>
-                                    <button type="button" class="btn" data-tab="pengajaran-luar">Pengajaran Luar</button>
-                                    <button type="button" class="btn" data-tab="pengujian-lama">Pengujian Lama</button>
-                                    <button type="button" class="btn" data-tab="pembimbing-lama">Pembimbing Lama</button>
-                                    <button type="button" class="btn" data-tab="penguji-luar">Penguji Luar</button>
-                                    <button type="button" class="btn" data-tab="pembimbing-luar">Pembimbing Luar</button>
-                                </div>
-                                
-                                <div class="sub-tab-content" id="pengajaran-lama" style="display: block">
-                                 <div class="tab-filters">
-                                    <div class="filter-dropdown-wrapper"><select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select></div>
-                                    <div class="input-group" style="width: auto; max-width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ...."></div>
-                                </div>
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered table-hover table-sm">
-                                            <thead>
-                                                <tr>
-                                                    <th>No</th>
-                                                    <th>Tahun Semester</th>
-                                                    <th>Kode MK</th>
-                                                    <th>Mata Kuliah</th>
-                                                    <th>SKS</th>
-                                                    <th>Kelas Paralel (Jenis)</th>
-                                                    <th>Jumlah Pertemuan</th>
-                                                    <th>Dokumen</th>
-                                                    <th>Aksi</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>2023/2024 Ganjil</td>
-                                                    <td>MNH211</td>
-                                                    <td>Biometrika Hutan</td>
-                                                    <td>3 (3-0)</td>
-                                                    <td>1 (K)</td>
-                                                    <td>K,S,P,O,R,O</td>
-                                                    <td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
-                                                    <td>
-                                                        <div class="d-flex gap-2 justify-content-center">
-                                                            <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
-                                                                <i class="lni lni-eye"></i>
-                                                            </button>
-                                                            <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
-                                                                <i class="lni lni-trash-can"></i>
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2</td>
-                                                    <td>2023/2024 Genap</td>
-                                                    <td>MNH215</td>
-                                                    <td>Silvikultur Intensif</td>
-                                                    <td>2 (2-0)</td>
-                                                    <td>2 (K)</td>
-                                                    <td>K,S,P,O</td>
-                                                    <td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
-                                                    <td>
-                                                        <div class="d-flex gap-2 justify-content-center">
-                                                            <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
-                                                                <i class="lni lni-eye"></i>
-                                                            </button>
-                                                            <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
-                                                                <i class="lni lni-trash-can"></i>
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3</td>
-                                                    <td>2022/2023 Ganjil</td>
-                                                    <td>THH301</td>
-                                                    <td>Teknologi Hasil Hutan</td>
-                                                    <td>3 (2-1)</td>
-                                                    <td>1 (P)</td>
-                                                    <td>K,S,P</td>
-                                                    <td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
-                                                    <td>
-                                                        <div class="d-flex gap-2 justify-content-center">
-                                                            <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
-                                                                <i class="lni lni-eye"></i>
-                                                            </button>
-                                                            <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
-                                                                <i class="lni lni-trash-can"></i>
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                
-                                <div class="sub-tab-content" id="pengajaran-luar" style="display: none;">
-                                <div class="tab-filters">
-                                    <div class="filter-dropdown-wrapper"><select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select></div>
-                                    <div class="input-group" style="width: auto; max-width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ...."></div>
-                                </div>
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered table-hover table-sm">
-                                            <thead>
-                                                <tr>
-                                                    <th>No</th>
-                                                    <th>Tahun Semester</th>
-                                                    <th>Kode MK</th>
-                                                    <th>Mata Kuliah</th>
-                                                    <th>Jumlah Pertemuan</th>
-                                                    <th>Institusi</th>
-                                                    <th>Program Studi</th>
-                                                    <th>Dokumen</th>
-                                                    <th>Aksi</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>2023/2024 Ganjil</td>
-                                                    <td>SKL401</td>
-                                                    <td>Silvikultur Intensif</td>
-                                                    <td>K,S, P,O, R,O</td>
-                                                    <td>Universitas Gadjah Mada</td>
-                                                    <td>Kehutanan</td>
-                                                    <td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
-                                                    <td>
-                                                        <div class="d-flex gap-2 justify-content-center">
-                                                            <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
-                                                                <i class="lni lni-eye"></i>
-                                                            </button>
-                                                            <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
-                                                                <i class="lni lni-trash-can"></i>
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2</td>
-                                                    <td>2023/2024 Genap</td>
-                                                    <td>EKL302</td>
-                                                    <td>Ekologi Hutan</td>
-                                                    <td>K,S, P,O, R,O</td>
-                                                    <td>Universitas Hasanuddin</td>
-                                                    <td>Manajemen Hutan</td>
-                                                    <td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
-                                                    <td>
-                                                        <div class="d-flex gap-2 justify-content-center">
-                                                            <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
-                                                                <i class="lni lni-eye"></i>
-                                                            </button>
-                                                            <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
-                                                                <i class="lni lni-trash-can"></i>
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3</td>
-                                                    <td>2022/2023 Ganjil</td>
-                                                    <td>THT501</td>
-                                                    <td>Teknologi Hasil Hutan</td>
-                                                    <td>K,S, P,O, R,O</td>
-                                                    <td>Institut Pertanian Bogor</td>
-                                                    <td>Teknologi Hasil Hutan</td>
-                                                    <td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
-                                                    <td>
-                                                        <div class="d-flex gap-2 justify-content-center">
-                                                            <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
-                                                                <i class="lni lni-eye"></i>
-                                                            </button>
-                                                            <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
-                                                                <i class="lni lni-trash-can"></i>
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                
-                                <div class="sub-tab-content" id="pengujian-lama" style="display: none;">
-                                <div class="tab-filters">
-                                    <div class="filter-dropdown-wrapper"><select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select></div>
-                                    <div class="input-group" style="width: auto; max-width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ...."></div>
-                                </div>
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered table-hover table-sm">
-                                            <thead>
-                                                <tr>
-                                                    <th>No</th>
-                                                    <th>Tahun Semester</th>
-                                                    <th>NIM</th>
-                                                    <th>Nama Mahasiswa</th>
-                                                    <th>Strata</th>
-                                                    <th>Departemen</th>
-                                                    <th>Status</th>
-                                                    <th>Dokumen</th>
-                                                    <th>Aksi</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>2023/2024 Genap</td>
-                                                    <td>H2417001</td>
-                                                    <td>Andi Wijaya</td>
-                                                    <td>S2</td>
-                                                    <td>Manajemen Hutan</td>
-                                                    <td>Anggota Penguji</td>
-                                                    <td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
-                                                    <td>
-                                                        <div class="d-flex gap-2 justify-content-center">
-                                                            <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
-                                                                <i class="lni lni-eye"></i>
-                                                            </button>
-                                                            <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
-                                                                <i class="lni lni-trash-can"></i>
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2</td>
-                                                    <td>2023/2024 Ganjil</td>
-                                                    <td>H2417002</td>
-                                                    <td>Budi Santoso</td>
-                                                    <td>S2</td>
-                                                    <td>Teknologi Hasil Hutan</td>
-                                                    <td>Anggota Penguji</td>
-                                                    <td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
-                                                    <td>
-                                                        <div class="d-flex gap-2 justify-content-center">
-                                                            <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
-                                                                <i class="lni lni-eye"></i>
-                                                            </button>
-                                                            <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
-                                                                <i class="lni lni-trash-can"></i>
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3</td>
-                                                    <td>2022/2023 Genap</td>
-                                                    <td>H2317003</td>
-                                                    <td>Citra Dewi</td>
-                                                    <td>S3</td>
-                                                    <td>Ilmu Kehutanan</td>
-                                                    <td>Anggota Penguji</td>
-                                                    <td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
-                                                    <td>
-                                                        <div class="d-flex gap-2 justify-content-center">
-                                                            <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
-                                                                <i class="lni lni-eye"></i>
-                                                            </button>
-                                                            <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
-                                                                <i class="lni lni-trash-can"></i>
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                
-                                <div class="sub-tab-content" id="pembimbing-lama" style="display: none;">
-                                <div class="tab-filters">
-                                    <div class="filter-dropdown-wrapper"><select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select></div>
-                                    <div class="input-group" style="width: auto; max-width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ...."></div>
-                                </div>
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered table-hover table-sm">
-                                            <thead><tr><th>No</th><th>Tahun Semester</th><th>Kegiatan</th><th>Nim</th><th>Nama Mahasiswa</th><th>Strata</th><th>Status</th><th>Dokumen</th><th>Aksi</th></tr></thead>
-                                            <tbody>
-                                                <tr><td>1</td><td>2020/2021 Genap</td><td>Membimbing dan ikut membimbing.. </td><td>E2039383</td><td>Alex Feruso</td><td>S1</td><td>Pembimbing Pendamping</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>
-                                                <tr><td>2</td><td>2020/2021 Genap</td><td>Membimbing dan ikut membimbing.. </td><td>E2039383</td><td>Alex Feruso</td><td>S1</td><td>Pembimbing Pendamping</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>
-                                                <tr><td>3</td><td>2020/2021 Genap</td><td>Membimbing dan ikut membimbing.. </td><td>E2039383</td><td>Alex Feruso</td><td>S1</td><td>Pembimbing Pendamping</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-
-                                <div class="sub-tab-content" id="penguji-luar" style="display: none;">
-                                <div class="tab-filters">
-                                    <div class="filter-dropdown-wrapper"><select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select></div>
-                                    <div class="input-group" style="width: auto; max-width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ...."></div>
-                                </div>  
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered table-hover table-sm">
-                                            <thead>
-                                                <tr>
-                                                    <th>No</th>
-                                                    <th>Tahun Semester</th>
-                                                    <th>NIM</th>
-                                                    <th>Nama Mahasiswa</th>
-                                                    <th>Strata</th>
-                                                    <th>Universitas</th>
-                                                    <th>Status</th>
-                                                    <th>Dokumen</th>
-                                                    <th>Aksi</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <script>
-                                                    for(let i=1; i<=3; i++){ 
-                                                        document.write(`
-                                                        <tr>
-                                                            <td class="text-center">${i}</td>
-                                                            <td>2018/2019 Ganjil</td>
-                                                            <td class="text-center">160648032</td>
-                                                            <td class="text-center">HAQQI ANNAZILLI</td>
-                                                            <td>S1</td>
-                                                            <td>IPB University</td>
-                                                            <td>Anggota Penguji</td>
-                                                            <td class="text-center"><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
-                                                            <td class="text-center">
-                                                                <div class="d-flex gap-2 justify-content-center">
-                                                                    <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button>
-                                                                    <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button>
-                                                                </div>
-                                                            </td>
-                                                        </tr>`);
-                                                    }
-                                                </script>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-
-                                <div class="sub-tab-content" id="pembimbing-luar" style="display: none;">
-                                <div class="tab-filters">
-                                    <div class="filter-dropdown-wrapper"><select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select></div>
-                                    <div class="input-group" style="width: auto; max-width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ...."></div>
-                                </div>
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered table-hover table-sm">
-                                            <thead>
-                                                <tr>
-                                                    <th>No</th>
-                                                    <th>Tahun Semester</th>
-                                                    <th>NIM</th>
-                                                    <th>Nama Mahasiswa</th>
-                                                    <th>Strata</th>
-                                                    <th>Universitas</th>
-                                                    <th>Status</th>
-                                                    <th>Dokumen</th>
-                                                    <th>Aksi</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <script>
-                                                    for(let i=1; i<=3; i++){ 
-                                                        document.write(`
-                                                        <tr>
-                                                            <td class="text-center">${i}</td>
-                                                            <td>2018/2019 Ganjil</td>
-                                                            <td class="text-center">160648032</td>
-                                                            <td class="text-center">HAQQI ANNAZILLI</td>
-                                                            <td>S2</td>
-                                                            <td>IPB University</td>
-                                                            <td>Pembimbing</td>
-                                                            <td class="text-center"><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
-                                                            <td class="text-center">
-                                                                <div class="d-flex gap-2 justify-content-center">
-                                                                    <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button>
-                                                                    <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button>
-                                                                </div>
-                                                            </td>
-                                                        </tr>`);
-                                                    }
-                                                </script>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                
+                        <!-- Kolom Main-Tab (Pendidikan)-->
+                        <div class="main-tab-content" id="pendidikan-content" style="display: none;">
+                            <div id="pendidikan-sub-tabs" class="btn-group flex-wrap gap-2 mb-3">
+                                <button type="button" class="btn active" data-tab="pengajaran-lama">Pengajaran Lama</button>
+                                <button type="button" class="btn" data-tab="pengajaran-luar">Pengajaran Luar</button>
+                                <button type="button" class="btn" data-tab="pengujian-lama">Pengujian Lama</button>
+                                <button type="button" class="btn" data-tab="pembimbing-lama">Pembimbing Lama</button>
+                                <button type="button" class="btn" data-tab="penguji-luar">Penguji Luar</button>
+                                <button type="button" class="btn" data-tab="pembimbing-luar">Pembimbing Luar</button>
                             </div>
-
-                            <div class="main-tab-content" id="penelitian-content" style="display: none;">
+                            
+                            <!-- Pengajaran Lama Content -->
+                            <div class="sub-tab-content" id="pengajaran-lama" style="display: block">
                             <div class="tab-filters">
-                                   <div class="filter-dropdown-wrapper d-flex gap-2">
-                                   <select class="form-select filter-select">
-                                        <option>Tahun</option>
-                                        <option>2025</option>
-                                        <option>2026</option>
-                                        <option>2027</option>
-                                    </select>
-                                    <select class="form-select filter-select" style="width: 175px;">
-                                        <option>Jenis SKIM</option>
-                                        <option selected disabled>Jenis Karya</option>
-                                        <option value="Buku Monograf">Buku Monograf</option>
-                                        <option value="Buku Referensi">Buku Referensi</option>
-                                        <option value="Book Chapter Internasional">Book Chapter Tingkat Internasional</option>
-                                        <option value="Book Chapter Nasional">Book Chapter Tingkat Nasional</option>
-                                        <option value="Menyunting Buku">Mengedit/Menyunting Karya Ilmiah dalam Bentuk Buku yang Diterbitkan</option>
-                                        <option value="Jurnal Internasional Bereputasi">Jurnal Internasional Bereputasi</option>
-                                        <option value="Jurnal Internasional Terindeks">Jurnal Internasional Terindeks</option>
-                                        <option value="Jurnal Nasional">Jurnal Nasional</option>
-                                        <option value="Jurnal Nasional Terakreditasi">Jurnal Nasional Terakreditasi</option>
-                                        <option value="Jurnal Nasional Terakreditasi Peringkat 1 dan 2">Jurnal Nasional Terakreditasi Kemenristekdikti Peringkat 1 dan 2</option>
-                                        <option value="Jurnal Nasional Terakreditasi Peringkat 3 dan 4">Jurnal Nasional Terakreditasi Kemenristekdikti Peringkat 3 dan 4</option>
-                                        <option value="Jurnal Nasional Bhs Indonesia DOAJ">Jurnal Nasional Berbahasa Indonesia Terindeks pada DOAJ</option>
-                                        <option value="Jurnal Nasional Bhs Inggris/PBB DOAJ">Jurnal Nasional Berbahasa Inggris atau Bahasa Resmi PBB Terindeks pada DOAJ</option>
-                                        <option value="Prosiding Internasional (Dipresentasikan)">Prosiding Internasional - Makalah Dipresentasikan</option>
-                                        <option value="Prosiding Internasional (Tidak Dipresentasikan)">Prosiding Internasional - Makalah Tidak Dipresentasikan</option>
-                                        <option value="Prosiding Internasional Terindeks WoS/Scopus">Prosiding Internasional Terindeks Web of Science/Scopus</option>
-                                        <option value="Prosiding Nasional (Dipresentasikan)">Prosiding Nasional - Makalah Dipresentasikan</option>
-                                        <option value="Prosiding Nasional (Tidak Dipresentasikan)">Prosiding Nasional - Makalah Tidak Dipresentasikan</option>
-                                        <option value="Hasil Penelitian Disajikan (Non-Prosiding)">Hasil Penelitian/Pemikiran yang Disajikan dalam Forum Ilmiah Internasional</option>
-                                        <option value="Poster Internasional (Non-Prosiding)">Poster Dipresentasikan dalam Forum Ilmiah Internasional</option>
-                                        <option value="Poster Prosiding Nasional">Poster Dimuat dalam Prosiding Nasional yang Dipublikasikan</option>
-                                        <option value="Hasil Penelitian Tidak Dipublikasikan">Hasil Penelitian/Pemikiran/Kerja Sama Industri yang Tidak Dipublikasikan</option>
-                                        <option value="Koran/Majalah Populer">Koran/Majalah Populer/Majalah Umum</option>
-                                        <option value="Karya Terdaftar HaKI">Rancangan/Karya Teknologi atau Seni Terdaftar di HaKI Tingkat Nasional</option>
-                                        <option value="Paten Sederhana">Paten Sederhana</option>
-                                        <option value="Karya Cipta/Desain Industri">Karya Cipta/Desain Industri/Indikasi Geografis</option>
-                                        <option value="Rumusan Kebijakan Monumental">Rumusan Kebijakan Monumental</option>
-                                    </select>
-                                </div>
-                                    <div class="input-group" style="width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input" placeholder="Cari Data..."></div>
-                                </div>
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-hover table-sm">
-                                        <thead><tr><th>No</th><th>Judul</th><th>Tgl. Terbit</th><th>Jenis</th><th>Publik</th><th>Dokumen</th><th>Aksi</th></tr></thead>
-                                        <tbody>
-                                            <script>for(let i=1; i<=3; i++){ document.write(`<tr><td>${i}</td><td>Pengaruh Air Terhadap Tumbuh Kembang Leles</td><td>24 Desember 2021</td><td>Karya</td><td>Ya</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>`);}</script>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                <div class="filter-dropdown-wrapper"><select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select></div>
+                                <div class="input-group" style="width: auto; max-width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ...."></div>
                             </div>
-                            
-                            <div class="main-tab-content" id="pengabdian-content" style="display: none;">
-                                <div class="tab-filters">
-                                   <div class="filter-dropdown-wrapper d-flex gap-2">
-                                   <select class="form-select filter-select">
-                                        <option>Tahun</option>
-                                        <option>2025</option>
-                                        <option>2026</option>
-                                        <option>2027</option>
-                                    </select>
-                                    <select class="form-select filter-select" style="width: 175px;">
-                                        <option>Jenis SKIM</option>
-                                        <option value="Biomedik">Biomedik</option>
-                                        <option value="Hibah HI-LINK">Hibah HI-LINK</option>
-                                        <option value="Ipteks">Ipteks</option>
-                                        <option value="Ipteks Bagi Inovasi Kreativitas Kampus">Ipteks Bagi Inovasi Kreativitas Kampus</option>
-                                        <option value="Ipteks Bagi Kewirausahaan">Ipteks Bagi Kewirausahaan</option>
-                                        <option value="Iptek Bagi Masyarakat">Iptek Bagi Masyarakat</option>
-                                        <option value="Iptek Bagi Produk Ekspor">Iptek Bagi Produk Ekspor</option>
-                                        <option value="Iptek Bagi Wilayah">Iptek Bagi Wilayah</option>
-                                        <option value="Iptek Bagi Wilayah Antara PT-CSR/PT-PEMDA-CSR">Iptek Bagi Wilayah Antara PT-CSR/PT-PEMDA-CSR</option>
-                                        <option value="Kerjasama Luar Negeri dan Publikasi Internasional">Kerjasama Luar Negeri dan Publikasi Internasional</option>
-                                        <option value="KKN Pembelajaran Pemberdayaan Masyarakat">KKN Pembelajaran Pemberdayaan Masyarakat</option>
-                                        <option value="Mobil Listrik Nasional">Mobil Listrik Nasional</option>
-                                        <option value="MP3EI">MP3EI</option>
-                                        <option value="Pendidikan Magister Doktor Sarjana Unggul">Pendidikan Magister Doktor Sarjana Unggul</option>
-                                        <option value="Penelitian Disertasi Doktor">Penelitian Disertasi Doktor</option>
-                                        <option value="Penelitian Dosen Pemula">Penelitian Dosen Pemula</option>
-                                        <option value="Penelitian Fundamental">Penelitian Fundamental</option>
-                                        <option value="Penelitian Hibah Bersaing">Penelitian Hibah Bersaing</option>
-                                        <option value="Penelitian Kerjasama Antar Perguruan Tinggi">Penelitian Kerjasama Antar Perguruan Tinggi</option>
-                                        <option value="Penelitian Kompetensi">Penelitian Kompetensi</option>
-                                        <option value="Penelitian Srategis Nasional">Penelitian Srategis Nasional</option>
-                                        <option value="Penelitian Tim Pascasarjana">Penelitian Tim Pascasarjana</option>
-                                        <option value="Penelitian Unggulan Perguruan Tinggi">Penelitian Unggulan Perguruan Tinggi</option>
-                                        <option value="Penelitian Unggulan Strategis Nasional">Penelitian Unggulan Strategis Nasional</option>
-                                        <option value="Riset Andalan Perguruan Tinggi dan Industri">Riset Andalan Perguruan Tinggi dan Industri</option>
-                                    </select>
-                                </div>
-                                    <div class="input-group" style="width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input" placeholder="Cari Data..."></div>
-                                </div>
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover table-sm">
-                                        <thead><tr><th>No</th><th>Kegiatan</th><th>Nama Kegiatan</th><th>Afiliasi</th><th>Lokasi</th><th>Nomor SK</th><th>Tahun</th><th>Dokumen</th><th>Aksi</th></tr></thead>
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Tahun Semester</th>
+                                                <th>Kode MK</th>
+                                                <th>Mata Kuliah</th>
+                                                <th>SKS</th>
+                                                <th>Kelas Paralel (Jenis)</th>
+                                                <th>Jumlah Pertemuan</th>
+                                                <th>Dokumen</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
                                         <tbody>
                                             <tr>
-                                            <td>1</td>
-                                            <td>Penyuluhan</td>
-                                            <td>Pengelolaan Hutan Lestari</td>
-                                            <td>Desa Cibodas, Bogor</td>
-                                            <td>Kementerian Lingkungan Hidup</td>
-                                            <td>SK-123/2022</td>
-                                            <td>2022</td>
-                                            <td>
-                                                <button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex gap-2 justify-content-center">
-                                                <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
-                                                    <i class="lni lni-eye"></i>
-                                                </button>
-                                                <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
-                                                    <i class="lni lni-trash-can"></i>
-                                                </button>
-                                                </div>
-                                            </td>
+                                                <td>1</td>
+                                                <td>2023/2024 Ganjil</td>
+                                                <td>MNH211</td>
+                                                <td>Biometrika Hutan</td>
+                                                <td>3 (3-0)</td>
+                                                <td>1 (K)</td>
+                                                <td>K,S,P,O,R,O</td>
+                                                <td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
+                                                <td>
+                                                    <div class="d-flex gap-2 justify-content-center">
+                                                        <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
+                                                            <i class="lni lni-eye"></i>
+                                                        </button>
+                                                        <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
+                                                            <i class="lni lni-trash-can"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>2023/2024 Genap</td>
+                                                <td>MNH215</td>
+                                                <td>Silvikultur Intensif</td>
+                                                <td>2 (2-0)</td>
+                                                <td>2 (K)</td>
+                                                <td>K,S,P,O</td>
+                                                <td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
+                                                <td>
+                                                    <div class="d-flex gap-2 justify-content-center">
+                                                        <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
+                                                            <i class="lni lni-eye"></i>
+                                                        </button>
+                                                        <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
+                                                            <i class="lni lni-trash-can"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3</td>
+                                                <td>2022/2023 Ganjil</td>
+                                                <td>THH301</td>
+                                                <td>Teknologi Hasil Hutan</td>
+                                                <td>3 (2-1)</td>
+                                                <td>1 (P)</td>
+                                                <td>K,S,P</td>
+                                                <td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
+                                                <td>
+                                                    <div class="d-flex gap-2 justify-content-center">
+                                                        <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
+                                                            <i class="lni lni-eye"></i>
+                                                        </button>
+                                                        <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
+                                                            <i class="lni lni-trash-can"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                            
-                            <div class="main-tab-content" id="penunjang-content" style="display: none;">
-                                <div class="tab-filters">
-                                   <div class="filter-dropdown-wrapper d-flex gap-2">
-                                   <select class="form-select filter-select">
-                                        <option>Tahun</option>
-                                        <option>2025</option>
-                                        <option>2026</option>
-                                        <option>2027</option>
-                                    </select>
-                                    <select class="form-select filter-select" style="width: 175px;">
-                                        <option>Lingkup</option>
-                                        <option>Lokal</option>
-                                        <option>Nasional</option>
-                                        <option>Internasional</option>
-                                    </select>
-                                </div>
-                                    <div class="input-group" style="width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input" placeholder="Cari Data..."></div>
-                                </div>
                                 
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered table-hover table-sm">
-                                            <thead><tr><th>No</th><th>Kegiatan</th><th>Lingkup</th><th>Nama Kegiatan</th><th>Instansi</th><th>Nomor SK</th><th>TMT</th><th>TST</th><th>Dokumen</th><th>Aksi</th></tr></thead>
-                                            <tbody>
+                            <!-- Pengajaran Luar Content -->
+                            <div class="sub-tab-content" id="pengajaran-luar" style="display: none;">
+                            <div class="tab-filters">
+                                <div class="filter-dropdown-wrapper"><select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select></div>
+                                <div class="input-group" style="width: auto; max-width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ...."></div>
+                            </div>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover table-sm">
+                                        <thead>
                                             <tr>
-                                            <td>1</td>
-                                            <td>Penyuluhan</td>
-                                            <td>Pengelolaan Hutan</td>
-                                            <td>Desa Cibodas, Bogor</td>
-                                            <td>Kementerian Lingkungan Hidup</td>
-                                            <td>SK-123/2022</td>
-                                            <td>15-08-2022</td>
-                                            <td>17-08-2022</td>
-                                            <td>
-                                                <button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex gap-2 justify-content-center">
-                                                <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
-                                                    <i class="lni lni-eye"></i>
-                                                </button>
-                                                <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
-                                                    <i class="lni lni-trash-can"></i>
-                                                </button>
-                                                </div>
-                                            </td>
+                                                <th>No</th>
+                                                <th>Tahun Semester</th>
+                                                <th>Kode MK</th>
+                                                <th>Mata Kuliah</th>
+                                                <th>Jumlah Pertemuan</th>
+                                                <th>Institusi</th>
+                                                <th>Program Studi</th>
+                                                <th>Dokumen</th>
+                                                <th>Aksi</th>
                                             </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>2023/2024 Ganjil</td>
+                                                <td>SKL401</td>
+                                                <td>Silvikultur Intensif</td>
+                                                <td>K,S, P,O, R,O</td>
+                                                <td>Universitas Gadjah Mada</td>
+                                                <td>Kehutanan</td>
+                                                <td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
+                                                <td>
+                                                    <div class="d-flex gap-2 justify-content-center">
+                                                        <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
+                                                            <i class="lni lni-eye"></i>
+                                                        </button>
+                                                        <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
+                                                            <i class="lni lni-trash-can"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>2023/2024 Genap</td>
+                                                <td>EKL302</td>
+                                                <td>Ekologi Hutan</td>
+                                                <td>K,S, P,O, R,O</td>
+                                                <td>Universitas Hasanuddin</td>
+                                                <td>Manajemen Hutan</td>
+                                                <td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
+                                                <td>
+                                                    <div class="d-flex gap-2 justify-content-center">
+                                                        <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
+                                                            <i class="lni lni-eye"></i>
+                                                        </button>
+                                                        <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
+                                                            <i class="lni lni-trash-can"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3</td>
+                                                <td>2022/2023 Ganjil</td>
+                                                <td>THT501</td>
+                                                <td>Teknologi Hasil Hutan</td>
+                                                <td>K,S, P,O, R,O</td>
+                                                <td>Institut Pertanian Bogor</td>
+                                                <td>Teknologi Hasil Hutan</td>
+                                                <td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
+                                                <td>
+                                                    <div class="d-flex gap-2 justify-content-center">
+                                                        <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
+                                                            <i class="lni lni-eye"></i>
+                                                        </button>
+                                                        <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
+                                                            <i class="lni lni-trash-can"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
+                            </div>
+                                
+                            <!-- Pengujian Lama Content -->
+                            <div class="sub-tab-content" id="pengujian-lama" style="display: none;">
+                            <div class="tab-filters">
+                                <div class="filter-dropdown-wrapper"><select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select></div>
+                                <div class="input-group" style="width: auto; max-width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ...."></div>
+                            </div>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Tahun Semester</th>
+                                                <th>NIM</th>
+                                                <th>Nama Mahasiswa</th>
+                                                <th>Strata</th>
+                                                <th>Departemen</th>
+                                                <th>Status</th>
+                                                <th>Dokumen</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>2023/2024 Genap</td>
+                                                <td>H2417001</td>
+                                                <td>Andi Wijaya</td>
+                                                <td>S2</td>
+                                                <td>Manajemen Hutan</td>
+                                                <td>Anggota Penguji</td>
+                                                <td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
+                                                <td>
+                                                    <div class="d-flex gap-2 justify-content-center">
+                                                        <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
+                                                            <i class="lni lni-eye"></i>
+                                                        </button>
+                                                        <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
+                                                            <i class="lni lni-trash-can"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>2023/2024 Ganjil</td>
+                                                <td>H2417002</td>
+                                                <td>Budi Santoso</td>
+                                                <td>S2</td>
+                                                <td>Teknologi Hasil Hutan</td>
+                                                <td>Anggota Penguji</td>
+                                                <td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
+                                                <td>
+                                                    <div class="d-flex gap-2 justify-content-center">
+                                                        <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
+                                                            <i class="lni lni-eye"></i>
+                                                        </button>
+                                                        <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
+                                                            <i class="lni lni-trash-can"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3</td>
+                                                <td>2022/2023 Genap</td>
+                                                <td>H2317003</td>
+                                                <td>Citra Dewi</td>
+                                                <td>S3</td>
+                                                <td>Ilmu Kehutanan</td>
+                                                <td>Anggota Penguji</td>
+                                                <td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
+                                                <td>
+                                                    <div class="d-flex gap-2 justify-content-center">
+                                                        <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
+                                                            <i class="lni lni-eye"></i>
+                                                        </button>
+                                                        <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
+                                                            <i class="lni lni-trash-can"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Pembimbing Lama Content -->
+                            <div class="sub-tab-content" id="pembimbing-lama" style="display: none;">
+                            <div class="tab-filters">
+                                <div class="filter-dropdown-wrapper"><select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select></div>
+                                <div class="input-group" style="width: auto; max-width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ...."></div>
+                            </div>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover table-sm">
+                                        <thead><tr><th>No</th><th>Tahun Semester</th><th>Kegiatan</th><th>Nim</th><th>Nama Mahasiswa</th><th>Strata</th><th>Status</th><th>Dokumen</th><th>Aksi</th></tr></thead>
+                                        <tbody>
+                                            <tr><td>1</td><td>2020/2021 Genap</td><td>Membimbing dan ikut membimbing.. </td><td>E2039383</td><td>Alex Feruso</td><td>S1</td><td>Pembimbing Pendamping</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>
+                                            <tr><td>2</td><td>2020/2021 Genap</td><td>Membimbing dan ikut membimbing.. </td><td>E2039383</td><td>Alex Feruso</td><td>S1</td><td>Pembimbing Pendamping</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>
+                                            <tr><td>3</td><td>2020/2021 Genap</td><td>Membimbing dan ikut membimbing.. </td><td>E2039383</td><td>Alex Feruso</td><td>S1</td><td>Pembimbing Pendamping</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Penguji Luar Content -->
+                            <div class="sub-tab-content" id="penguji-luar" style="display: none;">
+                            <div class="tab-filters">
+                                <div class="filter-dropdown-wrapper"><select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select></div>
+                                <div class="input-group" style="width: auto; max-width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ...."></div>
+                            </div>  
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Tahun Semester</th>
+                                                <th>NIM</th>
+                                                <th>Nama Mahasiswa</th>
+                                                <th>Strata</th>
+                                                <th>Universitas</th>
+                                                <th>Status</th>
+                                                <th>Dokumen</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <script>
+                                                for(let i=1; i<=3; i++){ 
+                                                    document.write(`
+                                                    <tr>
+                                                        <td class="text-center">${i}</td>
+                                                        <td>2018/2019 Ganjil</td>
+                                                        <td class="text-center">160648032</td>
+                                                        <td class="text-center">HAQQI ANNAZILLI</td>
+                                                        <td>S1</td>
+                                                        <td>IPB University</td>
+                                                        <td>Anggota Penguji</td>
+                                                        <td class="text-center"><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
+                                                        <td class="text-center">
+                                                            <div class="d-flex gap-2 justify-content-center">
+                                                                <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button>
+                                                                <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>`);
+                                                }
+                                            </script>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                             
+                            <!-- Pembimbing Luar Content -->
+                            <div class="sub-tab-content" id="pembimbing-luar" style="display: none;">
+                            <div class="tab-filters">
+                                <div class="filter-dropdown-wrapper"><select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select></div>
+                                <div class="input-group" style="width: auto; max-width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ...."></div>
+                            </div>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Tahun Semester</th>
+                                                <th>NIM</th>
+                                                <th>Nama Mahasiswa</th>
+                                                <th>Strata</th>
+                                                <th>Universitas</th>
+                                                <th>Status</th>
+                                                <th>Dokumen</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <script>
+                                                for(let i=1; i<=3; i++){ 
+                                                    document.write(`
+                                                    <tr>
+                                                        <td class="text-center">${i}</td>
+                                                        <td>2018/2019 Ganjil</td>
+                                                        <td class="text-center">160648032</td>
+                                                        <td class="text-center">HAQQI ANNAZILLI</td>
+                                                        <td>S2</td>
+                                                        <td>IPB University</td>
+                                                        <td>Pembimbing</td>
+                                                        <td class="text-center"><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
+                                                        <td class="text-center">
+                                                            <div class="d-flex gap-2 justify-content-center">
+                                                                <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button>
+                                                                <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>`);
+                                                }
+                                            </script>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Penelitian Content -->
+                        <div class="main-tab-content" id="penelitian-content" style="display: none;">
+                        <div class="tab-filters">
+                                <div class="filter-dropdown-wrapper d-flex gap-2">
+                                <select class="form-select filter-select">
+                                    <option>Tahun</option>
+                                    <option>2025</option>
+                                    <option>2026</option>
+                                    <option>2027</option>
+                                </select>
+                                <select class="form-select filter-select" style="width: 175px;">
+                                    <option>Jenis SKIM</option>
+                                    <option selected disabled>Jenis Karya</option>
+                                    <option value="Buku Monograf">Buku Monograf</option>
+                                    <option value="Buku Referensi">Buku Referensi</option>
+                                    <option value="Book Chapter Internasional">Book Chapter Tingkat Internasional</option>
+                                    <option value="Book Chapter Nasional">Book Chapter Tingkat Nasional</option>
+                                    <option value="Menyunting Buku">Mengedit/Menyunting Karya Ilmiah dalam Bentuk Buku yang Diterbitkan</option>
+                                    <option value="Jurnal Internasional Bereputasi">Jurnal Internasional Bereputasi</option>
+                                    <option value="Jurnal Internasional Terindeks">Jurnal Internasional Terindeks</option>
+                                    <option value="Jurnal Nasional">Jurnal Nasional</option>
+                                    <option value="Jurnal Nasional Terakreditasi">Jurnal Nasional Terakreditasi</option>
+                                    <option value="Jurnal Nasional Terakreditasi Peringkat 1 dan 2">Jurnal Nasional Terakreditasi Kemenristekdikti Peringkat 1 dan 2</option>
+                                    <option value="Jurnal Nasional Terakreditasi Peringkat 3 dan 4">Jurnal Nasional Terakreditasi Kemenristekdikti Peringkat 3 dan 4</option>
+                                    <option value="Jurnal Nasional Bhs Indonesia DOAJ">Jurnal Nasional Berbahasa Indonesia Terindeks pada DOAJ</option>
+                                    <option value="Jurnal Nasional Bhs Inggris/PBB DOAJ">Jurnal Nasional Berbahasa Inggris atau Bahasa Resmi PBB Terindeks pada DOAJ</option>
+                                    <option value="Prosiding Internasional (Dipresentasikan)">Prosiding Internasional - Makalah Dipresentasikan</option>
+                                    <option value="Prosiding Internasional (Tidak Dipresentasikan)">Prosiding Internasional - Makalah Tidak Dipresentasikan</option>
+                                    <option value="Prosiding Internasional Terindeks WoS/Scopus">Prosiding Internasional Terindeks Web of Science/Scopus</option>
+                                    <option value="Prosiding Nasional (Dipresentasikan)">Prosiding Nasional - Makalah Dipresentasikan</option>
+                                    <option value="Prosiding Nasional (Tidak Dipresentasikan)">Prosiding Nasional - Makalah Tidak Dipresentasikan</option>
+                                    <option value="Hasil Penelitian Disajikan (Non-Prosiding)">Hasil Penelitian/Pemikiran yang Disajikan dalam Forum Ilmiah Internasional</option>
+                                    <option value="Poster Internasional (Non-Prosiding)">Poster Dipresentasikan dalam Forum Ilmiah Internasional</option>
+                                    <option value="Poster Prosiding Nasional">Poster Dimuat dalam Prosiding Nasional yang Dipublikasikan</option>
+                                    <option value="Hasil Penelitian Tidak Dipublikasikan">Hasil Penelitian/Pemikiran/Kerja Sama Industri yang Tidak Dipublikasikan</option>
+                                    <option value="Koran/Majalah Populer">Koran/Majalah Populer/Majalah Umum</option>
+                                    <option value="Karya Terdaftar HaKI">Rancangan/Karya Teknologi atau Seni Terdaftar di HaKI Tingkat Nasional</option>
+                                    <option value="Paten Sederhana">Paten Sederhana</option>
+                                    <option value="Karya Cipta/Desain Industri">Karya Cipta/Desain Industri/Indikasi Geografis</option>
+                                    <option value="Rumusan Kebijakan Monumental">Rumusan Kebijakan Monumental</option>
+                                </select>
+                            </div>
+                                <div class="input-group" style="width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input" placeholder="Cari Data..."></div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover table-sm">
+                                    <thead><tr><th>No</th><th>Judul</th><th>Tgl. Terbit</th><th>Jenis</th><th>Publik</th><th>Dokumen</th><th>Aksi</th></tr></thead>
+                                    <tbody>
+                                        <script>for(let i=1; i<=3; i++){ document.write(`<tr><td>${i}</td><td>Pengaruh Air Terhadap Tumbuh Kembang Leles</td><td>24 Desember 2021</td><td>Karya</td><td>Ya</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>`);}</script>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                            
+                        <!-- Pengabdian Content -->
+                        <div class="main-tab-content" id="pengabdian-content" style="display: none;">
+                            <div class="tab-filters">
+                            <div class="filter-dropdown-wrapper d-flex gap-2">
+                            <select class="form-select filter-select">
+                                    <option>Tahun</option>
+                                    <option>2025</option>
+                                    <option>2026</option>
+                                    <option>2027</option>
+                                </select>
+                                <select class="form-select filter-select" style="width: 175px;">
+                                    <option>Jenis SKIM</option>
+                                    <option value="Biomedik">Biomedik</option>
+                                    <option value="Hibah HI-LINK">Hibah HI-LINK</option>
+                                    <option value="Ipteks">Ipteks</option>
+                                    <option value="Ipteks Bagi Inovasi Kreativitas Kampus">Ipteks Bagi Inovasi Kreativitas Kampus</option>
+                                    <option value="Ipteks Bagi Kewirausahaan">Ipteks Bagi Kewirausahaan</option>
+                                    <option value="Iptek Bagi Masyarakat">Iptek Bagi Masyarakat</option>
+                                    <option value="Iptek Bagi Produk Ekspor">Iptek Bagi Produk Ekspor</option>
+                                    <option value="Iptek Bagi Wilayah">Iptek Bagi Wilayah</option>
+                                    <option value="Iptek Bagi Wilayah Antara PT-CSR/PT-PEMDA-CSR">Iptek Bagi Wilayah Antara PT-CSR/PT-PEMDA-CSR</option>
+                                    <option value="Kerjasama Luar Negeri dan Publikasi Internasional">Kerjasama Luar Negeri dan Publikasi Internasional</option>
+                                    <option value="KKN Pembelajaran Pemberdayaan Masyarakat">KKN Pembelajaran Pemberdayaan Masyarakat</option>
+                                    <option value="Mobil Listrik Nasional">Mobil Listrik Nasional</option>
+                                    <option value="MP3EI">MP3EI</option>
+                                    <option value="Pendidikan Magister Doktor Sarjana Unggul">Pendidikan Magister Doktor Sarjana Unggul</option>
+                                    <option value="Penelitian Disertasi Doktor">Penelitian Disertasi Doktor</option>
+                                    <option value="Penelitian Dosen Pemula">Penelitian Dosen Pemula</option>
+                                    <option value="Penelitian Fundamental">Penelitian Fundamental</option>
+                                    <option value="Penelitian Hibah Bersaing">Penelitian Hibah Bersaing</option>
+                                    <option value="Penelitian Kerjasama Antar Perguruan Tinggi">Penelitian Kerjasama Antar Perguruan Tinggi</option>
+                                    <option value="Penelitian Kompetensi">Penelitian Kompetensi</option>
+                                    <option value="Penelitian Srategis Nasional">Penelitian Srategis Nasional</option>
+                                    <option value="Penelitian Tim Pascasarjana">Penelitian Tim Pascasarjana</option>
+                                    <option value="Penelitian Unggulan Perguruan Tinggi">Penelitian Unggulan Perguruan Tinggi</option>
+                                    <option value="Penelitian Unggulan Strategis Nasional">Penelitian Unggulan Strategis Nasional</option>
+                                    <option value="Riset Andalan Perguruan Tinggi dan Industri">Riset Andalan Perguruan Tinggi dan Industri</option>
+                                </select>
+                            </div>
+                                <div class="input-group" style="width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input" placeholder="Cari Data..."></div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover table-sm">
+                                    <thead><tr><th>No</th><th>Kegiatan</th><th>Nama Kegiatan</th><th>Afiliasi</th><th>Lokasi</th><th>Nomor SK</th><th>Tahun</th><th>Dokumen</th><th>Aksi</th></tr></thead>
+                                    <tbody>
+                                        <tr>
+                                        <td>1</td>
+                                        <td>Penyuluhan</td>
+                                        <td>Pengelolaan Hutan Lestari</td>
+                                        <td>Desa Cibodas, Bogor</td>
+                                        <td>Kementerian Lingkungan Hidup</td>
+                                        <td>SK-123/2022</td>
+                                        <td>2022</td>
+                                        <td>
+                                            <button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex gap-2 justify-content-center">
+                                            <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
+                                                <i class="lni lni-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
+                                                <i class="lni lni-trash-can"></i>
+                                            </button>
+                                            </div>
+                                        </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                            
+                        <!-- Penunjang Content -->
+                        <div class="main-tab-content" id="penunjang-content" style="display: none;">
+                            <div class="tab-filters">
+                                <div class="filter-dropdown-wrapper d-flex gap-2">
+                                <select class="form-select filter-select">
+                                    <option>Tahun</option>
+                                    <option>2025</option>
+                                    <option>2026</option>
+                                    <option>2027</option>
+                                </select>
+                                <select class="form-select filter-select" style="width: 175px;">
+                                    <option>Lingkup</option>
+                                    <option>Lokal</option>
+                                    <option>Nasional</option>
+                                    <option>Internasional</option>
+                                </select>
+                            </div>
+                                <div class="input-group" style="width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input" placeholder="Cari Data..."></div>
+                            </div>
+                            
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover table-sm">
+                                        <thead><tr><th>No</th><th>Kegiatan</th><th>Lingkup</th><th>Nama Kegiatan</th><th>Instansi</th><th>Nomor SK</th><th>TMT</th><th>TST</th><th>Dokumen</th><th>Aksi</th></tr></thead>
+                                        <tbody>
+                                        <tr>
+                                        <td>1</td>
+                                        <td>Penyuluhan</td>
+                                        <td>Pengelolaan Hutan</td>
+                                        <td>Desa Cibodas, Bogor</td>
+                                        <td>Kementerian Lingkungan Hidup</td>
+                                        <td>SK-123/2022</td>
+                                        <td>15-08-2022</td>
+                                        <td>17-08-2022</td>
+                                        <td>
+                                            <button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex gap-2 justify-content-center">
+                                            <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
+                                                <i class="lni lni-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
+                                                <i class="lni lni-trash-can"></i>
+                                            </button>
+                                            </div>
+                                        </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            <!-- Pelatihan Content -->
                             <div class="main-tab-content" id="pelatihan-content" style="display: none;">
                                 <div class="tab-filters">
                                    <div class="filter-dropdown-wrapper d-flex gap-2">
@@ -1045,6 +1199,7 @@
                                 </div>
                             </div>
                             
+                            <!-- Penghargaan Content -->
                             <div class="main-tab-content" id="penghargaan-content" style="display: none;">
                                 <div class="tab-filters">
                                    <div class="filter-dropdown-wrapper d-flex gap-2">
