@@ -250,6 +250,7 @@
       </div>
   </div>
 
+<!--Detail Pengabdian-->
 <div id="pengabdianDetailModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -379,6 +380,19 @@
         </div>
     </div>
 </div>  
+
+<!--Konfirmasi Verifisi-->
+<div class="konfirmasi-pengabdian-overlay" id="modalKonfirmasiPengabdian" style="display: none;">
+    <div class="konfirmasi-pengabdian-box">
+        <h3 class="konfirmasi-pengabdian-title">Konfirmasi Verifikasi Data</h3>
+        <p class="konfirmasi-pengabdian-subtitle">Apakah Anda yakin ingin melanjutkan proses ini?</p>
+        <div class="konfirmasi-pengabdian-buttons">
+            <button class="btn-popup btn-terima" id="popupBtnTerima">Terima</button>
+            <button class="btn-popup btn-tolak" id="popupBtnTolak">Tolak</button>
+            <button class="btn-popup btn-kembali" id="popupBtnKembali">Kembali</button>
+        </div>
+    </div>
+</div>
 
   <script src="{{ asset('assets/js/pengabdian.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

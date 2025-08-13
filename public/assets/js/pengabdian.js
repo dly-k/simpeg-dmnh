@@ -68,7 +68,6 @@ document.addEventListener('DOMContentLoaded', function () {
   
   // === File Upload Logic ===
   function setupUploadArea() {
-    // Menangani semua .upload-area di halaman
     document.querySelectorAll('.upload-area').forEach(uploadArea => {
         const fileInput = uploadArea.querySelector('input[type="file"]');
         const uploadText = uploadArea.querySelector('p');
@@ -89,7 +88,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        // Menyimpan fungsi reset pada elemen untuk dipanggil nanti
         uploadArea.reset = function() {
             uploadText.innerHTML = originalText;
         }
@@ -97,27 +95,67 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   setupUploadArea();
 
-
   // === DETAIL MODAL Logic ===
   const pengabdianDetailModal = document.getElementById("pengabdianDetailModal");
-  const openPengabdianDetailBtn = document.getElementById("btnLihatPengabdian");
   const closePengabdianDetailBtn = document.getElementById("closePengabdianDetailBtn");
 
-  if (openPengabdianDetailBtn && pengabdianDetailModal) {
-    openPengabdianDetailBtn.addEventListener('click', function() {
-      pengabdianDetailModal.style.display = "block";
-    });
-  }
+  document.addEventListener('click', function(event) {
+    if (event.target.closest('#btnLihatPengabdian')) {
+      if (pengabdianDetailModal) {
+        pengabdianDetailModal.style.display = "block";
+      }
+    }
+  });
 
   if (closePengabdianDetailBtn && pengabdianDetailModal) {
     closePengabdianDetailBtn.addEventListener('click', function() {
       pengabdianDetailModal.style.display = "none";
     });
   }
+
+  // === Verifikasi Confirmation Modal Logic ===
+  const verifModal = document.getElementById('modalKonfirmasiPengabdian');
+  const btnTerima = document.getElementById('popupBtnTerima');
+  const btnTolak = document.getElementById('popupBtnTolak');
+  const btnKembali = document.getElementById('popupBtnKembali');
+  
+  document.addEventListener('click', function(event) {
+    if (event.target.closest('.btn-verifikasi')) {
+      event.preventDefault();
+      if (verifModal) verifModal.style.display = 'flex';
+    }
+  });
+  
+  if (verifModal) {
+    verifModal.addEventListener('click', function(e) {
+      if (e.target === verifModal) {
+        verifModal.style.display = 'none';
+      }
+    });
+  }
+  
+  if (btnTerima) {
+    btnTerima.addEventListener('click', function() {
+      alert('Data telah diverifikasi (Diterima)');
+      if (verifModal) verifModal.style.display = 'none';
+    });
+  }
+  
+  if (btnTolak) {
+    btnTolak.addEventListener('click', function() {
+      alert('Data telah ditolak');
+      if (verifModal) verifModal.style.display = 'none';
+    });
+  }
+  
+  if (btnKembali) {
+    btnKembali.addEventListener('click', function() {
+      if (verifModal) verifModal.style.display = 'none';
+    });
+  }
 });
 
-
-// === Modal Logic (Global Functions) ===
+// === Modal Functions ===
 function openModal(modalId) {
   const modal = document.getElementById(modalId);
   if (!modal) return;
@@ -133,13 +171,11 @@ function openModal(modalId) {
     form.reset();
   }
 
-  // Clear dynamic lists
   ['dosen-list', 'mahasiswa-list', 'kolaborator-list'].forEach(id => {
     const list = document.getElementById(id);
     if(list) list.innerHTML = '';
   });
 
-  // Reset upload area text
   const uploadArea = modal.querySelector('.upload-area');
   if (uploadArea && typeof uploadArea.reset === 'function') {
       uploadArea.reset();
@@ -167,7 +203,7 @@ function closeModal(modalId) {
   }
 }
 
-// === Dynamic Member Add Logic ===
+// === Dynamic Member Add Function ===
 function addAnggota(type) {
   let container, content;
   
