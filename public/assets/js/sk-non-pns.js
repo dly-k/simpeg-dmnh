@@ -116,21 +116,22 @@ document.addEventListener('DOMContentLoaded', function () {
     const btnBatalHapus = document.getElementById('btnBatalHapus');
     let dataToDelete = null;
 
-    // Fungsi untuk menampilkan modal
-    function showDeleteModal() {
-        if (modalKonfirmasiHapus) {
-            modalKonfirmasiHapus.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        }
+// Fungsi untuk menampilkan modal
+function showDeleteModal() {
+    if (modalKonfirmasiHapus) {
+        modalKonfirmasiHapus.classList.add('show');
+        document.body.style.overflow = 'hidden';
     }
+}
 
-    // Fungsi untuk menyembunyikan modal
-    function hideDeleteModal() {
-        if (modalKonfirmasiHapus) {
-            modalKonfirmasiHapus.style.display = 'none';
-            document.body.style.overflow = '';
-        }
+// Fungsi untuk menyembunyikan modal
+function hideDeleteModal() {
+    if (modalKonfirmasiHapus) {
+        modalKonfirmasiHapus.classList.remove('show');
+        document.body.style.overflow = '';
     }
+}
+
 
     // Event delegation untuk tombol hapus
     document.addEventListener('click', function(event) {

@@ -278,7 +278,7 @@
 
 <!--Hapus Penelitian-->
 <!-- Modal Konfirmasi Hapus -->
-<div class="konfirmasi-hapus-overlay" id="modalKonfirmasiHapus" style="display: none;">
+<div class="konfirmasi-hapus-overlay" id="modalKonfirmasiHapus">
     <div class="konfirmasi-hapus-box">
         <div class="konfirmasi-hapus-icon">
             <i class="fas fa-exclamation"></i>
