@@ -178,8 +178,7 @@ document.addEventListener('DOMContentLoaded', function () {
         alert(`Data "${dataToDelete.title}" (ID: ${dataToDelete.id}) berhasil dihapus`);
         
         // Example AJAX call:
-        /* 
-        fetch(`/api/penunjang/${dataToDelete.id}`, {
+        /* fetch(`/api/penunjang/${dataToDelete.id}`, {
           method: 'DELETE'
         })
         .then(response => {
