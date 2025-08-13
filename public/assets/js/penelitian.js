@@ -246,3 +246,53 @@ function addPenulis(listId) {
 
     list.appendChild(newInput);
 }
+
+// === Hapus Confirmation Modal Logic ===
+const hapusModal = document.getElementById('modalKonfirmasiHapus');
+const btnBatalHapus = document.getElementById('btnBatalHapus');
+const btnKonfirmasiHapus = document.getElementById('btnKonfirmasiHapus');
+let dataIdUntukHapus = null;
+
+// Event delegation untuk tombol hapus
+document.addEventListener('click', function(event) {
+  if (event.target.closest('.btn-hapus')) {
+    event.preventDefault();
+    dataIdUntukHapus = event.target.closest('tr').querySelector('td:first-child').textContent;
+    if (hapusModal) hapusModal.style.display = 'flex';
+  }
+});
+
+// Close modal when clicking outside
+if (hapusModal) {
+  hapusModal.addEventListener('click', function(e) {
+    if (e.target === hapusModal) {
+      hapusModal.style.display = 'none';
+    }
+  });
+}
+
+// Button handlers
+if (btnBatalHapus) {
+  btnBatalHapus.addEventListener('click', function() {
+    hapusModal.style.display = 'none';
+  });
+}
+
+if (btnKonfirmasiHapus) {
+  btnKonfirmasiHapus.addEventListener('click', function() {
+    // Logika hapus data disini
+    console.log('Menghapus data dengan ID:', dataIdUntukHapus);
+    alert(`Data dengan ID ${dataIdUntukHapus} berhasil dihapus`);
+    hapusModal.style.display = 'none';
+    
+    // Tambahkan logika AJAX atau lainnya untuk menghapus data
+    // Contoh:
+    // fetch(`/api/penelitian/${dataIdUntukHapus}`, {
+    //   method: 'DELETE'
+    // }).then(response => {
+    //   if(response.ok) {
+    //     location.reload();
+    //   }
+    // });
+  });
+}
