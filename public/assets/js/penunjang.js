@@ -136,6 +136,68 @@ document.addEventListener('DOMContentLoaded', function () {
       if (verifModal) verifModal.style.display = 'none';
     });
   }
+
+  // === Delete Confirmation Modal Logic ===
+  const deleteModal = document.getElementById('modalKonfirmasiHapus');
+  const btnBatalHapus = document.getElementById('btnBatalHapus');
+  const btnKonfirmasiHapus = document.getElementById('btnKonfirmasiHapus');
+  let dataToDelete = null;
+
+  document.addEventListener('click', function(event) {
+    if (event.target.closest('.btn-hapus')) {
+      event.preventDefault();
+      // Get the row data to be deleted
+      const row = event.target.closest('tr');
+      dataToDelete = {
+        id: row.querySelector('td:first-child').textContent,
+        title: row.querySelector('td:nth-child(2)').textContent
+      };
+      if (deleteModal) deleteModal.style.display = 'flex';
+    }
+  });
+
+  if (deleteModal) {
+    deleteModal.addEventListener('click', function(e) {
+      if (e.target === deleteModal) {
+        deleteModal.style.display = 'none';
+      }
+    });
+  }
+
+  if (btnBatalHapus) {
+    btnBatalHapus.addEventListener('click', function() {
+      if (deleteModal) deleteModal.style.display = 'none';
+    });
+  }
+
+  if (btnKonfirmasiHapus) {
+    btnKonfirmasiHapus.addEventListener('click', function() {
+      if (dataToDelete) {
+        // Here you would typically make an AJAX call to delete the data
+        console.log('Deleting data:', dataToDelete);
+        alert(`Data "${dataToDelete.title}" (ID: ${dataToDelete.id}) berhasil dihapus`);
+        
+        // Example AJAX call:
+        /* 
+        fetch(`/api/penunjang/${dataToDelete.id}`, {
+          method: 'DELETE'
+        })
+        .then(response => {
+          if(response.ok) {
+            location.reload();
+          } else {
+            alert('Gagal menghapus data');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Terjadi kesalahan saat menghapus data');
+        });
+        */
+      }
+      if (deleteModal) deleteModal.style.display = 'none';
+    });
+  }
 });
 
 // === Global Functions ===
@@ -223,5 +285,10 @@ window.addEventListener('click', function (event) {
   const penunjangDetailModal = document.getElementById("penunjangDetailModal");
   if (event.target === penunjangDetailModal) {
     penunjangDetailModal.style.display = "none";
+  }
+
+  const deleteModal = document.getElementById("modalKonfirmasiHapus");
+  if (event.target === deleteModal) {
+    deleteModal.style.display = "none";
   }
 });
