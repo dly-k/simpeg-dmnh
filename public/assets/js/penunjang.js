@@ -35,20 +35,18 @@ document.addEventListener('DOMContentLoaded', function () {
   updateDateTime();
   setInterval(updateDateTime, 1000);
 
-  // === PENINGKATAN: Event Delegation untuk elemen dinamis ===
+  // === Dynamic Interactions ===
   function setupDynamicInteractions() {
-    // 1. Event listener untuk list dokumen
+    // Dokumen List
     const dokumenList = document.getElementById('dokumen-list');
     if (dokumenList) {
       dokumenList.addEventListener('click', function(event) {
-        // Logika untuk tombol hapus dokumen
         const removeBtn = event.target.closest('.btn-outline-danger');
         if (removeBtn) {
           removeBtn.closest('.border.rounded').remove();
-          return; // Hentikan eksekusi agar tidak memicu upload
+          return;
         }
         
-        // Logika untuk upload area
         const uploadArea = event.target.closest('.upload-area');
         if (uploadArea) {
           const fileInput = uploadArea.querySelector('input[type="file"]');
@@ -56,7 +54,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       });
 
-      // Listener untuk perubahan file input di dalam list dokumen
       dokumenList.addEventListener('change', function(event){
         if(event.target.matches('input[type="file"]')){
           const uploadArea = event.target.closest('.upload-area');
@@ -68,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
 
-    // 2. Event listener untuk list anggota
+    // Anggota List
     const anggotaList = document.getElementById('anggota-list');
     if (anggotaList) {
       anggotaList.addEventListener('click', function(event) {
@@ -81,27 +78,67 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   setupDynamicInteractions();
 
-
-  // === PENINGKATAN: Detail Modal Logic ===
+  // === Detail Modal Logic ===
   const penunjangDetailModal = document.getElementById("penunjangDetailModal");
-  const openPenunjangDetailBtn = document.getElementById("btnLihatPenunjangDetail");
   const closePenunjangDetailBtn = document.getElementById("closePenunjangDetailBtn");
 
-  if (openPenunjangDetailBtn && penunjangDetailModal) {
-    openPenunjangDetailBtn.addEventListener('click', function() {
-      penunjangDetailModal.style.display = "block";
-    });
-  }
+  document.addEventListener('click', function(event) {
+    if (event.target.closest('#btnLihatPenunjangDetail')) {
+      if (penunjangDetailModal) {
+        penunjangDetailModal.style.display = "block";
+      }
+    }
+  });
+
   if (closePenunjangDetailBtn && penunjangDetailModal) {
     closePenunjangDetailBtn.addEventListener('click', function() {
       penunjangDetailModal.style.display = "none";
     });
   }
+
+  // === Verifikasi Confirmation Modal Logic ===
+  const verifModal = document.getElementById('modalKonfirmasiPenunjang');
+  const btnTerima = document.getElementById('popupBtnTerima');
+  const btnTolak = document.getElementById('popupBtnTolak');
+  const btnKembali = document.getElementById('popupBtnKembali');
+  
+  document.addEventListener('click', function(event) {
+    if (event.target.closest('.btn-verifikasi')) {
+      event.preventDefault();
+      if (verifModal) verifModal.style.display = 'flex';
+    }
+  });
+  
+  if (verifModal) {
+    verifModal.addEventListener('click', function(e) {
+      if (e.target === verifModal) {
+        verifModal.style.display = 'none';
+      }
+    });
+  }
+  
+  if (btnTerima) {
+    btnTerima.addEventListener('click', function() {
+      alert('Data telah diverifikasi (Diterima)');
+      if (verifModal) verifModal.style.display = 'none';
+    });
+  }
+  
+  if (btnTolak) {
+    btnTolak.addEventListener('click', function() {
+      alert('Data telah ditolak');
+      if (verifModal) verifModal.style.display = 'none';
+    });
+  }
+  
+  if (btnKembali) {
+    btnKembali.addEventListener('click', function() {
+      if (verifModal) verifModal.style.display = 'none';
+    });
+  }
 });
 
-
 // === Global Functions ===
-
 function openModal(modalId) {
   const modal = document.getElementById(modalId);
   if (!modal) return;
@@ -112,7 +149,6 @@ function openModal(modalId) {
   }
   if (form) form.reset();
   
-  // Kosongkan list dinamis
   const dokumenList = document.getElementById('dokumen-list');
   const anggotaList = document.getElementById('anggota-list');
   if (dokumenList) dokumenList.innerHTML = '';
@@ -142,7 +178,6 @@ function addDokumen() {
 
   const newRow = document.createElement('div');
   newRow.className = 'border rounded p-3 mb-3';
-  // PERBAIKAN: Atribut onclick pada tombol hapus dihilangkan
   newRow.innerHTML = `
     <div class="row g-2">
       <div class="col-12"><select class="form-select form-select-sm"><option selected>-- Pilih Jenis Dokumen --</option></select></div>
@@ -170,7 +205,6 @@ function addAnggota() {
 
   const newRow = document.createElement('div');
   newRow.className = 'input-group mb-2';
-  // PERBAIKAN: Atribut onclick pada tombol hapus dihilangkan
   newRow.innerHTML = `
     <input type="text" class="form-control" placeholder="Nama Dosen">
     <select class="form-select"><option selected>-- Pilih Salah Satu Peran --</option></select>
@@ -181,14 +215,11 @@ function addAnggota() {
   list.appendChild(newRow);
 }
 
-// PERBAIKAN: Menggabungkan semua listener klik di luar modal
 window.addEventListener('click', function (event) {
-  // Untuk modal utama dengan backdrop
   if (event.target.classList.contains('modal-backdrop')) {
     closeModal(event.target.id);
   }
   
-  // Untuk modal detail tanpa backdrop
   const penunjangDetailModal = document.getElementById("penunjangDetailModal");
   if (event.target === penunjangDetailModal) {
     penunjangDetailModal.style.display = "none";

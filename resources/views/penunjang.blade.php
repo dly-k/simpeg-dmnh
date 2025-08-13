@@ -212,6 +212,7 @@
         </div>
     </div>
 
+<!--Detail-->
 <div id="penunjangDetailModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -299,6 +300,21 @@
         </div>
     </div>
 </div>
+
+<!--konfirmasi-->
+<!-- Konfirmasi Verifikasi -->
+<div class="konfirmasi-penunjang-overlay" id="modalKonfirmasiPenunjang">
+  <div class="konfirmasi-penunjang-box">
+    <h3 class="konfirmasi-penunjang-title">Konfirmasi Verifikasi Data</h3>
+    <p class="konfirmasi-penunjang-subtitle">Apakah Anda yakin ingin melanjutkan proses ini?</p>
+    <div class="konfirmasi-penunjang-buttons">
+      <button class="btn-popup btn-terima" id="popupBtnTerima">Terima</button>
+      <button class="btn-popup btn-tolak" id="popupBtnTolak">Tolak</button>
+      <button class="btn-popup btn-kembali" id="popupBtnKembali">Kembali</button>
+    </div>
+  </div>
+</div>
+
 
   <script src="{{ asset('assets/js/penunjang.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
