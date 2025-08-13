@@ -382,6 +382,17 @@ body {
   border-color: var(--dark-gray) !important;
 }
 
+    #biodata-sub-tabs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* otomatis nyesuai */
+  gap: 0.5rem; /* jarak antar tombol */
+}
+
+#biodata-sub-tabs .btn {
+  width: 100%; /* biar tombol full dalam grid cell */
+}
+
+
 .table-responsive {
   overflow-x: auto; /* Scroll horizontal hanya untuk tabel */
   width: 100%;
@@ -416,18 +427,6 @@ body {
   cursor: pointer;
 }
 
-.detail-pegawai th {
-    text-align: left !important;
-        width: 25%;
-    white-space: nowrap;
-}
-.detail-pegawai td {
-    margin-left: 100px;
-    padding: 0.6rem;
-    padding-left: 1.5rem; /* atur jarak kiri */
-    font-size: 13px;
-}
-
 /* === Aksi Buttons === */
 .btn-aksi {
   width: 32px;
@@ -455,17 +454,14 @@ body {
 }
 
 .btn-edit {
-  background-color: #eeb404;
-    color: white;
+  background-color: var(--warning);
   transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* shadow tipis */
 }
 
 .btn-edit:hover {
   background-color: var(--warning-hover);
   color: var(--white);
-  transform: scale(1.05);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* shadow sedikit lebih tebal saat hover */
+  transform: scale(1.15);
 }
 
 .btn-lihat,
@@ -499,6 +495,7 @@ body {
   display: inline-flex; /* flex tapi ukurannya sesuai tombol */
   align-items: center;  /* sejajarkan icon & teks di tengah vertikal */
   justify-content: center;
+  margin-top: 30px;
 }
 
 .btn-simpan:hover {
@@ -550,6 +547,10 @@ body {
   transform: scale(1.05);
 }
 
+.search-input::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+}
+
 /* === Pagination === */
 .pagination .page-link {
   font-size: 0.85rem;
@@ -562,26 +563,8 @@ body {
 }
 
 /* === Filter, Search, Tab UI === */
-.search-input::placeholder {
-  color: rgba(0, 0, 0, 0.4);
-}
-
 .search-filter-container {
   margin-bottom: 1.5rem;
-}
-.search-box .input-group {
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06); /* tipis */
-  border-radius: 0.375rem;
-  overflow: hidden;
-}
-
-.search-box .form-control,
-.search-box .input-group-text {
-  border: none;
-}
-
-.search-box .form-control:focus {
-  box-shadow: none;
 }
 
 .search-filter-row {
@@ -787,6 +770,26 @@ body {
     gap: 8px;
   }
 }
+/* Responsive Sub Tabs */
+@media (max-width: 768px) {
+  #biodata-sub-tabs,
+  #pendidikan-sub-tabs {
+    grid-template-columns: 1fr; /* tombol full width */
+  }
+
+  #biodata-sub-tabs .btn,
+  #pendidikan-sub-tabs .btn {
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 991px) {
+  #biodata-sub-tabs,
+  #pendidikan-sub-tabs {
+    grid-template-columns: repeat(2, 1fr); /* 2 kolom di tablet */
+  }
+}
 
 /* === Additional Fixes === */
 .flex-grow-1 {
@@ -802,28 +805,18 @@ body {
   display: block; /* Tampilkan sub-tab yang aktif */
 }
 
-.search-filter-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
-
-.search-box {
-  flex: 1;
-  min-width: 220px; /* biar ga terlalu kecil */
-}
-
-.btn-tambah-container {
-  flex-shrink: 0;
-}
-
 @media (max-width: 576px) {
-  .search-filter-row {
-    flex-direction: column;
+  .periode-jabatan {
+    flex-direction: column !important; /* Paksa jadi kolom di HP */
+    align-items: flex-start;
+    gap: 0.25rem; /* jarak antar elemen lebih rapat */
   }
 
-  .btn-tambah-container a {
-    width: 100%; /* tombol full width di HP */
+  .periode-jabatan input {
+    width: 100%; /* biar full di layar kecil */
+  }
+
+  .periode-jabatan span {
+    padding-top: 0;
   }
 }
