@@ -51,6 +51,8 @@ document.addEventListener('DOMContentLoaded', function () {
     { name: 'Saeful Rohim', user: 'Staff_saeful', role: 'Administrasi Kepegawaian' }
   ];
 
+  let selectedDeleteIndex = null;
+
   function renderTable() {
     const tableBody = document.getElementById('userDataBody');
     if (!tableBody) return;
@@ -67,30 +69,73 @@ document.addEventListener('DOMContentLoaded', function () {
             <button class="btn btn-aksi btn-edit-row" title="Edit" onclick="openEditModal('${item.name}', '${item.user}', '${item.role}')">
               <i class="fa fa-edit"></i>
             </button>
-            <button class="btn btn-aksi btn-delete-row" title="Hapus">
+            <button class="btn btn-aksi btn-delete-row" title="Hapus" data-index="${index}">
               <i class="fa fa-trash"></i>
             </button>
           </div>
         </td>
       </tr>
     `).join('');
+
+    // Event tombol hapus → buka modal
+    document.querySelectorAll('.btn-delete-row').forEach(btn => {
+      btn.addEventListener('click', function () {
+        selectedDeleteIndex = parseInt(this.getAttribute('data-index'));
+        openModal('modalKonfirmasiHapus');
+      });
+    });
   }
 
   renderTable();
+
+  // --- Modal Hapus Logic ---
+  const btnBatalHapus = document.getElementById('btnBatalHapus');
+  const btnKonfirmasiHapus = document.getElementById('btnKonfirmasiHapus');
+
+  if (btnBatalHapus) {
+    btnBatalHapus.addEventListener('click', function () {
+      closeModal('modalKonfirmasiHapus');
+      selectedDeleteIndex = null;
+    });
+  }
+
+  if (btnKonfirmasiHapus) {
+    btnKonfirmasiHapus.addEventListener('click', function () {
+      if (selectedDeleteIndex !== null) {
+        userData.splice(selectedDeleteIndex, 1);
+        renderTable();
+        closeModal('modalKonfirmasiHapus');
+        selectedDeleteIndex = null;
+      }
+    });
+  }
+
+  // Tutup semua modal jika klik di luar konten
+  document.querySelectorAll('.modal-backdrop, .konfirmasi-hapus-overlay').forEach(modal => {
+    modal.addEventListener('click', function (e) {
+      if (e.target === modal) {
+        closeModal(modal.id);
+      }
+    });
+  });
 });
 
-// --- Modal Functions ---
+// --- Modal Functions with animation ---
 function openModal(modalId) {
   const modal = document.getElementById(modalId);
   if (modal) {
     modal.style.display = 'flex';
+    requestAnimationFrame(() => modal.classList.add('show'));
   }
 }
 
 function closeModal(modalId) {
   const modal = document.getElementById(modalId);
   if (modal) {
-    modal.style.display = 'none';
+    modal.classList.remove('show');
+    modal.addEventListener('transitionend', () => {
+      modal.style.display = 'none';
+    }, { once: true });
   }
 }
 
@@ -105,10 +150,3 @@ function openEditModal(nama, user, role) {
 
   openModal('editDataModal');
 }
-
-// --- Close modal if backdrop clicked ---
-window.onclick = function (event) {
-  if (event.target.classList.contains('modal-backdrop')) {
-    closeModal(event.target.id);
-  }
-};

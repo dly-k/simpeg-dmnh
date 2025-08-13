@@ -181,6 +181,22 @@
     <span>© 2025 Forest Management — All Rights Reserved</span>
   </footer>
 
+<!--Hapus Penelitian-->
+<!-- Modal Konfirmasi Hapus -->
+<div class="konfirmasi-hapus-overlay" id="modalKonfirmasiHapus" style="display: none;">
+    <div class="konfirmasi-hapus-box">
+        <div class="konfirmasi-hapus-icon">
+            <i class="fas fa-exclamation"></i>
+        </div>
+        <h3 class="konfirmasi-hapus-title">Apakah Anda Yakin Menghapus Data Ini?</h3>
+        <p class="konfirmasi-hapus-subtitle">Data ini akan dihapus secara permanen dari sistem.</p>
+        <div class="konfirmasi-hapus-buttons">
+            <button class="btn-popup btn-batal" id="btnBatalHapus">Batal</button>
+            <button class="btn-popup btn-hapus" id="btnKonfirmasiHapus">Hapus</button>
+        </div>
+    </div>
+</div>
+
   <script src="{{ asset('assets/js/master-data.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
