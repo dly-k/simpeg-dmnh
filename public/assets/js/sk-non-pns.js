@@ -31,7 +31,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const timeEl = document.getElementById('current-time');
         if (dateEl && timeEl) {
             dateEl.textContent = now.toLocaleDateString('id-ID', dateOptions);
-            // Mengganti titik dengan titik dua untuk format waktu
             timeEl.textContent = now.toLocaleTimeString('id-ID', timeOptions).replace(/\./g, ':');
         }
     }
@@ -59,7 +58,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     setupUploadArea();
 
-
     // =======================================================
     // ===       LOGIKA UNTUK SEMUA MODAL DI HALAMAN INI     ===
     // =======================================================
@@ -68,21 +66,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const skNonPnsModal = document.getElementById('skNonPnsModal');
     if (skNonPnsModal) {
         skNonPnsModal.addEventListener('show.bs.modal', function (event) {
-            const button = event.relatedTarget; // Tombol yang diklik
+            const button = event.relatedTarget;
             const modalTitle = skNonPnsModal.querySelector('.modal-title');
             const skNonPnsForm = document.getElementById('skNonPnsForm');
 
-            // Cek apakah tombol Edit yang diklik
             if (button && button.classList.contains('btn-edit')) {
                 modalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Data SK Non PNS';
-                // Di sini Anda bisa menambahkan kode untuk mengisi form dengan data yang ada
-            } else { // Jika bukan, berarti tombol Tambah
+                // Isi form dengan data yang ada
+            } else {
                 modalTitle.innerHTML = '<i class="fas fa-plus-circle"></i> Tambah Data SK Non PNS';
-                // Kosongkan form saat menambah data baru
-                if (skNonPnsForm) {
-                    skNonPnsForm.reset();
-                }
-                // Reset juga area upload
+                if (skNonPnsForm) skNonPnsForm.reset();
                 const uploadArea = skNonPnsModal.querySelector('.upload-area');
                 if (uploadArea && typeof uploadArea.reset === 'function') {
                     uploadArea.reset();
@@ -91,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // 2. Logika untuk Modal Detail SK Non PNS (menggunakan event delegation)
+    // 2. Logika untuk Modal Detail SK Non PNS
     document.body.addEventListener('click', function(event) {
         const detailButton = event.target.closest('.btn-lihat-detail-sk');
         
@@ -100,9 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const data = detailButton.dataset;
             const setText = (id, value) => {
                 const element = document.getElementById(id);
-                if (element) {
-                    element.textContent = value || '-';
-                }
+                if (element) element.textContent = value || '-';
             };
             
             setText('detail_sk_nama_kegiatan', data.nama_kegiatan);
@@ -115,13 +106,94 @@ document.addEventListener('DOMContentLoaded', function () {
             setText('detail_sk_tgl_selesai', data.tgl_selesai);
             
             const docViewer = document.getElementById('detail_sk_document_viewer');
-            if (docViewer) {
-                docViewer.setAttribute('src', data.dokumen_path || '');
-            }
+            if (docViewer) docViewer.setAttribute('src', data.dokumen_path || '');
         }
     });
 
-});
+    // 3. Logika untuk Modal Konfirmasi Hapus
+    const modalKonfirmasiHapus = document.getElementById('modalKonfirmasiHapus');
+    const btnKonfirmasiHapus = document.getElementById('btnKonfirmasiHapus');
+    const btnBatalHapus = document.getElementById('btnBatalHapus');
+    let dataToDelete = null;
 
-// FUNGSI LAMA (openModal, openEditModal, closeModal, window.addEventListener) SUDAH DIHAPUS
-// KARENA SUDAH TIDAK DIPERLUKAN LAGI SETELAH MIGRASI KE SISTEM BOOTSTRAP.
+    // Fungsi untuk menampilkan modal
+    function showDeleteModal() {
+        if (modalKonfirmasiHapus) {
+            modalKonfirmasiHapus.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    // Fungsi untuk menyembunyikan modal
+    function hideDeleteModal() {
+        if (modalKonfirmasiHapus) {
+            modalKonfirmasiHapus.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+    }
+
+    // Event delegation untuk tombol hapus
+    document.addEventListener('click', function(event) {
+        const deleteButton = event.target.closest('.btn-hapus');
+        if (deleteButton) {
+            event.preventDefault();
+            const row = deleteButton.closest('tr');
+            dataToDelete = {
+                id: deleteButton.dataset.id || row?.querySelector('td:first-child')?.textContent,
+                nama: deleteButton.dataset.nama || row?.querySelector('td:nth-child(2)')?.textContent,
+                element: row
+            };
+            showDeleteModal();
+        }
+    });
+
+    // Handler untuk tombol konfirmasi hapus
+    if (btnKonfirmasiHapus) {
+        btnKonfirmasiHapus.addEventListener('click', function() {
+            if (dataToDelete) {
+                // Contoh AJAX call (uncomment untuk digunakan):
+                /*
+                fetch(`/api/sk-non-pns/${dataToDelete.id}`, {
+                    method: 'DELETE'
+                })
+                .then(response => {
+                    if (response.ok) {
+                        dataToDelete.element?.remove();
+                        alert(`Data "${dataToDelete.nama}" berhasil dihapus`);
+                    } else {
+                        alert('Gagal menghapus data');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat menghapus data');
+                });
+                */
+                
+                // Untuk demo langsung hapus elemen
+                dataToDelete.element?.remove();
+                alert(`Data "${dataToDelete.nama}" berhasil dihapus`);
+            }
+            hideDeleteModal();
+        });
+    }
+
+    // Handler untuk tombol batal
+    if (btnBatalHapus) {
+        btnBatalHapus.addEventListener('click', hideDeleteModal);
+    }
+
+    // Tutup modal ketika klik di luar area modal
+    modalKonfirmasiHapus?.addEventListener('click', function(event) {
+        if (event.target === modalKonfirmasiHapus) {
+            hideDeleteModal();
+        }
+    });
+
+    // Tutup modal ketika tekan tombol ESC
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && modalKonfirmasiHapus.style.display === 'flex') {
+            hideDeleteModal();
+        }
+    });
+});
