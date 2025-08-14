@@ -6,17 +6,16 @@ document.addEventListener('DOMContentLoaded', function () {
   initSuratTugasPage();
   initModalInteractions();
   initUploadArea();
+  initDeleteConfirmation(); 
+  initSuccessModal();     
 
   // [BARU] Logika untuk membuka dropdown "Editor Kegiatan"
   const editorBtn = document.querySelector('button[data-bs-target="#editorKegiatan"]');
   const editorMenu = document.getElementById('editorKegiatan');
   
   if (editorBtn && editorMenu) {
-    // Hapus kelas 'collapsed' dari tombol
     editorBtn.classList.remove('collapsed');
-    // Set atribut 'aria-expanded' menjadi 'true'
     editorBtn.setAttribute('aria-expanded', 'true');
-    // Tambah kelas 'show' ke menu dropdown
     editorMenu.classList.add('show');
   }
 });
@@ -83,8 +82,6 @@ function initSuratTugasPage() {
       if (itemData) openEditModal(itemData);
     }
   });
-
-  initDeleteConfirmation();
 }
 
 function renderTable() {
@@ -163,6 +160,14 @@ function initModalInteractions() {
       closeModal(addEditModal.id);
     }
   });
+
+  const btnSimpan = document.getElementById('btnSimpanData');
+  btnSimpan?.addEventListener('click', function() {
+    console.log("Data disimpan/diupdate.");
+    
+    closeModal('suratTugasModal');
+    showSuccessModal('Data Berhasil Disimpan', 'Data Anda Berhasil Disimpan Pada Sistem');
+  });
 }
 
 // === Logika Modal Konfirmasi Hapus ===
@@ -188,7 +193,8 @@ function initDeleteConfirmation() {
         if (rowToDelete) {
             console.log(`Menghapus data baris ke-${parseInt(rowToDelete.dataset.index) + 1}`);
             rowToDelete.remove();
-            modal.classList.remove('show');
+            hideDeleteModal();
+            showSuccessModal('Data Berhasil Dihapus', 'Data yang dipilih telah berhasil dihapus dari sistem.');
             rowToDelete = null;
         }
     });
@@ -206,6 +212,59 @@ function initDeleteConfirmation() {
         }
     });
 }
+
+// === [DIUBAH] Logika Modal Berhasil ===
+let successModalTimer; // Variabel untuk menampung timer
+
+// [BARU] Fungsi untuk menyembunyikan modal sukses
+function hideSuccessModal() {
+    const modal = document.getElementById('modalBerhasil');
+    if (modal) {
+        modal.classList.remove('show');
+    }
+    // Hapus timer jika modal ditutup manual, agar tidak jalan dua kali
+    if (successModalTimer) {
+        clearTimeout(successModalTimer);
+    }
+}
+
+// [DIUBAH] Fungsi untuk menampilkan modal sukses
+function showSuccessModal(title, subtitle) {
+    const modal = document.getElementById('modalBerhasil');
+    const titleEl = document.getElementById('berhasil-title');
+    const subtitleEl = document.getElementById('berhasil-subtitle');
+
+    if (!modal || !titleEl || !subtitleEl) return;
+    
+    // Hapus timer sebelumnya jika ada
+    clearTimeout(successModalTimer);
+
+    // Set teks dan tampilkan modal
+    titleEl.textContent = title;
+    subtitleEl.textContent = subtitle;
+    modal.classList.add('show');
+
+    // Set timer untuk menutup modal secara otomatis 
+    successModalTimer = setTimeout(hideSuccessModal, 1000);
+}
+
+// [DIUBAH] Inisialisasi event listener untuk modal sukses
+function initSuccessModal() {
+    const modal = document.getElementById('modalBerhasil');
+    const btnSelesai = document.getElementById('btnSelesai');
+    if (!modal || !btnSelesai) return;
+
+    // Tombol selesai sekarang memanggil hideSuccessModal
+    btnSelesai.addEventListener('click', hideSuccessModal);
+    
+    // Latar belakang juga memanggil hideSuccessModal
+    modal.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            hideSuccessModal();
+        }
+    });
+}
+
 
 // === Fungsi Area Upload ===
 function initUploadArea() {
