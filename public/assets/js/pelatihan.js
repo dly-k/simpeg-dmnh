@@ -1,255 +1,210 @@
-// Menunggu seluruh konten halaman dimuat sebelum menjalankan skrip
 document.addEventListener('DOMContentLoaded', function () {
     
-    // === Logic untuk Sidebar (Tidak Berubah) ===
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-    const toggleSidebarBtn = document.getElementById('toggleSidebar');
+    // === 1. LOGIKA INTI: MODAL BERHASIL (SUCCESS MODAL) ===
+    const modalBerhasil = document.getElementById('modalBerhasil');
+    const berhasilTitle = document.getElementById('berhasil-title');
+    const berhasilSubtitle = document.getElementById('berhasil-subtitle');
+    let successModalTimeout = null;
 
-    if (toggleSidebarBtn && sidebar && overlay) {
-        toggleSidebarBtn.addEventListener('click', function () {
-            const isMobile = window.innerWidth <= 991;
-            if (isMobile) {
-                sidebar.classList.toggle('show');
-                overlay.classList.toggle('show', sidebar.classList.contains('show'));
-            } else {
-                sidebar.classList.toggle('hidden');
-            }
-        });
-
-        overlay.addEventListener('click', function () {
-            sidebar.classList.remove('show');
-            overlay.classList.remove('show');
-        });
-    }
-
-    // === Logic untuk Jam & Tanggal (Tidak Berubah) ===
-    function updateDateTime() {
-        const now = new Date();
-        const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone: 'Asia/Jakarta' };
-
-        const dateEl = document.getElementById('current-date');
-        const timeEl = document.getElementById('current-time');
-
-        if (dateEl && timeEl) {
-            dateEl.textContent = now.toLocaleDateString('id-ID', dateOptions);
-            timeEl.textContent = now.toLocaleTimeString('id-ID', timeOptions).replace(/\./g, ':');
+    function showSuccessModal(title, subtitle) {
+        if (modalBerhasil && berhasilTitle && berhasilSubtitle) {
+            berhasilTitle.textContent = title;
+            berhasilSubtitle.textContent = subtitle;
+            modalBerhasil.classList.add('show');
+            
+            clearTimeout(successModalTimeout);
+            successModalTimeout = setTimeout(hideSuccessModal, 1200);
         }
     }
-    updateDateTime();
-    setInterval(updateDateTime, 1000);
+    
+    function hideSuccessModal() {
+        modalBerhasil?.classList.remove('show');
+    }
+    document.getElementById('btnSelesai')?.addEventListener('click', () => {
+        clearTimeout(successModalTimeout);
+        hideSuccessModal();
+    });
 
-    // === Logic untuk Hapus Anggota (Tidak Berubah) ===
-    const anggotaListContainer = document.getElementById('anggota-list');
-    if (anggotaListContainer) {
-        anggotaListContainer.addEventListener('click', function(event) {
-            if (event.target.closest('.dynamic-row-close-btn')) {
-                event.target.closest('.dynamic-row').remove();
+
+    // === 2. LOGIKA STANDAR: SIDEBAR & JAM ===
+    function setupStandardUI() {
+        // Sidebar
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const toggleSidebarBtn = document.getElementById('toggleSidebar');
+        if (toggleSidebarBtn && sidebar && overlay) {
+            toggleSidebarBtn.addEventListener('click', () => {
+                sidebar.classList.toggle(window.innerWidth <= 991 ? 'show' : 'hidden');
+                if (window.innerWidth <= 991) overlay.classList.toggle('show', sidebar.classList.contains('show'));
+            });
+            overlay.addEventListener('click', () => {
+                sidebar.classList.remove('show');
+                overlay.classList.remove('show');
+            });
+        }
+        // Jam & Tanggal
+        function updateDateTime() {
+            const now = new Date();
+            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone: 'Asia/Jakarta' };
+            document.getElementById('current-date').textContent = now.toLocaleDateString('id-ID', dateOptions);
+            document.getElementById('current-time').textContent = now.toLocaleTimeString('id-ID', timeOptions).replace(/\./g, ':');
+        }
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+    }
+    setupStandardUI();
+
+    // === 3. LOGIKA SPESIFIK HALAMAN PELATIHAN ===
+    
+    // Inisialisasi semua fungsi spesifik
+    setupPelatihanModals();
+    setupDelegatedEventListeners();
+    setupUploadArea();
+    
+    // Konfigurasi Modal Tambah/Edit (Bootstrap 5)
+    function setupPelatihanModals() {
+        const pelatihanModalEl = document.getElementById('pelatihanModal');
+        if (!pelatihanModalEl) return;
+        
+        const modalTitle = pelatihanModalEl.querySelector('.modal-title');
+        const pelatihanForm = document.getElementById('pelatihanForm');
+        const bsModal = new bootstrap.Modal(pelatihanModalEl);
+
+        pelatihanModalEl.addEventListener('show.bs.modal', (event) => {
+            const button = event.relatedTarget;
+            const isEditMode = button && button.classList.contains('btn-edit');
+            
+            modalTitle.innerHTML = isEditMode 
+                ? '<i class="fas fa-edit"></i> Edit Data Pelatihan' 
+                : '<i class="fas fa-plus-circle"></i> Tambah Data Pelatihan';
+
+            if (!isEditMode) {
+                pelatihanForm?.reset();
+                document.getElementById('anggota-list').innerHTML = '';
+                pelatihanModalEl.querySelector('.upload-area')?.reset();
+            }
+        });
+
+        // Aksi untuk tombol Simpan Data
+        pelatihanModalEl.querySelector('.btn-success')?.addEventListener('click', () => {
+            bsModal.hide();
+            showSuccessModal('Data Berhasil Disimpan', 'Data pelatihan telah berhasil disimpan ke sistem.');
+        });
+    }
+
+    // Mengelola semua klik pada tombol aksi dalam satu listener
+    function setupDelegatedEventListeners() {
+        const modalKonfirmasiHapus = document.getElementById('modalKonfirmasiHapus');
+        let dataToDelete = null;
+
+        const hideDeleteModal = () => {
+            if (modalKonfirmasiHapus) modalKonfirmasiHapus.style.display = 'none';
+        };
+
+        document.body.addEventListener('click', function(event) {
+            const target = event.target;
+
+            // Tombol Hapus pada baris tabel
+            if (target.closest('.btn-hapus')) {
+                event.preventDefault();
+                const row = target.closest('tr');
+                dataToDelete = {
+                    element: row,
+                    nama: row?.querySelector('td:nth-child(2)')?.textContent.trim()
+                };
+                if (modalKonfirmasiHapus) modalKonfirmasiHapus.style.display = 'flex';
+            }
+            
+            // Tombol "Ya, Hapus" di dalam modal konfirmasi
+            if (target.matches('#btnKonfirmasiHapus')) {
+                event.preventDefault();
+                event.stopPropagation(); // FIX: Mencegah modal muncul lagi
+
+                if (dataToDelete) {
+                    console.log('Menghapus data:', dataToDelete.nama);
+                    dataToDelete.element?.remove(); 
+                    hideDeleteModal();
+                    showSuccessModal('Data Berhasil Dihapus', `Data "${dataToDelete.nama}" telah berhasil dihapus.`);
+                }
+            }
+            
+            // Tombol "Batal" di modal hapus
+            if (target.matches('#btnBatalHapus')) {
+                hideDeleteModal();
+            }
+
+            // Tombol lihat detail
+            const detailButton = target.closest('.btn-lihat-detail-pelatihan');
+            if (detailButton) {
+                // [FIX] Mengembalikan semua baris kode untuk menampilkan data detail
+                const data = detailButton.dataset;
+                document.getElementById('detail_pelatihan_nama').textContent = data.nama_pelatihan || '-';
+                document.getElementById('detail_pelatihan_posisi').textContent = data.posisi || '-';
+                document.getElementById('detail_pelatihan_kota').textContent = data.kota || '-';
+                document.getElementById('detail_pelatihan_lokasi').textContent = data.lokasi || '-';
+                document.getElementById('detail_pelatihan_penyelenggara').textContent = data.penyelenggara || '-';
+                document.getElementById('detail_pelatihan_jenis_diklat').textContent = data.jenis_diklat || '-';
+                document.getElementById('detail_pelatihan_tgl_mulai').textContent = data.tgl_mulai || '-';
+                document.getElementById('detail_pelatihan_tgl_selesai').textContent = data.tgl_selesai || '-';
+                document.getElementById('detail_pelatihan_lingkup').textContent = data.lingkup || '-';
+                document.getElementById('detail_pelatihan_jam').textContent = data.jam || '-';
+                document.getElementById('detail_pelatihan_hari').textContent = data.hari || '-';
+                document.getElementById('detail_pelatihan_struktural').textContent = data.struktural || '-';
+                document.getElementById('detail_pelatihan_sertifikasi').textContent = data.sertifikasi || '-';
+                document.getElementById('detail_pelatihan_document_viewer')?.setAttribute('src', data.dokumen_path || '');
+            }
+
+            // Hapus anggota dari list dinamis
+            if (target.closest('.dynamic-row-close-btn')) {
+                target.closest('.dynamic-row').remove();
+            }
+
+            // Klik area upload
+            if (target.closest('.upload-area')) {
+                target.closest('.upload-area').querySelector('input[type="file"]')?.click();
+            }
+        });
+
+        // Klik di luar area modal untuk menutup
+        modalKonfirmasiHapus?.addEventListener('click', (e) => {
+            if (e.target === modalKonfirmasiHapus) hideDeleteModal();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modalKonfirmasiHapus?.style.display === 'flex') {
+                hideDeleteModal();
             }
         });
     }
 
-    // === Logic untuk Area Upload File (Tidak Berubah) ===
+    // Konfigurasi area upload file
     function setupUploadArea() {
         document.querySelectorAll('.upload-area').forEach(uploadArea => {
             const fileInput = uploadArea.querySelector('input[type="file"]');
             const uploadText = uploadArea.querySelector('p');
             if (!fileInput || !uploadText) return;
             const originalText = uploadText.innerHTML;
-            uploadArea.addEventListener('click', function () { fileInput.click(); });
+            
             fileInput.addEventListener('change', function () {
-                if (this.files.length > 0) {
-                    uploadText.textContent = this.files[0].name;
-                }
+                if (this.files.length > 0) uploadText.textContent = this.files[0].name;
             });
-            uploadArea.reset = function() {
+            
+            uploadArea.reset = () => {
                 uploadText.innerHTML = originalText;
                 fileInput.value = '';
             };
         });
     }
-    setupUploadArea();
-
-    // === Logic untuk Modal Tambah/Edit Pelatihan (Tidak Berubah) ===
-    const pelatihanModal = document.getElementById('pelatihanModal');
-    if (pelatihanModal) {
-        const modalTitle = pelatihanModal.querySelector('.modal-title');
-        const pelatihanForm = document.getElementById('pelatihanForm');
-
-        pelatihanModal.addEventListener('show.bs.modal', function(event) {
-            const button = event.relatedTarget;
-
-            if (button && button.classList.contains('btn-edit')) {
-                modalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Data Pelatihan';
-            } else {
-                modalTitle.innerHTML = '<i class="fas fa-plus-circle"></i> Tambah Data Pelatihan';
-                
-                if (pelatihanForm) {
-                    pelatihanForm.reset();
-                }
-                
-                const anggotaList = document.getElementById('anggota-list');
-                if (anggotaList) {
-                    anggotaList.innerHTML = '';
-                }
-
-                const uploadArea = pelatihanModal.querySelector('.upload-area');
-                if (uploadArea && typeof uploadArea.reset === 'function') {
-                    uploadArea.reset();
-                }
-            }
-        });
-    }
-
-    // === Logic untuk Modal Detail (Tidak Berubah) ===
-    document.addEventListener('click', function(event) {
-        const detailButton = event.target.closest('.btn-lihat-detail-pelatihan');
-        if (detailButton) {
-            const data = detailButton.dataset;
-            document.getElementById('detail_pelatihan_nama').textContent = data.nama_pelatihan || '-';
-            document.getElementById('detail_pelatihan_posisi').textContent = data.posisi || '-';
-            document.getElementById('detail_pelatihan_kota').textContent = data.kota || '-';
-            document.getElementById('detail_pelatihan_lokasi').textContent = data.lokasi || '-';
-            document.getElementById('detail_pelatihan_penyelenggara').textContent = data.penyelenggara || '-';
-            document.getElementById('detail_pelatihan_jenis_diklat').textContent = data.jenis_diklat || '-';
-            document.getElementById('detail_pelatihan_tgl_mulai').textContent = data.tgl_mulai || '-';
-            document.getElementById('detail_pelatihan_tgl_selesai').textContent = data.tgl_selesai || '-';
-            document.getElementById('detail_pelatihan_lingkup').textContent = data.lingkup || '-';
-            document.getElementById('detail_pelatihan_jam').textContent = data.jam || '-';
-            document.getElementById('detail_pelatihan_hari').textContent = data.hari || '-';
-            document.getElementById('detail_pelatihan_struktural').textContent = data.struktural || '-';
-            document.getElementById('detail_pelatihan_sertifikasi').textContent = data.sertifikasi || '-';
-            
-            const docViewer = document.getElementById('detail_pelatihan_document_viewer');
-            if (docViewer) {
-                docViewer.setAttribute('src', data.dokumen_path || '');
-            }
-        }
-    });
-
-    // === Logic untuk Modal Konfirmasi Hapus (Yang Diperbarui) ===
-    const modalKonfirmasiHapus = document.getElementById('modalKonfirmasiHapus');
-    const btnKonfirmasiHapus = document.getElementById('btnKonfirmasiHapus');
-    const btnBatalHapus = document.getElementById('btnBatalHapus');
-    let dataToDelete = null;
-
-// Fungsi untuk menampilkan modal
-function showDeleteModal() {
-    const modal = document.getElementById('modalKonfirmasiHapus');
-    if (modal) {
-        modal.style.display = 'flex'; // Ubah ke flex
-        document.body.style.overflow = 'hidden';
-    }
-}
-
-// Fungsi untuk menyembunyikan modal
-function hideDeleteModal() {
-    const modal = document.getElementById('modalKonfirmasiHapus');
-    if (modal) {
-        modal.style.display = 'none';
-        document.body.style.overflow = '';
-    }
-}
-
-// Event listener untuk tombol hapus
-document.addEventListener('click', function(e) {
-    if (e.target.closest('.btn-hapus')) {
-        e.preventDefault();
-        showDeleteModal();
-    }
 });
 
-// Event listener untuk tombol batal
-document.getElementById('btnBatalHapus')?.addEventListener('click', hideDeleteModal);
-
-// Event listener untuk klik di luar modal
-document.getElementById('modalKonfirmasiHapus')?.addEventListener('click', function(e) {
-    if (e.target === this) {
-        hideDeleteModal();
-    }
-});
-
-    // Event delegation untuk tombol hapus
-    document.addEventListener('click', function(event) {
-        const deleteButton = event.target.closest('.btn-hapus');
-        if (deleteButton) {
-            event.preventDefault();
-            // Simpan data yang akan dihapus
-            const row = deleteButton.closest('tr');
-            dataToDelete = {
-                id: deleteButton.dataset.id || row?.querySelector('td:first-child')?.textContent,
-                nama: deleteButton.dataset.nama || row?.querySelector('td:nth-child(2)')?.textContent,
-                element: row
-            };
-            // Tampilkan modal konfirmasi
-            showDeleteModal();
-        }
-    });
-
-    // Handler untuk tombol konfirmasi hapus
-    if (btnKonfirmasiHapus) {
-        btnKonfirmasiHapus.addEventListener('click', function() {
-            if (dataToDelete) {
-                // Lakukan penghapusan data (AJAX atau lainnya)
-                console.log('Menghapus data:', dataToDelete);
-                
-                // Contoh AJAX call:
-                /*
-                fetch(`/api/pelatihan/${dataToDelete.id}`, {
-                    method: 'DELETE'
-                })
-                .then(response => {
-                    if (response.ok) {
-                        // Hapus baris dari tabel jika sukses
-                        dataToDelete.element?.remove();
-                        alert(`Data "${dataToDelete.nama}" berhasil dihapus`);
-                    } else {
-                        alert('Gagal menghapus data');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Terjadi kesalahan saat menghapus data');
-                });
-                */
-                
-                // Untuk demo langsung hapus elemen
-                dataToDelete.element?.remove();
-                alert(`Data "${dataToDelete.nama}" berhasil dihapus`);
-            }
-            hideDeleteModal();
-        });
-    }
-
-    // Handler untuk tombol batal
-    if (btnBatalHapus) {
-        btnBatalHapus.addEventListener('click', hideDeleteModal);
-    }
-
-    // Tutup modal ketika klik di luar area modal
-    modalKonfirmasiHapus?.addEventListener('click', function(event) {
-        if (event.target === modalKonfirmasiHapus) {
-            hideDeleteModal();
-        }
-    });
-
-    // Tutup modal ketika tekan tombol ESC
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape' && modalKonfirmasiHapus.style.display === 'block') {
-            hideDeleteModal();
-        }
-    });
-});
-
-// === Fungsi Global yang Masih Diperlukan ===
+// === 4. FUNGSI GLOBAL: DIPANGGIL DARI HTML (onclick) ===
 function addAnggota() {
     const list = document.getElementById('anggota-list');
     if (!list) return;
     const newRow = document.createElement('div');
-    newRow.className = 'dynamic-row';
+    newRow.className = 'dynamic-row position-relative border rounded p-3 pt-4 mb-2';
     newRow.innerHTML = `
-        <button type="button" class="btn-close dynamic-row-close-btn" aria-label="Close"></button>
+        <button type="button" class="btn-close dynamic-row-close-btn position-absolute top-0 end-0 p-2" aria-label="Close"></button>
         <div class="row g-2">
             <div class="col-12"><label class="form-label form-label-sm">Nama Anggota</label><input type="text" class="form-control form-control-sm" placeholder="Nama Anggota"></div>
             <div class="col-md-6"><label class="form-label form-label-sm">Angkatan</label><input type="text" class="form-control form-control-sm" placeholder="Angkatan"></div>
