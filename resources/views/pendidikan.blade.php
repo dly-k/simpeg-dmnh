@@ -804,8 +804,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-          <button type="button" class="btn btn-primary" id="btnSimpanPengajaran">Simpan</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
+          <button type="button" class="btn btn-success" id="btnSimpanPengajaran">Simpan</button>
         </div>
       </div>
     </div>
@@ -1005,8 +1005,8 @@
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn" id="btnBatalPengajaranLuar" data-bs-dismiss="modal">Batal</button>
-            <button type="button" class="btn" id="btnSimpanPengajaranLuar">Simpan</button>
+            <button type="button" class="btn btn-danger" id="btnBatalPengajaranLuar" data-bs-dismiss="modal">Batal</button>
+            <button type="button" class="btn btn-success" id="btnSimpanPengajaranLuar">Simpan</button>
           </div>
         </div>
       </div>
@@ -1129,8 +1129,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn" id="btnBatalPengujianLama" data-bs-dismiss="modal">Batal</button>
-          <button type="button" class="btn" id="btnSimpanPengujianLama">Simpan</button>
+          <button type="button" class="btn btn-danger" id="btnBatalPengujianLama" data-bs-dismiss="modal">Batal</button>
+          <button type="button" class="btn btn-success" id="btnSimpanPengujianLama">Simpan</button>
         </div>
       </div>
     </div>
@@ -1245,8 +1245,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn" id="btnBatalPembimbingLama" data-bs-dismiss="modal">Batal</button>
-          <button type="button" class="btn" id="btnSimpanPembimbingLama">Simpan</button>
+          <button type="button" class="btn btn-danger" id="btnBatalPembimbingLama" data-bs-dismiss="modal">Batal</button>
+          <button type="button" class="btn btn-success" id="btnSimpanPembimbingLama">Simpan</button>
         </div>
       </div>
     </div>
@@ -1394,8 +1394,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn" id="btnBatalPengujiLuar" data-bs-dismiss="modal">Batal</button>
-          <button type="button" class="btn" id="btnSimpanPengujiLuar">Simpan</button>
+          <button type="button" class="btn btn-danger" id="btnBatalPengujiLuar" data-bs-dismiss="modal">Batal</button>
+          <button type="button" class="btn btn-success" id="btnSimpanPengujiLuar">Simpan</button>
         </div>
       </div>
     </div>
@@ -1534,8 +1534,8 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn" id="btnBatalPembimbingLuar" data-bs-dismiss="modal">Batal</button>
-        <button type="button" class="btn" id="btnSimpanPembimbingLuar">Simpan</button>
+        <button type="button" class="btn btn-danger" id="btnBatalPembimbingLuar" data-bs-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-success" id="btnSimpanPembimbingLuar">Simpan</button>
       </div>
     </div>
   </div>
