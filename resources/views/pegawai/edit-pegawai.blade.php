@@ -109,12 +109,12 @@
                         <div class="flex-grow-1">
                             <div class="row g-3">
                                 <div class="col-md-6">
-                                    <label class="small text-secondary">NIP*</label>
-                                    <input type="text" class="form-control form-control-sm" value="3212302291827320009">
+                                    <label class="small text-secondary">NIP<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-sm" value="3212302291827320009" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small text-secondary">Agama*</label>
-                                    <select class="form-select form-select-sm">
+                                    <label class="small text-secondary">Agama<span class="text-danger">*</span></label>
+                                    <select class="form-select form-select-sm" required>
                                         <option selected>Islam</option>
                                         <option>Kristen</option>
                                         <option>Katolik</option>
@@ -124,12 +124,12 @@
                                     </select>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small text-secondary">Nama Lengkap*</label>
-                                    <input type="text" class="form-control form-control-sm search-input" placeholder="Termasuk gelar jika ada">
+                                    <label class="small text-secondary">Nama Lengkap<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-sm search-input" placeholder="Termasuk gelar jika ada" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small text-secondary">Status Pernikahan*</label>
-                                    <select class="form-select form-select-sm">
+                                    <label class="small text-secondary">Status Pernikahan<span class="text-danger">*</span></label>
+                                    <select class="form-select form-select-sm" required>
                                         <option selected>Belum Menikah</option>
                                         <option>Menikah</option>
                                         <option>Janda</option>
@@ -137,7 +137,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small text-secondary">Jenis Kelamin*</label>
+                                    <label class="small text-secondary">Jenis Kelamin<span class="text-danger">*</span></label>
                                     <div>
                                         <div class="form-check form-check-inline pt-1">
                                             <input class="form-check-input" type="radio" name="jk" id="lk" checked>
@@ -150,9 +150,9 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small text-secondary">Pendidikan Terakhir*</label>
+                                    <label class="small text-secondary">Pendidikan Terakhir<span class="text-danger">*</span></label>
                                     <select class="form-select form-select-sm">
-                                        <option selected>--Pilih Salah Satu--</option>
+                                        <option class="search-input" selected>--Pilih Salah Satu--</option>
                                         <option>SD</option>
                                         <option>SMP</option>
                                         <option>SMA</option>
@@ -162,15 +162,15 @@
                                     </select>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small text-secondary">Tempat Lahir*</label>
+                                    <label class="small text-secondary">Tempat Lahir<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control form-control-sm" value="Jakarta">
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small text-secondary">Bidang Ilmu*</label>
+                                    <label class="small text-secondary">Bidang Ilmu<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Ilmu Pengelolaan Hutan">
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small text-secondary">Tanggal Lahir*</label>
+                                    <label class="small text-secondary">Tanggal Lahir<span class="text-danger">*</span></label>
                                     <input type="date" class="form-control form-control-sm">
                                 </div>
                             </div>

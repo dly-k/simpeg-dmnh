@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('login');
+    return view('auth.login');
 });
 
 Route::get('/login', function () {
@@ -15,7 +15,7 @@ Route::get('/dashboard', function () {
 });
 
 Route::get('/daftar-pegawai', function () {
-    return view('daftar-pegawai');
+    return view('pegawai.daftar-pegawai');
 });
 
 Route::get('/surat-tugas', function () {
@@ -43,7 +43,7 @@ Route::get('/kerjasama', function () {
 });
 
 Route::get('/detail-pegawai', function () {
-    return view('detail-pegawai');
+    return view('pegawai.detail-pegawai');
 });
 
 Route::get('/pelatihan', function () {
@@ -67,5 +67,5 @@ Route::get('/sidebar', function () {
 });
 
 Route::get('/edit-pegawai', function () {
-    return view('edit-pegawai');
+    return view('pegawai.edit-pegawai');
 });

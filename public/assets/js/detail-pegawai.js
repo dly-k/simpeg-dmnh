@@ -102,3 +102,48 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 });
+
+document.querySelectorAll('.file-item').forEach(card => {
+    card.addEventListener('click', (e) => {
+        // Kalau klik tombol unduh atau hapus → jangan buka PDF
+        if (e.target.closest('.btn-unduh') || e.target.closest('.btn-hapus')) {
+            return;
+        }
+        const fileUrl = card.getAttribute('data-file');
+        if (fileUrl) {
+            window.open(fileUrl, '_blank');
+        }
+    });
+});
+
+// Aksi download langsung untuk tombol unduh
+document.querySelectorAll('.btn-unduh').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation(); // cegah klik card
+        const fileUrl = btn.getAttribute('data-file');
+        if (fileUrl) {
+            const link = document.createElement('a');
+            link.href = fileUrl;
+            link.download = fileUrl.split('/').pop(); // nama file dari URL
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    });
+});
+
+// Hapus card
+document.querySelectorAll('.btn-hapus').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation(); // cegah klik card
+        const card = btn.closest('.file-item');
+
+        // Konfirmasi sebelum hapus
+        const konfirmasi = confirm("Apakah Anda yakin ingin menghapus dokumen ini?");
+        if (konfirmasi && card) {
+            card.remove();
+            // Kalau mau, bisa tambah AJAX call ke server untuk hapus file juga
+            console.log("File dihapus:", card.getAttribute('data-file'));
+        }
+    });
+});

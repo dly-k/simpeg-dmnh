@@ -142,9 +142,9 @@
 
       <!-- Right side: Add Data Button -->
       <div>
-        <button class="btn btn-tambah btn-sm fw-bold" style="background-color: #2d3748; color: white;" onclick="openModal('pegawaiModal')">
+        <a href="/tambah-pegawai" class="btn btn-tambah btn-sm fw-bold">
           <i class="fa fa-plus me-2"></i> Tambah Data
-        </button>
+        </a>
       </div>
     </div>
 

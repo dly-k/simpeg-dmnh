@@ -543,6 +543,18 @@ body {
   transform: scale(1.05);
 }
 
+.btn-hapusfile {
+  background-color: var(--danger);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.btn-hapusfile:hover {
+  background-color: var(--danger-hover);
+  color: white;
+  transform: scale(1.05);
+}
+
 .btn-kembali {
   background-color:  #f2f2f2;
   border: 1px solid #198754; /* hijau */
@@ -646,6 +658,16 @@ body {
 }
 
 /* === File Grid === */
+.file-item {
+    cursor: pointer; /* bikin kursor tangan */
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.file-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
 .efile-header {
   display: flex;
   justify-content: space-between;

@@ -66,7 +66,7 @@
         <!-- Title Bar -->
         <div class="title-bar d-flex align-items-center justify-content-between">
             <h1 class="m-0">
-                <i class="fa fa-user-pen"></i>Detail Pegawai
+                <i class="fa fa-user"></i>Detail Pegawai
             </h1>
             <a href="/daftar-pegawai" class="btn-kembali d-flex align-items-center gap-2"  style="text-decoration: none;">
                 <i class="fa fa-arrow-left"></i> Kembali
@@ -398,7 +398,7 @@
                                 </div>
                             </div>
 
-                            <!-- Kependudukan Content -->
+                            <!-- efile Content -->
                             <div class="sub-tab-content" id="efile" style="display: none;">
                                 <div class="efile-header">
                                     <h4>Dokumen</h4>
@@ -408,22 +408,25 @@
                                 <div class="file-category">
                                     <p class="file-category-title">Biodata</p>
                                     <div class="file-grid">
-                                        <div class="file-item">
+                                        <div class="file-item" data-file="assets/pdf/example.pdf">
                                             <span class="file-badge badge-asli">Asli</span>
                                             <div class="file-item-icon"><i class="lni lni-files"></i></div>
                                             <p>Dokumen <span class="d-block">(2020)</span></p>
                                             <div class="file-item-actions">
-                                                <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                <button class="btn btn-sm btn-unduh" data-file="assets/pdf/example.pdf">
+                                                    <i class="lni lni-download me-1"></i> Unduh
+                                                </button>
+                                                <button class="btn btn-sm btn-hapusfile"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
                                         </div>
+
                                         <div class="file-item">
                                             <span class="file-badge badge-legalisir">Legalisir</span>
                                             <div class="file-item-icon"><i class="lni lni-files"></i></div>
                                             <p>Dokumen <span class="d-block">(2020)</span></p>
                                             <div class="file-item-actions">
                                                 <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                <button class="btn btn-sm btn-hapusfile"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
                                         </div>
                                         <div class="file-item">
@@ -432,7 +435,7 @@
                                             <p>Dokumen <span class="d-block">(2020)</span></p>
                                             <div class="file-item-actions">
                                                 <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                <button class="btn btn-sm btn-hapusfile"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
                                         </div>
                                     </div>
@@ -447,7 +450,7 @@
                                             <p>Dokumen <span class="d-block">(2020)</span></p>
                                             <div class="file-item-actions">
                                                 <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                <button class="btn btn-sm btn-hapusfile"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
                                         </div>
                                         <div class="file-item">
@@ -456,7 +459,7 @@
                                             <p>Dokumen <span class="d-block">(2020)</span></p>
                                             <div class="file-item-actions">
                                                 <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                <button class="btn btn-sm btn-hapusfile"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
                                         </div>
                                         <div class="file-item">
@@ -465,7 +468,7 @@
                                             <p>Dokumen <span class="d-block">(2020)</span></p>
                                             <div class="file-item-actions">
                                                 <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                <button class="btn btn-sm btn-hapusfile"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
                                         </div>
                                     </div>
@@ -480,7 +483,7 @@
                                             <p>Dokumen <span class="d-block">(2020)</span></p>
                                             <div class="file-item-actions">
                                                 <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                <button class="btn btn-sm btn-hapusfile"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
                                         </div>
                                         <div class="file-item">
@@ -489,7 +492,7 @@
                                             <p>Dokumen <span class="d-block">(2020)</span></p>
                                             <div class="file-item-actions">
                                                 <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                <button class="btn btn-sm btn-hapusfile"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
                                         </div>
                                         <div class="file-item">
@@ -498,7 +501,7 @@
                                             <p>Dokumen <span class="d-block">(2020)</span></p>
                                             <div class="file-item-actions">
                                                 <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                <button class="btn btn-sm btn-hapusfile"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
                                         </div>
                                     </div>
@@ -513,7 +516,7 @@
                                             <p>Dokumen <span class="d-block">(2020)</span></p>
                                             <div class="file-item-actions">
                                                 <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                <button class="btn btn-sm btn-hapusfile"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
                                         </div>
                                         <div class="file-item">
@@ -522,7 +525,7 @@
                                             <p>Dokumen <span class="d-block">(2020)</span></p>
                                             <div class="file-item-actions">
                                                 <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                <button class="btn btn-sm btn-hapusfile"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
                                         </div>
                                         <div class="file-item">
@@ -531,7 +534,7 @@
                                             <p>Dokumen <span class="d-block">(2020)</span></p>
                                             <div class="file-item-actions">
                                                 <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                <button class="btn btn-sm btn-hapusfile"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
                                         </div>
                                     </div>
@@ -546,7 +549,7 @@
                                             <p>Dokumen <span class="d-block">(2020)</span></p>
                                             <div class="file-item-actions">
                                                 <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                <button class="btn btn-sm btn-hapusfile"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
                                         </div>
                                         <div class="file-item">
@@ -555,7 +558,7 @@
                                             <p>Dokumen <span class="d-block">(2020)</span></p>
                                             <div class="file-item-actions">
                                                 <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                <button class="btn btn-sm btn-hapusfile"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
                                         </div>
                                         <div class="file-item">
@@ -564,7 +567,7 @@
                                             <p>Dokumen <span class="d-block">(2020)</span></p>
                                             <div class="file-item-actions">
                                                 <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                <button class="btn btn-sm btn-hapusfile"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
                                         </div>
                                     </div>
@@ -579,7 +582,7 @@
                                             <p>Dokumen <span class="d-block">(2020)</span></p>
                                             <div class="file-item-actions">
                                                 <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                <button class="btn btn-sm btn-hapusfile"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
                                         </div>
                                         <div class="file-item">
@@ -588,7 +591,7 @@
                                             <p>Dokumen <span class="d-block">(2020)</span></p>
                                             <div class="file-item-actions">
                                                 <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                <button class="btn btn-sm btn-hapusfile"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
                                         </div>
                                         <div class="file-item">
@@ -597,7 +600,7 @@
                                             <p>Dokumen <span class="d-block">(2020)</span></p>
                                             <div class="file-item-actions">
                                                 <button class="btn btn-sm btn-unduh"><i class="lni lni-download me-1"></i> Unduh</button>
-                                                <button class="btn btn-sm btn-hapus"><i class="lni lni-trash-can me-1"></i> Hapus</button>
+                                                <button class="btn btn-sm btn-hapusfile"><i class="lni lni-trash-can me-1"></i> Hapus</button>
                                             </div>
                                         </div>
                                     </div>
