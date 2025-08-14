@@ -26,10 +26,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Expand Editor Kegiatan
+  // Expand Editor Kegiatan (default terbuka)
   const editorBtn = document.querySelector('[data-bs-target="#editorKegiatan"]');
   const editorMenu = document.getElementById("editorKegiatan");
-
   if (editorBtn && editorMenu) {
     editorBtn.classList.remove("collapsed");
     editorBtn.setAttribute("aria-expanded", "true");
@@ -49,7 +48,6 @@ document.addEventListener("DOMContentLoaded", function () {
         month: "long",
         day: "numeric"
       });
-
       timeEl.textContent = now.toLocaleTimeString("id-ID", {
         hour: "2-digit",
         minute: "2-digit",
@@ -58,7 +56,6 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
   }
-
   setInterval(updateDateTime, 1000);
   updateDateTime();
 
@@ -84,17 +81,17 @@ document.addEventListener("DOMContentLoaded", function () {
           tooltip: {
             callbacks: {
               label: function (context) {
-                return ` Jumlah: ${context.parsed.y}`;
+                return " Jumlah: " + context.parsed.y;
               }
             }
           },
           legend: { display: false }
         },
-        onClick: (e, elements) => {
+        onClick: function (e, elements) {
           if (elements.length > 0) {
             const index = elements[0].index;
             const label = elements[0].chart.data.labels[index];
-            alert(`Klik pada: ${label}`);
+            alert("Klik pada: " + label);
           }
         },
         scales: {
@@ -134,17 +131,17 @@ document.addEventListener("DOMContentLoaded", function () {
           tooltip: {
             callbacks: {
               label: function (context) {
-                return ` Kegiatan: ${context.parsed.y}`;
+                return " Kegiatan: " + context.parsed.y;
               }
             }
           },
           legend: { display: false }
         },
-        onClick: (e, elements) => {
+        onClick: function (e, elements) {
           if (elements.length > 0) {
             const index = elements[0].index;
             const label = elements[0].chart.data.labels[index];
-            alert(`Klik pada bulan: ${label}`);
+            alert("Klik pada bulan: " + label);
           }
         },
         scales: {

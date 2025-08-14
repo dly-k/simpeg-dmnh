@@ -402,7 +402,7 @@
                             <div class="sub-tab-content" id="efile" style="display: none;">
                                 <div class="efile-header">
                                     <h4>Dokumen</h4>
-                                    <button class="btn btn-tambah"><i class="lni lni-plus me-1"></i> Tambah</button>
+                                    <button class="btn btn-tambah" data-bs-toggle="modal" data-bs-target="#tambahDokumenModal"><i class="lni lni-plus me-1"></i> Tambah</button>
                                 </div>
 
                                 <div class="file-category">
@@ -1239,9 +1239,106 @@
         <footer class="footer-custom">
             <span>© 2025 Forest Management — All Rights Reserved</span>
         </footer>
-    </div>
-</div>
+            </div>
+        </div>
 
+
+        <!-- Modal Tambah E-File-->
+        <div class="modal fade" id="tambahDokumenModal" tabindex="-1" aria-labelledby="tambahDokumenLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+            <!-- Header -->
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="tambahDokumenLabel">
+                <i class="fas fa-plus-circle"></i> Tambah Data Pengguna
+                </h5>
+            </div>
+
+        <!-- Body -->
+        <div class="modal-body">
+        <form>
+            <!-- Kategori -->
+            <div class="mb-3">
+            <label class="form-label">Kategori<span class="text-danger">*</span></label>
+            <select id="kategori" class="form-select" required>
+                <option value="" selected disabled>-- Pilih Kategori --</option>
+                <option value="biodata">Biodata</option>
+                <option value="pendidikan">Pendidikan</option>
+                <option value="jf">Jabatan Fungsional</option>
+                <option value="sk">Surat Keputusan Kepangkatan</option>
+                <option value="sp">Surat Penting</option>
+                <option value="lain">Dokumen Pendukung Lainnya</option>
+            </select>
+            </div>
+
+            <!-- Jenis Dokumen -->
+            <div class="mb-3">
+            <label class="form-label">Jenis Dokumen<span class="text-danger">*</span></label>
+            <select id="jenis-dokumen" class="form-select" required>
+                <option value="" selected disabled>-- Pilih Jenis Dokumen --</option>
+            </select>
+            </div>
+
+            <!-- Keaslian Dokumen -->
+            <div class="mb-3">
+            <label class="form-label">Keaslian Dokumen<span class="text-danger">*</span></label>
+            <select class="form-select" required>
+                <option value="" selected disabled>-- Pilih Salah Satu --</option>
+                <option value="asli">Asli</option>
+                <option value="legalisir">Legalisir</option>
+                <option value="scan">Scan</option>
+            </select>
+            </div>
+
+            <!-- Tanggal Pembuatan -->
+            <div class="mb-3">
+            <label class="form-label">Tanggal Pembuatan<span class="text-danger">*</span></label>
+            <input type="date" class="form-control" required>
+            </div>
+
+            <!-- Upload File -->
+            <div class="mb-3">
+            <label class="form-label">Upload File<span class="text-danger">*</span></label>
+            <div class="border p-4 text-center rounded" style="border-style: dashed;">
+                <input type="file" class="form-control" style="display: none;" id="uploadFileInput" required>
+                <label for="uploadFileInput" style="cursor: pointer;">
+                <i class="fa fa-cloud-upload-alt fa-2x text-secondary mb-2"></i>
+                <p>Drag & Drop file here<br><small>Ukuran Maksimal 5 MB</small></p>
+                </label>
+            </div>
+            </div>
+        </form>
+        </div>
+
+            <!-- Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-hapusFile" data-bs-dismiss="modal">Batal</button>
+                <button type="submit" class="btn btn-simpan">Simpan</button>
+            </div>
+            </div>
+        </div>
+        </div>
+
+
+        <!-- Modal Konfirmasi Hapus -->
+        <div class="modal fade konfirmasi-hapus-overlay" id="modalKonfirmasiHapus" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content bg-light">
+                    <div class="modal-body text-center py-4">
+                        <div class="konfirmasi-hapus-icon">
+                            <i class="fas fa-exclamation"></i>
+                        </div>
+                        <h3 class="konfirmasi-hapus-title">Apakah Anda Yakin Menghapus Data Ini?</h3>
+                        <p class="konfirmasi-hapus-subtitle">Data ini akan dihapus permanen dari sistem</p>
+                        <div class="konfirmasi-hapus-buttons">
+                            <button class="btn-popup btn-hapus" id="btnKonfirmasiHapus">Ya, Hapus</button>
+                            <button class="btn-popup btn-batal" id="btnBatalHapus">Batal</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
 <script src="{{ asset('assets/js/detail-pegawai.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
