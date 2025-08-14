@@ -1,44 +1,58 @@
 document.addEventListener('DOMContentLoaded', function () {
-    
-    // === Logic untuk Sidebar (Tidak Berubah) ===
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-    const toggleSidebarBtn = document.getElementById('toggleSidebar');
 
-    if (toggleSidebarBtn && sidebar && overlay) {
-        toggleSidebarBtn.addEventListener('click', function () {
-            const isMobile = window.innerWidth <= 991;
-            if (isMobile) {
-                sidebar.classList.toggle('show');
-                overlay.classList.toggle('show', sidebar.classList.contains('show'));
-            } else {
-                sidebar.classList.toggle('hidden');
-            }
-        });
+    // === 1. LOGIKA INTI: MODAL BERHASIL (SUCCESS MODAL) ===
+    const modalBerhasil = document.getElementById('modalBerhasil');
+    const berhasilTitle = document.getElementById('berhasil-title');
+    const berhasilSubtitle = document.getElementById('berhasil-subtitle');
+    let successModalTimeout = null;
 
-        overlay.addEventListener('click', function () {
-            sidebar.classList.remove('show');
-            overlay.classList.remove('show');
-        });
-    }
-
-    // === Logic untuk Jam & Tanggal (Tidak Berubah) ===
-    function updateDateTime() {
-        const now = new Date();
-        const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone: 'Asia/Jakarta' };
-        const dateEl = document.getElementById('current-date');
-        const timeEl = document.getElementById('current-time');
-        if (dateEl && timeEl) {
-            dateEl.textContent = now.toLocaleDateString('id-ID', dateOptions);
-            timeEl.textContent = now.toLocaleTimeString('id-ID', timeOptions).replace(/\./g, ':');
+    function showSuccessModal(title, subtitle) {
+        if (modalBerhasil && berhasilTitle && berhasilSubtitle) {
+            berhasilTitle.textContent = title;
+            berhasilSubtitle.textContent = subtitle;
+            modalBerhasil.classList.add('show');
+            
+            clearTimeout(successModalTimeout);
+            successModalTimeout = setTimeout(hideSuccessModal, 1200); // Durasi 1.2 detik
         }
     }
-    updateDateTime();
-    setInterval(updateDateTime, 1000);
+    
+    function hideSuccessModal() {
+        modalBerhasil?.classList.remove('show');
+    }
+    document.getElementById('btnSelesai')?.addEventListener('click', () => {
+        clearTimeout(successModalTimeout);
+        hideSuccessModal();
+    });
 
-    // === Logic untuk Area Upload File (Tidak Berubah) ===
-    function setupUploadArea() {
+    // === 2. LOGIKA STANDAR: SIDEBAR, JAM, UPLOAD ===
+    function setupStandardUI() {
+        // Sidebar
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const toggleSidebarBtn = document.getElementById('toggleSidebar');
+        if (toggleSidebarBtn && sidebar && overlay) {
+            toggleSidebarBtn.addEventListener('click', () => {
+                const isMobile = window.innerWidth <= 991;
+                sidebar.classList.toggle(isMobile ? 'show' : 'hidden');
+                if (isMobile) overlay.classList.toggle('show', sidebar.classList.contains('show'));
+            });
+            overlay.addEventListener('click', () => {
+                sidebar.classList.remove('show');
+                overlay.classList.remove('show');
+            });
+        }
+        // Jam & Tanggal
+        function updateDateTime() {
+            const now = new Date();
+            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone: 'Asia/Jakarta' };
+            document.getElementById('current-date').textContent = now.toLocaleDateString('id-ID', dateOptions);
+            document.getElementById('current-time').textContent = now.toLocaleTimeString('id-ID', timeOptions).replace(/\./g, ':');
+        }
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+        // Area Upload File
         document.querySelectorAll('.upload-area').forEach(uploadArea => {
             const fileInput = uploadArea.querySelector('input[type="file"]');
             const uploadText = uploadArea.querySelector('p');
@@ -46,48 +60,58 @@ document.addEventListener('DOMContentLoaded', function () {
             const originalText = uploadText.innerHTML;
             uploadArea.addEventListener('click', () => fileInput.click());
             fileInput.addEventListener('change', function () {
-                if (this.files.length > 0) {
-                    uploadText.textContent = this.files[0].name;
-                }
+                if (this.files.length > 0) uploadText.textContent = this.files[0].name;
             });
-            uploadArea.reset = function() {
+            uploadArea.reset = () => {
                 uploadText.innerHTML = originalText;
                 fileInput.value = '';
             };
         });
     }
-    setupUploadArea();
+    setupStandardUI();
 
-    // =======================================================
-    // ===       LOGIKA UNTUK SEMUA MODAL DI HALAMAN INI     ===
-    // =======================================================
-
-    // 1. Logika untuk Modal Tambah/Edit SK Non PNS
-    const skNonPnsModal = document.getElementById('skNonPnsModal');
-    if (skNonPnsModal) {
-        skNonPnsModal.addEventListener('show.bs.modal', function (event) {
+    // === 3. LOGIKA SPESIFIK HALAMAN SK NON PNS ===
+    
+    // Konfigurasi Modal Tambah/Edit
+    const skNonPnsModalEl = document.getElementById('skNonPnsModal');
+    if (skNonPnsModalEl) {
+        const bsModal = new bootstrap.Modal(skNonPnsModalEl);
+        
+        skNonPnsModalEl.addEventListener('show.bs.modal', function (event) {
             const button = event.relatedTarget;
-            const modalTitle = skNonPnsModal.querySelector('.modal-title');
-            const skNonPnsForm = document.getElementById('skNonPnsForm');
+            const modalTitle = skNonPnsModalEl.querySelector('.modal-title');
+            const isEditMode = button && button.classList.contains('btn-edit');
 
-            if (button && button.classList.contains('btn-edit')) {
-                modalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Data SK Non PNS';
-                // Isi form dengan data yang ada
-            } else {
-                modalTitle.innerHTML = '<i class="fas fa-plus-circle"></i> Tambah Data SK Non PNS';
-                if (skNonPnsForm) skNonPnsForm.reset();
-                const uploadArea = skNonPnsModal.querySelector('.upload-area');
-                if (uploadArea && typeof uploadArea.reset === 'function') {
-                    uploadArea.reset();
-                }
+            modalTitle.innerHTML = isEditMode
+                ? '<i class="fas fa-edit"></i> Edit Data SK Non PNS'
+                : '<i class="fas fa-plus-circle"></i> Tambah Data SK Non PNS';
+
+            if (!isEditMode) {
+                document.getElementById('skNonPnsForm')?.reset();
+                skNonPnsModalEl.querySelector('.upload-area')?.reset();
             }
+        });
+
+        // [BARU] Aksi untuk tombol Simpan
+        skNonPnsModalEl.querySelector('.btn-success')?.addEventListener('click', () => {
+            bsModal.hide();
+            showSuccessModal('Data Berhasil Disimpan', 'Data SK Non PNS telah berhasil disimpan.');
         });
     }
 
-    // 2. Logika untuk Modal Detail SK Non PNS
+    // Konfigurasi Modal Detail dan Hapus menggunakan Event Delegation
+    const modalKonfirmasiHapus = document.getElementById('modalKonfirmasiHapus');
+    let dataToDelete = null;
+
+    const hideDeleteModal = () => {
+        if (modalKonfirmasiHapus) modalKonfirmasiHapus.classList.remove('show');
+    };
+
     document.body.addEventListener('click', function(event) {
-        const detailButton = event.target.closest('.btn-lihat-detail-sk');
+        const target = event.target;
         
+        // Tombol Lihat Detail
+        const detailButton = target.closest('.btn-lihat-detail-sk');
         if (detailButton) {
             event.preventDefault(); 
             const data = detailButton.dataset;
@@ -95,7 +119,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 const element = document.getElementById(id);
                 if (element) element.textContent = value || '-';
             };
-            
             setText('detail_sk_nama_kegiatan', data.nama_kegiatan);
             setText('detail_sk_unit', data.unit);
             setText('detail_sk_jenis_sk', data.jenis_sk);
@@ -104,96 +127,44 @@ document.addEventListener('DOMContentLoaded', function () {
             setText('detail_sk_pegawai', data.pegawai);
             setText('detail_sk_tgl_mulai', data.tgl_mulai);
             setText('detail_sk_tgl_selesai', data.tgl_selesai);
-            
-            const docViewer = document.getElementById('detail_sk_document_viewer');
-            if (docViewer) docViewer.setAttribute('src', data.dokumen_path || '');
+            document.getElementById('detail_sk_document_viewer')?.setAttribute('src', data.dokumen_path || '');
         }
-    });
 
-    // 3. Logika untuk Modal Konfirmasi Hapus
-    const modalKonfirmasiHapus = document.getElementById('modalKonfirmasiHapus');
-    const btnKonfirmasiHapus = document.getElementById('btnKonfirmasiHapus');
-    const btnBatalHapus = document.getElementById('btnBatalHapus');
-    let dataToDelete = null;
-
-// Fungsi untuk menampilkan modal
-function showDeleteModal() {
-    if (modalKonfirmasiHapus) {
-        modalKonfirmasiHapus.classList.add('show');
-        document.body.style.overflow = 'hidden';
-    }
-}
-
-// Fungsi untuk menyembunyikan modal
-function hideDeleteModal() {
-    if (modalKonfirmasiHapus) {
-        modalKonfirmasiHapus.classList.remove('show');
-        document.body.style.overflow = '';
-    }
-}
-
-
-    // Event delegation untuk tombol hapus
-    document.addEventListener('click', function(event) {
-        const deleteButton = event.target.closest('.btn-hapus');
-        if (deleteButton) {
+        // Tombol Hapus pada baris tabel
+        if (target.closest('.btn-hapus')) {
             event.preventDefault();
-            const row = deleteButton.closest('tr');
+            const row = target.closest('tr');
             dataToDelete = {
-                id: deleteButton.dataset.id || row?.querySelector('td:first-child')?.textContent,
-                nama: deleteButton.dataset.nama || row?.querySelector('td:nth-child(2)')?.textContent,
-                element: row
+                element: row,
+                nama: row?.querySelector('td:nth-child(2)')?.textContent.trim()
             };
-            showDeleteModal();
+            if (modalKonfirmasiHapus) modalKonfirmasiHapus.classList.add('show');
         }
-    });
 
-    // Handler untuk tombol konfirmasi hapus
-    if (btnKonfirmasiHapus) {
-        btnKonfirmasiHapus.addEventListener('click', function() {
+        // Tombol "Ya, Hapus" di modal konfirmasi
+        if (target.matches('#btnKonfirmasiHapus')) {
+            event.preventDefault();
+            event.stopPropagation();
             if (dataToDelete) {
-                // Contoh AJAX call (uncomment untuk digunakan):
-                /*
-                fetch(`/api/sk-non-pns/${dataToDelete.id}`, {
-                    method: 'DELETE'
-                })
-                .then(response => {
-                    if (response.ok) {
-                        dataToDelete.element?.remove();
-                        alert(`Data "${dataToDelete.nama}" berhasil dihapus`);
-                    } else {
-                        alert('Gagal menghapus data');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Terjadi kesalahan saat menghapus data');
-                });
-                */
-                
-                // Untuk demo langsung hapus elemen
-                dataToDelete.element?.remove();
-                alert(`Data "${dataToDelete.nama}" berhasil dihapus`);
+                console.log('Menghapus data:', dataToDelete.nama);
+                dataToDelete.element?.remove(); // Hapus baris untuk demo
+                hideDeleteModal();
+                showSuccessModal('Data Berhasil Dihapus', `Data SK Non PNS telah berhasil dihapus.`);
             }
-            hideDeleteModal();
-        });
-    }
+        }
 
-    // Handler untuk tombol batal
-    if (btnBatalHapus) {
-        btnBatalHapus.addEventListener('click', hideDeleteModal);
-    }
-
-    // Tutup modal ketika klik di luar area modal
-    modalKonfirmasiHapus?.addEventListener('click', function(event) {
-        if (event.target === modalKonfirmasiHapus) {
+        // Tombol "Batal" di modal hapus
+        if (target.matches('#btnBatalHapus')) {
             hideDeleteModal();
         }
     });
-
-    // Tutup modal ketika tekan tombol ESC
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape' && modalKonfirmasiHapus.style.display === 'flex') {
+    
+    // Klik di luar area untuk menutup modal hapus
+    modalKonfirmasiHapus?.addEventListener('click', (e) => {
+        if (e.target === modalKonfirmasiHapus) hideDeleteModal();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modalKonfirmasiHapus?.classList.contains('show')) {
             hideDeleteModal();
         }
     });
