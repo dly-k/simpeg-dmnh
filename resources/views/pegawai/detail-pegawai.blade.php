@@ -1107,7 +1107,7 @@
                                         </td>
                                         <td>
                                             <div class="d-flex gap-2 justify-content-center">
-                                            <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
+                                            <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail" >
                                                 <i class="lni lni-eye"></i>
                                             </button>
                                             <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
@@ -1250,7 +1250,7 @@
             <!-- Header -->
             <div class="modal-header bg-success text-white">
                 <h5 class="modal-title" id="tambahDokumenLabel">
-                <i class="fas fa-plus-circle"></i> Tambah Data Pengguna
+                <i class="fas fa-plus-circle me-2""></i> Tambah Data Pengguna
                 </h5>
             </div>
 
@@ -1309,7 +1309,6 @@
             </div>
         </form>
         </div>
-
             <!-- Footer -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-hapusFile" data-bs-dismiss="modal">Batal</button>
@@ -1318,7 +1317,6 @@
             </div>
         </div>
         </div>
-
 
         <!-- Modal Konfirmasi Hapus -->
         <div class="modal fade konfirmasi-hapus-overlay" id="modalKonfirmasiHapus" tabindex="-1" aria-hidden="true">
