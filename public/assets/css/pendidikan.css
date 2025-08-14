@@ -615,14 +615,15 @@ body.sidebar-collapsed .footer-custom {
     padding-bottom: 0.5rem;
 }
 .detail-item small {
-    color: #6c757d;
     display: block;
     margin-bottom: 0.25rem;
+    color: black;
+    font-weight: bold;
 }
 .detail-item p {
-    font-weight: 500;
+    color: #6c757d;
+    font-weight: 300;
     margin: 0;
-    color: #212529;
 }
 .document-viewer-container {
     border: 1px solid #dee2e6;

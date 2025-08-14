@@ -540,17 +540,17 @@ body {
   word-wrap: break-word;
 }
 .detail-item small {
-  color: #6c757d;
   display: block;
+  color: black;
   margin-bottom: 0.25rem;
   font-size: 0.8rem;
-  font-weight: 700;
+  font-weight: 650;
   text-transform: uppercase;
 }
 .detail-item p {
   font-weight: 500;
   margin: 0;
-  color: #212529;
+  color: #6c757d;
   font-size: 0.95rem;
 }
 .document-viewer-container {

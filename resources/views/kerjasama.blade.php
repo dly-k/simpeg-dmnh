@@ -113,7 +113,7 @@
       <!-- TABEL -->
       <div class="table-responsive">
         <table class="table table-hover table-bordered">
-          <thead>
+          <thead class="table-light">
             <tr>
               <th>No</th>
               <th class="text-start">Judul</th>
