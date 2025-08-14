@@ -65,39 +65,34 @@ function startClock() {
 function initPenelitianPage() {
     // Inisialisasi fungsi lain yang spesifik untuk halaman ini
     setupUploadArea();
+    setupDeleteModalLogic();
 
-    // --- LOGIKA BARU UNTUK MODAL KONFIRMASI ---
+    // --- LOGIKA UNTUK MODAL KONFIRMASI VERIFIKASI ---
     const modalKonfirmasi = document.getElementById('modalKonfirmasiPenelitian');
-    const tableBody = document.querySelector('.table tbody'); // Ambil body tabel
+    const tableBody = document.querySelector('.table tbody');
     const btnTerima = document.getElementById('popupBtnTerima');
     const btnKembali = document.getElementById('popupBtnKembali');
-    let dataIdUntukAksi = null; // Variabel untuk menyimpan ID data
+    let dataIdUntukAksi = null;
 
     const showModal = () => modalKonfirmasi?.classList.add('show');
     const hideModal = () => modalKonfirmasi?.classList.remove('show');
 
-    // Event delegation untuk semua tombol di tabel
     tableBody?.addEventListener('click', function (event) {
         const verifikasiButton = event.target.closest('.btn-verifikasi');
-        
         if (verifikasiButton) {
             event.preventDefault();
             dataIdUntukAksi = verifikasiButton.dataset.id;
-            console.log("Membuka konfirmasi untuk ID:", dataIdUntukAksi);
             showModal();
         }
     });
 
-    // Fungsi untuk tombol di dalam popup
     btnTerima?.addEventListener('click', function() {
         console.log(`Aksi "Verifikasi" DITERIMA untuk ID: ${dataIdUntukAksi}`);
-        // Jalankan logika verifikasi di sini...
         hideModal();
     });
 
     btnKembali?.addEventListener('click', hideModal);
 
-    // Tutup popup saat area gelap di klik
     modalKonfirmasi?.addEventListener('click', function(event) {
         if (event.target === modalKonfirmasi) {
             hideModal();
@@ -108,7 +103,6 @@ function initPenelitianPage() {
     const detailModal = document.getElementById("detailModal");
     const closeModalBtn = document.getElementById("tutupBtn");
 
-    // Karena tombol buka detail ada banyak di tabel, gunakan event delegation
     tableBody?.addEventListener('click', function(event){
         const openModalBtn = event.target.closest('#btnLihatDetail');
         if(openModalBtn){
@@ -121,6 +115,16 @@ function initPenelitianPage() {
             detailModal.style.display = "none";
         }
     });
+    
+    // --- [BARU] LOGIKA MENUTUP MODAL TAMBAH/EDIT SAAT KLIK DI LUAR ---
+    const penelitianModal = document.getElementById('penelitianModal');
+    penelitianModal?.addEventListener('click', function(event) {
+        // Cek apakah elemen yang diklik adalah latar belakang modal itu sendiri
+        // dan bukan konten di dalamnya.
+        if (event.target === penelitianModal) {
+            closeModal('penelitianModal');
+        }
+    });
 }
 
 // === Logika Upload File ===
@@ -130,24 +134,17 @@ function setupUploadArea() {
 
     const fileInput = uploadArea.querySelector('input[type="file"]');
     const uploadText = uploadArea.querySelector('p');
-    const originalText = uploadText.innerHTML; // Simpan teks asli
+    const originalText = uploadText.innerHTML;
 
-    // 1. Buka dialog file saat area diklik
-    uploadArea.addEventListener('click', function () {
-        fileInput.click();
-    });
+    uploadArea.addEventListener('click', () => fileInput.click());
 
-    // 2. Tampilkan nama file setelah dipilih
     fileInput.addEventListener('change', function () {
         if (this.files.length > 0) {
             uploadText.textContent = this.files[0].name;
         }
     });
 
-    // Simpan fungsi untuk mereset teks ke elemen itu sendiri
-    uploadArea.resetText = () => {
-        uploadText.innerHTML = originalText;
-    };
+    uploadArea.resetText = () => { uploadText.innerHTML = originalText; };
 }
 
 // === Logika Modal Tambah/Edit ===
@@ -158,24 +155,14 @@ function openModal(modalId) {
     const modalTitle = modal.querySelector('#modalTitle');
     const form = modal.querySelector('form');
 
-    if (modalTitle) {
-        modalTitle.innerHTML = '<i class="fas fa-plus-circle"></i> Tambah Data Penelitian';
-    }
+    if (modalTitle) modalTitle.innerHTML = '<i class="fas fa-plus-circle"></i> Tambah Data Penelitian';
+    if (form) form.reset();
 
-    if (form) {
-        form.reset();
-    }
-
-    // Reset tampilan area upload
     const uploadArea = modal.querySelector('.upload-area');
-    if (uploadArea && typeof uploadArea.resetText === 'function') {
-        uploadArea.resetText();
-    }
-
-    // Reset dynamic fields
+    if (uploadArea && typeof uploadArea.resetText === 'function') uploadArea.resetText();
+    
     resetPenulisFields();
-
-    modal.style.display = 'flex';
+    modal.classList.add('show');
 }
 
 function openEditModal() {
@@ -183,18 +170,14 @@ function openEditModal() {
     if (!modal) return;
 
     const modalTitle = modal.querySelector('#modalTitle');
-    if (modalTitle) {
-        modalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Data Penelitian';
-    }
-
-    modal.style.display = 'flex';
+    if (modalTitle) modalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Data Penelitian';
+    
+    modal.classList.add('show');
 }
 
 function closeModal(modalId) {
     const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.style.display = 'none';
-    }
+    if (modal) modal.classList.remove('show');
 }
 
 // === Reset Field Penulis ===
@@ -247,52 +230,36 @@ function addPenulis(listId) {
     list.appendChild(newInput);
 }
 
-// === Hapus Confirmation Modal Logic ===
-const hapusModal = document.getElementById('modalKonfirmasiHapus');
-const btnBatalHapus = document.getElementById('btnBatalHapus');
-const btnKonfirmasiHapus = document.getElementById('btnKonfirmasiHapus');
-let dataIdUntukHapus = null;
+// === Logika Modal Konfirmasi Hapus ===
+function setupDeleteModalLogic() {
+    const hapusModal = document.getElementById('modalKonfirmasiHapus');
+    if (!hapusModal) return;
 
-// Event delegation untuk tombol hapus
-document.addEventListener('click', function(event) {
-  if (event.target.closest('.btn-hapus')) {
-    event.preventDefault();
-    dataIdUntukHapus = event.target.closest('tr').querySelector('td:first-child').textContent;
-    if (hapusModal) hapusModal.style.display = 'flex';
-  }
-});
+    const btnBatalHapus = document.getElementById('btnBatalHapus');
+    const btnKonfirmasiHapus = document.getElementById('btnKonfirmasiHapus');
+    let dataIdUntukHapus = null;
 
-// Close modal when clicking outside
-if (hapusModal) {
-  hapusModal.addEventListener('click', function(e) {
-    if (e.target === hapusModal) {
-      hapusModal.style.display = 'none';
-    }
-  });
-}
+    const showDeleteModal = () => hapusModal.classList.add('show');
+    const hideDeleteModal = () => hapusModal.classList.remove('show');
 
-// Button handlers
-if (btnBatalHapus) {
-  btnBatalHapus.addEventListener('click', function() {
-    hapusModal.style.display = 'none';
-  });
-}
+    document.addEventListener('click', function(event) {
+      if (event.target.closest('.btn-hapus')) {
+        event.preventDefault();
+        dataIdUntukHapus = event.target.closest('tr').querySelector('td:first-child').textContent;
+        showDeleteModal();
+      }
+    });
 
-if (btnKonfirmasiHapus) {
-  btnKonfirmasiHapus.addEventListener('click', function() {
-    // Logika hapus data disini
-    console.log('Menghapus data dengan ID:', dataIdUntukHapus);
-    alert(`Data dengan ID ${dataIdUntukHapus} berhasil dihapus`);
-    hapusModal.style.display = 'none';
-    
-    // Tambahkan logika AJAX atau lainnya untuk menghapus data
-    // Contoh:
-    // fetch(`/api/penelitian/${dataIdUntukHapus}`, {
-    //   method: 'DELETE'
-    // }).then(response => {
-    //   if(response.ok) {
-    //     location.reload();
-    //   }
-    // });
-  });
+    btnBatalHapus?.addEventListener('click', hideDeleteModal);
+    hapusModal.addEventListener('click', function(e) {
+      if (e.target === hapusModal) {
+        hideDeleteModal();
+      }
+    });
+
+    btnKonfirmasiHapus?.addEventListener('click', function() {
+      console.log('Menghapus data dengan ID:', dataIdUntukHapus);
+      alert(`Data dengan ID ${dataIdUntukHapus} akan dihapus (simulasi).`);
+      hideDeleteModal();
+    });
 }

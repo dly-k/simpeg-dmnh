@@ -1,4 +1,4 @@
-    :root {
+:root {
   --primary: #049466;
   --primary-light: #e3f7ec;
   --primary-dark: #047857;
@@ -417,11 +417,19 @@
       width: 100vw;
       height: 100vh;
       background-color: rgba(0,0,0,0.5);
-      display: none;
+      display: flex; /* Tetap flex untuk centering */
       align-items: center;
       justify-content: center;
       z-index: 1050;
       padding: 1rem;
+      /* Animasi */
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    .modal-backdrop.show {
+        opacity: 1;
+        visibility: visible;
     }
     .modal-content-wrapper {
       background-color: #fff;
@@ -432,6 +440,12 @@
       max-height: 90vh;
       display: flex;
       flex-direction: column;
+      /* Animasi */
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+    }
+    .modal-backdrop.show .modal-content-wrapper {
+        transform: scale(1);
     }
     .modal-header-custom {
       background: linear-gradient(to right, #059669, #047857);
@@ -725,6 +739,16 @@ a.dokumen-link:hover {
     justify-content: center;
     align-items: center;
     z-index: 9999;
+    /* Animasi */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+}
+
+/* Status Tampil */
+.konfirmasi-hapus-overlay.show {
+    opacity: 1;
+    visibility: visible;
 }
 
 /* Kotak Konten */
@@ -736,6 +760,14 @@ a.dokumen-link:hover {
     width: 90%;
     max-width: 500px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    /* Animasi */
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+/* Status Tampil untuk Box */
+.konfirmasi-hapus-overlay.show .konfirmasi-hapus-box {
+    transform: scale(1);
 }
 
 /* Ikon Lingkaran Kuning */

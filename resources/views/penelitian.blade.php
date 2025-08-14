@@ -83,10 +83,8 @@
   </div>
 
   <div class="main-content">
-    <!-- Table Section -->
     <div class="card">
-      <!-- Search and Filter Section -->
-    <div class="search-filter-container">
+      <div class="search-filter-container">
       <div class="search-filter-row">
         <div class="search-box">
           <div class="input-group">
@@ -194,7 +192,6 @@
           </table>
         </div>
         
-        <!-- Pagination -->
         <div class="d-flex justify-content-between align-items-center mt-3">
           <span class="text-muted small">Menampilkan 1 sampai 10 dari 13 data</span>
           <nav>
@@ -210,7 +207,6 @@
     </div>
   </div>
   
-  <!-- Modal Penelitian -->
   <div class="modal-backdrop" id="penelitianModal">
     <div class="modal-content-wrapper">
       <div class="modal-header-custom">
@@ -393,9 +389,7 @@
     </div>
 </div>
 
-<!--Hapus Penelitian-->
-<!-- Modal Konfirmasi Hapus -->
-<div class="konfirmasi-hapus-overlay" id="modalKonfirmasiHapus" style="display: none;">
+<div class="konfirmasi-hapus-overlay" id="modalKonfirmasiHapus">
     <div class="konfirmasi-hapus-box">
         <div class="konfirmasi-hapus-icon">
             <i class="fas fa-exclamation"></i>
