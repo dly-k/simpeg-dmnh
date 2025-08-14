@@ -45,12 +45,12 @@
   <div class="overlay" id="overlay"></div>
 
   <div class="navbar-custom">
-    <div class="d-flex align-items: center">
+    <div class="d-flex align-items-center">
       <button class="btn btn-link text-dark me-3" id="toggleSidebar" aria-label="Toggle Sidebar">
         <i class="lni lni-menu"></i>
       </button>
     </div>
-    <div class="d-flex align-items: center">
+    <div class="d-flex align-items-center">
       <div class="time-date me-2">
         <div><i class="lni lni-calendar"></i> <span id="current-date"></span></div>
         <div><i class="lni lni-timer"></i> <span id="current-time"></span></div>
@@ -1576,18 +1576,33 @@
       </div>
   </div>
 
-  {{-- konfirmasi modal --}}
-<div class="confirmation-popup-overlay" id="modalKonfirmasiPendidikan" style="display: none;">
-    <div class="confirmation-popup-box">
-        <h3 class="popup-title" id="popupKonfirmasiTitle">Konfirmasi Verifikasi Data</h3>
-        <p class="popup-subtitle">Apakah Anda yakin ingin melanjutkan proses ini?</p>
-        <div class="popup-buttons">
-            <button class="btn-popup btn-terima" id="popupBtnTerima">Terima</button>
-            <button class="btn-popup btn-tolak" id="popupBtnTolak">Tolak</button>
-            <button class="btn-popup btn-kembali" id="popupBtnKembali">Kembali</button>
-        </div>
-    </div>
-</div>
+<!--Verifikasi-->
+  <div class="confirmation-popup-overlay" id="modalKonfirmasiPendidikan">
+      <div class="confirmation-popup-box">
+          <h3 class="popup-title">Konfirmasi Verifikasi Data</h3>
+          <p class="popup-subtitle">Apakah Anda yakin ingin melanjutkan proses ini?</p>
+          <div class="popup-buttons">
+              <button class="btn-popup btn-terima" id="popupBtnTerima">Terima</button>
+              <button class="btn-popup btn-tolak" id="popupBtnTolak">Tolak</button>
+              <button class="btn-popup btn-kembali" id="popupBtnKembali">Kembali</button>
+          </div>
+      </div>
+  </div>
+
+<!--Hapus-->
+  <div class="konfirmasi-hapus-overlay" id="modalKonfirmasiHapus">
+      <div class="konfirmasi-hapus-box">
+          <div class="konfirmasi-hapus-icon">
+              <i class="fas fa-exclamation"></i>
+          </div>
+          <h3 class="konfirmasi-hapus-title">Apakah Anda Yakin Menghapus Data Ini?</h3>
+          <p class="konfirmasi-hapus-subtitle">Data ini akan dihapus permanen dari sistem</p>
+          <div class="konfirmasi-hapus-buttons">
+                <button class="btn-popup btn-hapus" id="btnKonfirmasiHapus">Ya, Hapus</button>
+              <button class="btn-popup btn-batal" id="btnBatalHapus">Batal</button>
+          </div>
+      </div>
+  </div>
 
   <script src="{{ asset('assets/js/pendidikan.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
