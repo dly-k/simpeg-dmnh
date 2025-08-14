@@ -1,4 +1,32 @@
 document.addEventListener('DOMContentLoaded', function () {
+  // === LOGIKA MODAL BERHASIL (SUCCESS MODAL) ===
+  const modalBerhasil = document.getElementById('modalBerhasil');
+  const berhasilTitle = document.getElementById('berhasil-title');
+  const berhasilSubtitle = document.getElementById('berhasil-subtitle');
+  let successModalTimeout = null;
+
+  function showSuccessModal(title, subtitle) {
+    if (modalBerhasil && berhasilTitle && berhasilSubtitle) {
+      berhasilTitle.textContent = title;
+      berhasilSubtitle.textContent = subtitle;
+      modalBerhasil.classList.add('show'); // Gunakan class untuk menampilkan
+      
+      clearTimeout(successModalTimeout);
+      successModalTimeout = setTimeout(hideSuccessModal, 1200); // Durasi 1.2 detik
+    }
+  }
+  
+  function hideSuccessModal() {
+    modalBerhasil?.classList.remove('show');
+  }
+
+  // Listener untuk tombol 'Selesai' di modal berhasil
+  document.getElementById('btnSelesai')?.addEventListener('click', () => {
+    clearTimeout(successModalTimeout);
+    hideSuccessModal();
+  });
+
+
   // === Sidebar Logic ===
   const sidebar = document.getElementById('sidebar');
   const overlay = document.getElementById('overlay');
@@ -34,10 +62,18 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   updateDateTime();
   setInterval(updateDateTime, 1000);
+  
+  // === [BARU] Tombol Simpan Logic ===
+  const simpanBtn = document.querySelector('#penunjangModal .btn-success');
+  if (simpanBtn) {
+    simpanBtn.addEventListener('click', function() {
+      closeModal('penunjangModal');
+      showSuccessModal('Data Berhasil Disimpan', 'Data penunjang telah berhasil disimpan ke sistem.');
+    });
+  }
 
   // === Dynamic Interactions ===
   function setupDynamicInteractions() {
-    // Dokumen List
     const dokumenList = document.getElementById('dokumen-list');
     if (dokumenList) {
       dokumenList.addEventListener('click', function(event) {
@@ -65,7 +101,6 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
 
-    // Anggota List
     const anggotaList = document.getElementById('anggota-list');
     if (anggotaList) {
       anggotaList.addEventListener('click', function(event) {
@@ -84,15 +119,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
   document.addEventListener('click', function(event) {
     if (event.target.closest('#btnLihatPenunjangDetail')) {
-      if (penunjangDetailModal) {
-        penunjangDetailModal.style.display = "block";
-      }
+      if (penunjangDetailModal) penunjangDetailModal.style.display = "block";
     }
   });
 
-  if (closePenunjangDetailBtn && penunjangDetailModal) {
+  if (closePenunjangDetailBtn) {
     closePenunjangDetailBtn.addEventListener('click', function() {
-      penunjangDetailModal.style.display = "none";
+      if (penunjangDetailModal) penunjangDetailModal.style.display = "none";
     });
   }
 
@@ -102,6 +135,10 @@ document.addEventListener('DOMContentLoaded', function () {
   const btnTolak = document.getElementById('popupBtnTolak');
   const btnKembali = document.getElementById('popupBtnKembali');
   
+  function hideVerifModal() {
+    if(verifModal) verifModal.style.display = 'none';
+  }
+
   document.addEventListener('click', function(event) {
     if (event.target.closest('.btn-verifikasi')) {
       event.preventDefault();
@@ -110,31 +147,27 @@ document.addEventListener('DOMContentLoaded', function () {
   });
   
   if (verifModal) {
-    verifModal.addEventListener('click', function(e) {
-      if (e.target === verifModal) {
-        verifModal.style.display = 'none';
-      }
+    verifModal.addEventListener('click', (e) => {
+      if (e.target === verifModal) hideVerifModal();
     });
   }
   
   if (btnTerima) {
     btnTerima.addEventListener('click', function() {
-      alert('Data telah diverifikasi (Diterima)');
-      if (verifModal) verifModal.style.display = 'none';
+      hideVerifModal();
+      showSuccessModal('Status Verifikasi Disimpan', 'Perubahan status verifikasi telah berhasil disimpan.');
     });
   }
   
   if (btnTolak) {
     btnTolak.addEventListener('click', function() {
-      alert('Data telah ditolak');
-      if (verifModal) verifModal.style.display = 'none';
+      hideVerifModal();
+      showSuccessModal('Status Verifikasi Disimpan', 'Perubahan status verifikasi telah berhasil disimpan.');
     });
   }
   
   if (btnKembali) {
-    btnKembali.addEventListener('click', function() {
-      if (verifModal) verifModal.style.display = 'none';
-    });
+    btnKembali.addEventListener('click', hideVerifModal);
   }
 
   // === Delete Confirmation Modal Logic ===
@@ -143,10 +176,13 @@ document.addEventListener('DOMContentLoaded', function () {
   const btnKonfirmasiHapus = document.getElementById('btnKonfirmasiHapus');
   let dataToDelete = null;
 
+  function hideDeleteModal() {
+    if(deleteModal) deleteModal.style.display = 'none';
+  }
+
   document.addEventListener('click', function(event) {
     if (event.target.closest('.btn-hapus')) {
       event.preventDefault();
-      // Get the row data to be deleted
       const row = event.target.closest('tr');
       dataToDelete = {
         id: row.querySelector('td:first-child').textContent,
@@ -157,44 +193,22 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   if (deleteModal) {
-    deleteModal.addEventListener('click', function(e) {
-      if (e.target === deleteModal) {
-        deleteModal.style.display = 'none';
-      }
+    deleteModal.addEventListener('click', (e) => {
+      if (e.target === deleteModal) hideDeleteModal();
     });
   }
 
   if (btnBatalHapus) {
-    btnBatalHapus.addEventListener('click', function() {
-      if (deleteModal) deleteModal.style.display = 'none';
-    });
+    btnBatalHapus.addEventListener('click', hideDeleteModal);
   }
 
   if (btnKonfirmasiHapus) {
     btnKonfirmasiHapus.addEventListener('click', function() {
       if (dataToDelete) {
-        // Here you would typically make an AJAX call to delete the data
-        console.log('Deleting data:', dataToDelete);
-        alert(`Data "${dataToDelete.title}" (ID: ${dataToDelete.id}) berhasil dihapus`);
-        
-        // Example AJAX call:
-        /* fetch(`/api/penunjang/${dataToDelete.id}`, {
-          method: 'DELETE'
-        })
-        .then(response => {
-          if(response.ok) {
-            location.reload();
-          } else {
-            alert('Gagal menghapus data');
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          alert('Terjadi kesalahan saat menghapus data');
-        });
-        */
+        console.log('Menghapus data:', dataToDelete);
       }
-      if (deleteModal) deleteModal.style.display = 'none';
+      hideDeleteModal();
+      showSuccessModal('Data Berhasil Dihapus', 'Data yang dipilih telah berhasil dihapus secara permanen.');
     });
   }
 });

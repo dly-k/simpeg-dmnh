@@ -841,3 +841,76 @@ body {
 .konfirmasi-hapus-box {
     animation: modalContentZoomIn 0.3s ease-out;
 }
+
+/* ======================================= */
+/* ===   CSS MODAL BERHASIL     === */
+/* ======================================= */
+.modal-berhasil-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+}
+.modal-berhasil-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+.modal-berhasil-box {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 16px;
+    text-align: center;
+    width: 90%;
+    max-width: 550px; /* [DIUBAH] Dilebarkan agar teks tidak melipat */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+.modal-berhasil-overlay.show .modal-berhasil-box {
+    transform: scale(1);
+}
+.modal-berhasil-icon {
+    width: 80px;
+    height: 80px;
+    background-color: #22c55e; /* Hijau */
+    border-radius: 50%;
+    margin: 0 auto 1.5rem auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modal-berhasil-icon i {
+    font-size: 2.5rem;
+    color: white;
+}
+.modal-berhasil-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: black;
+    margin-bottom: 0.5rem;
+}
+.modal-berhasil-subtitle {
+    font-size: 1rem;
+    color: #6b7280;
+    margin-bottom: 2rem;
+}
+.modal-berhasil-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+.btn-popup.btn-selesai {
+    background-color: #22c55e; /* Hijau */
+}
+.btn-popup.btn-selesai:hover {
+    background-color: #16a34a;
+}
