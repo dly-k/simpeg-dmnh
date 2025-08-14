@@ -73,3 +73,7 @@ Route::get('/edit-pegawai', function () {
 Route::get('/tambah-pegawai', function () {
     return view('pegawai.tambah-pegawai');
 });
+
+Route::get('/ubah-password', function () {
+    return view('ubah-password');
+});
