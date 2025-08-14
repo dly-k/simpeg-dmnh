@@ -404,8 +404,8 @@
         <h3 class="konfirmasi-hapus-title">Apakah Anda Yakin Menghapus Data Ini?</h3>
         <p class="konfirmasi-hapus-subtitle">Data ini akan dihapus secara permanen dari sistem.</p>
         <div class="konfirmasi-hapus-buttons">
+            <button class="btn-popup btn-hapus" id="btnKonfirmasiHapus">Ya, Hapus</button>
             <button class="btn-popup btn-batal" id="btnBatalHapus">Batal</button>
-            <button class="btn-popup btn-hapus" id="btnKonfirmasiHapus">Hapus</button>
         </div>
     </div>
 </div>

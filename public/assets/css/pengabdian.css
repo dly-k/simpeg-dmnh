@@ -934,18 +934,18 @@
 
 /* Tombol Batal (Merah) */
 .btn-batal {
-    background-color: #D9534F;
+    background-color: #6c757d;
 }
 .btn-batal:hover {
-    background-color: #dc2626;
+    background-color: #5a6268;
 }
 
 /* Tombol Hapus (Hijau) */
 .btn-popup.btn-hapus {
-    background-color: #5CB85C;
+    background-color: #dc3545;
 }
 .btn-popup.btn-hapus:hover {
-    background-color: #16a34a;
+    background-color: #c82333;
 }
 
 /* ======================================= */
