@@ -16,7 +16,6 @@
 
 <body>
 <div class="layout">
-  <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
     <div class="brand">SI<span>KEMAH</span></div>
     <div class="menu-wrapper">
@@ -44,11 +43,9 @@
     </div>
   </div>
 
-  <!-- Overlay -->
   <div class="overlay" id="overlay"></div>
 
   <div class="main-wrapper">
-    <!-- Navbar -->
     <div class="navbar-custom">
       <div class="d-flex align-items: center">
         <button class="btn btn-link text-dark me-3" id="toggleSidebar" aria-label="Toggle Sidebar">
@@ -83,21 +80,16 @@
       </div>
     </div>
 
-    <!-- Title Bar -->
     <div class="title-bar">
       <h1><i class="lni lni-folder"></i> <span id="page-title">Manajemen Surat Tugas</span></h1>
     </div>
 
-  <!-- Main Content -->
-<div class="main-content">
+  <div class="main-content">
   <div class="table-card">
-    <!-- Header: Search, Filter, Button -->
     <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
       
-      <!-- Left side: Search & Filter -->
       <div class="d-flex align-items-center flex-wrap gap-2 flex-grow-1" style="min-width: 0;">
         
-        <!-- Search Input -->
         <div class="search-group flex-grow-1">
           <div class="input-group search-box bg-white" style="border-radius: .5rem; min-width: 280px;">
             <span class="input-group-text bg-light border-end-0">
@@ -107,7 +99,6 @@
           </div>
         </div>
 
-        <!-- Filter Tanggal -->
         <div style="min-width: 120px;">
           <select class="form-select filter-select">
             <option selected>Tahun</option>
@@ -117,7 +108,6 @@
           </select>
         </div>
 
-        <!-- Button Group -->
         <div class="d-flex gap-2">
           <a href="#" class="btn btn-export fw-bold">
             <i class="fa fa-file-excel me-2"></i> Export Excel
@@ -129,7 +119,6 @@
       </div>
     </div>
 
-    <!-- Table -->
     <div class="table-responsive">
       <table class="table table-hover table-bordered">
         <thead class="table-light">
@@ -151,7 +140,6 @@
       </table>
     </div>
 
-    <!-- Pagination & Info -->
     <div class="d-flex justify-content-between align-items-center mt-3">
       <span class="text-muted small">Menampilkan 3 dari 13 data</span>
       <nav aria-label="Page navigation">
@@ -166,51 +154,62 @@
     </div>
   </div>
 </div>
-    <!-- Footer -->
     <footer class="footer-custom">
       <span>© 2025 Forest Management — All Rights Reserved</span>
     </footer>
   </div>
   
-  <!-- Modal Tambah/Edit Surat Tugas -->
-    <div class="modal-backdrop" id="suratTugasModal">
-        <div class="modal-content-wrapper">
-            <div class="modal-header-custom">
-                <h5 id="modalTitle"><i class="fas fa-plus-circle"></i> Tambah Surat Tugas</h5>
-            </div>
-            <div class="modal-body-custom">
-                <form>
-                    <div class="row g-3">
-                        <div class="col-12"><label class="form-label">Nama Dosen</label><select class="form-select"><option selected>-- Pilih Salah Satu --</option><option>Dr. Stone</option></select></div>
-                        <div class="col-12"><label class="form-label">Peran</label><input type="text" class="form-control" placeholder="Masukkan peran. Contoh: Narasumber, Pembicara, Moderator"></div>
-                        <div class="col-12"><label class="form-label">Pemohon / Menjadi</label><input type="text" class="form-control" placeholder="2020/2021"></div>
-                        <div class="col-12"><label class="form-label">Mitra / Nama Instansi</label><input type="text" class="form-control" placeholder="2020/2021"></div>
-                        <div class="col-md-6"><label class="form-label">No & Tanggal Surat Instansi</label><input type="text" class="form-control" placeholder="001/INT/2025 - 1 Juni 2025"></div>
-                        <div class="col-md-6"><label class="form-label">No & Tanggal Surat Kadep</label><input type="text" class="form-control" placeholder="001/INT/2025 - 1 Juni 2025"></div>
-                        <div class="col-md-6"><label class="form-label">Tanggal Kegiatan</label><input type="date" class="form-control"></div>
-                        <div class="col-md-6"><label class="form-label">Link Surat Tugas Dekan</label><input type="text" class="form-control" placeholder="Praktikum"></div>
-                        <div class="col-12"><label class="form-label">Lokasi Kegiatan</label><input type="text" class="form-control" placeholder="Praktikum"></div>
-                        <div class="col-12">
-                            <label class="form-label">Upload File</label>
-                            <div class="upload-area">
-                                <i class="fas fa-cloud-upload-alt"></i>
-                                <p>Drag & Drop File here<br><small>Ukuran Maksimal 5 MB</small></p>
-                                <input type="file" hidden>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer-custom">
-                <button type="button" class="btn btn-danger" onclick="closeModal('suratTugasModal')">Batal</button>
-                <button type="button" class="btn btn-success">Simpan</button>
-            </div>
-        </div>
-    </div>
+  <div class="modal-backdrop" id="suratTugasModal">
+      <div class="modal-content-wrapper">
+          <div class="modal-header-custom">
+              <h5 id="modalTitle"><i class="fas fa-plus-circle"></i> Tambah Surat Tugas</h5>
+          </div>
+          <div class="modal-body-custom">
+              <form>
+                  <div class="row g-3">
+                      <div class="col-12"><label class="form-label">Nama Dosen</label><select class="form-select"><option selected>-- Pilih Salah Satu --</option><option>Dr. Stone</option></select></div>
+                      <div class="col-12"><label class="form-label">Peran</label><input type="text" class="form-control" placeholder="Masukkan peran. Contoh: Narasumber, Pembicara, Moderator"></div>
+                      <div class="col-12"><label class="form-label">Pemohon / Menjadi</label><input type="text" class="form-control" placeholder="2020/2021"></div>
+                      <div class="col-12"><label class="form-label">Mitra / Nama Instansi</label><input type="text" class="form-control" placeholder="2020/2021"></div>
+                      <div class="col-md-6"><label class="form-label">No & Tanggal Surat Instansi</label><input type="text" class="form-control" placeholder="001/INT/2025 - 1 Juni 2025"></div>
+                      <div class="col-md-6"><label class="form-label">No & Tanggal Surat Kadep</label><input type="text" class="form-control" placeholder="001/INT/2025 - 1 Juni 2025"></div>
+                      <div class="col-md-6"><label class="form-label">Tanggal Kegiatan</label><input type="date" class="form-control"></div>
+                      <div class="col-md-6"><label class="form-label">Link Surat Tugas Dekan</label><input type="text" class="form-control" placeholder="Praktikum"></div>
+                      <div class="col-12"><label class="form-label">Lokasi Kegiatan</label><input type="text" class="form-control" placeholder="Praktikum"></div>
+                      <div class="col-12">
+                          <label class="form-label">Upload File</label>
+                          <div class="upload-area">
+                              <i class="fas fa-cloud-upload-alt"></i>
+                              <p>Drag & Drop File here<br><small>Ukuran Maksimal 5 MB</small></p>
+                              <input type="file" hidden>
+                          </div>
+                      </div>
+                  </div>
+              </form>
+          </div>
+          <div class="modal-footer-custom">
+              <button type="button" class="btn btn-danger" onclick="closeModal('suratTugasModal')">Batal</button>
+              <button type="button" class="btn btn-success">Simpan</button>
+          </div>
+      </div>
+  </div>
+
+  <div class="konfirmasi-hapus-overlay" id="modalKonfirmasiHapus">
+      <div class="konfirmasi-hapus-box">
+          <div class="konfirmasi-hapus-icon">
+              <i class="fas fa-exclamation"></i>
+          </div>
+          <h3 class="konfirmasi-hapus-title">Apakah Anda Yakin Menghapus Data Ini?</h3>
+          <p class="konfirmasi-hapus-subtitle">Data ini akan dihapus dari permanen sistem.</p>
+          <div class="konfirmasi-hapus-buttons">
+              <button class="btn-popup btn-hapus" id="btnKonfirmasiHapus">Ya, Hapus</button>
+              <button class="btn-popup btn-batal" id="btnBatalHapus">Batal</button>
+
+          </div>
+      </div>
+  </div>
 
   <script src="{{ asset('assets/js/surat-tugas.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
- </script>
 </body>
 </html>

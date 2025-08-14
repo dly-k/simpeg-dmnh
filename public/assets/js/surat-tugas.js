@@ -5,16 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
   initClock();
   initSuratTugasPage();
   initModalInteractions();
-  initUploadArea(); // BARU: Inisialisasi area upload
-
-  // Inisialisasi menu editor (jika ada)
-  const editorBtn = document.querySelector('[data-bs-target="#editorKegiatan"]');
-  const editorMenu = document.getElementById('editorKegiatan');
-  if (editorBtn && editorMenu) {
-    editorBtn.classList.remove('collapsed');
-    editorBtn.setAttribute('aria-expanded', 'true');
-    editorMenu.classList.add('show');
-  }
+  initUploadArea();
 });
 
 
@@ -70,26 +61,19 @@ function initSuratTugasPage() {
   renderTable();
   const tbody = document.getElementById('data-body');
 
+  // [DIUBAH] Event listener untuk edit
   tbody?.addEventListener('click', function(event) {
     const editBtn = event.target.closest('.btn-edit');
-    const deleteBtn = event.target.closest('.btn-hapus');
-    
     if (editBtn) {
       event.preventDefault();
       const rowIndex = editBtn.closest('tr').dataset.index;
       const itemData = dataSuratTugas[rowIndex];
       if (itemData) openEditModal(itemData);
     }
-    
-    if (deleteBtn) {
-      event.preventDefault();
-      if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
-        const row = deleteBtn.closest('tr');
-        console.log('Menghapus data di baris:', parseInt(row.dataset.index) + 1);
-        row.remove();
-      }
-    }
   });
+
+  // [BARU] Inisialisasi logika modal konfirmasi hapus
+  initDeleteConfirmation();
 }
 
 function renderTable() {
@@ -118,7 +102,7 @@ function renderTable() {
   `).join('');
 }
 
-// === Fungsi Modal ===
+// === Fungsi Modal (Tambah/Edit) ===
 function openModal(modalId) {
   const modal = document.getElementById(modalId);
   if (!modal) return;
@@ -128,13 +112,10 @@ function openModal(modalId) {
   if (modalTitle) modalTitle.innerHTML = '<i class="fas fa-plus-circle"></i> Tambah Surat Tugas';
   if (form) form.reset();
   
-  // PENYESUAIAN: Reset area upload
   const uploadArea = modal.querySelector('.upload-area');
-  if (uploadArea && typeof uploadArea.reset === 'function') {
-    uploadArea.reset();
-  }
+  if (uploadArea && typeof uploadArea.reset === 'function') uploadArea.reset();
   
-  modal.style.display = 'flex';
+  modal.classList.add('show');
 }
 
 function openEditModal(data) {
@@ -153,29 +134,73 @@ function openEditModal(data) {
     }
   }
   
-  // PENYESUAIAN: Reset area upload
   const uploadArea = modal.querySelector('.upload-area');
-  if (uploadArea && typeof uploadArea.reset === 'function') {
-    uploadArea.reset();
-  }
+  if (uploadArea && typeof uploadArea.reset === 'function') uploadArea.reset();
   
-  modal.style.display = 'flex';
+  modal.classList.add('show');
 }
 
 function closeModal(modalId) {
   const modal = document.getElementById(modalId);
-  if (modal) modal.style.display = 'none';
+  if (modal) modal.classList.remove('show');
 }
 
 function initModalInteractions() {
-  window.addEventListener('click', function (event) {
-    if (event.target.classList.contains('modal-backdrop')) {
-      closeModal(event.target.id);
+  const addEditModal = document.getElementById('suratTugasModal');
+  addEditModal?.addEventListener('click', function (event) {
+    if (event.target === addEditModal) {
+      closeModal(addEditModal.id);
     }
   });
 }
 
-// BARU: Fungsi untuk menangani semua area upload
+// === [BARU] Logika Modal Konfirmasi Hapus ===
+function initDeleteConfirmation() {
+    const tableBody = document.getElementById('data-body');
+    const modal = document.getElementById('modalKonfirmasiHapus');
+    if (!tableBody || !modal) return;
+
+    const btnBatal = document.getElementById('btnBatalHapus');
+    const btnKonfirmasi = document.getElementById('btnKonfirmasiHapus');
+    let rowToDelete = null;
+
+    // Event delegation untuk tombol hapus di tabel
+    tableBody.addEventListener('click', function(event) {
+        const deleteButton = event.target.closest('.btn-hapus');
+        if (deleteButton) {
+            event.preventDefault();
+            rowToDelete = deleteButton.closest('tr');
+            modal.classList.add('show');
+        }
+    });
+
+    // Tombol konfirmasi untuk menghapus
+    btnKonfirmasi.addEventListener('click', function() {
+        if (rowToDelete) {
+            console.log(`Menghapus data baris ke-${parseInt(rowToDelete.dataset.index) + 1}`);
+            rowToDelete.remove(); // Hapus baris dari DOM
+            // Di aplikasi nyata, di sini Anda akan memanggil API untuk menghapus data dari server
+            modal.classList.remove('show');
+            rowToDelete = null;
+        }
+    });
+
+    // Tombol untuk membatalkan
+    btnBatal.addEventListener('click', function() {
+        modal.classList.remove('show');
+        rowToDelete = null;
+    });
+
+    // Klik di luar area modal untuk menutup
+    modal.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            modal.classList.remove('show');
+            rowToDelete = null;
+        }
+    });
+}
+
+// === Fungsi Area Upload ===
 function initUploadArea() {
   document.querySelectorAll('.upload-area').forEach(uploadArea => {
     const fileInput = uploadArea.querySelector('input[type="file"]');
@@ -194,10 +219,9 @@ function initUploadArea() {
       }
     });
 
-    // Buat fungsi reset yang bisa dipanggil dari luar
     uploadArea.reset = function() {
       uploadText.innerHTML = originalText;
-      fileInput.value = ''; // Penting untuk membersihkan file yang sudah dipilih
+      fileInput.value = '';
     };
   });
 }
