@@ -1,53 +1,59 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
   const sidebar = document.getElementById("sidebar");
   const overlay = document.getElementById("overlay");
   const toggleSidebarBtn = document.getElementById("toggleSidebar");
   const body = document.body;
 
-  // Toggle Sidebar
-  if (toggleSidebarBtn) {
-    toggleSidebarBtn.addEventListener("click", function () {
-      const isMobile = window.innerWidth <= 991;
-      if (isMobile) {
-        sidebar.classList.toggle("show");
-        overlay.classList.toggle("show", sidebar.classList.contains("show"));
-      } else {
-        sidebar.classList.toggle("hidden");
-        body.classList.toggle("sidebar-collapsed");
-      }
-    });
-  }
+  /* =================================================
+     1. Sidebar Toggle
+  ================================================= */
+  toggleSidebarBtn?.addEventListener("click", () => {
+    const isMobile = window.innerWidth <= 991;
 
-  // Overlay Click
-  if (overlay) {
-    overlay.addEventListener("click", function () {
-      sidebar.classList.remove("show");
-      overlay.classList.remove("show");
-    });
-  }
+    if (isMobile) {
+      sidebar?.classList.toggle("show");
+      overlay?.classList.toggle("show", sidebar?.classList.contains("show"));
+    } else {
+      sidebar?.classList.toggle("hidden");
+      body.classList.toggle("sidebar-collapsed");
+    }
+  });
 
-  // Expand Editor Kegiatan (default terbuka)
+  overlay?.addEventListener("click", () => {
+    sidebar?.classList.remove("show");
+    overlay?.classList.remove("show");
+  });
+
+  /* =================================================
+     2. Expand Editor Kegiatan (Default Terbuka)
+  ================================================= */
   const editorBtn = document.querySelector('[data-bs-target="#editorKegiatan"]');
   const editorMenu = document.getElementById("editorKegiatan");
+
   if (editorBtn && editorMenu) {
     editorBtn.classList.remove("collapsed");
     editorBtn.setAttribute("aria-expanded", "true");
     editorMenu.classList.add("show");
   }
 
-  // Update Date and Time
-  function updateDateTime() {
+  /* =================================================
+     3. Update Date & Time
+  ================================================= */
+  const updateDateTime = () => {
     const now = new Date();
     const dateEl = document.getElementById("current-date");
     const timeEl = document.getElementById("current-time");
 
-    if (dateEl && timeEl) {
+    if (dateEl) {
       dateEl.textContent = now.toLocaleDateString("id-ID", {
         weekday: "long",
         year: "numeric",
         month: "long",
         day: "numeric"
       });
+    }
+
+    if (timeEl) {
       timeEl.textContent = now.toLocaleTimeString("id-ID", {
         hour: "2-digit",
         minute: "2-digit",
@@ -55,11 +61,14 @@ document.addEventListener("DOMContentLoaded", function () {
         hour12: false
       });
     }
-  }
-  setInterval(updateDateTime, 1000);
-  updateDateTime();
+  };
 
-  // Bar Chart: Jenis Kegiatan
+  updateDateTime();
+  setInterval(updateDateTime, 1000);
+
+  /* =================================================
+     4. Bar Chart: Jenis Kegiatan
+  ================================================= */
   const jenisChartEl = document.getElementById("jenisChart");
   if (jenisChartEl) {
     const ctxJenis = jenisChartEl.getContext("2d");
@@ -78,20 +87,18 @@ document.addEventListener("DOMContentLoaded", function () {
       options: {
         responsive: true,
         plugins: {
+          legend: { display: false },
           tooltip: {
             callbacks: {
-              label: function (context) {
-                return " Jumlah: " + context.parsed.y;
-              }
+              label: (context) => ` Jumlah: ${context.parsed.y}`
             }
-          },
-          legend: { display: false }
+          }
         },
-        onClick: function (e, elements) {
+        onClick: (e, elements) => {
           if (elements.length > 0) {
             const index = elements[0].index;
             const label = elements[0].chart.data.labels[index];
-            alert("Klik pada: " + label);
+            alert(`Klik pada: ${label}`);
           }
         },
         scales: {
@@ -101,7 +108,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Line Chart: Kegiatan per Bulan
+  /* =================================================
+     5. Line Chart: Kegiatan per Bulan
+  ================================================= */
   const bulanChartEl = document.getElementById("bulanChart");
   if (bulanChartEl) {
     const ctxBulan = bulanChartEl.getContext("2d");
@@ -128,20 +137,18 @@ document.addEventListener("DOMContentLoaded", function () {
       options: {
         responsive: true,
         plugins: {
+          legend: { display: false },
           tooltip: {
             callbacks: {
-              label: function (context) {
-                return " Kegiatan: " + context.parsed.y;
-              }
+              label: (context) => ` Kegiatan: ${context.parsed.y}`
             }
-          },
-          legend: { display: false }
+          }
         },
-        onClick: function (e, elements) {
+        onClick: (e, elements) => {
           if (elements.length > 0) {
             const index = elements[0].index;
             const label = elements[0].chart.data.labels[index];
-            alert("Klik pada bulan: " + label);
+            alert(`Klik pada bulan: ${label}`);
           }
         },
         scales: {

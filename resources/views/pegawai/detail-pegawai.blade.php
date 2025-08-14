@@ -642,14 +642,14 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>1</td>
-                                                <td>2023/2024 Ganjil</td>
-                                                <td>MNH211</td>
+                                                <td class="text-center">1</td>
+                                                <td class="text-center">2023/2024 Ganjil</td>
+                                                <td class="text-center">MNH211</td>
                                                 <td>Biometrika Hutan</td>
-                                                <td>3 (3-0)</td>
-                                                <td>1 (K)</td>
-                                                <td>K,S,P,O,R,O</td>
-                                                <td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
+                                                <td class="text-center">3 (3-0)</td>
+                                                <td class="text-center">1 (K)</td>
+                                                <td class="text-center">K,S,P,O,R,O</td>
+                                                <td class="text-center"><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
                                                 <td>
                                                     <div class="d-flex gap-2 justify-content-center">
                                                         <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
@@ -662,14 +662,14 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>2</td>
-                                                <td>2023/2024 Genap</td>
-                                                <td>MNH215</td>
+                                                <td class="text-center">2</td>
+                                                <td class="text-center">2023/2024 Genap</td>
+                                                <td class="text-center">MNH215</td>
                                                 <td>Silvikultur Intensif</td>
-                                                <td>2 (2-0)</td>
-                                                <td>2 (K)</td>
-                                                <td>K,S,P,O</td>
-                                                <td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
+                                                <td class="text-center">2 (2-0)</td>
+                                                <td class="text-center">2 (K)</td>
+                                                <td class="text-center">K,S,P,O</td>
+                                                <td class="text-center"><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
                                                 <td>
                                                     <div class="d-flex gap-2 justify-content-center">
                                                         <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
@@ -682,14 +682,14 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>3</td>
-                                                <td>2022/2023 Ganjil</td>
-                                                <td>THH301</td>
+                                                <td class="text-center">3</td>
+                                                <td class="text-center">2022/2023 Ganjil</td>
+                                                <td class="text-center">THH301</td>
                                                 <td>Teknologi Hasil Hutan</td>
-                                                <td>3 (2-1)</td>
-                                                <td>1 (P)</td>
-                                                <td>K,S,P</td>
-                                                <td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
+                                                <td class="text-center">3 (2-1)</td>
+                                                <td class="text-center">1 (P)</td>
+                                                <td class="text-center">K,S,P</td>
+                                                <td class="text-center"><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
                                                 <td>
                                                     <div class="d-flex gap-2 justify-content-center">
                                                         <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
@@ -729,14 +729,14 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>1</td>
-                                                <td>2023/2024 Ganjil</td>
-                                                <td>SKL401</td>
+                                                <td class="text-center">1</td>
+                                                <td class="text-center">2023/2024 Ganjil</td>
+                                                <td class="text-center">SKL401</td>
                                                 <td>Silvikultur Intensif</td>
-                                                <td>K,S, P,O, R,O</td>
-                                                <td>Universitas Gadjah Mada</td>
-                                                <td>Kehutanan</td>
-                                                <td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
+                                                <td class="text-center">K,S, P,O, R,O</td>
+                                                <td class="text-center">Universitas Gadjah Mada</td>
+                                                <td class="text-center">Kehutanan</td>
+                                                <td class="text-center"><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
                                                 <td>
                                                     <div class="d-flex gap-2 justify-content-center">
                                                         <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
@@ -749,14 +749,14 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>2</td>
-                                                <td>2023/2024 Genap</td>
-                                                <td>EKL302</td>
+                                                <td class="text-center">2</td>
+                                                <td class="text-center">2023/2024 Genap</td>
+                                                <td class="text-center">EKL302</td>
                                                 <td>Ekologi Hutan</td>
-                                                <td>K,S, P,O, R,O</td>
-                                                <td>Universitas Hasanuddin</td>
-                                                <td>Manajemen Hutan</td>
-                                                <td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
+                                                <td class="text-center">K,S, P,O, R,O</td>
+                                                <td class="text-center">Universitas Hasanuddin</td>
+                                                <td class="text-center">Manajemen Hutan</td>
+                                                <td class="text-center"><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
                                                 <td>
                                                     <div class="d-flex gap-2 justify-content-center">
                                                         <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
@@ -769,14 +769,14 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>3</td>
-                                                <td>2022/2023 Ganjil</td>
-                                                <td>THT501</td>
+                                                <td class="text-center">3</td>
+                                                <td class="text-center">2022/2023 Ganjil</td>
+                                                <td class="text-center">THT501</td>
                                                 <td>Teknologi Hasil Hutan</td>
-                                                <td>K,S, P,O, R,O</td>
-                                                <td>Institut Pertanian Bogor</td>
-                                                <td>Teknologi Hasil Hutan</td>
-                                                <td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
+                                                <td class="text-center">K,S, P,O, R,O</td>
+                                                <td class="text-center">Institut Pertanian Bogor</td>
+                                                <td class="text-center">Teknologi Hasil Hutan</td>
+                                                <td class="text-center"><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
                                                 <td>
                                                     <div class="d-flex gap-2 justify-content-center">
                                                         <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
@@ -816,14 +816,14 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>1</td>
-                                                <td>2023/2024 Genap</td>
-                                                <td>H2417001</td>
+                                                <td class="text-center">1</td>
+                                                <td class="text-center">2023/2024 Genap</td>
+                                                <td class="text-center">H2417001</td>
                                                 <td>Andi Wijaya</td>
-                                                <td>S2</td>
-                                                <td>Manajemen Hutan</td>
-                                                <td>Anggota Penguji</td>
-                                                <td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
+                                                <td class="text-center">S2</td>
+                                                <td class="text-center">Manajemen Hutan</td>
+                                                <td class="text-center">Anggota Penguji</td>
+                                                <td class="text-center"><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
                                                 <td>
                                                     <div class="d-flex gap-2 justify-content-center">
                                                         <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
@@ -836,14 +836,14 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>2</td>
-                                                <td>2023/2024 Ganjil</td>
-                                                <td>H2417002</td>
+                                                <td class="text-center">2</td>
+                                                <td class="text-center">2023/2024 Ganjil</td>
+                                                <td class="text-center">H2417002</td>
                                                 <td>Budi Santoso</td>
-                                                <td>S2</td>
-                                                <td>Teknologi Hasil Hutan</td>
-                                                <td>Anggota Penguji</td>
-                                                <td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
+                                                <td class="text-center">S2</td>
+                                                <td class="text-center">Teknologi Hasil Hutan</td>
+                                                <td class="text-center">Anggota Penguji</td>
+                                                <td class="text-center"><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
                                                 <td>
                                                     <div class="d-flex gap-2 justify-content-center">
                                                         <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
@@ -856,14 +856,14 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>3</td>
-                                                <td>2022/2023 Genap</td>
-                                                <td>H2317003</td>
+                                                <td class="text-center">3</td>
+                                                <td class="text-center">2022/2023 Genap</td>
+                                                <td class="text-center">H2317003</td>
                                                 <td>Citra Dewi</td>
-                                                <td>S3</td>
-                                                <td>Ilmu Kehutanan</td>
-                                                <td>Anggota Penguji</td>
-                                                <td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
+                                                <td class="text-center">S3</td>
+                                                <td class="text-center">Ilmu Kehutanan</td>
+                                                <td class="text-center">Anggota Penguji</td>
+                                                <td class="text-center"><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
                                                 <td>
                                                     <div class="d-flex gap-2 justify-content-center">
                                                         <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
@@ -890,9 +890,9 @@
                                     <table class="table table-bordered table-hover table-sm">
                                         <thead><tr><th>No</th><th>Tahun Semester</th><th>Kegiatan</th><th>Nim</th><th>Nama Mahasiswa</th><th>Strata</th><th>Status</th><th>Dokumen</th><th>Aksi</th></tr></thead>
                                         <tbody>
-                                            <tr><td>1</td><td>2020/2021 Genap</td><td>Membimbing dan ikut membimbing.. </td><td>E2039383</td><td>Alex Feruso</td><td>S1</td><td>Pembimbing Pendamping</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>
-                                            <tr><td>2</td><td>2020/2021 Genap</td><td>Membimbing dan ikut membimbing.. </td><td>E2039383</td><td>Alex Feruso</td><td>S1</td><td>Pembimbing Pendamping</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>
-                                            <tr><td>3</td><td>2020/2021 Genap</td><td>Membimbing dan ikut membimbing.. </td><td>E2039383</td><td>Alex Feruso</td><td>S1</td><td>Pembimbing Pendamping</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>
+                                            <tr><td class="text-center">1</td><td class="text-center">2020/2021 Genap</td><td>Membimbing dan ikut membimbing.. </td><td class="text-center">E2039383</td><td>Alex Feruso</td><td class="text-center">S1</td><td class="text-center">Pembimbing Pendamping</td><td class="text-center"><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>
+                                            <tr><td class="text-center">2</td><td class="text-center">2020/2021 Genap</td><td>Membimbing dan ikut membimbing.. </td><td class="text-center">E2039383</td><td>Alex Feruso</td><td class="text-center">S1</td><td class="text-center">Pembimbing Pendamping</td><td class="text-center"><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>
+                                            <tr><td class="text-center">3</td><td class="text-center">2020/2021 Genap</td><td>Membimbing dan ikut membimbing.. </td><td class="text-center">E2039383</td><td>Alex Feruso</td><td class="text-center">S1</td><td class="text-center">Pembimbing Pendamping</td><td class="text-center"><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -925,12 +925,12 @@
                                                     document.write(`
                                                     <tr>
                                                         <td class="text-center">${i}</td>
-                                                        <td>2018/2019 Ganjil</td>
+                                                        <td class="text-center">2018/2019 Ganjil</td>
                                                         <td class="text-center">160648032</td>
                                                         <td class="text-center">HAQQI ANNAZILLI</td>
-                                                        <td>S1</td>
-                                                        <td>IPB University</td>
-                                                        <td>Anggota Penguji</td>
+                                                        <td class="text-center">S1</td>
+                                                        <td class="text-center">IPB University</td>
+                                                        <td class="text-center">Anggota Penguji</td>
                                                         <td class="text-center"><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
                                                         <td class="text-center">
                                                             <div class="d-flex gap-2 justify-content-center">
@@ -973,12 +973,12 @@
                                                     document.write(`
                                                     <tr>
                                                         <td class="text-center">${i}</td>
-                                                        <td>2018/2019 Ganjil</td>
+                                                        <td class="text-center">2018/2019 Ganjil</td>
                                                         <td class="text-center">160648032</td>
                                                         <td class="text-center">HAQQI ANNAZILLI</td>
-                                                        <td>S2</td>
-                                                        <td>IPB University</td>
-                                                        <td>Pembimbing</td>
+                                                        <td class="text-center">S2</td>
+                                                        <td class="text-center">IPB University</td>
+                                                        <td class="text-center">Pembimbing</td>
                                                         <td class="text-center"><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
                                                         <td class="text-center">
                                                             <div class="d-flex gap-2 justify-content-center">
@@ -1043,7 +1043,7 @@
                                 <table class="table table-bordered table-hover table-sm">
                                     <thead><tr><th>No</th><th>Judul</th><th>Tgl. Terbit</th><th>Jenis</th><th>Publik</th><th>Dokumen</th><th>Aksi</th></tr></thead>
                                     <tbody>
-                                        <script>for(let i=1; i<=3; i++){ document.write(`<tr><td>${i}</td><td>Pengaruh Air Terhadap Tumbuh Kembang Leles</td><td>24 Desember 2021</td><td>Karya</td><td>Ya</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>`);}</script>
+                                        <script>for(let i=1; i<=3; i++){ document.write(`<tr><td class="text-center">${i}</td><td>Pengaruh Air Terhadap Tumbuh Kembang Leles</td><td class="text-center">24 Desember 2021</td><td class="text-center">Karya</td><td class="text-center">Ya</td><td class="text-center"><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td class="text-center"><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>`);}</script>
                                     </tbody>
                                 </table>
                             </div>
@@ -1095,14 +1095,14 @@
                                     <thead><tr><th>No</th><th>Kegiatan</th><th>Nama Kegiatan</th><th>Afiliasi</th><th>Lokasi</th><th>Nomor SK</th><th>Tahun</th><th>Dokumen</th><th>Aksi</th></tr></thead>
                                     <tbody>
                                         <tr>
-                                        <td>1</td>
+                                        <td class="text-center">1</td>
                                         <td>Penyuluhan</td>
                                         <td>Pengelolaan Hutan Lestari</td>
                                         <td>Desa Cibodas, Bogor</td>
                                         <td>Kementerian Lingkungan Hidup</td>
-                                        <td>SK-123/2022</td>
-                                        <td>2022</td>
-                                        <td>
+                                        <td class="text-center">SK-123/2022</td>
+                                        <td class="text-center">2022</td>
+                                        <td class="text-center">
                                             <button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button>
                                         </td>
                                         <td>
@@ -1146,15 +1146,15 @@
                                         <thead><tr><th>No</th><th>Kegiatan</th><th>Lingkup</th><th>Nama Kegiatan</th><th>Instansi</th><th>Nomor SK</th><th>TMT</th><th>TST</th><th>Dokumen</th><th>Aksi</th></tr></thead>
                                         <tbody>
                                         <tr>
-                                        <td>1</td>
+                                        <td class="text-center">1</td>
                                         <td>Penyuluhan</td>
-                                        <td>Pengelolaan Hutan</td>
+                                        <td class="text-center">Nasional</td>
                                         <td>Desa Cibodas, Bogor</td>
                                         <td>Kementerian Lingkungan Hidup</td>
-                                        <td>SK-123/2022</td>
-                                        <td>15-08-2022</td>
-                                        <td>17-08-2022</td>
-                                        <td>
+                                        <td class="text-center">SK-123/2022</td>
+                                        <td class="text-center">15-08-2022</td>
+                                        <td class="text-center">17-08-2022</td>
+                                        <td class="text-center">
                                             <button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button>
                                         </td>
                                         <td>
@@ -1196,9 +1196,45 @@
                                     <table class="table table-bordered table-hover table-sm">
                                         <thead><tr><th>No</th><th>Nama Kegiatan</th><th>Penyelenggara</th><th>Tgl. Pelaksanaan</th><th>Posisi</th><th>Dokumen</th><th>Aksi</th></tr></thead>
                                         <tbody>
-                                            <tr><td>1</td><td>Pelatihan Manajemen Hutan Berkelanjutan</td><td>Kementerian Lingkungan Hidup</td><td>10-12 Januari 2023</td><td>Bogor</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>
+                                            <tr><td class="text-center">1</td><td>Pelatihan Manajemen Hutan Berkelanjutan</td><td>Kementerian Lingkungan Hidup</td><td class="text-center">10-12 Januari 2023</td><td class="text-center">Bogor</td><td class="text-center"><button class="btn btn-sm btn-lihat text-white">Lihat</button></td>
+                                            <td>
+                                            <div class="d-flex gap-2 justify-content-center">
+                                            <a href="#" class="btn-aksi btn-lihat-detail  btn-lihat-detail-pelatihan" title="Lihat Detail"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#modalDetailPelatihan"
+                                            data-nama_pelatihan="Senam Lele Merdeka"
+                                            data-posisi="Peserta"
+                                            data-kota="Bogor"
+                                            data-lokasi="Dramaga"
+                                            data-penyelenggara="Fakultas Perikanan"
+                                            data-jenis_diklat="Teknis"
+                                            data-tgl_mulai="2025-08-10"
+                                            data-tgl_selesai="2025-08-15"
+                                            data-lingkup="Internal"
+                                            data-jam="40"
+                                            data-hari="5"
+                                            data-struktural="Tidak"
+                                            data-sertifikasi="Ya"
+                                            data-dokumen_path="assets/pdf/example.pdf">
+                                                <i class="fa fa-eye"></i>
+                                            </a><button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>
                                         </tbody>
                                     </table>
+                                </div>
+                                  <div class="d-flex justify-content-between align-items-center mt-4">
+                                    <span class="text-muted small" id="dataInfo">Menampilkan 1 sampai 10 dari 13 data</span>
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination pagination-sm mb-0">
+                                            <li class="page-item disabled" id="prevPage">
+                                                <a class="page-link" href="#" tabindex="-1">Sebelumnya</a>
+                                            </li>
+                                            <li class="page-item active" id="page1"><a class="page-link" href="#">1</a></li>
+                                            <li class="page-item" id="page2"><a class="page-link" href="#">2</a></li>
+                                            <li class="page-item" id="nextPage">
+                                                <a class="page-link" href="#">Berikutnya</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
                             </div>
                             
@@ -1222,12 +1258,83 @@
                                     <div class="input-group" style="width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input" placeholder="Cari Data..."></div>
                                 </div>
                                 <div class="table-responsive">
-                                    <table class="table table-bordered table-hover table-sm">
-                                        <thead><tr><th>No</th><th>Nama Kegiatan</th><th>Nomor</th><th>Tahun</th><th>Lokasi</th><th>Lingkup</th><th>Dokumen</th><th>Aksi</th></tr></thead>
-                                        <tbody>
-                                            <tr><td>1</td><td>Dosen Berprestasi</td><td>SK-123/FP/2023</td><td>2021</td><td>Jakarta</td><td>Internasional</td><td><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>
+                                    <table class="table table-hover table-bordered">
+                                        <thead>
+                                            <tr class="text-center">
+                                                <th>No</th>
+                                                <th class="text-start">Nama Kegiatan</th>
+                                                <th>Unit</th>
+                                                <th>Nomor</th>
+                                                <th>Penghargaan</th>
+                                                <th>Lingkup</th>
+                                                <th>Tahun</th>
+                                                <th>Dokumen</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="penghargaan-table-body"> {{-- Tambahkan ID untuk target JavaScript --}}
+                                            @php
+                                                // Contoh data dinamis. Idealnya, variabel ini dikirim dari Controller.
+                                                $dataPenghargaan = collect(json_decode('[
+                                                    {"id": 1, "nama_kegiatan": "Inovasi Pembibitan Lele", "unit": "Fakultas Perikanan", "nomor": "SK-123/FP/2023", "penghargaan": "Dosen Inovatif", "lingkup": "Nasional", "tahun": "2023", "pegawai": "Dr. Stone Pamungkas", "tanggal_perolehan": "2023-11-20", "negara": "Indonesia", "instansi": "Kementerian Kelautan", "jenis_dokumen": "Sertifikat", "nama_dokumen": "Sertifikat Dosen Inovatif 2023", "nomor_dokumen": "SERT-001", "tautan": "https://sertifikat.id/001", "dokumen_path": "assets/pdf/example.pdf"},
+                                                    {"id": 2, "nama_kegiatan": "Pengabdian Masyarakat Desa Ciaruteun", "unit": "LPPM", "nomor": "LPPM-456/PM/2024", "penghargaan": "Pengabdi Terbaik", "lingkup": "Kabupaten", "tahun": "2024", "pegawai": "Senam Lele Merdeka", "tanggal_perolehan": "2024-05-10", "negara": "Indonesia", "instansi": "Pemkab Bogor", "jenis_dokumen": "Piagam", "nama_dokumen": "Piagam Pengabdi Terbaik", "nomor_dokumen": "PGM-002", "tautan": "https://sertifikat.id/002", "dokumen_path": "assets/pdf/example.pdf"}
+                                                ]'));
+                                            @endphp
+
+                                            @foreach ($dataPenghargaan as $index => $item)
+                                            <tr>
+                                                <td class="text-center">{{ $index + 1 }}</td>
+                                                <td class="text-start">{{ $item->nama_kegiatan }}</td>
+                                                <td class="text-center">{{ $item->unit }}</td>
+                                                <td class="text-center">{{ $item->nomor }}</td>
+                                                <td class="text-center">{{ $item->penghargaan }}</td>
+                                                <td class="text-center">{{ $item->lingkup }}</td>
+                                                <td class="text-center">{{ $item->tahun }}</td>
+                                                <td class="text-center"><a href="#" class="btn btn-sm btn-lihat text-white">Lihat</a></td>
+                                                <td class="text-center">
+                                                    <div class="d-flex gap-2 justify-content-center">
+                                                        {{-- Tombol Lihat Detail yang sudah fungsional --}}
+                                                        <a href="#" class="btn-aksi btn-lihat-detail btn-lihat-detail-penghargaan" title="Lihat Detail"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#modalDetailPenghargaan"
+                                                        data-pegawai="{{ $item->pegawai }}"
+                                                        data-kegiatan="{{ $item->nama_kegiatan }}"
+                                                        data-nama_penghargaan="{{ $item->penghargaan }}"
+                                                        data-nomor="{{ $item->nomor }}"
+                                                        data-tanggal_perolehan="{{ $item->tanggal_perolehan }}"
+                                                        data-lingkup="{{ $item->lingkup }}"
+                                                        data-negara="{{ $item->negara }}"
+                                                        data-instansi="{{ $item->instansi }}"
+                                                        data-jenis_dokumen="{{ $item->jenis_dokumen }}"
+                                                        data-nama_dokumen="{{ $item->nama_dokumen }}"
+                                                        data-nomor_dokumen="{{ $item->nomor_dokumen }}"
+                                                        data-tautan="{{ $item->tautan }}"
+                                                        data-dokumen_path="{{ $item->dokumen_path }}">
+                                                            <i class="fa fa-eye"></i>
+                                                        </a>
+
+                                                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mt-4">
+                                    <span class="text-muted small" id="dataInfo">Menampilkan 1 sampai 10 dari 13 data</span>
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination pagination-sm mb-0">
+                                            <li class="page-item disabled" id="prevPage">
+                                                <a class="page-link" href="#" tabindex="-1">Sebelumnya</a>
+                                            </li>
+                                            <li class="page-item active" id="page1"><a class="page-link" href="#">1</a></li>
+                                            <li class="page-item" id="page2"><a class="page-link" href="#">2</a></li>
+                                            <li class="page-item" id="nextPage">
+                                                <a class="page-link" href="#">Berikutnya</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
                             </div>
                         </div>
@@ -1243,98 +1350,279 @@
         </div>
 
 
-        <!-- Modal Tambah E-File-->
+        <!-- Modal Tambah E-File -->
         <div class="modal fade" id="tambahDokumenModal" tabindex="-1" aria-labelledby="tambahDokumenLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
+
             <!-- Header -->
             <div class="modal-header bg-success text-white">
                 <h5 class="modal-title" id="tambahDokumenLabel">
-                <i class="fas fa-plus-circle me-2""></i> Tambah Data Pengguna
+                <i class="fas fa-plus-circle me-2"></i> Tambah Data Pengguna
                 </h5>
             </div>
 
-        <!-- Body -->
-        <div class="modal-body">
-        <form>
-            <!-- Kategori -->
-            <div class="mb-3">
-            <label class="form-label">Kategori<span class="text-danger">*</span></label>
-            <select id="kategori" class="form-select" required>
-                <option value="" selected disabled>-- Pilih Kategori --</option>
-                <option value="biodata">Biodata</option>
-                <option value="pendidikan">Pendidikan</option>
-                <option value="jf">Jabatan Fungsional</option>
-                <option value="sk">Surat Keputusan Kepangkatan</option>
-                <option value="sp">Surat Penting</option>
-                <option value="lain">Dokumen Pendukung Lainnya</option>
-            </select>
+            <!-- Body -->
+            <div class="modal-body">
+                <form>
+                <!-- Kategori -->
+                <div class="mb-3">
+                    <label class="form-label">Kategori <span class="text-danger">*</span></label>
+                    <select id="kategori" class="form-select" required>
+                    <option value="" selected disabled>-- Pilih Kategori --</option>
+                    <option value="biodata">Biodata</option>
+                    <option value="pendidikan">Pendidikan</option>
+                    <option value="jf">Jabatan Fungsional</option>
+                    <option value="sk">Surat Keputusan Kepangkatan</option>
+                    <option value="sp">Surat Penting</option>
+                    <option value="lain">Dokumen Pendukung Lainnya</option>
+                    </select>
+                </div>
+
+                <!-- Jenis Dokumen -->
+                <div class="mb-3">
+                    <label class="form-label">Jenis Dokumen <span class="text-danger">*</span></label>
+                    <select id="jenis-dokumen" class="form-select" required>
+                    <option value="" selected disabled>-- Pilih Jenis Dokumen --</option>
+                    </select>
+                </div>
+
+                <!-- Keaslian Dokumen -->
+                <div class="mb-3">
+                    <label class="form-label">Keaslian Dokumen <span class="text-danger">*</span></label>
+                    <select class="form-select" required>
+                    <option value="" selected disabled>-- Pilih Salah Satu --</option>
+                    <option value="asli">Asli</option>
+                    <option value="legalisir">Legalisir</option>
+                    <option value="scan">Scan</option>
+                    </select>
+                </div>
+
+                <!-- Tanggal Pembuatan -->
+                <div class="mb-3">
+                    <label class="form-label">Tanggal Pembuatan <span class="text-danger">*</span></label>
+                    <input type="date" class="form-control" required>
+                </div>
+
+                <!-- Upload File -->
+                <div class="mb-3">
+                    <label class="form-label">Upload File <span class="text-danger">*</span></label>
+                    <div class="border p-4 text-center rounded" style="border-style: dashed;">
+                    <input type="file" class="form-control" id="uploadFileInput" style="display: none;" required>
+                    <label for="uploadFileInput" style="cursor: pointer;">
+                        <i class="fa fa-cloud-upload-alt fa-2x text-secondary mb-2"></i>
+                        <p>Drag & Drop file di sini<br><small>Ukuran Maksimal 5 MB</small></p>
+                    </label>
+                    </div>
+                </div>
+                </form>
             </div>
 
-            <!-- Jenis Dokumen -->
-            <div class="mb-3">
-            <label class="form-label">Jenis Dokumen<span class="text-danger">*</span></label>
-            <select id="jenis-dokumen" class="form-select" required>
-                <option value="" selected disabled>-- Pilih Jenis Dokumen --</option>
-            </select>
-            </div>
-
-            <!-- Keaslian Dokumen -->
-            <div class="mb-3">
-            <label class="form-label">Keaslian Dokumen<span class="text-danger">*</span></label>
-            <select class="form-select" required>
-                <option value="" selected disabled>-- Pilih Salah Satu --</option>
-                <option value="asli">Asli</option>
-                <option value="legalisir">Legalisir</option>
-                <option value="scan">Scan</option>
-            </select>
-            </div>
-
-            <!-- Tanggal Pembuatan -->
-            <div class="mb-3">
-            <label class="form-label">Tanggal Pembuatan<span class="text-danger">*</span></label>
-            <input type="date" class="form-control" required>
-            </div>
-
-            <!-- Upload File -->
-            <div class="mb-3">
-            <label class="form-label">Upload File<span class="text-danger">*</span></label>
-            <div class="border p-4 text-center rounded" style="border-style: dashed;">
-                <input type="file" class="form-control" style="display: none;" id="uploadFileInput" required>
-                <label for="uploadFileInput" style="cursor: pointer;">
-                <i class="fa fa-cloud-upload-alt fa-2x text-secondary mb-2"></i>
-                <p>Drag & Drop file here<br><small>Ukuran Maksimal 5 MB</small></p>
-                </label>
-            </div>
-            </div>
-        </form>
-        </div>
             <!-- Footer -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-hapusFile" data-bs-dismiss="modal">Batal</button>
                 <button type="submit" class="btn btn-simpan">Simpan</button>
             </div>
+
+            </div>
+        </div>
+        </div>
+
+<!-- Modal Detail Penunjang-->
+<div id="penunjangDetailModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="modal-title-group">
+                <i class="fas fa-info-circle"></i>
+                <h2>Detail Penunjang</h2>
+            </div>
+        </div>
+
+        <div class="modal-body">
+            <div class="modal-row">
+                <strong>Kegiatan</strong>
+                <p class="detail-value">Analisis Pengaruh Kotoran Sapi Terhadap Pertumbuhan Kecambah Pada Media Kapas</p>
+            </div>
+            <div class="modal-row">
+                <strong>Jenis Kegiatan</strong>
+                <p class="detail-value">Analisis Pengaruh Kotoran Sapi Terhadap Pertumbuhan Kecambah Pada Media Kapas</p>
+            </div>
+            
+            <div class="modal-row multi-column">
+                <div class="detail-field">
+                    <strong>Lingkup</strong>
+                    <p class="detail-value">UGE - 912</p>
+                </div>
+                <div class="detail-field">
+                    <strong>Nama Kegiatan</strong>
+                    <p class="detail-value">Pembudidayaan Ikan Lele</p>
+                </div>
+                <div class="detail-field">
+                    <strong>Instansi</strong>
+                    <p class="detail-value">Teknologi Rekayasa Empang</p>
+                </div>
+            </div>
+
+            <div class="modal-row multi-column">
+                <div class="detail-field">
+                    <strong>Nomor SK</strong>
+                    <p class="detail-value">2025</p>
+                </div>
+                <div class="detail-field">
+                    <strong>Terhitung Mulai Tanggal</strong>
+                    <p class="detail-value">2025</p>
+                </div>
+                <div class="detail-field">
+                    <strong>Terhitung Sampai Tanggal</strong>
+                    <p class="detail-value">2025</p>
+                </div>
+            </div>
+
+            <div class="modal-row multi-column">
+                <div class="detail-field">
+                    <strong>Dokumen Pendukung</strong>
+                    <p class="detail-value"><a href="#" class="dokumen-link">Dokumen</a></p>
+                </div>
+                <div class="detail-field">
+                    <strong>Jenis Dokumen</strong>
+                    <p class="detail-value">Dokumen</p>
+                </div>
+            </div>
+
+            <div class="modal-row multi-column">
+                <div class="detail-field">
+                    <strong>Nama Dokumen</strong>
+                    <p class="detail-value">2025</p>
+                </div>
+                <div class="detail-field">
+                    <strong>Nomor</strong>
+                    <p class="detail-value">2025</p>
+                </div>
+                <div class="detail-field">
+                    <strong>Tautan</strong>
+                    <p class="detail-value">2025</p>
+                </div>
+            </div>
+
+            <div class="sub-header">Anggota</div>
+            <div class="modal-row multi-column no-border">
+                <div class="detail-field"><strong>Nama Dosen</strong><p class="detail-value">Siapa gatau</p></div>
+                <div class="detail-field"><strong>Peran</strong><p class="detail-value">Siapa gatau</p></div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button id="closePenunjangDetailBtn" class="btn-tutup">Tutup</button>
+        </div>
+    </div>
+</div>
+
+        {{-- Detail Pelatihan --}}
+<div class="modal fade" id="modalDetailPelatihan" tabindex="-1" aria-labelledby="modalDetailPelatihanLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalDetailPelatihanLabel">
+          <i class="fas fa-info-circle"></i>
+          <span>Detail Pelatihan</span>
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="detail-grid-container">
+            <div class="detail-item"><small>Nama Pelatihan</small><p id="detail_pelatihan_nama">-</p></div>
+            <div class="detail-item"><small>Posisi Pelatihan</small><p id="detail_pelatihan_posisi">-</p></div>
+            <div class="detail-item"><small>Kota/Kabupaten</small><p id="detail_pelatihan_kota">-</p></div>
+            <div class="detail-item"><small>Lokasi</small><p id="detail_pelatihan_lokasi">-</p></div>
+            <div class="detail-item"><small>Penyelenggara</small><p id="detail_pelatihan_penyelenggara">-</p></div>
+            <div class="detail-item"><small>Jenis Diklat</small><p id="detail_pelatihan_jenis_diklat">-</p></div>
+            <div class="detail-item"><small>Tanggal Mulai</small><p id="detail_pelatihan_tgl_mulai">-</p></div>
+            <div class="detail-item"><small>Tanggal Selesai</small><p id="detail_pelatihan_tgl_selesai">-</p></div>
+            <div class="detail-item"><small>Lingkup</small><p id="detail_pelatihan_lingkup">-</p></div>
+            <div class="detail-item"><small>Jumlah Jam</small><p id="detail_pelatihan_jam">-</p></div>
+            <div class="detail-item"><small>Jumlah Hari</small><p id="detail_pelatihan_hari">-</p></div>
+            <div class="detail-item"><small>Struktural</small><p id="detail_pelatihan_struktural">-</p></div>
+            <div class="detail-item"><small>Sertifikasi</small><p id="detail_pelatihan_sertifikasi">-</p></div>
+        </div>
+        
+        <h6 class="mt-4">Dokumen</h6>
+        <div class="document-viewer-container">
+            <embed id="detail_pelatihan_document_viewer" src="" type="application/pdf" width="100%" height="600px" />
+        </div>
+      </div>
+      <div class="modal-footer justify-content-end">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+        <!-- Modal Detail Penghargaan -->
+        <div class="modal fade" id="modalDetailPenghargaan" tabindex="-1" aria-labelledby="modalDetailPenghargaanLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+
+            <!-- Header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalDetailPenghargaanLabel">
+                <i class="fas fa-info-circle"></i> Detail Penghargaan
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!-- Body -->
+            <div class="modal-body">
+                <div class="detail-grid-container">
+                <div class="detail-item"><small>Pegawai</small><p id="detail_penghargaan_pegawai">-</p></div>
+                <div class="detail-item"><small>Kegiatan</small><p id="detail_penghargaan_kegiatan">-</p></div>
+                <div class="detail-item"><small>Nama Penghargaan</small><p id="detail_penghargaan_nama_penghargaan">-</p></div>
+                <div class="detail-item"><small>Nomor</small><p id="detail_penghargaan_nomor">-</p></div>
+                <div class="detail-item"><small>Tanggal Perolehan</small><p id="detail_penghargaan_tanggal_perolehan">-</p></div>
+                <div class="detail-item"><small>Lingkup</small><p id="detail_penghargaan_lingkup">-</p></div>
+                <div class="detail-item"><small>Negara</small><p id="detail_penghargaan_negara">-</p></div>
+                <div class="detail-item"><small>Instansi</small><p id="detail_penghargaan_instansi">-</p></div>
+                </div>
+
+                <h6 class="mt-4">Dokumen</h6>
+                <div class="detail-grid-container">
+                <div class="detail-item"><small>Jenis Dokumen</small><p id="detail_penghargaan_jenis_dokumen">-</p></div>
+                <div class="detail-item"><small>Nama Dokumen</small><p id="detail_penghargaan_nama_dokumen">-</p></div>
+                <div class="detail-item"><small>Nomor Dokumen</small><p id="detail_penghargaan_nomor_dokumen">-</p></div>
+                <div class="detail-item"><small>Tautan</small><p id="detail_penghargaan_tautan">-</p></div>
+                </div>
+
+                <div class="document-viewer-container mt-4">
+                <embed id="detail_penghargaan_document_viewer" src="" type="application/pdf" width="100%" height="600px" />
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="modal-footer justify-content-end">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+            </div>
+
             </div>
         </div>
         </div>
 
         <!-- Modal Konfirmasi Hapus -->
         <div class="modal fade konfirmasi-hapus-overlay" id="modalKonfirmasiHapus" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content bg-light">
-                    <div class="modal-body text-center py-4">
-                        <div class="konfirmasi-hapus-icon">
-                            <i class="fas fa-exclamation"></i>
-                        </div>
-                        <h3 class="konfirmasi-hapus-title">Apakah Anda Yakin Menghapus Data Ini?</h3>
-                        <p class="konfirmasi-hapus-subtitle">Data ini akan dihapus permanen dari sistem</p>
-                        <div class="konfirmasi-hapus-buttons">
-                            <button class="btn-popup btn-hapus" id="btnKonfirmasiHapus">Ya, Hapus</button>
-                            <button class="btn-popup btn-batal" id="btnBatalHapus">Batal</button>
-                        </div>
-                    </div>
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-light">
+            <div class="modal-body text-center py-4">
+                <div class="konfirmasi-hapus-icon">
+                <i class="fas fa-exclamation"></i>
+                </div>
+                <h3 class="konfirmasi-hapus-title">Apakah Anda Yakin Menghapus Data Ini?</h3>
+                <p class="konfirmasi-hapus-subtitle">Data ini akan dihapus permanen dari sistem</p>
+                <div class="konfirmasi-hapus-buttons">
+                <button class="btn-popup btn-hapus" id="btnKonfirmasiHapus">Ya, Hapus</button>
+                <button class="btn-popup btn-batal" id="btnBatalHapus">Batal</button>
                 </div>
             </div>
+            </div>
+        </div>
         </div>
         
 <script src="{{ asset('assets/js/detail-pegawai.js') }}"></script>

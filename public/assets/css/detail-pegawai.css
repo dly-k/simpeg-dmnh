@@ -595,6 +595,7 @@ body {
 .pagination .page-item.active .page-link {
   background-color: var(--primary);
   border-color: var(--primary);
+  color: #fff; /* pastikan teks putih */
 }
 
 /* === Filter, Search, Tab UI === */
@@ -988,4 +989,88 @@ body {
 .modal.fade.show .modal-dialog {
     transform: scale(1);
     opacity: 1;
+}
+
+.modal-header {
+  border-bottom: none;
+    background-color: #047857;
+  color: white;
+}
+.modal-header .btn-close {
+  filter: invert(1) grayscale(100%) brightness(200%);
+}
+/* Gaya ini berlaku untuk SEMUA judul modal */
+.modal-title {
+  font-weight: 600;
+  display: flex;
+
+  align-items: center;
+}
+.modal-title i {
+  margin-right: 10px;
+  font-size: 1.2rem;
+}
+
+.detail-grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+}
+.detail-item {
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 0.5rem;
+  word-wrap: break-word;
+}
+.detail-item small {
+  color: black;
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.8rem;
+  font-weight: 650;
+  text-transform: uppercase;
+}
+.detail-item p {
+  font-weight: 500;
+  margin: 0;
+  color: #6c757d;
+  font-size: 0.95rem;
+}
+.document-viewer-container {
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 1rem;
+  background-color: #525659;
+}
+.document-viewer-container embed { display: block; }
+.full-width-detail { grid-column: 1 / -1; }
+
+
+/* Untuk semua form di modal (Tambah/Edit) */
+.upload-area {
+  border: 2px dashed #dee2e6;
+  border-radius: .5rem;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color .2s;
+}
+.upload-area:hover { background-color: #f8f9fa; }
+.upload-area i { font-size: 2rem; color: var(--gray); }
+.upload-area p { margin-top: 1rem; color: var(--gray); }
+
+.dynamic-row {
+  border: 1px solid var(--border-color);
+  border-radius: .375rem;
+  padding: 1rem;
+  position: relative;
+}
+.dynamic-row-close-btn {
+  position: absolute;
+  top: .5rem;
+  right: .5rem;
 }

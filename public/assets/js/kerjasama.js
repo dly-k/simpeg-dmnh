@@ -220,7 +220,7 @@ function renderKerjasamaTable() {
             <td class="text-center">${item.lokasi}</td>
             <td class="text-end">${danaFormatted}</td>
             <td class="text-center"><span class="badge text-bg-light border">${item.jenis}</span></td>
-            <td class="text-center"><a href="${item.dokumen_path || '#'}" target="_blank" class="btn btn-sm btn-info text-white">Lihat</a></td>
+            <td class="text-center"><a href="${item.dokumen_path || '#'}" target="_blank" class="btn btn-sm btn-lihat-detail text-white">Lihat</a></td>
             <td class="text-center">
                 <div class="d-flex gap-2 justify-content-center">
                     <button class="btn btn-aksi btn-lihat-detail" data-id="${item.id}" data-bs-toggle="modal" data-bs-target="#modalDetailKerjasama"><i class="fa fa-eye"></i></button>

@@ -41,16 +41,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (dateEl) {
         dateEl.textContent = now.toLocaleDateString('id-ID', {
-          weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
         });
       }
 
       if (timeEl) {
-        timeEl.textContent = now
-          .toLocaleTimeString('id-ID', {
-            hour: '2-digit', minute: '2-digit', second: '2-digit'
-          })
-          .replace(/\./g, ':');
+        timeEl.textContent = now.toLocaleTimeString('id-ID', {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit'
+        }).replace(/\./g, ':');
       }
     };
 
@@ -259,7 +262,52 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   };
-  
+
+  /* =================================================
+     9. Modal Detail Data (Penghargaan & Pelatihan)
+  ================================================= */
+  const initDetailModals = () => {
+    document.addEventListener('click', function (event) {
+      const penghargaanBtn = event.target.closest('.btn-lihat-detail-penghargaan');
+      const pelatihanBtn = event.target.closest('.btn-lihat-detail-pelatihan');
+
+      if (penghargaanBtn) {
+        const data = penghargaanBtn.dataset;
+        document.getElementById('detail_penghargaan_pegawai').textContent = data.pegawai || '-';
+        document.getElementById('detail_penghargaan_kegiatan').textContent = data.kegiatan || '-';
+        document.getElementById('detail_penghargaan_nama_penghargaan').textContent = data.nama_penghargaan || '-';
+        document.getElementById('detail_penghargaan_nomor').textContent = data.nomor || '-';
+        document.getElementById('detail_penghargaan_tanggal_perolehan').textContent = data.tanggal_perolehan || '-';
+        document.getElementById('detail_penghargaan_lingkup').textContent = data.lingkup || '-';
+        document.getElementById('detail_penghargaan_negara').textContent = data.negara || '-';
+        document.getElementById('detail_penghargaan_instansi').textContent = data.instansi || '-';
+        document.getElementById('detail_penghargaan_jenis_dokumen').textContent = data.jenis_dokumen || '-';
+        document.getElementById('detail_penghargaan_nama_dokumen').textContent = data.nama_dokumen || '-';
+        document.getElementById('detail_penghargaan_nomor_dokumen').textContent = data.nomor_dokumen || '-';
+        document.getElementById('detail_penghargaan_tautan').textContent = data.tautan || '-';
+        document.getElementById('detail_penghargaan_document_viewer')?.setAttribute('src', data.dokumen_path || '');
+      }
+
+      if (pelatihanBtn) {
+        const data = pelatihanBtn.dataset;
+        document.getElementById('detail_pelatihan_nama').textContent = data.nama_pelatihan || '-';
+        document.getElementById('detail_pelatihan_posisi').textContent = data.posisi || '-';
+        document.getElementById('detail_pelatihan_kota').textContent = data.kota || '-';
+        document.getElementById('detail_pelatihan_lokasi').textContent = data.lokasi || '-';
+        document.getElementById('detail_pelatihan_penyelenggara').textContent = data.penyelenggara || '-';
+        document.getElementById('detail_pelatihan_jenis_diklat').textContent = data.jenis_diklat || '-';
+        document.getElementById('detail_pelatihan_tgl_mulai').textContent = data.tgl_mulai || '-';
+        document.getElementById('detail_pelatihan_tgl_selesai').textContent = data.tgl_selesai || '-';
+        document.getElementById('detail_pelatihan_lingkup').textContent = data.lingkup || '-';
+        document.getElementById('detail_pelatihan_jam').textContent = data.jam || '-';
+        document.getElementById('detail_pelatihan_hari').textContent = data.hari || '-';
+        document.getElementById('detail_pelatihan_struktural').textContent = data.struktural || '-';
+        document.getElementById('detail_pelatihan_sertifikasi').textContent = data.sertifikasi || '-';
+        document.getElementById('detail_pelatihan_document_viewer')?.setAttribute('src', data.dokumen_path || '');
+      }
+    });
+  };
+
   /* =================================================
      Jalankan Semua Modul
   ================================================= */
@@ -271,5 +319,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initFileActions();
   initDeleteModal();
   initKategoriMapping();
+  initDetailModals();
 
 });
