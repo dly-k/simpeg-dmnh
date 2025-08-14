@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", function () {
   if (toggleSidebarBtn) {
     toggleSidebarBtn.addEventListener("click", function () {
       const isMobile = window.innerWidth <= 991;
-
       if (isMobile) {
         sidebar.classList.toggle("show");
         overlay.classList.toggle("show", sidebar.classList.contains("show"));
@@ -18,14 +17,19 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // [BARU] Logika untuk membuka dropdown "Editor Kegiatan" secara default
   const editorBtn = document.querySelector('[data-bs-target="#editorKegiatan"]');
   const editorMenu = document.getElementById("editorKegiatan");
 
   if (editorBtn && editorMenu) {
+    // Hapus kelas 'collapsed' dari tombol agar ikon panah tidak berputar
     editorBtn.classList.remove("collapsed");
+    // Atur atribut bahwa dropdown sekarang 'expanded' (terbuka)
     editorBtn.setAttribute("aria-expanded", "true");
+    // Tambahkan kelas 'show' ke menu dropdown agar terlihat
     editorMenu.classList.add("show");
   }
+
 
   if (overlay) {
     overlay.addEventListener("click", function () {
@@ -53,45 +57,50 @@ document.addEventListener("DOMContentLoaded", function () {
   setInterval(updateDateTime, 1000);
   updateDateTime();
 
-  // Modal: Tambah
-  window.openModal = function (modalId) {
-    const modal = document.getElementById(modalId);
-    if (!modal) return;
+  // Logika untuk Modal Konfirmasi Hapus
+  const tableBody = document.querySelector("table tbody");
+  const modal = document.getElementById("modalKonfirmasiHapus");
+  
+  if (tableBody && modal) {
+    const btnBatal = document.getElementById("btnBatalHapus");
+    const btnKonfirmasi = document.getElementById("btnKonfirmasiHapus");
+    let rowToDelete = null;
 
-    modal.querySelector("#modalTitle").innerHTML = '<i class="fas fa-plus-circle"></i> Tambah Data Pegawai';
-    modal.querySelector("form").reset();
-    modal.style.display = "flex";
-  };
+    // Event delegation untuk semua tombol hapus di dalam tabel
+    tableBody.addEventListener("click", function(event) {
+        const deleteButton = event.target.closest('.btn-hapus');
+        if (deleteButton) {
+            event.preventDefault();
+            // Simpan baris yang akan dihapus
+            rowToDelete = deleteButton.closest('tr');
+            // Tampilkan modal
+            modal.classList.add('show');
+        }
+    });
 
-  // Modal: Edit
-  window.openEditModal = function (data) {
-    const modal = document.getElementById("pegawaiModal");
-    if (!modal) return;
+    // Fungsi untuk menyembunyikan modal
+    const hideModal = () => {
+        modal.classList.remove('show');
+        rowToDelete = null; // Reset variabel
+    };
 
-    modal.querySelector("#modalTitle").innerHTML = '<i class="fas fa-edit"></i> Edit Data Pegawai';
-    const form = modal.querySelector("form");
+    // Tombol konfirmasi di dalam modal
+    btnKonfirmasi.addEventListener('click', function() {
+        if (rowToDelete) {
+            rowToDelete.remove(); // Hapus baris dari tabel
+            console.log("Data berhasil dihapus (simulasi).");
+        }
+        hideModal();
+    });
 
-    form.querySelector('[name="name"]').value = data.name;
-    form.querySelector('[name="nip"]').value = data.nip;
-    form.querySelector('[name="status_kepegawaian"]').value = data.status_kepegawaian;
-    form.querySelector('[name="jabatan_fungsional"]').value = data.jabatan_fungsional;
-    form.querySelector('[name="jabatan_struktural"]').value = data.jabatan_struktural;
-    form.querySelector('[name="pangkat"]').value = data.pangkat;
-    form.querySelector('[name="status_pegawai"]').value = data.status_pegawai;
+    // Tombol batal di dalam modal
+    btnBatal.addEventListener('click', hideModal);
 
-    modal.style.display = "flex";
-  };
-
-  // Modal: Close
-  window.closeModal = function (modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) modal.style.display = "none";
-  };
-
-  // Click outside modal to close
-  window.onclick = function (event) {
-    if (event.target.classList.contains("modal-backdrop")) {
-      closeModal(event.target.id);
-    }
-  };
+    // Klik di luar area modal untuk menutup
+    modal.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            hideModal();
+        }
+    });
+  }
 });

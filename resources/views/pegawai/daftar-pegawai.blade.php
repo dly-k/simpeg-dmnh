@@ -16,7 +16,6 @@
 
 <body>
 <div class="layout">
-  <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
     <div class="brand">SI<span>KEMAH</span></div>
     <div class="menu-wrapper">
@@ -44,11 +43,9 @@
     </div>
   </div>
 
-  <!-- Overlay -->
   <div class="overlay" id="overlay"></div>
 
   <div class="main-wrapper">
-    <!-- Navbar -->
     <div class="navbar-custom">
       <div class="d-flex align-items-center">
         <button class="btn btn-link text-dark me-3" id="toggleSidebar" aria-label="Toggle Sidebar">
@@ -85,21 +82,16 @@
     </div>
     </div>
 
-    <!-- Title Bar -->
     <div class="title-bar">
       <h1><i class="lni lni-users"></i> <span id="page-title">Daftar Pegawai</span></h1>
     </div>
 
-    <!-- Main Content -->
     <div class="main-content">
       <div class="table-card">
-        <!-- Top Action Bar -->
-    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
       
-      <!-- Left side: Search & Filter -->
       <div class="d-flex align-items-center flex-wrap gap-2 flex-grow-1" style="min-width: 0;">
         
-        <!-- Search Input -->
         <div class="search-group flex-grow-1">
           <div class="input-group bg-white" style="border-radius: .5rem; min-width: 180px;">
             <span class="input-group-text bg-light border-end-0">
@@ -111,7 +103,6 @@
           </div>
         </div>
 
-        <!-- Filter Status Pegawai -->
         <div style="min-width: 120px;">
           <select class="form-select form-select-sm w-100">
             <option selected disabled>Status</option>
@@ -126,7 +117,6 @@
           </select>
         </div>
 
-        <!-- Filter Kepegawaian -->
         <div style="min-width: 180px;">
           <select class="form-select form-select-sm w-100">
             <option selected disabled>Kepegawaian</option>
@@ -140,7 +130,6 @@
         </div>
       </div>
 
-      <!-- Right side: Add Data Button -->
       <div>
         <a href="/tambah-pegawai" class="btn btn-tambah btn-sm fw-bold">
           <i class="fa fa-plus me-2"></i> Tambah Data
@@ -149,7 +138,6 @@
     </div>
 
 
-        <!-- Table -->
         <div class="table-responsive">
           <table class="table table-hover table-bordered">
             <thead class="table-light">
@@ -219,8 +207,7 @@
           </table>
         </div>
 
-        <!-- Pagination -->
-      <div class="d-flex justify-content-between align-items-center flex-wrap mt-3 w-100">
+        <div class="d-flex justify-content-between align-items-center flex-wrap mt-3 w-100">
         <span class="text-muted small mb-2 mb-md-0">Menampilkan 4 dari 13 data</span>
         <nav aria-label="Page navigation">
           <ul class="pagination pagination-sm mb-0">
@@ -233,37 +220,25 @@
       </div>
 
 
-    <!-- Footer -->
     <footer class="footer-custom">
       <span>© 2025 Forest Management — All Rights Reserved</span>
     </footer>
   </div>
   
-  <!-- Modal Tambah/Edit Pegawai -->
-    <div class="modal-backdrop" id="pegawaiModal">
-        <div class="modal-content-wrapper">
-            <div class="modal-header-custom">
-                <h5 id="modalTitle"><i class="fas fa-plus-circle"></i> Tambah Data Pegawai</h5>
-            </div>
-            <div class="modal-body-custom">
-                <form id="pegawaiForm">
-                    <div class="row g-3">
-                        <div class="col-md-6"><label class="form-label">Nama Lengkap</label><input type="text" class="form-control" name="name"></div>
-                        <div class="col-md-6"><label class="form-label">NIP</label><input type="text" class="form-control" name="nip"></div>
-                        <div class="col-md-6"><label class="form-label">Status Kepegawaian</label><select class="form-select" name="status_kepegawaian"><option>Tenaga Pendidik - Dosen</option><option>Tenaga Kependidikan</option></select></div>
-                        <div class="col-md-6"><label class="form-label">Jabatan Fungsional</label><input type="text" class="form-control" name="jabatan_fungsional"></div>
-                        <div class="col-md-6"><label class="form-label">Jabatan Struktural</label><input type="text" class="form-control" name="jabatan_struktural"></div>
-                        <div class="col-md-6"><label class="form-label">Pangkat/Golongan</label><input type="text" class="form-control" name="pangkat"></div>
-                        <div class="col-md-6"><label class="form-label">Status Pegawai</label><select class="form-select" name="status_pegawai"><option value="Aktif">Aktif</option><option value="Nonaktif">Nonaktif</option></select></div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer-custom">
-                <button type="button" class="btn btn-danger" onclick="closeModal('pegawaiModal')">Batal</button>
-                <button type="button" class="btn btn-success">Simpan</button>
-            </div>
-        </div>
-    </div>
+  <div class="konfirmasi-hapus-overlay" id="modalKonfirmasiHapus">
+      <div class="konfirmasi-hapus-box">
+          <div class="konfirmasi-hapus-icon">
+              <i class="fas fa-exclamation"></i>
+          </div>
+          <h3 class="konfirmasi-hapus-title">Apakah Anda Yakin Menghapus Data Ini?</h3>
+          <p class="konfirmasi-hapus-subtitle">Data ini akan dihapus permanen dari sistem</p>
+          <div class="konfirmasi-hapus-buttons">
+              <button class="btn-popup btn-hapus" id="btnKonfirmasiHapus">Ya, Hapus</button>
+              <button class="btn-popup btn-batal" id="btnBatalHapus">Batal</button>
+          </div>
+      </div>
+  </div>
+
 
   <script src="{{ asset('assets/js/daftar-pegawai.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>

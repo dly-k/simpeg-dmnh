@@ -527,3 +527,96 @@ body.sidebar-collapsed .footer-custom {
     max-height: 90vh;
   }
 }
+
+/* ======================================= */
+/* ===   [BARU] CSS MODAL KONFIRMASI   === */
+/* ======================================= */
+.konfirmasi-hapus-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+}
+.konfirmasi-hapus-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+.konfirmasi-hapus-box {
+    background-color: #e5e7eb;
+    padding: 2rem;
+    border-radius: 16px;
+    text-align: center;
+    width: 90%;
+    max-width: 450px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+.konfirmasi-hapus-overlay.show .konfirmasi-hapus-box {
+    transform: scale(1);
+}
+.konfirmasi-hapus-icon {
+    width: 80px;
+    height: 80px;
+    background-color: #facc15; /* Kuning */
+    border-radius: 50%;
+    margin: 0 auto 1.5rem auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.konfirmasi-hapus-icon i {
+    font-size: 2.5rem;
+    color: white;
+}
+.konfirmasi-hapus-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+.konfirmasi-hapus-subtitle {
+    font-size: 1rem;
+    color: #6b7280;
+    margin-bottom: 2rem;
+}
+.konfirmasi-hapus-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+.btn-popup {
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.btn-popup:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+}
+.btn-batal {
+    background-color: #6c757d; /* Abu-abu */
+}
+.btn-batal:hover {
+    background-color: #5a6268;
+}
+.btn-popup.btn-hapus {
+    background-color: #dc3545; /* Merah */
+}
+.btn-popup.btn-hapus:hover {
+    background-color: #c82333;
+}
