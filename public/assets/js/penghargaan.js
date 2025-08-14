@@ -1,5 +1,31 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // === Sidebar Logic (Tidak Berubah) ===
+    
+    // === 1. LOGIKA INTI: MODAL BERHASIL (SUCCESS MODAL) ===
+    const modalBerhasil = document.getElementById('modalBerhasil');
+    const berhasilTitle = document.getElementById('berhasil-title');
+    const berhasilSubtitle = document.getElementById('berhasil-subtitle');
+    let successModalTimeout = null;
+
+    function showSuccessModal(title, subtitle) {
+        if (modalBerhasil && berhasilTitle && berhasilSubtitle) {
+            berhasilTitle.textContent = title;
+            berhasilSubtitle.textContent = subtitle;
+            modalBerhasil.classList.add('show');
+            
+            clearTimeout(successModalTimeout);
+            successModalTimeout = setTimeout(hideSuccessModal, 1200); // Durasi 1.2 detik
+        }
+    }
+    
+    function hideSuccessModal() {
+        modalBerhasil?.classList.remove('show');
+    }
+    document.getElementById('btnSelesai')?.addEventListener('click', () => {
+        clearTimeout(successModalTimeout);
+        hideSuccessModal();
+    });
+
+    // === 2. LOGIKA STANDAR: SIDEBAR & JAM ===
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
     const toggleSidebarBtn = document.getElementById('toggleSidebar');
@@ -14,44 +40,34 @@ document.addEventListener('DOMContentLoaded', function () {
                 sidebar.classList.toggle('hidden');
             }
         });
-
         overlay.addEventListener('click', function () {
             sidebar.classList.remove('show');
             overlay.classList.remove('show');
         });
     }
-
-    // === Date and Time Logic (Tidak Berubah) ===
     function updateDateTime() {
         const now = new Date();
         const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone: 'Asia/Jakarta' };
-        const dateEl = document.getElementById('current-date');
-        const timeEl = document.getElementById('current-time');
-        if (dateEl && timeEl) {
-            dateEl.textContent = now.toLocaleDateString('id-ID', dateOptions);
-            timeEl.textContent = now.toLocaleTimeString('id-ID', timeOptions);
-        }
+        document.getElementById('current-date').textContent = now.toLocaleDateString('id-ID', dateOptions);
+        document.getElementById('current-time').textContent = now.toLocaleTimeString('id-ID', timeOptions);
     }
     updateDateTime();
     setInterval(updateDateTime, 1000);
 
-    // === File Upload Logic (Tidak Berubah) ===
+    // === 3. LOGIKA SPESIFIK HALAMAN PENGHARGAAN ===
+    
+    // Konfigurasi area upload file
     function setupUploadArea() {
         document.querySelectorAll('.upload-area').forEach(uploadArea => {
             const fileInput = uploadArea.querySelector('input[type="file"]');
             const uploadText = uploadArea.querySelector('p');
             if (!fileInput || !uploadText) return;
-
             const originalText = uploadText.innerHTML;
-
             uploadArea.addEventListener('click', () => fileInput.click());
             fileInput.addEventListener('change', function () {
-                if (this.files.length > 0) {
-                    uploadText.textContent = this.files[0].name;
-                }
+                if (this.files.length > 0) uploadText.textContent = this.files[0].name;
             });
-            
             uploadArea.reset = function() {
                 uploadText.innerHTML = originalText;
                 fileInput.value = '';
@@ -60,160 +76,100 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     setupUploadArea();
 
-    // =================================================================
-    // === LOGIKA BARU MENGGUNAKAN EVENT LISTENER BOOTSTRAP ===
-    // =================================================================
+    // Logika untuk Modal Tambah/Edit/Detail menggunakan Bootstrap Events
+    const penghargaanModalEl = document.getElementById('penghargaanModal');
+    if (penghargaanModalEl) {
+        const bsModal = new bootstrap.Modal(penghargaanModalEl);
+        
+        penghargaanModalEl.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const modalTitle = penghargaanModalEl.querySelector('.modal-title');
+            const isEditMode = button && button.classList.contains('btn-edit');
 
-    // 1. Logika untuk Modal Tambah/Edit Penghargaan
-    const penghargaanModal = document.getElementById('penghargaanModal');
-    if (penghargaanModal) {
-        penghargaanModal.addEventListener('show.bs.modal', function (event) {
-            const button = event.relatedTarget; // Tombol yang diklik
-            const modalTitle = penghargaanModal.querySelector('.modal-title');
-            const penghargaanForm = document.getElementById('penghargaanForm');
-
-            // Cek apakah tombol Edit yang diklik
-            if (button && button.classList.contains('btn-edit')) {
-                modalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Data Penghargaan';
-                // Di sini Anda bisa menambahkan kode untuk mengisi form dengan data dari tombol edit
-                // Contoh: document.querySelector('#penghargaanModal input[...]).value = button.dataset.nama;
-            } else { // Jika bukan, berarti tombol Tambah
-                modalTitle.innerHTML = '<i class="fas fa-plus-circle"></i> Tambah Data Penghargaan';
-                // Kosongkan form saat menambah data baru
-                if (penghargaanForm) {
-                    penghargaanForm.reset();
-                }
-                // Reset juga area upload
-                const uploadArea = penghargaanModal.querySelector('.upload-area');
-                if (uploadArea && typeof uploadArea.reset === 'function') {
-                    uploadArea.reset();
-                }
-            }
-        });
-    }
-
-    // 2. Logika untuk Modal Detail Penghargaan
-    const tableBody = document.querySelector('#penghargaan-table-body'); 
-    if (tableBody) {
-        tableBody.addEventListener('click', function(event) {
-            const detailButton = event.target.closest('.btn-lihat-detail-penghargaan');
+            modalTitle.innerHTML = isEditMode
+                ? '<i class="fas fa-edit"></i> Edit Data Penghargaan'
+                : '<i class="fas fa-plus-circle"></i> Tambah Data Penghargaan';
             
-            if (detailButton) {
-                const data = detailButton.dataset;
-                // Mengisi data utama
-                document.getElementById('detail_penghargaan_pegawai').textContent = data.pegawai || '-';
-                document.getElementById('detail_penghargaan_kegiatan').textContent = data.kegiatan || '-';
-                document.getElementById('detail_penghargaan_nama_penghargaan').textContent = data.nama_penghargaan || '-';
-                document.getElementById('detail_penghargaan_nomor').textContent = data.nomor || '-';
-                document.getElementById('detail_penghargaan_tanggal_perolehan').textContent = data.tanggal_perolehan || '-';
-                document.getElementById('detail_penghargaan_lingkup').textContent = data.lingkup || '-';
-                document.getElementById('detail_penghargaan_negara').textContent = data.negara || '-';
-                document.getElementById('detail_penghargaan_instansi').textContent = data.instansi || '-';
-
-                // Mengisi data dokumen
-                document.getElementById('detail_penghargaan_jenis_dokumen').textContent = data.jenis_dokumen || '-';
-                document.getElementById('detail_penghargaan_nama_dokumen').textContent = data.nama_dokumen || '-';
-                document.getElementById('detail_penghargaan_nomor_dokumen').textContent = data.nomor_dokumen || '-';
-                document.getElementById('detail_penghargaan_tautan').textContent = data.tautan || '-';
-
-                // Memperbarui viewer dokumen
-                const docViewer = document.getElementById('detail_penghargaan_document_viewer');
-                if (docViewer) {
-                    docViewer.setAttribute('src', data.dokumen_path || '');
-                }
+            if (!isEditMode) {
+                document.getElementById('penghargaanForm')?.reset();
+                penghargaanModalEl.querySelector('.upload-area')?.reset();
             }
+        });
+        
+        // [BARU] Aksi untuk tombol Simpan
+        penghargaanModalEl.querySelector('.btn-success')?.addEventListener('click', () => {
+            bsModal.hide();
+            showSuccessModal('Data Berhasil Disimpan', 'Data penghargaan telah berhasil disimpan.');
         });
     }
 
-    // === 3. Logika untuk Modal Konfirmasi Hapus ===
+    // Logika untuk mengisi data pada Modal Detail
+    document.addEventListener('click', function(event) {
+        const detailButton = event.target.closest('.btn-lihat-detail-penghargaan');
+        if (detailButton) {
+            const data = detailButton.dataset;
+            document.getElementById('detail_penghargaan_pegawai').textContent = data.pegawai || '-';
+            document.getElementById('detail_penghargaan_kegiatan').textContent = data.kegiatan || '-';
+            document.getElementById('detail_penghargaan_nama_penghargaan').textContent = data.nama_penghargaan || '-';
+            document.getElementById('detail_penghargaan_nomor').textContent = data.nomor || '-';
+            document.getElementById('detail_penghargaan_tanggal_perolehan').textContent = data.tanggal_perolehan || '-';
+            document.getElementById('detail_penghargaan_lingkup').textContent = data.lingkup || '-';
+            document.getElementById('detail_penghargaan_negara').textContent = data.negara || '-';
+            document.getElementById('detail_penghargaan_instansi').textContent = data.instansi || '-';
+            document.getElementById('detail_penghargaan_jenis_dokumen').textContent = data.jenis_dokumen || '-';
+            document.getElementById('detail_penghargaan_nama_dokumen').textContent = data.nama_dokumen || '-';
+            document.getElementById('detail_penghargaan_nomor_dokumen').textContent = data.nomor_dokumen || '-';
+            document.getElementById('detail_penghargaan_tautan').textContent = data.tautan || '-';
+            document.getElementById('detail_penghargaan_document_viewer')?.setAttribute('src', data.dokumen_path || '');
+        }
+    });
+
+    // Logika untuk Modal Konfirmasi Hapus
     const modalKonfirmasiHapus = document.getElementById('modalKonfirmasiHapus');
-    const btnKonfirmasiHapus = document.getElementById('btnKonfirmasiHapus');
-    const btnBatalHapus = document.getElementById('btnBatalHapus');
     let dataToDelete = null;
 
-    // Fungsi untuk menampilkan modal hapus
-    function showDeleteModal() {
-        if (modalKonfirmasiHapus) {
-            modalKonfirmasiHapus.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        }
-    }
+    const hideDeleteModal = () => {
+        if (modalKonfirmasiHapus) modalKonfirmasiHapus.style.display = 'none';
+    };
 
-    // Fungsi untuk menyembunyikan modal hapus
-    function hideDeleteModal() {
-        if (modalKonfirmasiHapus) {
-            modalKonfirmasiHapus.style.display = 'none';
-            document.body.style.overflow = '';
-        }
-    }
+    document.body.addEventListener('click', function(event) {
+        const target = event.target;
 
-    // Event delegation untuk tombol hapus
-    document.addEventListener('click', function(event) {
-        const deleteButton = event.target.closest('.btn-hapus');
-        if (deleteButton) {
+        // Tombol hapus pada baris tabel
+        if (target.closest('.btn-hapus')) {
             event.preventDefault();
-            // Simpan data yang akan dihapus
-            const row = deleteButton.closest('tr');
+            const row = target.closest('tr');
             dataToDelete = {
-                id: deleteButton.dataset.id || row?.querySelector('td:first-child')?.textContent,
-                nama: deleteButton.dataset.nama || row?.querySelector('td:nth-child(2)')?.textContent,
-                element: row
+                element: row,
+                nama: row?.querySelector('td:nth-child(2)')?.textContent.trim()
             };
-            // Tampilkan modal konfirmasi
-            showDeleteModal();
+            if (modalKonfirmasiHapus) modalKonfirmasiHapus.style.display = 'flex';
         }
-    });
 
-    // Handler untuk tombol konfirmasi hapus
-    if (btnKonfirmasiHapus) {
-        btnKonfirmasiHapus.addEventListener('click', function() {
+        // Tombol "Ya, Hapus"
+        if (target.matches('#btnKonfirmasiHapus')) {
+            event.preventDefault();
+            event.stopPropagation();
             if (dataToDelete) {
-                // Lakukan penghapusan data (AJAX atau lainnya)
-                console.log('Menghapus data:', dataToDelete);
-                
-                // Contoh AJAX call:
-                /*
-                fetch(`/api/penghargaan/${dataToDelete.id}`, {
-                    method: 'DELETE'
-                })
-                .then(response => {
-                    if (response.ok) {
-                        // Hapus baris dari tabel jika sukses
-                        dataToDelete.element?.remove();
-                        alert(`Data "${dataToDelete.nama}" berhasil dihapus`);
-                    } else {
-                        alert('Gagal menghapus data');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Terjadi kesalahan saat menghapus data');
-                });
-                */
-                
-                // Untuk demo langsung hapus elemen
-                dataToDelete.element?.remove();
-                alert(`Data "${dataToDelete.nama}" berhasil dihapus`);
+                console.log('Menghapus data:', dataToDelete.nama);
+                dataToDelete.element?.remove(); // Hapus baris untuk demo
+                hideDeleteModal();
+                showSuccessModal('Data Berhasil Dihapus', `Data penghargaan "${dataToDelete.nama}" telah berhasil dihapus.`);
             }
-            hideDeleteModal();
-        });
-    }
-
-    // Handler untuk tombol batal
-    if (btnBatalHapus) {
-        btnBatalHapus.addEventListener('click', hideDeleteModal);
-    }
-
-    // Tutup modal ketika klik di luar area modal
-    modalKonfirmasiHapus?.addEventListener('click', function(event) {
-        if (event.target === modalKonfirmasiHapus) {
+        }
+        
+        // Tombol "Batal"
+        if (target.matches('#btnBatalHapus')) {
             hideDeleteModal();
         }
     });
-
-    // Tutup modal ketika tekan tombol ESC
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape' && modalKonfirmasiHapus.style.display === 'flex') {
+    
+    // Klik di luar area modal hapus
+    modalKonfirmasiHapus?.addEventListener('click', (e) => {
+        if (e.target === modalKonfirmasiHapus) hideDeleteModal();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modalKonfirmasiHapus?.style.display === 'flex') {
             hideDeleteModal();
         }
     });
