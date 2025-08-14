@@ -69,3 +69,7 @@ Route::get('/sidebar', function () {
 Route::get('/edit-pegawai', function () {
     return view('pegawai.edit-pegawai');
 });
+
+Route::get('/tambah-pegawai', function () {
+    return view('pegawai.tambah-pegawai');
+});

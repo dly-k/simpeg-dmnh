@@ -191,8 +191,8 @@
 
                         <!-- Status Kepegawaian -->
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Status Kepegawaian</label>
-                            <select class="form-select form-select-sm">
+                            <label class="small text-secondary">Status Kepegawaian<span class="text-danger">*</span></label>
+                            <select class="form-select form-select-sm" required>
                             <option selected>Dosen PNS</option>
                             <option>Tendik PNS</option>
                             <option>Dosen Tetap</option>
@@ -204,8 +204,8 @@
                         </div>
 
                         <!-- Status Pegawai -->
-                        <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Status Pegawai</label>
+                        <div class="col-md-6 form-group" required>
+                            <label class="small text-secondary">Status Pegawai<span class="text-danger">*</span></label>
                             <select class="form-select form-select-sm">
                             <option selected>Aktif</option>
                             <option>Pensiun</option>
@@ -233,14 +233,14 @@
 
                         <!-- Nomor Arsip -->
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Nomor Arsip Berkas Kepegawaian</label>
-                            <input type="text" class="form-control form-control-sm">
+                            <label class="small text-secondary">Nomor Arsip Berkas Kepegawaian<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-sm" required>
                         </div>
 
                         <!-- Jabatan Fungsional -->
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Jabatan Fungsional</label>
-                            <select class="form-select form-select-sm">
+                            <label class="small text-secondary">Jabatan Fungsional<span class="text-danger">*</span></label>
+                            <select class="form-select form-select-sm" required>
                             <option>Tidak ada</option>
                             <option>Dosen</option>
                             <option>Asisten Ahli</option>
@@ -267,8 +267,8 @@
 
                         <!-- Pangkat Golongan -->
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Pangkat/Golongan</label>
-                            <select class="form-select form-select-sm">
+                            <label class="small text-secondary">Pangkat/Golongan<span class="text-danger">*</span></label>
+                            <select class="form-select form-select-sm" required>
                             <option selected>Juru Muda / I-a</option>
                             <option>Juru Muda Tingkat I / I-b</option>
                             <option>Juru / I-c</option>
@@ -291,8 +291,8 @@
 
                         <!-- TMT Pangkat -->
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">TMT Pangkat Terakhir</label>
-                            <input type="date" class="form-control form-control-sm">
+                            <label class="small text-secondary">TMT Pangkat Terakhir<span class="text-danger">*</span></label>
+                            <input type="date" class="form-control form-control-sm" required>
                         </div>
 
                         <!-- Jabatan Struktural -->
@@ -336,20 +336,20 @@
 
                         <!-- NPWP -->
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">NPWP</label>
-                            <input type="text" class="form-control form-control-sm">
+                            <label class="small text-secondary">NPWP<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-sm" required>
                         </div>
 
                         <!-- Nama Bank -->
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Nama Bank</label>
-                            <input type="text" class="form-control form-control-sm">
+                            <label class="small text-secondary">Nama Bank<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-sm" required>
                         </div>
 
                         <!-- No Rekening -->
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">No Rekening</label>
-                            <input type="text" class="form-control form-control-sm">
+                            <label class="small text-secondary">No Rekening<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-sm" required>
                         </div>
                         </div>
                     </div>
@@ -396,36 +396,36 @@
                     <div class="sub-tab-content" id="domisili" style="display: none;">
                         <div class="row g-3">
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Provinsi</label>
-                            <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Jawa Barat">
+                            <label class="small text-secondary">Provinsi<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Jawa Barat" required>
                         </div>
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Alamat</label>
-                            <textarea class="form-control form-control-sm">JL. Lodaya</textarea>
+                            <label class="small text-secondary">Alamat<span class="text-danger">*</span></label>
+                            <textarea class="form-control form-control-sm" required>JL. Lodaya</textarea>
                         </div>
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Kota</label>
-                            <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Bandung">
+                            <label class="small text-secondary">Kota<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Bandung" required>
                         </div>
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Kode Pos</label>
-                            <input type="text" class="form-control form-control-sm" value="10021">
+                            <label class="small text-secondary">Kode Pos<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-sm" value="10021" required>
                         </div>
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Kecamatan</label>
-                            <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Bandung Tengah">
+                            <label class="small text-secondary">Kecamatan<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Bandung Tengah" required>
                         </div>
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">No. Telepon/HP</label>
-                            <input type="text" class="form-control form-control-sm" value="081239128991">
+                            <label class="small text-secondary">No. Telepon/HP<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-sm" value="081239128991" required>
                         </div>
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Kelurahan</label>
-                            <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Ciawi">
+                            <label class="small text-secondary">Kelurahan<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Ciawi" required>
                         </div>
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Email Pribadi / Institusi</label>
-                            <input type="text" class="form-control form-control-sm" value="aexyifshsi@gmail.com">
+                            <label class="small text-secondary">Email Pribadi / Institusi<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-sm" value="aexyifshsi@gmail.com" required>
                         </div>
                         </div>
                     </div>
@@ -435,28 +435,28 @@
                         <div class="row g-3">
 
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Nomor KTP</label>
-                            <input type="text" class="form-control form-control-sm" value="31862908812645811">
+                            <label class="small text-secondary">Nomor KTP<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-sm" value="31862908812645811" required>
                         </div>
 
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Kecamatan</label>
-                            <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Talang Ubi">
+                            <label class="small text-secondary">Kecamatan<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Talang Ubi" required>
                         </div>
 
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Nomor KK</label>
-                            <input type="text" class="form-control form-control-sm" value="8011447152211029">
+                            <label class="small text-secondary">Nomor KK<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-sm" value="8011447152211029" required>
                         </div>
 
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Kelurahan</label>
-                            <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Pisangan Timur">
+                            <label class="small text-secondary">Kelurahan<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Pisangan Timur" required>
                         </div>
 
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Warga Negara</label>
-                            <select class="form-select form-select-sm">
+                            <label class="small text-secondary">Warga Negara<span class="text-danger">*</span></label>
+                            <select class="form-select form-select-sm" required>
                             <option>--Pilih Salah Satu--</option>
                             <option>Indonesia</option>
                             <option>Warga Negara Asing (WNA)</option>
@@ -464,23 +464,23 @@
                         </div>
 
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Kode Pos</label>
-                            <input type="text" class="form-control form-control-sm" value="01984">
+                            <label class="small text-secondary">Kode Pos<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-sm" value="01984" required>
                         </div>
 
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Provinsi</label>
-                            <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Sumatera Barat">
+                            <label class="small text-secondary">Provinsi<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Sumatera Barat" required>
                         </div>
 
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Kabupaten/Kota</label>
-                            <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Cimahi">
+                            <label class="small text-secondary">Kabupaten/Kota<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Cimahi" required>
                         </div>
 
                         <div class="col-md-12 form-group">
-                            <label class="small text-secondary">Alamat</label>
-                            <textarea class="form-control form-control-sm" rows="2">Jl Pendopo</textarea>
+                            <label class="small text-secondary">Alamat<span class="text-danger">*</span></label>
+                            <textarea class="form-control form-control-sm" rows="2" required>Jl Pendopo</textarea>
                         </div>
                         </div>
                     </div>
