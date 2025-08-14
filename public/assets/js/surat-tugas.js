@@ -6,6 +6,19 @@ document.addEventListener('DOMContentLoaded', function () {
   initSuratTugasPage();
   initModalInteractions();
   initUploadArea();
+
+  // [BARU] Logika untuk membuka dropdown "Editor Kegiatan"
+  const editorBtn = document.querySelector('button[data-bs-target="#editorKegiatan"]');
+  const editorMenu = document.getElementById('editorKegiatan');
+  
+  if (editorBtn && editorMenu) {
+    // Hapus kelas 'collapsed' dari tombol
+    editorBtn.classList.remove('collapsed');
+    // Set atribut 'aria-expanded' menjadi 'true'
+    editorBtn.setAttribute('aria-expanded', 'true');
+    // Tambah kelas 'show' ke menu dropdown
+    editorMenu.classList.add('show');
+  }
 });
 
 
@@ -61,7 +74,6 @@ function initSuratTugasPage() {
   renderTable();
   const tbody = document.getElementById('data-body');
 
-  // [DIUBAH] Event listener untuk edit
   tbody?.addEventListener('click', function(event) {
     const editBtn = event.target.closest('.btn-edit');
     if (editBtn) {
@@ -72,7 +84,6 @@ function initSuratTugasPage() {
     }
   });
 
-  // [BARU] Inisialisasi logika modal konfirmasi hapus
   initDeleteConfirmation();
 }
 
@@ -154,7 +165,7 @@ function initModalInteractions() {
   });
 }
 
-// === [BARU] Logika Modal Konfirmasi Hapus ===
+// === Logika Modal Konfirmasi Hapus ===
 function initDeleteConfirmation() {
     const tableBody = document.getElementById('data-body');
     const modal = document.getElementById('modalKonfirmasiHapus');
@@ -164,7 +175,6 @@ function initDeleteConfirmation() {
     const btnKonfirmasi = document.getElementById('btnKonfirmasiHapus');
     let rowToDelete = null;
 
-    // Event delegation untuk tombol hapus di tabel
     tableBody.addEventListener('click', function(event) {
         const deleteButton = event.target.closest('.btn-hapus');
         if (deleteButton) {
@@ -174,28 +184,25 @@ function initDeleteConfirmation() {
         }
     });
 
-    // Tombol konfirmasi untuk menghapus
     btnKonfirmasi.addEventListener('click', function() {
         if (rowToDelete) {
             console.log(`Menghapus data baris ke-${parseInt(rowToDelete.dataset.index) + 1}`);
-            rowToDelete.remove(); // Hapus baris dari DOM
-            // Di aplikasi nyata, di sini Anda akan memanggil API untuk menghapus data dari server
+            rowToDelete.remove();
             modal.classList.remove('show');
             rowToDelete = null;
         }
     });
 
-    // Tombol untuk membatalkan
-    btnBatal.addEventListener('click', function() {
+    function hideDeleteModal() {
         modal.classList.remove('show');
         rowToDelete = null;
-    });
+    }
 
-    // Klik di luar area modal untuk menutup
+    btnBatal.addEventListener('click', hideDeleteModal);
+
     modal.addEventListener('click', function(event) {
         if (event.target === modal) {
-            modal.classList.remove('show');
-            rowToDelete = null;
+            hideDeleteModal();
         }
     });
 }
