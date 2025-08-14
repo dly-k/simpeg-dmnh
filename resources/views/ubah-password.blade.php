@@ -25,11 +25,12 @@
         <p>Menu Utama</p>
         <a href="/daftar-pegawai"><i class="lni lni-users"></i> Daftar Pegawai</a>
         <a href="/surat-tugas"><i class="lni lni-folder"></i> Manajemen Surat Tugas</a>
-        <button class="collapsed" data-bs-toggle="collapse" data-bs-target="#editorKegiatan" aria-expanded="false" aria-controls="editorKegiatan">
+        
+        <button data-bs-toggle="collapse" data-bs-target="#editorKegiatan" aria-expanded="true" aria-controls="editorKegiatan">
           <i class="lni lni-pencil-alt"></i> Editor Kegiatan
           <i class="lni lni-chevron-down toggle-icon"></i>
         </button>
-        <div class="collapse submenu" id="editorKegiatan">
+        <div class="collapse submenu show" id="editorKegiatan">
           <a href="/pendidikan">Pendidikan</a>
           <a href="/penelitian">Penelitian</a>
           <a href="/pengabdian">Pengabdian</a>
@@ -38,6 +39,7 @@
           <a href="/penghargaan">Penghargaan</a>
           <a href="/sk-non-pns">SK Non PNS</a>
         </div>
+        
         <a href="/kerjasama"><i class="lni lni-handshake"></i> Kerjasama</a>
         <a href="/master-data"><i class="lni lni-database"></i> Master Data</a>
       </div>
