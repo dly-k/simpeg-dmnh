@@ -1152,3 +1152,169 @@ body {
 #penunjangDetailModal .btn-tutup:hover {
     background-color: #e2e2e2;
 }
+
+/* ======================================================= */
+/* PERBAIKAN TATA LETAK MODAL (CSS-ONLY)                   */
+/* ======================================================= */
+
+/* Target modal spesifik Anda dengan ID-nya */
+#pengabdianDetailModal .modal-body {
+    padding: 10px 25px 20px 25px;
+    max-height: 70vh; /* Batas tinggi agar bisa di-scroll */
+    overflow-y: auto;
+
+    /* 1. Menjadikan .modal-body sebagai Grid Container Utama */
+    display: grid;
+    /* Membuat 3 kolom. Anda bisa ganti angka '3' jika perlu (misal: 2 atau 4) */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px 24px; /* Jarak antar item */
+}
+
+/* 2. 'Meleburkan' baris multi-kolom dengan display: contents */
+/* Ini adalah bagian terpenting. Ini membuat .detail-field di dalamnya
+   menjadi bagian dari grid utama .modal-body, sehingga bisa sejajar. */
+#pengabdianDetailModal .modal-row.multi-column {
+    display: contents;
+}
+
+/* 3. Mengatur item yang harus 1 baris penuh (seperti Judul dan sub-header) */
+#pengabdianDetailModal .modal-body > .modal-row:not(.multi-column),
+#pengabdianDetailModal .modal-body > .sub-header {
+    grid-column: 1 / -1; /* Membuat elemen melintasi semua kolom dari awal sampai akhir */
+    padding: 15px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+/* Setiap item detail sekarang adalah bagian dari grid */
+#pengabdianDetailModal .detail-field {
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+/* Menghilangkan garis bawah pada baris terakhir di grid agar rapi */
+#pengabdianDetailModal .modal-body > *:last-child,
+#pengabdianDetailModal .modal-body > *:nth-last-child(2),
+#pengabdianDetailModal .modal-body > *:nth-last-child(3) {
+    border-bottom: none;
+}
+
+
+/* ======================================================= */
+/* GAYA UMUM (TIDAK ADA PERUBAHAN STRUKTUR)                */
+/* ======================================================= */
+
+/* Gaya untuk label dan value tetap sama */
+#pengabdianDetailModal .modal-row strong,
+#pengabdianDetailModal .detail-field strong {
+    display: block; font-size: 0.8rem; font-weight: 700; color: #343a40;
+    text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;
+}
+#pengabdianDetailModal .modal-row .detail-value,
+#pengabdianDetailModal .detail-field .detail-value {
+    margin: 0; font-size: 0.95rem; color: #6c757d;
+}
+
+/* Gaya untuk sub-judul */
+#pengabdianDetailModal .sub-header {
+    font-size: 1rem; font-weight: 600; color: #006843;
+}
+
+/* Header dan Footer (Tidak ada perubahan) */
+#pengabdianDetailModal .modal-header {
+    display: flex; align-items: center; padding: 16px 25px;
+    background-color: #006843; color: white;
+}
+#pengabdianDetailModal .modal-title-group {
+    display: flex; align-items: center; gap: 10px;
+}
+#pengabdianDetailModal .modal-title-group .fa-info-circle { font-size: 1.3rem; }
+#pengabdianDetailModal .modal-title-group h2 { margin: 0; font-size: 1.2rem; font-weight: 500; }
+
+#pengabdianDetailModal .modal-footer {
+    padding: 15px 25px; text-align: right; background-color: #f7f7f7;
+    border-top: 1px solid #e9ecef;
+}
+#pengabdianDetailModal .btn-tutup {
+    background-color: #f0f0f0; border: 1px solid #dcdcdc; color: #333;
+    padding: 8px 24px; border-radius: 5px; cursor: pointer;
+    font-size: 0.9rem; transition: background-color 0.2s;
+}
+#pengabdianDetailModal .btn-tutup:hover { background-color: #e2e2e2; }
+
+/** PENYESUAIAN BARU PADA HEADER **/
+.modal-header {
+    display: flex;
+    align-items: center;
+    /* justify-content: space-between; -- Boleh ditambahkan jika ada elemen lain di kanan (misal: tombol close) */
+    padding: 16px 25px;
+    background-color: #006843; 
+    color: white;
+}
+
+/* Grup baru untuk memastikan ikon & judul selalu bersama */
+.modal-title-group {
+    display: flex;
+    align-items: center;
+}
+
+.modal-title-group .fa-info-circle {
+    font-size: 1.3rem;
+    margin-right: 10px;
+}
+
+.modal-title-group h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+/* Body modal */
+.modal-body {
+    padding: 10px 25px 20px 25px;
+}
+.modal-row {
+    padding: 15px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+.modal-row.no-border {
+    border-bottom: none;
+}
+.modal-row.multi-column {
+    display: flex; flex-wrap: wrap; gap: 20px;
+}
+.detail-field {
+    flex: 1; min-width: 150px;
+}
+/* Perbedaan visual antara label dan isi */
+.modal-row strong {
+    display: block; font-size: 0.8rem; font-weight: 700; color: #343a40;
+    text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;
+}
+.modal-row .detail-value {
+    margin: 0; font-size: 0.95rem; color: #6c757d;
+}
+.penulis-header {
+    display: flex; justify-content: space-between; align-items: center;
+}
+.penulis-header strong {
+    margin-bottom: 0;
+}
+a.dokumen-link {
+    color: #0d6efd; text-decoration: none; font-size: 0.9rem;
+}
+a.dokumen-link:hover {
+    text-decoration: underline;
+}
+/* Footer modal */
+.modal-footer {
+    padding: 15px 25px; text-align: right; background-color: #f7f7f7;
+    border-top: 1px solid #e9ecef;
+}
+.btn-tutup {
+    background-color: #f0f0f0; border: 1px solid #dcdcdc; color: #333;
+    padding: 8px 24px; border-radius: 5px; cursor: pointer;
+    font-size: 0.9rem; transition: background-color 0.2s;
+}
+.btn-tutup:hover {
+    background-color: #e2e2e2;
+}

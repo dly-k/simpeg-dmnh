@@ -1043,10 +1043,29 @@
                                 <table class="table table-bordered table-hover table-sm">
                                     <thead><tr><th>No</th><th>Judul</th><th>Tgl. Terbit</th><th>Jenis</th><th>Publik</th><th>Dokumen</th><th>Aksi</th></tr></thead>
                                     <tbody>
-                                        <script>for(let i=1; i<=3; i++){ document.write(`<tr><td class="text-center">${i}</td><td>Pengaruh Air Terhadap Tumbuh Kembang Leles</td><td class="text-center">24 Desember 2021</td><td class="text-center">Karya</td><td class="text-center">Ya</td><td class="text-center"><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td class="text-center"><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>`);}</script>
+                                        <script>for(let i=1; i<=3; i++){ document.write(`<tr><td class="text-center">${i}</td><td>Pengaruh Air Terhadap Tumbuh Kembang Leles</td><td class="text-center">24 Desember 2021</td><td class="text-center">Karya</td><td class="text-center">Ya</td><td class="text-center"><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td class="text-center"><div class="d-flex gap-2 justify-content-center"><button type="button" 
+        class="btn btn-sm text-white btn-aksi btn-lihat-detail" 
+        title="Lihat Detail" 
+        data-bs-toggle="modal" 
+        data-bs-target="#detailModal">
+    <i class="lni lni-eye"></i>
+</button>
+<button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>`);}</script>
                                     </tbody>
                                 </table>
                             </div>
+                                                    <!-- Pagination -->
+                        <div class="d-flex justify-content-between align-items-center mt-4">
+                            <span class="text-muted small">Menampilkan 1 sampai 10 dari 13 data</span>
+                            <nav aria-label="Page navigation">
+                            <ul class="pagination pagination-sm mb-0">
+                                <li class="page-item disabled"><a class="page-link" href="#">Sebelumnya</a></li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">Berikutnya</a></li>
+                            </ul>
+                            </nav>
+                        </div>
                         </div>
                             
                         <!-- Pengabdian Content -->
@@ -1107,9 +1126,9 @@
                                         </td>
                                         <td>
                                             <div class="d-flex gap-2 justify-content-center">
-                                            <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail" >
-                                                <i class="lni lni-eye"></i>
-                                            </button>
+                                                <a id="btnLihatPengabdiangDetail" class="btn-aksi btn-lihat" title="Lihat Detail Pengabdian" data-bs-toggle="modal" data-bs-target="#pengabdianDetailModal">
+                                                    <i class="fa fa-eye"></i>
+                                                </a>
                                             <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
                                                 <i class="lni lni-trash-can"></i>
                                             </button>
@@ -1119,6 +1138,18 @@
                                     </tbody>
                                 </table>
                             </div>
+                                                    <!-- Pagination -->
+                        <div class="d-flex justify-content-between align-items-center mt-4">
+                            <span class="text-muted small">Menampilkan 1 sampai 10 dari 13 data</span>
+                            <nav aria-label="Page navigation">
+                            <ul class="pagination pagination-sm mb-0">
+                                <li class="page-item disabled"><a class="page-link" href="#">Sebelumnya</a></li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">Berikutnya</a></li>
+                            </ul>
+                            </nav>
+                        </div>
                         </div>
                             
                        <!-- Penunjang Content -->
@@ -1459,6 +1490,261 @@
             </div>
         </div>
         </div>
+
+        <!-- Modal Detail Penelitian -->
+<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <div class="modal-title-group d-flex align-items-center" id="detailModalLabel">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <h2 class="mb-0">Detail Penelitian</h2>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <div class="modal-row">
+                    <strong>Judul</strong>
+                    <p class="detail-value">Analisis Pengaruh Kotoran Sapi Terhadap Pertumbuhan Kecambah Pada Media Kapas</p>
+                </div>
+                
+                <div class="modal-row multi-column">
+                    <div class="detail-field">
+                        <strong>Jenis Karya</strong>
+                        <p class="detail-value">UGE - 912</p>
+                    </div>
+                    <div class="detail-field">
+                        <strong>Volume/Issue</strong>
+                        <p class="detail-value">Pembudidayaan Ikan Lele</p>
+                    </div>
+                    <div class="detail-field">
+                        <strong>Jumlah Halaman</strong>
+                        <p class="detail-value">Teknologi Rekayasa Empang</p>
+                    </div>
+                </div>
+
+                <div class="modal-row multi-column">
+                    <div class="detail-field">
+                        <strong>Tanggal Terbit</strong>
+                        <p class="detail-value">-</p>
+                    </div>
+                    <div class="detail-field">
+                        <strong>Publik</strong>
+                        <p class="detail-value">Ya</p>
+                    </div>
+                    <div class="detail-field">
+                        <strong>ISBN</strong>
+                        <p class="detail-value">Tidak Ber Jenis</p>
+                    </div>
+                </div>
+
+                <div class="modal-row multi-column">
+                    <div class="detail-field">
+                        <strong>ISSN</strong>
+                        <p class="detail-value">1</p>
+                    </div>
+                    <div class="detail-field">
+                        <strong>DOI</strong>
+                        <p class="detail-value">6</p>
+                    </div>
+                    <div class="detail-field">
+                        <strong>URL</strong>
+                        <p class="detail-value">6</p>
+                    </div>
+                </div>
+
+                <div class="modal-row">
+                    <strong>Dokumen Pendukung</strong>
+                    <p class="detail-value"><a href="#" class="dokumen-link">Dokumen</a></p>
+                </div>
+
+                <div class="modal-row">
+                    <div class="penulis-header">
+                        <strong>Penulis IPB</strong>
+                        <a href="#" class="dokumen-link">Dokumen</a>
+                    </div>
+                    <p class="detail-value nama-penulis">Siapa gatau</p>
+                </div>
+                
+                <div class="modal-row">
+                    <div class="penulis-header">
+                        <strong>Penulis Luar IPB</strong>
+                        <a href="#" class="dokumen-link">Dokumen</a>
+                    </div>
+                    <p class="detail-value nama-penulis">Siapa gatau</p>
+                </div>
+
+                <div class="modal-row no-border">
+                    <div class="penulis-header">
+                        <strong>Penulis Mahasiswa</strong>
+                    </div>
+                    <p class="detail-value nama-penulis">Siapa gatau</p>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+        <!-- Modal Detail Pengabdian -->
+        <div class="modal fade" id="pengabdianDetailModal" tabindex="-1" aria-labelledby="pengabdianDetailLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <div class="modal-title-group d-flex align-items-center" id="pengabdianDetailLabel">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <h2 class="mb-0">Detail Pengabdian</h2>
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <!-- Modal Body -->
+                    <div class="modal-body">
+                        <div class="modal-row">
+                            <strong>Judul</strong>
+                            <p class="detail-value">Analisis Pengaruh Kotoran Sapi Terhadap Pertumbuhan Kecambah Pada Media Kapas</p>
+                        </div>
+                        <div class="modal-row">
+                            <strong>Nama Kegiatan</strong>
+                            <p class="detail-value">Analisis Pengaruh Kotoran Sapi Terhadap Pertumbuhan Kecambah Pada Media Kapas</p>
+                        </div>
+
+                        <div class="modal-row multi-column">
+                            <div class="detail-field">
+                                <strong>Afiliasi Non-PT</strong>
+                                <p class="detail-value">UGE - 912</p>
+                            </div>
+                            <div class="detail-field">
+                                <strong>Jenis SKIM</strong>
+                                <p class="detail-value">Pembudidayaan Ikan Lele</p>
+                            </div>
+                            <div class="detail-field">
+                                <strong>Lama Kegiatan</strong>
+                                <p class="detail-value">Teknologi Rekayasa Empang</p>
+                            </div>
+                        </div>
+
+                        <div class="modal-row multi-column">
+                            <div class="detail-field">
+                                <strong>Tahun Usulan</strong>
+                                <p class="detail-value">2025</p>
+                            </div>
+                            <div class="detail-field">
+                                <strong>Tahun Kegiatan</strong>
+                                <p class="detail-value">2025</p>
+                            </div>
+                            <div class="detail-field">
+                                <strong>Tahun Pelaksanaan</strong>
+                                <p class="detail-value">2025</p>
+                            </div>
+                        </div>
+
+                        <div class="modal-row multi-column">
+                            <div class="detail-field">
+                                <strong>In Kind</strong>
+                                <p class="detail-value">2025</p>
+                            </div>
+                            <div class="detail-field">
+                                <strong>Libtamas</strong>
+                                <p class="detail-value">2025</p>
+                            </div>
+                            <div class="detail-field">
+                                <strong>Tanggal SK Penugasan</strong>
+                                <p class="detail-value">2025</p>
+                            </div>
+                        </div>
+
+                        <div class="modal-row">
+                            <strong>No SK Penugasan</strong>
+                            <p class="detail-value">2025</p>
+                        </div>
+
+                        <div class="modal-row multi-column">
+                            <div class="detail-field">
+                                <strong>Dana DIKTI</strong>
+                                <p class="detail-value">2025</p>
+                            </div>
+                            <div class="detail-field">
+                                <strong>Dana Perguruan Tinggi</strong>
+                                <p class="detail-value">2025</p>
+                            </div>
+                            <div class="detail-field">
+                                <strong>Dana Institusi Lain</strong>
+                                <p class="detail-value">2025</p>
+                            </div>
+                        </div>
+
+                        <div class="modal-row multi-column">
+                            <div class="detail-field">
+                                <strong>Dokumen Pendukung</strong>
+                                <p class="detail-value"><a href="#" class="dokumen-link">Dokumen</a></p>
+                            </div>
+                            <div class="detail-field">
+                                <strong>Jenis Dokumen</strong>
+                                <p class="detail-value">Dokumen</p>
+                            </div>
+                        </div>
+
+                        <div class="modal-row multi-column">
+                            <div class="detail-field">
+                                <strong>Nama Dokumen</strong>
+                                <p class="detail-value">2025</p>
+                            </div>
+                            <div class="detail-field">
+                                <strong>Nomor</strong>
+                                <p class="detail-value">2025</p>
+                            </div>
+                            <div class="detail-field">
+                                <strong>Tautan</strong>
+                                <p class="detail-value">2025</p>
+                            </div>
+                        </div>
+
+                        <div class="sub-header">Dosen</div>
+                        <div class="modal-row multi-column no-border">
+                            <div class="detail-field"><strong>Strata</strong><p class="detail-value">Siapa gatau</p></div>
+                            <div class="detail-field"><strong>Nama</strong><p class="detail-value">Siapa gatau</p></div>
+                            <div class="detail-field"><strong>Jabatan</strong><p class="detail-value">Siapa gatau</p></div>
+                            <div class="detail-field"><strong>Aktif</strong><p class="detail-value">Siapa gatau</p></div>
+                        </div>
+
+                        <div class="sub-header">Mahasiswa</div>
+                        <div class="modal-row multi-column no-border">
+                            <div class="detail-field"><strong>Nama</strong><p class="detail-value">Siapa gatau</p></div>
+                            <div class="detail-field"><strong>Jabatan</strong><p class="detail-value">2025</p></div>
+                            <div class="detail-field"><strong>Aktif</strong><p class="detail-value">2025</p></div>
+                        </div>
+
+                        <div class="sub-header">Kolaborator</div>
+                        <div class="modal-row multi-column no-border">
+                            <div class="detail-field"><strong>Nama</strong><p class="detail-value">Siapa gatau</p></div>
+                            <div class="detail-field"><strong>Jabatan</strong><p class="detail-value">2025</p></div>
+                            <div class="detail-field"><strong>Aktif</strong><p class="detail-value">2025</p></div>
+                        </div>
+
+                    </div>
+
+                    <!-- Modal Footer -->
+                    <div class="modal-footer">
+                        <button type="button" id="closePengabdianDetailBtn" class="btn-tutup btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
 
       <!-- Modal Detail Penunjang -->
         <div class="modal fade" id="penunjangDetailModal" tabindex="-1" aria-labelledby="penunjangDetailLabel" aria-hidden="true">
