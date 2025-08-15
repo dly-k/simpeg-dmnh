@@ -87,6 +87,38 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   renderTable();
+  
+  // --- Helper to customize and show success modal ---
+  function showSuccessModal(title, subtitle) {
+      const berhasilTitle = document.getElementById('berhasil-title');
+      const berhasilSubtitle = document.getElementById('berhasil-subtitle');
+      if(berhasilTitle) berhasilTitle.textContent = title;
+      if(berhasilSubtitle) berhasilSubtitle.textContent = subtitle;
+      openModal('modalBerhasil');
+      
+      // NEW: Menutup modal secara otomatis setelah 1 detik
+      setTimeout(() => {
+          closeModal('modalBerhasil');
+      }, 1000); // 1000 milidetik = 1 detik
+  }
+
+  // --- Modal Tambah Logic ---
+  const btnSimpanTambah = document.querySelector('#tambahDataModal .btn-success');
+  if (btnSimpanTambah) {
+      btnSimpanTambah.addEventListener('click', function() {
+          closeModal('tambahDataModal');
+          showSuccessModal('Data Berhasil Disimpan', 'Data pengguna baru telah berhasil ditambahkan ke sistem.');
+      });
+  }
+
+  // --- Modal Edit Logic ---
+  const btnSimpanEdit = document.querySelector('#editDataModal .btn-success');
+  if (btnSimpanEdit) {
+      btnSimpanEdit.addEventListener('click', function() {
+          closeModal('editDataModal');
+          showSuccessModal('Data Berhasil Diperbarui', 'Data pengguna telah berhasil diperbarui di sistem.');
+      });
+  }
 
   // --- Modal Hapus Logic ---
   const btnBatalHapus = document.getElementById('btnBatalHapus');
@@ -100,21 +132,37 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   if (btnKonfirmasiHapus) {
-    btnKonfirmasiHapus.addEventListener('click', function () {
+    btnKonfirmasiHapus.addEventListener('click', function (e) {
+      e.stopPropagation();
       if (selectedDeleteIndex !== null) {
         userData.splice(selectedDeleteIndex, 1);
         renderTable();
         closeModal('modalKonfirmasiHapus');
+        
+        setTimeout(() => {
+            showSuccessModal('Data Berhasil Dihapus', 'Data pengguna telah berhasil dihapus dari sistem.');
+        }, 150);
+        
         selectedDeleteIndex = null;
       }
     });
   }
+  
+  // --- Modal Berhasil Logic ---
+  // Tombol "Selesai" tidak lagi terlalu penting karena modal menutup otomatis,
+  // tapi kita biarkan untuk aksesibilitas jika pengguna ingin menutup lebih cepat.
+  const btnSelesai = document.getElementById('btnSelesai');
+  if(btnSelesai) {
+    btnSelesai.addEventListener('click', function() {
+      closeModal('modalBerhasil');
+    });
+  }
 
   // Tutup semua modal jika klik di luar konten
-  document.querySelectorAll('.modal-backdrop, .konfirmasi-hapus-overlay').forEach(modal => {
-    modal.addEventListener('click', function (e) {
-      if (e.target === modal) {
-        closeModal(modal.id);
+  document.querySelectorAll('.modal-backdrop, .konfirmasi-hapus-overlay, .modal-berhasil-overlay').forEach(overlay => {
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) {
+        closeModal(overlay.id);
       }
     });
   });
@@ -134,7 +182,9 @@ function closeModal(modalId) {
   if (modal) {
     modal.classList.remove('show');
     modal.addEventListener('transitionend', () => {
-      modal.style.display = 'none';
+      if (!modal.classList.contains('show')) {
+        modal.style.display = 'none';
+      }
     }, { once: true });
   }
 }
