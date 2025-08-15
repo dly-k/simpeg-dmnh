@@ -799,85 +799,52 @@
                                 <div class="filter-dropdown-wrapper"><select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select></div>
                                 <div class="input-group" style="width: auto; max-width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ...."></div>
                             </div>
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-hover table-sm">
-                                        <thead>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Tahun Semester</th>
-                                                <th>NIM</th>
-                                                <th>Nama Mahasiswa</th>
-                                                <th>Strata</th>
-                                                <th>Departemen</th>
-                                                <th>Status</th>
-                                                <th>Dokumen</th>
-                                                <th>Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="text-center">1</td>
-                                                <td class="text-center">2023/2024 Genap</td>
-                                                <td class="text-center">H2417001</td>
-                                                <td>Andi Wijaya</td>
-                                                <td class="text-center">S2</td>
-                                                <td class="text-center">Manajemen Hutan</td>
-                                                <td class="text-center">Anggota Penguji</td>
-                                                <td class="text-center"><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
-                                                <td>
-                                                    <div class="d-flex gap-2 justify-content-center">
-                                                        <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
-                                                            <i class="lni lni-eye"></i>
-                                                        </button>
-                                                        <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
-                                                            <i class="lni lni-trash-can"></i>
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">2</td>
-                                                <td class="text-center">2023/2024 Ganjil</td>
-                                                <td class="text-center">H2417002</td>
-                                                <td>Budi Santoso</td>
-                                                <td class="text-center">S2</td>
-                                                <td class="text-center">Teknologi Hasil Hutan</td>
-                                                <td class="text-center">Anggota Penguji</td>
-                                                <td class="text-center"><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
-                                                <td>
-                                                    <div class="d-flex gap-2 justify-content-center">
-                                                        <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
-                                                            <i class="lni lni-eye"></i>
-                                                        </button>
-                                                        <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
-                                                            <i class="lni lni-trash-can"></i>
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">3</td>
-                                                <td class="text-center">2022/2023 Genap</td>
-                                                <td class="text-center">H2317003</td>
-                                                <td>Citra Dewi</td>
-                                                <td class="text-center">S3</td>
-                                                <td class="text-center">Ilmu Kehutanan</td>
-                                                <td class="text-center">Anggota Penguji</td>
-                                                <td class="text-center"><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
-                                                <td>
-                                                    <div class="d-flex gap-2 justify-content-center">
-                                                        <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
-                                                            <i class="lni lni-eye"></i>
-                                                        </button>
-                                                        <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
-                                                            <i class="lni lni-trash-can"></i>
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                {{-- Tabel Data --}}
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr class="text-center"><th>No</th><th>Tahun Semester</th><th>NIM</th><th>Nama Mahasiswa</th><th>Strata</th><th>Departemen</th><th>Status</th><th>Dokumen</th><th>Aksi</th></tr>
+                        </thead>
+                        <tbody>
+                            @php
+                                // Contoh data lengkap untuk Pengujian Lama
+                                $dataPengujianLama = collect(json_decode('[{"id": 1, "kegiatan": "Senam Lele Merdeka", "nama": "Dr. Stone Pamungkas", "strata": "S1", "tahun_semester": "2018/2019 Ganjil", "nim": "UGE - 912", "nama_mahasiswa": "Pembudidayaan Ikan Lele", "departemen": "Teknologi Rekayasa Empang", "status_penguji": "Ketua Penguji", "verified": true, "dokumen_path": "assets/pdf/example.pdf"}, {"id": 1, "kegiatan": "Senam Lele Merdeka", "nama": "Dr. Stone Pamungkas", "strata": "S1", "tahun_semester": "2018/2019 Ganjil", "nim": "UGE - 912", "nama_mahasiswa": "Pembudidayaan Ikan Lele", "departemen": "Teknologi Rekayasa Empang", "status_penguji": "Ketua Penguji", "verified": false, "dokumen_path": "assets/pdf/example.pdf"}]'));
+                            @endphp
+
+                            @foreach ($dataPengujianLama as $index => $item)
+                            <tr>
+                                <td class="text-center">{{ $index + 1 }}</td>
+                                <td class="text-center">{{ $item->tahun_semester }}</td>
+                                <td class="text-center">{{ $item->nim }}</td>
+                                <td>{{ $item->nama_mahasiswa }}</td>
+                                <td class="text-center">{{ $item->strata }}</td>
+                                <td>{{ $item->departemen }}</td>
+                                <td>{{ $item->status_penguji }}</td>
+                                <td class="text-center"><a href="#" class="btn btn-sm btn-lihat text-white">Lihat</a></td>
+                                <td class="text-center">
+                                    <div class="d-flex gap-2 justify-content-center">
+                                        {{-- Tombol Lihat Detail --}}
+                                        <a href="#" class="btn-aksi btn-lihat-detail btn-lihat-detail-pengujian" title="Lihat Detail"
+                                          data-bs-toggle="modal"
+                                          data-bs-target="#modalDetailPengujianLama"
+                                          data-kegiatan="{{ $item->kegiatan }}"
+                                          data-nama="{{ $item->nama }}"
+                                          data-tahun_semester="{{ $item->tahun_semester }}"
+                                          data-nim="{{ $item->nim }}"
+                                          data-nama_mahasiswa="{{ $item->nama_mahasiswa }}"
+                                          data-departemen="{{ $item->departemen }}"
+                                          data-dokumen_path="{{ $item->dokumen_path }}">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                        
+                                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
                             </div>
 
                             <!-- Pembimbing Lama Content -->
@@ -886,16 +853,54 @@
                                 <div class="filter-dropdown-wrapper"><select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select></div>
                                 <div class="input-group" style="width: auto; max-width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ...."></div>
                             </div>
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-hover table-sm">
-                                        <thead><tr><th>No</th><th>Tahun Semester</th><th>Kegiatan</th><th>Nim</th><th>Nama Mahasiswa</th><th>Strata</th><th>Status</th><th>Dokumen</th><th>Aksi</th></tr></thead>
-                                        <tbody>
-                                            <tr><td class="text-center">1</td><td class="text-center">2020/2021 Genap</td><td>Membimbing dan ikut membimbing.. </td><td class="text-center">E2039383</td><td>Alex Feruso</td><td class="text-center">S1</td><td class="text-center">Pembimbing Pendamping</td><td class="text-center"><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>
-                                            <tr><td class="text-center">2</td><td class="text-center">2020/2021 Genap</td><td>Membimbing dan ikut membimbing.. </td><td class="text-center">E2039383</td><td>Alex Feruso</td><td class="text-center">S1</td><td class="text-center">Pembimbing Pendamping</td><td class="text-center"><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>
-                                            <tr><td class="text-center">3</td><td class="text-center">2020/2021 Genap</td><td>Membimbing dan ikut membimbing.. </td><td class="text-center">E2039383</td><td>Alex Feruso</td><td class="text-center">S1</td><td class="text-center">Pembimbing Pendamping</td><td class="text-center"><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td><div class="d-flex gap-2 justify-content-center"><button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button><button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                            {{-- Tabel Data --}}
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered">
+                                    <thead>
+                                        <tr class="text-center"><th>No</th><th class="text-start">Kegiatan</th><th>Tahun Semester</th><th>NIM</th><th>Nama Mahasiswa</th><th>Departemen</th><th>Status</th><th>Dokumen</th><th>Aksi</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        @php
+                                            // Contoh data lengkap untuk Pembimbing Lama
+                                            $dataPembimbingLama = collect(json_decode('[{"id": 1, "kegiatan": "Membimbing dan ikut membimbing dalam menghasilkan disertasi", "nama": "Dr. Stone Pamungkas", "tahun_semester": "2018/2019 Ganjil", "nim": "UGE - 912", "nama_mahasiswa": "Pembudidayaan Ikan Lele", "strata": "S1", "departemen": "Teknologi Rekayasa Empang", "lokasi": "PT. Lele Tanpa Ekor", "nama_dokumen": "Laporan PL", "status_pembimbing": "Pembimbing Utama", "verified": true, "dokumen_path": "assets/pdf/example.pdf"}, {"id": 1, "kegiatan": "Membimbing dan ikut membimbing dalam menghasilkan disertasi", "nama": "Dr. Stone Pamungkas", "tahun_semester": "2018/2019 Ganjil", "nim": "UGE - 912", "nama_mahasiswa": "Pembudidayaan Ikan Lele", "strata": "S1", "departemen": "Teknologi Rekayasa Empang", "lokasi": "PT. Lele Tanpa Ekor", "nama_dokumen": "Laporan PL", "status_pembimbing": "Pembimbing Utama", "verified": false, "dokumen_path": "assets/pdf/example.pdf"}]'));
+                                        @endphp
+
+                                        @foreach ($dataPembimbingLama as $index => $item)
+                                        <tr>
+                                            <td class="text-center">{{ $index + 1 }}</td>
+                                            <td class="text-start">{{ Str::limit($item->kegiatan, 30) }}</td>
+                                            <td class="text-center">{{ $item->tahun_semester }}</td>
+                                            <td class="text-center">{{ $item->nim }}</td>
+                                            <td>{{ $item->nama_mahasiswa }}</td>
+                                            <td>{{ $item->departemen }}</td>
+                                            <td>{{ $item->status_pembimbing }}</td>
+                                            <td class="text-center"><a href="#" class="btn btn-sm btn-lihat text-white">Lihat</a></td>
+                                            <td class="text-center">
+                                                <div class="d-flex gap-2 justify-content-center">
+                                                    {{-- Tombol Lihat Detail --}}
+                                                    <a href="#" class="btn-aksi btn-lihat-detail btn-lihat-detail-pembimbing" title="Lihat Detail"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#modalDetailPembimbingLama"
+                                                        data-kegiatan="{{ $item->kegiatan }}"
+                                                        data-nama="{{ $item->nama }}"
+                                                        data-tahun_semester="{{ $item->tahun_semester }}"
+                                                        data-lokasi="{{ $item->lokasi }}"
+                                                        data-nim="{{ $item->nim }}"
+                                                        data-nama_mahasiswa="{{ $item->nama_mahasiswa }}"
+                                                        data-departemen="{{ $item->departemen }}"
+                                                        data-nama_dokumen="{{ $item->nama_dokumen }}"
+                                                        data-dokumen_path="{{ $item->dokumen_path }}">
+                                                        <i class="fa fa-eye"></i>
+                                                    </a>
+                                                    
+                                                    <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                             </div>
 
                             <!-- Penguji Luar Content -->
@@ -904,46 +909,53 @@
                                 <div class="filter-dropdown-wrapper"><select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select></div>
                                 <div class="input-group" style="width: auto; max-width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ...."></div>
                             </div>  
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-hover table-sm">
-                                        <thead>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Tahun Semester</th>
-                                                <th>NIM</th>
-                                                <th>Nama Mahasiswa</th>
-                                                <th>Strata</th>
-                                                <th>Universitas</th>
-                                                <th>Status</th>
-                                                <th>Dokumen</th>
-                                                <th>Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <script>
-                                                for(let i=1; i<=3; i++){ 
-                                                    document.write(`
-                                                    <tr>
-                                                        <td class="text-center">${i}</td>
-                                                        <td class="text-center">2018/2019 Ganjil</td>
-                                                        <td class="text-center">160648032</td>
-                                                        <td class="text-center">HAQQI ANNAZILLI</td>
-                                                        <td class="text-center">S1</td>
-                                                        <td class="text-center">IPB University</td>
-                                                        <td class="text-center">Anggota Penguji</td>
-                                                        <td class="text-center"><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
-                                                        <td class="text-center">
-                                                            <div class="d-flex gap-2 justify-content-center">
-                                                                <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button>
-                                                                <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button>
-                                                            </div>
-                                                        </td>
-                                                    </tr>`);
-                                                }
-                                            </script>
-                                        </tbody>
-                                    </table>
-                                </div>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered">
+                                    <thead>
+                                        <tr class="text-center"><th>No</th><th>Tahun Semester</th><th>NIM</th><th>Nama Mahasiswa</th><th>Universitas</th><th>Status</th><th>Dokumen</th><th>Aksi</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        @php
+                                            // Contoh data lengkap untuk Penguji Luar
+                                            $dataPengujiLuar = collect(json_decode('[{"id": 1, "kegiatan": "Senam Lele Merdeka", "nama": "Dr. Stone Pamungkas", "status": "Dosen Penguji", "tahun_semester": "2018/2019 Ganjil", "nim": "UGE - 912", "nama_mahasiswa": "Budi Lele", "universitas": "Universitas Gali Empang", "program_studi": "Teknologi Rekayasa Empang", "is_insidental": "Ya", "is_lebih_satu_semester": "Tidak", "verified": true, "dokumen_path": "assets/pdf/example.pdf"}, {"id": 1, "kegiatan": "Senam Lele Merdeka", "nama": "Dr. Stone Pamungkas", "status": "Dosen Penguji", "tahun_semester": "2018/2019 Ganjil", "nim": "UGE - 912", "nama_mahasiswa": "Budi Lele", "universitas": "Universitas Gali Empang", "program_studi": "Teknologi Rekayasa Empang", "is_insidental": "Ya", "is_lebih_satu_semester": "Tidak", "verified": false, "dokumen_path": "assets/pdf/example.pdf"}]'));
+                                        @endphp
+
+                                        @foreach ($dataPengujiLuar as $index => $item)
+                                        <tr>
+                                            <td class="text-center">{{ $index + 1 }}</td>
+                                            <td class="text-center">{{ $item->tahun_semester }}</td>
+                                            <td class="text-center">{{ $item->nim }}</td>
+                                            <td>{{ $item->nama_mahasiswa }}</td>
+                                            <td>{{ $item->universitas }}</td>
+                                            <td>{{ $item->status }}</td>
+                                            <td class="text-center"><a href="#" class="btn btn-sm btn-lihat text-white">Lihat</a></td>
+                                            <td class="text-center">
+                                                <div class="d-flex gap-2 justify-content-center">
+                                                    {{-- Tombol Lihat Detail --}}
+                                                    <a href="#" class="btn-aksi btn-lihat-detail btn-lihat-detail-penguji-luar" title="Lihat Detail"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#modalDetailPengujiLuar"
+                                                    data-kegiatan="{{ $item->kegiatan }}"
+                                                    data-nama="{{ $item->nama }}"
+                                                    data-status="{{ $item->status }}"
+                                                    data-tahun_semester="{{ $item->tahun_semester }}"
+                                                    data-nim="{{ $item->nim }}"
+                                                    data-nama_mahasiswa="{{ $item->nama_mahasiswa }}"
+                                                    data-universitas="{{ $item->universitas }}"
+                                                    data-program_studi="{{ $item->program_studi }}"
+                                                    data-is_insidental="{{ $item->is_insidental }}"
+                                                    data-is_lebih_satu_semester="{{ $item->is_lebih_satu_semester }}"
+                                                    data-dokumen_path="{{ $item->dokumen_path }}">
+                                                        <i class="fa fa-eye"></i>
+                                                    </a>
+                                                    <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                             </div>
                             
                             <!-- Pembimbing Luar Content -->
@@ -952,46 +964,66 @@
                                 <div class="filter-dropdown-wrapper"><select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select></div>
                                 <div class="input-group" style="width: auto; max-width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ...."></div>
                             </div>
+                            {{-- Tabel Data --}}
                                 <div class="table-responsive">
-                                    <table class="table table-bordered table-hover table-sm">
+                                    <table class="table table-hover table-bordered">
                                         <thead>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Tahun Semester</th>
-                                                <th>NIM</th>
-                                                <th>Nama Mahasiswa</th>
-                                                <th>Strata</th>
-                                                <th>Universitas</th>
-                                                <th>Status</th>
-                                                <th>Dokumen</th>
-                                                <th>Aksi</th>
-                                            </tr>
+                                            <tr class="text-center"><th>No</th><th>Tahun Semester</th><th>NIM</th><th>Nama Mahasiswa</th><th>Universitas</th><th>Status</th><th>Dokumen</th><th>Aksi</th></tr>
                                         </thead>
                                         <tbody>
-                                            <script>
-                                                for(let i=1; i<=3; i++){ 
-                                                    document.write(`
-                                                    <tr>
-                                                        <td class="text-center">${i}</td>
-                                                        <td class="text-center">2018/2019 Ganjil</td>
-                                                        <td class="text-center">160648032</td>
-                                                        <td class="text-center">HAQQI ANNAZILLI</td>
-                                                        <td class="text-center">S2</td>
-                                                        <td class="text-center">IPB University</td>
-                                                        <td class="text-center">Pembimbing</td>
-                                                        <td class="text-center"><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td>
-                                                        <td class="text-center">
-                                                            <div class="d-flex gap-2 justify-content-center">
-                                                                <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail"><i class="lni lni-eye"></i></button>
-                                                                <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button>
-                                                            </div>
-                                                        </td>
-                                                    </tr>`);
-                                                }
-                                            </script>
+                                            @php
+                                                // Contoh data lengkap untuk Pembimbing Luar
+                                                $dataPembimbingLuar = collect(json_decode('[{"id": 1, "kegiatan": "Senam Lele Merdeka", "nama": "Dr. Stone Pamungkas", "status": "Dosen Pembimbing", "tahun_semester": "2018/2019 Ganjil", "nim": "UGE - 912", "nama_mahasiswa": "Budi Lele", "universitas": "Universitas Gali Empang", "program_studi": "Teknologi Rekayasa Empang", "is_insidental": "Ya", "is_lebih_satu_semester": "Tidak", "verified": true, "dokumen_path": "assets/pdf/example.pdf"}, {"id": 1, "kegiatan": "Senam Lele Merdeka", "nama": "Dr. Stone Pamungkas", "status": "Dosen Pembimbing", "tahun_semester": "2018/2019 Ganjil", "nim": "UGE - 912", "nama_mahasiswa": "Budi Lele", "universitas": "Universitas Gali Empang", "program_studi": "Teknologi Rekayasa Empang", "is_insidental": "Ya", "is_lebih_satu_semester": "Tidak", "verified": false, "dokumen_path": "assets/pdf/example.pdf"}]'));
+                                            @endphp
+
+                                            @foreach ($dataPembimbingLuar as $index => $item)
+                                            <tr>
+                                                <td class="text-center">{{ $index + 1 }}</td>
+                                                <td class="text-center">{{ $item->tahun_semester }}</td>
+                                                <td class="text-center">{{ $item->nim }}</td>
+                                                <td>{{ $item->nama_mahasiswa }}</td>
+                                                <td>{{ $item->universitas }}</td>
+                                                <td>{{ $item->status }}</td>
+                                                <td class="text-center"><a href="#" class="btn btn-sm btn-lihat text-white">Lihat</a></td>
+                                                <td class="text-center">
+                                                    <div class="d-flex gap-2 justify-content-center">                                       
+                                                        {{-- Tombol Lihat Detail --}}
+                                                        <a href="#" class="btn-aksi btn-lihat-detail btn-lihat-detail-pembimbing-luar" title="Lihat Detail"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#modalDetailPembimbingLuar"
+                                                        data-kegiatan="{{ $item->kegiatan }}"
+                                                        data-nama="{{ $item->nama }}"
+                                                        data-status="{{ $item->status }}"
+                                                        data-tahun_semester="{{ $item->tahun_semester }}"
+                                                        data-nim="{{ $item->nim }}"
+                                                        data-nama_mahasiswa="{{ $item->nama_mahasiswa }}"
+                                                        data-universitas="{{ $item->universitas }}"
+                                                        data-program_studi="{{ $item->program_studi }}"
+                                                        data-is_insidental="{{ $item->is_insidental }}"
+                                                        data-is_lebih_satu_semester="{{ $item->is_lebih_satu_semester }}"
+                                                        data-dokumen_path="{{ $item->dokumen_path }}">
+                                                            <i class="fa fa-eye"></i>
+                                                        </a>
+
+                                                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
+                                </div>
+                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                <span class="text-muted small">Menampilkan 1 sampai 10 dari 13 data</span>
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination pagination-sm mb-0">
+                                    <li class="page-item disabled"><a class="page-link" href="#">Sebelumnya</a></li>
+                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">Berikutnya</a></li>
+                                    </ul>
+                                </nav>
                             </div>
                         </div>
 
@@ -1044,13 +1076,13 @@
                                     <thead><tr><th>No</th><th>Judul</th><th>Tgl. Terbit</th><th>Jenis</th><th>Publik</th><th>Dokumen</th><th>Aksi</th></tr></thead>
                                     <tbody>
                                         <script>for(let i=1; i<=3; i++){ document.write(`<tr><td class="text-center">${i}</td><td>Pengaruh Air Terhadap Tumbuh Kembang Leles</td><td class="text-center">24 Desember 2021</td><td class="text-center">Karya</td><td class="text-center">Ya</td><td class="text-center"><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td class="text-center"><div class="d-flex gap-2 justify-content-center"><button type="button" 
-        class="btn btn-sm text-white btn-aksi btn-lihat-detail" 
-        title="Lihat Detail" 
-        data-bs-toggle="modal" 
-        data-bs-target="#detailModal">
-    <i class="lni lni-eye"></i>
-</button>
-<button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>`);}</script>
+                                            class="btn btn-sm text-white btn-aksi btn-lihat-detail" 
+                                            title="Lihat Detail" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#detailModal">
+                                        <i class="lni lni-eye"></i>
+                                    </button>
+                                    <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus"><i class="lni lni-trash-can"></i></button></div></td></tr>`);}</script>
                                     </tbody>
                                 </table>
                             </div>
@@ -1491,109 +1523,288 @@
         </div>
         </div>
 
-        <!-- Modal Detail Penelitian -->
-<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+
+        {{-- Modal DETAIL Pengujian Lama --}}
+  <div class="modal fade" id="modalDetailPengujianLama" tabindex="-1" aria-labelledby="modalDetailPengujianLamaLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
-
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <div class="modal-title-group d-flex align-items-center" id="detailModalLabel">
-                    <i class="fas fa-info-circle me-2"></i>
-                    <h2 class="mb-0">Detail Penelitian</h2>
-                </div>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalDetailPengujianLamaLabel">
+              <i class="fas fa-info-circle"></i>
+              <span id="modalTitleTextDetailPengujianLama">Detail Pengujian Lama</span>
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="detail-grid-container">
+                <div class="detail-item full-width-detail"><small>Kegiatan</small><p id="detail_pjl_kegiatan">-</p></div>
+                <div class="detail-item"><small>Nama</small><p id="detail_pjl_nama">-</p></div>
+                <div class="detail-item"><small>Tahun Semester</small><p id="detail_pjl_tahun_semester">-</p></div>
+                <div class="detail-item"><small>NIM</small><p id="detail_pjl_nim">-</p></div>
+                <div class="detail-item"><small>Nama Mahasiswa</small><p id="detail_pjl_nama_mahasiswa">-</p></div>
+                <div class="detail-item"><small>Departemen</small><p id="detail_pjl_departemen">-</p></div>
             </div>
-
-            <!-- Modal Body -->
-            <div class="modal-body">
-                <div class="modal-row">
-                    <strong>Judul</strong>
-                    <p class="detail-value">Analisis Pengaruh Kotoran Sapi Terhadap Pertumbuhan Kecambah Pada Media Kapas</p>
-                </div>
-                
-                <div class="modal-row multi-column">
-                    <div class="detail-field">
-                        <strong>Jenis Karya</strong>
-                        <p class="detail-value">UGE - 912</p>
-                    </div>
-                    <div class="detail-field">
-                        <strong>Volume/Issue</strong>
-                        <p class="detail-value">Pembudidayaan Ikan Lele</p>
-                    </div>
-                    <div class="detail-field">
-                        <strong>Jumlah Halaman</strong>
-                        <p class="detail-value">Teknologi Rekayasa Empang</p>
-                    </div>
-                </div>
-
-                <div class="modal-row multi-column">
-                    <div class="detail-field">
-                        <strong>Tanggal Terbit</strong>
-                        <p class="detail-value">-</p>
-                    </div>
-                    <div class="detail-field">
-                        <strong>Publik</strong>
-                        <p class="detail-value">Ya</p>
-                    </div>
-                    <div class="detail-field">
-                        <strong>ISBN</strong>
-                        <p class="detail-value">Tidak Ber Jenis</p>
-                    </div>
-                </div>
-
-                <div class="modal-row multi-column">
-                    <div class="detail-field">
-                        <strong>ISSN</strong>
-                        <p class="detail-value">1</p>
-                    </div>
-                    <div class="detail-field">
-                        <strong>DOI</strong>
-                        <p class="detail-value">6</p>
-                    </div>
-                    <div class="detail-field">
-                        <strong>URL</strong>
-                        <p class="detail-value">6</p>
-                    </div>
-                </div>
-
-                <div class="modal-row">
-                    <strong>Dokumen Pendukung</strong>
-                    <p class="detail-value"><a href="#" class="dokumen-link">Dokumen</a></p>
-                </div>
-
-                <div class="modal-row">
-                    <div class="penulis-header">
-                        <strong>Penulis IPB</strong>
-                        <a href="#" class="dokumen-link">Dokumen</a>
-                    </div>
-                    <p class="detail-value nama-penulis">Siapa gatau</p>
-                </div>
-                
-                <div class="modal-row">
-                    <div class="penulis-header">
-                        <strong>Penulis Luar IPB</strong>
-                        <a href="#" class="dokumen-link">Dokumen</a>
-                    </div>
-                    <p class="detail-value nama-penulis">Siapa gatau</p>
-                </div>
-
-                <div class="modal-row no-border">
-                    <div class="penulis-header">
-                        <strong>Penulis Mahasiswa</strong>
-                    </div>
-                    <p class="detail-value nama-penulis">Siapa gatau</p>
-                </div>
+            <h6 class="mt-4">Dokumen</h6>
+            <div class="document-viewer-container">
+                <embed id="detail_pjl_document_viewer" src="" type="application/pdf" width="100%" height="600px" />
             </div>
-
-            <!-- Modal Footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-            </div>
-
+          </div>
+          <div class="modal-footer justify-content-end">
+            <button type="button" class="btn-tutup btn-secondary" data-bs-dismiss="modal">Tutup</button>
+          </div>
         </div>
+      </div>
+  </div>
+
+  
+    {{-- Modal Detail Pengajaran Luar --}}
+  <div class="modal fade" id="modalDetailPengajaranLuar" tabindex="-1" aria-labelledby="modalDetailPengajaranLuarLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalDetailPengajaranLuarLabel">
+            <i class="fas fa-info-circle"></i>
+            <span id="modalTitleTextDetailPengajaranLuar">Detail Pengajaran Luar IPB</span>
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="detail-grid-container">
+              <div class="detail-item"><small>Nama</small><p id="detail_pluar_nama">-</p></div>
+              <div class="detail-item"><small>Tahun Semester</small><p id="detail_pluar_tahun_semester">-</p></div>
+              <div class="detail-item"><small>Universitas</small><p id="detail_pluar_universitas">-</p></div>
+              <div class="detail-item"><small>Kode Mata Kuliah</small><p id="detail_pluar_kode_mk">-</p></div>
+              <div class="detail-item"><small>Nama Mata Kuliah</small><p id="detail_pluar_nama_mk">-</p></div>
+              <div class="detail-item"><small>Program Studi</small><p id="detail_pluar_program_studi">-</p></div>
+              <div class="detail-item"><small>SKS Perkuliahan</small><p id="detail_pluar_sks_kuliah">-</p></div>
+              <div class="detail-item"><small>SKS Praktikum</small><p id="detail_pluar_sks_praktikum">-</p></div>
+              <div class="detail-item"><small>Jenis</small><p id="detail_pluar_jenis">-</p></div>
+              <div class="detail-item"><small>Kelas Paralel</small><p id="detail_pluar_kelas_paralel">-</p></div>
+              <div class="detail-item"><small>Jumlah Pertemuan</small><p id="detail_pluar_jumlah_pertemuan">-</p></div>
+              <div class="detail-item"><small>Insidental</small><p id="detail_pluar_insidental">-</p></div>
+              <div class="detail-item"><small>Lebih Dari 1 Semester</small><p id="detail_pluar_lebih_satu_semester">-</p></div>
+          </div>
+          <h6 class="mt-4">Dokumen</h6>
+          <div class="document-viewer-container">
+              <embed id="detail_pluar_document_viewer" src="" type="application/pdf" width="100%" height="600px" />
+          </div>
+        </div>
+        <div class="modal-footer justify-content-end">
+          <button type="button" class="btn-tutup btn-secondary" data-bs-dismiss="modal">Tutup</button>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
+
+          {{-- Modal Detail Pembimbing Lama --}}
+  <div class="modal fade" id="modalDetailPembimbingLama" tabindex="-1" aria-labelledby="modalDetailPembimbingLamaLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalDetailPembimbingLamaLabel">
+              <i class="fas fa-info-circle"></i>
+              <span id="modalTitleTextDetailPembimbingLama">Detail Pembimbing Lama</span>
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="detail-grid-container">
+                <div class="detail-item full-width-detail"><small>Kegiatan</small><p id="detail_pbl_kegiatan">-</p></div>
+                <div class="detail-item"><small>Nama</small><p id="detail_pbl_nama">-</p></div>
+                <div class="detail-item"><small>Tahun Semester</small><p id="detail_pbl_tahun_semester">-</p></div>
+                <div class="detail-item"><small>Lokasi (PL/KKN)</small><p id="detail_pbl_lokasi">-</p></div>
+                <div class="detail-item"><small>NIM</small><p id="detail_pbl_nim">-</p></div>
+                <div class="detail-item"><small>Nama Mahasiswa</small><p id="detail_pbl_nama_mahasiswa">-</p></div>
+                <div class="detail-item"><small>Departemen</small><p id="detail_pbl_departemen">-</p></div>
+                <div class="detail-item"><small>Nama Dokumen</small><p id="detail_pbl_nama_dokumen">-</p></div>
+            </div>
+            <h6 class="mt-4">Dokumen</h6>
+            <div class="document-viewer-container">
+                <embed id="detail_pbl_document_viewer" src="" type="application/pdf" width="100%" height="600px" />
+            </div>
+          </div>
+          <div class="modal-footer justify-content-end">
+            <button type="button" class="btn-tutup btn-secondary" data-bs-dismiss="modal">Tutup</button>
+          </div>
+        </div>
+      </div>
+  </div>
+
+        {{-- Modal Detail Penguji Luar --}}
+  <div class="modal fade" id="modalDetailPengujiLuar" tabindex="-1" aria-labelledby="modalDetailPengujiLuarLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalDetailPengujiLuarLabel">
+              <i class="fas fa-info-circle"></i>
+              <span id="modalTitleTextDetailPengujiLuar">Detail Penguji Luar IPB</span>
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="detail-grid-container">
+                <div class="detail-item full-width-detail"><small>Kegiatan</small><p id="detail_pjl_luar_kegiatan">-</p></div>
+                <div class="detail-item"><small>Nama</small><p id="detail_pjl_luar_nama">-</p></div>
+                <div class="detail-item"><small>Status</small><p id="detail_pjl_luar_status">-</p></div>
+                <div class="detail-item"><small>Tahun Semester</small><p id="detail_pjl_luar_tahun_semester">-</p></div>
+                <div class="detail-item"><small>NIM</small><p id="detail_pjl_luar_nim">-</p></div>
+                <div class="detail-item"><small>Nama Mahasiswa</small><p id="detail_pjl_luar_nama_mahasiswa">-</p></div>
+                <div class="detail-item"><small>Universitas</small><p id="detail_pjl_luar_universitas">-</p></div>
+                <div class="detail-item"><small>Program Studi</small><p id="detail_pjl_luar_program_studi">-</p></div>
+                <div class="detail-item"><small>Insidental</small><p id="detail_pjl_luar_insidental">-</p></div>
+                <div class="detail-item"><small>Lebih Dari 1 Semester</small><p id="detail_pjl_luar_lebih_satu_semester">-</p></div>
+            </div>
+            <h6 class="mt-4">Dokumen</h6>
+            <div class="document-viewer-container">
+                <embed id="detail_pjl_luar_document_viewer" src="" type="application/pdf" width="100%" height="600px" />
+            </div>
+          </div>
+          <div class="modal-footer justify-content-end">
+            <button type="button" class="btn-tutup btn-secondary" data-bs-dismiss="modal">Tutup</button>
+          </div>
+        </div>
+      </div>
+  </div>
+
+        {{-- Detail Pembimbing Luar--}}
+        <div class="modal fade" id="modalDetailPembimbingLuar" tabindex="-1" aria-labelledby="modalDetailPembimbingLuarLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-centered">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalDetailPembimbingLuarLabel">
+                    <i class="fas fa-info-circle"></i>
+                    <span id="modalTitleTextDetailPembimbingLuar">Detail Pembimbing Luar IPB</span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="detail-grid-container">
+                        <div class="detail-item full-width-detail"><small>Kegiatan</small><p id="detail_pbl_luar_kegiatan">-</p></div>
+                        <div class="detail-item"><small>Nama</small><p id="detail_pbl_luar_nama">-</p></div>
+                        <div class="detail-item"><small>Status</small><p id="detail_pbl_luar_status">-</p></div>
+                        <div class="detail-item"><small>Tahun Semester</small><p id="detail_pbl_luar_tahun_semester">-</p></div>
+                        <div class="detail-item"><small>NIM</small><p id="detail_pbl_luar_nim">-</p></div>
+                        <div class="detail-item"><small>Nama Mahasiswa</small><p id="detail_pbl_luar_nama_mahasiswa">-</p></div>
+                        <div class="detail-item"><small>Universitas</small><p id="detail_pbl_luar_universitas">-</p></div>
+                        <div class="detail-item"><small>Program Studi</small><p id="detail_pbl_luar_program_studi">-</p></div>
+                        <div class="detail-item"><small>Insidental</small><p id="detail_pbl_luar_insidental">-</p></div>
+                        <div class="detail-item"><small>Lebih Dari 1 Semester</small><p id="detail_pbl_luar_lebih_satu_semester">-</p></div>
+                    </div>
+                    <h6 class="mt-4">Dokumen</h6>
+                    <div class="document-viewer-container">
+                        <embed id="detail_pbl_luar_document_viewer" src="" type="application/pdf" width="100%" height="600px" />
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-end">
+                    <button type="button" class="btn-tutup btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Detail Penelitian -->
+        <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <div class="modal-title-group d-flex align-items-center" id="detailModalLabel">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <h2 class="mb-0">Detail Penelitian</h2>
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <!-- Modal Body -->
+                    <div class="modal-body">
+                        <div class="modal-row">
+                            <strong>Judul</strong>
+                            <p class="detail-value">Analisis Pengaruh Kotoran Sapi Terhadap Pertumbuhan Kecambah Pada Media Kapas</p>
+                        </div>
+                        
+                        <div class="modal-row multi-column">
+                            <div class="detail-field">
+                                <strong>Jenis Karya</strong>
+                                <p class="detail-value">UGE - 912</p>
+                            </div>
+                            <div class="detail-field">
+                                <strong>Volume/Issue</strong>
+                                <p class="detail-value">Pembudidayaan Ikan Lele</p>
+                            </div>
+                            <div class="detail-field">
+                                <strong>Jumlah Halaman</strong>
+                                <p class="detail-value">Teknologi Rekayasa Empang</p>
+                            </div>
+                        </div>
+
+                        <div class="modal-row multi-column">
+                            <div class="detail-field">
+                                <strong>Tanggal Terbit</strong>
+                                <p class="detail-value">-</p>
+                            </div>
+                            <div class="detail-field">
+                                <strong>Publik</strong>
+                                <p class="detail-value">Ya</p>
+                            </div>
+                            <div class="detail-field">
+                                <strong>ISBN</strong>
+                                <p class="detail-value">Tidak Ber Jenis</p>
+                            </div>
+                        </div>
+
+                        <div class="modal-row multi-column">
+                            <div class="detail-field">
+                                <strong>ISSN</strong>
+                                <p class="detail-value">1</p>
+                            </div>
+                            <div class="detail-field">
+                                <strong>DOI</strong>
+                                <p class="detail-value">6</p>
+                            </div>
+                            <div class="detail-field">
+                                <strong>URL</strong>
+                                <p class="detail-value">6</p>
+                            </div>
+                        </div>
+
+                        <div class="modal-row">
+                            <strong>Dokumen Pendukung</strong>
+                            <p class="detail-value"><a href="#" class="dokumen-link">Dokumen</a></p>
+                        </div>
+
+                        <div class="modal-row">
+                            <div class="penulis-header">
+                                <strong>Penulis IPB</strong>
+                                <a href="#" class="dokumen-link">Dokumen</a>
+                            </div>
+                            <p class="detail-value nama-penulis">Siapa gatau</p>
+                        </div>
+                        
+                        <div class="modal-row">
+                            <div class="penulis-header">
+                                <strong>Penulis Luar IPB</strong>
+                                <a href="#" class="dokumen-link">Dokumen</a>
+                            </div>
+                            <p class="detail-value nama-penulis">Siapa gatau</p>
+                        </div>
+
+                        <div class="modal-row no-border">
+                            <div class="penulis-header">
+                                <strong>Penulis Mahasiswa</strong>
+                            </div>
+                            <p class="detail-value nama-penulis">Siapa gatau</p>
+                        </div>
+                    </div>
+
+                    <!-- Modal Footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn-tutup btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
 
 
         <!-- Modal Detail Pengabdian -->
@@ -1849,7 +2060,7 @@
         </div>
         </div>
 
-                {{-- Modal Detail Pelatihan --}}
+        {{-- Modal Detail Pelatihan --}}
         <div class="modal fade" id="modalDetailPelatihan" tabindex="-1" aria-labelledby="modalDetailPelatihanLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered">
             <div class="modal-content">
@@ -1883,7 +2094,7 @@
                 </div>
             </div>
             <div class="modal-footer justify-content-end">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                <button type="button" class="btn-tutup btn-secondary" data-bs-dismiss="modal">Tutup</button>
             </div>
             </div>
         </div>
@@ -1931,7 +2142,7 @@
 
             <!-- Footer -->
             <div class="modal-footer justify-content-end">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                <button type="button" class="btn-tutup btn-secondary" data-bs-dismiss="modal">Tutup</button>
             </div>
 
             </div>

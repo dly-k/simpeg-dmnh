@@ -49,11 +49,13 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       if (timeEl) {
-        timeEl.textContent = now.toLocaleTimeString('id-ID', {
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit'
-        }).replace(/\./g, ':');
+        timeEl.textContent = now
+          .toLocaleTimeString('id-ID', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+          })
+          .replace(/\./g, ':');
       }
     };
 
@@ -72,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!e.target.matches('button.nav-link')) return;
 
       document.querySelectorAll('.main-tab-nav .nav-link').forEach(tab => tab.classList.remove('active'));
-      document.querySelectorAll('.main-tab-content').forEach(content => content.style.display = 'none');
+      document.querySelectorAll('.main-tab-content').forEach(content => (content.style.display = 'none'));
 
       e.target.classList.add('active');
       const contentEl = document.getElementById(`${e.target.dataset.mainTab}-content`);
@@ -97,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
         tabContainer.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
         e.target.classList.add('active');
 
-        parentContent.querySelectorAll('.sub-tab-content').forEach(content => content.style.display = 'none');
+        parentContent.querySelectorAll('.sub-tab-content').forEach(content => (content.style.display = 'none'));
         const contentEl = parentContent.querySelector(`#${e.target.dataset.tab}`);
         if (contentEl) contentEl.style.display = 'block';
       });
@@ -115,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const parentContent = this.closest('.main-tab-content');
       if (!parentContent) return;
 
-      parentContent.querySelectorAll('.sub-tab-content').forEach(tab => tab.style.display = 'none');
+      parentContent.querySelectorAll('.sub-tab-content').forEach(tab => (tab.style.display = 'none'));
       const activeTab = document.getElementById(this.value);
       if (activeTab) activeTab.style.display = 'block';
     });
@@ -125,6 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
      6. File Click & Download
   ================================================= */
   const initFileActions = () => {
+    // Klik pada card file untuk membuka file
     document.querySelectorAll('.file-item').forEach(card => {
       card.addEventListener('click', (e) => {
         if (e.target.closest('.btn-unduh') || e.target.closest('.btn-hapus')) return;
@@ -133,6 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
+    // Klik tombol unduh
     document.querySelectorAll('.btn-unduh').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -309,16 +313,118 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   /* =================================================
-     Jalankan Semua Modul
-  ================================================= */
-  initSidebarToggle();
-  initDateTime();
-  initMainTabs();
-  initSubTabs();
-  initPenunjangFilter();
-  initFileActions();
-  initDeleteModal();
-  initKategoriMapping();
-  initDetailModals();
+/* =================================================
+     10. Modal Detail Pembimbing Luar
+================================================= */
+const initDetailPembimbingLuar = () => {
+  const tableBody = document.querySelector('#pembimbing-luar .table tbody');
+  if (tableBody) {
+    tableBody.addEventListener('click', function (event) {
+      const detailButton = event.target.closest('.btn-lihat-detail-pembimbing-luar');
+      if (detailButton) {
+        const data = detailButton.dataset;
+        document.getElementById('detail_pbl_luar_kegiatan').textContent = data.kegiatan || '-';
+        document.getElementById('detail_pbl_luar_nama').textContent = data.nama || '-';
+        document.getElementById('detail_pbl_luar_status').textContent = data.status || '-';
+        document.getElementById('detail_pbl_luar_tahun_semester').textContent = data.tahun_semester || '-';
+        document.getElementById('detail_pbl_luar_nim').textContent = data.nim || '-';
+        document.getElementById('detail_pbl_luar_nama_mahasiswa').textContent = data.nama_mahasiswa || '-';
+        document.getElementById('detail_pbl_luar_universitas').textContent = data.universitas || '-';
+        document.getElementById('detail_pbl_luar_program_studi').textContent = data.program_studi || '-';
+        document.getElementById('detail_pbl_luar_insidental').textContent = data.is_insidental || '-';
+        document.getElementById('detail_pbl_luar_lebih_satu_semester').textContent = data.is_lebih_satu_semester || '-';
+        document.getElementById('detail_pbl_luar_document_viewer').setAttribute('src', data.dokumen_path || '');
+      }
+    });
+  }
+};
 
+/* =================================================
+     11. Modal Detail Penguji Luar
+================================================= */
+const initDetailPengujiLuar = () => {
+  const tableBody = document.querySelector('#penguji-luar .table tbody');
+  if (tableBody) {
+    tableBody.addEventListener('click', function (event) {
+      const detailButton = event.target.closest('.btn-lihat-detail-penguji-luar');
+      if (detailButton) {
+        const data = detailButton.dataset;
+        document.getElementById('detail_pjl_luar_kegiatan').textContent = data.kegiatan || '-';
+        document.getElementById('detail_pjl_luar_nama').textContent = data.nama || '-';
+        document.getElementById('detail_pjl_luar_status').textContent = data.status || '-';
+        document.getElementById('detail_pjl_luar_tahun_semester').textContent = data.tahun_semester || '-';
+        document.getElementById('detail_pjl_luar_nim').textContent = data.nim || '-';
+        document.getElementById('detail_pjl_luar_nama_mahasiswa').textContent = data.nama_mahasiswa || '-';
+        document.getElementById('detail_pjl_luar_universitas').textContent = data.universitas || '-';
+        document.getElementById('detail_pjl_luar_program_studi').textContent = data.program_studi || '-';
+        document.getElementById('detail_pjl_luar_insidental').textContent = data.is_insidental || '-';
+        document.getElementById('detail_pjl_luar_lebih_satu_semester').textContent = data.is_lebih_satu_semester || '-';
+        document.getElementById('detail_pjl_luar_document_viewer').setAttribute('src', data.dokumen_path || '');
+      }
+    });
+  }
+};
+
+/* =================================================
+     12. Modal Detail Pembimbing Lama
+================================================= */
+const initDetailPembimbingLama = () => {
+  const tableBody = document.querySelector('#pembimbing-lama .table tbody');
+  if (tableBody) {
+    tableBody.addEventListener('click', function (event) {
+      const detailButton = event.target.closest('.btn-lihat-detail-pembimbing');
+      if (detailButton) {
+        const data = detailButton.dataset;
+        document.getElementById('detail_pbl_kegiatan').textContent = data.kegiatan || '-';
+        document.getElementById('detail_pbl_nama').textContent = data.nama || '-';
+        document.getElementById('detail_pbl_tahun_semester').textContent = data.tahun_semester || '-';
+        document.getElementById('detail_pbl_lokasi').textContent = data.lokasi || '-';
+        document.getElementById('detail_pbl_nim').textContent = data.nim || '-';
+        document.getElementById('detail_pbl_nama_mahasiswa').textContent = data.nama_mahasiswa || '-';
+        document.getElementById('detail_pbl_departemen').textContent = data.departemen || '-';
+        document.getElementById('detail_pbl_nama_dokumen').textContent = data.nama_dokumen || '-';
+        document.getElementById('detail_pbl_document_viewer').setAttribute('src', data.dokumen_path || '');
+      }
+    });
+  }
+};
+
+/* =================================================
+     Modal Detail Pengujian Lama
+================================================= */
+const initDetailPengujianLama = () => {
+  const tableBody = document.querySelector('#pengujian-lama .table tbody');
+  if (tableBody) {
+    tableBody.addEventListener('click', function (event) {
+      const detailButton = event.target.closest('.btn-lihat-detail-pengujian');
+      if (detailButton) {
+        const data = detailButton.dataset;
+        document.getElementById('detail_pjl_kegiatan').textContent = data.kegiatan || '-';
+        document.getElementById('detail_pjl_nama').textContent = data.nama || '-';
+        document.getElementById('detail_pjl_tahun_semester').textContent = data.tahun_semester || '-';
+        document.getElementById('detail_pjl_nim').textContent = data.nim || '-';
+        document.getElementById('detail_pjl_nama_mahasiswa').textContent = data.nama_mahasiswa || '-';
+        document.getElementById('detail_pjl_departemen').textContent = data.departemen || '-';
+        document.getElementById('detail_pjl_document_viewer').setAttribute('src', data.dokumen_path || '');
+      }
+    });
+  }
+};
+
+/* =================================================
+     Jalankan Semua Modul
+================================================= */
+initSidebarToggle();
+initDateTime();
+initMainTabs();
+initSubTabs();
+initPenunjangFilter();
+initFileActions();
+initDeleteModal();
+initKategoriMapping();
+initDetailModals();
+initDetailPembimbingLuar();
+initDetailPengujiLuar();
+initDetailPembimbingLama();
+initDetailPengujianLama();
 });
