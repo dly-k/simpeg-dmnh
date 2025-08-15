@@ -79,7 +79,7 @@
                     <div class="search-box">
                         <div class="input-group">
                             <span class="input-group-text bg-light border-end-0"><i class="fas fa-search" style="color: green;"></i></span>
-                            <input type="text" class="form-control border-start-0" placeholder="Cari Data Pegawai...">
+                            <input type="text" class="form-control border-start-0 search-input" placeholder="Cari Data Pegawai...">
                         </div>
                     </div>
                     <div class="btn-tambah-container">
@@ -1121,57 +1121,89 @@
                             </div>
                         </div>
                             
-                        <!-- Penunjang Content -->
+                       <!-- Penunjang Content -->
                         <div class="main-tab-content" id="penunjang-content" style="display: none;">
-                            <div class="tab-filters">
-                                <div class="filter-dropdown-wrapper d-flex gap-2">
-                                <select class="form-select filter-select">
-                                    <option>Tahun</option>
-                                    <option>2025</option>
-                                    <option>2026</option>
-                                    <option>2027</option>
-                                </select>
-                                <select class="form-select filter-select" style="width: 175px;">
-                                    <option>Lingkup</option>
-                                    <option>Lokal</option>
-                                    <option>Nasional</option>
-                                    <option>Internasional</option>
-                                </select>
+
+                        <!-- Filter Section -->
+                        <div class="tab-filters d-flex flex-wrap gap-2 mb-3 justify-content-between align-items-center">
+                            <div class="filter-dropdown-wrapper d-flex gap-2">
+                            <select class="form-select filter-select">
+                                <option>Tahun</option>
+                                <option>2025</option>
+                                <option>2026</option>
+                                <option>2027</option>
+                            </select>
+                            <select class="form-select filter-select" style="width: 175px;">
+                                <option>Lingkup</option>
+                                <option>Lokal</option>
+                                <option>Nasional</option>
+                                <option>Internasional</option>
+                            </select>
                             </div>
-                                <div class="input-group" style="width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input" placeholder="Cari Data..."></div>
+
+                            <div class="input-group" style="width: 300px;">
+                            <span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span>
+                            <input type="text" class="form-control search-input" placeholder="Cari Data...">
                             </div>
-                            
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-hover table-sm">
-                                        <thead><tr><th>No</th><th>Kegiatan</th><th>Lingkup</th><th>Nama Kegiatan</th><th>Instansi</th><th>Nomor SK</th><th>TMT</th><th>TST</th><th>Dokumen</th><th>Aksi</th></tr></thead>
-                                        <tbody>
-                                        <tr>
-                                        <td class="text-center">1</td>
-                                        <td>Penyuluhan</td>
-                                        <td class="text-center">Nasional</td>
-                                        <td>Desa Cibodas, Bogor</td>
-                                        <td>Kementerian Lingkungan Hidup</td>
-                                        <td class="text-center">SK-123/2022</td>
-                                        <td class="text-center">15-08-2022</td>
-                                        <td class="text-center">17-08-2022</td>
-                                        <td class="text-center">
-                                            <button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex gap-2 justify-content-center">
-                                            <button class="btn btn-sm text-white btn-aksi btn-lihat-detail" title="Lihat Detail">
-                                                <i class="lni lni-eye"></i>
-                                            </button>
-                                            <button class="btn btn-sm text-white btn-aksi btn-hapus" title="Hapus">
-                                                <i class="lni lni-trash-can"></i>
-                                            </button>
-                                            </div>
-                                        </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                        </div>
+
+                        <!-- Table -->
+                        <div class="table-responsive">
+                            <table class="table table-hover table-bordered">
+                            <thead>
+                                <tr class="text-center">
+                                <th>No</th>
+                                <th>Kegiatan</th>
+                                <th>Lingkup</th>
+                                <th>Nama Kegiatan</th>
+                                <th>Instansi</th>
+                                <th>Nomor SK</th>
+                                <th>TMT</th>
+                                <th>TST</th>
+                                <th>Dokumen</th>
+                                <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                <td class="text-center">1</td>
+                                <td class="text-start">Pengaruh Air Terhadap Tumbuh Kembang Lele</td>
+                                <td class="text-center">Nasional</td>
+                                <td class="text-center">Jurnal</td>
+                                <td class="text-center">Ya</td>
+                                <td class="text-center">SK-129013a7uw</td>
+                                <td class="text-center">25 Jun 2024</td>
+                                <td class="text-center">25 Jun 2024</td>
+                                <td class="text-center">
+                                    <a href="#" class="btn btn-sm btn-lihat-detail text-white">Lihat</a>
+                                </td>
+                                <td class="text-center">
+                                    <div class="d-flex gap-2 justify-content-center">
+                                    <a href="javascript:void(0);" id="btnLihatPenunjangDetail" class="btn-aksi btn-lihat" title="Lihat Detail Penunjang" data-bs-toggle="modal" data-bs-target="#penunjangDetailModal">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                    <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
+                                    </div>
+                                </td>
+                                </tr>
+                                <!-- Tambahkan baris lain di sini -->
+                            </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Pagination -->
+                        <div class="d-flex justify-content-between align-items-center mt-4">
+                            <span class="text-muted small">Menampilkan 1 sampai 10 dari 13 data</span>
+                            <nav aria-label="Page navigation">
+                            <ul class="pagination pagination-sm mb-0">
+                                <li class="page-item disabled"><a class="page-link" href="#">Sebelumnya</a></li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">Berikutnya</a></li>
+                            </ul>
+                            </nav>
+                        </div>
+                        </div>
                             
                             <!-- Pelatihan Content -->
                             <div class="main-tab-content" id="pelatihan-content" style="display: none;">
@@ -1428,27 +1460,32 @@
         </div>
         </div>
 
-<!-- Modal Detail Penunjang-->
-<div id="penunjangDetailModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <div class="modal-title-group">
-                <i class="fas fa-info-circle"></i>
-                <h2>Detail Penunjang</h2>
-            </div>
-        </div>
+      <!-- Modal Detail Penunjang -->
+        <div class="modal fade" id="penunjangDetailModal" tabindex="-1" aria-labelledby="penunjangDetailLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
 
-        <div class="modal-body">
-            <div class="modal-row">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <div class="modal-title-group d-flex align-items-center" id="penunjangDetailLabel">
+                <i class="fas fa-info-circle me-2"></i>
+                <h2 class="mb-0">Detail Penunjang</h2>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <div class="modal-row">
                 <strong>Kegiatan</strong>
                 <p class="detail-value">Analisis Pengaruh Kotoran Sapi Terhadap Pertumbuhan Kecambah Pada Media Kapas</p>
-            </div>
-            <div class="modal-row">
+                </div>
+                <div class="modal-row">
                 <strong>Jenis Kegiatan</strong>
                 <p class="detail-value">Analisis Pengaruh Kotoran Sapi Terhadap Pertumbuhan Kecambah Pada Media Kapas</p>
-            </div>
-            
-            <div class="modal-row multi-column">
+                </div>
+
+                <div class="modal-row multi-column">
                 <div class="detail-field">
                     <strong>Lingkup</strong>
                     <p class="detail-value">UGE - 912</p>
@@ -1461,9 +1498,9 @@
                     <strong>Instansi</strong>
                     <p class="detail-value">Teknologi Rekayasa Empang</p>
                 </div>
-            </div>
+                </div>
 
-            <div class="modal-row multi-column">
+                <div class="modal-row multi-column">
                 <div class="detail-field">
                     <strong>Nomor SK</strong>
                     <p class="detail-value">2025</p>
@@ -1476,9 +1513,9 @@
                     <strong>Terhitung Sampai Tanggal</strong>
                     <p class="detail-value">2025</p>
                 </div>
-            </div>
+                </div>
 
-            <div class="modal-row multi-column">
+                <div class="modal-row multi-column">
                 <div class="detail-field">
                     <strong>Dokumen Pendukung</strong>
                     <p class="detail-value"><a href="#" class="dokumen-link">Dokumen</a></p>
@@ -1487,9 +1524,9 @@
                     <strong>Jenis Dokumen</strong>
                     <p class="detail-value">Dokumen</p>
                 </div>
-            </div>
+                </div>
 
-            <div class="modal-row multi-column">
+                <div class="modal-row multi-column">
                 <div class="detail-field">
                     <strong>Nama Dokumen</strong>
                     <p class="detail-value">2025</p>
@@ -1502,60 +1539,69 @@
                     <strong>Tautan</strong>
                     <p class="detail-value">2025</p>
                 </div>
+                </div>
+
+                <div class="sub-header">Anggota</div>
+                <div class="modal-row multi-column no-border">
+                <div class="detail-field">
+                    <strong>Nama Dosen</strong>
+                    <p class="detail-value">Siapa gatau</p>
+                </div>
+                <div class="detail-field">
+                    <strong>Peran</strong>
+                    <p class="detail-value">Siapa gatau</p>
+                </div>
+                </div>
             </div>
 
-            <div class="sub-header">Anggota</div>
-            <div class="modal-row multi-column no-border">
-                <div class="detail-field"><strong>Nama Dosen</strong><p class="detail-value">Siapa gatau</p></div>
-                <div class="detail-field"><strong>Peran</strong><p class="detail-value">Siapa gatau</p></div>
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" id="closePenunjangDetailBtn" class="btn-tutup btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+            </div>
+
             </div>
         </div>
+        </div>
 
-        <div class="modal-footer">
-            <button id="closePenunjangDetailBtn" class="btn-tutup">Tutup</button>
+                {{-- Modal Detail Pelatihan --}}
+        <div class="modal fade" id="modalDetailPelatihan" tabindex="-1" aria-labelledby="modalDetailPelatihanLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalDetailPelatihanLabel">
+                <i class="fas fa-info-circle"></i>
+                <span>Detail Pelatihan</span>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="detail-grid-container">
+                    <div class="detail-item"><small>Nama Pelatihan</small><p id="detail_pelatihan_nama">-</p></div>
+                    <div class="detail-item"><small>Posisi Pelatihan</small><p id="detail_pelatihan_posisi">-</p></div>
+                    <div class="detail-item"><small>Kota/Kabupaten</small><p id="detail_pelatihan_kota">-</p></div>
+                    <div class="detail-item"><small>Lokasi</small><p id="detail_pelatihan_lokasi">-</p></div>
+                    <div class="detail-item"><small>Penyelenggara</small><p id="detail_pelatihan_penyelenggara">-</p></div>
+                    <div class="detail-item"><small>Jenis Diklat</small><p id="detail_pelatihan_jenis_diklat">-</p></div>
+                    <div class="detail-item"><small>Tanggal Mulai</small><p id="detail_pelatihan_tgl_mulai">-</p></div>
+                    <div class="detail-item"><small>Tanggal Selesai</small><p id="detail_pelatihan_tgl_selesai">-</p></div>
+                    <div class="detail-item"><small>Lingkup</small><p id="detail_pelatihan_lingkup">-</p></div>
+                    <div class="detail-item"><small>Jumlah Jam</small><p id="detail_pelatihan_jam">-</p></div>
+                    <div class="detail-item"><small>Jumlah Hari</small><p id="detail_pelatihan_hari">-</p></div>
+                    <div class="detail-item"><small>Struktural</small><p id="detail_pelatihan_struktural">-</p></div>
+                    <div class="detail-item"><small>Sertifikasi</small><p id="detail_pelatihan_sertifikasi">-</p></div>
+                </div>
+                
+                <h6 class="mt-4">Dokumen</h6>
+                <div class="document-viewer-container">
+                    <embed id="detail_pelatihan_document_viewer" src="" type="application/pdf" width="100%" height="600px" />
+                </div>
+            </div>
+            <div class="modal-footer justify-content-end">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+            </div>
+            </div>
         </div>
-    </div>
-</div>
-
-        {{-- Detail Pelatihan --}}
-<div class="modal fade" id="modalDetailPelatihan" tabindex="-1" aria-labelledby="modalDetailPelatihanLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalDetailPelatihanLabel">
-          <i class="fas fa-info-circle"></i>
-          <span>Detail Pelatihan</span>
-        </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="detail-grid-container">
-            <div class="detail-item"><small>Nama Pelatihan</small><p id="detail_pelatihan_nama">-</p></div>
-            <div class="detail-item"><small>Posisi Pelatihan</small><p id="detail_pelatihan_posisi">-</p></div>
-            <div class="detail-item"><small>Kota/Kabupaten</small><p id="detail_pelatihan_kota">-</p></div>
-            <div class="detail-item"><small>Lokasi</small><p id="detail_pelatihan_lokasi">-</p></div>
-            <div class="detail-item"><small>Penyelenggara</small><p id="detail_pelatihan_penyelenggara">-</p></div>
-            <div class="detail-item"><small>Jenis Diklat</small><p id="detail_pelatihan_jenis_diklat">-</p></div>
-            <div class="detail-item"><small>Tanggal Mulai</small><p id="detail_pelatihan_tgl_mulai">-</p></div>
-            <div class="detail-item"><small>Tanggal Selesai</small><p id="detail_pelatihan_tgl_selesai">-</p></div>
-            <div class="detail-item"><small>Lingkup</small><p id="detail_pelatihan_lingkup">-</p></div>
-            <div class="detail-item"><small>Jumlah Jam</small><p id="detail_pelatihan_jam">-</p></div>
-            <div class="detail-item"><small>Jumlah Hari</small><p id="detail_pelatihan_hari">-</p></div>
-            <div class="detail-item"><small>Struktural</small><p id="detail_pelatihan_struktural">-</p></div>
-            <div class="detail-item"><small>Sertifikasi</small><p id="detail_pelatihan_sertifikasi">-</p></div>
         </div>
-        
-        <h6 class="mt-4">Dokumen</h6>
-        <div class="document-viewer-container">
-            <embed id="detail_pelatihan_document_viewer" src="" type="application/pdf" width="100%" height="600px" />
-        </div>
-      </div>
-      <div class="modal-footer justify-content-end">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 
         <!-- Modal Detail Penghargaan -->
