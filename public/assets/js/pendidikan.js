@@ -42,6 +42,52 @@ document.addEventListener('DOMContentLoaded', function () {
   updateDateTime();
   setInterval(updateDateTime, 1000);
 
+  // =================================================================
+  // ===     FUNGSI BANTUAN UNTUK MODAL & NOTIFIKASI SUKSES        ===
+  // =================================================================
+  
+  // --- Fungsi untuk membuka modal dengan animasi ---
+  function openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+      modal.classList.add('show');
+    }
+  }
+
+  // --- Fungsi untuk menutup modal dengan animasi ---
+  function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+      modal.classList.remove('show');
+    }
+  }
+  
+  // --- Fungsi untuk menampilkan notifikasi sukses ---
+  function showSuccessModal(title, subtitle) {
+      const berhasilTitle = document.getElementById('berhasil-title');
+      const berhasilSubtitle = document.getElementById('berhasil-subtitle');
+      if (berhasilTitle) berhasilTitle.textContent = title;
+      if (berhasilSubtitle) berhasilSubtitle.textContent = subtitle;
+      
+      const modalBerhasil = document.getElementById('modalBerhasil');
+      if (modalBerhasil) {
+          modalBerhasil.classList.add('show');
+          // Menutup otomatis setelah 1 detik
+          setTimeout(() => {
+              modalBerhasil.classList.remove('show');
+          }, 1000);
+      }
+  }
+
+  // --- Event Listener untuk tombol 'Selesai' di modal sukses ---
+  const btnSelesai = document.getElementById('btnSelesai');
+  if (btnSelesai) {
+      btnSelesai.addEventListener('click', function() {
+          closeModal('modalBerhasil');
+      });
+  }
+
+
   // === Logika Modal Konfirmasi Hapus (berlaku untuk semua tab) ===
   const tabContent = document.getElementById('pendidikanTabContent');
   const deleteModal = document.getElementById('modalKonfirmasiHapus');
@@ -55,19 +101,19 @@ document.addEventListener('DOMContentLoaded', function () {
           if (deleteButton) {
               event.preventDefault();
               rowToDelete = deleteButton.closest('tr');
-              deleteModal.classList.add('show');
+              openModal('modalKonfirmasiHapus');
           }
       });
 
       const hideDeleteModal = () => {
-          deleteModal.classList.remove('show');
+          closeModal('modalKonfirmasiHapus');
           rowToDelete = null;
       };
       
       btnKonfirmasi.addEventListener('click', function() {
           if (rowToDelete) {
-              console.log('Menghapus baris:', rowToDelete);
               rowToDelete.remove();
+              showSuccessModal('Data Berhasil Dihapus', 'Data yang dipilih telah dihapus dari sistem.');
           }
           hideDeleteModal();
       });
@@ -93,24 +139,26 @@ document.addEventListener('DOMContentLoaded', function () {
           if (konfirmasiButton) {
               event.preventDefault();
               currentDataId = konfirmasiButton.dataset.id;
-              popupOverlay.classList.add('show');
+              openModal('modalKonfirmasiPendidikan');
           }
       });
 
       const hidePopup = () => {
           currentDataId = null;
-          popupOverlay.classList.remove('show');
+          closeModal('modalKonfirmasiPendidikan');
+      };
+
+      const handleVerification = () => {
+          if (currentDataId) {
+              showSuccessModal('Status Verifikasi Disimpan', 'Perubahan status verifikasi telah berhasil disimpan.');
+          }
+          hidePopup();
       };
 
       btnKembali.addEventListener('click', hidePopup);
-      btnTerima.addEventListener('click', function() {
-          if (currentDataId) console.log(`Aksi 'Terima' untuk ID: ${currentDataId}`);
-          hidePopup();
-      });
-      btnTolak.addEventListener('click', function() {
-          if (currentDataId) console.log(`Aksi 'Tolak' untuk ID: ${currentDataId}`);
-          hidePopup();
-      });
+      btnTerima.addEventListener('click', handleVerification);
+      btnTolak.addEventListener('click', handleVerification);
+      
       popupOverlay.addEventListener('click', function(event) {
           if (event.target === popupOverlay) {
               hidePopup();
@@ -349,6 +397,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+// =======================================================
+// ===     LOGIKA DETAIL MODAL (TIDAK PERLU DIUBAH)    ===
+// =======================================================
 
 // --- [DIPERBAIKI] Modal Detail Pengajaran Lama ---
 document.addEventListener('DOMContentLoaded', function () {
@@ -490,4 +541,56 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+});
+
+
+// =====================================================================
+// === LOGIKA PENYIMPANAN MODAL & NOTIFIKASI SUKSES (FUNGSI BARU) ===
+// =====================================================================
+document.addEventListener('DOMContentLoaded', function() {
+    // Daftar semua modal form dan tombol simpannya
+    const modals = [
+        { modalId: 'modalTambahEditPengajaranLama', btnId: 'btnSimpanPengajaran' },
+        { modalId: 'modalPengajaranLuar', btnId: 'btnSimpanPengajaranLuar' },
+        { modalId: 'modalPengujianLama', btnId: 'btnSimpanPengujianLama' },
+        { modalId: 'modalPembimbingLama', btnId: 'btnSimpanPembimbingLama' },
+        { modalId: 'modalPengujiLuar', btnId: 'btnSimpanPengujiLuar' },
+        { modalId: 'modalPembimbingLuar', btnId: 'btnSimpanPembimbingLuar' }
+    ];
+
+    // --- Fungsi untuk menampilkan notifikasi sukses ---
+    function showSuccessModal(title, subtitle) {
+        const berhasilTitle = document.getElementById('berhasil-title');
+        const berhasilSubtitle = document.getElementById('berhasil-subtitle');
+        if (berhasilTitle) berhasilTitle.textContent = title;
+        if (berhasilSubtitle) berhasilSubtitle.textContent = subtitle;
+        
+        const modalBerhasil = document.getElementById('modalBerhasil');
+        if (modalBerhasil) {
+            modalBerhasil.classList.add('show');
+            setTimeout(() => {
+                modalBerhasil.classList.remove('show');
+            }, 1000);
+        }
+    }
+
+    modals.forEach(item => {
+        const saveButton = document.getElementById(item.btnId);
+        const modalElement = document.getElementById(item.modalId);
+        
+        if (saveButton && modalElement) {
+            saveButton.addEventListener('click', function() {
+                // NOTE: Di sini Anda akan menambahkan logika AJAX untuk mengirim data ke server
+                
+                // Tutup modal form menggunakan API Bootstrap
+                const bootstrapModal = bootstrap.Modal.getInstance(modalElement);
+                if (bootstrapModal) {
+                    bootstrapModal.hide();
+                }
+                
+                // Tampilkan notifikasi sukses
+                showSuccessModal('Data Berhasil Disimpan', 'Perubahan Anda telah berhasil disimpan ke dalam sistem.');
+            });
+        }
+    });
 });

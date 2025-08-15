@@ -48,6 +48,41 @@ document.addEventListener("DOMContentLoaded", function () {
   // === BAGIAN 2: LOGIKA SPESIFIK HALAMAN UBAH PASSWORD ===
   // =========================================================
 
+  // --- Fungsi Bantuan untuk Modal Berhasil ---
+  function openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+      modal.classList.add('show');
+    }
+  }
+
+  function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+      modal.classList.remove('show');
+    }
+  }
+  
+  function showSuccessModal(title, subtitle) {
+      const berhasilTitle = document.getElementById('berhasil-title');
+      const berhasilSubtitle = document.getElementById('berhasil-subtitle');
+      if (berhasilTitle) berhasilTitle.textContent = title;
+      if (berhasilSubtitle) berhasilSubtitle.textContent = subtitle;
+      
+      openModal('modalBerhasil');
+      
+      setTimeout(() => {
+          closeModal('modalBerhasil');
+      }, 1000); // Otomatis menutup setelah 1 detik
+  }
+
+  // Listener untuk tombol Selesai di modal
+  const btnSelesai = document.getElementById('btnSelesai');
+  if (btnSelesai) {
+      btnSelesai.addEventListener('click', () => closeModal('modalBerhasil'));
+  }
+
+
   const form = document.getElementById('ubahPasswordForm');
   if (form) {
     const togglePasswordIcons = document.querySelectorAll('.toggle-password');
@@ -66,19 +101,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const konfirmasiInput = document.getElementById('konfirmasi_password_baru');
     const allInputs = [passLamaInput, passBaruInput, konfirmasiInput];
 
-    // --- FUNGSI DIUBAH ---
     const showError = (input, message) => {
       input.classList.add('is-invalid');
       const errorDiv = input.parentElement.nextElementSibling;
-      // DIUBAH: Gunakan innerHTML untuk menambahkan ikon Font Awesome di samping pesan.
       errorDiv.innerHTML = `<i class="fas fa-exclamation-circle me-1"></i> ${message}`;
     };
 
-    // --- FUNGSI DIUBAH ---
     const clearError = (input) => {
       input.classList.remove('is-invalid');
       const errorDiv = input.parentElement.nextElementSibling;
-      // DIUBAH: Kosongkan dengan innerHTML agar konsisten.
       errorDiv.innerHTML = '';
     };
 
@@ -108,7 +139,10 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       if (isFormValid) {
-        alert('SUKSES!\nPassword berhasil diubah. (Ini hanya simulasi)');
+        // DIUBAH: Mengganti alert() dengan modal sukses
+        showSuccessModal('Peru Berhasil', 'Password Anda telah berhasil diperbarui.');
+        
+        // Logika reset form tetap dijalankan
         form.reset();
         allInputs.forEach(clearError);
         togglePasswordIcons.forEach(icon => {
