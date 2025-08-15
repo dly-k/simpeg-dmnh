@@ -73,8 +73,14 @@ document.addEventListener("DOMContentLoaded", () => {
   ========================== */
   const tableBody = document.querySelector("table tbody");
   const modal = document.getElementById("modalKonfirmasiHapus");
+  
+  // Get success modal elements
+  const modalBerhasil = document.getElementById("modalBerhasil");
+  const berhasilTitle = document.getElementById("berhasil-title");
+  const berhasilSubtitle = document.getElementById("berhasil-subtitle");
+  const btnSelesai = document.getElementById("btnSelesai");
 
-  if (tableBody && modal) {
+  if (tableBody && modal && modalBerhasil) {
     const btnBatal = document.getElementById("btnBatalHapus");
     const btnKonfirmasi = document.getElementById("btnKonfirmasiHapus");
     let rowToDelete = null;
@@ -89,10 +95,22 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Fungsi menutup modal
-    const hideModal = () => {
+    // Fungsi menutup modal konfirmasi
+    const hideConfirmationModal = () => {
       modal.classList.remove("show");
       rowToDelete = null;
+    };
+
+    // Fungsi menampilkan modal berhasil
+    const showSuccessModal = () => {
+      berhasilTitle.textContent = "Data Berhasil Dihapus";
+      berhasilSubtitle.textContent = "Data pegawai telah berhasil dihapus dari sistem.";
+      modalBerhasil.classList.add("show");
+
+      // Sembunyikan modal setelah 1 detik
+      setTimeout(() => {
+        modalBerhasil.classList.remove("show");
+      }, 1000);
     };
 
     // Konfirmasi hapus
@@ -100,16 +118,26 @@ document.addEventListener("DOMContentLoaded", () => {
       if (rowToDelete) {
         rowToDelete.remove();
         console.log("Data berhasil dihapus (simulasi).");
+        hideConfirmationModal(); // Sembunyikan modal konfirmasi dulu
+        showSuccessModal(); // Tampilkan modal berhasil
+      } else {
+        hideConfirmationModal();
       }
-      hideModal();
     });
-
+    
     // Batal hapus
-    btnBatal.addEventListener("click", hideModal);
+    btnBatal.addEventListener("click", hideConfirmationModal);
 
-    // Klik luar modal
+    // Klik luar modal konfirmasi
     modal.addEventListener("click", (event) => {
-      if (event.target === modal) hideModal();
+      if (event.target === modal) hideConfirmationModal();
     });
+
+    // Tombol selesai pada modal berhasil
+    if (btnSelesai) {
+      btnSelesai.addEventListener("click", () => {
+        modalBerhasil.classList.remove("show");
+      });
+    }
   }
 });
