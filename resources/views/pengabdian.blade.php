@@ -376,7 +376,7 @@
         </div>
 
         <div class="modal-footer">
-            <button id="closePengabdianDetailBtn" class="btn-tutup">Tutup</button>
+            <button id="closePengabdianDetailBtn" class="btn btn-secondary">Tutup</button>
         </div>
     </div>
 </div>  

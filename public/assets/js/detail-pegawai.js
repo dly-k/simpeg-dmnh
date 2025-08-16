@@ -412,6 +412,62 @@ const initDetailPengujianLama = () => {
 };
 
 /* =================================================
+     Modal Detail Pengajaran Luar
+================================================= */
+const initDetailPengajaranluar = () => {
+  const tableBody = document.querySelector('#pengajaran-luar .table tbody');
+  if (tableBody) {
+    tableBody.addEventListener('click', function (event) {
+      const detailButton = event.target.closest('.btn-lihat-detail');
+      if (detailButton) {
+        const data = detailButton.dataset;
+            document.getElementById('detail_pluar_nama').textContent = data.nama || '-';
+            document.getElementById('detail_pluar_tahun_semester').textContent = data.tahun_semester || '-';
+            document.getElementById('detail_pluar_universitas').textContent = data.universitas || '-';
+            document.getElementById('detail_pluar_kode_mk').textContent = data.kode_mk || '-';
+            document.getElementById('detail_pluar_nama_mk').textContent = data.nama_mk || '-';
+            document.getElementById('detail_pluar_program_studi').textContent = data.program_studi || '-';
+            document.getElementById('detail_pluar_sks_kuliah').textContent = data.sks_kuliah || '-';
+            document.getElementById('detail_pluar_sks_praktikum').textContent = data.sks_praktikum || '-';
+            document.getElementById('detail_pluar_jenis').textContent = data.jenis || '-';
+            document.getElementById('detail_pluar_kelas_paralel').textContent = data.kelas_paralel || '-';
+            document.getElementById('detail_pluar_jumlah_pertemuan').textContent = data.jumlah_pertemuan || '-';
+            document.getElementById('detail_pluar_insidental').textContent = data.is_insidental || '-';
+            document.getElementById('detail_pluar_lebih_satu_semester').textContent = data.is_lebih_satu_semester || '-';
+            document.getElementById('detail_pluar_document_viewer').setAttribute('src', data.dokumen_path || '');
+      }
+    });
+  }
+};
+
+/* =================================================
+     Modal Detail Pengajaran Lama
+================================================= */
+const initDetailPengajaranlama = () => {
+  const tableBody = document.querySelector('#pengajaran-lama .table tbody');
+  if (tableBody) {
+    tableBody.addEventListener('click', function (event) {
+      const detailButton = event.target.closest('.btn-lihat-detail');
+      if (detailButton) {
+        const data = detailButton.dataset;
+            document.getElementById('detail_pl_kegiatan').textContent = data.kegiatan || '-';
+            document.getElementById('detail_pl_nama').textContent = data.nama || '-';
+            document.getElementById('detail_pl_tahun_semester').textContent = data.tahun_semester || '-';
+            document.getElementById('detail_pl_kode_mk').textContent = data.kode_mk || '-';
+            document.getElementById('detail_pl_nama_mk').textContent = data.nama_mk || '-';
+            document.getElementById('detail_pl_pengampu').textContent = data.pengampu || '-';
+            document.getElementById('detail_pl_sks_kuliah').textContent = data.sks_kuliah || '-';
+            document.getElementById('detail_pl_sks_praktikum').textContent = data.sks_praktikum || '-';
+            document.getElementById('detail_pl_jenis').textContent = data.jenis || '-';
+            document.getElementById('detail_pl_kelas_paralel').textContent = data.kelas_paralel || '-';
+            document.getElementById('detail_pl_jumlah_pertemuan').textContent = data.jumlah_pertemuan || '-';
+            document.getElementById('detail_pl_document_viewer').setAttribute('src', data.dokumen_path || '');
+      }
+    });
+  }
+};
+
+/* =================================================
      Jalankan Semua Modul
 ================================================= */
 initSidebarToggle();
@@ -427,4 +483,6 @@ initDetailPembimbingLuar();
 initDetailPengujiLuar();
 initDetailPembimbingLama();
 initDetailPengujianLama();
+initDetailPengajaranluar();
+initDetailPengajaranlama();
 });

@@ -296,7 +296,7 @@
         </div>
 
         <div class="modal-footer">
-            <button id="closePenunjangDetailBtn" class="btn-tutup">Tutup</button>
+            <button id="closePenunjangDetailBtn" class="btn btn-secondary">Tutup</button>
         </div>
     </div>
 </div>
