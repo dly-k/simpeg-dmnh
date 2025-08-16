@@ -372,7 +372,7 @@
         </div>
 
         <div class="modal-footer">
-            <button id="tutupBtn" class="btn btn-secondary">Tutup</button>
+            <button id="tutupBtn" class="btn">Tutup</button>
         </div>
     </div>
 </div>

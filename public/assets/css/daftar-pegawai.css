@@ -532,6 +532,28 @@ body.sidebar-collapsed .footer-custom {
 /* ===   CSS UNTUK MODAL KONFIRMASI    === */
 /* ======================================= */
 
+.modal-dialog {
+    max-width: 500px; /* atau sesuaikan */
+    width: 100%;       /* supaya responsif */
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+.modal-content {
+  transform: scale(0.9);
+  opacity: 0;
+  transition: transform 0.25s ease-out, opacity 0.25s ease-out;
+}
+
+.modal.show .modal-content {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.modal.hide-animation .modal-content {
+  transform: scale(0.7);
+  opacity: 0;
+}
+
+
 /* Overlay Utama */
 .konfirmasi-hapus-overlay {
     position: fixed;

@@ -225,33 +225,9 @@
     </footer>
   </div>
   
-  <div class="konfirmasi-hapus-overlay" id="modalKonfirmasiHapus">
-      <div class="konfirmasi-hapus-box">
-          <div class="konfirmasi-hapus-icon">
-              <i class="fas fa-exclamation"></i>
-          </div>
-          <h3 class="konfirmasi-hapus-title">Apakah Anda Yakin Menghapus Data Ini?</h3>
-          <p class="konfirmasi-hapus-subtitle">Data ini akan dihapus permanen dari sistem</p>
-          <div class="konfirmasi-hapus-buttons">
-              <button class="btn-popup btn-hapus" id="btnKonfirmasiHapus">Ya, Hapus</button>
-              <button class="btn-popup btn-batal" id="btnBatalHapus">Batal</button>
-          </div>
-      </div>
-  </div>
-
-<!--Modal Berhasil-->
-    <div class="modal-berhasil-overlay" id="modalBerhasil">
-      <div class="modal-berhasil-box">
-          <div class="modal-berhasil-icon">
-              <i class="fas fa-check"></i>
-          </div>
-          <h3 class="modal-berhasil-title" id="berhasil-title">Data Berhasil Disimpan</h3>
-          <p class="modal-berhasil-subtitle" id="berhasil-subtitle">Data Anda Berhasil Disimpan Pada Sistem</p>
-          <div class="modal-berhasil-buttons">
-              <button class="btn-popup btn-selesai" id="btnSelesai">Selesai</button>
-          </div>
-      </div>
-  </div>
+    {{-- Kumpulan Modal  --}}
+    @include('components.konfirmasi-hapus')
+    @include('components.konfirmasi-berhasil')
   
   <script src="{{ asset('assets/js/daftar-pegawai.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
