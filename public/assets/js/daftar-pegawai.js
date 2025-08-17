@@ -79,6 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const berhasilTitle = document.getElementById("berhasil-title");
   const berhasilSubtitle = document.getElementById("berhasil-subtitle");
   const btnSelesai = document.getElementById("btnSelesai");
+  let successAudio = null; // Variabel untuk menyimpan instance audio
 
   if (tableBody && modal && modalBerhasil) {
     const btnBatal = document.getElementById("btnBatalHapus");
@@ -107,10 +108,30 @@ document.addEventListener("DOMContentLoaded", () => {
       berhasilSubtitle.textContent = "Data pegawai telah berhasil dihapus dari sistem.";
       modalBerhasil.classList.add("show");
 
+      // Putar musik berhasil
+      successAudio = new Audio('/assets/sounds/success.mp3'); // Pastikan path file audio benar
+      successAudio.play().catch(error => {
+        console.log('Error memutar suara:', error);
+        if (error.name === 'NotAllowedError') {
+          console.log('Autoplay diblokir oleh browser. Butuh interaksi pengguna terlebih dahulu.');
+        } else if (error.name === 'NotFoundError') {
+          console.log('File audio tidak ditemukan. Periksa path: /assets/sounds/success.mp3');
+        }
+      });
+
       // Sembunyikan modal setelah 1 detik
       setTimeout(() => {
-        modalBerhasil.classList.remove("show");
+        hideSuccessModal();
       }, 1000);
+    };
+
+    // Fungsi menutup modal berhasil
+    const hideSuccessModal = () => {
+      modalBerhasil.classList.remove("show");
+      if (successAudio) {
+        successAudio.pause(); // Hentikan audio
+        successAudio.currentTime = 0; // Reset audio ke awal
+      }
     };
 
     // Konfirmasi hapus
@@ -135,9 +156,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Tombol selesai pada modal berhasil
     if (btnSelesai) {
-      btnSelesai.addEventListener("click", () => {
-        modalBerhasil.classList.remove("show");
-      });
+      btnSelesai.addEventListener("click", hideSuccessModal);
     }
+
+    // Klik luar modal berhasil
+    modalBerhasil?.addEventListener("click", (event) => {
+      if (event.target === modalBerhasil) hideSuccessModal();
+    });
   }
 });

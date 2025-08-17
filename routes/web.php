@@ -11,67 +11,67 @@ Route::get('/login', function () {
 })->name('login');
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('pages.dashboard');
 });
 
 Route::get('/daftar-pegawai', function () {
-    return view('pegawai.daftar-pegawai');
+    return view('pages.pegawai.daftar-pegawai');
 });
 
 Route::get('/surat-tugas', function () {
-    return view('surat-tugas');
+    return view('pages.surat-tugas');
 });
 
 Route::get('/pendidikan', function () {
-    return view('pendidikan');
+    return view('pages.pendidikan');
 });
 
 Route::get('/penelitian', function () {
-    return view('penelitian');
+    return view('pages.penelitian');
 });
 
 Route::get('/pengabdian', function () {
-    return view('pengabdian');
+    return view('pages.pengabdian');
 });
 
 Route::get('/penunjang', function () {
-    return view('penunjang');
+    return view('pages.penunjang');
 });
 
 Route::get('/kerjasama', function () {
-    return view('kerjasama');
+    return view('pages.kerjasama');
 });
 
 Route::get('/detail-pegawai', function () {
-    return view('pegawai.detail-pegawai');
+    return view('pages.pegawai.detail-pegawai');
 });
 
 Route::get('/pelatihan', function () {
-    return view('pelatihan');
+    return view('pages.pelatihan');
 });
 
 Route::get('/sk-non-pns', function () {
-    return view('sk-non-pns');
+    return view('pages.sk-non-pns');
 });
 
 Route::get('/penghargaan', function () {
-    return view('penghargaan');
+    return view('pages.penghargaan');
 });
 
 Route::get('/master-data', function () {
-    return view('master-data');
+    return view('pages.master-data');
 });
 
 Route::get('/sidebar', function () {
-    return view('sidebar');
+    return view('pages.sidebar');
 });
 
 Route::get('/edit-pegawai', function () {
-    return view('pegawai.edit-pegawai');
+    return view('pages.pegawai.edit-pegawai');
 });
 
 Route::get('/tambah-pegawai', function () {
-    return view('pegawai.tambah-pegawai');
+    return view('pages.pegawai.tambah-pegawai');
 });
 
 Route::get('/ubah-password', function () {

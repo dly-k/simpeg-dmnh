@@ -657,9 +657,10 @@ body.sidebar-collapsed .footer-custom {
 }
 
 /* ======================================= */
-/* === [DIUBAH] CSS MODAL VERIFIKASI   === */
+/* === KONFIRMASI VERIFIKASI   === */
 /* ======================================= */
-#modalKonfirmasiPendidikan {
+/* Overlay */
+#modalKonfirmasiVerifikasi {
     position: fixed;
     top: 0;
     left: 0;
@@ -674,11 +675,13 @@ body.sidebar-collapsed .footer-custom {
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
-#modalKonfirmasiPendidikan.show {
+#modalKonfirmasiVerifikasi.show {
     opacity: 1;
     visibility: visible;
 }
-#modalKonfirmasiPendidikan .confirmation-popup-box {
+
+/* Box */
+.confirmation-popup-box {
     background-color: #f4f4f4;
     padding: 30px 40px;
     border-radius: 12px;
@@ -689,13 +692,15 @@ body.sidebar-collapsed .footer-custom {
     transform: scale(0.9);
     transition: transform 0.3s ease;
 }
-#modalKonfirmasiPendidikan.show .confirmation-popup-box {
+#modalKonfirmasiVerifikasi.show .confirmation-popup-box {
     transform: scale(1);
 }
+
+/* Title & subtitle */
 .popup-title {
     font-size: 1.6rem;
     font-weight: 700;
-    color: #047857;
+    color: #047857; /* Hijau utama */
     margin-bottom: 8px;
 }
 .popup-subtitle {
@@ -703,11 +708,15 @@ body.sidebar-collapsed .footer-custom {
     color: #333;
     margin-bottom: 25px;
 }
+
+/* Button group */
 .popup-buttons {
     display: flex;
     justify-content: center;
     gap: 15px;
 }
+
+/* Base button style */
 .btn-popup {
     border: none;
     padding: 12px 25px;
@@ -722,13 +731,25 @@ body.sidebar-collapsed .footer-custom {
     transform: translateY(-2px);
     box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
-.btn-terima { background-color: #4caf50; }
-.btn-tolak { background-color: #e53935; }
-.btn-kembali { background-color: #9ea4ad; }
+
+/* Variasi tombol */
+.btn-terima {
+    background-color: #4caf50; /* Hijau */
+}
+.btn-tolak {
+    background-color: #e53935; /* Merah */
+}
+.btn-kembali {
+    background-color: #9ea4ad; /* Abu */
+}
 
 /* ======================================= */
-/* ===   [BARU] CSS MODAL HAPUS        === */
+/* ===   KONFIRMASI HAPUS        === */
 /* ======================================= */
+.konfirmasi-hapus-overlay .modal-dialog {
+    max-width: 500px;  /* ganti sesuai keinginan */
+    width: 100%;        /* responsif di layar kecil */
+}
 .konfirmasi-hapus-overlay {
     position: fixed;
     top: 0; left: 0;

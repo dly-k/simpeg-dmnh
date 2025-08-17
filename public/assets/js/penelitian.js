@@ -137,7 +137,7 @@ function initPenelitianPage() {
 
 // === Logika Modal Konfirmasi Verifikasi ===
 function setupVerificationModalLogic(showSuccessModalCallback) {
-    const modalKonfirmasi = document.getElementById('modalKonfirmasiPenelitian');
+    const modalKonfirmasi = document.getElementById('modalKonfirmasiVerifikasi');
     const tableBody = document.querySelector('.table tbody');
     const btnTerima = document.getElementById('popupBtnTerima');
     const btnTolak = document.getElementById('popupBtnTolak');

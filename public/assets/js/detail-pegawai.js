@@ -472,6 +472,8 @@ document.addEventListener('DOMContentLoaded', () => {
   /* =================================================
      16. Modal Berhasil (Reusable)
   ================================================= */
+  let successAudio = null; // Variabel untuk menyimpan instance audio
+
   function showModalBerhasil(action = "simpan") {
     const modal = document.getElementById("modalBerhasil");
     const title = document.getElementById("berhasil-title");
@@ -489,17 +491,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
     modal.classList.add("show");
 
+    // Putar musik berhasil
+    successAudio = new Audio('/assets/sounds/success.mp3'); // Pastikan path file audio benar
+    successAudio.play().catch(error => {
+      console.log('Error memutar suara:', error);
+      if (error.name === 'NotAllowedError') {
+        console.log('Autoplay diblokir oleh browser. Butuh interaksi pengguna terlebih dahulu.');
+      } else if (error.name === 'NotFoundError') {
+        console.log('File audio tidak ditemukan. Periksa path: /assets/sounds/success.mp3');
+      }
+    });
+
     setTimeout(() => {
-      modal.classList.remove("show");
+      hideModalBerhasil();
     }, 1000);
+  }
+
+  // Fungsi untuk menutup modal dan menghentikan audio
+  function hideModalBerhasil() {
+    const modal = document.getElementById("modalBerhasil");
+    if (modal) modal.classList.remove("show");
+    if (successAudio) {
+      successAudio.pause(); // Hentikan audio
+      successAudio.currentTime = 0; // Reset audio ke awal
+    }
   }
 
   // Ekspos ke global jika mau dipanggil dari script lain
   window.showModalBerhasil = showModalBerhasil;
 
   // Tombol manual "Selesai"
-  document.getElementById("btnSelesai")?.addEventListener("click", () => {
-    document.getElementById("modalBerhasil")?.classList.remove("show");
+  document.getElementById("btnSelesai")?.addEventListener("click", hideModalBerhasil);
+
+  // Klik luar modal berhasil
+  document.getElementById("modalBerhasil")?.addEventListener("click", (event) => {
+    if (event.target === document.getElementById("modalBerhasil")) hideModalBerhasil();
   });
 
   /* =================================================

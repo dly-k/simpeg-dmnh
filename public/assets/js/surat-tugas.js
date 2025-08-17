@@ -283,11 +283,16 @@ function initDeleteConfirmation() {
 // Modal Sukses
 // ==========================
 let successModalTimer;
+let successAudio = null; // Variabel untuk menyimpan instance audio
 
 function hideSuccessModal() {
   const modal = document.getElementById('modalBerhasil');
   modal?.classList.remove('show');
   if (successModalTimer) clearTimeout(successModalTimer);
+  if (successAudio) {
+    successAudio.pause(); // Hentikan audio
+    successAudio.currentTime = 0; // Reset audio ke awal
+  }
 }
 
 function showSuccessModal(title, subtitle) {
@@ -302,6 +307,17 @@ function showSuccessModal(title, subtitle) {
   titleEl.textContent = title;
   subtitleEl.textContent = subtitle;
   modal.classList.add('show');
+
+  // Putar musik berhasil
+  successAudio = new Audio('/assets/sounds/success.mp3'); // Pastikan path file audio benar
+  successAudio.play().catch(error => {
+    console.log('Error memutar suara:', error);
+    if (error.name === 'NotAllowedError') {
+      console.log('Autoplay diblokir oleh browser. Butuh interaksi pengguna terlebih dahulu.');
+    } else if (error.name === 'NotFoundError') {
+      console.log('File audio tidak ditemukan. Periksa path: /assets/sounds/success.mp3');
+    }
+  });
 
   successModalTimer = setTimeout(hideSuccessModal, 1000);
 }

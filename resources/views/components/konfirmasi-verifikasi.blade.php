@@ -1,4 +1,4 @@
-<div id="modalKonfirmasiPenelitian">
+<div id="modalKonfirmasiVerifikasi">
     <div class="confirmation-popup-box">
         <h3 class="popup-title">Konfirmasi Verifikasi Data</h3>
         <p class="popup-subtitle">Apakah Anda yakin ingin melanjutkan proses ini?</p>

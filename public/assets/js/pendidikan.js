@@ -72,9 +72,24 @@ document.addEventListener('DOMContentLoaded', function () {
       const modalBerhasil = document.getElementById('modalBerhasil');
       if (modalBerhasil) {
           modalBerhasil.classList.add('show');
+          // Putar musik berhasil
+          let successAudio = new Audio('/assets/sounds/success.mp3'); // Pastikan path file audio benar
+          successAudio.play().catch(error => {
+            console.log('Error memutar suara:', error);
+            if (error.name === 'NotAllowedError') {
+              console.log('Autoplay diblokir oleh browser. Butuh interaksi pengguna terlebih dahulu.');
+            } else if (error.name === 'NotFoundError') {
+              console.log('File audio tidak ditemukan. Periksa path: /assets/sounds/success.mp3');
+            }
+          });
+
           // Menutup otomatis setelah 1 detik
           setTimeout(() => {
               modalBerhasil.classList.remove('show');
+              if (successAudio) {
+                successAudio.pause(); // Hentikan audio
+                successAudio.currentTime = 0; // Reset audio ke awal
+              }
           }, 1000);
       }
   }
@@ -84,6 +99,10 @@ document.addEventListener('DOMContentLoaded', function () {
   if (btnSelesai) {
       btnSelesai.addEventListener('click', function() {
           closeModal('modalBerhasil');
+          if (successAudio) {
+            successAudio.pause(); // Hentikan audio
+            successAudio.currentTime = 0; // Reset audio ke awal
+          }
       });
   }
 
@@ -127,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // === Logika Modal Konfirmasi Verifikasi dengan Animasi ===
-  const popupOverlay = document.getElementById('modalKonfirmasiPendidikan');
+  const popupOverlay = document.getElementById('modalKonfirmasiVerifikasi');
   if (popupOverlay) {
       const btnKembali = document.getElementById('popupBtnKembali');
       const btnTerima = document.getElementById('popupBtnTerima');
@@ -139,13 +158,13 @@ document.addEventListener('DOMContentLoaded', function () {
           if (konfirmasiButton) {
               event.preventDefault();
               currentDataId = konfirmasiButton.dataset.id;
-              openModal('modalKonfirmasiPendidikan');
+              openModal('modalKonfirmasiVerifikasi');
           }
       });
 
       const hidePopup = () => {
           currentDataId = null;
-          closeModal('modalKonfirmasiPendidikan');
+          closeModal('modalKonfirmasiVerifikasi');
       };
 
       const handleVerification = () => {
@@ -568,8 +587,23 @@ document.addEventListener('DOMContentLoaded', function() {
         const modalBerhasil = document.getElementById('modalBerhasil');
         if (modalBerhasil) {
             modalBerhasil.classList.add('show');
+            // Putar musik berhasil
+            let successAudio = new Audio('/assets/sounds/success.mp3'); // Pastikan path file audio benar
+            successAudio.play().catch(error => {
+              console.log('Error memutar suara:', error);
+              if (error.name === 'NotAllowedError') {
+                console.log('Autoplay diblokir oleh browser. Butuh interaksi pengguna terlebih dahulu.');
+              } else if (error.name === 'NotFoundError') {
+                console.log('File audio tidak ditemukan. Periksa path: /assets/sounds/success.mp3');
+              }
+            });
+
             setTimeout(() => {
                 modalBerhasil.classList.remove('show');
+                if (successAudio) {
+                  successAudio.pause(); // Hentikan audio
+                  successAudio.currentTime = 0; // Reset audio ke awal
+                }
             }, 1000);
         }
     }

@@ -64,24 +64,44 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   
   function showSuccessModal(title, subtitle) {
-      const berhasilTitle = document.getElementById('berhasil-title');
-      const berhasilSubtitle = document.getElementById('berhasil-subtitle');
-      if (berhasilTitle) berhasilTitle.textContent = title;
-      if (berhasilSubtitle) berhasilSubtitle.textContent = subtitle;
-      
-      openModal('modalBerhasil');
-      
-      setTimeout(() => {
-          closeModal('modalBerhasil');
-      }, 1000); // Otomatis menutup setelah 1 detik
+    const berhasilTitle = document.getElementById('berhasil-title');
+    const berhasilSubtitle = document.getElementById('berhasil-subtitle');
+    if (berhasilTitle) berhasilTitle.textContent = title;
+    if (berhasilSubtitle) berhasilSubtitle.textContent = subtitle;
+    
+    openModal('modalBerhasil');
+    
+    // Putar musik berhasil
+    let successAudio = new Audio('/assets/sounds/success.mp3'); // Pastikan path file audio benar
+    successAudio.play().catch(error => {
+      console.log('Error memutar suara:', error);
+      if (error.name === 'NotAllowedError') {
+        console.log('Autoplay diblokir oleh browser. Butuh interaksi pengguna terlebih dahulu.');
+      } else if (error.name === 'NotFoundError') {
+        console.log('File audio tidak ditemukan. Periksa path: /assets/sounds/success.mp3');
+      }
+    });
+
+    setTimeout(() => {
+      closeModal('modalBerhasil');
+      if (successAudio) {
+        successAudio.pause(); // Hentikan audio
+        successAudio.currentTime = 0; // Reset audio ke awal
+      }
+    }, 1000); // Otomatis menutup setelah 1 detik
   }
 
   // Listener untuk tombol Selesai di modal
   const btnSelesai = document.getElementById('btnSelesai');
   if (btnSelesai) {
-      btnSelesai.addEventListener('click', () => closeModal('modalBerhasil'));
+    btnSelesai.addEventListener('click', () => {
+      closeModal('modalBerhasil');
+      if (successAudio) {
+        successAudio.pause(); // Hentikan audio
+        successAudio.currentTime = 0; // Reset audio ke awal
+      }
+    });
   }
-
 
   const form = document.getElementById('ubahPasswordForm');
   if (form) {
@@ -140,15 +160,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (isFormValid) {
         // DIUBAH: Mengganti alert() dengan modal sukses
-        showSuccessModal('Peru Berhasil', 'Password Anda telah berhasil diperbarui.');
+        showSuccessModal('Perubahan Berhasil', 'Password Anda telah berhasil diperbarui.');
         
         // Logika reset form tetap dijalankan
         form.reset();
         allInputs.forEach(clearError);
         togglePasswordIcons.forEach(icon => {
-            icon.classList.remove('fa-eye-slash');
-            icon.classList.add('fa-eye');
-            icon.previousElementSibling.setAttribute('type', 'password');
+          icon.classList.remove('fa-eye-slash');
+          icon.classList.add('fa-eye');
+          icon.previousElementSibling.setAttribute('type', 'password');
         });
       }
     });
@@ -157,12 +177,12 @@ document.addEventListener("DOMContentLoaded", function () {
       input.addEventListener('input', () => clearError(input));
       
       input.addEventListener('blur', () => {
-          input.setAttribute('type', 'password');
-          const icon = input.nextElementSibling;
-          if (icon && icon.classList.contains('toggle-password')) {
-              icon.classList.remove('fa-eye-slash');
-              icon.classList.add('fa-eye');
-          }
+        input.setAttribute('type', 'password');
+        const icon = input.nextElementSibling;
+        if (icon && icon.classList.contains('toggle-password')) {
+          icon.classList.remove('fa-eye-slash');
+          icon.classList.add('fa-eye');
+        }
       });
     });
   }

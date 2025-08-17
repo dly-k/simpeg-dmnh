@@ -366,6 +366,7 @@
   transition: all 0.3s ease;
 }
 .btn-lihat:hover, .btn-lihat-detail:hover {
+  cursor: pointer;
   background-color: var(--info-hover);
   color: var(--white);
   transform: scale(1.15);
@@ -642,8 +643,11 @@ a.dokumen-link:hover {
 }
 
 
+/* ======================================= */
+/* === KONFIRMASI VERIFIKASI   === */
+/* ======================================= */
 /* Overlay */
-#modalKonfirmasiPenelitian {
+#modalKonfirmasiVerifikasi {
     position: fixed;
     top: 0;
     left: 0;
@@ -658,7 +662,7 @@ a.dokumen-link:hover {
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
-#modalKonfirmasiPenelitian.show {
+#modalKonfirmasiVerifikasi.show {
     opacity: 1;
     visibility: visible;
 }
@@ -675,7 +679,7 @@ a.dokumen-link:hover {
     transform: scale(0.9);
     transition: transform 0.3s ease;
 }
-#modalKonfirmasiPenelitian.show .confirmation-popup-box {
+#modalKonfirmasiVerifikasi.show .confirmation-popup-box {
     transform: scale(1);
 }
 
