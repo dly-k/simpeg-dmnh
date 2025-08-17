@@ -1,5 +1,5 @@
 // === Inisialisasi Setelah Halaman Dimuat ===
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     initSidebar();
     startClock();
     initPenelitianPage(); // Panggil fungsi utama untuk halaman penelitian
@@ -13,7 +13,7 @@ function initSidebar() {
 
     if (!sidebar || !overlay || !toggleSidebarBtn) return;
 
-    toggleSidebarBtn.addEventListener('click', function() {
+    toggleSidebarBtn.addEventListener('click', function () {
         const isMobile = window.innerWidth <= 991;
         if (isMobile) {
             sidebar.classList.toggle('show');
@@ -23,7 +23,7 @@ function initSidebar() {
         }
     });
 
-    overlay.addEventListener('click', function() {
+    overlay.addEventListener('click', function () {
         sidebar.classList.remove('show');
         overlay.classList.remove('show');
     });
@@ -68,9 +68,14 @@ function initPenelitianPage() {
     const berhasilTitle = document.getElementById('berhasil-title');
     const berhasilSubtitle = document.getElementById('berhasil-subtitle');
     let timeoutId = null;
+    let successAudio = null; // Variabel untuk menyimpan instance audio
 
     const hideModalBerhasil = () => {
         modalBerhasil?.classList.remove('show');
+        if (successAudio) {
+            successAudio.pause(); // Hentikan audio
+            successAudio.currentTime = 0; // Reset audio ke awal
+        }
     };
 
     const showModalBerhasil = (title, subtitle) => {
@@ -79,6 +84,16 @@ function initPenelitianPage() {
             berhasilSubtitle.textContent = subtitle;
             modalBerhasil.classList.add('show');
             clearTimeout(timeoutId);
+            // Putar musik berhasil
+            successAudio = new Audio('/assets/sounds/success.mp3'); // Pastikan path file audio benar
+            successAudio.play().catch(error => {
+                console.log('Error memutar suara:', error);
+                if (error.name === 'NotAllowedError') {
+                    console.log('Autoplay diblokir oleh browser. Butuh interaksi pengguna terlebih dahulu.');
+                } else if (error.name === 'NotFoundError') {
+                    console.log('File audio tidak ditemukan. Periksa path: /assets/sounds/success.mp3');
+                }
+            });
             timeoutId = setTimeout(hideModalBerhasil, 1000);
         }
     };
@@ -91,14 +106,14 @@ function initPenelitianPage() {
     setupUploadArea();
     setupSaveLogic(showModalBerhasil);
     setupDeleteModalLogic(showModalBerhasil);
-    setupVerificationModalLogic(showModalBerhasil); // [DITAMBAHKAN] Panggil fungsi setup untuk verifikasi
+    setupVerificationModalLogic(showModalBerhasil);
 
     // --- Logika untuk Modal Detail ---
     const detailModal = document.getElementById("detailModal");
     const closeModalBtn = document.getElementById("tutupBtn");
     const tableBody = document.querySelector('.table tbody');
 
-    tableBody?.addEventListener('click', function(event) {
+    tableBody?.addEventListener('click', function (event) {
         const openModalBtn = event.target.closest('#btnLihatDetail');
         if (openModalBtn) {
             detailModal.style.display = "block";
@@ -113,15 +128,14 @@ function initPenelitianPage() {
 
     // --- LOGIKA MENUTUP MODAL TAMBAH/EDIT SAAT KLIK DI LUAR ---
     const penelitianModal = document.getElementById('penelitianModal');
-    penelitianModal?.addEventListener('click', function(event) {
+    penelitianModal?.addEventListener('click', function (event) {
         if (event.target === penelitianModal) {
             closeModal('penelitianModal');
         }
     });
 }
 
-// === [BARU] Logika Modal Konfirmasi Verifikasi ===
-// === [DIUBAH] Logika Modal Konfirmasi Verifikasi ===
+// === Logika Modal Konfirmasi Verifikasi ===
 function setupVerificationModalLogic(showSuccessModalCallback) {
     const modalKonfirmasi = document.getElementById('modalKonfirmasiPenelitian');
     const tableBody = document.querySelector('.table tbody');
@@ -134,7 +148,7 @@ function setupVerificationModalLogic(showSuccessModalCallback) {
     const hideModal = () => modalKonfirmasi?.classList.remove('show');
 
     // Listener untuk membuka modal konfirmasi
-    tableBody?.addEventListener('click', function(event) {
+    tableBody?.addEventListener('click', function (event) {
         const verifikasiButton = event.target.closest('.btn-verifikasi');
         if (verifikasiButton) {
             event.preventDefault();
@@ -147,7 +161,7 @@ function setupVerificationModalLogic(showSuccessModalCallback) {
     const handleVerifikasi = (action) => {
         console.log(`Aksi "${action}" untuk ID: ${dataIdUntukAksi}`);
         hideModal(); // Tutup modal konfirmasi
-        showSuccessModalCallback('Status Verifikasi Disimpan', 'Perubahan status verifikasi telah berhasil disimpan.'); // Tampilkan modal sukses dengan pesan yang sama
+        showSuccessModalCallback('Status Verifikasi Disimpan', 'Perubahan status verifikasi telah berhasil disimpan.');
     };
 
     // Listener untuk tombol "Terima"
@@ -158,20 +172,19 @@ function setupVerificationModalLogic(showSuccessModalCallback) {
 
     // Listener untuk tombol "Kembali" dan klik di luar area
     btnKembali?.addEventListener('click', hideModal);
-    modalKonfirmasi?.addEventListener('click', function(event) {
+    modalKonfirmasi?.addEventListener('click', function (event) {
         if (event.target === modalKonfirmasi) {
             hideModal();
         }
     });
 }
 
-
 // === Logika Tombol Simpan (Add/Edit) ===
 function setupSaveLogic(showSuccessModalCallback) {
     const penelitianModal = document.getElementById('penelitianModal');
     const saveButton = penelitianModal?.querySelector('.btn-success');
 
-    saveButton?.addEventListener('click', function() {
+    saveButton?.addEventListener('click', function () {
         closeModal('penelitianModal');
         showSuccessModalCallback('Data Berhasil Disimpan', 'Perubahan Anda telah sukses disimpan ke dalam sistem.');
     });
@@ -188,7 +201,7 @@ function setupUploadArea() {
 
     uploadArea.addEventListener('click', () => fileInput.click());
 
-    fileInput.addEventListener('change', function() {
+    fileInput.addEventListener('change', function () {
         if (this.files.length > 0) {
             uploadText.textContent = this.files[0].name;
         }
@@ -295,7 +308,7 @@ function setupDeleteModalLogic(showSuccessModalCallback) {
     const showDeleteModal = () => hapusModal.classList.add('show');
     const hideDeleteModal = () => hapusModal.classList.remove('show');
 
-    document.addEventListener('click', function(event) {
+    document.addEventListener('click', function (event) {
         if (event.target.closest('.btn-hapus')) {
             event.preventDefault();
             dataIdUntukHapus = event.target.closest('tr').querySelector('td:first-child').textContent;
@@ -304,13 +317,13 @@ function setupDeleteModalLogic(showSuccessModalCallback) {
     });
 
     btnBatalHapus?.addEventListener('click', hideDeleteModal);
-    hapusModal.addEventListener('click', function(e) {
+    hapusModal.addEventListener('click', function (e) {
         if (e.target === hapusModal) {
             hideDeleteModal();
         }
     });
 
-    btnKonfirmasiHapus?.addEventListener('click', function() {
+    btnKonfirmasiHapus?.addEventListener('click', function () {
         console.log('Menghapus data dengan ID:', dataIdUntukHapus);
         hideDeleteModal();
         showSuccessModalCallback('Data Berhasil Dihapus', 'Data yang dipilih telah berhasil dihapus secara permanen.');

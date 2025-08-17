@@ -1,16 +1,27 @@
 document.addEventListener('DOMContentLoaded', function () {
-
     // === 1. LOGIKA INTI: MODAL BERHASIL (SUCCESS MODAL) ===
     const modalBerhasil = document.getElementById('modalBerhasil');
     const berhasilTitle = document.getElementById('berhasil-title');
     const berhasilSubtitle = document.getElementById('berhasil-subtitle');
     let successModalTimeout = null;
+    let successAudio = null; // Variabel untuk menyimpan instance audio
 
     function showSuccessModal(title, subtitle) {
         if (modalBerhasil && berhasilTitle && berhasilSubtitle) {
             berhasilTitle.textContent = title;
             berhasilSubtitle.textContent = subtitle;
             modalBerhasil.classList.add('show');
+            
+            // Putar musik sukses
+            successAudio = new Audio('/assets/sounds/success.mp3'); // Pastikan path file audio benar
+            successAudio.play().catch(error => {
+                console.log('Error memutar suara:', error);
+                if (error.name === 'NotAllowedError') {
+                    console.log('Autoplay diblokir oleh browser. Butuh interaksi pengguna terlebih dahulu.');
+                } else if (error.name === 'NotFoundError') {
+                    console.log('File audio tidak ditemukan. Periksa path: /assets/sounds/success.mp3');
+                }
+            });
             
             clearTimeout(successModalTimeout);
             successModalTimeout = setTimeout(hideSuccessModal, 1200); // Durasi 1.2 detik
@@ -19,6 +30,10 @@ document.addEventListener('DOMContentLoaded', function () {
     
     function hideSuccessModal() {
         modalBerhasil?.classList.remove('show');
+        if (successAudio) {
+            successAudio.pause(); // Hentikan audio
+            successAudio.currentTime = 0; // Reset audio ke awal
+        }
     }
     document.getElementById('btnSelesai')?.addEventListener('click', () => {
         clearTimeout(successModalTimeout);

@@ -1,48 +1,79 @@
 document.addEventListener('DOMContentLoaded', function () {
-    
     // === 1. LOGIKA INTI: MODAL BERHASIL (SUCCESS MODAL) ===
     const modalBerhasil = document.getElementById('modalBerhasil');
     const berhasilTitle = document.getElementById('berhasil-title');
     const berhasilSubtitle = document.getElementById('berhasil-subtitle');
-    let successModalTimeout = null;
+    const modalKonfirmasiHapus = document.getElementById('modalKonfirmasiHapus');
+    const bsModal = new bootstrap.Modal(modalKonfirmasiHapus); // Inisialisasi Bootstrap Modal
+
+    let successAudio = null; // Deklarasi variabel global untuk audio
 
     function showSuccessModal(title, subtitle) {
         if (modalBerhasil && berhasilTitle && berhasilSubtitle) {
+            console.log('Menampilkan modal berhasil:', title, subtitle);
             berhasilTitle.textContent = title;
             berhasilSubtitle.textContent = subtitle;
             modalBerhasil.classList.add('show');
-            
-            clearTimeout(successModalTimeout);
-            successModalTimeout = setTimeout(hideSuccessModal, 1200);
+            bsModal.hide(); // Pastikan modal konfirmasi disembunyikan
+            console.log('Modal Berhasil ditampilkan, classList:', modalBerhasil.classList);
+
+            // Inisialisasi dan putar suara
+            successAudio = new Audio('/assets/sounds/Success.mp3'); // Pastikan path benar
+            successAudio.play().catch(error => {
+                console.log('Error memutar suara:', error);
+                if (error.name === 'NotAllowedError') {
+                    console.log('Autoplay diblokir oleh browser. Butuh interaksi pengguna terlebih dahulu.');
+                } else if (error.name === 'NotFoundError') {
+                    console.log('File audio tidak ditemukan. Periksa path: /assets/sounds/success.mp3');
+                } else {
+                    console.log('Error lain:', error.message);
+                }
+            });
+
+            // Tutup modal secara otomatis setelah 1 detik
+            setTimeout(() => {
+                console.log('Menutup modal berhasil setelah 1 detik');
+                modalBerhasil.classList.remove('show');
+                if (successAudio) {
+                    successAudio.pause(); // Hentikan suara
+                    successAudio.currentTime = 0; // Reset ke awal
+                }
+                bsModal.hide(); // Pastikan modal konfirmasi tetap disembunyikan
+                const sidebarOverlay = document.getElementById('overlay');
+                if (sidebarOverlay) sidebarOverlay.classList.remove('show');
+            }, 1000);
         }
     }
-    
-    function hideSuccessModal() {
-        modalBerhasil?.classList.remove('show');
-    }
-    document.getElementById('btnSelesai')?.addEventListener('click', () => {
-        clearTimeout(successModalTimeout);
-        hideSuccessModal();
-    });
 
+    function hideSuccessModal() {
+        if (modalBerhasil) {
+            console.log('Menyembunyikan modal berhasil (manual), classList sebelum:', modalBerhasil.classList);
+            modalBerhasil.classList.remove('show');
+            if (successAudio) {
+                successAudio.pause(); // Hentikan suara
+                successAudio.currentTime = 0; // Reset ke awal
+            }
+            bsModal.hide(); // Pastikan modal konfirmasi disembunyikan
+            const sidebarOverlay = document.getElementById('overlay');
+            if (sidebarOverlay) sidebarOverlay.classList.remove('show');
+        }
+    }
 
     // === 2. LOGIKA STANDAR: SIDEBAR & JAM ===
     function setupStandardUI() {
-        // Sidebar
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('overlay');
         const toggleSidebarBtn = document.getElementById('toggleSidebar');
         if (toggleSidebarBtn && sidebar && overlay) {
             toggleSidebarBtn.addEventListener('click', () => {
                 sidebar.classList.toggle(window.innerWidth <= 991 ? 'show' : 'hidden');
-                if (window.innerWidth <= 991) overlay.classList.toggle('show', sidebar.classList.contains('show'));
+                overlay.classList.toggle('show', window.innerWidth <= 991 && sidebar.classList.contains('show'));
             });
             overlay.addEventListener('click', () => {
                 sidebar.classList.remove('show');
                 overlay.classList.remove('show');
             });
         }
-        // Jam & Tanggal
         function updateDateTime() {
             const now = new Date();
             const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -56,29 +87,20 @@ document.addEventListener('DOMContentLoaded', function () {
     setupStandardUI();
 
     // === 3. LOGIKA SPESIFIK HALAMAN PELATIHAN ===
-    
-    // Inisialisasi semua fungsi spesifik
-    setupPelatihanModals();
-    setupDelegatedEventListeners();
-    setupUploadArea();
-    
-    // Konfigurasi Modal Tambah/Edit (Bootstrap 5)
     function setupPelatihanModals() {
         const pelatihanModalEl = document.getElementById('pelatihanModal');
         if (!pelatihanModalEl) return;
-        
+
         const modalTitle = pelatihanModalEl.querySelector('.modal-title');
         const pelatihanForm = document.getElementById('pelatihanForm');
-        const bsModal = new bootstrap.Modal(pelatihanModalEl);
+        const bsPelatihanModal = new bootstrap.Modal(pelatihanModalEl);
 
         pelatihanModalEl.addEventListener('show.bs.modal', (event) => {
             const button = event.relatedTarget;
             const isEditMode = button && button.classList.contains('btn-edit');
-            
-            modalTitle.innerHTML = isEditMode 
-                ? '<i class="fas fa-edit"></i> Edit Data Pelatihan' 
+            modalTitle.innerHTML = isEditMode
+                ? '<i class="fas fa-edit"></i> Edit Data Pelatihan'
                 : '<i class="fas fa-plus-circle"></i> Tambah Data Pelatihan';
-
             if (!isEditMode) {
                 pelatihanForm?.reset();
                 document.getElementById('anggota-list').innerHTML = '';
@@ -86,23 +108,16 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        // Aksi untuk tombol Simpan Data
         pelatihanModalEl.querySelector('.btn-success')?.addEventListener('click', () => {
-            bsModal.hide();
+            bsPelatihanModal.hide();
             showSuccessModal('Data Berhasil Disimpan', 'Data pelatihan telah berhasil disimpan ke sistem.');
         });
     }
 
-    // Mengelola semua klik pada tombol aksi dalam satu listener
     function setupDelegatedEventListeners() {
-        const modalKonfirmasiHapus = document.getElementById('modalKonfirmasiHapus');
         let dataToDelete = null;
 
-        const hideDeleteModal = () => {
-            if (modalKonfirmasiHapus) modalKonfirmasiHapus.style.display = 'none';
-        };
-
-        document.body.addEventListener('click', function(event) {
+        document.body.addEventListener('click', function (event) {
             const target = event.target;
 
             // Tombol Hapus pada baris tabel
@@ -113,31 +128,39 @@ document.addEventListener('DOMContentLoaded', function () {
                     element: row,
                     nama: row?.querySelector('td:nth-child(2)')?.textContent.trim()
                 };
-                if (modalKonfirmasiHapus) modalKonfirmasiHapus.style.display = 'flex';
+                if (modalKonfirmasiHapus) {
+                    console.log('Menampilkan modal konfirmasi hapus untuk:', dataToDelete.nama);
+                    bsModal.show();
+                }
             }
-            
+
             // Tombol "Ya, Hapus" di dalam modal konfirmasi
             if (target.matches('#btnKonfirmasiHapus')) {
                 event.preventDefault();
-                event.stopPropagation(); // FIX: Mencegah modal muncul lagi
-
-                if (dataToDelete) {
+                event.stopPropagation();
+                if (dataToDelete && modalKonfirmasiHapus) {
                     console.log('Menghapus data:', dataToDelete.nama);
-                    dataToDelete.element?.remove(); 
-                    hideDeleteModal();
+                    dataToDelete.element?.remove();
+                    bsModal.hide();
                     showSuccessModal('Data Berhasil Dihapus', `Data "${dataToDelete.nama}" telah berhasil dihapus.`);
                 }
             }
-            
+
             // Tombol "Batal" di modal hapus
             if (target.matches('#btnBatalHapus')) {
-                hideDeleteModal();
+                if (modalKonfirmasiHapus) {
+                    bsModal.hide();
+                }
+            }
+
+            // Tombol "Selesai" di modal berhasil
+            if (target.matches('#btnSelesai')) {
+                hideSuccessModal();
             }
 
             // Tombol lihat detail
             const detailButton = target.closest('.btn-lihat-detail-pelatihan');
             if (detailButton) {
-                // [FIX] Mengembalikan semua baris kode untuk menampilkan data detail
                 const data = detailButton.dataset;
                 document.getElementById('detail_pelatihan_nama').textContent = data.nama_pelatihan || '-';
                 document.getElementById('detail_pelatihan_posisi').textContent = data.posisi || '-';
@@ -152,7 +175,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.getElementById('detail_pelatihan_hari').textContent = data.hari || '-';
                 document.getElementById('detail_pelatihan_struktural').textContent = data.struktural || '-';
                 document.getElementById('detail_pelatihan_sertifikasi').textContent = data.sertifikasi || '-';
-                document.getElementById('detail_pelatihan_document_viewer')?.setAttribute('src', data.dokumen_path || '');
+                const docViewer = document.getElementById('detail_pelatihan_document_viewer');
+                if (docViewer) docViewer.setAttribute('src', data.dokumen_path || '');
             }
 
             // Hapus anggota dari list dinamis
@@ -165,36 +189,30 @@ document.addEventListener('DOMContentLoaded', function () {
                 target.closest('.upload-area').querySelector('input[type="file"]')?.click();
             }
         });
-
-        // Klik di luar area modal untuk menutup
-        modalKonfirmasiHapus?.addEventListener('click', (e) => {
-            if (e.target === modalKonfirmasiHapus) hideDeleteModal();
-        });
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && modalKonfirmasiHapus?.style.display === 'flex') {
-                hideDeleteModal();
-            }
-        });
     }
 
-    // Konfigurasi area upload file
     function setupUploadArea() {
         document.querySelectorAll('.upload-area').forEach(uploadArea => {
             const fileInput = uploadArea.querySelector('input[type="file"]');
             const uploadText = uploadArea.querySelector('p');
             if (!fileInput || !uploadText) return;
             const originalText = uploadText.innerHTML;
-            
+
             fileInput.addEventListener('change', function () {
                 if (this.files.length > 0) uploadText.textContent = this.files[0].name;
             });
-            
+
             uploadArea.reset = () => {
                 uploadText.innerHTML = originalText;
                 fileInput.value = '';
             };
         });
     }
+
+    // Inisialisasi semua fungsi spesifik
+    setupPelatihanModals();
+    setupDelegatedEventListeners();
+    setupUploadArea();
 });
 
 // === 4. FUNGSI GLOBAL: DIPANGGIL DARI HTML (onclick) ===

@@ -659,6 +659,11 @@ body {
   min-width: 150px;
 }
 
+.hover-lightgray:hover {
+    background-color: #f0f0f0; /* abu-abu terang */
+    color: #000; /* teks tetap hitam */
+}
+
 .filter-dropdown-wrapper::after {
   content: '\e909';
   font-family: 'LineIcons';

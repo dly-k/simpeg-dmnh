@@ -55,7 +55,7 @@
                         <span class="d-none d-sm-inline">Halo, Ketua TU</span><i class="lni lni-chevron-down ms-1"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end shadow">
-                        <li><a class="dropdown-item d-flex align-items-center" href="/ubah-password"><i class="lni lni-key me-2"></i> Ubah Password</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center hover-lightgray" href="/ubah-password"><i class="lni lni-key me-2"></i> Ubah Password</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item d-flex align-items-center dropdown-item-danger" href="/logout"><i class="lni lni-exit me-2"></i> Keluar</a></li>
                     </ul>
@@ -1394,12 +1394,12 @@
     @include('components.konfirmasi-berhasil')
 
     {{-- Modal Detail Pendidikan --}}
-    @include('components.pendidikan.detail-pengajaranlama')
-    @include('components.pendidikan.detail-pengajaranluar')
-    @include('components.pendidikan.detail-pengujianlama')
-    @include('components.pendidikan.detail-pembimbinglama')
-    @include('components.pendidikan.detail-pengujialuar')
-    @include('components.pendidikan.detail-pembimbingluar')
+    @include('components.pendidikan.detail-pengajaran-lama')
+    @include('components.pendidikan.detail-pengajaran-luar')
+    @include('components.pendidikan.detail-pengujian-lama')
+    @include('components.pendidikan.detail-pembimbing-lama')
+    @include('components.pendidikan.detail-penguji-luar')
+    @include('components.pendidikan.detail-pembimbing-luar')
 
     {{-- Modal Detail Penelitian --}}
     @include('components.penelitian.detail-penelitian')

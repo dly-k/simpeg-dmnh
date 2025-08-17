@@ -75,5 +75,5 @@ Route::get('/tambah-pegawai', function () {
 });
 
 Route::get('/ubah-password', function () {
-    return view('ubah-password');
+    return view('auth.ubah-password');
 });

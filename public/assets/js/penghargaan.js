@@ -1,16 +1,29 @@
 document.addEventListener('DOMContentLoaded', function () {
-    
     // === 1. LOGIKA INTI: MODAL BERHASIL (SUCCESS MODAL) ===
     const modalBerhasil = document.getElementById('modalBerhasil');
     const berhasilTitle = document.getElementById('berhasil-title');
     const berhasilSubtitle = document.getElementById('berhasil-subtitle');
     let successModalTimeout = null;
+    let successAudio = null; // Variabel untuk menyimpan instance audio
 
     function showSuccessModal(title, subtitle) {
         if (modalBerhasil && berhasilTitle && berhasilSubtitle) {
             berhasilTitle.textContent = title;
             berhasilSubtitle.textContent = subtitle;
             modalBerhasil.classList.add('show');
+            const overlay = modalBerhasil.querySelector('.modal-berhasil-overlay');
+            if (overlay) overlay.classList.add('show');
+            
+            // Putar musik sukses
+            successAudio = new Audio('/assets/sounds/success.mp3'); // Pastikan path file audio benar
+            successAudio.play().catch(error => {
+                console.log('Error memutar suara:', error);
+                if (error.name === 'NotAllowedError') {
+                    console.log('Autoplay diblokir oleh browser. Butuh interaksi pengguna terlebih dahulu.');
+                } else if (error.name === 'NotFoundError') {
+                    console.log('File audio tidak ditemukan. Periksa path: /assets/sounds/success.mp3');
+                }
+            });
             
             clearTimeout(successModalTimeout);
             successModalTimeout = setTimeout(hideSuccessModal, 1200); // Durasi 1.2 detik
@@ -18,7 +31,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     
     function hideSuccessModal() {
-        modalBerhasil?.classList.remove('show');
+        if (modalBerhasil) modalBerhasil.classList.remove('show');
+        const overlay = modalBerhasil.querySelector('.modal-berhasil-overlay');
+        if (overlay) overlay.classList.remove('show');
+        if (successAudio) {
+            successAudio.pause(); // Hentikan audio
+            successAudio.currentTime = 0; // Reset audio ke awal
+        }
     }
     document.getElementById('btnSelesai')?.addEventListener('click', () => {
         clearTimeout(successModalTimeout);
@@ -45,6 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
             overlay.classList.remove('show');
         });
     }
+
     function updateDateTime() {
         const now = new Date();
         const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -76,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     setupUploadArea();
 
-    // Logika untuk Modal Tambah/Edit/Detail menggunakan Bootstrap Events
+    // Logika untuk Modal Tambah/Edit menggunakan Bootstrap
     const penghargaanModalEl = document.getElementById('penghargaanModal');
     if (penghargaanModalEl) {
         const bsModal = new bootstrap.Modal(penghargaanModalEl);
@@ -96,14 +116,14 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
         
-        // [BARU] Aksi untuk tombol Simpan
+        // Aksi untuk tombol Simpan
         penghargaanModalEl.querySelector('.btn-success')?.addEventListener('click', () => {
             bsModal.hide();
             showSuccessModal('Data Berhasil Disimpan', 'Data penghargaan telah berhasil disimpan.');
         });
     }
 
-    // Logika untuk mengisi data pada Modal Detail
+    // Logika untuk Modal Detail
     document.addEventListener('click', function(event) {
         const detailButton = event.target.closest('.btn-lihat-detail-penghargaan');
         if (detailButton) {
@@ -128,8 +148,18 @@ document.addEventListener('DOMContentLoaded', function () {
     const modalKonfirmasiHapus = document.getElementById('modalKonfirmasiHapus');
     let dataToDelete = null;
 
+    const showDeleteModal = () => {
+        if (modalKonfirmasiHapus) {
+            modalKonfirmasiHapus.classList.add('show');
+            const overlay = modalKonfirmasiHapus.querySelector('.konfirmasi-hapus-overlay');
+            if (overlay) overlay.classList.add('show');
+        }
+    };
+
     const hideDeleteModal = () => {
-        if (modalKonfirmasiHapus) modalKonfirmasiHapus.style.display = 'none';
+        if (modalKonfirmasiHapus) modalKonfirmasiHapus.classList.remove('show');
+        const overlay = modalKonfirmasiHapus.querySelector('.konfirmasi-hapus-overlay');
+        if (overlay) overlay.classList.remove('show');
     };
 
     document.body.addEventListener('click', function(event) {
@@ -138,12 +168,13 @@ document.addEventListener('DOMContentLoaded', function () {
         // Tombol hapus pada baris tabel
         if (target.closest('.btn-hapus')) {
             event.preventDefault();
+            console.log('Tombol Hapus diklik'); // Untuk debugging
             const row = target.closest('tr');
             dataToDelete = {
                 element: row,
                 nama: row?.querySelector('td:nth-child(2)')?.textContent.trim()
             };
-            if (modalKonfirmasiHapus) modalKonfirmasiHapus.style.display = 'flex';
+            showDeleteModal();
         }
 
         // Tombol "Ya, Hapus"
@@ -169,7 +200,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (e.target === modalKonfirmasiHapus) hideDeleteModal();
     });
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modalKonfirmasiHapus?.style.display === 'flex') {
+        if (e.key === 'Escape' && modalKonfirmasiHapus?.classList.contains('show')) {
             hideDeleteModal();
         }
     });

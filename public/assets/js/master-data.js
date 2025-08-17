@@ -92,13 +92,30 @@ document.addEventListener('DOMContentLoaded', function () {
   function showSuccessModal(title, subtitle) {
       const berhasilTitle = document.getElementById('berhasil-title');
       const berhasilSubtitle = document.getElementById('berhasil-subtitle');
-      if(berhasilTitle) berhasilTitle.textContent = title;
-      if(berhasilSubtitle) berhasilSubtitle.textContent = subtitle;
+      let successAudio = null; // Variabel untuk menyimpan instance audio
+
+      if (berhasilTitle) berhasilTitle.textContent = title;
+      if (berhasilSubtitle) berhasilSubtitle.textContent = subtitle;
       openModal('modalBerhasil');
+      
+      // Putar musik sukses
+      successAudio = new Audio('/assets/sounds/success.mp3'); // Pastikan path file audio benar
+      successAudio.play().catch(error => {
+          console.log('Error memutar suara:', error);
+          if (error.name === 'NotAllowedError') {
+              console.log('Autoplay diblokir oleh browser. Butuh interaksi pengguna terlebih dahulu.');
+          } else if (error.name === 'NotFoundError') {
+              console.log('File audio tidak ditemukan. Periksa path: /assets/sounds/success.mp3');
+          }
+      });
       
       // NEW: Menutup modal secara otomatis setelah 1 detik
       setTimeout(() => {
           closeModal('modalBerhasil');
+          if (successAudio) {
+              successAudio.pause(); // Hentikan audio
+              successAudio.currentTime = 0; // Reset audio ke awal
+          }
       }, 1000); // 1000 milidetik = 1 detik
   }
 

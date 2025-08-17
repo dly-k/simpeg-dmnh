@@ -485,7 +485,10 @@ body {
 /* ======================================= */
 /* ===   CSS UNTUK MODAL KONFIRMASI    === */
 /* ======================================= */
-
+.konfirmasi-hapus-overlay .modal-dialog {
+    max-width: 500px;  /* ganti sesuai keinginan */
+    width: 100%;        /* responsif di layar kecil */
+}
 /* Overlay Utama */
 .konfirmasi-hapus-overlay {
     position: fixed;

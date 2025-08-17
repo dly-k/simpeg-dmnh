@@ -602,7 +602,7 @@ body {
     display: none; /* Pertahankan ini */
     justify-content: center;
     align-items: center;
-    z-index: 1050;
+    z-index: 9999;
 }
 
 .konfirmasi-hapus-box {
