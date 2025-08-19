@@ -89,7 +89,7 @@
         <div class="search-box">
           <div class="input-group">
             <span class="input-group-text bg-light border-end-0">
-              <i class="fas fa-search" style="color: green;"></i>
+              <i class="fas fa-search search-icon"></i>
             </span>
             <input type="text" class="form-control border-start-0 search-input" placeholder="Cari Data...">
           </div>
@@ -148,14 +148,14 @@
           <table class="table table-hover table-bordered">
             <thead class="table-light">
               <tr class="text-center">
-                <th style="width: 5%">No</th>
-                <th style="width: 30%" class="text-start">Judul</th>
-                <th style="width: 10%">Tanggal Terbit</th>
-                <th style="width: 10%">Jenis Karya</th>
-                <th style="width: 5%">Publik</th>
-                <th style="width: 10%">Verifikasi</th>
-                <th style="width: 10%">Dokumen</th>
-                <th style="width: 20%">Aksi</th>
+                <th>No</th>
+                <th>Judul</th>
+                <th>Tanggal Terbit</th>
+                <th>Jenis Karya</th>
+                <th>Publik</th>
+                <th>Verifikasi</th>
+                <th>Dokumen</th>
+                <th>Aksi</th>
               </tr>
             </thead>
             <tbody>

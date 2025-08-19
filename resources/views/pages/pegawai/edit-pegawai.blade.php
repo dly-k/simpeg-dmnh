@@ -82,7 +82,7 @@
             <h1 class="m-0">
                 <i class="fa fa-user-pen"></i> Edit Data Pegawai
             </h1>
-            <a href="/daftar-pegawai" class="btn-kembali d-flex align-items-center gap-2"  style="text-decoration: none;">
+            <a href="/daftar-pegawai" class="btn-kembali d-flex align-items-center gap-2">
                 <i class="fa fa-arrow-left"></i> Kembali
             </a>
         </div>
@@ -95,12 +95,11 @@
                     <div class="d-flex flex-column flex-md-row gap-4 mb-4">
                         <div class="text-center flex-shrink-0">
                             <!-- Foto -->
-                            <div class="mb-2 mx-auto d-flex align-items-center justify-content-center bg-light rounded" 
-                                 style="width: 220px; height: 250px; overflow: hidden;">
-                                <i class="lni lni-user" style="font-size: 5rem; color: #bfbfbf;"></i>
+                            <div class="mb-2 mx-auto d-flex align-items-center justify-content-center bg-light rounded foto-profil">
+                                <i class="lni lni-user"></i>
                             </div>
                             <!-- Tombol Edit -->
-                            <button class="btn btn-editfoto btn-sm w-100" style="max-width: 220px" onclick="editPhoto()">
+                            <button class="btn btn-editfoto btn-sm w-100" onclick="editPhoto()">
                                 Edit Foto
                             </button>
                         </div>
@@ -177,8 +176,8 @@
                         </div>
                     </div>
 
-                    <hr class="mb-4" style="color: #939393">
-                    <div class="main-tab-content" id="biodata-content" style="display: block;">
+                    <hr class="mb-4 divider-light">
+                    <div class="main-tab-content" id="biodata-content">
                     <div id="biodata-sub-tabs" class="btn-group flex-wrap gap-2 mb-4">
                         <button type="button" class="btn active" data-tab="kepegawaian">Kepegawaian</button>
                         <button type="button" class="btn" data-tab="dosen">Dosen</button>
@@ -186,7 +185,7 @@
                         <button type="button" class="btn" data-tab="kependudukan">Kependudukan</button>
                     </div>
                     <!-- TAB: Kepegawaian -->
-                    <div class="sub-tab-content" id="kepegawaian" style="display: block;">
+                    <div class="sub-tab-content" id="kepegawaian">
                         <div class="row g-3">
 
                         <!-- Status Kepegawaian -->
@@ -220,15 +219,13 @@
                         <!-- Unit Kerja -->
                         <div class="col-md-6 form-group">
                             <label class="small text-secondary">Unit Kerja</label>
-                            <input type="text" class="form-control form-control-sm" value="Fakultas Kehutanan dan Lingkungan"
-                                style="background-color: #e9ecef; color: #495057" readonly>
+                            <input type="text" class="form-control form-control-sm input-readonly" value="Fakultas Kehutanan dan Lingkungan" readonly>
                         </div>
 
                         <!-- Divisi -->
                         <div class="col-md-6 form-group">
                             <label class="small text-secondary">Divisi</label>
-                            <input type="text" class="form-control form-control-sm" value="Departemen Manajemen Hutan"
-                                style="background-color: #e9ecef; color: #495057" readonly>
+                            <input type="text" class="form-control form-control-sm input-readonly" value="Departemen Manajemen Hutan" readonly>
                         </div>
 
                         <!-- Nomor Arsip -->
@@ -355,7 +352,7 @@
                     </div>
 
                     <!-- TAB: Dosen -->
-                    <div class="sub-tab-content" id="dosen" style="display: none;">
+                    <div class="sub-tab-content" id="dosen">
                         <div class="row g-3">
                         <div class="col-md-6 form-group">
                             <label class="small text-secondary">NUPTK</label>
@@ -393,7 +390,7 @@
                     </div>
 
                     <!-- TAB: Domisili -->
-                    <div class="sub-tab-content" id="domisili" style="display: none;">
+                    <div class="sub-tab-content" id="domisili">
                         <div class="row g-3">
                         <div class="col-md-6 form-group">
                             <label class="small text-secondary">Provinsi<span class="text-danger">*</span></label>
@@ -431,7 +428,7 @@
                     </div>
 
                     <!-- TAB: Kependudukan -->
-                    <div class="sub-tab-content" id="kependudukan" style="display: none;">
+                    <div class="sub-tab-content" id="kependudukan">
                         <div class="row g-3">
 
                         <div class="col-md-6 form-group">

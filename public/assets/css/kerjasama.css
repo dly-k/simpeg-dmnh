@@ -6,22 +6,16 @@
   --primary-hover: #037856;
   --primary-dark: #047857;
   --primary-light: #e3f7ec;
-
   --info: #03b9de;
   --info-hover: #0aa6c6;
-
   --verifikasi: #11ba82;
   --verifikasi-hover: #0ba572;
-
   --warning: #ffc107;
   --warning-hover: #d39e00;
-
   --danger: #dc3545;
   --danger-hover: #b02a37;
-
   --dark: #2d3748;
   --dark-hover: #1f2937;
-
   --light: #f5f6fa;
   --gray: #6c757d;
   --white: #ffffff;
@@ -29,7 +23,9 @@
   --shadow: rgba(0, 0, 0, 0.05);
 }
 
-/* === Global === */
+/* ========================
+   Base Styles
+========================= */
 body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
@@ -38,7 +34,9 @@ body {
   color: var(--dark);
 }
 
-/* === Sidebar === */
+/* ========================
+   Sidebar
+========================= */
 .sidebar {
   width: 250px;
   height: 100vh;
@@ -53,6 +51,7 @@ body {
   z-index: 1001;
   transform: translateX(0);
 }
+
 .sidebar.hidden {
   transform: translateX(-100%);
 }
@@ -66,6 +65,7 @@ body {
   border-bottom: 1px solid #ccc;
   letter-spacing: 1px;
 }
+
 .sidebar .brand span {
   color: var(--primary);
 }
@@ -93,23 +93,30 @@ body {
   text-decoration: none;
   color: #333;
   font-size: 13px;
-  transition: all 0.2s ease-in-out;
   width: 100%;
   background: none;
   border: none;
   text-align: left;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
 }
+
 .sidebar .menu a:hover,
 .sidebar .menu button:hover {
   background-color: var(--primary-light);
   color: var(--primary);
   box-shadow: inset 3px 0 0 var(--primary);
 }
+
 .sidebar .menu a.active {
   background-color: var(--primary);
   color: var(--white);
   font-weight: 600;
   box-shadow: inset 4px 0 0 #034d26;
+}
+
+.sidebar .menu a:first-of-type {
+  margin-top: 10px;
 }
 
 .sidebar .menu a i,
@@ -126,33 +133,37 @@ body {
   padding: 9px 35px;
   font-size: 12.5px;
 }
-.sidebar .menu a:first-of-type {
-  margin-top: 10px;
-}
 
-/* === Toggle Icon === */
 .toggle-icon {
   margin-left: auto;
   transition: transform 0.3s;
 }
+
 .collapsed .toggle-icon {
   transform: rotate(-90deg);
 }
 
-/* === Sidebar Overlay (Mobile) === */
+/* ========================
+   Overlay
+========================= */
 .overlay {
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.4);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
   z-index: 1000;
   display: none;
 }
+
 .overlay.show {
   display: block;
 }
 
-/* === Navbar === */
+/* ========================
+   Navbar
+========================= */
 .navbar-custom {
   height: 66px;
   background: var(--white);
@@ -165,15 +176,108 @@ body {
   transition: margin-left 0.3s ease-in-out;
   position: fixed;
   top: 0;
-  right: 0;
   left: 0;
+  right: 0;
   z-index: 999;
 }
+
 .sidebar.hidden ~ .navbar-custom {
   margin-left: 0;
 }
 
-/* === Title Bar === */
+.time-date {
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-weight: 400;
+}
+
+.time-date div {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.time-date i {
+  color: #4b5563;
+  font-size: 13px;
+}
+
+.account {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 400;
+  cursor: pointer;
+  margin-left: 10px;
+  gap: 6px;
+}
+
+.icon-circle {
+  background: var(--primary);
+  color: var(--white);
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+/* ========================
+   Dropdown Menu
+========================= */
+.dropdown-menu {
+  margin-top: 5px;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 0.375rem;
+}
+
+.dropdown-item {
+  padding: 10px 16px;
+  font-size: 13px;
+}
+
+.dropdown-item i {
+  min-width: 24px;
+  text-align: center;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background-color: var(--light);
+  color: var(--dark);
+  text-decoration: none;
+  outline: none;
+  box-shadow: none;
+}
+
+.dropdown-item:active {
+  background-color: #e9e9e9;
+  color: var(--dark);
+}
+
+.dropdown-divider {
+  margin: 0;
+}
+
+.dropdown-item-danger {
+  color: var(--danger);
+}
+
+.dropdown-item-danger:hover,
+.dropdown-item-danger:focus {
+  background-color: var(--danger);
+  color: var(--white);
+}
+
+/* ========================
+   Title Bar
+========================= */
 .title-bar {
   background: linear-gradient(to right, var(--primary), var(--primary-hover));
   color: var(--white);
@@ -188,9 +292,11 @@ body {
   display: flex;
   align-items: center;
 }
+
 .sidebar.hidden ~ .navbar-custom ~ .title-bar {
   margin-left: 0;
 }
+
 .title-bar h1 {
   font-size: 20px;
   font-weight: 600;
@@ -199,22 +305,50 @@ body {
   align-items: center;
   gap: 12px;
 }
+
 .title-bar h1 i {
   font-size: 22px;
 }
 
-/* === Main Content === */
+/* ========================
+   Main Content
+========================= */
 .main-content {
   margin: 130px 0 70px 250px;
   padding: 25px;
   background-color: var(--light);
   transition: margin-left 0.3s ease-in-out;
+  min-height: calc(100vh - 190px);
 }
+
 .sidebar.hidden ~ .navbar-custom ~ .title-bar ~ .main-content {
   margin-left: 0;
 }
 
-/* === Footer === */
+/* ========================
+   Pagination
+========================= */
+.pagination .page-item.active .page-link {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: var(--white);
+}
+
+.pagination .page-link {
+  color: var(--primary);
+}
+
+.pagination .page-link:hover {
+  background-color: var(--primary-light);
+}
+
+.pagination .page-item.disabled .page-link {
+  color: var(--gray);
+}
+
+/* ========================
+   Footer
+========================= */
 .footer-custom {
   background: var(--white);
   border-top: 1px solid var(--border-color);
@@ -227,17 +361,20 @@ body {
   color: #555;
   position: fixed;
   bottom: 0;
-  right: 0;
   left: 0;
+  right: 0;
   margin-left: 250px;
   transition: margin-left 0.3s ease-in-out;
   z-index: 997;
 }
+
 .sidebar.hidden ~ .navbar-custom ~ .title-bar ~ .main-content ~ .footer-custom {
   margin-left: 0;
 }
 
-/* === Top Action Bar === */
+/* ========================
+   Top Action Bar
+========================= */
 .top-action-bar {
   display: flex;
   justify-content: space-between;
@@ -247,46 +384,42 @@ body {
   margin-bottom: 1.5rem;
 }
 
-/* === Card & Table === */
+/* ========================
+   Card
+========================= */
 .card {
   border: none;
   border-radius: 0.5rem;
-  box-shadow: 0 0.1rem 0.5rem rgba(0,0,0,0.075);
+  box-shadow: 0 0.1rem 0.5rem var(--shadow);
 }
 
+/* ========================
+   Table
+========================= */
 .table {
   vertical-align: middle;
   font-size: 12px;
 }
+
 .table th {
   font-weight: 600;
-  text-align: center !important;
-  vertical-align: middle !important;
+  text-align: center;
+  vertical-align: middle;
+  background-color: #f8f9fa;
 }
-.table td, .table th {
+
+.table td,
+.table th {
   padding: 1rem;
 }
+
 .table-hover > tbody > tr:hover {
   background-color: var(--light);
 }
 
-/* === Pagination === */
-.pagination .page-item.active .page-link {
-  background-color: var(--primary);
-  border-color: var(--primary);
-  color: var(--white);
-}
-.pagination .page-link {
-  color: var(--primary);
-}
-.pagination .page-link:hover {
-  background-color: var(--primary-light);
-}
-.pagination .page-item.disabled .page-link {
-  color: var(--gray);
-}
-
-/* === Buttons === */
+/* ========================
+   Buttons
+========================= */
 .btn-aksi {
   width: 32px;
   height: 32px;
@@ -299,107 +432,115 @@ body {
   transition: all 0.2s ease-in-out;
 }
 
-.btn-lihat, .btn-lihat-detail {
-  background-color: var(--info);
-  color: var(--white);
+.btn-tambah {
+  background-color: var(--dark);
+  color: white;
   transition: all 0.3s ease;
 }
-.btn-lihat:hover, .btn-lihat-detail:hover {
+
+.btn-tambah:hover {
+  background-color: var(--dark-hover);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--shadow);
+}
+
+.btn-lihat,
+.btn-lihat-detail {
+  background-color: var(--info);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.btn-lihat:hover,
+.btn-lihat-detail:hover {
   background-color: var(--info-hover);
-  color: var(--white);
+  color: white;
   transform: scale(1.15);
 }
 
 .btn-edit-row {
   background-color: var(--warning);
+  color: white;
   transition: all 0.3s ease;
 }
+
 .btn-edit-row:hover {
   background-color: var(--warning-hover);
-  color: var(--white);
+  color: white;
   transform: scale(1.15);
 }
 
 .btn-delete-row {
   background-color: var(--danger);
-  color: var(--white);
+  color: white;
   transition: all 0.3s ease;
-}
-.btn-delete-row:hover {
-  background-color: var(--danger-hover);
-  color: var(--white);
-  transform: scale(1.15);
 }
 
-.btn-tambah {
-  background-color: var(--dark);
-  color: var(--white);
-  transition: all 0.3s ease;
-}
-.btn-tambah:hover {
-  background-color: var(--dark-hover);
-  color: var(--white);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+.btn-delete-row:hover {
+  background-color: var(--danger-hover);
+  color: white;
+  transform: scale(1.15);
 }
 
 .btn-export {
   background-color: var(--verifikasi-hover);
-  color: var(--white);
+  color: white; 
   transition: all 0.3s ease;
 }
+
 .btn-export:hover {
   background-color: var(--primary);
-  color: var(--white);
+  color: white;
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 8px var(--shadow);
 }
 
-/* === Placeholder === */
-.search-input::placeholder {
-  color: rgba(0, 0, 0, 0.4);
-  opacity: 1;
-}
-
-/* Header untuk semua modal Tambah/Edit (form) */
-#kerjasamaModal .modal-header {
-  background: linear-gradient(to right, var(--primary), var(--primary-dark));
-  color: var(--white);
-}
-
-/* Header untuk SEMUA modal Detail (tampilan info) */
-#modalDetailKerjasama .modal-header {
-  background-color: var(--primary-dark);
-  color: var(--white);
-}
-
-
-/* 2. Gaya Umum untuk Komponen Modal */
-/* ----------------------------------- */
-/* Gaya ini berlaku untuk SEMUA header modal */
+/* ========================
+   Modal General
+========================= */
 .modal-header {
   border-bottom: none;
 }
+
 .modal-header .btn-close {
   filter: invert(1) grayscale(100%) brightness(200%);
 }
 
-/* Gaya ini berlaku untuk SEMUA judul modal */
 .modal-title {
   font-weight: 600;
   display: flex;
   align-items: center;
-  color: white;
+  color: var(--white);
 }
+
 .modal-title i {
   margin-right: 10px;
   font-size: 1.2rem;
 }
 
+/* Specific Modal Headers */
+#kerjasamaModal .modal-header {
+  background: linear-gradient(to right, var(--primary), var(--primary-dark));
+  color: var(--white);
+}
 
-/* 3. Gaya untuk Konten di Dalam Modal (Reusable) */
-/* -------------------------------------------------- */
-/* Untuk semua modal detail */
+#modalDetailKerjasama .modal-header {
+  background-color: var(--primary-dark);
+  color: var(--white);
+}
+
+#modalDetailKerjasama .modal-body,
+#modalDetailKerjasama .modal-body small,
+#modalDetailKerjasama .modal-body p,
+#modalDetailKerjasama .modal-body ul,
+#modalDetailKerjasama .modal-body h6 {
+  color: #000;
+}
+
+/* ========================
+   Modal Detail
+========================= */
 .detail-grid-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -409,25 +550,29 @@ body {
   border: 1px solid #dee2e6;
   border-radius: 8px;
 }
+
 .detail-item {
   border-bottom: 1px solid #e9ecef;
   padding-bottom: 0.5rem;
   word-wrap: break-word;
 }
+
 .detail-item small {
-  color: #6c757d;
+  color: var(--gray);
   display: block;
   margin-bottom: 0.25rem;
   font-size: 0.8rem;
   font-weight: 700;
   text-transform: uppercase;
 }
+
 .detail-item p {
   font-weight: 500;
   margin: 0;
   color: #212529;
   font-size: 0.95rem;
 }
+
 .document-viewer-container {
   border: 1px solid #dee2e6;
   border-radius: 8px;
@@ -435,117 +580,274 @@ body {
   margin-top: 1rem;
   background-color: #525659;
 }
-.document-viewer-container embed { display: block; }
-.full-width-detail { grid-column: 1 / -1; }
 
-/* === File Upload Area === */
+.document-viewer-container embed {
+  display: block;
+}
+
+.full-width-detail {
+  grid-column: 1 / -1;
+}
+
+/* ========================
+   Modal Form
+========================= */
 .upload-area {
   border: 2px dashed #dee2e6;
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   padding: 2rem;
   text-align: center;
   cursor: pointer;
   transition: background-color 0.2s;
 }
+
 .upload-area:hover {
   background-color: var(--light);
 }
+
 .upload-area i {
   font-size: 2rem;
   color: var(--gray);
 }
+
 .upload-area p {
   margin-top: 1rem;
   color: var(--gray);
 }
 
-/* === Account & Dropdown === */
-.account {
+/* ========================
+   Modal Konfirmasi Hapus
+========================= */
+.konfirmasi-hapus-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
-  align-items: center;
-  font-size: 13px;
-  font-weight: 400;
-  cursor: pointer;
-  margin-left: 10px;
-  gap: 6px;
-}
-.icon-circle {
-  background: var(--primary);
-  color: var(--white);
-  border-radius: 50%;
-  width: 28px;
-  height: 28px;
-  display: flex;
-  align-items: center;
   justify-content: center;
-  font-size: 14px;
-  flex-shrink: 0;
+  align-items: center;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
 }
-.dropdown-menu {
-  margin-top: 5px !important;
-  padding: 0;
-  overflow: hidden;
-  border-radius: 0.375rem;
+
+.konfirmasi-hapus-overlay.show {
+  opacity: 1;
+  visibility: visible;
 }
-.dropdown-item {
-  padding: 10px 16px;
-  font-size: 13px;
-  min-width: 24px;
+
+.konfirmasi-hapus-overlay .modal-dialog {
+  max-width: 500px;
+  width: 100%;
+}
+
+.konfirmasi-hapus-box {
+  background-color: #e5e7eb;
+  padding: 2rem;
+  border-radius: 16px;
   text-align: center;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 10px 25px var(--shadow);
+  transform: scale(0.9);
+  transition: all 0.3s ease;
 }
-.dropdown-item:hover,
-.dropdown-item:focus {
-  background-color: var(--light);
-  color: var(--dark);
-  text-decoration: none;
-  outline: none;
-  box-shadow: none;
+
+.konfirmasi-hapus-overlay.show .konfirmasi-hapus-box {
+  transform: scale(1);
+  opacity: 1;
 }
-.dropdown-item:active {
-  background-color: #e9e9e9;
-  color: var(--dark);
+
+.konfirmasi-hapus-icon {
+  width: 80px;
+  height: 80px;
+  background-color: #facc15;
+  border-radius: 50%;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.dropdown-divider {
-  margin: 0;
-}
-.dropdown-item-danger {
-  color: var(--danger);
-}
-.dropdown-item-danger:hover,
-.dropdown-item-danger:focus {
-  background-color: var(--danger);
+
+.konfirmasi-hapus-icon i {
+  font-size: 2.5rem;
   color: var(--white);
 }
 
-/* === Time & Date === */
-.time-date {
-  font-size: 13px;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  font-weight: 400;
-}
-.time-date div {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.time-date i {
-  color: #4b5563;
-  font-size: 13px;
+.konfirmasi-hapus-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 0.5rem;
 }
 
-/* === Responsive === */
+.konfirmasi-hapus-subtitle {
+  font-size: 1rem;
+  color: #6b7280;
+  margin-bottom: 2rem;
+}
+
+.konfirmasi-hapus-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* ========================
+   Modal Berhasil
+========================= */
+.modal-berhasil-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal-berhasil-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-berhasil-box {
+  background-color: var(--white);
+  padding: 2rem;
+  border-radius: 16px;
+  text-align: center;
+  width: 90%;
+  max-width: 550px;
+  box-shadow: 0 10px 25px var(--shadow);
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+}
+
+.modal-berhasil-overlay.show .modal-berhasil-box {
+  transform: scale(1);
+}
+
+.modal-berhasil-icon {
+  width: 80px;
+  height: 80px;
+  background-color: #22c55e;
+  border-radius: 50%;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-berhasil-icon i {
+  font-size: 2.5rem;
+  color: var(--white);
+}
+
+.modal-berhasil-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 0.5rem;
+}
+
+.modal-berhasil-subtitle {
+  font-size: 1rem;
+  color: #6b7280;
+  margin-bottom: 2rem;
+}
+
+.modal-berhasil-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* ========================
+   Button Popup
+========================= */
+.btn-popup {
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--white);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-popup:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+}
+
+.btn-batal {
+  background-color: #6c757d;
+}
+
+.btn-batal:hover {
+  background-color: #5a6268;
+}
+
+.btn-hapus {
+  background-color: var(--danger);
+}
+
+.btn-hapus:hover {
+  background-color: #c82333;
+}
+
+.btn-selesai {
+  background-color: #22c55e;
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.btn-selesai:hover {
+  background-color: #16a34a;
+}
+
+/* ========================
+   Search Input
+========================= */
+.search-input::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+  opacity: 1;
+}
+
+.search-icon {
+    color: green;
+}
+
+.jenis-select {
+  width: 180px;
+}
+
+/* ========================
+   Responsive Design
+========================= */
 @media (max-width: 1200px) {
   .top-action-bar {
     flex-direction: column;
-    align-items: stretch !important;
+    align-items: stretch;
   }
 }
+
 @media (max-width: 991px) {
   .sidebar {
     transform: translateX(-100%);
   }
+
   .sidebar.show {
     transform: translateX(0);
   }
@@ -554,7 +856,7 @@ body {
   .title-bar,
   .main-content,
   .footer-custom {
-    margin-left: 0 !important;
+    margin-left: 0;
   }
 
   .time-date {
@@ -566,235 +868,14 @@ body {
   .account span {
     font-size: 12px;
   }
+
   .sidebar .menu a,
   .sidebar .menu button {
     font-size: 12.5px;
   }
-}
 
-  #modalDetailKerjasama .modal-body,
-  #modalDetailKerjasama .modal-body small,
-  #modalDetailKerjasama .modal-body p,
-  #modalDetailKerjasama .modal-body ul,
-  #modalDetailKerjasama .modal-body h6 {
-      color: black;
+  .konfirmasi-hapus-box,
+  .modal-berhasil-box {
+    max-width: 95vw;
   }
-/* ======================================= */
-/* ===   CSS UNTUK MODAL KONFIRMASI    === */
-/* ======================================= */
-/* Lebarin modal khusus konfirmasi hapus */
-.konfirmasi-hapus-overlay .modal-dialog {
-    max-width: 500px;  /* ganti sesuai keinginan */
-    width: 100%;        /* responsif di layar kecil */
-}
-
-/* Overlay Utama */
-.konfirmasi-hapus-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-
-    /* Awal disembunyikan */
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease;
-}
-
-/* Saat aktif (ditampilkan) */
-.konfirmasi-hapus-overlay.show {
-    opacity: 1;
-    visibility: visible;
-}
-
-/* Kotak Konten */
-.konfirmasi-hapus-box {
-    background-color: #e5e7eb;
-    padding: 2rem;
-    border-radius: 16px;
-    text-align: center;
-    width: 90%;
-    max-width: 500px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-
-    /* Animasi scale */
-    transform: scale(0.9);
-    opacity: 0;
-    transition: all 0.3s ease;
-}
-
-/* Saat overlay aktif, konten akan fade-in & zoom-in */
-.konfirmasi-hapus-overlay.show .konfirmasi-hapus-box {
-    transform: scale(1);
-    opacity: 1;
-}
-
-/* Ikon Lingkaran Kuning */
-.konfirmasi-hapus-icon {
-    width: 80px;
-    height: 80px;
-    background-color: #facc15;
-    border-radius: 50%;
-    margin: 0 auto 1.5rem auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.konfirmasi-hapus-icon i {
-    font-size: 2.5rem;
-    color: white;
-}
-
-/* Judul Utama */
-.konfirmasi-hapus-title {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: #1f2937;
-    margin-top: 0;
-    margin-bottom: 0.5rem;
-}
-
-/* Sub-judul */
-.konfirmasi-hapus-subtitle {
-    font-size: 1rem;
-    color: #6b7280;
-    margin-bottom: 2rem;
-}
-
-/* Kontainer Tombol */
-.konfirmasi-hapus-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-}
-
-/* Gaya Dasar Tombol */
-.btn-popup {
-    border: none;
-    border-radius: 8px;
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    font-weight: 600;
-    color: white;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.btn-popup:hover {
-    filter: brightness(1.1);
-    transform: translateY(-2px);
-}
-
-/* Tombol Batal (Merah) */
-.btn-batal {
-    background-color: #6c757d;
-}
-.btn-batal:hover {
-    background-color: #5a6268;
-}
-
-/* Tombol Hapus (Hijau) */
-.btn-popup.btn-hapus {
-    background-color: #dc3545;
-}
-.btn-popup.btn-hapus:hover {
-    background-color: #c82333;
-}
-
-/* ======================================= */
-/* ===   CSS UNTUK MODAL BERHASIL      === */
-/* ======================================= */
-.modal-berhasil-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10000;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-/* KELAS .SHOW INI YANG PALING PENTING */
-.modal-berhasil-overlay.show {
-    opacity: 1;
-    visibility: visible;
-}
-
-.modal-berhasil-box {
-    background-color: white;
-    padding: 2rem;
-    border-radius: 16px;
-    text-align: center;
-    width: 90%;
-    max-width: 550px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    transform: scale(0.9);
-    transition: transform 0.3s ease;
-}
-
-.modal-berhasil-overlay.show .modal-berhasil-box {
-    transform: scale(1);
-}
-
-.modal-berhasil-icon {
-    width: 80px;
-    height: 80px;
-    background-color: #22c55e; /* Hijau */
-    border-radius: 50%;
-    margin: 0 auto 1.5rem auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.modal-berhasil-icon i {
-    font-size: 2.5rem;
-    color: white;
-}
-
-.modal-berhasil-title {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: black;
-    margin-bottom: 0.5rem;
-}
-
-.modal-berhasil-subtitle {
-    font-size: 1rem;
-    color: #6b7280;
-    margin-bottom: 2rem;
-}
-
-.modal-berhasil-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-}
-
-.btn-popup.btn-selesai {
-    background-color: #22c55e; /* Hijau */
-    color: white;
-    padding: 0.6rem 1.5rem;
-    border-radius: 8px;
-    border: none;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-
-.btn-popup.btn-selesai:hover {
-    background-color: #16a34a;
 }

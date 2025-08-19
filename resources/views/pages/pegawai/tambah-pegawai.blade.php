@@ -82,7 +82,7 @@
             <h1 class="m-0">
                 <i class="fa fa-user-plus"></i> Tambah Data Pegawai
             </h1>
-            <a href="/daftar-pegawai" class="btn-kembali d-flex align-items-center gap-2"  style="text-decoration: none;">
+            <a href="/daftar-pegawai" class="btn-kembali d-flex align-items-center gap-2">
                 <i class="fa fa-arrow-left"></i> Kembali
             </a>
         </div>

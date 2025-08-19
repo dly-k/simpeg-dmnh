@@ -101,7 +101,7 @@
                     <div class="search-filter-row">
                         <div class="search-box">
                             <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-search" style="color: green;"></i></span>
+                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-search search-icon"></i></span>
                                 <input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ....">
                             </div>
                         </div>
@@ -121,7 +121,7 @@
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered">
                         <thead class="table-light">
-                            <tr class="text-center"><th>No</th><th class="text-start">Nama</th><th>Tahun Semester</th><th>Kode MK</th><th>Mata Kuliah</th><th>SKS</th><th>Kelas Paralel (Jenis)</th><th>Jumlah Pertemuan</th><th>Verifikasi</th><th>Dokumen</th><th>Aksi</th></tr>
+                            <tr class="text-center"><th>No</th><th>Nama</th><th>Tahun Semester</th><th>Kode MK</th><th>Mata Kuliah</th><th>SKS</th><th>Kelas Paralel (Jenis)</th><th>Jumlah Pertemuan</th><th>Verifikasi</th><th>Dokumen</th><th>Aksi</th></tr>
                         </thead>
                         <tbody>
                             @php
@@ -206,7 +206,7 @@
                     <div class="search-filter-row">
                         <div class="search-box">
                             <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-search" style="color: green;"></i></span>
+                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-search search-icon"></i></span>
                                 <input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ....">
                             </div>
                         </div>
@@ -226,7 +226,7 @@
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered">
                         <thead class="table-light">
-                            <tr class="text-center"><th>No</th><th class="text-start">Nama</th><th>Tahun Semester</th><th>Kode MK</th><th>Mata Kuliah</th><th>Jumlah Pertemuan</th><th>Institusi</th><th>Program Studi</th><th>Verifikasi</th><th>Dokumen</th><th>Aksi</th></tr>
+                            <tr class="text-center"><th>No</th><th>Nama</th><th>Tahun Semester</th><th>Kode MK</th><th>Mata Kuliah</th><th>Jumlah Pertemuan</th><th>Institusi</th><th>Program Studi</th><th>Verifikasi</th><th>Dokumen</th><th>Aksi</th></tr>
                         </thead>
                         <tbody>
                             @php
@@ -304,7 +304,7 @@
                     <div class="search-filter-row">
                         <div class="search-box">
                             <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-search" style="color: green;"></i></span>
+                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-search search-icon"></i></span>
                                 <input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ....">
                             </div>
                         </div>
@@ -324,7 +324,7 @@
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered">
                         <thead class="table-light">
-                            <tr class="text-center"><th>No</th><th class="text-start">Nama</th><th>Tahun Semester</th><th>NIM</th><th>Nama Mahasiswa</th><th>Strata</th><th>Departemen</th><th>Status</th><th>Verifikasi</th><th>Dokumen</th><th>Aksi</th></tr>
+                            <tr class="text-center"><th>No</th><th>Nama</th><th>Tahun Semester</th><th>NIM</th><th>Nama Mahasiswa</th><th>Strata</th><th>Departemen</th><th>Status</th><th>Verifikasi</th><th>Dokumen</th><th>Aksi</th></tr>
                         </thead>
                         <tbody>
                             @php
@@ -396,7 +396,7 @@
                       <div class="search-filter-row">
                           <div class="search-box">
                               <div class="input-group">
-                                  <span class="input-group-text bg-light border-end-0"><i class="fas fa-search" style="color: green;"></i></span>
+                                  <span class="input-group-text bg-light border-end-0"><i class="fas fa-search search-icon"></i></span>
                                   <input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ....">
                               </div>
                           </div>
@@ -416,7 +416,7 @@
                   <div class="table-responsive">
                       <table class="table table-hover table-bordered">
                           <thead class="table-light">
-                              <tr class="text-center"><th>No</th><th class="text-start">Kegiatan</th><th>Nama</th><th>Tahun Semester</th><th>NIM</th><th>Nama Mahasiswa</th><th>Departemen</th><th>Status</th><th>Verifikasi</th><th>Dokumen</th><th>Aksi</th></tr>
+                              <tr class="text-center"><th>No</th><th>Kegiatan</th><th>Nama</th><th>Tahun Semester</th><th>NIM</th><th>Nama Mahasiswa</th><th>Departemen</th><th>Status</th><th>Verifikasi</th><th>Dokumen</th><th>Aksi</th></tr>
                           </thead>
                           <tbody>
                               @php
@@ -498,7 +498,7 @@
                     <div class="search-filter-row">
                         <div class="search-box">
                             <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-search" style="color: green;"></i></span>
+                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-search search-icon"></i></span>
                                 <input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ....">
                             </div>
                         </div>
@@ -518,7 +518,7 @@
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered">
                         <thead class="table-light">
-                            <tr class="text-center"><th>No</th><th class="text-start">Nama</th><th>Tahun Semester</th><th>NIM</th><th>Nama Mahasiswa</th><th>Universitas</th><th>Status</th><th>Verifikasi</th><th>Dokumen</th><th>Aksi</th></tr>
+                            <tr class="text-center"><th>No</th><th>Nama</th><th>Tahun Semester</th><th>NIM</th><th>Nama Mahasiswa</th><th>Universitas</th><th>Status</th><th>Verifikasi</th><th>Dokumen</th><th>Aksi</th></tr>
                         </thead>
                         <tbody>
                             @php
@@ -593,7 +593,7 @@
                     <div class="search-filter-row">
                         <div class="search-box">
                             <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-search" style="color: green;"></i></span>
+                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-search search-icon"></i></span>
                                 <input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ....">
                             </div>
                         </div>
@@ -613,7 +613,7 @@
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered">
                         <thead class="table-light">
-                            <tr class="text-center"><th>No</th><th class="text-start">Nama</th><th>Tahun Semester</th><th>NIM</th><th>Nama Mahasiswa</th><th>Universitas</th><th>Status</th><th>Verifikasi</th><th>Dokumen</th><th>Aksi</th></tr>
+                            <tr class="text-center"><th>No</th><th>Nama</th><th>Tahun Semester</th><th>NIM</th><th>Nama Mahasiswa</th><th>Universitas</th><th>Status</th><th>Verifikasi</th><th>Dokumen</th><th>Aksi</th></tr>
                         </thead>
                         <tbody>
                             @php

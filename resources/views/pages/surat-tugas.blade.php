@@ -88,18 +88,18 @@
   <div class="table-card">
     <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
       
-      <div class="d-flex align-items-center flex-wrap gap-2 flex-grow-1" style="min-width: 0;">
+      <div class="d-flex align-items-center flex-wrap gap-2 flex-grow-1">
         
         <div class="search-group flex-grow-1">
-          <div class="input-group search-box bg-white" style="border-radius: .5rem; min-width: 280px;">
+          <div class="input-group search-box bg-white">
             <span class="input-group-text bg-light border-end-0">
-              <i class="fas fa-search" style="color: green;"></i>
+              <i class="fas fa-search search-icon"></i>
             </span>
             <input type="text" class="form-control border-start-0 search-input" placeholder="Cari Data...">
           </div>
         </div>
 
-        <div style="min-width: 120px;">
+        <div>
           <select class="form-select filter-select">
             <option selected>Tahun</option>
             <option>2021</option>
@@ -124,7 +124,7 @@
         <thead class="table-light">
           <tr class="text-center">
             <th>No</th>
-            <th class="text-start">Nama Dosen</th>
+            <th>Nama Dosen</th>
             <th>Peran</th>
             <th>Diminta Sebagai</th>
             <th>Mitra/Instansi</th>

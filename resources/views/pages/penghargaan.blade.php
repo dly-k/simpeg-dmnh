@@ -114,7 +114,7 @@
           <div class="search-box">
             <div class="input-group">
               <span class="input-group-text bg-light border-end-0">
-                <i class="fas fa-search" style="color: green;"></i>
+                <i class="fas fa-search search-icon"></i>
               </span>
               <input type="text" class="form-control border-start-0 search-input" placeholder="Cari Data ....">
             </div>
@@ -127,7 +127,7 @@
           </select>
 
           <!-- Filter Lingkup -->
-          <select class="form-select" style="width: 140px;">
+          <select class="form-select lingkup-select">
             <option selected>Lingkup</option>
             <option>Internasional</option>
             <option>Nasional</option>
@@ -147,7 +147,7 @@
           <thead class="table-light">
             <tr class="text-center">
               <th>No</th>
-              <th class="text-start">Nama Kegiatan</th>
+              <th>Nama Kegiatan</th>
               <th>Unit</th>
               <th>Nomor</th>
               <th>Penghargaan</th>

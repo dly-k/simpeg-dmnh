@@ -68,7 +68,7 @@
             <h1 class="m-0">
                 <i class="fa fa-user"></i>Detail Pegawai
             </h1>
-            <a href="/daftar-pegawai" class="btn-kembali d-flex align-items-center gap-2"  style="text-decoration: none;">
+            <a href="/daftar-pegawai" class="btn-kembali d-flex align-items-center gap-2">
                 <i class="fa fa-arrow-left"></i> Kembali
             </a>
         </div>
@@ -78,8 +78,8 @@
                 <div class="search-filter-row">
                     <div class="search-box">
                         <div class="input-group">
-                            <span class="input-group-text bg-light border-end-0"><i class="fas fa-search" style="color: green;"></i></span>
-                            <input type="text" class="form-control border-start-0 search-input" placeholder="Cari Data Pegawai...">
+                            <span class="input-group-text bg-light border-end-0"><i class="fas fa-search search-icon"></i></span>
+                            <input type="text" class="form-control border-start-0 search-icon" placeholder="Cari Data Pegawai...">
                         </div>
                     </div>
                     <div class="btn-tambah-container">
@@ -94,15 +94,14 @@
             </div>
             <div class="card">
                 <div class="card-body p-4">
-                    <div class="d-flex flex-column flex-md-row gap-4 mb-5" style=" margin-bottom: 30px !important">
+                    <div class="d-flex flex-column flex-md-row gap-4 mb-5 custom-gap-mb">
                         <div class="text-center flex-shrink-0">
                             <!-- Foto -->
-                            <div style="width: 220px; height: 250px; background-color: #e9ecef; position: relative; overflow: hidden; border-radius: 3px;" 
-                                class="mb-2 mx-auto d-flex align-items-center justify-content-center">
-                                <i class="lni lni-user" style="font-size: 5rem; color: #bfbfbf;"></i>
+                            <div class="mb-2 mx-auto d-flex align-items-center justify-content-center foto-profil">
+                                <i class="lni lni-user"></i>
                             </div>
                             <!-- Tombol Edit -->
-                            <button class="btn btn-editfoto btn-sm w-100" style="max-width: 220px" onclick="editPhoto()">
+                            <button class="btn btn-editfoto btn-sm w-100" onclick="editPhoto()">
                                 Edit Foto
                             </button>
                         </div>
@@ -156,11 +155,11 @@
                             </div>
                         </div>
                     </div>
-                    <hr class="mb-4" style="color: #939393">
+                    <hr class="mb-4 divider-light">
                      
                   <!-- Kolom Main-Tab (Biodata)-->
                   <div class="d-flex flex-column flex-lg-row gap-4">
-                    <div class="nav flex-column nav-pills main-tab-nav" id="main-tab-nav" style="min-width: 20px; flex-shrink:0;">
+                    <div class="nav flex-column nav-pills main-tab-nav" id="main-tab-nav">
                         <button class="nav-link text-start active" data-main-tab="biodata">Biodata</button>
                         <button class="nav-link text-start" data-main-tab="pendidikan">Pelaksanaan Pendidikan</button>
                         <button class="nav-link text-start" data-main-tab="penelitian">Pelaksanaan Penelitian</button>
@@ -171,7 +170,7 @@
                     </div>
                     <div class="flex-grow-1">
                         <!-- Biodata Content -->
-                        <div class="main-tab-content" id="biodata-content" style="display: block;">
+                        <div class="main-tab-content" id="biodata-content">
                             <div id="biodata-sub-tabs" class="btn-group flex-wrap gap-2 mb-4">
                                 <button type="button" class="btn active" data-tab="kepegawaian">Kepegawaian</button>
                                 <button type="button" class="btn" data-tab="dosen">Dosen</button>
@@ -181,7 +180,7 @@
                             </div>
 
                             <!-- Kepegawaian Content -->
-                            <div class="sub-tab-content" id="kepegawaian" style="display: block;">
+                            <div class="sub-tab-content" id="kepegawaian">
                                 <div class="row g-3">
 
                                     <div class="col-md-6 form-group">
@@ -258,7 +257,7 @@
                             </div>
                             
                             <!-- Dosen Content -->
-                            <div class="sub-tab-content" id="dosen" style="display: none;">
+                            <div class="sub-tab-content" id="dosen">
                                 <div class="row g-3">
                                     <div class="col-md-6 form-group">
                                         <label class="small text-secondary">NUPTK</label>
@@ -303,7 +302,7 @@
                             </div>
                             
                             <!-- Domisili Content -->
-                            <div class="sub-tab-content" id="domisili" style="display: none;">
+                            <div class="sub-tab-content" id="domisili">
                                 <div class="row g-3">
                                     <div class="col-md-6 form-group">
                                         <label class="small text-secondary">Provinsi</label>
@@ -348,7 +347,7 @@
                             </div>
 
                             <!-- Kependudukan Content -->
-                            <div class="sub-tab-content" id="kependudukan" style="display: none;">
+                            <div class="sub-tab-content" id="kependudukan">
                                 <div class="row g-3">
 
                                     <div class="col-md-6 form-group">
@@ -399,7 +398,7 @@
                             </div>
 
                             <!-- efile Content -->
-                            <div class="sub-tab-content" id="efile" style="display: none;">
+                            <div class="sub-tab-content" id="efile">
                                 <div class="efile-header">
                                     <h4>Dokumen</h4>
                                     <button class="btn btn-tambah" data-bs-toggle="modal" data-bs-target="#tambahDokumenModal"><i class="lni lni-plus me-1"></i> Tambah</button>
@@ -609,7 +608,7 @@
                         </div>
 
                         <!-- Kolom Main-Tab (Pendidikan)-->
-                        <div class="main-tab-content" id="pendidikan-content" style="display: none;">
+                        <div class="main-tab-content" id="pendidikan-content">
                             <div id="pendidikan-sub-tabs" class="btn-group flex-wrap gap-2 mb-3">
                                 <button type="button" class="btn active" data-tab="pengajaran-lama">Pengajaran Lama</button>
                                 <button type="button" class="btn" data-tab="pengajaran-luar">Pengajaran Luar</button>
@@ -620,7 +619,7 @@
                             </div>
                             
                             <!-- Pengajaran Lama Content -->
-                            <div class="sub-tab-content" id="pengajaran-lama" style="display: block">
+                            <div class="sub-tab-content" id="pengajaran-lama">
                             <div class="tab-filters">
                                 <div class="filter-dropdown-wrapper"><select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select></div>
                                 <div class="input-group" style="width: auto; max-width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ...."></div>
@@ -678,7 +677,7 @@
                             </div>
                                 
                             <!-- Pengajaran Luar Content -->
-                            <div class="sub-tab-content" id="pengajaran-luar" style="display: none;">
+                            <div class="sub-tab-content" id="pengajaran-luar">
                             <div class="tab-filters">
                                 <div class="filter-dropdown-wrapper"><select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select></div>
                                 <div class="input-group" style="width: auto; max-width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ...."></div>
@@ -738,7 +737,7 @@
                             </div>
                                 
                             <!-- Pengujian Lama Content -->
-                            <div class="sub-tab-content" id="pengujian-lama" style="display: none;">
+                            <div class="sub-tab-content" id="pengujian-lama">
                             <div class="tab-filters">
                                 <div class="filter-dropdown-wrapper"><select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select></div>
                                 <div class="input-group" style="width: auto; max-width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ...."></div>
@@ -792,7 +791,7 @@
                             </div>
 
                             <!-- Pembimbing Lama Content -->
-                            <div class="sub-tab-content" id="pembimbing-lama" style="display: none;">
+                            <div class="sub-tab-content" id="pembimbing-lama">
                             <div class="tab-filters">
                                 <div class="filter-dropdown-wrapper"><select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select></div>
                                 <div class="input-group" style="width: auto; max-width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ...."></div>
@@ -848,7 +847,7 @@
                             </div>
 
                             <!-- Penguji Luar Content -->
-                            <div class="sub-tab-content" id="penguji-luar" style="display: none;">
+                            <div class="sub-tab-content" id="penguji-luar">
                             <div class="tab-filters">
                                 <div class="filter-dropdown-wrapper"><select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select></div>
                                 <div class="input-group" style="width: auto; max-width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ...."></div>
@@ -903,7 +902,7 @@
                             </div>
                             
                             <!-- Pembimbing Luar Content -->
-                            <div class="sub-tab-content" id="pembimbing-luar" style="display: none;">
+                            <div class="sub-tab-content" id="pembimbing-luar">
                             <div class="tab-filters">
                                 <div class="filter-dropdown-wrapper"><select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select></div>
                                 <div class="input-group" style="width: auto; max-width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ...."></div>
@@ -972,7 +971,7 @@
                         </div>
 
                         <!-- Penelitian Content -->
-                        <div class="main-tab-content" id="penelitian-content" style="display: none;">
+                        <div class="main-tab-content" id="penelitian-content">
                         <div class="tab-filters">
                                 <div class="filter-dropdown-wrapper d-flex gap-2">
                                 <select class="form-select filter-select">
@@ -1045,7 +1044,7 @@
                         </div>
                             
                         <!-- Pengabdian Content -->
-                        <div class="main-tab-content" id="pengabdian-content" style="display: none;">
+                        <div class="main-tab-content" id="pengabdian-content">
                             <div class="tab-filters">
                             <div class="filter-dropdown-wrapper d-flex gap-2">
                             <select class="form-select filter-select">
@@ -1129,7 +1128,7 @@
                         </div>
                             
                        <!-- Penunjang Content -->
-                        <div class="main-tab-content" id="penunjang-content" style="display: none;">
+                        <div class="main-tab-content" id="penunjang-content">
 
                         <!-- Filter Section -->
                         <div class="tab-filters d-flex flex-wrap gap-2 mb-3 justify-content-between align-items-center">
@@ -1213,7 +1212,7 @@
                         </div>
                             
                             <!-- Pelatihan Content -->
-                            <div class="main-tab-content" id="pelatihan-content" style="display: none;">
+                            <div class="main-tab-content" id="pelatihan-content">
                                 <div class="tab-filters">
                                    <div class="filter-dropdown-wrapper d-flex gap-2">
                                    <select class="form-select filter-select">
@@ -1278,7 +1277,7 @@
                             </div>
                             
                             <!-- Penghargaan Content -->
-                            <div class="main-tab-content" id="penghargaan-content" style="display: none;">
+                            <div class="main-tab-content" id="penghargaan-content">
                                 <div class="tab-filters">
                                    <div class="filter-dropdown-wrapper d-flex gap-2">
                                    <select class="form-select filter-select">

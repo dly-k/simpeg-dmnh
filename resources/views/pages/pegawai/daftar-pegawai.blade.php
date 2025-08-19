@@ -90,12 +90,12 @@
       <div class="table-card">
         <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
       
-      <div class="d-flex align-items-center flex-wrap gap-2 flex-grow-1" style="min-width: 0;">
+      <div class="d-flex align-items-center flex-wrap gap-2 flex-grow-1">
         
         <div class="search-group flex-grow-1">
-          <div class="input-group bg-white" style="border-radius: .5rem; min-width: 180px;">
+          <div class="input-group bg-white">
             <span class="input-group-text bg-light border-end-0">
-              <i class="fas fa-search" style="color: green;"></i>
+              <i class="fas fa-search search-icon"></i>
             </span>
             <input type="text" 
                   class="form-control form-control-sm bg-transparent border-0" 
@@ -103,7 +103,7 @@
           </div>
         </div>
 
-        <div style="min-width: 120px;">
+        <div>
           <select class="form-select form-select-sm w-100">
             <option selected disabled>Status</option>
             <option value="aktif">Aktif</option>
@@ -117,7 +117,7 @@
           </select>
         </div>
 
-        <div style="min-width: 180px;">
+        <div>
           <select class="form-select form-select-sm w-100">
             <option selected disabled>Kepegawaian</option>
             <option value="pns">Dosen PNS</option>
@@ -143,7 +143,7 @@
             <thead class="table-light">
               <tr class="text-center">
                 <th>No</th>
-                <th class="text-start">Nama Lengkap</th>
+                <th>Nama Lengkap</th>
                 <th>NIP</th>
                 <th>Status Kepegawaian</th>
                 <th>Jabatan Fungsional</th>

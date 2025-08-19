@@ -442,6 +442,10 @@ body.sidebar-collapsed .main-content {
   opacity: 1;
 }
 
+.search-icon {
+  color: green !important;
+}
+
 /* ========================
    Upload Area
 ========================= */

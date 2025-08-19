@@ -141,6 +141,18 @@ body {
   opacity: 0.9;
 }
 
+.related-link.sipakaril {
+  background-color: #db2777;
+}
+
+.related-link.simpeg {
+  background-color: #f59e0b;
+}
+
+.related-link.simaneh {
+  background-color: #2563eb;
+}
+
 /* ========================
    Logo Section
 ========================= */
@@ -148,6 +160,11 @@ body {
   opacity: 0;
   transform: translateY(-20px);
   animation: fadeInUp 1s ease forwards 0.3s;
+}
+
+.logo-ipb {
+  width: 90px;
+  height: 90px;
 }
 
 /* ========================

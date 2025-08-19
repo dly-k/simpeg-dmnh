@@ -31,12 +31,12 @@
 
   <!-- Konten Utama -->
   <div class="container position-relative z-2 d-flex align-items-center justify-content-center min-vh-100">
-    <div class="row align-items-center w-100" style="max-width: 1100px;">
+    <div class="row align-items-center w-100">
 
       <!-- Kiri: Logo & Deskripsi -->
       <div class="col-md-6 text-white px-4 logo-section">
         <div class="d-flex align-items-center mb-3 text-start">
-          <img src="assets/images/Logo.png" alt="Logo IPB" class="me-3" style="width: 90px; height: 90px;">
+          <img src="assets/images/Logo.png" alt="Logo IPB" class="me-3 logo-ipb">
           <div>
             <h1 class="fw-bold mb-1">SI<span class="text-green-custom">KEMAH</span></h1>
             <p class="small fw-medium text-light mb-0">Sistem Informasi Kepegawaian Manajemen Hutan</p>
@@ -50,9 +50,9 @@
         <div class="mt-4 text-start">
           <h6 class="text-light mb-3">Tautan Terkait:</h6>
           <div class="d-flex flex-wrap gap-3">
-            <a href="#" class="btn px-4 py-2 fw-semibold text-white related-link" style="background-color:#db2777;">SIPAKARIL</a>
-            <a href="#" class="btn px-4 py-2 fw-semibold text-white related-link" style="background-color:#f59e0b;">SIMPEG</a>
-            <a href="#" class="btn px-4 py-2 fw-semibold text-white related-link" style="background-color:#2563eb;">SIMANEH</a>
+            <a href="https://sipakaril.ipb.ac.id/" class="btn px-4 py-2 fw-semibold text-white related-link sipakaril">SIPAKARIL</a>
+            <a href="https://simpeg.ipb.ac.id/" class="btn px-4 py-2 fw-semibold text-white related-link simpeg">SIMPEG</a>
+            <a href="#" class="btn px-4 py-2 fw-semibold text-white related-link simaneh">SIMANEH</a> 
           </div>
         </div>
       </div>

@@ -88,7 +88,7 @@
             <div class="search-filter-row">
                 <div class="search-box">
                     <div class="input-group">
-                        <span class="input-group-text bg-light border-end-0"><i class="fas fa-search" style="color: green;"></i></span>
+                        <span class="input-group-text bg-light border-end-0"><i class="fas fa-search search-icon"></i></span>
                         <input type="text" class="form-control border-start-0 search-input" placeholder="Cari Data ....">
                     </div>
                 </div>
@@ -104,7 +104,7 @@
                 <thead class="table-light">
                     <tr class="text-center">
                         <th>No</th>
-                        <th class="text-start">Nama Kegiatan</th>
+                        <th>Nama Kegiatan</th>
                         <th>Unit</th>
                         <th>Nomor SK</th>
                         <th>Tanggal</th>

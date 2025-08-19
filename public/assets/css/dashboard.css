@@ -366,6 +366,18 @@ body.sidebar-collapsed .main-content {
   flex-shrink: 0;
 }
 
+.card-icon.icon-blue {
+  background-color: #3B82F6;
+}
+
+.card-icon.icon-green {
+  background-color: #10B981;
+}
+
+.card-icon.icon-yellow {
+  background-color: #F59E0B;
+}
+
 .card-label {
   color: var(--text-muted);
 }

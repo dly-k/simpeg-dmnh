@@ -113,15 +113,15 @@
         <div class="top-action-bar d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
           <div class="d-flex align-items-center gap-3 flex-grow-1">
             <!-- Search -->
-            <div class="input-group search-box" style="min-width: 280px;">
+            <div class="input-group search-box">
               <span class="input-group-text bg-light border-end-0">
-                <i class="fas fa-search" style="color: green;"></i>
+                <i class="fas fa-search search-icon"></i>
               </span>
               <input type="text" class="form-control border-start-0 search-input" placeholder="Cari Data...">
             </div>
 
             <!-- Filter Jenis -->
-            <select class="form-select" style="width: 180px;">
+            <select class="form-select jenis-select">
               <option selected>Semua Jenis</option>
               <option>MoU</option>
               <option>LoA</option>

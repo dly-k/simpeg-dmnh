@@ -87,16 +87,16 @@
     <div class="main-content">
       <div class="card-container">
         <div class="stat-card">
-          <div class="card-icon" style="background-color: #3B82F6;">
+          <div class="card-icon icon-blue">
             <i class="lni lni-users"></i>
           </div>
           <div>
-            <div class="card-label">Total Pegawai</div>
+            <div class="card-label icon-green">Total Pegawai</div>
             <div class="card-value">46</div>
           </div>
         </div>
         <div class="stat-card">
-          <div class="card-icon" style="background-color: #10B981;">
+          <div class="card-icon">
             <i class="lni lni-stats-up"></i>
           </div>
           <div>
@@ -105,7 +105,7 @@
           </div>
         </div>
         <div class="stat-card">
-          <div class="card-icon" style="background-color: #F59E0B;">
+          <div class="card-icon icon-yellow">
             <i class="lni lni-folder"></i>
           </div>
           <div>
