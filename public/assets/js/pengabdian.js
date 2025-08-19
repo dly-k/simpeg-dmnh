@@ -5,16 +5,28 @@ document.addEventListener('DOMContentLoaded', function () {
   const berhasilSubtitle = document.getElementById('berhasil-subtitle');
   let successModalTimeout = null;
 
+  // Create audio element for success sound
+  const successSound = new Audio('assets/sounds/success.mp3'); // Replace with actual path to your sound file
+  successSound.preload = 'auto'; // Preload audio to avoid delays
+  successSound.volume = 0.5; // Set volume to 50%
+
   function showSuccessModal(title, subtitle) {
     if (modalBerhasil && berhasilTitle && berhasilSubtitle) {
       berhasilTitle.textContent = title;
       berhasilSubtitle.textContent = subtitle;
-      modalBerhasil.classList.add('show'); // Gunakan class 'show' untuk menampilkan
+      modalBerhasil.classList.add('show'); 
       
+      // Play success sound
+      if (typeof successSound.play === 'function') {
+        successSound.play().catch(error => {
+          console.error('Error playing success sound:', error);
+        });
+      }
+
       clearTimeout(successModalTimeout);
       successModalTimeout = setTimeout(() => {
         hideSuccessModal();
-      }, 1200); // Durasi 1.2 detik
+      }, 1200);
     }
   }
   
@@ -22,12 +34,10 @@ document.addEventListener('DOMContentLoaded', function () {
     modalBerhasil?.classList.remove('show');
   }
 
-  // Listener untuk tombol 'Selesai' di modal berhasil
   document.getElementById('btnSelesai')?.addEventListener('click', () => {
     clearTimeout(successModalTimeout);
     hideSuccessModal();
   });
-
 
   // === Sidebar Logic ===
   const sidebar = document.getElementById('sidebar');
@@ -51,22 +61,11 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // === Date and Time Logic ===
+  // === Date and Time ===
   function updateDateTime() {
     const now = new Date();
-    const dateOptions = {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    };
-    const timeOptions = {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false,
-      timeZone: 'Asia/Jakarta'
-    };
+    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone: 'Asia/Jakarta' };
 
     const dateEl = document.getElementById('current-date');
     const timeEl = document.getElementById('current-time');
@@ -76,56 +75,39 @@ document.addEventListener('DOMContentLoaded', function () {
       timeEl.textContent = now.toLocaleTimeString('id-ID', timeOptions);
     }
   }
-
   updateDateTime();
   setInterval(updateDateTime, 1000);
 
-  // === Dynamic Member Remove Logic (Event Delegation) ===
-  function setupDynamicListRemovals() {
-    const lists = ['dosen-list', 'mahasiswa-list', 'kolaborator-list'];
-    lists.forEach(listId => {
-      const listContainer = document.getElementById(listId);
-      if (listContainer) {
-        listContainer.addEventListener('click', function(event) {
-          if (event.target.closest('.dynamic-row-close-btn')) {
-            event.target.closest('.dynamic-row').remove();
-          }
-        });
-      }
-    });
-  }
-  setupDynamicListRemovals();
-  
-  // === File Upload Logic ===
-  function setupUploadArea() {
-    document.querySelectorAll('.upload-area').forEach(uploadArea => {
-        const fileInput = uploadArea.querySelector('input[type="file"]');
-        const uploadText = uploadArea.querySelector('p');
-        
-        if (!fileInput || !uploadText) return;
-
-        const originalText = uploadText.innerHTML;
-
-        uploadArea.addEventListener('click', function () {
-            fileInput.click();
-        });
-
-        fileInput.addEventListener('change', function () {
-            if (this.files.length > 0) {
-                uploadText.textContent = this.files[0].name;
-            } else {
-                uploadText.innerHTML = originalText;
-            }
-        });
-
-        uploadArea.reset = function() {
-            uploadText.innerHTML = originalText;
+  // === Dynamic Member Remove ===
+  ['dosen-list', 'mahasiswa-list', 'kolaborator-list'].forEach(listId => {
+    const listContainer = document.getElementById(listId);
+    if (listContainer) {
+      listContainer.addEventListener('click', function(event) {
+        if (event.target.closest('.dynamic-row-close-btn')) {
+          event.target.closest('.dynamic-row').remove();
         }
+      });
+    }
+  });
+
+  // === File Upload ===
+  document.querySelectorAll('.upload-area').forEach(uploadArea => {
+    const fileInput = uploadArea.querySelector('input[type="file"]');
+    const uploadText = uploadArea.querySelector('p');
+    if (!fileInput || !uploadText) return;
+
+    const originalText = uploadText.innerHTML;
+
+    uploadArea.addEventListener('click', () => fileInput.click());
+
+    fileInput.addEventListener('change', function () {
+      uploadText.textContent = this.files.length > 0 ? this.files[0].name : originalText;
     });
-  }
-  setupUploadArea();
-  
-  // === [BARU] Tombol Simpan Logic ===
+
+    uploadArea.reset = () => uploadText.innerHTML = originalText;
+  });
+
+  // === Tombol Simpan (Tambah/Edit) ===
   const simpanBtn = document.querySelector('#pengabdianModal .btn-success');
   if (simpanBtn) {
     simpanBtn.addEventListener('click', function() {
@@ -134,67 +116,60 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-
-  // === DETAIL MODAL Logic ===
+  // === DETAIL MODAL ===
   const pengabdianDetailModal = document.getElementById("pengabdianDetailModal");
   const closePengabdianDetailBtn = document.getElementById("closePengabdianDetailBtn");
 
   document.addEventListener('click', function(event) {
     if (event.target.closest('#btnLihatPengabdian')) {
-      if (pengabdianDetailModal) {
-        pengabdianDetailModal.style.display = "block";
-      }
+      if (pengabdianDetailModal) pengabdianDetailModal.style.display = "block";
     }
   });
 
-  if (closePengabdianDetailBtn && pengabdianDetailModal) {
-    closePengabdianDetailBtn.addEventListener('click', function() {
-      pengabdianDetailModal.style.display = "none";
-    });
-  }
+  closePengabdianDetailBtn?.addEventListener('click', () => {
+    if (pengabdianDetailModal) pengabdianDetailModal.style.display = "none";
+  });
 
-  // === Verifikasi Confirmation Modal Logic ===
-  const verifModal = document.getElementById('modalKonfirmasiPengabdian');
-  const btnTerima = document.getElementById('popupBtnTerima');
-  const btnTolak = document.getElementById('popupBtnTolak');
-  const btnKembali = document.getElementById('popupBtnKembali');
-  
-  document.addEventListener('click', function(event) {
-    if (event.target.closest('.btn-verifikasi')) {
+  /* ===============================
+     KONFIRMASI VERIFIKASI MODAL
+     =============================== */
+  const verifModal = document.getElementById("modalKonfirmasiVerifikasi");
+  const btnTerima = document.getElementById("popupBtnTerima");
+  const btnTolak = document.getElementById("popupBtnTolak");
+  const btnKembali = document.getElementById("popupBtnKembali");
+
+  // === OPEN MODAL ===
+  document.addEventListener("click", function (event) {
+    if (event.target.closest(".btn-verifikasi")) {
       event.preventDefault();
-      if (verifModal) verifModal.style.display = 'flex';
+      verifModal.classList.add("show");
     }
   });
-  
-  function hideVerifModal() {
-    if (verifModal) verifModal.style.display = 'none';
-  }
 
-  if (verifModal) {
-    verifModal.addEventListener('click', (e) => {
-      if (e.target === verifModal) hideVerifModal();
-    });
-  }
-  
-  if (btnTerima) {
-    btnTerima.addEventListener('click', function() {
-      hideVerifModal();
-      showSuccessModal('Status Verifikasi Disimpan', 'Perubahan status verifikasi telah berhasil disimpan.');
-    });
-  }
-  
-  if (btnTolak) {
-    btnTolak.addEventListener('click', function() {
-      hideVerifModal();
-      showSuccessModal('Status Verifikasi Disimpan', 'Perubahan status verifikasi telah berhasil disimpan.');
-    });
-  }
-  
-  if (btnKembali) {
-    btnKembali.addEventListener('click', hideVerifModal);
-  }
+  // === CLOSE MODAL (btn Kembali) ===
+  btnKembali?.addEventListener("click", function () {
+    verifModal.classList.remove("show");
+  });
 
-  // === Delete Confirmation Modal Logic ===
+  // === ACTION BUTTONS ===
+  btnTerima?.addEventListener("click", function () {
+    verifModal.classList.remove("show");
+    showSuccessModal("Data Diverifikasi", "Data pengabdian berhasil diverifikasi");
+  });
+
+  btnTolak?.addEventListener("click", function () {
+    verifModal.classList.remove("show");
+    showSuccessModal("Data Ditolak", "Data pengabdian telah ditolak");
+  });
+
+  // === CLOSE MODAL jika klik luar box ===
+  verifModal?.addEventListener("click", function (event) {
+    if (event.target === verifModal) {
+      verifModal.classList.remove("show");
+    }
+  });
+
+  // === Delete Confirmation Modal ===
   const deleteModal = document.getElementById('modalKonfirmasiHapus');
   const btnBatalHapus = document.getElementById('btnBatalHapus');
   const btnKonfirmasiHapus = document.getElementById('btnKonfirmasiHapus');
@@ -212,25 +187,17 @@ document.addEventListener('DOMContentLoaded', function () {
     if (deleteModal) deleteModal.style.display = 'none';
   }
 
-  if (deleteModal) {
-    deleteModal.addEventListener('click', (e) => {
-      if (e.target === deleteModal) hideDeleteModal();
-    });
-  }
+  deleteModal?.addEventListener('click', (e) => {
+    if (e.target === deleteModal) hideDeleteModal();
+  });
 
-  if (btnBatalHapus) {
-    btnBatalHapus.addEventListener('click', hideDeleteModal);
-  }
+  btnBatalHapus?.addEventListener('click', hideDeleteModal);
 
-  if (btnKonfirmasiHapus) {
-    btnKonfirmasiHapus.addEventListener('click', function() {
-      if (dataToDelete) {
-        console.log(`Data dengan ID ${dataToDelete} akan dihapus`);
-      }
-      hideDeleteModal();
-      showSuccessModal('Data Berhasil Dihapus', 'Data yang dipilih telah berhasil dihapus secara permanen.');
-    });
-  }
+  btnKonfirmasiHapus?.addEventListener('click', function() {
+    if (dataToDelete) console.log(`Data dengan ID ${dataToDelete} akan dihapus`);
+    hideDeleteModal();
+    showSuccessModal('Data Berhasil Dihapus', 'Data yang dipilih telah berhasil dihapus secara permanen.');
+  });
 });
 
 // === Modal Functions ===
@@ -245,9 +212,7 @@ function openModal(modalId) {
     modalTitle.innerHTML = '<i class="fas fa-plus-circle"></i> Tambah Data Pengabdian';
   }
 
-  if (form) {
-    form.reset();
-  }
+  form?.reset();
 
   ['dosen-list', 'mahasiswa-list', 'kolaborator-list'].forEach(id => {
     const list = document.getElementById(id);
@@ -255,9 +220,7 @@ function openModal(modalId) {
   });
 
   document.querySelectorAll('.upload-area').forEach(uploadArea => {
-    if (uploadArea && typeof uploadArea.reset === 'function') {
-      uploadArea.reset();
-    }
+    if (typeof uploadArea.reset === 'function') uploadArea.reset();
   });
 
   modal.style.display = 'flex';
@@ -277,12 +240,10 @@ function openEditModal() {
 
 function closeModal(modalId) {
   const modal = document.getElementById(modalId);
-  if (modal) {
-    modal.style.display = 'none';
-  }
+  if (modal) modal.style.display = 'none';
 }
 
-// === Dynamic Member Add Function ===
+// === Dynamic Member Add ===
 function addAnggota(type) {
   let container, content;
   
@@ -307,24 +268,17 @@ function addAnggota(type) {
       break;
   }
 
-  if (container) {
-    container.insertAdjacentHTML('beforeend', content);
-  }
+  if (container) container.insertAdjacentHTML('beforeend', content);
 }
 
 // === Close Modals on Click Outside ===
 window.addEventListener('click', function (event) {
-  if (event.target.classList.contains('modal-backdrop')) {
-    closeModal(event.target.id);
-  }
-  
   const pengabdianDetailModal = document.getElementById("pengabdianDetailModal");
-  if (event.target === pengabdianDetailModal) {
-    pengabdianDetailModal.style.display = "none";
-  }
+  if (event.target === pengabdianDetailModal) pengabdianDetailModal.style.display = "none";
 
   const deleteModal = document.getElementById("modalKonfirmasiHapus");
-  if (event.target === deleteModal) {
-    deleteModal.style.display = "none";
-  }
+  if (event.target === deleteModal) deleteModal.style.display = "none";
+
+  const pengabdianModal = document.getElementById("pengabdianModal");
+  if (event.target === pengabdianModal) pengabdianModal.style.display = "none";
 });

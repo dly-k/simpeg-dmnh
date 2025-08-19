@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const berhasilTitle = document.getElementById('berhasil-title');
   const berhasilSubtitle = document.getElementById('berhasil-subtitle');
   let successModalTimeout = null;
+  // Tambahkan instance Audio untuk suara sukses
+  const successSound = new Audio('/assets/sounds/success.mp3');
 
   function showSuccessModal(title, subtitle) {
     if (modalBerhasil && berhasilTitle && berhasilSubtitle) {
@@ -11,6 +13,11 @@ document.addEventListener('DOMContentLoaded', function () {
       berhasilSubtitle.textContent = subtitle;
       modalBerhasil.classList.add('show'); // Gunakan class untuk menampilkan
       
+      // Putar suara sukses
+      successSound.play().catch(error => {
+        console.log('Gagal memutar suara sukses:', error);
+      });
+
       clearTimeout(successModalTimeout);
       successModalTimeout = setTimeout(hideSuccessModal, 1200); // Durasi 1.2 detik
     }
@@ -25,7 +32,6 @@ document.addEventListener('DOMContentLoaded', function () {
     clearTimeout(successModalTimeout);
     hideSuccessModal();
   });
-
 
   // === Sidebar Logic ===
   const sidebar = document.getElementById('sidebar');
@@ -130,30 +136,53 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // === Verifikasi Confirmation Modal Logic ===
-  const verifModal = document.getElementById('modalKonfirmasiPenunjang');
+  const verifModal = document.getElementById('modalKonfirmasiVerifikasi');
   const btnTerima = document.getElementById('popupBtnTerima');
   const btnTolak = document.getElementById('popupBtnTolak');
   const btnKembali = document.getElementById('popupBtnKembali');
   
+  // Debugging untuk memastikan modal ditemukan
+  console.log('verifModal:', verifModal);
+  console.log('btnTerima:', btnTerima);
+  console.log('btnTolak:', btnTolak);
+  console.log('btnKembali:', btnKembali);
+
   function hideVerifModal() {
-    if(verifModal) verifModal.style.display = 'none';
+    if (verifModal) {
+      console.log('Menyembunyikan modal verifikasi');
+      verifModal.classList.remove('show'); // Gunakan kelas show untuk menyembunyikan
+    } else {
+      console.log('Modal verifikasi tidak ditemukan saat mencoba menyembunyikan');
+    }
   }
 
   document.addEventListener('click', function(event) {
     if (event.target.closest('.btn-verifikasi')) {
+      console.log('Tombol verifikasi diklik!');
       event.preventDefault();
-      if (verifModal) verifModal.style.display = 'flex';
+      if (verifModal) {
+        console.log('Menampilkan modal verifikasi');
+        verifModal.classList.add('show'); // Gunakan kelas show untuk menampilkan
+        console.log('Style display saat ini:', verifModal.style.display);
+        console.log('Computed style:', window.getComputedStyle(verifModal).display);
+      } else {
+        console.log('Modal verifikasi tidak ditemukan!');
+      }
     }
   });
   
   if (verifModal) {
     verifModal.addEventListener('click', (e) => {
-      if (e.target === verifModal) hideVerifModal();
+      if (e.target === verifModal) {
+        console.log('Klik di luar modal, menyembunyikan');
+        hideVerifModal();
+      }
     });
   }
   
   if (btnTerima) {
     btnTerima.addEventListener('click', function() {
+      console.log('Tombol Terima diklik');
       hideVerifModal();
       showSuccessModal('Status Verifikasi Disimpan', 'Perubahan status verifikasi telah berhasil disimpan.');
     });
@@ -161,13 +190,17 @@ document.addEventListener('DOMContentLoaded', function () {
   
   if (btnTolak) {
     btnTolak.addEventListener('click', function() {
+      console.log('Tombol Tolak diklik');
       hideVerifModal();
       showSuccessModal('Status Verifikasi Disimpan', 'Perubahan status verifikasi telah berhasil disimpan.');
     });
   }
   
   if (btnKembali) {
-    btnKembali.addEventListener('click', hideVerifModal);
+    btnKembali.addEventListener('click', function() {
+      console.log('Tombol Kembali diklik');
+      hideVerifModal();
+    });
   }
 
   // === Delete Confirmation Modal Logic ===

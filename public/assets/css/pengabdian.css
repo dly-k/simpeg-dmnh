@@ -747,138 +747,133 @@
   border-top: 1px solid #e2e8f0;
 }
 
-
 /* ======================================= */
-/* ===   CSS UNTUK POPUP KONFIRMASI    === */
+/* === KONFIRMASI VERIFIKASI   === */
 /* ======================================= */
-.konfirmasi-pengabdian-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0,0,0,0.5);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 2000;
-}
-
-.konfirmasi-pengabdian-box {
-  background-color: white;
-  padding: 2rem;
-  border-radius: 0.5rem;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-  width: 100%;
-  max-width: 450px;
-  text-align: center;
-}
-
-.konfirmasi-pengabdian-title {
-  font-size: 1.6rem;
-  font-weight: 800;
-  color: #047857;
-  margin-bottom: 0.5rem;
-}
-
-.konfirmasi-pengabdian-subtitle {
-  font-size: 0.9rem;
-  color: #666;
-  margin-bottom: 1.5rem;
-}
-
-.konfirmasi-pengabdian-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 0.75rem;
-}
-
-.btn-popup {
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  font-weight: 500;
-  cursor: pointer;
-  border: none;
-  transition: all 0.2s;
-  min-width: 80px;
-}
-
-.btn-terima {
-  background-color: #28a745;
-  color: white;
-}
-
-.btn-terima:hover {
-  background-color: #218838;
-}
-
-.btn-tolak {
-  background-color: #dc3545;
-  color: white;
-}
-
-.btn-tolak:hover {
-  background-color: #c82333;
-}
-
-.btn-kembali {
-  background-color: #6c757d;
-  color: white;
-}
-
-.btn-kembali:hover {
-  background-color: #5a6268;
-}
-
-/* Responsive adjustments */
-@media (max-width: 576px) {
-  .konfirmasi-pengabdian-box {
-    padding: 1.5rem;
-    margin: 0 1rem;
-  }
-  
-  .konfirmasi-pengabdian-buttons {
-    flex-direction: column;
-  }
-  
-  .btn-popup {
-    width: 100%;
-  }
-}
-
-/* ======================================= */
-/* ===   CSS UNTUK MODAL KONFIRMASI    === */
-/* ======================================= */
-
-/* Overlay Utama */
-.konfirmasi-hapus-overlay {
+/* Overlay */
+#modalKonfirmasiVerifikasi {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+#modalKonfirmasiVerifikasi.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Box */
+.confirmation-popup-box {
+    background-color: #f4f4f4;
+    padding: 30px 40px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+    width: 90%;
+    max-width: 500px;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+#modalKonfirmasiVerifikasi.show .confirmation-popup-box {
+    transform: scale(1);
+}
+
+/* Title & subtitle */
+.popup-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #047857; /* Hijau utama */
+    margin-bottom: 8px;
+}
+.popup-subtitle {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 25px;
+}
+
+/* Button group */
+.popup-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+/* Base button style */
+.btn-popup {
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    color: white;
+}
+.btn-popup:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* Variasi tombol */
+.btn-terima {
+    background-color: #4caf50; /* Hijau */
+}
+.btn-tolak {
+    background-color: #e53935; /* Merah */
+}
+.btn-kembali {
+    background-color: #9ea4ad; /* Abu */
+}
+
+/* ======================================= */
+/* ===   KONFIRMASI HAPUS        === */
+/* ======================================= */
+.konfirmasi-hapus-overlay .modal-dialog {
+    max-width: 550px;  /* ganti sesuai keinginan */
+    width: 100%;        /* responsif di layar kecil */
+}
+.konfirmasi-hapus-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
 }
-
-/* Kotak Konten */
+.konfirmasi-hapus-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
 .konfirmasi-hapus-box {
     background-color: #e5e7eb;
     padding: 2rem;
     border-radius: 16px;
     text-align: center;
     width: 90%;
-    max-width: 500px;
+    max-width: 450px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
 }
-
-/* Ikon Lingkaran Kuning */
+.konfirmasi-hapus-overlay.show .konfirmasi-hapus-box {
+    transform: scale(1);
+}
 .konfirmasi-hapus-icon {
-    width: 80px;
-    height: 80px;
+    width: 80px; height: 80px;
     background-color: #facc15;
     border-radius: 50%;
     margin: 0 auto 1.5rem auto;
@@ -886,107 +881,37 @@
     justify-content: center;
     align-items: center;
 }
-
 .konfirmasi-hapus-icon i {
     font-size: 2.5rem;
     color: white;
 }
-
-/* Judul Utama */
 .konfirmasi-hapus-title {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 700;
     color: #1f2937;
-    margin-top: 0;
     margin-bottom: 0.5rem;
 }
-
-/* Sub-judul */
 .konfirmasi-hapus-subtitle {
     font-size: 1rem;
     color: #6b7280;
     margin-bottom: 2rem;
 }
-
-/* Kontainer Tombol */
 .konfirmasi-hapus-buttons {
     display: flex;
     justify-content: center;
     gap: 1rem;
 }
-
-/* Gaya Dasar Tombol */
-.btn-popup {
-    border: none;
-    border-radius: 8px;
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    font-weight: 600;
-    color: white;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.btn-popup:hover {
-    filter: brightness(1.1);
-    transform: translateY(-2px);
-}
-
-/* Tombol Batal (Merah) */
-.btn-batal {
+.btn-popup.btn-batal {
     background-color: #6c757d;
 }
-.btn-batal:hover {
+.btn-popup.btn-batal:hover {
     background-color: #5a6268;
 }
-
-/* Tombol Hapus (Hijau) */
 .btn-popup.btn-hapus {
     background-color: #dc3545;
 }
 .btn-popup.btn-hapus:hover {
     background-color: #c82333;
-}
-
-/* ======================================= */
-/* ===         ANIMASI MODAL           === */
-/* ======================================= */
-
-@keyframes modalContentShow {
-    from {
-        opacity: 0;
-        transform: translateY(-25px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes modalContentZoomIn {
-    from {
-        opacity: 0;
-        transform: scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-/* Animasi untuk Modal Tambah/Edit Data */
-#pengabdianModal .modal-content-wrapper {
-    animation: modalContentShow 0.3s ease-out;
-}
-
-/* Animasi untuk Modal Konfirmasi Verifikasi */
-.konfirmasi-pengabdian-box {
-    animation: modalContentZoomIn 0.3s ease-out;
-}
-
-/* Animasi untuk Modal Konfirmasi Hapus */
-.konfirmasi-hapus-box {
-    animation: modalContentZoomIn 0.3s ease-out;
 }
 
 /* ======================================= */
@@ -1060,4 +985,45 @@
 }
 .btn-popup.btn-selesai:hover {
     background-color: #16a34a;
+}
+
+/* ======================================= */
+/* ===         ANIMASI MODAL           === */
+/* ======================================= */
+
+@keyframes modalContentShow {
+    from {
+        opacity: 0;
+        transform: translateY(-25px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes modalContentZoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Animasi untuk Modal Tambah/Edit Data */
+#pengabdianModal .modal-content-wrapper {
+    animation: modalContentShow 0.3s ease-out;
+}
+
+/* Animasi untuk Modal Konfirmasi Verifikasi */
+.konfirmasi-pengabdian-box {
+    animation: modalContentZoomIn 0.3s ease-out;
+}
+
+/* Animasi untuk Modal Konfirmasi Hapus */
+.konfirmasi-hapus-box {
+    animation: modalContentZoomIn 0.3s ease-out;
 }
