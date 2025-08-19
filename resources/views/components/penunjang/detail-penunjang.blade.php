@@ -9,7 +9,7 @@
           <i class="fas fa-info-circle me-2"></i>
           <h5 class="mb-0">Detail Penunjang</h5>
         </div>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
       <!-- Body -->

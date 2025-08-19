@@ -572,6 +572,13 @@ body {
   }
 }
 
+  #modalDetailKerjasama .modal-body,
+  #modalDetailKerjasama .modal-body small,
+  #modalDetailKerjasama .modal-body p,
+  #modalDetailKerjasama .modal-body ul,
+  #modalDetailKerjasama .modal-body h6 {
+      color: black;
+  }
 /* ======================================= */
 /* ===   CSS UNTUK MODAL KONFIRMASI    === */
 /* ======================================= */

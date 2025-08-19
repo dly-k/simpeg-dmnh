@@ -6,38 +6,40 @@
   --primary-light: #e3f7ec;
   --primary-dark: #047857;
   --border-color: #e2e8f0;
-
   --info: #03b9de;
   --info-hover: #0aa6c6;
-
   --verifikasi: #11ba82;
   --verifikasi-hover: #0ba572;
-
   --warning: #ffc107;
   --warning-hover: #d39e00;
-
   --danger: #dc3545;
   --danger-hover: #b02a37;
-
   --dark: #2d3748;
   --dark-hover: #1a202c;
-
   --light: #f5f6fa;
   --gray: #6c757d;
   --white: #ffffff;
+  --success: #28a745;
+  --light-text: #6c757d;
+  --dark-gray: #343a40;
 }
 
+/* ========================
+   Base Styles
+========================= */
 body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
-  background-color: #f5f6fa;
+  background-color: var(--light);
   overflow: hidden;
   height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-/* === Layout === */
+/* ========================
+   Layout
+========================= */
 .layout {
   display: flex;
   flex: 1;
@@ -45,11 +47,13 @@ body {
   min-height: 100vh;
 }
 
-/* === Sidebar === */
+/* ========================
+   Sidebar
+========================= */
 .sidebar {
   width: 250px;
   height: 100vh;
-  background-color: #fff;
+  background-color: var(--white);
   border-right: 1px solid var(--border-color);
   position: fixed;
   top: 0;
@@ -106,6 +110,7 @@ body {
   background: none;
   border: none;
   text-align: left;
+  cursor: pointer;
 }
 
 .sidebar .menu a:hover,
@@ -117,7 +122,7 @@ body {
 
 .sidebar .menu a.active {
   background-color: var(--primary);
-  color: #fff;
+  color: var(--white);
   font-weight: 600;
   box-shadow: inset 4px 0 0 #034d26;
 }
@@ -146,7 +151,9 @@ body {
   transform: rotate(-90deg);
 }
 
-/* === Overlay === */
+/* ========================
+   Overlay
+========================= */
 .overlay {
   position: fixed;
   top: 0;
@@ -162,10 +169,12 @@ body {
   display: block;
 }
 
-/* === Navbar === */
+/* ========================
+   Navbar
+========================= */
 .navbar-custom {
   height: 66px;
-  background: #fff;
+  background: var(--white);
   border-bottom: 1px solid var(--border-color);
   display: flex;
   align-items: center;
@@ -191,6 +200,11 @@ body {
   gap: 6px;
 }
 
+.time-date i {
+  color: #4b5563;
+  font-size: 13px;
+}
+
 .account {
   display: flex;
   align-items: center;
@@ -203,7 +217,7 @@ body {
 
 .icon-circle {
   background: var(--primary);
-  color: white;
+  color: var(--white);
   border-radius: 50%;
   width: 28px;
   height: 28px;
@@ -214,9 +228,11 @@ body {
   flex-shrink: 0;
 }
 
-/* === Dropdown === */
+/* ========================
+   Dropdown Menu
+========================= */
 .dropdown-menu {
-  margin-top: 5px !important;
+  margin-top: 5px;
   padding: 0;
   overflow: hidden;
   border-radius: 0.375rem;
@@ -232,21 +248,37 @@ body {
   text-align: center;
 }
 
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background-color: #f0f0f0;
+  color: #111;
+  text-decoration: none;
+  outline: none;
+  box-shadow: none;
+}
+
+.dropdown-item:active {
+  background-color: #e9e9e9;
+  color: #111;
+}
+
 .dropdown-divider {
   margin: 0;
 }
 
 .dropdown-item-danger {
-  color: #dc3545;
+  color: var(--danger);
 }
 
 .dropdown-item-danger:hover,
 .dropdown-item-danger:focus {
-  color: #fff;
-  background-color: #dc3545;
+  color: var(--white);
+  background-color: var(--danger);
 }
 
-/* === Main Wrapper === */
+/* ========================
+   Main Wrapper
+========================= */
 .main-wrapper {
   flex-grow: 1;
   margin-left: 250px;
@@ -261,13 +293,15 @@ body {
   margin-left: 0;
 }
 
-/* === Title Bar === */
+/* ========================
+   Title Bar
+========================= */
 .title-bar {
   position: sticky;
-  top: 60px; /* sesuaikan tinggi navbar di atasnya */
+  top: 66px;
   z-index: 1000;
-  background: linear-gradient(to right, #059669, #047857);
-  color: white;
+  background: linear-gradient(to right, var(--primary), var(--primary-dark));
+  color: var(--white);
   padding: 20px 25px;
   flex-shrink: 0;
 }
@@ -281,17 +315,25 @@ body {
   font-weight: 600;
 }
 
-/* === Main Content === */
+.title-bar h1 i {
+  font-size: 22px;
+}
+
+/* ========================
+   Main Content
+========================= */
 .main-content {
   flex: 1;
   overflow-y: auto;
   padding: 25px;
-  background-color: #f5f6fa;
+  background-color: var(--light);
 }
 
-/* === Footer === */
+/* ========================
+   Footer
+========================= */
 .footer-custom {
-  background: #fff;
+  background: var(--white);
   border-top: 1px solid var(--border-color);
   height: 45px;
   display: flex;
@@ -306,40 +348,39 @@ body {
   z-index: 1020;
 }
 
-/* === Cards, Tables, Buttons === */
+/* ========================
+   Cards
+========================= */
 .card {
   border: none;
   box-shadow: 0 0.1rem 0.5rem rgba(0, 0, 0, 0.075);
   border-radius: 0.5rem;
-  overflow: visible; /* Pastikan konten tidak terpotong */
-  width: 100%; /* Mengisi lebar container */
+  overflow: visible;
+  width: 100%;
 }
 
 .card-body {
   padding: 1.5rem;
-  max-height: none; /* Hapus batasan tinggi */
-  overflow: visible; /* Biarkan konten mengalir alami */
-  width: 100%; /* Mengisi lebar card */
+  max-height: none;
+  overflow: visible;
+  width: 100%;
 }
 
+/* ========================
+   Tabs
+========================= */
 .main-tab-content {
-  display: none; /* Default untuk tab yang tidak aktif */
+  display: none;
 }
 
 .main-tab-content.active {
-  display: block; /* Tampilkan tab yang aktif */
-}
-
-.form-group label {
   display: block;
-  margin-bottom: 0.25rem;
-  font-weight: 500;
 }
 
 .main-tab-nav .nav-link {
   border: 1px solid var(--border-color);
   color: var(--dark-gray);
-  font-weight: 100;
+  font-weight: 400;
   border-radius: 0;
   margin-bottom: -1px;
 }
@@ -347,7 +388,7 @@ body {
 .main-tab-nav .nav-link.active {
   background-color: var(--primary);
   border-color: var(--primary);
-  color: white;
+  color: var(--white);
 }
 
 .main-tab-nav .nav-link:first-child {
@@ -358,11 +399,6 @@ body {
 .main-tab-nav .nav-link:last-child {
   border-bottom-left-radius: 0.375rem;
   border-bottom-right-radius: 0.375rem;
-}
-
-.btn-success {
-  background-color: var(--primary) !important;
-  border-color: var(--primary) !important;
 }
 
 #pendidikan-sub-tabs .btn,
@@ -377,32 +413,51 @@ body {
 
 #pendidikan-sub-tabs .btn.active,
 #biodata-sub-tabs .btn.active {
-  background-color: var(--primary) !important;
-  color: rgb(255, 255, 255) !important;
-  border-color: var(--dark-gray) !important;
+  background-color: var(--primary);
+  color: var(--white);
+  border-color: var(--dark-gray);
 }
 
-    #biodata-sub-tabs {
+#biodata-sub-tabs {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* otomatis nyesuai */
-  gap: 0.5rem; /* jarak antar tombol */
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.5rem;
 }
 
 #biodata-sub-tabs .btn {
-  width: 100%; /* biar tombol full dalam grid cell */
+  width: 100%;
 }
 
+.main-tab-content .sub-tab-content {
+  display: none;
+}
 
+.main-tab-content .sub-tab-content.active {
+  display: block;
+}
+
+/* ========================
+   Form Elements
+========================= */
+.form-group label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+}
+
+/* ========================
+   Table
+========================= */
 .table-responsive {
-  overflow-x: auto; /* Scroll horizontal hanya untuk tabel */
+  overflow-x: auto;
   width: 100%;
-  -webkit-overflow-scrolling: touch; /* Smooth scrolling di mobile */
+  -webkit-overflow-scrolling: touch;
   margin-bottom: 1rem;
 }
 
 .table-responsive table {
   width: 100%;
-  min-width: 600px; /* Lebar minimum agar scroll muncul jika perlu */
+  min-width: 600px;
 }
 
 .table {
@@ -413,8 +468,8 @@ body {
 .table th {
   font-weight: 600;
   background-color: #f8f9fa;
-  vertical-align: middle !important;
-  text-align: center !important;
+  vertical-align: middle;
+  text-align: center;
 }
 
 .table td,
@@ -427,47 +482,49 @@ body {
   cursor: pointer;
 }
 
-/* === Aksi Buttons === */
+/* ========================
+   Action Buttons
+========================= */
 .btn-aksi {
   width: 32px;
   height: 32px;
-  border-radius: 6px !important;
+  border-radius: 6px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 0;
   color: var(--white);
   text-decoration: none;
+  transition: all 0.3s ease;
 }
 
 .btn-tambah {
   background-color: var(--dark);
   color: white;
-  transition: all 0.3s ease;
 }
 
 .btn-tambah:hover {
   background-color: var(--dark-hover);
   color: white;
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .btn-edit {
   background-color: var(--warning);
-  transition: all 0.3s ease;
+  color: white;
 }
 
 .btn-edit:hover {
   background-color: var(--warning-hover);
-  color: var(--white);
+  color: white;
   transform: scale(1.15);
 }
 
 .btn-lihat,
 .btn-lihat-detail {
   background-color: var(--info);
-  transition: all 0.3s ease;
+  color: white;
 }
 
 .btn-lihat:hover,
@@ -478,36 +535,31 @@ body {
 
 .btn-hapus {
   background-color: var(--danger);
-  color: white;
-  transition: all 0.3s ease;
 }
 
 .btn-hapus:hover {
   background-color: var(--danger-hover);
-  color: white;
   transform: scale(1.15);
 }
 
 .btn-simpan {
   background-color: var(--verifikasi-hover);
   color: white;
-  transition: all 0.3s ease;
-  display: inline-flex; /* flex tapi ukurannya sesuai tombol */
-  align-items: center;  /* sejajarkan icon & teks di tengah vertikal */
-  justify-content: center;
   margin-top: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn-simpan:hover {
   background-color: var(--primary);
   color: white;
-  transform: scale(0.98); /* membesar 5% saat hover */
+  transform: scale(0.98);
 }
 
 .btn-editfoto {
   background-color: var(--verifikasi-hover);
   color: white;
-  transition: all 0.3s ease;
 }
 
 .btn-editfoto:hover {
@@ -518,19 +570,16 @@ body {
 
 .btn-unduh {
   background-color: var(--verifikasi-hover);
-  color: white;
-  transition: all 0.3s ease;
 }
 
 .btn-unduh:hover {
   background-color: var(--primary);
-  color: white;
   transform: scale(1.05);
 }
 
 .btn-kembali {
-  background-color:  #f2f2f2;
-  border: 1px solid #198754; /* hijau */
+  background-color: #f2f2f2;
+  border: 1px solid #198754;
   color: #198754;
   font-size: 14px;
   cursor: pointer;
@@ -543,46 +592,18 @@ body {
 }
 
 .btn-kembali:hover {
-  background-color: rgb(224, 224, 224)2f2;;
+  background-color: #e0e0e0;
   transform: scale(1.05);
 }
 
-.search-input::placeholder {
-  color: rgba(0, 0, 0, 0.4);
-}
-
-:root {
-    --primary: #049466;
-}
-
-.upload-box {
-    min-height: 150px;
-    cursor: pointer;
-}
-.upload-box.dragover {
-    background-color: #f8f9fa;
-    border: 2px dashed var(--primary);
-}
-
-/* Style nomor dokumen */
-.nomor-dokumen {
-    background-color: var(--primary) !important;
-    color: white;
-    font-weight: bold;
-}
-
-/* === Pagination === */
-.pagination .page-link {
-  font-size: 0.85rem;
-  color: var(--primary);
-}
-
-.pagination .page-item.active .page-link {
+.btn-success {
   background-color: var(--primary);
   border-color: var(--primary);
 }
 
-/* === Filter, Search, Tab UI === */
+/* ========================
+   Search and Filter
+========================= */
 .search-filter-container {
   margin-bottom: 1.5rem;
 }
@@ -614,7 +635,7 @@ body {
 
 .filter-dropdown {
   appearance: none;
-  background-color: #fff;
+  background-color: var(--white);
   border: 1px solid var(--border-color);
   border-radius: 0.375rem;
   padding: 0.5rem 2.5rem 0.5rem 1rem;
@@ -636,7 +657,13 @@ body {
   color: var(--light-text);
 }
 
-/* === File Grid === */
+.search-input::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+/* ========================
+   File Grid
+========================= */
 .efile-header {
   display: flex;
   justify-content: space-between;
@@ -667,7 +694,7 @@ body {
 }
 
 .file-item {
-  background-color: #fff;
+  background-color: var(--white);
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   padding: 1rem;
@@ -690,13 +717,22 @@ body {
   font-weight: 600;
   padding: 3px 8px;
   border-radius: 4px;
-  color: #fff;
+  color: var(--white);
   text-transform: uppercase;
 }
 
-.badge-asli { background-color: #28a745; }
-.badge-legalisir { background-color: #0d6efd; }
-.badge-scan { background-color: #ffc107; color: #212529 !important; }
+.badge-asli {
+  background-color: #28a745;
+}
+
+.badge-legalisir {
+  background-color: #0d6efd;
+}
+
+.badge-scan {
+  background-color: #ffc107;
+  color: #212529;
+}
 
 .file-item-icon {
   font-size: 4rem;
@@ -729,7 +765,58 @@ body {
   font-size: 0.8rem;
 }
 
-/* === Responsive === */
+/* ========================
+   Upload Area
+========================= */
+.upload-box {
+  min-height: 150px;
+  cursor: pointer;
+}
+
+.upload-box.dragover {
+  background-color: #f8f9fa;
+  border: 2px dashed var(--primary);
+}
+
+/* ========================
+   Miscellaneous
+========================= */
+.nomor-dokumen {
+  background-color: var(--primary);
+  color: var(--white);
+  font-weight: bold;
+}
+
+.flex-grow-1 {
+  flex-grow: 1;
+  min-width: 0;
+}
+
+/* ========================
+   Pagination
+========================= */
+.pagination .page-link {
+  font-size: 0.85rem;
+  color: var(--primary);
+}
+
+.pagination .page-item.active .page-link {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: var(--white);
+}
+
+.pagination .page-link:hover {
+  background-color: var(--primary-light);
+}
+
+.pagination .page-item.disabled .page-link {
+  color: var(--gray);
+}
+
+/* ========================
+   Responsive Design
+========================= */
 @media (max-width: 991px) {
   .sidebar {
     transform: translateX(-100%);
@@ -755,6 +842,10 @@ body {
     align-items: stretch;
   }
 
+  .search-box {
+    min-width: 100%;
+  }
+
   .btn-tambah-container {
     margin-left: 0;
   }
@@ -778,23 +869,23 @@ body {
   .footer-custom {
     bottom: 0;
   }
-  
+
   .title-bar {
-    top: 65px; /* navbar di mobile biasanya lebih kecil */
+    top: 65px;
     padding: 12px 15px;
     margin-bottom: 10px;
   }
-  
+
   .title-bar h1 {
     font-size: 16px;
     gap: 8px;
   }
 }
-/* Responsive Sub Tabs */
+
 @media (max-width: 768px) {
   #biodata-sub-tabs,
   #pendidikan-sub-tabs {
-    grid-template-columns: 1fr; /* tombol full width */
+    grid-template-columns: 1fr;
   }
 
   #biodata-sub-tabs .btn,
@@ -807,33 +898,19 @@ body {
 @media (min-width: 769px) and (max-width: 991px) {
   #biodata-sub-tabs,
   #pendidikan-sub-tabs {
-    grid-template-columns: repeat(2, 1fr); /* 2 kolom di tablet */
+    grid-template-columns: repeat(2, 1fr);
   }
-}
-
-/* === Additional Fixes === */
-.flex-grow-1 {
-  flex-grow: 1;
-  min-width: 0; /* Hindari overflow akibat flex */
-}
-
-.main-tab-content .sub-tab-content {
-  display: none; /* Default untuk sub-tab yang tidak aktif */
-}
-
-.main-tab-content .sub-tab-content.active {
-  display: block; /* Tampilkan sub-tab yang aktif */
 }
 
 @media (max-width: 576px) {
   .periode-jabatan {
-    flex-direction: column !important; /* Paksa jadi kolom di HP */
+    flex-direction: column;
     align-items: flex-start;
-    gap: 0.25rem; /* jarak antar elemen lebih rapat */
+    gap: 0.25rem;
   }
 
   .periode-jabatan input {
-    width: 100%; /* biar full di layar kecil */
+    width: 100%;
   }
 
   .periode-jabatan span {

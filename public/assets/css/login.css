@@ -1,158 +1,205 @@
+/* ========================
+   Root Styles
+========================= */
 body {
-font-family: 'Poppins', sans-serif;
-background-image: url('../images/background.png');
-background-size: cover;
-background-position: center;
-background-attachment: fixed;
-min-height: 100vh;
-position: relative;
-overflow: hidden;
-color: white;
-}
-.overlay {
-position: absolute;
-inset: 0;
-background: linear-gradient(to bottom, rgba(6, 78, 59, 0.7), rgba(0,0,0,0.7), rgba(0,0,0,0.85));
-}
-.text-green-custom {
-background: linear-gradient(135deg, #00e676, #00c853);
-background-clip: text;
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-}
-.login-card {
-max-width: 380px;
-width: 100%;
-padding: 2rem;
-border-radius: 20px;
-border: 1px solid rgba(255,255,255,0.2);
-background: rgba(255,255,255,0.15);
-backdrop-filter: blur(15px);
--webkit-backdrop-filter: blur(15px);
-box-shadow: 0 8px 32px rgba(0,0,0,0.25);
-margin-bottom: 0.5rem;
-opacity: 0;
-transform: translateY(20px);
-animation: fadeInUp 0.9s ease forwards;
-color: #fff;
-}
-.login-card p.text-light {
-margin-top: 1.6rem; 
-font-size: 0.8rem;
+  font-family: 'Poppins', sans-serif;
+  background-image: url('../images/background.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  color: #fff;
 }
 
-/* Floating label */
+/* ========================
+   Overlay
+========================= */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(6, 78, 59, 0.7), rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.85));
+}
+
+/* ========================
+   Text Styles
+========================= */
+.text-green-custom {
+  background: linear-gradient(135deg, #00e676, #00c853);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ========================
+   Login Card
+========================= */
+.login-card {
+  max-width: 380px;
+  width: 100%;
+  padding: 2rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  margin-bottom: 0.5rem;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.9s ease forwards;
+  color: #fff;
+}
+
+.login-card p.text-light {
+  margin-top: 1.6rem;
+  font-size: 0.8rem;
+}
+
+/* ========================
+   Floating Label
+========================= */
 .floating-label {
-position: relative;
-margin-bottom: 1.5rem;
+  position: relative;
+  margin-bottom: 1.5rem;
 }
+
 .floating-label input {
-background: rgba(255, 255, 255, 0.9);
-border: none;
-border-radius: 8px;
-padding: 1rem 1rem 0.5rem 3rem;
-font-size: 1rem;
-width: 100%;
-color: #222;
-transition: all 0.2s ease;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 8px;
+  padding: 1rem 1rem 0.5rem 3rem;
+  font-size: 1rem;
+  width: 100%;
+  color: #222;
+  transition: all 0.2s ease;
 }
+
 .floating-label input:focus {
-border: 2px solid #00753b;
-box-shadow: 0 0 6px rgba(0, 153, 64, 0.3);
-background: #fff;
-outline: none;
-transform: scale(0.99);
+  border: 2px solid #00753b;
+  box-shadow: 0 0 6px rgba(0, 153, 64, 0.3);
+  background: #fff;
+  outline: none;
+  transform: scale(0.99);
 }
+
 .floating-label label {
-position: absolute;
-left: 3rem;
-top: 50%;
-transform: translateY(-50%);
-color: rgba(0, 0, 0, 0.6);
-font-size: 1rem;
-pointer-events: none;
-transition: all 0.3s ease;
+  position: absolute;
+  left: 3rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 1rem;
+  pointer-events: none;
+  transition: all 0.3s ease;
 }
+
 .floating-label input:focus + label,
 .floating-label input:not(:placeholder-shown) + label {
-top: 0.2rem;
-transform: none;
-font-size: 0.8rem;
-color: #00c853;
+  top: 0.2rem;
+  transform: none;
+  font-size: 0.8rem;
+  color: #00c853;
 }
+
 .floating-label .input-icon {
-position: absolute;
-top: 50%;
-left: 0.8rem;
-transform: translateY(-50%);
-font-size: 1.2rem;
-color: rgba(0, 0, 0, 0.5);
-transition: color 0.3s ease;
+  position: absolute;
+  top: 50%;
+  left: 0.8rem;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: rgba(0, 0, 0, 0.5);
+  transition: color 0.3s ease;
 }
+
 .floating-label input:focus ~ .input-icon {
-color: #00c853;
+  color: #00c853;
 }
 
+/* ========================
+   Buttons
+========================= */
 .btn-success {
-background: linear-gradient(135deg, #02BA56, #019c47);
-border: none;
-font-weight: bold;
-transition: all 0.3s ease;
+  background: linear-gradient(135deg, #02ba56, #019c47);
+  border: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
 }
+
 .btn-success:hover {
-background: linear-gradient(135deg, #03d361, #01b84e);
-transform: scale(0.98);
-}
-.related-link {
-transition: transform 0.2s ease, opacity 0.2s ease;
-}
-.related-link:hover {
-transform: translateY(-2px);
-opacity: 0.9;
-}
-@keyframes fadeInUp {
-to {
-opacity: 1;
-transform: translateY(0);
-}
-}
-.logo-section {
-opacity: 0;
-transform: translateY(-20px);
-animation: fadeInUp 1s ease forwards 0.3s;
+  background: linear-gradient(135deg, #03d361, #01b84e);
+  transform: scale(0.98);
 }
 
-/* RESPONSIVE FIX */
+.related-link {
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.related-link:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+/* ========================
+   Logo Section
+========================= */
+.logo-section {
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: fadeInUp 1s ease forwards 0.3s;
+}
+
+/* ========================
+   Animations
+========================= */
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========================
+   Responsive Design
+========================= */
 @media (max-width: 576px) {
-body {
-background-position: top center;
-}
-.login-card {
-max-width: 95%;
-padding: 1.2rem;
-border-radius: 15px;
-margin-top: 2.5rem; /* card turun di HP */
-}
-.text-green-custom {
-font-size: 1.7rem;
-}
-.floating-label input {
-font-size: 0.9rem;
-padding: 0.8rem 0.8rem 0.4rem 2.5rem;
-}
-.floating-label label {
-left: 2.5rem;
-font-size: 0.85rem;
-}
-.floating-label .input-icon {
-font-size: 1rem;
-left: 0.7rem;
-}
-.btn-success {
-font-size: 0.9rem;
-padding: 0.7rem;
-}
-.logo-section .d-flex.flex-wrap.gap-3 {
-justify-content: flex-start !important; /* tautan rata kiri */
-}
+  body {
+    background-position: top center;
+  }
+
+  .login-card {
+    max-width: 95%;
+    padding: 1.2rem;
+    border-radius: 15px;
+    margin-top: 2.5rem;
+  }
+
+  .text-green-custom {
+    font-size: 1.7rem;
+  }
+
+  .floating-label input {
+    font-size: 0.9rem;
+    padding: 0.8rem 0.8rem 0.4rem 2.5rem;
+  }
+
+  .floating-label label {
+    left: 2.5rem;
+    font-size: 0.85rem;
+  }
+
+  .floating-label .input-icon {
+    font-size: 1rem;
+    left: 0.7rem;
+  }
+
+  .btn-success {
+    font-size: 0.9rem;
+    padding: 0.7rem;
+  }
+
+  .logo-section .d-flex.flex-wrap.gap-3 {
+    justify-content: flex-start;
+  }
 }

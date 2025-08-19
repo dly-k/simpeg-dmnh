@@ -143,7 +143,7 @@
           <thead class="table-light">
             <tr class="text-center">
               <th>No</th>
-              <th class="text-start">Kegiatan</th>
+              <th class="text-center">Kegiatan</th>
               <th>Lingkup</th>
               <th>Nama</th>
               <th>Instansi</th>

@@ -219,7 +219,20 @@ body {
   background-color: var(--danger);
   color: var(--white);
 }
+  /* Semua teks di modal-body untuk modalDetailSkNonPns */
+  #modalDetailSkNonPns .modal-body {
+      color: black;
+  }
 
+  /* Jika ingin memastikan <small> juga ikut berubah */
+  #modalDetailSkNonPns .modal-body small {
+      color: black;
+  }
+
+  /* Judul Dokumen (h6) */
+  #modalDetailSkNonPns .modal-body h6 {
+      color: black;
+  }
 /* TITLE BAR */
 /* ------------------------------------------------ */
 .title-bar {
