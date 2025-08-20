@@ -30,7 +30,17 @@ function initSidebar() {
   const toggleSidebarBtn = document.getElementById('toggleSidebar');
   const body = document.body;
 
-  toggleSidebarBtn?.addEventListener('click', () => {
+  // Fungsi bantuan untuk menutup sidebar di mobile
+  const closeMobileSidebar = () => {
+    sidebar.classList.remove('show');
+    overlay.classList.remove('show');
+  };
+
+  // 1. Listener untuk tombol toggle
+  toggleSidebarBtn?.addEventListener('click', (event) => {
+    // Mencegah klik ini memicu listener pada 'document'
+    event.stopPropagation();
+
     const isMobile = window.innerWidth <= 991;
 
     if (isMobile) {
@@ -42,11 +52,30 @@ function initSidebar() {
     }
   });
 
+  // 2. (BARU) Listener global untuk klik di luar sidebar
+  document.addEventListener('click', (event) => {
+    const isMobile = window.innerWidth <= 991;
+    const isSidebarShown = isMobile && sidebar.classList.contains('show');
+    // Cek jika target klik BUKAN bagian dari elemen sidebar
+    const isClickOutside = !sidebar.contains(event.target);
+
+    // Jika sidebar tampil di mobile dan klik terjadi di luar, tutup sidebar
+    if (isSidebarShown && isClickOutside) {
+      closeMobileSidebar();
+    }
+  });
+
+  // Listener untuk overlay kini tidak diperlukan lagi dan bisa dihapus
+  // karena sudah ditangani oleh listener 'document' di atas.
+  /*
   overlay?.addEventListener('click', () => {
     sidebar.classList.remove('show');
     overlay.classList.remove('show');
   });
+  */
 }
+
+
 
 // ==========================
 // Waktu & Tanggal
