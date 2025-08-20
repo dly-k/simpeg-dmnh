@@ -4,25 +4,45 @@ document.addEventListener("DOMContentLoaded", () => {
   const toggleSidebarBtn = document.getElementById("toggleSidebar");
   const body = document.body;
 
-  /* =================================================
-     1. Sidebar Toggle
-  ================================================= */
-  toggleSidebarBtn?.addEventListener("click", () => {
-    const isMobile = window.innerWidth <= 991;
+/* =================================================
+   1. Sidebar Toggle
+================================================= */
+// --- Fungsi untuk Menutup Sidebar di Tampilan Mobile ---
+const closeMobileSidebar = () => {
+  sidebar?.classList.remove("show");
+  overlay?.classList.remove("show");
+};
 
-    if (isMobile) {
-      sidebar?.classList.toggle("show");
-      overlay?.classList.toggle("show", sidebar?.classList.contains("show"));
-    } else {
-      sidebar?.classList.toggle("hidden");
-      body.classList.toggle("sidebar-collapsed");
-    }
-  });
 
-  overlay?.addEventListener("click", () => {
-    sidebar?.classList.remove("show");
-    overlay?.classList.remove("show");
-  });
+// 1. Klik pada tombol untuk Buka/Tutup Sidebar
+toggleSidebarBtn?.addEventListener("click", (event) => {
+  // Mencegah event klik ini langsung ditangkap oleh listener 'document' di bawah
+  event.stopPropagation();
+
+  const isMobile = window.innerWidth <= 991;
+
+  if (isMobile) {
+    sidebar?.classList.toggle("show");
+    // Gunakan argumen kedua 'toggle' untuk sinkronisasi dengan class 'show' pada sidebar
+    overlay?.classList.toggle("show", sidebar?.classList.contains("show"));
+  } else {
+    sidebar?.classList.toggle("hidden");
+    body.classList.toggle("sidebar-collapsed");
+  }
+});
+
+// 2. (BARU) Klik di mana saja di luar sidebar untuk menutupnya
+document.addEventListener("click", (event) => {
+  const isMobile = window.innerWidth <= 991;
+  // Cek apakah sidebar sedang tampil di mobile
+  const isSidebarShown = isMobile && sidebar?.classList.contains("show");
+  // Cek apakah target klik BUKAN bagian dari elemen sidebar itu sendiri
+  const isClickOutside = !sidebar?.contains(event.target);
+
+  if (isSidebarShown && isClickOutside) {
+    closeMobileSidebar();
+  }
+});
 
   /* =================================================
      2. Expand Editor Kegiatan (Default Terbuka)
