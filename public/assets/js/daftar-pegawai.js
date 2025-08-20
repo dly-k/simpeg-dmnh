@@ -4,21 +4,32 @@ document.addEventListener("DOMContentLoaded", () => {
   const toggleSidebarBtn = document.getElementById("toggleSidebar");
   const body = document.body;
 
-  /* =========================
-     Sidebar Toggle
-  ========================== */
-  if (toggleSidebarBtn) {
-    toggleSidebarBtn.addEventListener("click", () => {
-      const isMobile = window.innerWidth <= 991;
-      if (isMobile) {
-        sidebar.classList.toggle("show");
-        overlay.classList.toggle("show", sidebar.classList.contains("show"));
-      } else {
-        sidebar.classList.toggle("hidden");
-        body.classList.toggle("sidebar-collapsed");
-      }
-    });
-  }
+// ==========================
+// Sidebar
+// ==========================
+function initSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const toggleSidebarBtn = document.getElementById('toggleSidebar');
+  const body = document.body;
+
+  toggleSidebarBtn?.addEventListener('click', () => {
+    const isMobile = window.innerWidth <= 991;
+
+    if (isMobile) {
+      sidebar.classList.toggle('show');
+      overlay.classList.toggle('show', sidebar.classList.contains('show'));
+    } else {
+      sidebar.classList.toggle('hidden');
+      body.classList.toggle('sidebar-collapsed');
+    }
+  });
+
+  overlay?.addEventListener('click', () => {
+    sidebar.classList.remove('show');
+    overlay.classList.remove('show');
+  });
+}
 
   /* =========================
      Default Open: Editor Kegiatan
@@ -32,15 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
     editorMenu.classList.add("show");
   }
 
-  /* =========================
-     Overlay Click to Close Sidebar
-  ========================== */
-  if (overlay) {
-    overlay.addEventListener("click", () => {
-      sidebar.classList.remove("show");
-      overlay.classList.remove("show");
-    });
-  }
 
   /* =========================
      Update Date & Time
