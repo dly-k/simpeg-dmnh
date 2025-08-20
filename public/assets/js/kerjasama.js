@@ -98,6 +98,26 @@ const kerjasamaData = [
 function initKerjasamaPage(showSuccessModal) {
     renderKerjasamaTable();
     setupUploadArea();
+
+    // Buka dropdown Editor Kegiatan saat halaman kerjasama dimuat
+    const editorKegiatanButton = document.querySelector('[data-bs-target="#editorKegiatan"]');
+    const editorKegiatanSubmenu = document.getElementById('editorKegiatan');
+    
+    if (editorKegiatanButton && editorKegiatanSubmenu) {
+        // Hapus class collapsed dan tambah class active
+        editorKegiatanButton.classList.remove('collapsed');
+        editorKegiatanButton.classList.add('active');
+        editorKegiatanButton.setAttribute('aria-expanded', 'true');
+        
+        // Tampilkan submenu
+        editorKegiatanSubmenu.classList.add('show');
+        
+        // Rotate the toggle icon downward
+        const toggleIcon = editorKegiatanButton.querySelector('.toggle-icon');
+        if (toggleIcon) {
+            toggleIcon.style.transform = 'rotate(0deg)';
+        }
+    }
     
     const kerjasamaModalEl = document.getElementById('kerjasamaModal');
     const tableBody = document.getElementById('kerjasamaTableBody');
