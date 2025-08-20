@@ -77,7 +77,7 @@
             <div class="search-filter-container">
                 <div class="search-filter-row">
                     <div class="search-box">
-                        <div class="input-group">
+                        <div class="input-group custom-search">
                             <span class="input-group-text bg-light border-end-0"><i class="fas fa-search search-icon"></i></span>
                             <input type="text" class="form-control border-start-0 search-icon" placeholder="Cari Data Pegawai...">
                         </div>
@@ -622,7 +622,7 @@
                             <div class="sub-tab-content" id="pengajaran-lama">
                             <div class="tab-filters">
                                 <div class="filter-dropdown-wrapper"><select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select></div>
-                                <div class="input-group" style="width: auto; max-width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ...."></div>
+                                <div class="input-group custom-input-group"><span class="input-group-text bg-light"><i class="fas fa-search search-icon"></i></span><input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ...."></div>
                             </div>
                             {{-- Tabel Data --}}
                             <div class="table-responsive">
@@ -680,7 +680,7 @@
                             <div class="sub-tab-content" id="pengajaran-luar">
                             <div class="tab-filters">
                                 <div class="filter-dropdown-wrapper"><select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select></div>
-                                <div class="input-group" style="width: auto; max-width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ...."></div>
+                                <div class="input-group custom-input-group"><span class="input-group-text bg-light"><i class="fas fa-search search-icon"></i></span><input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ...."></div>
                             </div>
                             {{-- Tabel Data --}}
                             <div class="table-responsive">
@@ -740,7 +740,7 @@
                             <div class="sub-tab-content" id="pengujian-lama">
                             <div class="tab-filters">
                                 <div class="filter-dropdown-wrapper"><select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select></div>
-                                <div class="input-group" style="width: auto; max-width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ...."></div>
+                                <div class="input-group custom-input-group"><span class="input-group-text bg-light"><i class="fas fa-search search-icon"></i></span><input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ...."></div>
                             </div>
                                 {{-- Tabel Data --}}
                 <div class="table-responsive">
@@ -794,13 +794,13 @@
                             <div class="sub-tab-content" id="pembimbing-lama">
                             <div class="tab-filters">
                                 <div class="filter-dropdown-wrapper"><select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select></div>
-                                <div class="input-group" style="width: auto; max-width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ...."></div>
+                                <div class="input-group custom-input-group"><span class="input-group-text bg-light"><i class="fas fa-search search-icon"></i></span><input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ...."></div>
                             </div>
                             {{-- Tabel Data --}}
                             <div class="table-responsive">
                                 <table class="table table-hover table-bordered">
                                     <thead>
-                                        <tr class="text-center"><th>No</th><th class="text-start">Kegiatan</th><th>Tahun Semester</th><th>NIM</th><th>Nama Mahasiswa</th><th>Departemen</th><th>Status</th><th>Dokumen</th><th>Aksi</th></tr>
+                                        <tr class="text-center"><th>No</th><th>Kegiatan</th><th>Tahun Semester</th><th>NIM</th><th>Nama Mahasiswa</th><th>Departemen</th><th>Status</th><th>Dokumen</th><th>Aksi</th></tr>
                                     </thead>
                                     <tbody>
                                         @php
@@ -850,7 +850,7 @@
                             <div class="sub-tab-content" id="penguji-luar">
                             <div class="tab-filters">
                                 <div class="filter-dropdown-wrapper"><select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select></div>
-                                <div class="input-group" style="width: auto; max-width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ...."></div>
+                                <div class="input-group custom-input-group"><span class="input-group-text bg-light"><i class="fas fa-search search-icon"></i></span><input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ...."></div>
                             </div>  
                             <div class="table-responsive">
                                 <table class="table table-hover table-bordered">
@@ -905,7 +905,7 @@
                             <div class="sub-tab-content" id="pembimbing-luar">
                             <div class="tab-filters">
                                 <div class="filter-dropdown-wrapper"><select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select></div>
-                                <div class="input-group" style="width: auto; max-width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ...."></div>
+                                <div class="input-group custom-input-group"><span class="input-group-text bg-light"><i class="fas fa-search search-icon"></i></span><input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ...."></div>
                             </div>
                             {{-- Tabel Data --}}
                                 <div class="table-responsive">
@@ -974,13 +974,13 @@
                         <div class="main-tab-content" id="penelitian-content">
                         <div class="tab-filters">
                                 <div class="filter-dropdown-wrapper d-flex gap-2">
-                                <select class="form-select filter-select">
+                                <select class="form-select">
                                     <option>Tahun</option>
                                     <option>2025</option>
                                     <option>2026</option>
                                     <option>2027</option>
                                 </select>
-                                <select class="form-select filter-select" style="width: 175px;">
+                                <select class="form-select filter-select">
                                     <option>Jenis SKIM</option>
                                     <option selected disabled>Jenis Karya</option>
                                     <option value="Buku Monograf">Buku Monograf</option>
@@ -1012,7 +1012,7 @@
                                     <option value="Rumusan Kebijakan Monumental">Rumusan Kebijakan Monumental</option>
                                 </select>
                             </div>
-                                <div class="input-group" style="width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input" placeholder="Cari Data..."></div>
+                                <div class="input-group custom-input-group"><span class="input-group-text bg-light"><i class="fas fa-search search-icon"></i></span><input type="text" class="form-control search-input" placeholder="Cari Data..."></div>
                             </div>
                             <div class="table-responsive">
                                 <table class="table table-bordered table-hover table-sm">
@@ -1047,13 +1047,13 @@
                         <div class="main-tab-content" id="pengabdian-content">
                             <div class="tab-filters">
                             <div class="filter-dropdown-wrapper d-flex gap-2">
-                            <select class="form-select filter-select">
+                            <select class="form-select">
                                     <option>Tahun</option>
                                     <option>2025</option>
                                     <option>2026</option>
                                     <option>2027</option>
                                 </select>
-                                <select class="form-select filter-select" style="width: 175px;">
+                                <select class="form-select filter-select">
                                     <option>Jenis SKIM</option>
                                     <option value="Biomedik">Biomedik</option>
                                     <option value="Hibah HI-LINK">Hibah HI-LINK</option>
@@ -1082,7 +1082,7 @@
                                     <option value="Riset Andalan Perguruan Tinggi dan Industri">Riset Andalan Perguruan Tinggi dan Industri</option>
                                 </select>
                             </div>
-                                <div class="input-group" style="width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input" placeholder="Cari Data..."></div>
+                                <div class="input-group custom-input-group"><span class="input-group-text bg-light"><i class="fas fa-search search-icon"></i></span><input type="text" class="form-control search-input" placeholder="Cari Data..."></div>
                             </div>
                             <div class="table-responsive">
                                 <table class="table table-bordered table-hover table-sm">
@@ -1133,13 +1133,13 @@
                         <!-- Filter Section -->
                         <div class="tab-filters d-flex flex-wrap gap-2 mb-3 justify-content-between align-items-center">
                             <div class="filter-dropdown-wrapper d-flex gap-2">
-                            <select class="form-select filter-select">
+                            <select class="form-select">
                                 <option>Tahun</option>
                                 <option>2025</option>
                                 <option>2026</option>
                                 <option>2027</option>
                             </select>
-                            <select class="form-select filter-select" style="width: 175px;">
+                            <select class="form-select filter-select">
                                 <option>Lingkup</option>
                                 <option>Lokal</option>
                                 <option>Nasional</option>
@@ -1147,8 +1147,8 @@
                             </select>
                             </div>
 
-                            <div class="input-group" style="width: 300px;">
-                            <span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span>
+                            <div class="input-group custom-input-group">
+                            <span class="input-group-text bg-light"><i class="fas fa-search search-icon"></i></span>
                             <input type="text" class="form-control search-input" placeholder="Cari Data...">
                             </div>
                         </div>
@@ -1215,20 +1215,20 @@
                             <div class="main-tab-content" id="pelatihan-content">
                                 <div class="tab-filters">
                                    <div class="filter-dropdown-wrapper d-flex gap-2">
-                                   <select class="form-select filter-select">
+                                   <select class="form-select">
                                         <option>Tahun</option>
                                         <option>2025</option>
                                         <option>2026</option>
                                         <option>2027</option>
                                     </select>
-                                    <select class="form-select filter-select" style="width: 175px;">
+                                    <select class="form-select filter-select">
                                         <option>Posisi</option>
                                         <option>Peserta</option>
                                         <option>Pembicara</option>
                                         <option>Panitia</option>
                                     </select>
                                 </div>
-                                    <div class="input-group" style="width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input" placeholder="Cari Data..."></div>
+                                    <div class="input-group custom-input-group"><span class="input-group-text bg-light"><i class="fas fa-search search-icon"></i></span><input type="text" class="form-control search-input" placeholder="Cari Data..."></div>
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover table-sm">
@@ -1280,20 +1280,20 @@
                             <div class="main-tab-content" id="penghargaan-content">
                                 <div class="tab-filters">
                                    <div class="filter-dropdown-wrapper d-flex gap-2">
-                                   <select class="form-select filter-select">
+                                   <select class="form-select">
                                         <option>Tahun</option>
                                         <option>2025</option>
                                         <option>2026</option>
                                         <option>2027</option>
                                     </select>
-                                    <select class="form-select filter-select" style="width: 175px;">
+                                    <select class="form-select filter-select">
                                         <option>Lingkup</option>
                                         <option>Lokal</option>
                                         <option>Nasional</option>
                                         <option>Internasional</option>
                                     </select>
                                 </div>
-                                    <div class="input-group" style="width: 300px;"><span class="input-group-text bg-light"><i class="fas fa-search" style="color: green;"></i></span><input type="text" class="form-control search-input" placeholder="Cari Data..."></div>
+                                    <div class="input-group custom-input-group"><span class="input-group-text bg-light"><i class="fas fa-search search-icon"></i></span><input type="text" class="form-control search-input" placeholder="Cari Data..."></div>
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table table-hover table-bordered">
