@@ -467,7 +467,7 @@ body {
 
 .table th {
   font-weight: 600;
-  background-color: #f8f9fa;
+  background-color: var(--primary-light);
   vertical-align: middle;
   text-align: center;
 }

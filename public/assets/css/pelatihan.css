@@ -349,7 +349,7 @@ body {
 }
 
 .search-icon {
-    color: green;
+  color: var(--primary);
 }
 
 .search-box {
@@ -384,8 +384,9 @@ body {
 
 .table th {
   font-weight: 600;
-  text-align: center;
+  background-color: var(--primary-light);
   vertical-align: middle;
+  text-align: center;
 }
 
 /* ========================

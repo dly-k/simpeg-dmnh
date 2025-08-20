@@ -376,7 +376,7 @@ body {
 }
 
 .search-icon {
-    color: green;
+  color: var(--primary);
 }
 
 .search-filter-row {
@@ -411,7 +411,7 @@ body {
   width: 100%;
   border-collapse: collapse;
   border: 1px solid #e0e0e0;
-  font-size: 0.875rem;
+  font-size: 0.700rem;
   margin-bottom: 1rem;
   vertical-align: middle;
 }
@@ -425,6 +425,8 @@ body {
 
 .table th {
   font-weight: 600;
+  background-color: var(--primary-light);
+  vertical-align: middle;
   text-align: center;
 }
 

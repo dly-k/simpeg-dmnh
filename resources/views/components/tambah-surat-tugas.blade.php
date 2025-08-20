@@ -27,7 +27,7 @@
               </form>
           </div>
           <div class="modal-footer-custom">
-              <button type="button" class="btn btn-danger" onclick="closeModal('suratTugasModal')">Batal</button>
+              <button type="button" class="btn btn-secondary" onclick="closeModal('suratTugasModal')">Batal</button>
               <button type="button" class="btn btn-success" id="btnSimpanData">Simpan</button>
           </div>
       </div>

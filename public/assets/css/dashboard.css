@@ -1,78 +1,10 @@
 /* ========================
-   Root Variables
-========================= */
-:root {
-  --primary: #049466;
-  --primary-light: #e3f7ec;
-  --primary-dark: #047857;
-  --border-color: #e2e8f0;
-  --white: #ffffff;
-  --black: #000000;
-  --gray-100: #f5f6fa;
-  --gray-200: #f0f0f0;
-  --gray-300: #e9e9e9;
-  --gray-hover: #4b5563;
-  --gray-deep: #222222;
-  --text-dark: #333333;
-  --text-light: #888888;
-  --text-muted: #718096;
-  --danger: #dc3545;
-  --danger-hover: #fff;
-}
-
-/* ========================
-   Global Styles
-========================= */
-body {
-  font-family: 'Poppins', sans-serif;
-  margin: 0;
-  background-color: var(--gray-100);
-}
-
-
-/* ========================
-   Title Bar
-========================= */
-.title-bar {
-  background: linear-gradient(to right, var(--primary), var(--primary-dark));
-  color: var(--white);
-  padding: 20px 25px;
-  margin-left: 250px;
-  transition: margin-left 0.3s ease-in-out;
-  position: fixed;
-  top: 66px;
-  left: 0;
-  right: 0;
-  z-index: 998;
-  display: flex;
-  align-items: center;
-}
-
-body.sidebar-collapsed .title-bar {
-  margin-left: 0;
-}
-
-.title-bar h1 {
-  font-size: 20px;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-weight: 600;
-}
-
-.title-bar h1 i {
-  font-size: 22px;
-}
-
-/* ========================
    Main Content
 ========================= */
 .main-content {
   margin-left: 250px;
   padding: 25px;
   transition: margin-left 0.3s ease-in-out;
-  background-color: var(--gray-100);
   margin-top: 130px;
   font-size: 14px;
   padding-bottom: 70px;
@@ -96,7 +28,7 @@ body.sidebar-collapsed .main-content {
   display: flex;
   align-items: center;
   gap: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 8px var(--black-01);
   opacity: 0;
   transform: translateY(20px);
   animation: fadeInUp 0.6s ease forwards;
@@ -127,15 +59,15 @@ body.sidebar-collapsed .main-content {
 }
 
 .card-icon.icon-blue {
-  background-color: #3B82F6;
+  background-color: var(--blue);
 }
 
 .card-icon.icon-green {
-  background-color: #10B981;
+  background-color: var(--success);
 }
 
 .card-icon.icon-yellow {
-  background-color: #F59E0B;
+  background-color: var(--warning);
 }
 
 .card-label {
@@ -157,7 +89,7 @@ body.sidebar-collapsed .main-content {
   background: var(--white);
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 8px var(--black-01); /* Diganti dari rgba(0, 0, 0, 0.05) */
   opacity: 0;
   transform: translateY(20px);
   animation: fadeInUp 0.6s ease forwards;
@@ -169,7 +101,7 @@ body.sidebar-collapsed .main-content {
   font-weight: 600;
   margin-bottom: 15px;
   text-align: center;
-  color: #374151;
+  color: var(--text-gray);
 }
 
 /* ========================
@@ -182,12 +114,69 @@ body.sidebar-collapsed .main-content {
   }
 }
 
-
-
 /* ========================
    Responsive Design
 ========================= */
-@media (max-width: 991px) {
+
+/* Layar ekstra kecil (≤360px, misalnya iPhone 5/SE, ponsel Android kecil) */
+@media (max-width: 360px) {
+  .title-bar {
+    padding: 15px 20px;
+    margin-left: 0;
+    top: 60px;
+  }
+
+  .title-bar h1 {
+    font-size: 16px;
+    gap: 8px;
+  }
+
+  .title-bar h1 i {
+    font-size: 18px;
+  }
+
+  .main-content {
+    margin-left: 0;
+    padding: 15px;
+    margin-top: 110px;
+    font-size: 12px;
+    padding-bottom: 50px;
+  }
+
+  .card-container {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .stat-card {
+    padding: 15px;
+    gap: 10px;
+  }
+
+  .card-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+
+  .card-value {
+    font-size: 24px;
+  }
+
+  .chart-container {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .chart-box {
+    padding: 15px;
+  }
+
+  .chart-box h3 {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
   .sidebar {
     transform: translateX(-100%);
   }
@@ -197,20 +186,120 @@ body.sidebar-collapsed .main-content {
   }
 
   .navbar-custom,
-  .title-bar,
-  .main-content,
   .footer-custom {
     margin-left: 0;
   }
 
+  .time-date {
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-start;
+  }
+
+  .account span {
+    font-size: 11px;
+  }
+
+  .sidebar .menu a,
+  .sidebar .menu button {
+    font-size: 11.5px;
+  }
+
+  .search-filter-wrapper {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .filter-action-group {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .filter-action-group > div {
+    width: 100%;
+  }
+
+  .filter-action-group button {
+    width: 100%;
+    min-height: 44px;
+  }
+}
+
+/* Layar kecil (361px–576px, misalnya ponsel modern) */
+@media (min-width: 361px) and (max-width: 576px) {
+  .title-bar {
+    padding: 18px 22px;
+    margin-left: 0;
+    top: 60px;
+  }
+
+  .title-bar h1 {
+    font-size: 18px;
+    gap: 10px;
+  }
+
+  .title-bar h1 i {
+    font-size: 20px;
+  }
+
   .main-content {
-    margin-top: 130px;
+    margin-left: 0;
+    padding: 20px;
+    margin-top: 120px;
     font-size: 13px;
+    padding-bottom: 60px;
+  }
+
+  .card-container {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .stat-card {
+    padding: 18px;
+    gap: 12px;
+  }
+
+  .card-icon {
+    width: 45px;
+    height: 45px;
+    font-size: 22px;
+  }
+
+  .card-value {
+    font-size: 28px;
+  }
+
+  .chart-container {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .chart-box {
+    padding: 18px;
+  }
+
+  .chart-box h3 {
+    font-size: 15px;
+    margin-bottom: 12px;
+  }
+
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar.show {
+    transform: translateX(0);
+  }
+
+  .navbar-custom,
+  .footer-custom {
+    margin-left: 0;
   }
 
   .time-date {
     flex-direction: column;
-    gap: 6px;
+    gap: 5px;
     align-items: flex-start;
   }
 
@@ -220,17 +309,17 @@ body.sidebar-collapsed .main-content {
 
   .sidebar .menu a,
   .sidebar .menu button {
-    font-size: 12.5px;
+    font-size: 12px;
   }
 
   .search-filter-wrapper {
     flex-direction: column;
+    gap: 12px;
   }
 
   .filter-action-group {
     flex-direction: row;
     flex-wrap: wrap;
-    width: 100%;
     gap: 8px;
   }
 
@@ -240,5 +329,114 @@ body.sidebar-collapsed .main-content {
 
   .filter-action-group button {
     width: 100%;
+    min-height: 44px; /* Pastikan ukuran dapat disentuh */
+  }
+}
+
+/* Layar mobile besar (577px–768px, misalnya ponsel besar atau tablet kecil) */
+@media (min-width: 577px) and (max-width: 768px) {
+  .title-bar {
+    padding: 20px 25px;
+    margin-left: 0;
+    top: 66px;
+  }
+
+  .title-bar h1 {
+    font-size: 19px;
+    gap: 11px;
+  }
+
+  .title-bar h1 i {
+    font-size: 21px;
+  }
+
+  .main-content {
+    margin-left: 0;
+    padding: 22px;
+    margin-top: 125px;
+    font-size: 13.5px;
+    padding-bottom: 65px;
+  }
+
+  .card-container {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px;
+  }
+
+  .stat-card {
+    padding: 18px;
+    gap: 14px;
+  }
+
+  .card-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 23px;
+  }
+
+  .card-value {
+    font-size: 30px;
+  }
+
+  .chart-container {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 18px;
+  }
+
+  .chart-box {
+    padding: 18px;
+  }
+
+  .chart-box h3 {
+    font-size: 15.5px;
+    margin-bottom: 14px;
+  }
+
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar.show {
+    transform: translateX(0);
+  }
+
+  .navbar-custom,
+  .footer-custom {
+    margin-left: 0;
+  }
+
+  .time-date {
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-start;
+  }
+
+  .account span {
+    font-size: 12.5px;
+  }
+
+  .sidebar .menu a,
+  .sidebar .menu button {
+    font-size: 12.5px;
+  }
+
+  .search-filter-wrapper {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .filter-action-group {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .filter-action-group > div {
+    flex: 1 1 auto;
+  }
+
+  .filter-action-group button {
+    width: 100%;
+    min-height: 44px;
   }
 }

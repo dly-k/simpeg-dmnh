@@ -349,7 +349,7 @@ body.sidebar-collapsed .main-content {
 }
 
 .search-icon {
-    color: green;
+  color: var(--primary);
 }
 
 .search-filter-row {
@@ -387,6 +387,7 @@ body.sidebar-collapsed .main-content {
 
 .table th {
   font-weight: 600;
+  background-color: var(--primary-light);
   vertical-align: middle;
   text-align: center;
 }

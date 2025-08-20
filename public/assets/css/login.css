@@ -1,5 +1,5 @@
 /* ========================
-   Root Styles
+   Global Styles
 ========================= */
 body {
   font-family: 'Poppins', sans-serif;
@@ -10,7 +10,7 @@ body {
   min-height: 100vh;
   position: relative;
   overflow: hidden;
-  color: #fff;
+  color: var(--white);
 }
 
 /* ========================
@@ -19,14 +19,14 @@ body {
 .overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(6, 78, 59, 0.7), rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.85));
+  background: linear-gradient(to bottom, var(--overlay-green), var(--black-07), var(--black-085));
 }
 
 /* ========================
    Text Styles
 ========================= */
 .text-green-custom {
-  background: linear-gradient(135deg, #00e676, #00c853);
+  background: linear-gradient(135deg, var(--light-green), var(--green));
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -40,16 +40,16 @@ body {
   width: 100%;
   padding: 2rem;
   border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid var(--white-02);
+  background: var(--white-015);
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 8px 32px var(--black-025);
   margin-bottom: 0.5rem;
   opacity: 0;
   transform: translateY(20px);
   animation: fadeInUp 0.9s ease forwards;
-  color: #fff;
+  color: var(--white);
 }
 
 .login-card p.text-light {
@@ -66,20 +66,20 @@ body {
 }
 
 .floating-label input {
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--white-09);
   border: none;
   border-radius: 8px;
   padding: 1rem 1rem 0.5rem 3rem;
   font-size: 1rem;
   width: 100%;
-  color: #222;
+  color: var(--dark-gray);
   transition: all 0.2s ease;
 }
 
 .floating-label input:focus {
-  border: 2px solid #00753b;
-  box-shadow: 0 0 6px rgba(0, 153, 64, 0.3);
-  background: #fff;
+  border: 2px solid var(--dark-green);
+  box-shadow: 0 0 6px var(--green-03);
+  background: var(--white);
   outline: none;
   transform: scale(0.99);
 }
@@ -89,7 +89,7 @@ body {
   left: 3rem;
   top: 50%;
   transform: translateY(-50%);
-  color: rgba(0, 0, 0, 0.6);
+  color: var(--black-06);
   font-size: 1rem;
   pointer-events: none;
   transition: all 0.3s ease;
@@ -100,7 +100,7 @@ body {
   top: 0.2rem;
   transform: none;
   font-size: 0.8rem;
-  color: #00c853;
+  color: var(--green);
 }
 
 .floating-label .input-icon {
@@ -109,31 +109,38 @@ body {
   left: 0.8rem;
   transform: translateY(-50%);
   font-size: 1.2rem;
-  color: rgba(0, 0, 0, 0.5);
+  color: var(--black-05);
   transition: color 0.3s ease;
 }
 
 .floating-label input:focus ~ .input-icon {
-  color: #00c853;
+  color: var(--green);
 }
 
 /* ========================
    Buttons
 ========================= */
 .btn-success {
-  background: linear-gradient(135deg, #02ba56, #019c47);
+  background: linear-gradient(135deg, var(--btn-green-1), var(--btn-green-2));
   border: none;
   font-weight: bold;
   transition: all 0.3s ease;
+  padding: 0.8rem;
+  width: 100%;
+  min-height: 44px;
 }
 
 .btn-success:hover {
-  background: linear-gradient(135deg, #03d361, #01b84e);
+  background: linear-gradient(135deg, var(--btn-hover-green-1), var(--btn-hover-green-2));
   transform: scale(0.98);
 }
 
 .related-link {
   transition: transform 0.2s ease, opacity 0.2s ease;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .related-link:hover {
@@ -142,15 +149,15 @@ body {
 }
 
 .related-link.sipakaril {
-  background-color: #db2777;
+  background-color: var(--pink);
 }
 
 .related-link.simpeg {
-  background-color: #f59e0b;
+  background-color: var(--orange);
 }
 
 .related-link.simaneh {
-  background-color: #2563eb;
+  background-color: var(--blue);
 }
 
 /* ========================
@@ -180,16 +187,75 @@ body {
 /* ========================
    Responsive Design
 ========================= */
-@media (max-width: 576px) {
+
+/* Layar ekstra kecil (≤360px, misalnya iPhone 5/SE, ponsel Android kecil) */
+@media (max-width: 360px) {
   body {
     background-position: top center;
+    background-size: 150%;
+  }
+
+  .login-card {
+    max-width: 100%;
+    padding: 1rem;
+    border-radius: 12px;
+    margin: 1.5rem 0.5rem;
+  }
+
+  .text-green-custom {
+    font-size: 1.4rem;
+    line-height: 1.2;
+  }
+
+  .floating-label input {
+    font-size: 0.85rem;
+    padding: 0.7rem 0.7rem 0.3rem 2.2rem;
+    min-height: 44px;
+  }
+
+  .floating-label label {
+    left: 2.2rem;
+    font-size: 0.8rem;
+  }
+
+  .floating-label .input-icon {
+    font-size: 0.9rem;
+    left: 0.6rem;
+  }
+
+  .btn-success {
+    font-size: 0.85rem;
+    padding: 0.6rem;
+  }
+
+  .login-card p.text-light {
+    font-size: 0.75rem;
+    margin-top: 1.2rem;
+  }
+
+  .logo-section .d-flex.flex-wrap.gap-3 {
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .logo-ipb {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+/* Layar kecil (361px–576px, misalnya ponsel modern) */
+@media (min-width: 361px) and (max-width: 576px) {
+  body {
+    background-position: top center;
+    background-size: cover;
   }
 
   .login-card {
     max-width: 95%;
     padding: 1.2rem;
     border-radius: 15px;
-    margin-top: 2.5rem;
+    margin: 2rem auto;
   }
 
   .text-green-custom {
@@ -199,6 +265,7 @@ body {
   .floating-label input {
     font-size: 0.9rem;
     padding: 0.8rem 0.8rem 0.4rem 2.5rem;
+    min-height: 44px;
   }
 
   .floating-label label {
@@ -216,7 +283,67 @@ body {
     padding: 0.7rem;
   }
 
+  .login-card p.text-light {
+    font-size: 0.8rem;
+    margin-top: 1.4rem;
+  }
+
   .logo-section .d-flex.flex-wrap.gap-3 {
     justify-content: flex-start;
+    gap: 1.5rem;
+  }
+
+  .logo-ipb {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+/* Layar mobile besar (577px–768px, misalnya ponsel besar atau tablet kecil) */
+@media (min-width: 577px) and (max-width: 768px) {
+  body {
+    background-position: center;
+    background-size: cover;
+  }
+
+  .login-card {
+    max-width: 90%;
+    padding: 1.5rem;
+    border-radius: 18px;
+    margin: 2rem auto;
+  }
+
+  .text-green-custom {
+    font-size: 1.8rem;
+  }
+
+  .floating-label input {
+    font-size: 0.95rem;
+    padding: 0.9rem 0.9rem 0.4rem 2.8rem;
+  }
+
+  .floating-label label {
+    left: 2.8rem;
+    font-size: 0.9rem;
+  }
+
+  .floating-label .input-icon {
+    font-size: 1.1rem;
+    left: 0.8rem;
+  }
+
+  .btn-success {
+    font-size: 0.95rem;
+    padding: 0.8rem;
+  }
+
+  .logo-section .d-flex.flex-wrap.gap-3 {
+    justify-content: flex-start;
+    gap: 2rem;
+  }
+
+  .logo-ipb {
+    width: 85px;
+    height: 85px;
   }
 }

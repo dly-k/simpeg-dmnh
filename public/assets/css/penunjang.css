@@ -380,6 +380,7 @@ body {
 
 .table th {
   font-weight: 600;
+  background-color: var(--primary-light);
   vertical-align: middle;
   text-align: center;
 }

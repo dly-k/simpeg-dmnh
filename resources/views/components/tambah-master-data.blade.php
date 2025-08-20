@@ -51,7 +51,7 @@
         </form>
       </div>
       <div class="modal-footer-custom">
-        <button type="button" class="btn btn-danger" onclick="closeModal('editDataModal')">Batal</button>
+        <button type="button" class="btn btn-secondary" onclick="closeModal('editDataModal')">Batal</button>
         <button type="button" class="btn btn-success">Simpan Perubahan</button>
       </div>
     </div>
