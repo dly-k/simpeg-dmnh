@@ -181,9 +181,9 @@
                           <i class="fa fa-eye"></i>
                         </a>
                         <a href="#" class="btn-aksi btn-edit" title="Edit Data" onclick="openEditModal()"><i class="fa fa-edit"></i></a>
-                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data" data-bs-toggle="modal" data-bs-target="#modalKonfirmasiHapus">
-                          <i class="fa fa-trash"></i>
-                        </a>
+                      <a href="#" class="btn-aksi btn-hapus" title="Hapus Data">
+                        <i class="fa fa-trash"></i>
+                      </a>
                       </div>
                     </td>
                   </tr>

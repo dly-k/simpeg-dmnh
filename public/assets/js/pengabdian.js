@@ -5,18 +5,17 @@ document.addEventListener('DOMContentLoaded', function () {
   const berhasilSubtitle = document.getElementById('berhasil-subtitle');
   let successModalTimeout = null;
 
-  // Create audio element for success sound
-  const successSound = new Audio('assets/sounds/success.mp3'); // Replace with actual path to your sound file
-  successSound.preload = 'auto'; // Preload audio to avoid delays
-  successSound.volume = 0.5; // Set volume to 50%
+  const successSound = new Audio('assets/sounds/success.mp3'); // Pastikan path ini benar
+  successSound.preload = 'auto';
+  successSound.volume = 0.5;
 
   function showSuccessModal(title, subtitle) {
     if (modalBerhasil && berhasilTitle && berhasilSubtitle) {
       berhasilTitle.textContent = title;
       berhasilSubtitle.textContent = subtitle;
-      modalBerhasil.classList.add('show'); 
-      
-      // Play success sound
+      modalBerhasil.classList.add('show');
+      document.body.style.overflow = 'hidden'; // Nonaktifkan scroll
+
       if (typeof successSound.play === 'function') {
         successSound.play().catch(error => {
           console.error('Error playing success sound:', error);
@@ -31,7 +30,10 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   
   function hideSuccessModal() {
-    modalBerhasil?.classList.remove('show');
+    if (modalBerhasil) {
+      modalBerhasil.classList.remove('show');
+      document.body.style.overflow = ''; // Aktifkan kembali scroll
+    }
   }
 
   document.getElementById('btnSelesai')?.addEventListener('click', () => {
@@ -104,7 +106,10 @@ document.addEventListener('DOMContentLoaded', function () {
       uploadText.textContent = this.files.length > 0 ? this.files[0].name : originalText;
     });
 
-    uploadArea.reset = () => uploadText.innerHTML = originalText;
+    uploadArea.reset = () => {
+      uploadText.innerHTML = originalText;
+      fileInput.value = '';
+    };
   });
 
   // === Tombol Simpan (Tambah/Edit) ===
@@ -121,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const closePengabdianDetailBtn = document.getElementById("closePengabdianDetailBtn");
 
   document.addEventListener('click', function(event) {
-    if (event.target.closest('#btnLihatPengabdian')) {
+    if (event.target.closest('.btn-lihat[data-bs-target="#pengabdianDetailModal"]')) {
       if (pengabdianDetailModal) pengabdianDetailModal.style.display = "block";
     }
   });
@@ -138,7 +143,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const btnTolak = document.getElementById("popupBtnTolak");
   const btnKembali = document.getElementById("popupBtnKembali");
 
-  // === OPEN MODAL ===
   document.addEventListener("click", function (event) {
     if (event.target.closest(".btn-verifikasi")) {
       event.preventDefault();
@@ -146,12 +150,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  // === CLOSE MODAL (btn Kembali) ===
   btnKembali?.addEventListener("click", function () {
     verifModal.classList.remove("show");
   });
 
-  // === ACTION BUTTONS ===
   btnTerima?.addEventListener("click", function () {
     verifModal.classList.remove("show");
     showSuccessModal("Data Diverifikasi", "Data pengabdian berhasil diverifikasi");
@@ -162,45 +164,52 @@ document.addEventListener('DOMContentLoaded', function () {
     showSuccessModal("Data Ditolak", "Data pengabdian telah ditolak");
   });
 
-  // === CLOSE MODAL jika klik luar box ===
   verifModal?.addEventListener("click", function (event) {
     if (event.target === verifModal) {
       verifModal.classList.remove("show");
     }
   });
 
-  // === Delete Confirmation Modal ===
+  // === Delete Confirmation Modal (FIXED) ===
   const deleteModal = document.getElementById('modalKonfirmasiHapus');
   const btnBatalHapus = document.getElementById('btnBatalHapus');
   const btnKonfirmasiHapus = document.getElementById('btnKonfirmasiHapus');
   let dataToDelete = null;
 
   document.addEventListener('click', function(event) {
-    if (event.target.closest('.btn-hapus')) {
-      event.preventDefault();
-      dataToDelete = event.target.closest('tr').querySelector('td:first-child').textContent;
-      if (deleteModal) deleteModal.style.display = 'flex';
+    const hapusButton = event.target.closest('.btn-hapus');
+    if (hapusButton) {
+      event.preventDefault(); // Mencegah aksi default link
+      dataToDelete = hapusButton.closest('tr').querySelector('td:first-child').textContent;
+      if (deleteModal) {
+        deleteModal.classList.add('show');
+        document.body.style.overflow = 'hidden'; // Nonaktifkan scroll
+      }
     }
   });
   
   function hideDeleteModal() {
-    if (deleteModal) deleteModal.style.display = 'none';
+    if (deleteModal) {
+      deleteModal.classList.remove('show');
+      // Hanya aktifkan scroll jika tidak ada modal lain yang terbuka
+      if (!document.querySelector('.modal-berhasil-overlay.show')) {
+        document.body.style.overflow = '';
+      }
+    }
   }
-
-  deleteModal?.addEventListener('click', (e) => {
-    if (e.target === deleteModal) hideDeleteModal();
-  });
 
   btnBatalHapus?.addEventListener('click', hideDeleteModal);
 
   btnKonfirmasiHapus?.addEventListener('click', function() {
-    if (dataToDelete) console.log(`Data dengan ID ${dataToDelete} akan dihapus`);
+    if (dataToDelete) {
+      console.log(`Data dengan ID ${dataToDelete} akan dihapus`);
+    }
     hideDeleteModal();
     showSuccessModal('Data Berhasil Dihapus', 'Data yang dipilih telah berhasil dihapus secara permanen.');
   });
 });
 
-// === Modal Functions ===
+// === Modal Functions (Global Scope & FIXED) ===
 function openModal(modalId) {
   const modal = document.getElementById(modalId);
   if (!modal) return;
@@ -214,16 +223,19 @@ function openModal(modalId) {
 
   form?.reset();
 
+  document.querySelectorAll('.upload-area').forEach(uploadArea => {
+    if (typeof uploadArea.reset === 'function') {
+      uploadArea.reset();
+    }
+  });
+  
   ['dosen-list', 'mahasiswa-list', 'kolaborator-list'].forEach(id => {
     const list = document.getElementById(id);
     if(list) list.innerHTML = '';
   });
 
-  document.querySelectorAll('.upload-area').forEach(uploadArea => {
-    if (typeof uploadArea.reset === 'function') uploadArea.reset();
-  });
-
   modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden'; // Nonaktifkan scroll
 }
 
 function openEditModal() {
@@ -234,13 +246,17 @@ function openEditModal() {
   if (modalTitle) {
     modalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Data Pengabdian';
   }
-
+  
   modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden'; // Nonaktifkan scroll
 }
 
 function closeModal(modalId) {
   const modal = document.getElementById(modalId);
-  if (modal) modal.style.display = 'none';
+  if (modal) {
+    modal.style.display = 'none';
+    document.body.style.overflow = ''; // Aktifkan kembali scroll
+  }
 }
 
 // === Dynamic Member Add ===
@@ -271,14 +287,20 @@ function addAnggota(type) {
   if (container) container.insertAdjacentHTML('beforeend', content);
 }
 
-// === Close Modals on Click Outside ===
+
 window.addEventListener('click', function (event) {
   const pengabdianDetailModal = document.getElementById("pengabdianDetailModal");
-  if (event.target === pengabdianDetailModal) pengabdianDetailModal.style.display = "none";
+  if (event.target === pengabdianDetailModal) {
+    pengabdianDetailModal.style.display = "none";
+  }
 
   const deleteModal = document.getElementById("modalKonfirmasiHapus");
-  if (event.target === deleteModal) deleteModal.style.display = "none";
+  if (event.target === deleteModal) {
+    hideDeleteModal(); // Gunakan fungsi agar scroll diaktifkan kembali
+  }
 
   const pengabdianModal = document.getElementById("pengabdianModal");
-  if (event.target === pengabdianModal) pengabdianModal.style.display = "none";
+  if (event.target === pengabdianModal) {
+    closeModal("pengabdianModal");
+  }
 });

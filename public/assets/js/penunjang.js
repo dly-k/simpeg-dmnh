@@ -1,33 +1,34 @@
 document.addEventListener('DOMContentLoaded', function () {
-  // === LOGIKA MODAL BERHASIL (SUCCESS MODAL) ===
+  // === MODAL BERHASIL (SUCCESS MODAL) LOGIC ===
   const modalBerhasil = document.getElementById('modalBerhasil');
   const berhasilTitle = document.getElementById('berhasil-title');
   const berhasilSubtitle = document.getElementById('berhasil-subtitle');
   let successModalTimeout = null;
-  // Tambahkan instance Audio untuk suara sukses
   const successSound = new Audio('/assets/sounds/success.mp3');
 
   function showSuccessModal(title, subtitle) {
     if (modalBerhasil && berhasilTitle && berhasilSubtitle) {
       berhasilTitle.textContent = title;
       berhasilSubtitle.textContent = subtitle;
-      modalBerhasil.classList.add('show'); // Gunakan class untuk menampilkan
-      
-      // Putar suara sukses
+      modalBerhasil.classList.add('show');
+      document.body.style.overflow = 'hidden'; // Nonaktifkan scroll
+
       successSound.play().catch(error => {
         console.log('Gagal memutar suara sukses:', error);
       });
 
       clearTimeout(successModalTimeout);
-      successModalTimeout = setTimeout(hideSuccessModal, 1200); // Durasi 1.2 detik
+      successModalTimeout = setTimeout(hideSuccessModal, 1200);
     }
   }
   
   function hideSuccessModal() {
-    modalBerhasil?.classList.remove('show');
+    if (modalBerhasil) {
+        modalBerhasil.classList.remove('show');
+        document.body.style.overflow = ''; // Aktifkan kembali scroll
+    }
   }
 
-  // Listener untuk tombol 'Selesai' di modal berhasil
   document.getElementById('btnSelesai')?.addEventListener('click', () => {
     clearTimeout(successModalTimeout);
     hideSuccessModal();
@@ -69,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
   updateDateTime();
   setInterval(updateDateTime, 1000);
   
-  // === [BARU] Tombol Simpan Logic ===
+  // === Tombol Simpan Logic ===
   const simpanBtn = document.querySelector('#penunjangModal .btn-success');
   if (simpanBtn) {
     simpanBtn.addEventListener('click', function() {
@@ -124,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const closePenunjangDetailBtn = document.getElementById("closePenunjangDetailBtn");
 
   document.addEventListener('click', function(event) {
-    if (event.target.closest('#btnLihatPenunjangDetail')) {
+    if (event.target.closest('#btnLihatPenunjangDetail') || event.target.closest('[data-bs-target="#penunjangDetailModal"]')) {
       if (penunjangDetailModal) penunjangDetailModal.style.display = "block";
     }
   });
@@ -140,33 +141,18 @@ document.addEventListener('DOMContentLoaded', function () {
   const btnTerima = document.getElementById('popupBtnTerima');
   const btnTolak = document.getElementById('popupBtnTolak');
   const btnKembali = document.getElementById('popupBtnKembali');
-  
-  // Debugging untuk memastikan modal ditemukan
-  console.log('verifModal:', verifModal);
-  console.log('btnTerima:', btnTerima);
-  console.log('btnTolak:', btnTolak);
-  console.log('btnKembali:', btnKembali);
 
   function hideVerifModal() {
     if (verifModal) {
-      console.log('Menyembunyikan modal verifikasi');
-      verifModal.classList.remove('show'); // Gunakan kelas show untuk menyembunyikan
-    } else {
-      console.log('Modal verifikasi tidak ditemukan saat mencoba menyembunyikan');
+      verifModal.classList.remove('show');
     }
   }
 
   document.addEventListener('click', function(event) {
     if (event.target.closest('.btn-verifikasi')) {
-      console.log('Tombol verifikasi diklik!');
       event.preventDefault();
       if (verifModal) {
-        console.log('Menampilkan modal verifikasi');
-        verifModal.classList.add('show'); // Gunakan kelas show untuk menampilkan
-        console.log('Style display saat ini:', verifModal.style.display);
-        console.log('Computed style:', window.getComputedStyle(verifModal).display);
-      } else {
-        console.log('Modal verifikasi tidak ditemukan!');
+        verifModal.classList.add('show');
       }
     }
   });
@@ -174,7 +160,6 @@ document.addEventListener('DOMContentLoaded', function () {
   if (verifModal) {
     verifModal.addEventListener('click', (e) => {
       if (e.target === verifModal) {
-        console.log('Klik di luar modal, menyembunyikan');
         hideVerifModal();
       }
     });
@@ -182,7 +167,6 @@ document.addEventListener('DOMContentLoaded', function () {
   
   if (btnTerima) {
     btnTerima.addEventListener('click', function() {
-      console.log('Tombol Terima diklik');
       hideVerifModal();
       showSuccessModal('Status Verifikasi Disimpan', 'Perubahan status verifikasi telah berhasil disimpan.');
     });
@@ -190,7 +174,6 @@ document.addEventListener('DOMContentLoaded', function () {
   
   if (btnTolak) {
     btnTolak.addEventListener('click', function() {
-      console.log('Tombol Tolak diklik');
       hideVerifModal();
       showSuccessModal('Status Verifikasi Disimpan', 'Perubahan status verifikasi telah berhasil disimpan.');
     });
@@ -198,19 +181,23 @@ document.addEventListener('DOMContentLoaded', function () {
   
   if (btnKembali) {
     btnKembali.addEventListener('click', function() {
-      console.log('Tombol Kembali diklik');
       hideVerifModal();
     });
   }
 
-  // === Delete Confirmation Modal Logic ===
+  // === Delete Confirmation Modal Logic (FIXED) ===
   const deleteModal = document.getElementById('modalKonfirmasiHapus');
   const btnBatalHapus = document.getElementById('btnBatalHapus');
   const btnKonfirmasiHapus = document.getElementById('btnKonfirmasiHapus');
   let dataToDelete = null;
 
   function hideDeleteModal() {
-    if(deleteModal) deleteModal.style.display = 'none';
+    if(deleteModal) {
+        deleteModal.classList.remove('show');
+        if (!document.querySelector('.modal-berhasil-overlay.show')) {
+            document.body.style.overflow = ''; // Aktifkan scroll
+        }
+    }
   }
 
   document.addEventListener('click', function(event) {
@@ -221,15 +208,12 @@ document.addEventListener('DOMContentLoaded', function () {
         id: row.querySelector('td:first-child').textContent,
         title: row.querySelector('td:nth-child(2)').textContent
       };
-      if (deleteModal) deleteModal.style.display = 'flex';
+      if (deleteModal) {
+          deleteModal.classList.add('show');
+          document.body.style.overflow = 'hidden'; // Nonaktifkan scroll
+      }
     }
   });
-
-  if (deleteModal) {
-    deleteModal.addEventListener('click', (e) => {
-      if (e.target === deleteModal) hideDeleteModal();
-    });
-  }
 
   if (btnBatalHapus) {
     btnBatalHapus.addEventListener('click', hideDeleteModal);
@@ -246,7 +230,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 
-// === Global Functions ===
+// === Global Functions (FIXED) ===
 function openModal(modalId) {
   const modal = document.getElementById(modalId);
   if (!modal) return;
@@ -263,6 +247,7 @@ function openModal(modalId) {
   if (anggotaList) anggotaList.innerHTML = '';
 
   modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden'; // Nonaktifkan scroll
 }
 
 function openEditModal() {
@@ -273,11 +258,15 @@ function openEditModal() {
     modalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Data Penunjang';
   }
   modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden'; // Nonaktifkan scroll
 }
 
 function closeModal(modalId) {
   const modal = document.getElementById(modalId);
-  if (modal) modal.style.display = 'none';
+  if (modal) {
+    modal.style.display = 'none';
+    document.body.style.overflow = ''; // Aktifkan kembali scroll
+  }
 }
 
 function addDokumen() {
@@ -323,11 +312,13 @@ function addAnggota() {
   list.appendChild(newRow);
 }
 
+// === Close on Outside Click (FIXED) ===
 window.addEventListener('click', function (event) {
-  if (event.target.classList.contains('modal-backdrop')) {
-    closeModal(event.target.id);
+  const penunjangModal = document.getElementById('penunjangModal');
+  if (event.target == penunjangModal) {
+      closeModal('penunjangModal');
   }
-  
+
   const penunjangDetailModal = document.getElementById("penunjangDetailModal");
   if (event.target === penunjangDetailModal) {
     penunjangDetailModal.style.display = "none";
@@ -335,6 +326,13 @@ window.addEventListener('click', function (event) {
 
   const deleteModal = document.getElementById("modalKonfirmasiHapus");
   if (event.target === deleteModal) {
-    deleteModal.style.display = "none";
+    // Panggil fungsi hideDeleteModal agar scroll diaktifkan kembali
+    const hideDeleteModalFunc = window.hideDeleteModal || (document.querySelector('.btn-hapus') ? document.querySelector('.btn-hapus').__vue__?.hideDeleteModal : null);
+    if(typeof hideDeleteModalFunc === 'function') {
+        hideDeleteModalFunc();
+    } else {
+        deleteModal.classList.remove('show');
+        document.body.style.overflow = '';
+    }
   }
 });
