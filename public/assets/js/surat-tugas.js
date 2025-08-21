@@ -136,14 +136,14 @@ const dataSuratTugas = [
     lokasi: 'Balai Desa',
   },
   {
-    nama: 'Ria Kodariah, S.Si',
+    nama: 'Budi Setiawan, S.Si',
     peran: 'Dosen',
     sebagai: 'Narasumber',
     mitra: 'Universitas Maju Jaya',
     surat_instansi: '003/UMJ/2025 - 10 Juni 2025',
     surat_kadep: '003/UMJ/2025 - 11 Juni 2025',
     tgl_kegiatan: '2021-08-01',
-    lokasi: 'Auditorium Univ',
+    lokasi: 'Auditorium Kencana Sakti',
   },
 ];
 

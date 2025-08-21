@@ -65,10 +65,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // --- Table Rendering ---
   const userData = [
-    { name: 'Dr. Soni Trison, S.Hut, M.Si', user: 'Kadep_soni', role: 'Admin' },
-    { name: 'Ria Kodariah, S.Si', user: 'Kadep_ria', role: 'Admin' },
-    { name: 'Meli Surnami', user: 'Staff_meli', role: 'Administrasi Kepegawaian' },
-    { name: 'Saeful Rohim', user: 'Staff_saeful', role: 'Administrasi Kepegawaian' }
+    { name: 'Samsul Bahri', user: 'SamsulAja', role: 'Admin' },
+    { name: 'Dimas Anggara, S.Si', user: 'DimsDim', role: 'Admin' },
+    { name: 'Bunga Puspita', user: 'Bunge', role: 'Administrasi Kepegawaian' },
+    { name: 'Rahmi Anggraeni', user: 'RahmiRahmi', role: 'Administrasi Kepegawaian' }
   ];
 
   let selectedDeleteIndex = null;
