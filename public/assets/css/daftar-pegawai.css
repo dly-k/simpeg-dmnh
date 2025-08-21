@@ -15,6 +15,34 @@ body.sidebar-collapsed .main-content {
 }
 
 /* ========================
+   Search
+========================= */
+.search-group .input-group {
+  border: 1px solid rgb(224, 224, 224);
+  border-radius: 0.300rem;
+  overflow: hidden;
+}
+
+.search-group .input-group-text {
+  border: none;
+  background: var(--gray-200);
+}
+
+.search-group .form-control {
+  border: none;
+  box-shadow: none;
+}
+
+.search-icon {
+  color: var(--primary);
+}
+
+.search-group .form-control::placeholder {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+/* ========================
    Table
 ========================= */
 .table-card {
@@ -91,34 +119,6 @@ body.sidebar-collapsed .main-content {
 .btn-hapus:hover {
   background-color: var(--danger-hover);
   transform: scale(1.15);
-}
-
-/* ========================
-   Search
-========================= */
-.search-group .input-group {
-  border: 1px solid rgb(224, 224, 224);
-  border-radius: 0.300rem;
-  overflow: hidden;
-}
-
-.search-group .input-group-text {
-  border: none;
-  background: var(--gray-200);
-}
-
-.search-group .form-control {
-  border: none;
-  box-shadow: none;
-}
-
-.search-icon {
-  color: var(--primary);
-}
-
-.search-group .form-control::placeholder {
-  color: var(--text-muted);
-  font-weight: 400;
 }
 
 /* ========================
@@ -229,7 +229,7 @@ body.sidebar-collapsed .main-content {
 }
 
 .konfirmasi-hapus-box {
-  background-color: var(--gray-200); /* Diganti dari --konfirmasi-bg untuk konsistensi */
+  background-color: var(--gray-200);
   padding: 2rem;
   border-radius: 16px;
   text-align: center;
@@ -249,7 +249,7 @@ body.sidebar-collapsed .main-content {
 .konfirmasi-hapus-icon {
   width: 80px;
   height: 80px;
-  background-color: var(--warning); /* Diganti dari --konfirmasi-icon untuk konteks peringatan */
+  background-color: var(--warning);
   border-radius: 50%;
   margin: 0 auto 1.5rem auto;
   display: flex;
@@ -378,7 +378,7 @@ body.sidebar-collapsed .main-content {
   color: var(--white);
   cursor: pointer;
   transition: all 0.2s ease;
-  min-height: 44px; /* Pastikan ukuran dapat disentuh */
+  min-height: 44px;
 }
 
 .btn-popup:hover {
@@ -493,7 +493,7 @@ body.sidebar-collapsed .main-content {
   .btn-aksi {
     width: 28px;
     height: 28px;
-    min-height: 44px; /* Pastikan ukuran dapat disentuh */
+    min-height: 44px;
     font-size: 14px;
   }
 
@@ -639,7 +639,7 @@ body.sidebar-collapsed .main-content {
   .btn-aksi {
     width: 30px;
     height: 30px;
-    min-height: 44px; /* Pastikan ukuran dapat disentuh */
+    min-height: 44px;
     font-size: 15px;
   }
 
@@ -785,7 +785,7 @@ body.sidebar-collapsed .main-content {
   .btn-aksi {
     width: 32px;
     height: 32px;
-    min-height: 44px; /* Pastikan ukuran dapat disentuh */
+    min-height: 44px;
     font-size: 16px;
   }
 

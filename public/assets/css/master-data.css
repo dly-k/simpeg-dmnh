@@ -56,6 +56,27 @@
 }
 
 /* ========================
+   Pagination
+========================= */
+.pagination .page-item.active .page-link {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: var(--white);
+}
+
+.pagination .page-link {
+  color: var(--primary);
+}
+
+.pagination .page-link:hover {
+  background-color: var(--primary-light);
+}
+
+.pagination .page-item.disabled .page-link {
+  color: var(--gray);
+}
+
+/* ========================
    Buttons
 ========================= */
 .btn-aksi {
@@ -105,27 +126,6 @@
   color: var(--white);
   transform: scale(1.15);
   filter: brightness(1.2);
-}
-
-/* ========================
-   Pagination
-========================= */
-.pagination .page-item.active .page-link {
-  background-color: var(--primary);
-  border-color: var(--primary);
-  color: var(--white);
-}
-
-.pagination .page-link {
-  color: var(--primary);
-}
-
-.pagination .page-link:hover {
-  background-color: var(--primary-light);
-}
-
-.pagination .page-item.disabled .page-link {
-  color: var(--gray);
 }
 
 /* ========================

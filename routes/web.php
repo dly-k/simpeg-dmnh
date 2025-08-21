@@ -10,6 +10,14 @@ Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
 
+Route::get('/ubah-password', function () {
+    return view('auth.ubah-password');
+});
+
+Route::get('/master-data', function () {
+    return view('auth.master-data');
+});
+
 Route::get('/dashboard', function () {
     return view('pages.dashboard');
 });
@@ -58,10 +66,6 @@ Route::get('/penghargaan', function () {
     return view('pages.penghargaan');
 });
 
-Route::get('/master-data', function () {
-    return view('pages.master-data');
-});
-
 Route::get('/sidebar', function () {
     return view('pages.sidebar');
 });
@@ -72,8 +76,4 @@ Route::get('/edit-pegawai', function () {
 
 Route::get('/tambah-pegawai', function () {
     return view('pages.pegawai.tambah-pegawai');
-});
-
-Route::get('/ubah-password', function () {
-    return view('auth.ubah-password');
 });

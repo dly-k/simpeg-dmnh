@@ -44,7 +44,7 @@
                         </div>
                     </div>
                     <div class="stat-card">
-                        <div class="card-icon">
+                        <div class="card-icon icon-green">
                             <i class="lni lni-stats-up"></i>
                         </div>
                         <div>

@@ -14,6 +14,9 @@ body.sidebar-collapsed .main-content {
   margin-left: 0;
 }
 
+/* ========================
+   Card
+========================= */
 .card-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -89,7 +92,7 @@ body.sidebar-collapsed .main-content {
   background: var(--white);
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px var(--black-01); /* Diganti dari rgba(0, 0, 0, 0.05) */
+  box-shadow: 0 4px 8px var(--black-01);
   opacity: 0;
   transform: translateY(20px);
   animation: fadeInUp 0.6s ease forwards;
@@ -329,7 +332,7 @@ body.sidebar-collapsed .main-content {
 
   .filter-action-group button {
     width: 100%;
-    min-height: 44px; /* Pastikan ukuran dapat disentuh */
+    min-height: 44px;
   }
 }
 

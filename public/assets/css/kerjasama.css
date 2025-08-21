@@ -14,27 +14,6 @@
 }
 
 /* ========================
-   Pagination
-========================= */
-.pagination .page-item.active .page-link {
-  background-color: var(--primary);
-  border-color: var(--primary);
-  color: var(--white);
-}
-
-.pagination .page-link {
-  color: var(--primary);
-}
-
-.pagination .page-link:hover {
-  background-color: var(--primary-light);
-}
-
-.pagination .page-item.disabled .page-link {
-  color: var(--gray);
-}
-
-/* ========================
    Card
 ========================= */
 .card {
@@ -42,6 +21,22 @@
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
   border: none;
+}
+
+/* ========================
+   Search Input
+========================= */
+.search-input::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+  opacity: 1;
+}
+
+.search-icon {
+  color: var(--primary);
+}
+
+.jenis-select {
+  width: 180px;
 }
 
 /* ========================
@@ -72,6 +67,27 @@
 
 .table-hover > tbody > tr:hover {
   background-color: var(--gray-100);
+}
+
+/* ========================
+   Pagination
+========================= */
+.pagination .page-item.active .page-link {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: var(--white);
+}
+
+.pagination .page-link {
+  color: var(--primary);
+}
+
+.pagination .page-link:hover {
+  background-color: var(--primary-light);
+}
+
+.pagination .page-item.disabled .page-link {
+  color: var(--gray);
 }
 
 /* ========================
@@ -475,22 +491,6 @@
 
 .btn-selesai:hover {
   background-color: #16a34a;
-}
-
-/* ========================
-   Search Input
-========================= */
-.search-input::placeholder {
-  color: rgba(0, 0, 0, 0.4);
-  opacity: 1;
-}
-
-.search-icon {
-  color: var(--primary);
-}
-
-.jenis-select {
-  width: 180px;
 }
 
 /* ========================
