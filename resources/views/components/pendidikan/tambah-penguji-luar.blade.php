@@ -107,7 +107,7 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger" id="btnBatalPengujiLuar" data-bs-dismiss="modal">Batal</button>
+          <button type="button" class="btn btn-secondary" id="btnBatalPengujiLuar" data-bs-dismiss="modal">Batal</button>
           <button type="button" class="btn btn-success" id="btnSimpanPengujiLuar">Simpan</button>
         </div>
       </div>

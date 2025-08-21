@@ -77,7 +77,7 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger" id="btnBatalPengujianLama" data-bs-dismiss="modal">Batal</button>
+          <button type="button" class="btn btn-secondary" id="btnBatalPengujianLama" data-bs-dismiss="modal">Batal</button>
           <button type="button" class="btn btn-success" id="btnSimpanPengujianLama">Simpan</button>
         </div>
       </div>

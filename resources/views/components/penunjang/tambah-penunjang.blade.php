@@ -38,7 +38,7 @@
                 </form>
             </div>
             <div class="modal-footer-custom">
-                <button type="button" class="btn btn-danger" onclick="closeModal('penunjangModal')">Batal</button>
+                <button type="button" class="btn btn-secondary" onclick="closeModal('penunjangModal')">Batal</button>
                 <button type="button" class="btn btn-success">Simpan</button>
             </div>
         </div>

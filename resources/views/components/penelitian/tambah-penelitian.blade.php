@@ -63,7 +63,7 @@
         </form>
       </div>
       <div class="modal-footer-custom">
-        <button type="button" class="btn btn-danger" onclick="closeModal('penelitianModal')">Batal</button>
+        <button type="button" class="btn btn-secondary" onclick="closeModal('penelitianModal')">Batal</button>
         <button type="button" class="btn btn-success">Simpan</button>
       </div>
     </div>

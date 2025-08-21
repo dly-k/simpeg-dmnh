@@ -1,3 +1,31 @@
+:root {
+  /* Solid colors */
+  --white: #fff;
+  --dark-gray: #222;
+  --dark-green: #00753b;
+  --green: #00c853;
+  --light-green: #00e676;
+  --btn-green-1: #02ba56;
+  --btn-green-2: #019c47;
+  --btn-hover-green-1: #03dქ;
+  --btn-hover-green-2: #01b84e;
+  --pink: #db2777;
+  --orange: #f59e0b;
+  --blue: #2563eb;
+
+  /* Transparent colors */
+  --white-02: rgba(255, 255, 255, 0.2);
+  --white-015: rgba(255, 255, 255, 0.15);
+  --white-09: rgba(255, 255, 255, 0.9);
+  --black-025: rgba(0, 0, 0, 0.25);
+  --black-05: rgba(0, 0, 0, 0.5);
+  --black-06: rgba(0, 0, 0, 0.6);
+  --black-07: rgba(0, 0, 0, 0.7);
+  --black-085: rgba(0, 0, 0, 0.85);
+  --green-03: rgba(0, 153, 64, 0.3);
+  --overlay-green: rgba(6, 78, 59, 0.7);
+}
+
 /* ========================
    Global Styles
 ========================= */
@@ -131,7 +159,7 @@ body {
 }
 
 .btn-success:hover {
-  background: linear-gradient(135deg, var(--btn-hover-green-1), var(--btn-hover-green-2));
+  background: linear-gradient(135deg, #00d65f, #008a3d);
   transform: scale(0.98);
 }
 
