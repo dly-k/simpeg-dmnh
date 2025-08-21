@@ -1,108 +1,6 @@
 /* ========================
-   Root Variables
-========================= */
-:root {
-  --primary: #049466;
-  --primary-light: #e3f7ec;
-  --primary-dark: #047857;
-  --border-color: #e2e8f0;
-  --info: #03b9de;
-  --info-hover: #0aa6c6;
-  --warning: #ffc107;
-  --warning-hover: #d39e00;
-  --danger: #dc3545;
-  --danger-hover: #b02a37;
-  --dark: #2d3748;
-  --dark-hover: #1a202c;
-  --light: #f5f6fa;
-  --gray: #6c757d;
-  --white: #ffffff;
-  --success: #22c55e;
-  --success-hover: #16a34a;
-}
-
-/* ========================
-   Base Styles
-========================= */
-body {
-  font-family: 'Poppins', sans-serif;
-  margin: 0;
-  background-color: var(--light);
-  font-size: 14px;
-}
-
-/* ========================
    Sidebar
 ========================= */
-.sidebar {
-  width: 250px;
-  height: 100vh;
-  background-color: var(--white);
-  border-right: 1px solid var(--border-color);
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.3s ease-in-out;
-  z-index: 1001;
-  transform: translateX(0);
-  overflow-y: auto;
-}
-
-.sidebar.hidden {
-  transform: translateX(-100%);
-}
-
-.sidebar .brand {
-  font-size: 24px;
-  font-weight: 700;
-  color: #222;
-  text-align: center;
-  padding: 14.5px 0;
-  border-bottom: 1px solid #ccc;
-  letter-spacing: 1px;
-}
-
-.sidebar .brand span {
-  color: var(--primary);
-}
-
-.sidebar .menu-wrapper {
-  overflow-y: auto;
-  flex-grow: 1;
-}
-
-.menu p {
-  font-size: 13px;
-  font-weight: 500;
-  padding: 0 20px;
-  margin: 12px 0 8px;
-  color: #888;
-}
-
-.sidebar .menu a,
-.sidebar .menu button {
-  display: flex;
-  align-items: center;
-  padding: 12px 20px;
-  font-size: 13px;
-  color: #333;
-  text-decoration: none;
-  width: 100%;
-  border: none;
-  background: none;
-  transition: all 0.2s ease-in-out;
-  text-align: left;
-  cursor: pointer;
-}
-
-.sidebar .menu a:hover,
-.sidebar .menu button:hover {
-  background-color: var(--primary-light);
-  color: var(--primary-dark);
-}
-
 .sidebar .menu a.active,
 .sidebar .menu button.active {
   background-color: var(--primary);
@@ -110,204 +8,10 @@ body {
   font-weight: 600;
 }
 
-.sidebar .menu a:first-of-type {
-  margin-top: 10px;
-}
-
-.sidebar .menu a i,
-.sidebar .menu button i {
-  margin-right: 12px;
-  font-size: 16px;
-  min-width: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.sidebar .submenu a {
-  padding: 9px 20px 9px 45px;
-  font-size: 12.5px;
-}
-
 .sidebar .submenu a.active {
+  color: var(--primary);
+  font-weight: 600;
   background-color: var(--primary-light);
-  color: var(--primary-dark);
-  font-weight: 600;
-}
-
-.toggle-icon {
-  margin-left: auto;
-  transition: transform 0.3s;
-}
-
-.collapsed .toggle-icon {
-  transform: rotate(-90deg);
-}
-
-/* ========================
-   Overlay
-========================= */
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 1000;
-  display: none;
-}
-
-.overlay.show {
-  display: block;
-}
-
-/* ========================
-   Navbar
-========================= */
-.navbar-custom {
-  height: 66px;
-  background: var(--white);
-  border-bottom: 1px solid var(--border-color);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  margin-left: 250px;
-  transition: margin-left 0.3s ease-in-out;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 999;
-}
-
-.sidebar.hidden ~ .navbar-custom {
-  margin-left: 0;
-}
-
-.time-date {
-  font-size: 13px;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  font-weight: 400;
-}
-
-.time-date div {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.time-date i {
-  font-size: 13px;
-  color: #4b5563;
-}
-
-.account {
-  display: flex;
-  align-items: center;
-  font-size: 13px;
-  font-weight: 400;
-  cursor: pointer;
-  margin-left: 10px;
-  gap: 6px;
-}
-
-.icon-circle {
-  background: var(--primary);
-  color: var(--white);
-  border-radius: 50%;
-  width: 28px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  flex-shrink: 0;
-}
-
-/* ========================
-   Dropdown Menu
-========================= */
-.dropdown-menu {
-  margin-top: 5px;
-  padding: 0;
-  border-radius: 0.375rem;
-  overflow: hidden;
-}
-
-.dropdown-item {
-  font-size: 13px;
-  padding: 10px 16px;
-}
-
-.dropdown-item i {
-  min-width: 24px;
-  text-align: center;
-}
-
-.dropdown-item:hover,
-.dropdown-item:focus {
-  background-color: #e2e6ea;
-  color: #111;
-  text-decoration: none;
-  outline: none;
-}
-
-.dropdown-item:active {
-  background-color: #d6d9dd;
-  color: #111;
-}
-
-.dropdown-divider {
-  margin: 0;
-}
-
-.dropdown-item-danger {
-  color: var(--danger);
-}
-
-.dropdown-item-danger:hover,
-.dropdown-item-danger:focus {
-  background-color: var(--danger);
-  color: var(--white);
-}
-
-/* ========================
-   Title Bar
-========================= */
-.title-bar {
-  background: linear-gradient(to right, var(--primary), var(--primary-dark));
-  color: var(--white);
-  padding: 20px 25px;
-  margin-left: 250px;
-  transition: margin-left 0.3s ease-in-out;
-  position: fixed;
-  top: 66px;
-  left: 0;
-  right: 0;
-  z-index: 998;
-  display: flex;
-  align-items: center;
-}
-
-.sidebar.hidden ~ .navbar-custom ~ .title-bar {
-  margin-left: 0;
-}
-
-.title-bar h1 {
-  font-size: 20px;
-  font-weight: 600;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.title-bar h1 i {
-  font-size: 22px;
 }
 
 /* ========================
@@ -322,32 +26,6 @@ body {
 }
 
 .sidebar.hidden ~ .navbar-custom ~ .title-bar ~ .main-content {
-  margin-left: 0;
-}
-
-/* ========================
-   Footer
-========================= */
-.footer-custom {
-  background: var(--white);
-  border-top: 1px solid var(--border-color);
-  height: 45px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 0 20px;
-  font-size: 12px;
-  color: #555;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin-left: 250px;
-  transition: margin-left 0.3s ease-in-out;
-  z-index: 997;
-}
-
-.sidebar.hidden ~ .navbar-custom ~ .title-bar ~ .main-content ~ .footer-custom {
   margin-left: 0;
 }
 
@@ -436,16 +114,15 @@ body {
 }
 
 .btn-tambah {
-  background-color: var(--dark);
-  color: white;
-  transition: all 0.3s ease;
+  background-color: var(--gray-dark);
+  color: var(--white);
 }
 
 .btn-tambah:hover {
-  background-color: var(--dark-hover);
-  color: white;
+  background-color: var(--gray-hover);
+  color: var(--white);
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 8px var(--black-01);
 }
 
 .btn-lihat,
@@ -625,6 +302,49 @@ body {
 }
 
 /* ========================
+   Modal Buttons
+========================= */
+.btn-popup {
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--white);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-popup:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+}
+
+.btn-batal {
+  background-color: #6c757d;
+}
+
+.btn-batal:hover {
+  background-color: #5a6268;
+}
+
+.btn-hapus {
+  background-color: var(--danger);
+}
+
+.btn-hapus:hover {
+  background-color: #c82333;
+}
+
+.btn-selesai {
+  background-color: var(--success);
+}
+
+.btn-selesai:hover {
+  background-color: var(--success-hover);
+}
+
+/* ========================
    Modal Konfirmasi Hapus
 ========================= */
 .konfirmasi-hapus-overlay {
@@ -633,7 +353,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -659,7 +379,7 @@ body {
   border-radius: 16px;
   text-align: center;
   width: 90%;
-  max-width: 500px;
+  max-width: 450px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   transform: scale(0.9);
   transition: transform 0.3s ease;
@@ -672,24 +392,26 @@ body {
 .konfirmasi-hapus-icon {
   width: 80px;
   height: 80px;
-  background-color: #facc15;
+  background-color: var(--warning);
   border-radius: 50%;
-  margin: 0 auto 1.5rem;
+  margin: 0 auto 1.5rem auto;
   display: flex;
   justify-content: center;
   align-items: center;
+  animation: shadowPulseKonfirmasi 1.5s ease-in-out infinite;
 }
 
 .konfirmasi-hapus-icon i {
   font-size: 2.5rem;
   color: var(--white);
+  animation: blinkKonfirmasi 1.2s ease-in-out infinite;
 }
 
 .konfirmasi-hapus-title {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: #1f2937;
-  margin: 0 0 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .konfirmasi-hapus-subtitle {
@@ -702,6 +424,22 @@ body {
   display: flex;
   justify-content: center;
   gap: 1rem;
+}
+
+.btn-popup.btn-batal {
+  background-color: #6c757d;
+}
+
+.btn-popup.btn-batal:hover {
+  background-color: #5a6268;
+}
+
+.btn-popup.btn-hapus {
+  background-color: var(--danger);
+}
+
+.btn-popup.btn-hapus:hover {
+  background-color: var(--danger-hover);
 }
 
 /* ========================
@@ -749,15 +487,17 @@ body {
   height: 80px;
   background-color: var(--success);
   border-radius: 50%;
-  margin: 0 auto 1.5rem;
+  margin: 0 auto 1.5rem auto;
   display: flex;
   justify-content: center;
   align-items: center;
+  animation: shadowPulse 1.5s ease-in-out infinite;
 }
 
 .modal-berhasil-icon i {
   font-size: 2.5rem;
   color: var(--white);
+  animation: blinkKonfirmasi 1.2s ease-in-out infinite;
 }
 
 .modal-berhasil-title {
@@ -779,47 +519,48 @@ body {
   gap: 1rem;
 }
 
-/* ========================
-   Modal Buttons
-========================= */
-.btn-popup {
-  border: none;
-  border-radius: 8px;
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--white);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.btn-popup:hover {
-  filter: brightness(1.1);
-  transform: translateY(-2px);
-}
-
-.btn-batal {
-  background-color: #6c757d;
-}
-
-.btn-batal:hover {
-  background-color: #5a6268;
-}
-
-.btn-hapus {
-  background-color: var(--danger);
-}
-
-.btn-hapus:hover {
-  background-color: #c82333;
-}
-
-.btn-selesai {
+.btn-popup.btn-selesai {
   background-color: var(--success);
 }
 
-.btn-selesai:hover {
+.btn-popup.btn-selesai:hover {
   background-color: var(--success-hover);
+}
+
+/* ========================
+   Animations
+========================= */
+@keyframes blinkKonfirmasi {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4; /* Efek kedip halus */
+  }
+}
+
+@keyframes shadowPulse {
+  0% {
+    box-shadow: 0 0 0 0 var(--success-shadow);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 var(--success-shadow);
+  }
+}
+
+@keyframes shadowPulseKonfirmasi {
+  0% {
+    box-shadow: 0 0 0 0 var(--konfirmasi-icon-shadow);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(250, 204, 21, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 var(--konfirmasi-icon-shadow);
+  }
 }
 
 /* ========================
