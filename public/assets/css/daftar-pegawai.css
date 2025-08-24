@@ -4,10 +4,10 @@
 .main-content {
   margin-left: 250px;
   padding: 25px;
-  transition: margin-left 0.3s ease-in-out;
   margin-top: 130px;
   font-size: 14px;
   padding-bottom: 70px;
+  transition: margin-left 0.3s ease-in-out;
 }
 
 body.sidebar-collapsed .main-content {
@@ -38,8 +38,8 @@ body.sidebar-collapsed .main-content {
 }
 
 .search-group .form-control::placeholder {
-  color: var(--text-muted);
-  font-weight: 400;
+  color: rgba(0, 0, 0, 0.4);
+  opacity: 1;
 }
 
 /* ========================

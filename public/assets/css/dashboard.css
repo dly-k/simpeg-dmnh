@@ -4,10 +4,10 @@
 .main-content {
   margin-left: 250px;
   padding: 25px;
-  transition: margin-left 0.3s ease-in-out;
   margin-top: 130px;
   font-size: 14px;
   padding-bottom: 70px;
+  transition: margin-left 0.3s ease-in-out;
 }
 
 body.sidebar-collapsed .main-content {
