@@ -581,6 +581,14 @@
   border-color: var(--info-hover);
   transform: scale(1.05);
 }
+.form-control{
+  color: var(--gray);
+  font-size: 0.8rem;
+}
+.form-select{
+  color: var(--gray);
+  font-size: 0.8rem;
+}
 
 /* ========================
    Animations

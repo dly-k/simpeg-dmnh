@@ -332,7 +332,47 @@ function formatDate(dateString) {
 
 // ... (logika untuk tambah/hapus personil di form tidak berubah)
 document.addEventListener('DOMContentLoaded', function() {
-    function addPersonil(containerId) { /* ... */ }
+        function addPersonil(containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+
+        // Membuat elemen wrapper untuk setiap baris personil
+        const personilItem = document.createElement('div');
+        personilItem.className = 'personil-item d-flex gap-2 mb-2';
+
+        // Membuat input untuk Nama
+        const namaInput = document.createElement('input');
+        namaInput.type = 'text';
+        namaInput.className = 'form-control';
+        namaInput.placeholder = 'Nama Lengkap';
+        // Anda bisa menambahkan atribut 'name' jika diperlukan untuk form submission
+        // namaInput.name = containerId === 'ketua-list' ? 'ketua_nama[]' : 'anggota_nama[]';
+
+        // Membuat select untuk Departemen
+        const depSelect = document.createElement('select');
+        depSelect.className = 'form-select';
+        // depSelect.name = containerId === 'ketua-list' ? 'ketua_departemen[]' : 'anggota_departemen[]';
+        depSelect.innerHTML = `
+            <option selected>-- Pilih Departemen --</option>
+            <option>Manajemen Hutan</option>
+            <option>Konservasi Sumberdaya Hutan</option>
+            <option>Teknologi Hasil Hutan</option>
+        `;
+
+        // Membuat tombol hapus
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'btn btn-danger btn-remove-personil';
+        removeBtn.innerHTML = '<i class="fa fa-times"></i>';
+
+        // Menambahkan semua elemen ke dalam wrapper
+        personilItem.appendChild(namaInput);
+        personilItem.appendChild(depSelect);
+        personilItem.appendChild(removeBtn);
+
+        // Menambahkan wrapper ke container utama (ketua-list atau anggota-list)
+        container.appendChild(personilItem);
+    }
     document.getElementById('add-ketua-btn')?.addEventListener('click', () => addPersonil('ketua-list'));
     document.getElementById('add-anggota-btn')?.addEventListener('click', () => addPersonil('anggota-list'));
     const modalBody = document.querySelector('#kerjasamaModal .modal-body');

@@ -20,7 +20,7 @@
             {{-- END PERUBAHAN --}}
 
             <div class="col-md-6"><label class="form-label">Tgl. Dokumen</label><input type="date" name="tglDoc" class="form-control"></div>
-            <div class="col-md-6"><label class="form-label">Departemen/Program Studi Penanggung Jawab</label><select class="form-select" name="departemen_pj"><option selected>-- Pilih Salah Satu --</option><option>Manajemen Hutan</option><option>Konservasi Sumberdaya Hutan</option><option>Teknologi Hasil Hutan</option></select></div>
+            <div class="col-md-6"><label class="form-label">Departemen Penanggung Jawab</label><select class="form-select" name="departemen_pj"><option selected>-- Pilih Salah Satu --</option><option>Manajemen Hutan</option><option>Konservasi Sumberdaya Hutan</option><option>Teknologi Hasil Hutan</option></select></div>
             <div class="col-md-6"><label class="form-label">TMT (Tanggal Mulai Efektif)</label><input type="date" class="form-control" name="tmt"></div>
             <div class="col-md-6"><label class="form-label">TST (Tanggal Selesai Efektif)</label><input type="date" class="form-control" name="tst"></div>
 
