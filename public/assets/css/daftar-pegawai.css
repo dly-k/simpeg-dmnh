@@ -1,6 +1,6 @@
-/* ========================
+/* ==========================================================================
    Main Content
-========================= */
+   ========================================================================== */
 .main-content {
   margin-left: 250px;
   padding: 25px;
@@ -14,18 +14,83 @@ body.sidebar-collapsed .main-content {
   margin-left: 0;
 }
 
-/* ========================
+/* ==========================================================================
+   Tabs
+   ========================================================================== */
+.tab-bar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1rem;
+}
+
+.nav-pills {
+  border: none;
+}
+
+.nav-pills .nav-link {
+  border: none;
+  border-radius: 6px;
+  background-color: transparent;
+  color: var(--gray);
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.5rem 1.25rem;
+  margin-right: 0.5rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.nav-pills .nav-link:not(.active):hover {
+  background-color: var(--gray-200);
+  color: var(--primary);
+}
+
+.nav-pills .nav-link.active {
+  background-color: var(--primary);
+  color: var(--white);
+  box-shadow: 0 4px 8px var(--black-01);
+}
+
+.btn-export {
+  background-color: #198754;
+  color: var(--white);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 160px;
+  height: 38px;
+  font-size: 1rem;
+  font-weight: 400;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-export:hover {
+  background-color: var(--success-hover);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--black-01);
+}
+
+/* Align search and filter heights with buttons */
+.search-group .input-group,
+.form-select {
+  height: 38px;
+}
+
+/* ==========================================================================
    Search
-========================= */
+   ========================================================================== */
 .search-group .input-group {
   border: 1px solid rgb(224, 224, 224);
-  border-radius: 0.300rem;
+  border-radius: 0.3rem;
   overflow: hidden;
 }
 
 .search-group .input-group-text {
   border: none;
-  background: var(--gray-200);
+  background-color: var(--gray-200);
 }
 
 .search-group .form-control {
@@ -33,20 +98,19 @@ body.sidebar-collapsed .main-content {
   box-shadow: none;
 }
 
-.search-icon {
+.search-group .search-icon {
   color: var(--primary);
 }
 
 .search-group .form-control::placeholder {
   color: rgba(0, 0, 0, 0.4);
-  opacity: 1;
 }
 
-/* ========================
+/* ==========================================================================
    Table
-========================= */
+   ========================================================================== */
 .table-card {
-  background: var(--white);
+  background-color: var(--white);
   padding: 1.5rem;
   border-radius: 10px;
   box-shadow: 0 1px 3px var(--black-01);
@@ -60,13 +124,13 @@ body.sidebar-collapsed .main-content {
 .table th {
   font-weight: 600;
   background-color: var(--primary-light);
-  vertical-align: middle;
   text-align: center;
+  vertical-align: middle;
 }
 
-/* ========================
+/* ==========================================================================
    Buttons
-========================= */
+   ========================================================================== */
 .btn-aksi {
   width: 32px;
   height: 32px;
@@ -81,15 +145,16 @@ body.sidebar-collapsed .main-content {
 }
 
 .btn-tambah {
-  display: flex; /* Tambahkan baris ini */
+  display: flex;
   align-items: center;
   justify-content: center;
   background-color: var(--gray-dark);
   width: 160px;
   height: 38px;
-  --bs-btn-font-size: 1rem;
-  --bs-btn-font-weight: 400;
+  font-size: 1rem;
+  font-weight: 400;
   color: var(--white);
+  transition: all 0.2s ease-in-out;
 }
 
 .btn-tambah:hover {
@@ -128,9 +193,9 @@ body.sidebar-collapsed .main-content {
   transform: scale(1.15);
 }
 
-/* ========================
+/* ==========================================================================
    Pagination
-========================= */
+   ========================================================================== */
 .pagination .page-item.active .page-link {
   background-color: var(--primary);
   border-color: var(--primary);
@@ -149,9 +214,9 @@ body.sidebar-collapsed .main-content {
   color: var(--gray);
 }
 
-/* ========================
+/* ==========================================================================
    Modal (General)
-========================= */
+   ========================================================================== */
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -181,8 +246,7 @@ body.sidebar-collapsed .main-content {
   background: linear-gradient(to right, var(--primary), var(--primary-dark));
   color: var(--white);
   padding: 1.25rem;
-  border-top-left-radius: 0.5rem;
-  border-top-right-radius: 0.5rem;
+  border-radius: 0.5rem 0.5rem 0 0;
 }
 
 .modal-header-custom h5 {
@@ -207,9 +271,9 @@ body.sidebar-collapsed .main-content {
   border-top: 1px solid var(--border-color);
 }
 
-/* ========================
+/* ==========================================================================
    Modal Konfirmasi Hapus
-========================= */
+   ========================================================================== */
 #modalKonfirmasiHapus .modal-dialog {
   width: 650px;
 }
@@ -242,15 +306,13 @@ body.sidebar-collapsed .main-content {
   text-align: center;
   width: 90%;
   max-width: 550px;
-  margin: 0 auto;
   box-shadow: 0 10px 25px var(--black-01);
   transform: scale(0.9);
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 .konfirmasi-hapus-overlay.show .konfirmasi-hapus-box {
   transform: scale(1);
-  opacity: 1;
 }
 
 .konfirmasi-hapus-icon {
@@ -258,10 +320,10 @@ body.sidebar-collapsed .main-content {
   height: 80px;
   background-color: var(--warning);
   border-radius: 50%;
-  margin: 0 auto 1.5rem auto;
+  margin: 0 auto 1.5rem;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   animation: shadowPulseKonfirmasi 1.5s ease-in-out infinite;
 }
 
@@ -275,7 +337,7 @@ body.sidebar-collapsed .main-content {
   font-size: 1.2rem;
   font-weight: 700;
   color: var(--text-dark);
-  margin: 0 0 0.5rem 0;
+  margin-bottom: 0.5rem;
 }
 
 .konfirmasi-hapus-subtitle {
@@ -290,9 +352,9 @@ body.sidebar-collapsed .main-content {
   gap: 1rem;
 }
 
-/* ========================
+/* ==========================================================================
    Modal Berhasil
-========================= */
+   ========================================================================== */
 #modalBerhasil .modal-dialog {
   max-width: 650px;
   margin: 1rem auto;
@@ -326,7 +388,6 @@ body.sidebar-collapsed .main-content {
   text-align: center;
   width: 90%;
   max-width: 550px;
-  margin: 0 auto;
   box-shadow: 0 10px 25px var(--black-01);
   transform: scale(0.9);
   transition: transform 0.3s ease;
@@ -341,10 +402,10 @@ body.sidebar-collapsed .main-content {
   height: 80px;
   background-color: var(--success);
   border-radius: 50%;
-  margin: 0 auto 1.5rem auto;
+  margin: 0 auto 1.5rem;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   animation: shadowPulse 1.5s ease-in-out infinite;
 }
 
@@ -358,7 +419,7 @@ body.sidebar-collapsed .main-content {
   font-size: 1.2rem;
   font-weight: 700;
   color: var(--text-dark);
-  margin: 0 0 0.5rem 0;
+  margin-bottom: 0.5rem;
 }
 
 .modal-berhasil-subtitle {
@@ -373,9 +434,9 @@ body.sidebar-collapsed .main-content {
   gap: 1rem;
 }
 
-/* ========================
+/* ==========================================================================
    Modal Buttons
-========================= */
+   ========================================================================== */
 .btn-popup {
   border: none;
   border-radius: 8px;
@@ -417,47 +478,31 @@ body.sidebar-collapsed .main-content {
   background-color: var(--success-hover);
 }
 
-/* ========================
+/* ==========================================================================
    Animations
-========================= */
+   ========================================================================== */
 @keyframes blinkKonfirmasi {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.4; /* Efek kedip halus */
-  }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
 }
 
 @keyframes shadowPulse {
-  0% {
-    box-shadow: 0 0 0 0 var(--success-shadow);
-  }
-  50% {
-    box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 var(--success-shadow);
-  }
+  0% { box-shadow: 0 0 0 0 var(--success-shadow); }
+  50% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+  100% { box-shadow: 0 0 0 0 var(--success-shadow); }
 }
 
 @keyframes shadowPulseKonfirmasi {
-  0% {
-    box-shadow: 0 0 0 0 var(--konfirmasi-icon-shadow);
-  }
-  50% {
-    box-shadow: 0 0 0 10px rgba(250, 204, 21, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 var(--konfirmasi-icon-shadow);
-  }
+  0% { box-shadow: 0 0 0 0 var(--konfirmasi-icon-shadow); }
+  50% { box-shadow: 0 0 0 10px rgba(250, 204, 21, 0); }
+  100% { box-shadow: 0 0 0 0 var(--konfirmasi-icon-shadow); }
 }
 
-/* ========================
+/* ==========================================================================
    Responsive Design
-========================= */
+   ========================================================================== */
 
-/* Layar ekstra kecil (≤360px, misalnya iPhone 5/SE, ponsel Android kecil) */
+/* Extra small screens (≤360px) */
 @media (max-width: 360px) {
   #modalKonfirmasiHapus .modal-dialog,
   #modalBerhasil .modal-dialog {
@@ -472,7 +517,7 @@ body.sidebar-collapsed .main-content {
   }
 
   .title-bar h1 {
-    font-size: 16px;
+    font-size: clamp(14px, 4vw, 16px);
     gap: 8px;
   }
 
@@ -500,7 +545,6 @@ body.sidebar-collapsed .main-content {
   .btn-aksi {
     width: 28px;
     height: 28px;
-    min-height: 44px;
     font-size: 14px;
   }
 
@@ -522,7 +566,7 @@ body.sidebar-collapsed .main-content {
   }
 
   .modal-header-custom h5 {
-    font-size: 1.1rem;
+    font-size: clamp(1rem, 3vw, 1.1rem);
     gap: 8px;
   }
 
@@ -603,7 +647,7 @@ body.sidebar-collapsed .main-content {
   }
 }
 
-/* Layar kecil (361px–576px, misalnya ponsel modern) */
+/* Small screens (361px–576px) */
 @media (min-width: 361px) and (max-width: 576px) {
   #modalKonfirmasiHapus .modal-dialog,
   #modalBerhasil .modal-dialog {
@@ -618,7 +662,7 @@ body.sidebar-collapsed .main-content {
   }
 
   .title-bar h1 {
-    font-size: 18px;
+    font-size: clamp(16px, 4vw, 18px);
     gap: 10px;
   }
 
@@ -646,7 +690,6 @@ body.sidebar-collapsed .main-content {
   .btn-aksi {
     width: 30px;
     height: 30px;
-    min-height: 44px;
     font-size: 15px;
   }
 
@@ -668,7 +711,7 @@ body.sidebar-collapsed .main-content {
   }
 
   .modal-header-custom h5 {
-    font-size: 1.15rem;
+    font-size: clamp(1.05rem, 3vw, 1.15rem);
     gap: 9px;
   }
 
@@ -749,7 +792,7 @@ body.sidebar-collapsed .main-content {
   }
 }
 
-/* Layar mobile besar (577px–768px, misalnya ponsel besar atau tablet kecil) */
+/* Large mobile screens (577px–768px) */
 @media (min-width: 577px) and (max-width: 768px) {
   #modalKonfirmasiHapus .modal-dialog,
   #modalBerhasil .modal-dialog {
@@ -764,7 +807,7 @@ body.sidebar-collapsed .main-content {
   }
 
   .title-bar h1 {
-    font-size: 19px;
+    font-size: clamp(17px, 4vw, 19px);
     gap: 11px;
   }
 
@@ -792,7 +835,6 @@ body.sidebar-collapsed .main-content {
   .btn-aksi {
     width: 32px;
     height: 32px;
-    min-height: 44px;
     font-size: 16px;
   }
 
@@ -814,7 +856,7 @@ body.sidebar-collapsed .main-content {
   }
 
   .modal-header-custom h5 {
-    font-size: 1.2rem;
+    font-size: clamp(1.1rem, 3vw, 1.2rem);
     gap: 10px;
   }
 
@@ -893,90 +935,21 @@ body.sidebar-collapsed .main-content {
   .sidebar .menu button {
     font-size: 12.5px;
   }
-    .tab-bar-container {
+
+  .tab-bar-container {
     flex-wrap: wrap;
     gap: 0.75rem;
   }
 
-  /* Menargetkan kontainer dari tombol "Tambah Data" agar mengambil lebar penuh */
-  .tab-bar-container > div:last-child {
-      width: 100%;
-  }
-  
-  /* Menargetkan kontainer dari tombol "Export" agar mengambil lebar penuh */
+  .tab-bar-container > div:last-child,
   .d-flex > div:has(.btn-export) {
-      width: 100%;
+    width: 100%;
   }
 
-  /* Aturan untuk kedua tombol agar ukurannya menyesuaikan */
   .btn-tambah,
   .btn-export {
-    width: 100%; /* Membuat tombol memenuhi lebar kontainernya */
-    font-size: 14px; /* Sedikit memperkecil font */
+    width: 100%;
+    font-size: 14px;
     padding: 0.6rem;
   }
-}
-
-/* ========================
-   Tabs
-========================= */
-.tab-bar-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid var(--border-color);
-  padding-bottom: 1rem;
-}
-
-.nav-pills {
-  border: none;
-}
-
-.nav-pills .nav-item .nav-link {
-  border: none;
-  border-radius: 6px; /* Membuat sudut membulat */
-  background-color: transparent;
-  color: var(--gray); /* Warna teks untuk tab tidak aktif */
-  font-weight: 600;
-  font-size: 0.9rem;
-  padding: 0.5rem 1.25rem;
-  margin-right: 0.5rem; /* Jarak antar tab */
-  transition: all 0.2s ease-in-out;
-}
-
-.nav-pills .nav-item .nav-link:not(.active):hover {
-  background-color: var(--gray-200); /* Efek hover untuk tab tidak aktif */
-  color: var(--primary);
-}
-
-.nav-pills .nav-item .nav-link.active {
-  background-color: var(--primary); /* Warna hijau seperti pada gambar */
-  color: var(--white);
-  box-shadow: 0 4px 8px var(--black-01);
-}
-
-.btn-export {
-  background-color: #198754; /* Warna hijau untuk export */
-  color: var(--white);
-  border: none;
-  display: flex; /* Tambahkan baris ini */
-  align-items: center;
-  justify-content: center;
-  width: 160px;
-  height: 38px;
-  --bs-btn-font-size: 1rem;
-  --bs-btn-font-weight: 400;
-  
-}
-
-.btn-export:hover {
-  background-color: var(--success-hover); /* Warna hijau lebih gelap saat hover */
-  color: var(--white);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px var(--black-01);
-}
-/* Menyamakan tinggi search dan filter dengan tombol */
-.search-group .input-group,
-.form-select {
-  height: 38px;
 }
