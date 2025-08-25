@@ -3,10 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>SIKEMAH - Kerjasama</title>
 
-  <!-- Favicon -->
   <link rel="icon" href="{{ asset('assets/images/logo.png') }}" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
@@ -17,7 +15,7 @@
 </head>
 
 <body>
-  <!-- Sidebar -->
+  <!-- ================= Sidebar ================= -->
   <div class="sidebar" id="sidebar">
     <div class="brand">SI<span>KEMAH</span></div>
     <div class="menu-wrapper">
@@ -35,7 +33,7 @@
 
         <!-- Submenu Editor Kegiatan -->
         <button class="collapsed" data-bs-toggle="collapse" data-bs-target="#editorKegiatan"
-          aria-expanded="true" aria-controls="editorKegiatan">
+                aria-expanded="true" aria-controls="editorKegiatan">
           <i class="lni lni-pencil-alt"></i> Editor Kegiatan
           <i class="lni lni-chevron-down toggle-icon"></i>
         </button>
@@ -62,7 +60,7 @@
   <!-- Overlay -->
   <div class="overlay" id="overlay"></div>
 
-  <!-- Navbar -->
+  <!-- ================= Navbar ================= -->
   <div class="navbar-custom">
     <div class="d-flex align-items-center">
       <button class="btn btn-link text-dark me-3" id="toggleSidebar" aria-label="Toggle Sidebar">
@@ -97,7 +95,7 @@
     </div>
   </div>
 
-  <!-- Title Bar -->
+  <!-- ================= Title Bar ================= -->
   <div class="title-bar">
     <h1>
       <i class="lni lni-handshake"></i>
@@ -105,7 +103,7 @@
     </h1>
   </div>
 
-  <!-- Main Content -->
+  <!-- ================= Main Content ================= -->
   <div class="main-content">
     <div class="card">
       <div class="card-body p-4">
@@ -113,12 +111,13 @@
         <!-- Top Action Bar -->
         <div class="top-action-bar d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
           <div class="d-flex align-items-center gap-3 flex-grow-1">
+
             <!-- Search -->
             <div class="input-group search-box">
               <span class="input-group-text bg-light border-end-0">
                 <i class="fas fa-search search-icon"></i>
               </span>
-              <input type="text" class="form-control border-start-0 search-input" placeholder="Cari Data...">
+              <input type="text" class="form-control border-start-0 search-input" placeholder="Cari Data..." />
             </div>
 
             <!-- Filter Jenis -->
@@ -132,9 +131,9 @@
 
           <!-- Tombol Aksi -->
           <div class="d-flex gap-2">
-              <button class="btn btn-export fw-bold">
-                <i class="fa-solid fa-file-excel me-2"></i> Export Excel
-              </button>
+            <button class="btn btn-export fw-bold">
+              <i class="fa-solid fa-file-excel me-2"></i> Export Excel
+            </button>
             <button class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#kerjasamaModal">
               <i class="fa fa-plus me-2"></i> Tambah Data
             </button>
@@ -182,18 +181,18 @@
     </div>
   </div>
 
-  <!-- Footer -->
+  <!-- ================= Footer ================= -->
   <footer class="footer-custom">
     <span>© 2025 Forest Management — All Rights Reserved</span>
   </footer>
 
-  <!-- Kumpulan Modal -->
+  <!-- ================= Modals ================= -->
   @include('components.konfirmasi-hapus')
   @include('components.konfirmasi-berhasil')
   @include('components.kerjasama.detail-kerjasama')
   @include('components.kerjasama.tambah-kerjasama')
 
-  <!-- Scripts -->
+  <!-- ================= Scripts ================= -->
   <script src="{{ asset('assets/js/kerjasama.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
