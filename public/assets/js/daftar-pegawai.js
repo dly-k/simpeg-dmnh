@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // ... (kode sidebar, date & time tidak berubah) ...
+
   const sidebar = document.getElementById("sidebar");
   const overlay = document.getElementById("overlay");
   const toggleSidebarBtn = document.getElementById("toggleSidebar");
@@ -70,10 +72,12 @@ function initSidebar() {
   setInterval(updateDateTime, 1000);
   updateDateTime();
 
+
   /* =========================
      Modal Konfirmasi Hapus
   ========================== */
-  const tableBody = document.querySelector("table tbody");
+  // --- PERUBAHAN DIMULAI DI SINI ---
+  const tableCard = document.querySelector(".table-card"); // Targetkan container induk
   const modal = document.getElementById("modalKonfirmasiHapus");
   
   // Get success modal elements
@@ -81,15 +85,15 @@ function initSidebar() {
   const berhasilTitle = document.getElementById("berhasil-title");
   const berhasilSubtitle = document.getElementById("berhasil-subtitle");
   const btnSelesai = document.getElementById("btnSelesai");
-  let successAudio = null; // Variabel untuk menyimpan instance audio
+  let successAudio = null;
 
-  if (tableBody && modal && modalBerhasil) {
+  if (tableCard && modal && modalBerhasil) { // Periksa keberadaan tableCard
     const btnBatal = document.getElementById("btnBatalHapus");
     const btnKonfirmasi = document.getElementById("btnKonfirmasiHapus");
     let rowToDelete = null;
 
-    // Delegasi event untuk tombol hapus
-    tableBody.addEventListener("click", (event) => {
+    // Delegasi event dari .table-card untuk menangkap klik pada .btn-hapus di kedua tabel
+    tableCard.addEventListener("click", (event) => {
       const deleteButton = event.target.closest(".btn-hapus");
       if (deleteButton) {
         event.preventDefault();
@@ -97,6 +101,7 @@ function initSidebar() {
         modal.classList.add("show");
       }
     });
+    // --- PERUBAHAN SELESAI DI SINI ---
 
     // Fungsi menutup modal konfirmasi
     const hideConfirmationModal = () => {
@@ -111,7 +116,7 @@ function initSidebar() {
       modalBerhasil.classList.add("show");
 
       // Putar musik berhasil
-      successAudio = new Audio('/assets/sounds/success.mp3'); // Pastikan path file audio benar
+      successAudio = new Audio('/assets/sounds/success.mp3');
       successAudio.play().catch(error => {
         console.log('Error memutar suara:', error);
         if (error.name === 'NotAllowedError') {
@@ -121,7 +126,6 @@ function initSidebar() {
         }
       });
 
-      // Sembunyikan modal setelah 1 detik
       setTimeout(() => {
         hideSuccessModal();
       }, 1000);
@@ -131,8 +135,8 @@ function initSidebar() {
     const hideSuccessModal = () => {
       modalBerhasil.classList.remove("show");
       if (successAudio) {
-        successAudio.pause(); // Hentikan audio
-        successAudio.currentTime = 0; // Reset audio ke awal
+        successAudio.pause();
+        successAudio.currentTime = 0;
       }
     };
 
@@ -141,8 +145,8 @@ function initSidebar() {
       if (rowToDelete) {
         rowToDelete.remove();
         console.log("Data berhasil dihapus (simulasi).");
-        hideConfirmationModal(); // Sembunyikan modal konfirmasi dulu
-        showSuccessModal(); // Tampilkan modal berhasil
+        hideConfirmationModal();
+        showSuccessModal();
       } else {
         hideConfirmationModal();
       }
@@ -166,4 +170,20 @@ function initSidebar() {
       if (event.target === modalBerhasil) hideSuccessModal();
     });
   }
+  const pegawaiAktifTab = document.getElementById('pegawai-aktif-tab');
+  const riwayatPegawaiTab = document.getElementById('riwayat-pegawai-tab');
+  const btnTambah = document.getElementById('btn-tambah-pegawai');
+
+  if (pegawaiAktifTab && riwayatPegawaiTab && btnTambah) {
+    // Event listener untuk tab Pegawai Aktif
+    pegawaiAktifTab.addEventListener('click', () => {
+      btnTambah.style.display = 'inline-flex'; // Tampilkan kembali tombol
+    });
+
+    // Event listener untuk tab Riwayat Pegawai
+    riwayatPegawaiTab.addEventListener('click', () => {
+      btnTambah.style.display = 'none'; // Sembunyikan tombol
+    });
+  }
+
 });

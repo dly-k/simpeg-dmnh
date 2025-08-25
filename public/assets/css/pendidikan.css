@@ -212,6 +212,11 @@ body.sidebar-collapsed .main-content {
   color: var(--white);
 }
 
+.nav-tabs .nav-link:not(.active):hover{
+  background-color: var(--gray-200); /* Efek hover untuk tab tidak aktif */
+  color: var(--primary);
+}
+
 /* ========================
    Modal General
 ========================= */
