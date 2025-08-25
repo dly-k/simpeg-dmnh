@@ -1,110 +1,62 @@
-{{-- Modal Detail Penunjang --}}
+{{-- ======================================================= --}}
+{{-- ==       KODE FINAL DENGAN JUDUL SEKSI ANGGOTA & DOKUMEN       == --}}
+{{-- ======================================================= --}}
+
 <div class="modal fade" id="penunjangDetailModal" tabindex="-1" aria-labelledby="penunjangDetailLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
     <div class="modal-content">
 
-      <!-- Header -->
       <div class="modal-header">
-        <div class="modal-title-group d-flex align-items-center" id="penunjangDetailLabel">
-          <i class="fas fa-info-circle me-2"></i>
-          <h5 class="mb-0">Detail Penunjang</h5>
-        </div>
-      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        <h5 class="modal-title" id="penunjangDetailLabel"><i class="fas fa-info-circle"></i> Detail Penunjang</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
-      <!-- Body -->
       <div class="modal-body">
+        <div class="detail-grid-container">
 
-        <!-- Kegiatan -->
-        <div class="modal-row">
-          <strong>Kegiatan</strong>
-          <p class="detail-value">Analisis Pengaruh Kotoran Sapi Terhadap Pertumbuhan Kecambah Pada Media Kapas</p>
+          <div class="detail-item full-width-detail">
+            <small>Kegiatan</small>
+            <p>Analisis Pengaruh Kotoran Sapi Terhadap Pertumbuhan Kecambah Pada Media Kapas</p>
+          </div>
+          <div class="detail-item full-width-detail">
+            <small>Jenis Kegiatan</small>
+            <p>Analisis Pengaruh Kotoran Sapi Terhadap Pertumbuhan Kecambah Pada Media Kapas</p>
+          </div>
+          
+          <div class="detail-item"><small>Lingkup</small><p>UGE - 912</p></div>
+          <div class="detail-item"><small>Nama Kegiatan</small><p>Pembudidayaan Ikan Lele</p></div>
+          <div class="detail-item"><small>Instansi</small><p>Teknologi Rekayasa Empang</p></div>
+          <div class="detail-item"><small>Nomor SK</small><p>2025</p></div>
+          <div class="detail-item"><small>TMT</small><p>2025</p></div>
+          <div class="detail-item"><small>TST</small><p>2025</p></div>
+
+          <div class="detail-item full-width-detail detail-section-header">
+            <h5><i></i>Anggota</h5>
+          </div>
+          <div class="detail-item"><small>Nama Dosen</small><p>Siapa gatau</p></div>
+          <div class="detail-item"><small>Peran</small><p>Siapa gatau</p></div>
+
+          <div class="detail-item full-width-detail detail-section-header">
+            <h5><i></i>Dokumen</h5>
+          </div>
+          <div class="detail-item">
+            <small>File Dokumen</small>
+            <div class="file-actions-buttons" style="margin-top: 0.5rem;">
+                <a href="#" target="_blank" class="btn btn-primary btn-sm">
+                    <i class="fas fa-file-alt me-2"></i>Lihat Dokumen
+                </a>
+            </div>
+          </div>
+          <div class="detail-item"><small>Jenis Dokumen</small><p>Dokumen</p></div>
+          <div class="detail-item"><small>Nama Dokumen</small><p>2025</p></div>
+          <div class="detail-item"><small>Nomor Dokumen</small><p>2025</p></div>
+          <div class="detail-item"><small>Tautan</small><p>2025</p></div>
+          
         </div>
-
-        <div class="modal-row">
-          <strong>Jenis Kegiatan</strong>
-          <p class="detail-value">Analisis Pengaruh Kotoran Sapi Terhadap Pertumbuhan Kecambah Pada Media Kapas</p>
-        </div>
-
-        <!-- Informasi Dasar -->
-        <div class="modal-row multi-column">
-          <div class="detail-field">
-            <strong>Lingkup</strong>
-            <p class="detail-value">UGE - 912</p>
-          </div>
-          <div class="detail-field">
-            <strong>Nama Kegiatan</strong>
-            <p class="detail-value">Pembudidayaan Ikan Lele</p>
-          </div>
-          <div class="detail-field">
-            <strong>Instansi</strong>
-            <p class="detail-value">Teknologi Rekayasa Empang</p>
-          </div>
-        </div>
-
-        <!-- Periode -->
-        <div class="modal-row multi-column">
-          <div class="detail-field">
-            <strong>Nomor SK</strong>
-            <p class="detail-value">2025</p>
-          </div>
-          <div class="detail-field">
-            <strong>Terhitung Mulai Tanggal</strong>
-            <p class="detail-value">2025</p>
-          </div>
-          <div class="detail-field">
-            <strong>Terhitung Sampai Tanggal</strong>
-            <p class="detail-value">2025</p>
-          </div>
-        </div>
-
-        <!-- Dokumen -->
-        <div class="modal-row multi-column">
-          <div class="detail-field">
-            <strong>Dokumen Pendukung</strong>
-            <p class="detail-value">
-              <a href="#" class="dokumen-link">Dokumen</a>
-            </p>
-          </div>
-          <div class="detail-field">
-            <strong>Jenis Dokumen</strong>
-            <p class="detail-value">Dokumen</p>
-          </div>
-        </div>
-
-        <div class="modal-row multi-column">
-          <div class="detail-field">
-            <strong>Nama Dokumen</strong>
-            <p class="detail-value">2025</p>
-          </div>
-          <div class="detail-field">
-            <strong>Nomor</strong>
-            <p class="detail-value">2025</p>
-          </div>
-          <div class="detail-field">
-            <strong>Tautan</strong>
-            <p class="detail-value">2025</p>
-          </div>
-        </div>
-
-        <!-- Anggota -->
-        <div class="sub-header">Anggota</div>
-        <div class="modal-row multi-column no-border">
-          <div class="detail-field">
-            <strong>Nama Dosen</strong>
-            <p class="detail-value">Siapa gatau</p>
-          </div>
-          <div class="detail-field">
-            <strong>Peran</strong>
-            <p class="detail-value">Siapa gatau</p>
-          </div>
-        </div>
-
       </div>
 
-      <!-- Footer -->
       <div class="modal-footer">
-        <button type="button" id="closePenunjangDetailBtn" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
       </div>
 
     </div>
