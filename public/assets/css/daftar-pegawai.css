@@ -86,7 +86,7 @@ body.sidebar-collapsed .main-content {
   justify-content: center;
   background-color: var(--gray-dark);
   width: 160px;
-  height: 35px;
+  height: 38px;
   --bs-btn-font-size: 1rem;
   --bs-btn-font-weight: 400;
   color: var(--white);
@@ -963,14 +963,20 @@ body.sidebar-collapsed .main-content {
   align-items: center;
   justify-content: center;
   width: 160px;
-  height: 35px;
+  height: 38px;
   --bs-btn-font-size: 1rem;
   --bs-btn-font-weight: 400;
+  
 }
 
 .btn-export:hover {
-  background-color: #157347; /* Warna hijau lebih gelap saat hover */
+  background-color: var(--success-hover); /* Warna hijau lebih gelap saat hover */
   color: var(--white);
   transform: translateY(-2px);
   box-shadow: 0 4px 8px var(--black-01);
+}
+/* Menyamakan tinggi search dan filter dengan tombol */
+.search-group .input-group,
+.form-select {
+  height: 38px;
 }

@@ -87,7 +87,7 @@
     <div class="card">
       <div class="card-body p-4">
             <div class="d-flex justify-content-end mb-3">
-      <button class="btn btn-tambah fw-bold" onclick="openModal('tambahDataModal')"><i class="lni lni-plus me-2"></i> Tambah Data</button>
+      <button class="btn btn-tambah fw-bold" onclick="openModal('tambahDataModal')"><i class="fa fa-plus me-2"></i> Tambah Data</button>
     </div>
         <div class="table-responsive">
           <table class="table table-hover table-bordered">

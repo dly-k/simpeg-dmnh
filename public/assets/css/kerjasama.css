@@ -106,6 +106,9 @@
 }
 
 .btn-tambah {
+  display: inline-flex;      /* Membuat button menjadi flex container */
+  align-items: center;        /* Menyejajarkan ikon dan teks secara vertikal */
+  font-weight: 600;           /* Menebalkan teks (bold) */
   background-color: var(--gray-dark);
   color: var(--white);
 }

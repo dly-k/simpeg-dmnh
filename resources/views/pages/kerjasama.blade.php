@@ -132,11 +132,11 @@
 
           <!-- Tombol Aksi -->
           <div class="d-flex gap-2">
-            <button class="btn btn-export fw-bold">
-              <i class="lni lni-download me-2"></i> Export Excel
-            </button>
+              <button class="btn btn-export fw-bold">
+                <i class="fa-solid fa-file-excel me-2"></i> Export Excel
+              </button>
             <button class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#kerjasamaModal">
-              <i class="lni lni-plus me-2"></i> Tambah Data
+              <i class="fa fa-plus me-2"></i> Tambah Data
             </button>
           </div>
         </div>
