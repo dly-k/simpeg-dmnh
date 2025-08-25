@@ -242,10 +242,10 @@
 }
 
 .detail-item p {
-  font-weight: 500;
+  font-weight: 400; /* Dari 500 menjadi 400 (normal) */
   margin: 0;
   color: #212529;
-  font-size: 0.95rem;
+  font-size: 0.85rem; /* Dari 0.95rem menjadi 0.9rem */
 }
 
 .document-viewer-container {
@@ -494,6 +494,92 @@
 
 .btn-selesai:hover {
   background-color: #16a34a;
+}
+
+/* Tambahkan CSS ini di file kerjasama.css */
+.detail-item ul {
+  list-style: none;
+  font-size: 0.85rem;
+  padding-left: 0; /* Menghapus padding default dari <ul> */
+}
+
+.personil-item-detail {
+  display: flex;
+  justify-content: space-between; /* Mendorong nama ke kiri dan departemen ke kanan */
+  align-items: center;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid #f0f0f0; /* Garis pemisah antar personil */
+}
+
+.personil-item-detail:last-child {
+  border-bottom: none; /* Hapus garis pada item terakhir */
+}
+
+.personil-nama {
+  font-weight: 500;
+  color: #343a40;
+}
+
+.personil-departemen {
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.6rem;
+  border-radius: 20px; /* Membuatnya berbentuk pil/badge */
+  flex-shrink: 0; /* Mencegah teks departemen terpotong */
+  margin-left: 1rem; /* Memberi jarak dari nama */
+}
+
+.file-actions-container {
+  /* Memberi jarak atas dari konten detail dan menambahkan garis pemisah */
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #dee2e6;
+}
+
+.file-actions-title {
+  /* Menata judul "File Terlampir" */
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: #495057;
+}
+
+.file-actions-buttons {
+  /* Menggunakan Flexbox untuk menata tombol secara horizontal */
+  display: flex;
+  flex-wrap: wrap; /* Memastikan tombol akan turun ke baris baru jika tidak cukup ruang */
+  gap: 0.75rem; /* Memberi jarak yang konsisten antar tombol */
+}
+
+/* --- Tombol Lihat Dokumen --- */
+#btn_lihat_dokumen {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: #ffffff;
+  transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+/* Efek saat kursor mouse di atas tombol */
+#btn_lihat_dokumen:hover {
+  background-color: var(--success-hover);
+  border-color: var(--success-hover);
+  transform: scale(1.05); 
+}
+
+
+/* --- Tombol Lihat Laporan --- */
+#btn_lihat_laporan {
+  background-color: var(--info);
+  border-color: var(--info);
+  color: #ffffff;
+  transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+#btn_lihat_laporan:hover {
+  background-color: var(--info-hover);
+  border-color: var(--info-hover);
+  transform: scale(1.05);
 }
 
 /* ========================
