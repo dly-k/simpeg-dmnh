@@ -45,7 +45,8 @@
    Search and Filter
 ========================= */
 .search-filter-container {
-  padding: 1.5rem 1.5rem 0.75rem 1.5rem;
+  /* Ubah nilai pertama dari 1.5rem menjadi lebih kecil */
+  padding: 0.5rem 1.5rem 0.75rem 1.5rem;
   border-radius: 0.5rem;
 }
 
