@@ -95,7 +95,7 @@
             <div class="col-12">
               <hr>
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label class="form-label mb-0 fw-bold">Anggota Kegiatan</label>
+                <label class="form-label mb-0">Anggota Kegiatan</label>
                 <button type="button" class="btn btn-sm btn-primary" onclick="addAnggota()">+ Tambah Anggota</button>
               </div>
               <div id="anggota-list" class="vstack gap-2"></div>
@@ -103,7 +103,7 @@
 
             <div class="col-12">
               <hr>
-              <label class="form-label fw-bold">Dokumen Pendukung</label>
+              <label class="form-label">Dokumen Pendukung</label>
             </div>
 
             <div class="col-12">

@@ -16,8 +16,8 @@
                               <div class="col-md-6"><label class="form-label">Afiliasi Non PT</label><input type="text" class="form-control" placeholder="Contoh: Dinas Kehutanan"></div>
                               <div class="col-md-6"><label class="form-label">Jenis SKIM</label><select class="form-select"><option selected>-- Pilih Salah Satu --</option></select></div>
                               <div class="col-12"><label class="form-label">Tahun</label><div class="d-flex gap-2"><input type="number" class="form-control" placeholder="Usulan"><input type="number" class="form-control" placeholder="Kegiatan"><input type="number" class="form-control" placeholder="Pelaksanaan"></div></div>
-                              <div class="col-md-6"><label class="form-label">Terhitung Mulai Tanggal</label><input type="date" class="form-control"></div>
-                              <div class="col-md-6"><label class="form-label">Terhitung Sampai Tanggal</label><input type="date" class="form-control"></div>
+                              <div class="col-md-6"><label class="form-label">Terhitung Mulai Tgl</label><input type="date" class="form-control"></div>
+                              <div class="col-md-6"><label class="form-label">Terhitung Sampai Tgl</label><input type="date" class="form-control"></div>
                               <div class="col-12"><label class="form-label">Lama Kegiatan</label><input type="text" class="form-control" placeholder="Contoh: 6 Bulan"></div>
                               <div class="col-12"><label class="form-label">In Kind</label><input type="text" class="form-control" placeholder="Deskripsi In Kind"></div>
                               <div class="col-12"><label class="form-label">No SK Penugasan</label><input type="text" class="form-control" placeholder="Nomor SK"></div>
