@@ -1,69 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
-  // --- Sidebar Logic ---
-  const sidebar = document.getElementById('sidebar');
-  const overlay = document.getElementById('overlay');
-  const toggleSidebarBtn = document.getElementById('toggleSidebar');
-
-  if (toggleSidebarBtn && sidebar && overlay) {
-    toggleSidebarBtn.addEventListener('click', function () {
-      const isMobile = window.innerWidth <= 991;
-      if (isMobile) {
-        sidebar.classList.toggle('show');
-        overlay.classList.toggle('show', sidebar.classList.contains('show'));
-      } else {
-        sidebar.classList.toggle('hidden');
-      }
-    });
-
-    overlay.addEventListener('click', function () {
-      sidebar.classList.remove('show');
-      overlay.classList.remove('show');
-    });
-  }
-      // Buka dropdown Editor Kegiatan saat halaman kerjasama dimuat
-    const editorKegiatanButton = document.querySelector('[data-bs-target="#editorKegiatan"]');
-    const editorKegiatanSubmenu = document.getElementById('editorKegiatan');
-    
-    if (editorKegiatanButton && editorKegiatanSubmenu) {
-        // Hapus class collapsed dan tambah class active
-        editorKegiatanButton.classList.remove('collapsed');
-        editorKegiatanButton.classList.add('active');
-        editorKegiatanButton.setAttribute('aria-expanded', 'true');
-        
-        // Tampilkan submenu
-        editorKegiatanSubmenu.classList.add('show');
-        
-        // Rotate the toggle icon downward
-        const toggleIcon = editorKegiatanButton.querySelector('.toggle-icon');
-        if (toggleIcon) {
-            toggleIcon.style.transform = 'rotate(0deg)';
-        }
-    }
-    
-
-  // --- Date & Time Update ---
-  function updateDateTime() {
-    const now = new Date();
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-
-    const dateEl = document.getElementById('current-date');
-    const timeEl = document.getElementById('current-time');
-
-    if (dateEl && timeEl) {
-      dateEl.textContent = now.toLocaleDateString('id-ID', options);
-      timeEl.textContent = now.toLocaleTimeString('id-ID', {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false
-      });
-    }
-  }
-
-  setInterval(updateDateTime, 1000);
-  updateDateTime();
-
-  // --- Table Rendering ---
+  // =================================================
+  // Data Awal
+  // =================================================
   const userData = [
     { name: 'Samsul Bahri', user: 'SamsulAja', role: 'Admin' },
     { name: 'Dimas Anggara, S.Si', user: 'DimsDim', role: 'Admin' },
@@ -73,6 +11,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
   let selectedDeleteIndex = null;
 
+  // =================================================
+  // Render Tabel
+  // =================================================
   function renderTable() {
     const tableBody = document.getElementById('userDataBody');
     if (!tableBody) return;
@@ -86,10 +27,18 @@ document.addEventListener('DOMContentLoaded', function () {
         <td>${item.role}</td>
         <td>
           <div class="d-flex gap-2 justify-content-center">
-            <button class="btn btn-aksi btn-edit-row" title="Edit" onclick="openEditModal('${item.name}', '${item.user}', '${item.role}')">
+            <button 
+              class="btn btn-aksi btn-edit-row" 
+              title="Edit" 
+              onclick="openEditModal('${item.name}', '${item.user}', '${item.role}')"
+            >
               <i class="fa fa-edit"></i>
             </button>
-            <button class="btn btn-aksi btn-delete-row" title="Hapus" data-index="${index}">
+            <button 
+              class="btn btn-aksi btn-delete-row" 
+              title="Hapus" 
+              data-index="${index}"
+            >
               <i class="fa fa-trash"></i>
             </button>
           </div>
@@ -97,115 +46,119 @@ document.addEventListener('DOMContentLoaded', function () {
       </tr>
     `).join('');
 
-    // Event tombol hapus → buka modal
+    // Binding tombol hapus → buka modal konfirmasi
     document.querySelectorAll('.btn-delete-row').forEach(btn => {
-      btn.addEventListener('click', function () {
-        selectedDeleteIndex = parseInt(this.getAttribute('data-index'));
+      btn.addEventListener('click', () => {
+        selectedDeleteIndex = parseInt(btn.getAttribute('data-index'));
         openModal('modalKonfirmasiHapus');
       });
     });
   }
 
   renderTable();
-  
-  // --- Helper to customize and show success modal ---
-  function showSuccessModal(title, subtitle) {
-      const berhasilTitle = document.getElementById('berhasil-title');
-      const berhasilSubtitle = document.getElementById('berhasil-subtitle');
-      let successAudio = null; // Variabel untuk menyimpan instance audio
 
-      if (berhasilTitle) berhasilTitle.textContent = title;
-      if (berhasilSubtitle) berhasilSubtitle.textContent = subtitle;
-      openModal('modalBerhasil');
-      
-      // Putar musik sukses
-      successAudio = new Audio('/assets/sounds/success.mp3'); // Pastikan path file audio benar
-      successAudio.play().catch(error => {
-          console.log('Error memutar suara:', error);
-          if (error.name === 'NotAllowedError') {
-              console.log('Autoplay diblokir oleh browser. Butuh interaksi pengguna terlebih dahulu.');
-          } else if (error.name === 'NotFoundError') {
-              console.log('File audio tidak ditemukan. Periksa path: /assets/sounds/success.mp3');
-          }
-      });
-      
-      // NEW: Menutup modal secara otomatis setelah 1 detik
-      setTimeout(() => {
-          closeModal('modalBerhasil');
-          if (successAudio) {
-              successAudio.pause(); // Hentikan audio
-              successAudio.currentTime = 0; // Reset audio ke awal
-          }
-      }, 1000); // 1000 milidetik = 1 detik
+  // =================================================
+  // Modal Helper (Modal Berhasil)
+  // =================================================
+  function showSuccessModal(title, subtitle) {
+    const berhasilTitle = document.getElementById('berhasil-title');
+    const berhasilSubtitle = document.getElementById('berhasil-subtitle');
+    let successAudio = null;
+
+    if (berhasilTitle) berhasilTitle.textContent = title;
+    if (berhasilSubtitle) berhasilSubtitle.textContent = subtitle;
+
+    openModal('modalBerhasil');
+
+    successAudio = new Audio('/assets/sounds/success.mp3');
+    successAudio.play().catch(error => {
+      console.warn('Error memutar suara:', error);
+    });
+
+    setTimeout(() => {
+      closeModal('modalBerhasil');
+      if (successAudio) {
+        successAudio.pause();
+        successAudio.currentTime = 0;
+      }
+    }, 1000);
   }
 
-  // --- Modal Tambah Logic ---
+  // =================================================
+  // Modal Tambah Data
+  // =================================================
   const btnSimpanTambah = document.querySelector('#tambahDataModal .btn-success');
   if (btnSimpanTambah) {
-      btnSimpanTambah.addEventListener('click', function() {
-          closeModal('tambahDataModal');
-          showSuccessModal('Data Berhasil Disimpan', 'Data pengguna baru telah berhasil ditambahkan ke sistem.');
-      });
+    btnSimpanTambah.addEventListener('click', () => {
+      closeModal('tambahDataModal');
+      showSuccessModal('Data Berhasil Disimpan', 'Data pengguna baru telah berhasil ditambahkan ke sistem.');
+    });
   }
 
-  // --- Modal Edit Logic ---
+  // =================================================
+  // Modal Edit Data
+  // =================================================
   const btnSimpanEdit = document.querySelector('#editDataModal .btn-success');
   if (btnSimpanEdit) {
-      btnSimpanEdit.addEventListener('click', function() {
-          closeModal('editDataModal');
-          showSuccessModal('Data Berhasil Diperbarui', 'Data pengguna telah berhasil diperbarui di sistem.');
-      });
+    btnSimpanEdit.addEventListener('click', () => {
+      closeModal('editDataModal');
+      showSuccessModal('Data Berhasil Diperbarui', 'Data pengguna telah berhasil diperbarui di sistem.');
+    });
   }
 
-  // --- Modal Hapus Logic ---
+  // =================================================
+  // Modal Hapus Data
+  // =================================================
   const btnBatalHapus = document.getElementById('btnBatalHapus');
   const btnKonfirmasiHapus = document.getElementById('btnKonfirmasiHapus');
 
   if (btnBatalHapus) {
-    btnBatalHapus.addEventListener('click', function () {
+    btnBatalHapus.addEventListener('click', () => {
       closeModal('modalKonfirmasiHapus');
       selectedDeleteIndex = null;
     });
   }
 
   if (btnKonfirmasiHapus) {
-    btnKonfirmasiHapus.addEventListener('click', function (e) {
+    btnKonfirmasiHapus.addEventListener('click', e => {
       e.stopPropagation();
+
       if (selectedDeleteIndex !== null) {
         userData.splice(selectedDeleteIndex, 1);
         renderTable();
         closeModal('modalKonfirmasiHapus');
-        
+
         setTimeout(() => {
-            showSuccessModal('Data Berhasil Dihapus', 'Data pengguna telah berhasil dihapus dari sistem.');
+          showSuccessModal('Data Berhasil Dihapus', 'Data pengguna telah berhasil dihapus dari sistem.');
         }, 150);
-        
+
         selectedDeleteIndex = null;
       }
     });
   }
-  
-  // --- Modal Berhasil Logic ---
-  // Tombol "Selesai" tidak lagi terlalu penting karena modal menutup otomatis,
-  // tapi kita biarkan untuk aksesibilitas jika pengguna ingin menutup lebih cepat.
+
+  // =================================================
+  // Modal Berhasil
+  // =================================================
   const btnSelesai = document.getElementById('btnSelesai');
-  if(btnSelesai) {
-    btnSelesai.addEventListener('click', function() {
-      closeModal('modalBerhasil');
-    });
+  if (btnSelesai) {
+    btnSelesai.addEventListener('click', () => closeModal('modalBerhasil'));
   }
 
-  // Tutup semua modal jika klik di luar konten
-  document.querySelectorAll('.modal-backdrop, .konfirmasi-hapus-overlay, .modal-berhasil-overlay').forEach(overlay => {
-    overlay.addEventListener('click', function (e) {
-      if (e.target === overlay) {
-        closeModal(overlay.id);
-      }
+  // =================================================
+  // Tutup Modal (Klik di Luar Konten)
+  // =================================================
+  document.querySelectorAll('.modal-backdrop, .konfirmasi-hapus-overlay, .modal-berhasil-overlay')
+    .forEach(overlay => {
+      overlay.addEventListener('click', e => {
+        if (e.target === overlay) closeModal(overlay.id);
+      });
     });
-  });
 });
 
-// --- Modal Functions with animation ---
+// =================================================
+// Modal Functions with Animation
+// =================================================
 function openModal(modalId) {
   const modal = document.getElementById(modalId);
   if (modal) {
@@ -218,11 +171,13 @@ function closeModal(modalId) {
   const modal = document.getElementById(modalId);
   if (modal) {
     modal.classList.remove('show');
-    modal.addEventListener('transitionend', () => {
-      if (!modal.classList.contains('show')) {
-        modal.style.display = 'none';
-      }
-    }, { once: true });
+    modal.addEventListener(
+      'transitionend',
+      () => {
+        if (!modal.classList.contains('show')) modal.style.display = 'none';
+      },
+      { once: true }
+    );
   }
 }
 
