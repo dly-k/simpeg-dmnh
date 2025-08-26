@@ -1,10 +1,12 @@
 {{-- Tambah Data Penunjang --}}
-  <div class="modal-backdrop" id="penunjangModal">
-        <div class="modal-content-wrapper">
-            <div class="modal-header-custom">
-                <h5 id="modalTitle"><i class="fas fa-plus-circle"></i> Tambah Data Penunjang</h5>
+<div class="modal fade" id="penunjangModal" tabindex="-1" aria-labelledby="penunjangModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="penunjangModalLabel"><i class="fas fa-plus-circle"></i> Tambah Data Penunjang</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body-custom">
+            <div class="modal-body">
                 <form id="penunjangForm">
                     <div class="row g-3">
                         <div class="col-12"><label class="form-label">Kegiatan</label><input type="text" class="form-control" placeholder="Lorem Ipsum"></div>
@@ -21,8 +23,7 @@
                                 <label class="form-label mb-0">Dokumen</label>
                                 <button type="button" class="btn btn-sm btn-primary" onclick="addDokumen()">+ Tambah Dokumen</button>
                             </div>
-                            <div id="dokumen-list">
-                                </div>
+                            <div id="dokumen-list"></div>
                         </div>
 
                         <div class="col-12">
@@ -30,16 +31,15 @@
                                 <label class="form-label mb-0">Anggota Kegiatan</label>
                                 <button type="button" class="btn btn-sm btn-primary" onclick="addAnggota()">+ Tambah Anggota</button>
                             </div>
-                            <div id="anggota-list">
-                                </div>
+                            <div id="anggota-list"></div>
                         </div>
-
                     </div>
                 </form>
             </div>
-            <div class="modal-footer-custom">
-                <button type="button" class="btn btn-secondary" onclick="closeModal('penunjangModal')">Batal</button>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                 <button type="button" class="btn btn-success">Simpan</button>
             </div>
         </div>
     </div>
+</div>

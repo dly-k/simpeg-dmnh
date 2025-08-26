@@ -1,272 +1,244 @@
+// Inisialisasi Modal Bootstrap di awal
+let penunjangModalInstance;
 document.addEventListener('DOMContentLoaded', function () {
-  // === MODAL BERHASIL (SUCCESS MODAL) LOGIC ===
-  const modalBerhasil = document.getElementById('modalBerhasil');
-  const berhasilTitle = document.getElementById('berhasil-title');
-  const berhasilSubtitle = document.getElementById('berhasil-subtitle');
-  let successModalTimeout = null;
-  const successSound = new Audio('/assets/sounds/success.mp3');
-
-  function showSuccessModal(title, subtitle) {
-    if (modalBerhasil && berhasilTitle && berhasilSubtitle) {
-      berhasilTitle.textContent = title;
-      berhasilSubtitle.textContent = subtitle;
-      modalBerhasil.classList.add('show');
-      document.body.style.overflow = 'hidden'; // Nonaktifkan scroll
-
-      successSound.play().catch(error => {
-        console.log('Gagal memutar suara sukses:', error);
-      });
-
-      clearTimeout(successModalTimeout);
-      successModalTimeout = setTimeout(hideSuccessModal, 1200);
-    }
-  }
-  
-  function hideSuccessModal() {
-    if (modalBerhasil) {
-        modalBerhasil.classList.remove('show');
-        document.body.style.overflow = ''; // Aktifkan kembali scroll
-    }
-  }
-
-  document.getElementById('btnSelesai')?.addEventListener('click', () => {
-    clearTimeout(successModalTimeout);
-    hideSuccessModal();
-  });
-
-  // === Sidebar Logic ===
-  const sidebar = document.getElementById('sidebar');
-  const overlay = document.getElementById('overlay');
-  const toggleSidebarBtn = document.getElementById('toggleSidebar');
-
-  if (toggleSidebarBtn && sidebar && overlay) {
-    toggleSidebarBtn.addEventListener('click', function () {
-      const isMobile = window.innerWidth <= 991;
-      if (isMobile) {
-        sidebar.classList.toggle('show');
-        overlay.classList.toggle('show', sidebar.classList.contains('show'));
-      } else {
-        sidebar.classList.toggle('hidden');
-      }
-    });
-    overlay.addEventListener('click', function () {
-      sidebar.classList.remove('show');
-      overlay.classList.remove('show');
-    });
-  }
-
-  // === Date and Time Logic ===
-  function updateDateTime() {
-    const now = new Date();
-    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone: 'Asia/Jakarta' };
-    const dateEl = document.getElementById('current-date');
-    const timeEl = document.getElementById('current-time');
-    if (dateEl && timeEl) {
-      dateEl.textContent = now.toLocaleDateString('id-ID', dateOptions);
-      timeEl.textContent = now.toLocaleTimeString('id-ID', timeOptions);
-    }
-  }
-  updateDateTime();
-  setInterval(updateDateTime, 1000);
-  
-  // === Tombol Simpan Logic ===
-  const simpanBtn = document.querySelector('#penunjangModal .btn-success');
-  if (simpanBtn) {
-    simpanBtn.addEventListener('click', function() {
-      closeModal('penunjangModal');
-      showSuccessModal('Data Berhasil Disimpan', 'Data penunjang telah berhasil disimpan ke sistem.');
-    });
-  }
-
-  // === Dynamic Interactions ===
-  function setupDynamicInteractions() {
-    const dokumenList = document.getElementById('dokumen-list');
-    if (dokumenList) {
-      dokumenList.addEventListener('click', function(event) {
-        const removeBtn = event.target.closest('.btn-outline-danger');
-        if (removeBtn) {
-          removeBtn.closest('.border.rounded').remove();
-          return;
-        }
-        
-        const uploadArea = event.target.closest('.upload-area');
-        if (uploadArea) {
-          const fileInput = uploadArea.querySelector('input[type="file"]');
-          if (fileInput) fileInput.click();
-        }
-      });
-
-      dokumenList.addEventListener('change', function(event){
-        if(event.target.matches('input[type="file"]')){
-          const uploadArea = event.target.closest('.upload-area');
-          const p = uploadArea.querySelector('p');
-          if (event.target.files.length > 0) {
-            p.innerHTML = `<small>${event.target.files[0].name}</small>`;
-          }
-        }
-      });
+    const penunjangModalEl = document.getElementById('penunjangModal');
+    if (penunjangModalEl) {
+        penunjangModalInstance = new bootstrap.Modal(penunjangModalEl);
     }
 
-    const anggotaList = document.getElementById('anggota-list');
-    if (anggotaList) {
-      anggotaList.addEventListener('click', function(event) {
-        const removeBtn = event.target.closest('.btn-outline-danger');
-        if (removeBtn) {
-          removeBtn.closest('.input-group').remove();
-        }
-      });
-    }
-  }
-  setupDynamicInteractions();
+    // === MODAL BERHASIL (SUCCESS MODAL) LOGIC ===
+    const modalBerhasil = document.getElementById('modalBerhasil');
+    const berhasilTitle = document.getElementById('berhasil-title');
+    const berhasilSubtitle = document.getElementById('berhasil-subtitle');
+    let successModalTimeout = null;
+    const successSound = new Audio('/assets/sounds/success.mp3');
 
-  // === Detail Modal Logic ===
-  const penunjangDetailModal = document.getElementById("penunjangDetailModal");
-  const closePenunjangDetailBtn = document.getElementById("closePenunjangDetailBtn");
+    function showSuccessModal(title, subtitle) {
+        if (modalBerhasil && berhasilTitle && berhasilSubtitle) {
+            berhasilTitle.textContent = title;
+            berhasilSubtitle.textContent = subtitle;
+            modalBerhasil.classList.add('show');
+            document.body.style.overflow = 'hidden';
 
-  document.addEventListener('click', function(event) {
-    if (event.target.closest('#btnLihatPenunjangDetail') || event.target.closest('[data-bs-target="#penunjangDetailModal"]')) {
-      if (penunjangDetailModal) penunjangDetailModal.style.display = "block";
-    }
-  });
+            successSound.play().catch(error => {
+                console.log('Gagal memutar suara sukses:', error);
+            });
 
-  if (closePenunjangDetailBtn) {
-    closePenunjangDetailBtn.addEventListener('click', function() {
-      if (penunjangDetailModal) penunjangDetailModal.style.display = "none";
-    });
-  }
-
-  // === Verifikasi Confirmation Modal Logic ===
-  const verifModal = document.getElementById('modalKonfirmasiVerifikasi');
-  const btnTerima = document.getElementById('popupBtnTerima');
-  const btnTolak = document.getElementById('popupBtnTolak');
-  const btnKembali = document.getElementById('popupBtnKembali');
-
-  function hideVerifModal() {
-    if (verifModal) {
-      verifModal.classList.remove('show');
-    }
-  }
-
-  document.addEventListener('click', function(event) {
-    if (event.target.closest('.btn-verifikasi')) {
-      event.preventDefault();
-      if (verifModal) {
-        verifModal.classList.add('show');
-      }
-    }
-  });
-  
-  if (verifModal) {
-    verifModal.addEventListener('click', (e) => {
-      if (e.target === verifModal) {
-        hideVerifModal();
-      }
-    });
-  }
-  
-  if (btnTerima) {
-    btnTerima.addEventListener('click', function() {
-      hideVerifModal();
-      showSuccessModal('Status Verifikasi Disimpan', 'Perubahan status verifikasi telah berhasil disimpan.');
-    });
-  }
-  
-  if (btnTolak) {
-    btnTolak.addEventListener('click', function() {
-      hideVerifModal();
-      showSuccessModal('Status Verifikasi Disimpan', 'Perubahan status verifikasi telah berhasil disimpan.');
-    });
-  }
-  
-  if (btnKembali) {
-    btnKembali.addEventListener('click', function() {
-      hideVerifModal();
-    });
-  }
-
-  // === Delete Confirmation Modal Logic (FIXED) ===
-  const deleteModal = document.getElementById('modalKonfirmasiHapus');
-  const btnBatalHapus = document.getElementById('btnBatalHapus');
-  const btnKonfirmasiHapus = document.getElementById('btnKonfirmasiHapus');
-  let dataToDelete = null;
-
-  function hideDeleteModal() {
-    if(deleteModal) {
-        deleteModal.classList.remove('show');
-        if (!document.querySelector('.modal-berhasil-overlay.show')) {
-            document.body.style.overflow = ''; // Aktifkan scroll
+            clearTimeout(successModalTimeout);
+            successModalTimeout = setTimeout(hideSuccessModal, 1200);
         }
     }
-  }
 
-  document.addEventListener('click', function(event) {
-    if (event.target.closest('.btn-hapus')) {
-      event.preventDefault();
-      const row = event.target.closest('tr');
-      dataToDelete = {
-        id: row.querySelector('td:first-child').textContent,
-        title: row.querySelector('td:nth-child(2)').textContent
-      };
-      if (deleteModal) {
-          deleteModal.classList.add('show');
-          document.body.style.overflow = 'hidden'; // Nonaktifkan scroll
-      }
+    function hideSuccessModal() {
+        if (modalBerhasil) {
+            modalBerhasil.classList.remove('show');
+            if (!document.querySelector('.modal.show')) {
+                 document.body.style.overflow = '';
+            }
+        }
     }
-  });
-
-  if (btnBatalHapus) {
-    btnBatalHapus.addEventListener('click', hideDeleteModal);
-  }
-
-  if (btnKonfirmasiHapus) {
-    btnKonfirmasiHapus.addEventListener('click', function() {
-      if (dataToDelete) {
-        console.log('Menghapus data:', dataToDelete);
-      }
-      hideDeleteModal();
-      showSuccessModal('Data Berhasil Dihapus', 'Data yang dipilih telah berhasil dihapus secara permanen.');
+    
+    document.getElementById('btnSelesai')?.addEventListener('click', () => {
+        clearTimeout(successModalTimeout);
+        hideSuccessModal();
     });
-  }
+
+    // === Sidebar Logic ===
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    const toggleSidebarBtn = document.getElementById('toggleSidebar');
+
+    if (toggleSidebarBtn && sidebar && overlay) {
+        toggleSidebarBtn.addEventListener('click', function () {
+            const isMobile = window.innerWidth <= 991;
+            if (isMobile) {
+                sidebar.classList.toggle('show');
+                overlay.classList.toggle('show', sidebar.classList.contains('show'));
+            } else {
+                sidebar.classList.toggle('hidden');
+            }
+        });
+        overlay.addEventListener('click', function () {
+            sidebar.classList.remove('show');
+            overlay.classList.remove('show');
+        });
+    }
+
+    // === Date and Time Logic ===
+    function updateDateTime() {
+        const now = new Date();
+        const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone: 'Asia/Jakarta' };
+        const dateEl = document.getElementById('current-date');
+        const timeEl = document.getElementById('current-time');
+        if (dateEl && timeEl) {
+            dateEl.textContent = now.toLocaleDateString('id-ID', dateOptions);
+            timeEl.textContent = now.toLocaleTimeString('id-ID', timeOptions);
+        }
+    }
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+
+    // === Tombol Simpan Logic ===
+    const simpanBtn = document.querySelector('#penunjangModal .btn-success');
+    if (simpanBtn) {
+        simpanBtn.addEventListener('click', function () {
+            closeModal();
+            showSuccessModal('Data Berhasil Disimpan', 'Data penunjang telah berhasil disimpan ke sistem.');
+        });
+    }
+
+    // === Dynamic Interactions ===
+    function setupDynamicInteractions() {
+        const dokumenList = document.getElementById('dokumen-list');
+        if (dokumenList) {
+          dokumenList.addEventListener('click', function(event) {
+            const removeBtn = event.target.closest('.btn-outline-danger');
+            if (removeBtn) {
+              removeBtn.closest('.border.rounded').remove();
+              return;
+            }
+            
+            const uploadArea = event.target.closest('.upload-area');
+            if (uploadArea) {
+              const fileInput = uploadArea.querySelector('input[type="file"]');
+              if (fileInput) fileInput.click();
+            }
+          });
+          dokumenList.addEventListener('change', function(event){
+            if(event.target.matches('input[type="file"]')){
+              const uploadArea = event.target.closest('.upload-area');
+              const p = uploadArea.querySelector('p');
+              if (event.target.files.length > 0) {
+                p.innerHTML = `<small>${event.target.files[0].name}</small>`;
+              }
+            }
+          });
+        }
+        const anggotaList = document.getElementById('anggota-list');
+        if (anggotaList) {
+          anggotaList.addEventListener('click', function(event) {
+            const removeBtn = event.target.closest('.btn-outline-danger');
+            if (removeBtn) {
+              removeBtn.closest('.input-group').remove();
+            }
+          });
+        }
+    }
+    setupDynamicInteractions();
+    
+    // === Verifikasi Confirmation Modal Logic ===
+    const verifModal = document.getElementById('modalKonfirmasiVerifikasi');
+    const btnTerima = document.getElementById('popupBtnTerima');
+    const btnTolak = document.getElementById('popupBtnTolak');
+    const btnKembali = document.getElementById('popupBtnKembali');
+
+    function hideVerifModal() { if (verifModal) { verifModal.classList.remove('show'); } }
+
+    document.addEventListener('click', function(event) {
+        if (event.target.closest('.btn-verifikasi')) {
+            event.preventDefault();
+            if (verifModal) { verifModal.classList.add('show'); }
+        }
+    });
+    if (verifModal) { verifModal.addEventListener('click', (e) => { if (e.target === verifModal) { hideVerifModal(); } }); }
+    if (btnTerima) { btnTerima.addEventListener('click', function() { hideVerifModal(); showSuccessModal('Status Verifikasi Disimpan', 'Perubahan status verifikasi telah berhasil disimpan.'); }); }
+    if (btnTolak) { btnTolak.addEventListener('click', function() { hideVerifModal(); showSuccessModal('Status Verifikasi Disimpan', 'Perubahan status verifikasi telah berhasil disimpan.'); }); }
+    if (btnKembali) { btnKembali.addEventListener('click', function() { hideVerifModal(); }); }
+
+    // === Delete Confirmation Modal Logic ===
+    const deleteModal = document.getElementById('modalKonfirmasiHapus');
+    const btnBatalHapus = document.getElementById('btnBatalHapus');
+    const btnKonfirmasiHapus = document.getElementById('btnKonfirmasiHapus');
+    let dataToDelete = null;
+
+function hideDeleteModal() {
+   const deleteModal = document.getElementById('modalKonfirmasiHapus');
+   if(deleteModal) {
+       deleteModal.classList.remove('show'); // Ini akan memulai transisi keluar (jika CSS sudah benar)
+       document.body.style.overflow = ''; // Aktifkan kembali scroll setelah modal tidak terlihat
+
+       // Tidak perlu lagi class sementara jika transisi opacity dan visibility sudah diatur di CSS
+   }
+}
+
+    document.addEventListener('click', function(event) {
+        const btnHapus = event.target.closest('.btn-hapus');
+        if (btnHapus) {
+            event.preventDefault();
+            const row = btnHapus.closest('tr');
+            if (row) {
+                dataToDelete = {
+                    id: row.cells[0].textContent,
+                    title: row.cells[1].textContent
+                };
+                if (deleteModal) {
+                    deleteModal.classList.add('show');
+                    document.body.style.overflow = 'hidden';
+                }
+            }
+        }
+    });
+
+    if (btnBatalHapus) { btnBatalHapus.addEventListener('click', hideDeleteModal); }
+    if (btnKonfirmasiHapus) {
+        btnKonfirmasiHapus.addEventListener('click', function() {
+            if (dataToDelete) { console.log('Menghapus data:', dataToDelete); }
+            hideDeleteModal();
+            showSuccessModal('Data Berhasil Dihapus', 'Data yang dipilih telah berhasil dihapus secara permanen.');
+        });
+    }
+
+    // >> PENAMBAHAN LOGIKA BARU DIMULAI DI SINI <<
+    // Menangani klik di luar modal untuk menutupnya
+    window.addEventListener('click', function (event) {
+        // Untuk modal konfirmasi hapus
+        if (event.target == deleteModal) {
+            hideDeleteModal();
+        }
+
+        // Untuk modal verifikasi
+        if (event.target == verifModal) {
+            hideVerifModal();
+        }
+    });
+    // >> PENAMBAHAN LOGIKA SELESAI DI SINI <<
 });
 
-// === Global Functions (FIXED) ===
-function openModal(modalId) {
-  const modal = document.getElementById(modalId);
-  if (!modal) return;
-  const modalTitle = modal.querySelector('#modalTitle');
-  const form = modal.querySelector('form');
-  if (modalTitle) {
-    modalTitle.innerHTML = '<i class="fas fa-plus-circle"></i> Tambah Data Penunjang';
-  }
-  if (form) form.reset();
-  
-  const dokumenList = document.getElementById('dokumen-list');
-  const anggotaList = document.getElementById('anggota-list');
-  if (dokumenList) dokumenList.innerHTML = '';
-  if (anggotaList) anggotaList.innerHTML = '';
+// === Global Functions (UPDATED FOR BOOTSTRAP 5) ===
 
-  modal.style.display = 'flex';
-  document.body.style.overflow = 'hidden'; // Nonaktifkan scroll
+function openModal() {
+    if (!penunjangModalInstance) return;
+    const modalTitle = document.getElementById('penunjangModalLabel');
+    const form = document.getElementById('penunjangForm');
+    
+    if (modalTitle) {
+        modalTitle.innerHTML = '<i class="fas fa-plus-circle"></i> Tambah Data Penunjang';
+    }
+    if (form) form.reset();
+
+    const dokumenList = document.getElementById('dokumen-list');
+    const anggotaList = document.getElementById('anggota-list');
+    if (dokumenList) dokumenList.innerHTML = '';
+    if (anggotaList) anggotaList.innerHTML = '';
+
+    penunjangModalInstance.show();
 }
 
 function openEditModal() {
-  const modal = document.getElementById('penunjangModal');
-  if (!modal) return;
-  const modalTitle = modal.querySelector('#modalTitle');
-  if (modalTitle) {
-    modalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Data Penunjang';
-  }
-  modal.style.display = 'flex';
-  document.body.style.overflow = 'hidden'; // Nonaktifkan scroll
+    if (!penunjangModalInstance) return;
+    const modalTitle = document.getElementById('penunjangModalLabel');
+    if (modalTitle) {
+        modalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Data Penunjang';
+    }
+    
+    penunjangModalInstance.show();
 }
 
-function closeModal(modalId) {
-  const modal = document.getElementById(modalId);
-  if (modal) {
-    modal.style.display = 'none';
-    document.body.style.overflow = ''; // Aktifkan kembali scroll
-  }
+function closeModal() {
+    if (penunjangModalInstance) {
+        penunjangModalInstance.hide();
+    }
 }
 
 function addDokumen() {
@@ -311,28 +283,3 @@ function addAnggota() {
   `;
   list.appendChild(newRow);
 }
-
-// === Close on Outside Click (FIXED) ===
-window.addEventListener('click', function (event) {
-  const penunjangModal = document.getElementById('penunjangModal');
-  if (event.target == penunjangModal) {
-      closeModal('penunjangModal');
-  }
-
-  const penunjangDetailModal = document.getElementById("penunjangDetailModal");
-  if (event.target === penunjangDetailModal) {
-    penunjangDetailModal.style.display = "none";
-  }
-
-  const deleteModal = document.getElementById("modalKonfirmasiHapus");
-  if (event.target === deleteModal) {
-    // Panggil fungsi hideDeleteModal agar scroll diaktifkan kembali
-    const hideDeleteModalFunc = window.hideDeleteModal || (document.querySelector('.btn-hapus') ? document.querySelector('.btn-hapus').__vue__?.hideDeleteModal : null);
-    if(typeof hideDeleteModalFunc === 'function') {
-        hideDeleteModalFunc();
-    } else {
-        deleteModal.classList.remove('show');
-        document.body.style.overflow = '';
-    }
-  }
-});

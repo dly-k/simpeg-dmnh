@@ -183,74 +183,57 @@
 /* ========================
    Modal (General)
 ========================= */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1001;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.6);
-  animation: modalFadeIn 0.3s ease-out;
-}
+/* TAMBAHKAN INI KE penunjang.css UNTUK MENYESUAIKAN TAMPILAN MODAL BOOTSTRAP */
 
-.modal-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 1050;
-  padding: 1rem;
-  animation: modalFadeIn 0.2s ease-out;
-}
-
-.modal-content-wrapper {
-  background-color: var(--white);
-  border-radius: 0.5rem;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-  width: 90%;
-  max-width: 800px;
-  max-height: 90vh;
-  display: flex;
-  flex-direction: column;
-  animation: modalContentShow 0.3s ease-out;
-}
-
-.modal-header-custom {
+#penunjangModal .modal-header,
+#penunjangDetailModal .modal-header {
   background: linear-gradient(to right, var(--primary), var(--primary-dark));
   color: var(--white);
-  padding: 1.25rem;
-  border-top-left-radius: 0.5rem;
-  border-top-right-radius: 0.5rem;
 }
 
-.modal-header-custom h5 {
-  margin: 0;
-  font-size: 1.25rem;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+#penunjangModal .modal-header .btn-close,
+#penunjangDetailModal .modal-header .btn-close {
+  filter: invert(1) grayscale(100%) brightness(200%);
 }
 
-.modal-body-custom {
-  padding: 1.5rem;
-  overflow-y: auto;
+/* Di penunjang.css atau file CSS modal Anda */
+
+#modalKonfirmasiHapus {
+    display: flex !important; /* Pastikan display flex agar backdrop menutupi */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
 }
 
-.modal-footer-custom {
-  padding: 1rem;
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-  border-top: 1px solid var(--border-color);
+#modalKonfirmasiHapus.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+#modalKonfirmasiHapus .modal-dialog {
+    transform: translateY(0);
+    transition: transform 0.3s ease-out;
+}
+
+#modalKonfirmasiHapus:not(.show) .modal-dialog {
+    transform: translateY(20px); /* Efek slide sedikit ke bawah saat keluar */
+}
+
+.modal-backdrop.fade {
+   opacity: 0;
+}
+
+.modal-backdrop.show {
+    opacity: 0.5; /* Atau nilai opacity yang Anda inginkan */
+}
+
+#modalKonfirmasiHapus .modal-content {
+    /* Tambahkan transisi jika perlu untuk konten */
+    transition: opacity 0.2s ease-out;
+}
+
+#modalKonfirmasiHapus:not(.show) .modal-content {
+    opacity: 0.8; /* Sedikit memudar saat keluar */
 }
 
 /* ========================
