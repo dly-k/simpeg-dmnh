@@ -1,588 +1,452 @@
-document.addEventListener('DOMContentLoaded', function () {
-
-  // =================================================================
-  // ===     FUNGSI BANTUAN UNTUK MODAL & NOTIFIKASI SUKSES        ===
-  // =================================================================
-  
-  // --- Fungsi untuk membuka modal dengan animasi ---
-  function openModal(modalId) {
+document.addEventListener("DOMContentLoaded", () => {
+  // == Fungsi Bantuan untuk Modal dan Notifikasi ==
+  const openModal = (modalId) => {
     const modal = document.getElementById(modalId);
-    if (modal) {
-      modal.classList.add('show');
-    }
-  }
+    if (modal) modal.classList.add("show");
+  };
 
-  // --- Fungsi untuk menutup modal dengan animasi ---
-  function closeModal(modalId) {
+  const closeModal = (modalId) => {
     const modal = document.getElementById(modalId);
-    if (modal) {
-      modal.classList.remove('show');
-    }
-  }
-  
-  // --- Fungsi untuk menampilkan notifikasi sukses ---
-  function showSuccessModal(title, subtitle) {
-      const berhasilTitle = document.getElementById('berhasil-title');
-      const berhasilSubtitle = document.getElementById('berhasil-subtitle');
-      if (berhasilTitle) berhasilTitle.textContent = title;
-      if (berhasilSubtitle) berhasilSubtitle.textContent = subtitle;
-      
-      const modalBerhasil = document.getElementById('modalBerhasil');
-      if (modalBerhasil) {
-          modalBerhasil.classList.add('show');
-          // Putar musik berhasil
-          let successAudio = new Audio('/assets/sounds/success.mp3'); // Pastikan path file audio benar
-          successAudio.play().catch(error => {
-            console.log('Error memutar suara:', error);
-            if (error.name === 'NotAllowedError') {
-              console.log('Autoplay diblokir oleh browser. Butuh interaksi pengguna terlebih dahulu.');
-            } else if (error.name === 'NotFoundError') {
-              console.log('File audio tidak ditemukan. Periksa path: /assets/sounds/success.mp3');
-            }
-          });
+    if (modal) modal.classList.remove("show");
+  };
 
-          // Menutup otomatis setelah 1 detik
-          setTimeout(() => {
-              modalBerhasil.classList.remove('show');
-              if (successAudio) {
-                successAudio.pause(); // Hentikan audio
-                successAudio.currentTime = 0; // Reset audio ke awal
-              }
-          }, 1000);
+  const showSuccessModal = (title, subtitle) => {
+    const berhasilTitle = document.getElementById("berhasil-title");
+    const berhasilSubtitle = document.getElementById("berhasil-subtitle");
+    const modalBerhasil = document.getElementById("modalBerhasil");
+    if (!modalBerhasil) return;
+
+    if (berhasilTitle) berhasilTitle.textContent = title;
+    if (berhasilSubtitle) berhasilSubtitle.textContent = subtitle;
+
+    modalBerhasil.classList.add("show");
+
+    const successAudio = new Audio("/assets/sounds/success.mp3");
+    successAudio.play().catch((error) => {
+      console.warn("Error memutar audio:", error.message);
+      if (error.name === "NotAllowedError") {
+        console.warn("Autoplay diblokir oleh browser. Butuh interaksi pengguna.");
+      } else if (error.name === "NotFoundError") {
+        console.warn("File audio tidak ditemukan: /assets/sounds/success.mp3");
       }
-  }
-
-  // --- Event Listener untuk tombol 'Selesai' di modal sukses ---
-  const btnSelesai = document.getElementById('btnSelesai');
-  if (btnSelesai) {
-      btnSelesai.addEventListener('click', function() {
-          closeModal('modalBerhasil');
-          if (successAudio) {
-            successAudio.pause(); // Hentikan audio
-            successAudio.currentTime = 0; // Reset audio ke awal
-          }
-      });
-  }
-
-
-  // === Logika Modal Konfirmasi Hapus (berlaku untuk semua tab) ===
-  const tabContent = document.getElementById('pendidikanTabContent');
-  const deleteModal = document.getElementById('modalKonfirmasiHapus');
-  if (tabContent && deleteModal) {
-      const btnBatal = document.getElementById('btnBatalHapus');
-      const btnKonfirmasi = document.getElementById('btnKonfirmasiHapus');
-      let rowToDelete = null;
-
-      tabContent.addEventListener('click', function(event) {
-          const deleteButton = event.target.closest('.btn-hapus');
-          if (deleteButton) {
-              event.preventDefault();
-              rowToDelete = deleteButton.closest('tr');
-              openModal('modalKonfirmasiHapus');
-          }
-      });
-
-      const hideDeleteModal = () => {
-          closeModal('modalKonfirmasiHapus');
-          rowToDelete = null;
-      };
-      
-      btnKonfirmasi.addEventListener('click', function() {
-          if (rowToDelete) {
-              rowToDelete.remove();
-              showSuccessModal('Data Berhasil Dihapus', 'Data yang dipilih telah dihapus dari sistem.');
-          }
-          hideDeleteModal();
-      });
-
-      btnBatal.addEventListener('click', hideDeleteModal);
-      deleteModal.addEventListener('click', function(event) {
-          if (event.target === deleteModal) {
-              hideDeleteModal();
-          }
-      });
-  }
-
-  // === Logika Modal Konfirmasi Verifikasi dengan Animasi ===
-  const popupOverlay = document.getElementById('modalKonfirmasiVerifikasi');
-  if (popupOverlay) {
-      const btnKembali = document.getElementById('popupBtnKembali');
-      const btnTerima = document.getElementById('popupBtnTerima');
-      const btnTolak = document.getElementById('popupBtnTolak');
-      let currentDataId = null;
-
-      document.addEventListener('click', function(event) {
-          const konfirmasiButton = event.target.closest('.btn-konfirmasi-pendidikan');
-          if (konfirmasiButton) {
-              event.preventDefault();
-              currentDataId = konfirmasiButton.dataset.id;
-              openModal('modalKonfirmasiVerifikasi');
-          }
-      });
-
-      const hidePopup = () => {
-          currentDataId = null;
-          closeModal('modalKonfirmasiVerifikasi');
-      };
-
-      const handleVerification = () => {
-          if (currentDataId) {
-              showSuccessModal('Status Verifikasi Disimpan', 'Perubahan status verifikasi telah berhasil disimpan.');
-          }
-          hidePopup();
-      };
-
-      btnKembali.addEventListener('click', hidePopup);
-      btnTerima.addEventListener('click', handleVerification);
-      btnTolak.addEventListener('click', handleVerification);
-      
-      popupOverlay.addEventListener('click', function(event) {
-          if (event.target === popupOverlay) {
-              hidePopup();
-          }
-      });
-  }
-});
-
-// =======================================================
-// ===      LOGIKA SPESIFIK UNTUK TIAP FORM & MODAL    ===
-// =======================================================
-
-// --- Form Pengajaran Lama ---
-document.addEventListener('DOMContentLoaded', function () {
-    const modalElement = document.getElementById('modalTambahEditPengajaranLama');
-    if (!modalElement) return;
-
-    const modalTitleText = modalElement.querySelector('#modalTitleText');
-    const form = document.getElementById('formPengajaranLama');
-    const editIdField = document.getElementById('editPengajaranId');
-    const tableBody = document.querySelector('#pengajaran-lama .table tbody');
-
-    document.getElementById('btnTambahPengajaranLama')?.addEventListener('click', function () {
-        modalTitleText.textContent = 'Tambah Pengajaran Lama';
-        form.reset();
-        editIdField.value = '';
     });
 
-    if (tableBody) {
-        tableBody.addEventListener('click', function (event) {
-            const editButton = event.target.closest('.btn-edit');
-            if (editButton) {
-                modalTitleText.textContent = 'Edit Pengajaran Lama';
-                const data = editButton.dataset;
-                editIdField.value = data.id;
-                form.querySelector('#nama').value = data.nama;
-                form.querySelector('#tahun_semester').value = data.tahun_semester;
-                form.querySelector('#kode_mk').value = data.kode_mk;
-                form.querySelector('#nama_mk').value = data.nama_mk;
-                form.querySelector('#sks_kuliah').value = data.sks_kuliah;
-                form.querySelector('#sks_praktikum').value = data.sks_praktikum;
-                form.querySelector('#kelas_paralel').value = data.kelas_paralel;
-                form.querySelector('#jumlah_pertemuan').value = data.jumlah_pertemuan;
-            }
-        });
+    setTimeout(() => {
+      modalBerhasil.classList.remove("show");
+      if (successAudio) {
+        successAudio.pause();
+        successAudio.currentTime = 0;
+      }
+    }, 1000);
+  };
+
+  const initSuccessModal = () => {
+    const btnSelesai = document.getElementById("btnSelesai");
+    if (btnSelesai) {
+      btnSelesai.addEventListener("click", () => {
+        closeModal("modalBerhasil");
+        if (successAudio) {
+          successAudio.pause();
+          successAudio.currentTime = 0;
+        }
+      });
     }
-});
+  };
 
-// --- Form Pengajaran Luar ---
-document.addEventListener('DOMContentLoaded', function () {
-    const modalElement = document.getElementById('modalPengajaranLuar');
-    if (!modalElement) return;
+  // == Modal Konfirmasi Hapus ==
+  const initDeleteModal = () => {
+    const tabContent = document.getElementById("pendidikanTabContent");
+    const deleteModal = document.getElementById("modalKonfirmasiHapus");
+    if (!tabContent || !deleteModal) return;
 
-    const modalTitleText = modalElement.querySelector('#modalTitleTextPengajaranLuar');
-    const form = document.getElementById('formPengajaranLuar');
-    const editIdField = document.getElementById('editPengajaranLuarId');
-    const tableBody = document.querySelector('#pengajaran-luar .table tbody');
+    const btnBatal = document.getElementById("btnBatalHapus");
+    const btnKonfirmasi = document.getElementById("btnKonfirmasiHapus");
+    let rowToDelete = null;
 
-    document.getElementById('btnTambahPengajaranLuar')?.addEventListener('click', function () {
-        modalTitleText.textContent = 'Tambah Kegiatan Pengajaran Luar IPB';
-        form.reset();
-        editIdField.value = '';
+    tabContent.addEventListener("click", (event) => {
+      const deleteButton = event.target.closest(".btn-hapus");
+      if (deleteButton) {
+        event.preventDefault();
+        rowToDelete = deleteButton.closest("tr");
+        openModal("modalKonfirmasiHapus");
+      }
     });
 
-    if (tableBody) {
-        tableBody.addEventListener('click', function(event) {
-            const editButton = event.target.closest('.btn-edit-pengajaran-luar');
-            if (editButton) {
-                modalTitleText.textContent = 'Edit Kegiatan Pengajaran Luar IPB';
-                const data = editButton.dataset;
-                editIdField.value = data.id || '';
-                document.getElementById('pl_nama').value = data.nama || '';
-                document.getElementById('pl_tahun_semester').value = data.tahun_semester || '';
-                document.getElementById('pl_kode_mk').value = data.kode_mk || '';
-                document.getElementById('pl_nama_mk').value = data.nama_mk || '';
-                document.getElementById('pl_sks_kuliah').value = data.sks_kuliah || '';
-                document.getElementById('pl_sks_praktikum').value = data.sks_praktikum || '';
-                document.getElementById('pl_universitas').value = data.universitas || '';
-                document.getElementById('pl_strata').value = data.strata || '';
-                document.getElementById('pl_program_studi').value = data.program_studi || '';
-                document.getElementById('pl_jenis').value = data.jenis || '';
-                document.getElementById('pl_kelas_paralel').value = data.kelas_paralel || '';
-                document.getElementById('pl_jumlah_pertemuan').value = data.jumlah_pertemuan || '';
-                document.getElementById('pl_is_insidental').value = data.is_insidental || '';
-                document.getElementById('pl_is_lebih_satu_semester').value = data.is_lebih_satu_semester || '';
-            }
-        });
-    }
-});
+    const hideDeleteModal = () => {
+      closeModal("modalKonfirmasiHapus");
+      rowToDelete = null;
+    };
 
-// --- Form Pengujian Lama ---
-document.addEventListener('DOMContentLoaded', function () {
-    const modalElement = document.getElementById('modalPengujianLama');
-    if (!modalElement) return;
-    
-    const modalTitleText = modalElement.querySelector('#modalTitleTextPengujianLama');
-    const form = document.getElementById('formPengujianLama');
-    const editIdField = document.getElementById('editPengujianLamaId');
-    const tableBody = document.querySelector('#pengujian-lama .table tbody');
-
-    document.getElementById('btnTambahPengujianLama')?.addEventListener('click', function () {
-        modalTitleText.textContent = 'Tambah Kegiatan Pengujian Lama';
-        form.reset();
-        editIdField.value = '';
+    btnKonfirmasi.addEventListener("click", () => {
+      if (rowToDelete) {
+        rowToDelete.remove();
+        showSuccessModal("Data Berhasil Dihapus", "Data yang dipilih telah dihapus dari sistem.");
+      }
+      hideDeleteModal();
     });
 
-    if (tableBody) {
-        tableBody.addEventListener('click', function(event) {
-            const editButton = event.target.closest('.btn-edit-pengujian-lama');
-            if (editButton) {
-                modalTitleText.textContent = 'Edit Kegiatan Pengujian Lama';
-                const data = editButton.dataset;
-                editIdField.value = data.id || '';
-                document.getElementById('pjl_kegiatan').value = data.kegiatan || '';
-                document.getElementById('pjl_nama').value = data.nama || '';
-                document.getElementById('pjl_strata').value = data.strata || '';
-                document.getElementById('pjl_tahun_semester').value = data.tahun_semester || '';
-                document.getElementById('pjl_nim').value = data.nim || '';
-                document.getElementById('pjl_nama_mahasiswa').value = data.nama_mahasiswa || '';
-                document.getElementById('pjl_departemen').value = data.departemen || '';
-            }
-        });
-    }
-});
+    btnBatal.addEventListener("click", hideDeleteModal);
+    deleteModal.addEventListener("click", (event) => {
+      if (event.target === deleteModal) hideDeleteModal();
+    });
+  };
 
-// --- Form Pembimbing Lama ---
-document.addEventListener('DOMContentLoaded', function () {
-    const modalElement = document.getElementById('modalPembimbingLama');
-    if (!modalElement) return;
+  // == Modal Konfirmasi Verifikasi ==
+  const initVerificationModal = () => {
+    const popupOverlay = document.getElementById("modalKonfirmasiVerifikasi");
+    if (!popupOverlay) return;
 
-    const modalTitleText = modalElement.querySelector('#modalTitleTextPembimbingLama');
-    const form = document.getElementById('formPembimbingLama');
-    const editIdField = document.getElementById('editPembimbingLamaId');
-    const tableBody = document.querySelector('#pembimbing-lama .table tbody');
+    const btnKembali = document.getElementById("popupBtnKembali");
+    const btnTerima = document.getElementById("popupBtnTerima");
+    const btnTolak = document.getElementById("popupBtnTolak");
+    let currentDataId = null;
 
-    document.getElementById('btnTambahPembimbingLama')?.addEventListener('click', function () {
-        modalTitleText.textContent = 'Tambah Kegiatan Pembimbing Lama';
-        form.reset();
-        editIdField.value = '';
+    document.addEventListener("click", (event) => {
+      const konfirmasiButton = event.target.closest(".btn-konfirmasi-pendidikan");
+      if (konfirmasiButton) {
+        event.preventDefault();
+        currentDataId = konfirmasiButton.dataset.id;
+        openModal("modalKonfirmasiVerifikasi");
+      }
     });
 
-    if (tableBody) {
-        tableBody.addEventListener('click', function(event) {
-            const editButton = event.target.closest('.btn-edit-pembimbing-lama');
-            if (editButton) {
-                modalTitleText.textContent = 'Edit Kegiatan Pembimbing Lama';
-                const data = editButton.dataset;
-                editIdField.value = data.id || '';
-                document.getElementById('pbl_kegiatan').value = data.kegiatan || '';
-                document.getElementById('pbl_nama').value = data.nama || '';
-                document.getElementById('pbl_tahun_semester').value = data.tahun_semester || '';
-                document.getElementById('pbl_nim').value = data.nim || '';
-                document.getElementById('pbl_nama_mahasiswa').value = data.nama_mahasiswa || '';
-                document.getElementById('pbl_departemen').value = data.departemen || '';
-                document.getElementById('pbl_lokasi').value = data.lokasi || '';
-                document.getElementById('pbl_nama_dokumen').value = data.nama_dokumen || '';
-            }
-        });
-    }
-});
+    const hidePopup = () => {
+      currentDataId = null;
+      closeModal("modalKonfirmasiVerifikasi");
+    };
 
-// --- Form Penguji Luar IPB ---
-document.addEventListener('DOMContentLoaded', function () {
-    const modalElement = document.getElementById('modalPengujiLuar');
-    if (!modalElement) return;
+    const handleVerification = () => {
+      if (currentDataId) {
+        showSuccessModal("Status Verifikasi Disimpan", "Perubahan status verifikasi telah berhasil disimpan.");
+      }
+      hidePopup();
+    };
 
-    const modalTitleText = modalElement.querySelector('#modalTitleTextPengujiLuar');
-    const form = document.getElementById('formPengujiLuar');
-    const editIdField = document.getElementById('editPengujiLuarId');
-    const tableBody = document.querySelector('#penguji-luar .table tbody');
-
-    document.getElementById('btnTambahPengujiLuar')?.addEventListener('click', function () {
-        modalTitleText.textContent = 'Tambah Kegiatan Penguji Luar IPB';
-        form.reset();
-        editIdField.value = '';
+    btnKembali.addEventListener("click", hidePopup);
+    btnTerima.addEventListener("click", handleVerification);
+    btnTolak.addEventListener("click", handleVerification);
+    popupOverlay.addEventListener("click", (event) => {
+      if (event.target === popupOverlay) hidePopup();
     });
+  };
 
-    if (tableBody) {
-        tableBody.addEventListener('click', function(event) {
-            const editButton = event.target.closest('.btn-edit-penguji-luar');
-            if (editButton) {
-                modalTitleText.textContent = 'Edit Kegiatan Penguji Luar IPB';
-                const data = editButton.dataset;
-                editIdField.value = data.id || '';
-                document.getElementById('pjl_kegiatan').value = data.kegiatan || '';
-                document.getElementById('pjl_nama').value = data.nama || '';
-                document.getElementById('pjl_status').value = data.status || '';
-                document.getElementById('pjl_tahun_semester_luar').value = data.tahun_semester || '';
-                document.getElementById('pjl_nim_luar').value = data.nim || '';
-                document.getElementById('pjl_nama_mahasiswa_luar').value = data.nama_mahasiswa || '';
-                document.getElementById('pjl_universitas').value = data.universitas || '';
-                document.getElementById('pjl_strata_luar').value = data.strata || '';
-                document.getElementById('pjl_program_studi').value = data.program_studi || '';
-                document.getElementById('pjl_is_insidental').value = data.is_insidental || '';
-                document.getElementById('pjl_is_lebih_satu_semester').value = data.is_lebih_satu_semester || '';
-            }
-        });
-    }
-});
-
-// --- Form Pembimbing Luar IPB ---
-document.addEventListener('DOMContentLoaded', function () {
-    const modalElement = document.getElementById('modalPembimbingLuar');
-    if (!modalElement) return;
-    
-    const modalTitleText = modalElement.querySelector('#modalTitleTextPembimbingLuar');
-    const form = document.getElementById('formPembimbingLuar');
-    const editIdField = document.getElementById('editPembimbingLuarId');
-    const tableBody = document.querySelector('#pembimbing-luar .table tbody');
-
-    document.getElementById('btnTambahPembimbingLuar')?.addEventListener('click', function () {
-        modalTitleText.textContent = 'Tambah Kegiatan Pembimbing Luar IPB';
-        form.reset();
-        editIdField.value = '';
-    });
-
-    if (tableBody) {
-        tableBody.addEventListener('click', function(event) {
-            const editButton = event.target.closest('.btn-edit-pembimbing-luar');
-            if (editButton) {
-                modalTitleText.textContent = 'Edit Kegiatan Pembimbing Luar IPB';
-                const data = editButton.dataset;
-                editIdField.value = data.id || '';
-                document.getElementById('pbl_kegiatan_luar').value = data.kegiatan || '';
-                document.getElementById('pbl_nama_luar').value = data.nama || '';
-                document.getElementById('pbl_status_luar').value = data.status || '';
-                document.getElementById('pbl_tahun_semester_luar').value = data.tahun_semester || '';
-                document.getElementById('pbl_nim_luar').value = data.nim || '';
-                document.getElementById('pbl_nama_mahasiswa_luar').value = data.nama_mahasiswa || '';
-                document.getElementById('pbl_universitas_luar').value = data.universitas || '';
-                document.getElementById('pbl_program_studi_luar').value = data.program_studi || '';
-                document.getElementById('pbl_is_insidental_luar').value = data.is_insidental || '';
-                document.getElementById('pbl_is_lebih_satu_semester_luar').value = data.is_lebih_satu_semester || '';
-            }
-        });
-    }
-});
-
-// =======================================================
-// ===     LOGIKA DETAIL MODAL (TIDAK PERLU DIUBAH)    ===
-// =======================================================
-
-// --- [DIPERBAIKI] Modal Detail Pengajaran Lama ---
-document.addEventListener('DOMContentLoaded', function () {
-    const tableBody = document.querySelector('#pengajaran-lama .table tbody');
-    if (tableBody) {
-        tableBody.addEventListener('click', function(event) {
-            const detailButton = event.target.closest('.btn-lihat-detail');
-            if (detailButton) {
-                const data = detailButton.dataset;
-                document.getElementById('detail_pl_kegiatan').textContent = data.kegiatan || '-';
-                document.getElementById('detail_pl_nama').textContent = data.nama || '-';
-                document.getElementById('detail_pl_tahun_semester').textContent = data.tahun_semester || '-';
-                document.getElementById('detail_pl_kode_mk').textContent = data.kode_mk || '-';
-                document.getElementById('detail_pl_nama_mk').textContent = data.nama_mk || '-';
-                document.getElementById('detail_pl_pengampu').textContent = data.pengampu || '-';
-                document.getElementById('detail_pl_sks_kuliah').textContent = data.sks_kuliah || '-';
-                document.getElementById('detail_pl_sks_praktikum').textContent = data.sks_praktikum || '-';
-                document.getElementById('detail_pl_jenis').textContent = data.jenis || '-';
-                document.getElementById('detail_pl_kelas_paralel').textContent = data.kelas_paralel || '-';
-                document.getElementById('detail_pl_jumlah_pertemuan').textContent = data.jumlah_pertemuan || '-';
-                document.getElementById('detail_pl_document_viewer').setAttribute('src', data.dokumen_path || '');
-            }
-        });
-    }
-});
-
-// --- Modal Detail Pengajaran Luar ---
-document.addEventListener('DOMContentLoaded', function () {
-    const tableBody = document.querySelector('#pengajaran-luar .table tbody');
-    if (tableBody) {
-        tableBody.addEventListener('click', function(event) {
-            const detailButton = event.target.closest('.btn-lihat-detail');
-            if (detailButton) {
-                const data = detailButton.dataset;
-                document.getElementById('detail_pluar_nama').textContent = data.nama || '-';
-                document.getElementById('detail_pluar_tahun_semester').textContent = data.tahun_semester || '-';
-                document.getElementById('detail_pluar_universitas').textContent = data.universitas || '-';
-                document.getElementById('detail_pluar_kode_mk').textContent = data.kode_mk || '-';
-                document.getElementById('detail_pluar_nama_mk').textContent = data.nama_mk || '-';
-                document.getElementById('detail_pluar_program_studi').textContent = data.program_studi || '-';
-                document.getElementById('detail_pluar_sks_kuliah').textContent = data.sks_kuliah || '-';
-                document.getElementById('detail_pluar_sks_praktikum').textContent = data.sks_praktikum || '-';
-                document.getElementById('detail_pluar_jenis').textContent = data.jenis || '-';
-                document.getElementById('detail_pluar_kelas_paralel').textContent = data.kelas_paralel || '-';
-                document.getElementById('detail_pluar_jumlah_pertemuan').textContent = data.jumlah_pertemuan || '-';
-                document.getElementById('detail_pluar_insidental').textContent = data.is_insidental || '-';
-                document.getElementById('detail_pluar_lebih_satu_semester').textContent = data.is_lebih_satu_semester || '-';
-                document.getElementById('detail_pluar_document_viewer').setAttribute('src', data.dokumen_path || '');
-            }
-        });
-    }
-});
-
-// --- Modal Detail Pengujian Lama ---
-document.addEventListener('DOMContentLoaded', function () {
-    const tableBody = document.querySelector('#pengujian-lama .table tbody');
-    if (tableBody) {
-        tableBody.addEventListener('click', function(event) {
-            const detailButton = event.target.closest('.btn-lihat-detail-pengujian');
-            if (detailButton) {
-                const data = detailButton.dataset;
-                document.getElementById('detail_pjl_kegiatan').textContent = data.kegiatan || '-';
-                document.getElementById('detail_pjl_nama').textContent = data.nama || '-';
-                document.getElementById('detail_pjl_tahun_semester').textContent = data.tahun_semester || '-';
-                document.getElementById('detail_pjl_nim').textContent = data.nim || '-';
-                document.getElementById('detail_pjl_nama_mahasiswa').textContent = data.nama_mahasiswa || '-';
-                document.getElementById('detail_pjl_departemen').textContent = data.departemen || '-';
-                document.getElementById('detail_pjl_document_viewer').setAttribute('src', data.dokumen_path || '');
-            }
-        });
-    }
-});
-
-// --- Modal Detail Pembimbing Lama ---
-document.addEventListener('DOMContentLoaded', function () {
-    const tableBody = document.querySelector('#pembimbing-lama .table tbody');
-    if (tableBody) {
-        tableBody.addEventListener('click', function(event) {
-            const detailButton = event.target.closest('.btn-lihat-detail-pembimbing');
-            if (detailButton) {
-                const data = detailButton.dataset;
-                document.getElementById('detail_pbl_kegiatan').textContent = data.kegiatan || '-';
-                document.getElementById('detail_pbl_nama').textContent = data.nama || '-';
-                document.getElementById('detail_pbl_tahun_semester').textContent = data.tahun_semester || '-';
-                document.getElementById('detail_pbl_lokasi').textContent = data.lokasi || '-';
-                document.getElementById('detail_pbl_nim').textContent = data.nim || '-';
-                document.getElementById('detail_pbl_nama_mahasiswa').textContent = data.nama_mahasiswa || '-';
-                document.getElementById('detail_pbl_departemen').textContent = data.departemen || '-';
-                document.getElementById('detail_pbl_nama_dokumen').textContent = data.nama_dokumen || '-';
-                document.getElementById('detail_pbl_document_viewer').setAttribute('src', data.dokumen_path || '');
-            }
-        });
-    }
-});
-
-// --- Modal Detail Penguji Luar ---
-document.addEventListener('DOMContentLoaded', function () {
-    const tableBody = document.querySelector('#penguji-luar .table tbody');
-    if (tableBody) {
-        tableBody.addEventListener('click', function(event) {
-            const detailButton = event.target.closest('.btn-lihat-detail-penguji-luar');
-            if (detailButton) {
-                const data = detailButton.dataset;
-                document.getElementById('detail_pjl_luar_kegiatan').textContent = data.kegiatan || '-';
-                document.getElementById('detail_pjl_luar_nama').textContent = data.nama || '-';
-                document.getElementById('detail_pjl_luar_status').textContent = data.status || '-';
-                document.getElementById('detail_pjl_luar_tahun_semester').textContent = data.tahun_semester || '-';
-                document.getElementById('detail_pjl_luar_nim').textContent = data.nim || '-';
-                document.getElementById('detail_pjl_luar_nama_mahasiswa').textContent = data.nama_mahasiswa || '-';
-                document.getElementById('detail_pjl_luar_universitas').textContent = data.universitas || '-';
-                document.getElementById('detail_pjl_luar_program_studi').textContent = data.program_studi || '-';
-                document.getElementById('detail_pjl_luar_insidental').textContent = data.is_insidental || '-';
-                document.getElementById('detail_pjl_luar_lebih_satu_semester').textContent = data.is_lebih_satu_semester || '-';
-                document.getElementById('detail_pjl_luar_document_viewer').setAttribute('src', data.dokumen_path || '');
-            }
-        });
-    }
-});
-
-// --- Modal Detail Pembimbing Luar ---
-document.addEventListener('DOMContentLoaded', function () {
-    const tableBody = document.querySelector('#pembimbing-luar .table tbody');
-    if (tableBody) {
-        tableBody.addEventListener('click', function(event) {
-            const detailButton = event.target.closest('.btn-lihat-detail-pembimbing-luar');
-            if (detailButton) {
-                const data = detailButton.dataset;
-                document.getElementById('detail_pbl_luar_kegiatan').textContent = data.kegiatan || '-';
-                document.getElementById('detail_pbl_luar_nama').textContent = data.nama || '-';
-                document.getElementById('detail_pbl_luar_status').textContent = data.status || '-';
-                document.getElementById('detail_pbl_luar_tahun_semester').textContent = data.tahun_semester || '-';
-                document.getElementById('detail_pbl_luar_nim').textContent = data.nim || '-';
-                document.getElementById('detail_pbl_luar_nama_mahasiswa').textContent = data.nama_mahasiswa || '-';
-                document.getElementById('detail_pbl_luar_universitas').textContent = data.universitas || '-';
-                document.getElementById('detail_pbl_luar_program_studi').textContent = data.program_studi || '-';
-                document.getElementById('detail_pbl_luar_insidental').textContent = data.is_insidental || '-';
-                document.getElementById('detail_pbl_luar_lebih_satu_semester').textContent = data.is_lebih_satu_semester || '-';
-                document.getElementById('detail_pbl_luar_document_viewer').setAttribute('src', data.dokumen_path || '');
-            }
-        });
-    }
-});
-
-
-// =====================================================================
-// === LOGIKA PENYIMPANAN MODAL & NOTIFIKASI SUKSES (FUNGSI BARU) ===
-// =====================================================================
-document.addEventListener('DOMContentLoaded', function() {
-    // Daftar semua modal form dan tombol simpannya
+  // == Inisialisasi Form dan Modal ==
+  const initForms = () => {
     const modals = [
-        { modalId: 'modalTambahEditPengajaranLama', btnId: 'btnSimpanPengajaran' },
-        { modalId: 'modalPengajaranLuar', btnId: 'btnSimpanPengajaranLuar' },
-        { modalId: 'modalPengujianLama', btnId: 'btnSimpanPengujianLama' },
-        { modalId: 'modalPembimbingLama', btnId: 'btnSimpanPembimbingLama' },
-        { modalId: 'modalPengujiLuar', btnId: 'btnSimpanPengujiLuar' },
-        { modalId: 'modalPembimbingLuar', btnId: 'btnSimpanPembimbingLuar' }
+      {
+        modalId: "modalTambahEditPengajaranLama",
+        btnId: "btnSimpanPengajaran",
+        tableSelector: "#pengajaran-lama .table tbody",
+        formId: "formPengajaranLama",
+        editIdField: "editPengajaranId",
+        titleId: "modalTitleText",
+        fields: [
+          { id: "nama", key: "nama" },
+          { id: "tahun_semester", key: "tahun_semester" },
+          { id: "kode_mk", key: "kode_mk" },
+          { id: "nama_mk", key: "nama_mk" },
+          { id: "sks_kuliah", key: "sks_kuliah" },
+          { id: "sks_praktikum", key: "sks_praktikum" },
+          { id: "kelas_paralel", key: "kelas_paralel" },
+          { id: "jumlah_pertemuan", key: "jumlah_pertemuan" }
+        ],
+        addBtnId: "btnTambahPengajaranLama",
+        addTitle: "Tambah Pengajaran Lama",
+        editTitle: "Edit Pengajaran Lama"
+      },
+      {
+        modalId: "modalPengajaranLuar",
+        btnId: "btnSimpanPengajaranLuar",
+        tableSelector: "#pengajaran-luar .table tbody",
+        formId: "formPengajaranLuar",
+        editIdField: "editPengajaranLuarId",
+        titleId: "modalTitleTextPengajaranLuar",
+        fields: [
+          { id: "pl_nama", key: "nama" },
+          { id: "pl_tahun_semester", key: "tahun_semester" },
+          { id: "pl_kode_mk", key: "kode_mk" },
+          { id: "pl_nama_mk", key: "nama_mk" },
+          { id: "pl_sks_kuliah", key: "sks_kuliah" },
+          { id: "pl_sks_praktikum", key: "sks_praktikum" },
+          { id: "pl_universitas", key: "universitas" },
+          { id: "pl_strata", key: "strata" },
+          { id: "pl_program_studi", key: "program_studi" },
+          { id: "pl_jenis", key: "jenis" },
+          { id: "pl_kelas_paralel", key: "kelas_paralel" },
+          { id: "pl_jumlah_pertemuan", key: "jumlah_pertemuan" },
+          { id: "pl_is_insidental", key: "is_insidental" },
+          { id: "pl_is_lebih_satu_semester", key: "is_lebih_satu_semester" }
+        ],
+        addBtnId: "btnTambahPengajaranLuar",
+        addTitle: "Tambah Kegiatan Pengajaran Luar IPB",
+        editTitle: "Edit Kegiatan Pengajaran Luar IPB"
+      },
+      {
+        modalId: "modalPengujianLama",
+        btnId: "btnSimpanPengujianLama",
+        tableSelector: "#pengujian-lama .table tbody",
+        formId: "formPengujianLama",
+        editIdField: "editPengujianLamaId",
+        titleId: "modalTitleTextPengujianLama",
+        fields: [
+          { id: "pjl_kegiatan", key: "kegiatan" },
+          { id: "pjl_nama", key: "nama" },
+          { id: "pjl_strata", key: "strata" },
+          { id: "pjl_tahun_semester", key: "tahun_semester" },
+          { id: "pjl_nim", key: "nim" },
+          { id: "pjl_nama_mahasiswa", key: "nama_mahasiswa" },
+          { id: "pjl_departemen", key: "departemen" }
+        ],
+        addBtnId: "btnTambahPengujianLama",
+        addTitle: "Tambah Kegiatan Pengujian Lama",
+        editTitle: "Edit Kegiatan Pengujian Lama"
+      },
+      {
+        modalId: "modalPembimbingLama",
+        btnId: "btnSimpanPembimbingLama",
+        tableSelector: "#pembimbing-lama .table tbody",
+        formId: "formPembimbingLama",
+        editIdField: "editPembimbingLamaId",
+        titleId: "modalTitleTextPembimbingLama",
+        fields: [
+          { id: "pbl_kegiatan", key: "kegiatan" },
+          { id: "pbl_nama", key: "nama" },
+          { id: "pbl_tahun_semester", key: "tahun_semester" },
+          { id: "pbl_nim", key: "nim" },
+          { id: "pbl_nama_mahasiswa", key: "nama_mahasiswa" },
+          { id: "pbl_departemen", key: "departemen" },
+          { id: "pbl_lokasi", key: "lokasi" },
+          { id: "pbl_nama_dokumen", key: "nama_dokumen" }
+        ],
+        addBtnId: "btnTambahPembimbingLama",
+        addTitle: "Tambah Kegiatan Pembimbing Lama",
+        editTitle: "Edit Kegiatan Pembimbing Lama"
+      },
+      {
+        modalId: "modalPengujiLuar",
+        btnId: "btnSimpanPengujiLuar",
+        tableSelector: "#penguji-luar .table tbody",
+        formId: "formPengujiLuar",
+        editIdField: "editPengujiLuarId",
+        titleId: "modalTitleTextPengujiLuar",
+        fields: [
+          { id: "pjl_kegiatan", key: "kegiatan" },
+          { id: "pjl_nama", key: "nama" },
+          { id: "pjl_status", key: "status" },
+          { id: "pjl_tahun_semester_luar", key: "tahun_semester" },
+          { id: "pjl_nim_luar", key: "nim" },
+          { id: "pjl_nama_mahasiswa_luar", key: "nama_mahasiswa" },
+          { id: "pjl_universitas", key: "universitas" },
+          { id: "pjl_strata_luar", key: "strata" },
+          { id: "pjl_program_studi", key: "program_studi" },
+          { id: "pjl_is_insidental", key: "is_insidental" },
+          { id: "pjl_is_lebih_satu_semester", key: "is_lebih_satu_semester" }
+        ],
+        addBtnId: "btnTambahPengujiLuar",
+        addTitle: "Tambah Kegiatan Penguji Luar IPB",
+        editTitle: "Edit Kegiatan Penguji Luar IPB"
+      },
+      {
+        modalId: "modalPembimbingLuar",
+        btnId: "btnSimpanPembimbingLuar",
+        tableSelector: "#pembimbing-luar .table tbody",
+        formId: "formPembimbingLuar",
+        editIdField: "editPembimbingLuarId",
+        titleId: "modalTitleTextPembimbingLuar",
+        fields: [
+          { id: "pbl_kegiatan_luar", key: "kegiatan" },
+          { id: "pbl_nama_luar", key: "nama" },
+          { id: "pbl_status_luar", key: "status" },
+          { id: "pbl_tahun_semester_luar", key: "tahun_semester" },
+          { id: "pbl_nim_luar", key: "nim" },
+          { id: "pbl_nama_mahasiswa_luar", key: "nama_mahasiswa" },
+          { id: "pbl_universitas_luar", key: "universitas" },
+          { id: "pbl_program_studi_luar", key: "program_studi" },
+          { id: "pbl_is_insidental_luar", key: "is_insidental" },
+          { id: "pbl_is_lebih_satu_semester_luar", key: "is_lebih_satu_semester" }
+        ],
+        addBtnId: "btnTambahPembimbingLuar",
+        addTitle: "Tambah Kegiatan Pembimbing Luar IPB",
+        editTitle: "Edit Kegiatan Pembimbing Luar IPB"
+      }
     ];
 
-    // --- Fungsi untuk menampilkan notifikasi sukses ---
-    function showSuccessModal(title, subtitle) {
-        const berhasilTitle = document.getElementById('berhasil-title');
-        const berhasilSubtitle = document.getElementById('berhasil-subtitle');
-        if (berhasilTitle) berhasilTitle.textContent = title;
-        if (berhasilSubtitle) berhasilSubtitle.textContent = subtitle;
-        
-        const modalBerhasil = document.getElementById('modalBerhasil');
-        if (modalBerhasil) {
-            modalBerhasil.classList.add('show');
-            // Putar musik berhasil
-            let successAudio = new Audio('/assets/sounds/success.mp3'); // Pastikan path file audio benar
-            successAudio.play().catch(error => {
-              console.log('Error memutar suara:', error);
-              if (error.name === 'NotAllowedError') {
-                console.log('Autoplay diblokir oleh browser. Butuh interaksi pengguna terlebih dahulu.');
-              } else if (error.name === 'NotFoundError') {
-                console.log('File audio tidak ditemukan. Periksa path: /assets/sounds/success.mp3');
+    modals.forEach((modalConfig) => {
+      const modalElement = document.getElementById(modalConfig.modalId);
+      if (!modalElement) return;
+
+      const modalTitleText = modalElement.querySelector(`#${modalConfig.titleId}`);
+      const form = document.getElementById(modalConfig.formId);
+      const editIdField = document.getElementById(modalConfig.editIdField);
+      const tableBody = document.querySelector(modalConfig.tableSelector);
+
+      // Tombol Tambah
+      document.getElementById(modalConfig.addBtnId)?.addEventListener("click", () => {
+        modalTitleText.textContent = modalConfig.addTitle;
+        form.reset();
+        editIdField.value = "";
+      });
+
+      // Tombol Edit
+      if (tableBody) {
+        tableBody.addEventListener("click", (event) => {
+          const editButton = event.target.closest(`.btn-edit${modalConfig.modalId.includes("PengajaranLama") ? "" : modalConfig.modalId.includes("PengajaranLuar") ? "-pengajaran-luar" : modalConfig.modalId.includes("PengujianLama") ? "-pengujian-lama" : modalConfig.modalId.includes("PembimbingLama") ? "-pembimbing-lama" : modalConfig.modalId.includes("PengujiLuar") ? "-penguji-luar" : "-pembimbing-luar"}`);
+          if (editButton) {
+            modalTitleText.textContent = modalConfig.editTitle;
+            const data = editButton.dataset;
+            editIdField.value = data.id || "";
+            modalConfig.fields.forEach((field) => {
+              const fieldElement = document.getElementById(field.id);
+              if (fieldElement) fieldElement.value = data[field.key] || "";
+            });
+          }
+        });
+      }
+
+      // Tombol Simpan
+      const saveButton = document.getElementById(modalConfig.btnId);
+      if (saveButton && modalElement) {
+        saveButton.addEventListener("click", () => {
+          const bootstrapModal = bootstrap.Modal.getInstance(modalElement);
+          if (bootstrapModal) bootstrapModal.hide();
+          showSuccessModal("Data Berhasil Disimpan", "Perubahan Anda telah berhasil disimpan ke dalam sistem.");
+        });
+      }
+    });
+  };
+
+  // == Inisialisasi Modal Detail ==
+  const initDetailModals = () => {
+    const detailConfigs = [
+      {
+        tableSelector: "#pengajaran-lama .table tbody",
+        btnClass: ".btn-lihat-detail",
+        fields: [
+          { id: "detail_pl_kegiatan", key: "kegiatan" },
+          { id: "detail_pl_nama", key: "nama" },
+          { id: "detail_pl_tahun_semester", key: "tahun_semester" },
+          { id: "detail_pl_kode_mk", key: "kode_mk" },
+          { id: "detail_pl_nama_mk", key: "nama_mk" },
+          { id: "detail_pl_pengampu", key: "pengampu" },
+          { id: "detail_pl_sks_kuliah", key: "sks_kuliah" },
+          { id: "detail_pl_sks_praktikum", key: "sks_praktikum" },
+          { id: "detail_pl_jenis", key: "jenis" },
+          { id: "detail_pl_kelas_paralel", key: "kelas_paralel" },
+          { id: "detail_pl_jumlah_pertemuan", key: "jumlah_pertemuan" },
+          { id: "detail_pl_document_viewer", key: "dokumen_path", isSrc: true }
+        ]
+      },
+      {
+        tableSelector: "#pengajaran-luar .table tbody",
+        btnClass: ".btn-lihat-detail",
+        fields: [
+          { id: "detail_pluar_nama", key: "nama" },
+          { id: "detail_pluar_tahun_semester", key: "tahun_semester" },
+          { id: "detail_pluar_universitas", key: "universitas" },
+          { id: "detail_pluar_kode_mk", key: "kode_mk" },
+          { id: "detail_pluar_nama_mk", key: "nama_mk" },
+          { id: "detail_pluar_program_studi", key: "program_studi" },
+          { id: "detail_pluar_sks_kuliah", key: "sks_kuliah" },
+          { id: "detail_pluar_sks_praktikum", key: "sks_praktikum" },
+          { id: "detail_pluar_jenis", key: "jenis" },
+          { id: "detail_pluar_kelas_paralel", key: "kelas_paralel" },
+          { id: "detail_pluar_jumlah_pertemuan", key: "jumlah_pertemuan" },
+          { id: "detail_pluar_insidental", key: "is_insidental" },
+          { id: "detail_pluar_lebih_satu_semester", key: "is_lebih_satu_semester" },
+          { id: "detail_pluar_document_viewer", key: "dokumen_path", isSrc: true }
+        ]
+      },
+      {
+        tableSelector: "#pengujian-lama .table tbody",
+        btnClass: ".btn-lihat-detail-pengujian",
+        fields: [
+          { id: "detail_pjl_kegiatan", key: "kegiatan" },
+          { id: "detail_pjl_nama", key: "nama" },
+          { id: "detail_pjl_tahun_semester", key: "tahun_semester" },
+          { id: "detail_pjl_nim", key: "nim" },
+          { id: "detail_pjl_nama_mahasiswa", key: "nama_mahasiswa" },
+          { id: "detail_pjl_departemen", key: "departemen" },
+          { id: "detail_pjl_document_viewer", key: "dokumen_path", isSrc: true }
+        ]
+      },
+      {
+        tableSelector: "#pembimbing-lama .table tbody",
+        btnClass: ".btn-lihat-detail-pembimbing",
+        fields: [
+          { id: "detail_pbl_kegiatan", key: "kegiatan" },
+          { id: "detail_pbl_nama", key: "nama" },
+          { id: "detail_pbl_tahun_semester", key: "tahun_semester" },
+          { id: "detail_pbl_lokasi", key: "lokasi" },
+          { id: "detail_pbl_nim", key: "nim" },
+          { id: "detail_pbl_nama_mahasiswa", key: "nama_mahasiswa" },
+          { id: "detail_pbl_departemen", key: "departemen" },
+          { id: "detail_pbl_nama_dokumen", key: "nama_dokumen" },
+          { id: "detail_pbl_document_viewer", key: "dokumen_path", isSrc: true }
+        ]
+      },
+      {
+        tableSelector: "#penguji-luar .table tbody",
+        btnClass: ".btn-lihat-detail-penguji-luar",
+        fields: [
+          { id: "detail_pjl_luar_kegiatan", key: "kegiatan" },
+          { id: "detail_pjl_luar_nama", key: "nama" },
+          { id: "detail_pjl_luar_status", key: "status" },
+          { id: "detail_pjl_luar_tahun_semester", key: "tahun_semester" },
+          { id: "detail_pjl_luar_nim", key: "nim" },
+          { id: "detail_pjl_luar_nama_mahasiswa", key: "nama_mahasiswa" },
+          { id: "detail_pjl_luar_universitas", key: "universitas" },
+          { id: "detail_pjl_luar_program_studi", key: "program_studi" },
+          { id: "detail_pjl_luar_insidental", key: "is_insidental" },
+          { id: "detail_pjl_luar_lebih_satu_semester", key: "is_lebih_satu_semester" },
+          { id: "detail_pjl_luar_document_viewer", key: "dokumen_path", isSrc: true }
+        ]
+      },
+      {
+        tableSelector: "#pembimbing-luar .table tbody",
+        btnClass: ".btn-lihat-detail-pembimbing-luar",
+        fields: [
+          { id: "detail_pbl_luar_kegiatan", key: "kegiatan" },
+          { id: "detail_pbl_luar_nama", key: "nama" },
+          { id: "detail_pbl_luar_status", key: "status" },
+          { id: "detail_pbl_luar_tahun_semester", key: "tahun_semester" },
+          { id: "detail_pbl_luar_nim", key: "nim" },
+          { id: "detail_pbl_luar_nama_mahasiswa", key: "nama_mahasiswa" },
+          { id: "detail_pbl_luar_universitas", key: "universitas" },
+          { id: "detail_pbl_luar_program_studi", key: "program_studi" },
+          { id: "detail_pbl_luar_insidental", key: "is_insidental" },
+          { id: "detail_pbl_luar_lebih_satu_semester", key: "is_lebih_satu_semester" },
+          { id: "detail_pbl_luar_document_viewer", key: "dokumen_path", isSrc: true }
+        ]
+      }
+    ];
+
+    detailConfigs.forEach((config) => {
+      const tableBody = document.querySelector(config.tableSelector);
+      if (tableBody) {
+        tableBody.addEventListener("click", (event) => {
+          const detailButton = event.target.closest(config.btnClass);
+          if (detailButton) {
+            const data = detailButton.dataset;
+            config.fields.forEach((field) => {
+              const element = document.getElementById(field.id);
+              if (element) {
+                if (field.isSrc) {
+                  element.setAttribute("src", data[field.key] || "");
+                } else {
+                  element.textContent = data[field.key] || "-";
+                }
               }
             });
-
-            setTimeout(() => {
-                modalBerhasil.classList.remove('show');
-                if (successAudio) {
-                  successAudio.pause(); // Hentikan audio
-                  successAudio.currentTime = 0; // Reset audio ke awal
-                }
-            }, 1000);
-        }
-    }
-
-    modals.forEach(item => {
-        const saveButton = document.getElementById(item.btnId);
-        const modalElement = document.getElementById(item.modalId);
-        
-        if (saveButton && modalElement) {
-            saveButton.addEventListener('click', function() {
-                // NOTE: Di sini Anda akan menambahkan logika AJAX untuk mengirim data ke server
-                
-                // Tutup modal form menggunakan API Bootstrap
-                const bootstrapModal = bootstrap.Modal.getInstance(modalElement);
-                if (bootstrapModal) {
-                    bootstrapModal.hide();
-                }
-                
-                // Tampilkan notifikasi sukses
-                showSuccessModal('Data Berhasil Disimpan', 'Perubahan Anda telah berhasil disimpan ke dalam sistem.');
-            });
-        }
+          }
+        });
+      }
     });
+  };
+
+  // == Inisialisasi Semua ==
+  initSuccessModal();
+  initDeleteModal();
+  initVerificationModal();
+  initForms();
+  initDetailModals();
 });

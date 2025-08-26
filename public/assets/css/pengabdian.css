@@ -32,7 +32,16 @@
 .btn-tambah { background-color: var(--gray-dark); color: var(--white); }
 .btn-tambah:hover { background-color: var(--gray-hover); color: var(--white); transform: translateY(-2px); box-shadow: 0 4px 8px var(--black-01); }
 .btn-verifikasi { background-color: var(--verifikasi); }
-.btn-lihat { background-color: var(--info); }
+.btn-lihat {
+  background-color: var(--info);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-lihat:hover {
+  background-color: var(--info-hover);
+  transform: scale(1.15);
+}
 .btn-edit { background-color: var(--warning); }
 .btn-hapus { background-color: var(--danger); }
 .btn-aksi:hover { transform: scale(1.15); }
@@ -128,14 +137,10 @@
 .btn-popup { border: none; padding: 10px 24px; border-radius: 8px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; color: var(--white); }
 .btn-popup:hover { transform: translateY(-2px); }
 
-/* ======================================================= */
-/* ==   CSS UNTUK MODAL KONFIRMASI, VERIFIKASI & BERHASIL  == */
-/* ======================================================= */
-
-/* Latar Belakang Overlay Umum */
-#modalKonfirmasiVerifikasi,
-.konfirmasi-hapus-overlay,
-.modal-berhasil-overlay {
+/* ========================
+   Modal Konfirmasi Verifikasi
+========================= */
+#modalKonfirmasiVerifikasi {
   position: fixed;
   top: 0;
   left: 0;
@@ -145,105 +150,50 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1055; /* Pastikan z-index lebih tinggi dari modal utama */
+  z-index: 2000;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-/* Status Terlihat */
-#modalKonfirmasiVerifikasi.show,
-.konfirmasi-hapus-overlay.show,
-.modal-berhasil-overlay.show {
+#modalKonfirmasiVerifikasi.show {
   opacity: 1;
   visibility: visible;
 }
 
-.form-control{
-  color: var(--gray);
-  font-size: 0.8rem;
-}
-.form-select{
-  color: var(--gray);
-  font-size: 0.8rem;
-}
-
-/* Kotak Konten Umum */
-.confirmation-popup-box,
-.konfirmasi-hapus-box,
-.modal-berhasil-box {
-  background-color: #ffffff; /* Latar belakang putih bersih */
-  padding: 2rem;
-  border-radius: 16px;
+.confirmation-popup-box {
+  background-color: #f4f4f4;
+  padding: 30px 40px;
+  border-radius: 12px;
   text-align: center;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  width: 100%;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+  width: 90%;
   max-width: 500px;
   transform: scale(0.9);
   transition: transform 0.3s ease;
 }
 
-/* Animasi Zoom saat Muncul */
-#modalKonfirmasiVerifikasi.show .confirmation-popup-box,
-.konfirmasi-hapus-overlay.show .konfirmasi-hapus-box,
-.modal-berhasil-overlay.show .modal-berhasil-box {
+#modalKonfirmasiVerifikasi.show .confirmation-popup-box {
   transform: scale(1);
 }
 
-/* Ikon di Atas Judul */
-.konfirmasi-hapus-icon,
-.modal-berhasil-icon {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  margin: 0 auto 1.5rem auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  animation: shadowPulse 1.5s ease-in-out infinite;
-}
-
-.konfirmasi-hapus-icon i,
-.modal-berhasil-icon i {
-  font-size: 2.5rem;
-  color: var(--white);
-  animation: blinkKonfirmasi 1.2s ease-in-out infinite;
-}
-
-/* Styling Ikon Spesifik */
-.konfirmasi-hapus-icon {
-  background-color: var(--warning);
-}
-
-.modal-berhasil-icon {
-  background-color: var(--success);
-}
-
-/* Judul dan Subjudul */
-.popup-title,
-.konfirmasi-hapus-title,
-.modal-berhasil-title {
+.popup-title {
   font-size: 1.6rem;
   font-weight: 700;
   color: var(--primary-dark);
-  margin-bottom: 0.5rem;
+  margin-bottom: 8px;
 }
 
-.popup-subtitle,
-.konfirmasi-hapus-subtitle,
-.modal-berhasil-subtitle {
+.popup-subtitle {
   font-size: 1rem;
-  color: #6b7280;
-  margin-bottom: 2rem;
+  color: #333;
+  margin-bottom: 25px;
 }
 
-/* Tombol */
-.popup-buttons,
-.konfirmasi-hapus-buttons,
-.modal-berhasil-buttons {
+.popup-buttons {
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: 15px;
 }
 
 .btn-popup {
@@ -253,43 +203,280 @@
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
   color: var(--white);
-  transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
 }
 
 .btn-popup:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  filter: brightness(1.1);
 }
 
-/* Warna Tombol Spesifik */
-.btn-terima { background-color: #4caf50; }
-.btn-terima:hover { background-color: #45a049; }
+.btn-terima {
+  background-color: #4caf50;
+}
 
-.btn-tolak { background-color: #e53935; }
-.btn-tolak:hover { background-color: #d32f2f; }
+.btn-tolak {
+  background-color: #e53935;
+}
 
-.btn-kembali { background-color: #9ea4ad; }
-.btn-kembali:hover { background-color: #8d939b; }
+.btn-kembali {
+  background-color: #9ea4ad;
+}
 
-.btn-popup.btn-batal { background-color: #6c757d; }
-.btn-popup.btn-batal:hover { background-color: #5a6268; }
+.btn-batal {
+  background-color: #6c757d;
+}
 
-.btn-popup.btn-konfirmasi-hapus { background-color: var(--danger); }
-.btn-popup.btn-konfirmasi-hapus:hover { background-color: var(--danger-hover); }
+.btn-batal:hover {
+  background-color: #5a6268;
+}
 
-.btn-popup.btn-selesai { background-color: var(--success); }
-.btn-popup.btn-selesai:hover { background-color: var(--success-hover); }
+.btn-hapus {
+  background-color: var(--danger);
+}
 
-/* Animasi */
+.btn-hapus:hover {
+  background-color: var(--danger-hover);
+}
+
+.btn-selesai {
+  background-color: var(--success);
+}
+
+.btn-selesai:hover {
+  background-color: var(--success-hover);
+}
+
+/* ========================
+   Modal Konfirmasi Hapus
+========================= */
+.konfirmasi-hapus-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+}
+
+.konfirmasi-hapus-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.konfirmasi-hapus-overlay .modal-dialog {
+  max-width: 500px;
+  width: 100%;
+}
+
+.konfirmasi-hapus-box {
+  background-color: #e5e7eb;
+  padding: 2rem;
+  border-radius: 16px;
+  text-align: center;
+  width: 90%;
+  max-width: 450px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+}
+
+.konfirmasi-hapus-overlay.show .konfirmasi-hapus-box {
+  transform: scale(1);
+}
+
+.konfirmasi-hapus-icon {
+  width: 80px;
+  height: 80px;
+  background-color: var(--warning);
+  border-radius: 50%;
+  margin: 0 auto 1.5rem auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: shadowPulseKonfirmasi 1.5s ease-in-out infinite;
+}
+
+.konfirmasi-hapus-icon i {
+  font-size: 2.5rem;
+  color: var(--white);
+  animation: blinkKonfirmasi 1.2s ease-in-out infinite;
+}
+
+.konfirmasi-hapus-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.konfirmasi-hapus-subtitle {
+  font-size: 1rem;
+  color: #6b7280;
+  margin-bottom: 2rem;
+}
+
+.konfirmasi-hapus-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.btn-popup.btn-batal {
+  background-color: #6c757d;
+}
+
+.btn-popup.btn-batal:hover {
+  background-color: #5a6268;
+}
+
+.btn-popup.btn-hapus {
+  background-color: var(--danger);
+}
+
+.btn-popup.btn-hapus:hover {
+  background-color: var(--danger-hover);
+}
+
+.form-control{
+  color: var(--gray);
+  font-size: 0.8rem;
+}
+
+.form-select{
+  color: var(--gray);
+  font-size: 0.8rem;
+}
+
+/* ========================
+   Modal Berhasil
+========================= */
+.modal-berhasil-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+}
+
+.modal-berhasil-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-berhasil-box {
+  background-color: var(--white);
+  padding: 2rem;
+  border-radius: 16px;
+  text-align: center;
+  width: 90%;
+  max-width: 550px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+}
+
+.modal-berhasil-overlay.show .modal-berhasil-box {
+  transform: scale(1);
+}
+
+.modal-berhasil-icon {
+  width: 80px;
+  height: 80px;
+  background-color: var(--success);
+  border-radius: 50%;
+  margin: 0 auto 1.5rem auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: shadowPulse 1.5s ease-in-out infinite;
+}
+
+.modal-berhasil-icon i {
+  font-size: 2.5rem;
+  color: var(--white);
+  animation: blinkKonfirmasi 1.2s ease-in-out infinite;
+}
+
+.modal-berhasil-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 0.5rem;
+}
+
+.modal-berhasil-subtitle {
+  font-size: 1rem;
+  color: #6b7280;
+  margin-bottom: 2rem;
+}
+
+.modal-berhasil-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.btn-popup.btn-selesai {
+  background-color: var(--success);
+}
+
+.btn-popup.btn-selesai:hover {
+  background-color: var(--success-hover);
+}
+/* ========================
+   Animations
+========================= */
 @keyframes blinkKonfirmasi {
-  50% { opacity: 0.5; }
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4; /* Efek kedip halus */
+  }
 }
 
 @keyframes shadowPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.1); }
-  50% { box-shadow: 0 0 0 10px rgba(0, 0, 0, 0); }
+  0% {
+    box-shadow: 0 0 0 0 var(--success-shadow);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 var(--success-shadow);
+  }
 }
+
+@keyframes shadowPulseKonfirmasi {
+  0% {
+    box-shadow: 0 0 0 0 var(--konfirmasi-icon-shadow);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(250, 204, 21, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 var(--konfirmasi-icon-shadow);
+  }
+}
+
 /* ========================
    Responsive Design
 ========================= */

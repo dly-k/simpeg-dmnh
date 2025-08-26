@@ -380,6 +380,16 @@ body {
   border-bottom-right-radius: 0.375rem;
 }
 
+.form-control{
+  color: var(--gray);
+  font-size: 0.8rem;
+}
+
+.form-select{
+  color: var(--gray);
+  font-size: 0.8rem;
+}
+
 /* ========================
    Sub Tabs
 ========================= */

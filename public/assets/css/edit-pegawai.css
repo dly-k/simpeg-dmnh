@@ -780,6 +780,16 @@ body {
   font-size: 0.8rem;
 }
 
+.form-control{
+  color: var(--gray);
+  font-size: 0.8rem;
+}
+
+.form-select{
+  color: var(--gray);
+  font-size: 0.8rem;
+}
+
 /* ========================
    Responsive Design
 ========================= */

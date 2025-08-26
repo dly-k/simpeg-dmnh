@@ -7,9 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initFilterSemester();
 });
 
-// =================================================
 // Data Dummy: Surat Tugas
-// =================================================
 const dataSuratTugas = [
   {
     nama: 'Dr. Stone',
@@ -43,9 +41,7 @@ const dataSuratTugas = [
   },
 ];
 
-// =================================================
 // Inisialisasi Halaman Surat Tugas
-// =================================================
 function initSuratTugasPage() {
   renderTable();
   generateSemesterOptions();
@@ -105,9 +101,7 @@ function renderTable() {
     .join('');
 }
 
-// =================================================
 // Modal Tambah / Edit Data Surat Tugas
-// =================================================
 function openModal(modalId) {
   const modal = document.getElementById(modalId);
   if (!modal) return;
@@ -165,9 +159,7 @@ function initModalInteractions() {
   });
 }
 
-// =================================================
 // Modal Konfirmasi Hapus Data
-// =================================================
 function initDeleteConfirmation() {
   const tableBody = document.getElementById('data-body');
   const modal = document.getElementById('modalKonfirmasiHapus');
@@ -207,9 +199,7 @@ function initDeleteConfirmation() {
   });
 }
 
-// =================================================
 // Modal Sukses
-// =================================================
 let successModalTimer;
 let successAudio = null;
 
@@ -254,9 +244,7 @@ function initSuccessModal() {
   });
 }
 
-// =================================================
 // Area Upload File
-// =================================================
 function initUploadArea() {
   document.querySelectorAll('.upload-area').forEach((uploadArea) => {
     const fileInput = uploadArea.querySelector('input[type="file"]');
@@ -278,9 +266,7 @@ function initUploadArea() {
   });
 }
 
-// =================================================
 // Filter Semester per Tahun
-// =================================================
 function generateSemesterOptions() {
   const filterSemester = document.getElementById('filterSemester');
   if (!filterSemester) return;

@@ -109,11 +109,11 @@
                         <div class="flex-grow-1">
                             <div class="row g-3">
                                 <div class="col-md-6">
-                                    <label class="small text-secondary">NIP<span class="text-danger">*</span></label>
+                                    <label class="small text-dark fw-medium">NIP<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: 198709152023021001" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small text-secondary">Agama<span class="text-danger">*</span></label>
+                                    <label class="small text-dark fw-medium">Agama<span class="text-danger">*</span></label>
                                     <select class="form-select form-select-sm" required>
                                         <option selected>Islam</option>
                                         <option>Kristen</option>
@@ -124,11 +124,11 @@
                                     </select>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small text-secondary">Nama Lengkap<span class="text-danger">*</span></label>
+                                    <label class="small text-dark fw-medium">Nama Lengkap<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control form-control-sm search-input" placeholder="Termasuk gelar jika ada" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small text-secondary">Status Pernikahan<span class="text-danger">*</span></label>
+                                    <label class="small text-dark fw-medium">Status Pernikahan<span class="text-danger">*</span></label>
                                     <select class="form-select form-select-sm" required>
                                         <option selected>Belum Menikah</option>
                                         <option>Menikah</option>
@@ -137,7 +137,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small text-secondary">Jenis Kelamin<span class="text-danger">*</span></label>
+                                    <label class="small text-dark fw-medium">Jenis Kelamin<span class="text-danger">*</span></label>
                                     <div>
                                         <div class="form-check form-check-inline pt-1">
                                             <input class="form-check-input" type="radio" name="jk" id="lk" checked>
@@ -150,7 +150,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small text-secondary">Pendidikan Terakhir<span class="text-danger">*</span></label>
+                                    <label class="small text-dark fw-medium">Pendidikan Terakhir<span class="text-danger">*</span></label>
                                     <select class="form-select form-select-sm">
                                         <option class="search-input" selected>--Pilih Salah Satu--</option>
                                         <option>SD</option>
@@ -162,15 +162,15 @@
                                     </select>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small text-secondary">Tempat Lahir<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control form-control-sm" value="Jakarta">
+                                    <label class="small text-dark fw-medium">Tempat Lahir<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Jakarta">
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small text-secondary">Bidang Ilmu<span class="text-danger">*</span></label>
+                                    <label class="small text-dark fw-medium">Bidang Ilmu<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Ilmu Pengelolaan Hutan">
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="small text-secondary">Tanggal Lahir<span class="text-danger">*</span></label>
+                                    <label class="small text-dark fw-medium">Tanggal Lahir<span class="text-danger">*</span></label>
                                     <input type="date" class="form-control form-control-sm">
                                 </div>
                             </div>
@@ -192,7 +192,7 @@
 
                         <!-- Status Kepegawaian -->
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Status Kepegawaian<span class="text-danger">*</span></label>
+                            <label class="small text-dark fw-medium">Status Kepegawaian<span class="text-danger">*</span></label>
                             <select class="form-select form-select-sm" required>
                             <option selected>Dosen PNS</option>
                             <option>Tendik PNS</option>
@@ -206,10 +206,11 @@
 
                         <!-- Status Pegawai -->
                         <div class="col-md-6 form-group" required>
-                            <label class="small text-secondary">Status Pegawai<span class="text-danger">*</span></label>
+                            <label class="small text-dark fw-medium">Status Pegawai<span class="text-danger">*</span></label>
                             <select class="form-select form-select-sm">
                             <option selected>Aktif</option>
                             <option>Pensiun</option>
+                            <option>Pensiun Muda</option>
                             <option>Diberhentikan</option>
                             <option>Meninggal Dunia</option>
                             <option>Kontrak Selesai</option>
@@ -220,27 +221,27 @@
 
                         <!-- Unit Kerja -->
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Unit Kerja</label>
+                            <label class="small text-dark fw-medium">Unit Kerja</label>
                             <input type="text" class="form-control form-control-sm" value="Fakultas Kehutanan dan Lingkungan"
                                 style="background-color: #e9ecef; color: #495057" readonly>
                         </div>
 
                         <!-- Divisi -->
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Divisi</label>
+                            <label class="small text-dark fw-medium">Divisi</label>
                             <input type="text" class="form-control form-control-sm" value="Departemen Manajemen Hutan"
                                 style="background-color: #e9ecef; color: #495057" readonly>
                         </div>
 
                         <!-- Nomor Arsip -->
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Nomor Arsip Berkas Kepegawaian<span class="text-danger">*</span></label>
+                            <label class="small text-dark fw-medium">Nomor Arsip Berkas Kepegawaian<span class="text-danger">*</span></label>
                             <input type="text" class="form-control form-control-sm" required>
                         </div>
 
                         <!-- Jabatan Fungsional -->
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Jabatan Fungsional<span class="text-danger">*</span></label>
+                            <label class="small text-dark fw-medium">Jabatan Fungsional<span class="text-danger">*</span></label>
                             <select class="form-select form-select-sm" required>
                             <option>Tidak ada</option>
                             <option>Dosen</option>
@@ -268,7 +269,7 @@
 
                         <!-- Pangkat Golongan -->
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Pangkat/Golongan<span class="text-danger">*</span></label>
+                            <label class="small text-dark fw-medium">Pangkat/Golongan<span class="text-danger">*</span></label>
                             <select class="form-select form-select-sm" required>
                             <option selected>Juru Muda / I-a</option>
                             <option>Juru Muda Tingkat I / I-b</option>
@@ -292,13 +293,13 @@
 
                         <!-- TMT Pangkat -->
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">TMT Pangkat Terakhir<span class="text-danger">*</span></label>
+                            <label class="small text-dark fw-medium">TMT Pangkat Terakhir<span class="text-danger">*</span></label>
                             <input type="date" class="form-control form-control-sm" required>
                         </div>
 
                         <!-- Jabatan Struktural -->
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Jabatan Struktural (jika ada)</label>
+                            <label class="small text-dark fw-medium">Jabatan Struktural (jika ada)</label>
                             <select class="form-select form-select-sm">
                             <option selected>Tidak ada</option>
                             <option value="ketua-departemen-mnh">Ketua Departemen MNH</option>
@@ -321,7 +322,7 @@
 
                         <!-- Periode Jabatan -->
                         <div class="col-md-6 form-group">
-                        <label class="small text-secondary">Periode Jabatan Struktural</label>
+                        <label class="small text-dark fw-medium">Periode Jabatan Struktural</label>
                         <div class="d-flex gap-2 periode-jabatan">
                             <input type="date" class="form-control form-control-sm" placeholder="TMT">
                             <span class="pt-1">s/d</span>
@@ -331,25 +332,25 @@
 
                         <!-- Finger Print -->
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Finger Print ID</label>
+                            <label class="small text-dark fw-medium">Finger Print ID</label>
                             <input type="text" class="form-control form-control-sm">
                         </div>
 
                         <!-- NPWP -->
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">NPWP<span class="text-danger">*</span></label>
+                            <label class="small text-dark fw-medium">NPWP<span class="text-danger">*</span></label>
                             <input type="text" class="form-control form-control-sm" required>
                         </div>
 
                         <!-- Nama Bank -->
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Nama Bank<span class="text-danger">*</span></label>
+                            <label class="small text-dark fw-medium">Nama Bank<span class="text-danger">*</span></label>
                             <input type="text" class="form-control form-control-sm" required>
                         </div>
 
                         <!-- No Rekening -->
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">No Rekening<span class="text-danger">*</span></label>
+                            <label class="small text-dark fw-medium">No Rekening<span class="text-danger">*</span></label>
                             <input type="text" class="form-control form-control-sm" required>
                         </div>
                         </div>
@@ -359,35 +360,35 @@
                     <div class="sub-tab-content" id="dosen" style="display: none;">
                         <div class="row g-3">
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">NUPTK</label>
+                            <label class="small text-dark fw-medium">NUPTK</label>
                             <input type="text" class="form-control form-control-sm" required>
                         </div>
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">SINTA ID</label>
+                            <label class="small text-dark fw-medium">SINTA ID</label>
                             <input type="text" class="form-control form-control-sm search-input" placeholder="Opsional">
                         </div>
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">NIDN</label>
+                            <label class="small text-dark fw-medium">NIDN</label>
                             <input type="text" class="form-control form-control-sm">
                         </div>
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Scopus ID</label>
+                            <label class="small text-dark fw-medium">Scopus ID</label>
                             <input type="text" class="form-control form-control-sm search-input" placeholder="Opsional">
                         </div>
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">No. Sertifikasi Dosen</label>
+                            <label class="small text-dark fw-medium">No. Sertifikasi Dosen</label>
                             <input type="text" class="form-control form-control-sm">
                         </div>
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Orchid ID</label>
+                            <label class="small text-dark fw-medium">Orchid ID</label>
                             <input type="text" class="form-control form-control-sm search-input" placeholder="Opsional">
                         </div>
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Tgl. Sertifikasi Dosen</label>
+                            <label class="small text-dark fw-medium">Tgl. Sertifikasi Dosen</label>
                             <input type="date" class="form-control form-control-sm">
                         </div>
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Google Scholar ID</label>
+                            <label class="small text-dark fw-medium">Google Scholar ID</label>
                             <input type="text" class="form-control form-control-sm search-input" placeholder="Opsional">
                         </div>
                         </div>
@@ -397,35 +398,35 @@
                     <div class="sub-tab-content" id="domisili" style="display: none;">
                         <div class="row g-3">
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Provinsi<span class="text-danger">*</span></label>
+                            <label class="small text-dark fw-medium">Provinsi<span class="text-danger">*</span></label>
                             <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Jawa Barat" required>
                         </div>
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Alamat<span class="text-danger">*</span></label>
+                            <label class="small text-dark fw-medium">Alamat<span class="text-danger">*</span></label>
                             <textarea class="form-control form-control-sm" required>JL. Lodaya</textarea>
                         </div>
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Kota<span class="text-danger">*</span></label>
+                            <label class="small text-dark fw-medium">Kota<span class="text-danger">*</span></label>
                             <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Bandung" required>
                         </div>
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Kode Pos<span class="text-danger">*</span></label>
+                            <label class="small text-dark fw-medium">Kode Pos<span class="text-danger">*</span></label>
                             <input type="text" class="form-control form-control-sm" value="10021" required>
                         </div>
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Kecamatan<span class="text-danger">*</span></label>
+                            <label class="small text-dark fw-medium">Kecamatan<span class="text-danger">*</span></label>
                             <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Bandung Tengah" required>
                         </div>
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">No. Telepon/HP<span class="text-danger">*</span></label>
+                            <label class="small text-dark fw-medium">No. Telepon/HP<span class="text-danger">*</span></label>
                             <input type="text" class="form-control form-control-sm" value="081239128991" required>
                         </div>
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Kelurahan<span class="text-danger">*</span></label>
+                            <label class="small text-dark fw-medium">Kelurahan<span class="text-danger">*</span></label>
                             <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Ciawi" required>
                         </div>
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Email Pribadi / Institusi<span class="text-danger">*</span></label>
+                            <label class="small text-dark fw-medium">Email Pribadi / Institusi<span class="text-danger">*</span></label>
                             <input type="text" class="form-control form-control-sm" value="aexyifshsi@gmail.com" required>
                         </div>
                         </div>
@@ -436,27 +437,27 @@
                         <div class="row g-3">
 
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Nomor KTP<span class="text-danger">*</span></label>
+                            <label class="small text-dark fw-medium">Nomor KTP<span class="text-danger">*</span></label>
                             <input type="text" class="form-control form-control-sm" value="31862908812645811" required>
                         </div>
 
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Kecamatan<span class="text-danger">*</span></label>
+                            <label class="small text-dark fw-medium">Kecamatan<span class="text-danger">*</span></label>
                             <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Talang Ubi" required>
                         </div>
 
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Nomor KK<span class="text-danger">*</span></label>
+                            <label class="small text-dark fw-medium">Nomor KK<span class="text-danger">*</span></label>
                             <input type="text" class="form-control form-control-sm" value="8011447152211029" required>
                         </div>
 
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Kelurahan<span class="text-danger">*</span></label>
+                            <label class="small text-dark fw-medium">Kelurahan<span class="text-danger">*</span></label>
                             <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Pisangan Timur" required>
                         </div>
 
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Warga Negara<span class="text-danger">*</span></label>
+                            <label class="small text-dark fw-medium">Warga Negara<span class="text-danger">*</span></label>
                             <select class="form-select form-select-sm" required>
                             <option>--Pilih Salah Satu--</option>
                             <option>Indonesia</option>
@@ -465,22 +466,22 @@
                         </div>
 
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Kode Pos<span class="text-danger">*</span></label>
+                            <label class="small text-dark fw-medium">Kode Pos<span class="text-danger">*</span></label>
                             <input type="text" class="form-control form-control-sm" value="01984" required>
                         </div>
 
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Provinsi<span class="text-danger">*</span></label>
+                            <label class="small text-dark fw-medium">Provinsi<span class="text-danger">*</span></label>
                             <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Sumatera Barat" required>
                         </div>
 
                         <div class="col-md-6 form-group">
-                            <label class="small text-secondary">Kabupaten/Kota<span class="text-danger">*</span></label>
+                            <label class="small text-dark fw-medium">Kabupaten/Kota<span class="text-danger">*</span></label>
                             <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Cimahi" required>
                         </div>
 
                         <div class="col-md-12 form-group">
-                            <label class="small text-secondary">Alamat<span class="text-danger">*</span></label>
+                            <label class="small text-dark fw-medium">Alamat<span class="text-danger">*</span></label>
                             <textarea class="form-control form-control-sm" rows="2" required>Jl Pendopo</textarea>
                         </div>
                         </div>
@@ -507,7 +508,7 @@
 
                                 <!-- Kategori -->
                                 <div class="mb-3">
-                                <label class="small text-secondary">Kategori<span class="text-danger">*</span></label>
+                                <label class="small text-dark fw-medium">Kategori<span class="text-danger">*</span></label>
                                 <select id="kategori" class="form-select form-select-sm" required>
                                     <option value="" selected disabled>-- Pilih Kategori --</option>
                                     <option value="biodata">Biodata</option>
@@ -521,7 +522,7 @@
 
                                 <!-- Jenis Dokumen -->
                                 <div class="mb-3">
-                                <label class="small text-secondary">Jenis Dokumen<span class="text-danger">*</span></label>
+                                <label class="small text-dark fw-medium">Jenis Dokumen<span class="text-danger">*</span></label>
                                 <select id="jenis-dokumen" class="form-select form-select-sm" required>
                                     <option value="" selected disabled>-- Pilih Jenis Dokumen --</option>
                                 </select>
@@ -529,7 +530,7 @@
 
                                 <!-- Keaslian Dokumen -->
                                 <div class="mb-3">
-                                    <label class="small text-secondary">Keaslian Dokumen<span class="text-danger">*</span></label>
+                                    <label class="small text-dark fw-medium">Keaslian Dokumen<span class="text-danger">*</span></label>
                                     <select class="form-select form-select-sm" required>
                                         <option value="" selected disabled>-- Pilih Keaslian --</option>
                                         <option>Asli</option>
@@ -540,17 +541,17 @@
 
                                 <!-- Tanggal Dokumen -->
                                 <div class="mb-3">
-                                    <label class="small text-secondary">Tanggal Dokumen<span class="text-danger">*</span></label>
+                                    <label class="small text-dark fw-medium">Tanggal Dokumen<span class="text-danger">*</span></label>
                                     <input type="date" class="form-control form-control-sm" required>
                                 </div>
 
                                 <!-- Upload Dokumen (Drag & Drop) -->
                                 <div class="mb-3">
-                                    <label class="small text-secondary">Upload Dokumen<span class="text-danger">*</span></label>
+                                    <label class="small text-dark fw-medium">Upload Dokumen<span class="text-danger">*</span></label>
                                     <div class="upload-box border rounded d-flex flex-column align-items-center justify-content-center p-4 text-center"
                                         onclick="this.querySelector('input').click()">
-                                        <i class="fa fa-cloud-upload-alt fa-2x text-secondary mb-2"></i>
-                                        <p class="mb-1 text-secondary">Drag & Drop File here</p>
+                                        <i class="fa fa-cloud-upload-alt fa-2x text-secondary"></i>
+                                        <p class="mb-1 text-dark fw-medium">Drag & Drop File here</p>
                                         <small class="text-muted">Ukuran Maksimal 5 MB</small>
                                         <input type="file" class="file-input" accept=".pdf,.jpg,.jpeg,.png" hidden required>
                                     </div>
@@ -575,6 +576,7 @@
 </div>
 
 <!-- Scripts -->
+<script src="{{ asset('assets/js/layout.js') }}"></script>
 <script src="{{ asset('assets/js/tambah-pegawai.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>

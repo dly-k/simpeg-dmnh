@@ -1,7 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // =================================================
-  // Bar Chart: Jenis Kegiatan
-  // =================================================
+  // == Bar Chart: Jenis Kegiatan ==
   const jenisChartElement = document.getElementById("jenisChart");
 
   if (jenisChartElement) {
@@ -26,14 +24,15 @@ document.addEventListener("DOMContentLoaded", () => {
           legend: { display: false },
           tooltip: {
             callbacks: {
-              label: (context) => ` Jumlah: ${context.parsed.y}`,
+              label: (context) => `Jumlah: ${context.parsed.y}`,
             },
           },
         },
+        // Event handler untuk klik pada bar
         onClick: (event, elements) => {
           if (elements.length > 0) {
             const index = elements[0].index;
-            const label = elements[0].chart.data.labels[index];
+            const label = elements[0].dataset.chart.data.labels[index];
             alert(`Klik pada: ${label}`);
           }
         },
@@ -44,15 +43,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // =================================================
-  // Line Chart: Kegiatan per Bulan
-  // =================================================
+  // == Line Chart: Kegiatan per Bulan ==
   const bulanChartElement = document.getElementById("bulanChart");
 
   if (bulanChartElement) {
     const ctxBulan = bulanChartElement.getContext("2d");
 
-    // Buat gradient untuk background area chart
     const gradient = ctxBulan.createLinearGradient(0, 0, 0, 300);
     gradient.addColorStop(0, "#05966999");
     gradient.addColorStop(1, "#05966911");
@@ -80,14 +76,15 @@ document.addEventListener("DOMContentLoaded", () => {
           legend: { display: false },
           tooltip: {
             callbacks: {
-              label: (context) => ` Kegiatan: ${context.parsed.y}`,
+              label: (context) => `Kegiatan: ${context.parsed.y}`,
             },
           },
         },
+        // Event handler untuk klik pada titik di chart
         onClick: (event, elements) => {
           if (elements.length > 0) {
             const index = elements[0].index;
-            const label = elements[0].chart.data.labels[index];
+            const label = elements[0].dataset.chart.data.labels[index];
             alert(`Klik pada bulan: ${label}`);
           }
         },

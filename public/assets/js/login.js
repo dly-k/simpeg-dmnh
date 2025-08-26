@@ -1,10 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // =================================================
-  // Update Tanggal & Waktu
-  // =================================================
+  // == Pembaruan Tanggal dan Waktu ==
   const updateDateTime = () => {
     const now = new Date();
-
     const dateElement = document.getElementById("date");
     const clockElement = document.getElementById("clock");
 
@@ -14,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
         year: "numeric",
         month: "long",
         day: "numeric",
+        timeZone: "Asia/Jakarta"
       });
     }
 
@@ -23,19 +21,23 @@ document.addEventListener("DOMContentLoaded", () => {
         minute: "2-digit",
         second: "2-digit",
         hour12: false,
+        timeZone: "Asia/Jakarta"
       });
     }
   };
 
-  // Jalankan setiap 1 detik
-  setInterval(updateDateTime, 1000);
+  // Jalankan pembaruan pertama dan atur interval setiap 1 detik
   updateDateTime();
+  setInterval(updateDateTime, 1000);
 
-  // =================================================
-  // Update Tahun Copyright
-  // =================================================
-  const copyrightYearElement = document.getElementById("copyright-year");
-  if (copyrightYearElement) {
-    copyrightYearElement.textContent = new Date().getFullYear();
-  }
+  // == Pembaruan Tahun Copyright ==
+  const updateCopyrightYear = () => {
+    const copyrightYearElement = document.getElementById("copyright-year");
+    if (copyrightYearElement) {
+      copyrightYearElement.textContent = new Date().getFullYear();
+    }
+  };
+
+  // Jalankan pembaruan tahun copyright
+  updateCopyrightYear();
 });
