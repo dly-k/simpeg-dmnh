@@ -115,7 +115,7 @@
           </select>
 
           <select class="form-select filter-select">
-            <option selected>Jenis SKIM</option>
+            <option selected>Jenis Pengabdian</option>
             <option value="Biomedik">Biomedik</option>
             <option value="Hibah HI-LINK">Hibah HI-LINK</option>
             <option value="Ipteks">Ipteks</option>

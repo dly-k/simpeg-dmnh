@@ -16,7 +16,7 @@
           </div>
           
           <div class="detail-item"><small>Afiliasi Non-PT</small><p>UGE - 912</p></div>
-          <div class="detail-item"><small>Jenis SKIM</small><p>Pembudidayaan Ikan Lele</p></div>
+          <div class="detail-item"><small>Jenis Pengabdian</small><p>Pembudidayaan Ikan Lele</p></div>
           <div class="detail-item"><small>Lama Kegiatan</small><p>Teknologi Rekayasa Empang</p></div>
           
           <div class="detail-item"><small>Tahun Usulan</small><p>2025</p></div>
