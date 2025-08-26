@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initUploadArea();
   initDeleteConfirmation();
   initSuccessModal();
+  initFilterSemester();
 });
 
 // =================================================
@@ -37,7 +38,7 @@ const dataSuratTugas = [
     mitra: 'Universitas Maju Jaya',
     surat_instansi: '003/UMJ/2025 - 10 Juni 2025',
     surat_kadep: '003/UMJ/2025 - 11 Juni 2025',
-    tgl_kegiatan: '2021-08-01',
+    tgl_kegiatan: '2022-08-01',
     lokasi: 'Auditorium Kencana Sakti',
   },
 ];
@@ -47,6 +48,7 @@ const dataSuratTugas = [
 // =================================================
 function initSuratTugasPage() {
   renderTable();
+  generateSemesterOptions(); // buat dropdown filter otomatis
 
   // Event: Klik tombol edit pada tabel
   const tbody = document.getElementById('data-body');
@@ -68,7 +70,13 @@ function renderTable() {
 
   tbody.innerHTML = dataSuratTugas
     .map(
-      (item, index) => `
+      (item, index) => {
+        const formattedDate = new Date(item.tgl_kegiatan).toLocaleDateString(
+          'id-ID',
+          { day: '2-digit', month: 'long', year: 'numeric' }
+        );
+
+        return `
       <tr data-index="${index}">
         <td class="text-center">${index + 1}</td>
         <td>${item.nama}</td>
@@ -77,10 +85,7 @@ function renderTable() {
         <td>${item.mitra}</td>
         <td class="text-center">${item.surat_instansi}</td>
         <td class="text-center">${item.surat_kadep}</td>
-        <td class="text-center">${new Date(item.tgl_kegiatan).toLocaleDateString(
-          'id-ID',
-          { day: '2-digit', month: 'long', year: 'numeric' }
-        )}</td>
+        <td class="text-center" data-tgl="${item.tgl_kegiatan}">${formattedDate}</td>
         <td>${item.lokasi}</td>
         <td class="text-center">
           <button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button>
@@ -96,7 +101,8 @@ function renderTable() {
           </div>
         </td>
       </tr>
-    `
+    `;
+      }
     )
     .join('');
 }
@@ -104,8 +110,6 @@ function renderTable() {
 // =================================================
 // Modal Tambah / Edit Data Surat Tugas
 // =================================================
-
-// Buka modal tambah data
 function openModal(modalId) {
   const modal = document.getElementById(modalId);
   if (!modal) return;
@@ -122,7 +126,6 @@ function openModal(modalId) {
   modal.classList.add('show');
 }
 
-// Buka modal edit data dan isi form dengan data yang dipilih
 function openEditModal(data) {
   const modal = document.getElementById('suratTugasModal');
   if (!modal) return;
@@ -145,24 +148,20 @@ function openEditModal(data) {
   modal.classList.add('show');
 }
 
-// Tutup modal
 function closeModal(modalId) {
   const modal = document.getElementById(modalId);
   modal?.classList.remove('show');
 }
 
-// Event interaksi modal tambah/edit
 function initModalInteractions() {
   const addEditModal = document.getElementById('suratTugasModal');
 
-  // Tutup modal jika klik di luar konten
   addEditModal?.addEventListener('click', (event) => {
     if (event.target === addEditModal) {
       closeModal(addEditModal.id);
     }
   });
 
-  // Event klik tombol simpan
   const btnSimpan = document.getElementById('btnSimpanData');
   btnSimpan?.addEventListener('click', () => {
     console.log('Data disimpan/diupdate.');
@@ -183,7 +182,6 @@ function initDeleteConfirmation() {
   const btnKonfirmasi = document.getElementById('btnKonfirmasiHapus');
   let rowToDelete = null;
 
-  // Event: Klik tombol hapus
   tableBody.addEventListener('click', (event) => {
     const deleteButton = event.target.closest('.btn-hapus');
     if (deleteButton) {
@@ -193,7 +191,6 @@ function initDeleteConfirmation() {
     }
   });
 
-  // Event: Konfirmasi hapus
   btnKonfirmasi.addEventListener('click', () => {
     if (rowToDelete) {
       console.log(`Menghapus data baris ke-${parseInt(rowToDelete.dataset.index) + 1}`);
@@ -204,7 +201,6 @@ function initDeleteConfirmation() {
     }
   });
 
-  // Tutup modal konfirmasi
   function hideDeleteModal() {
     modal.classList.remove('show');
     rowToDelete = null;
@@ -220,9 +216,8 @@ function initDeleteConfirmation() {
 // Modal Sukses
 // =================================================
 let successModalTimer;
-let successAudio = null; // Simpan instance audio
+let successAudio = null;
 
-// Sembunyikan modal sukses
 function hideSuccessModal() {
   const modal = document.getElementById('modalBerhasil');
   modal?.classList.remove('show');
@@ -233,7 +228,6 @@ function hideSuccessModal() {
   }
 }
 
-// Tampilkan modal sukses
 function showSuccessModal(title, subtitle) {
   const modal = document.getElementById('modalBerhasil');
   const titleEl = document.getElementById('berhasil-title');
@@ -255,7 +249,6 @@ function showSuccessModal(title, subtitle) {
   successModalTimer = setTimeout(hideSuccessModal, 1000);
 }
 
-// Event interaksi modal sukses
 function initSuccessModal() {
   const modal = document.getElementById('modalBerhasil');
   const btnSelesai = document.getElementById('btnSelesai');
@@ -278,18 +271,72 @@ function initUploadArea() {
 
     const originalText = uploadText.innerHTML;
 
-    // Event: Klik area upload → buka file picker
     uploadArea.addEventListener('click', () => fileInput.click());
 
-    // Event: File dipilih → tampilkan nama file
     fileInput.addEventListener('change', function () {
       uploadText.textContent = this.files.length > 0 ? this.files[0].name : originalText;
     });
 
-    // Tambahkan fungsi reset untuk mengembalikan tampilan default
     uploadArea.reset = function () {
       uploadText.innerHTML = originalText;
       fileInput.value = '';
     };
+  });
+}
+
+// =================================================
+// Filter Semester per Tahun (Dinamis)
+// =================================================
+function generateSemesterOptions() {
+  const filterSemester = document.getElementById("filterSemester");
+  if (!filterSemester) return;
+
+  const years = new Set();
+
+  dataSuratTugas.forEach(item => {
+    const year = new Date(item.tgl_kegiatan).getFullYear();
+    years.add(year);
+  });
+
+  const sortedYears = [...years].sort();
+
+  filterSemester.innerHTML = `<option value="all" selected>Semua Semester</option>`;
+  sortedYears.forEach(year => {
+    filterSemester.innerHTML += `
+      <option value="${year}-genap">Semester Genap ${year}</option>
+      <option value="${year}-ganjil">Semester Ganjil ${year}</option>
+    `;
+  });
+}
+
+function initFilterSemester() {
+  const filterSemester = document.getElementById("filterSemester");
+  if (!filterSemester) return;
+
+  filterSemester.addEventListener("change", () => {
+    const value = filterSemester.value; 
+    const rows = document.querySelectorAll("#data-body tr");
+
+    rows.forEach(row => {
+      const cell = row.querySelector("td:nth-child(8)");
+      const rawDate = cell?.getAttribute("data-tgl"); 
+      if (!rawDate) return;
+
+      const [year, month] = rawDate.split("-").map(Number);
+      let show = true;
+
+      if (value !== "all") {
+        const [filterYear, filterSemesterType] = value.split("-");
+        if (parseInt(filterYear) !== year) {
+          show = false;
+        } else if (filterSemesterType === "genap" && (month < 1 || month > 6)) {
+          show = false;
+        } else if (filterSemesterType === "ganjil" && (month < 7 || month > 12)) {
+          show = false;
+        }
+      }
+
+      row.style.display = show ? "" : "none";
+    });
   });
 }

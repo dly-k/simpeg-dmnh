@@ -2,14 +2,16 @@
 <div class="modal fade" id="pelatihanModal" tabindex="-1" aria-labelledby="pelatihanModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
-      
+
+      <!-- Modal Header -->
       <div class="modal-header">
         <h5 class="modal-title" id="pelatihanModalLabel">
           <i class="fas fa-plus-circle"></i> Tambah Data Pelatihan
         </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      
+
+      <!-- Modal Body -->
       <div class="modal-body">
         <form id="pelatihanForm">
           <div class="row g-3">
@@ -21,17 +23,13 @@
 
             <div class="col-12">
               <label class="form-label">Posisi Pelatihan</label>
-              {{-- Tambahkan ID pada select --}}
               <select class="form-select" id="posisi-pelatihan-select">
                 <option selected>-- Pilih Posisi --</option>
                 <option value="Peserta">Peserta</option>
                 <option value="Pembicara">Pembicara</option>
                 <option value="Panitia">Panitia</option>
-                {{-- Tambahkan opsi Lainnya --}}
-                <option value="Lainnya">Lainnya...</option> 
+                <option value="Lainnya">Lainnya...</option>
               </select>
-
-              {{-- Tambahkan input field baru yang disembunyikan --}}
               <input type="text" class="form-control mt-2" id="posisi-lainnya-input" placeholder="Sebutkan posisi lainnya" style="display: none;">
             </div>
 
@@ -97,7 +95,7 @@
                 <option value="Tidak">Tidak</option>
               </select>
             </div>
-            
+
             <div class="col-12">
               <hr>
               <div class="d-flex justify-content-between align-items-center mb-2">
@@ -121,7 +119,7 @@
                 <option value="Lainnya">Lainnya</option>
               </select>
             </div>
-            
+
             <div class="col-12">
               <label class="form-label">Unggah File</label>
               <div class="upload-area">
@@ -133,7 +131,7 @@
                 <input type="file" hidden>
               </div>
             </div>
-            
+
             <div class="col-12">
               <div class="row g-2" id="dokumen-info">
                 <div class="col-md-4">
@@ -155,11 +153,12 @@
         </form>
       </div>
 
+      <!-- Modal Footer -->
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
         <button type="button" class="btn btn-success">Simpan</button>
       </div>
-      
+
     </div>
   </div>
 </div>

@@ -50,13 +50,16 @@
                 </div>
               </div>
 
-              <!-- Filter -->
+              <!-- Filter Semester -->
               <div>
-                <select class="form-select filter-select">
-                  <option selected>Tahun</option>
-                  <option>2021</option>
-                  <option>2022</option>
-                  <option>2023</option>
+                <select id="filterSemester" class="form-select filter-select">
+                  <option value="all" selected>Semua Semester</option>
+                  <option value="2021-genap">Semester Genap 2021</option>
+                  <option value="2021-ganjil">Semester Ganjil 2021</option>
+                  <option value="2022-genap">Semester Genap 2022</option>
+                  <option value="2022-ganjil">Semester Ganjil 2022</option>
+                  <option value="2023-genap">Semester Genap 2023</option>
+                  <option value="2023-ganjil">Semester Ganjil 2023</option>
                 </select>
               </div>
 

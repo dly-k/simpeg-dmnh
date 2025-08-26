@@ -165,6 +165,15 @@ body.sidebar-collapsed .main-content {
   color: var(--gray);
 }
 
+.form-control{
+  color: var(--gray);
+  font-size: 0.8rem;
+}
+.form-select{
+  color: var(--gray);
+  font-size: 0.8rem;
+}
+
 /* ========================
    Modal (General)
 ========================= */

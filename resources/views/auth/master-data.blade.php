@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>SIKEMAH - Master Data</title>
 
   <link rel="icon" href="{{ asset('assets/images/logo.png') }}" />
@@ -16,6 +15,7 @@
 </head>
 
 <body>
+  <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
     <div class="brand">SI<span>KEMAH</span></div>
     <div class="menu-wrapper">
@@ -24,6 +24,7 @@
         <p>Menu Utama</p>
         <a href="/daftar-pegawai" aria-label="Daftar Pegawai"><i class="lni lni-users"></i> Daftar Pegawai</a>
         <a href="/surat-tugas" aria-label="Manajemen Surat Tugas"><i class="lni lni-folder"></i> Manajemen Surat Tugas</a>
+
         <button class="collapsed" data-bs-toggle="collapse" data-bs-target="#editorKegiatan" aria-expanded="true" aria-controls="editorKegiatan">
           <i class="lni lni-pencil-alt"></i> Editor Kegiatan
           <i class="lni lni-chevron-down toggle-icon"></i>
@@ -37,14 +38,17 @@
           <a href="/penghargaan" aria-label="Penghargaan">Penghargaan</a>
           <a href="/sk-non-pns" aria-label="SK Non PNS">SK Non PNS</a>
         </div>
+
         <a href="/kerjasama" aria-label="Kerjasama"><i class="lni lni-handshake"></i> Kerjasama</a>
         <a href="/master-data" aria-label="Master Data" class="active"><i class="lni lni-database"></i> Master Data</a>
       </div>
     </div>
   </div>
 
+  <!-- Overlay -->
   <div class="overlay" id="overlay"></div>
 
+  <!-- Navbar -->
   <div class="navbar-custom">
     <div class="d-flex align-items-center">
       <button class="btn btn-link text-dark me-3" id="toggleSidebar" aria-label="Toggle Sidebar">
@@ -79,16 +83,21 @@
     </div>
   </div>
 
+  <!-- Title Bar -->
   <div class="title-bar">
     <h1><i class="lni lni-database"></i> <span id="page-title">Master Data</span></h1>
   </div>
 
+  <!-- Main Content -->
   <div class="main-content">
     <div class="card">
       <div class="card-body p-4">
-            <div class="d-flex justify-content-end mb-3">
-      <button class="btn btn-tambah fw-bold" onclick="openModal('tambahDataModal')"><i class="fa fa-plus me-2"></i> Tambah Data</button>
-    </div>
+        <div class="d-flex justify-content-end mb-3">
+          <button class="btn btn-tambah fw-bold" onclick="openModal('tambahDataModal')">
+            <i class="fa fa-plus me-2"></i> Tambah Data
+          </button>
+        </div>
+
         <div class="table-responsive">
           <table class="table table-hover table-bordered">
             <thead>
@@ -101,10 +110,10 @@
                 <th>Aksi</th>
               </tr>
             </thead>
-            <tbody id="userDataBody">
-              </tbody>
+            <tbody id="userDataBody"></tbody>
           </table>
         </div>
+
         <div class="d-flex justify-content-between align-items-center mt-3">
           <span class="text-muted small">Menampilkan 1 sampai 4 dari 13 data</span>
           <nav>
@@ -120,11 +129,17 @@
     </div>
   </div>
 
-    {{-- Kumpulan Modal  --}}
-    @include('components.konfirmasi-hapus')
-    @include('components.konfirmasi-berhasil')
-    @include('components.tambah-master-data')
-  
+  <!-- Footer -->
+  <footer class="footer-custom">
+    <span>© 2025 Forest Management — All Rights Reserved</span>
+  </footer>
+
+  <!-- Modals -->
+  @include('components.konfirmasi-hapus')
+  @include('components.konfirmasi-berhasil')
+  @include('components.tambah-master-data')
+
+  <!-- Scripts -->
   <script src="{{ asset('assets/js/layout.js') }}"></script>
   <script src="{{ asset('assets/js/master-data.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
