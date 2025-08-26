@@ -21,12 +21,18 @@
 
             <div class="col-12">
               <label class="form-label">Posisi Pelatihan</label>
-              <select class="form-select">
+              {{-- Tambahkan ID pada select --}}
+              <select class="form-select" id="posisi-pelatihan-select">
                 <option selected>-- Pilih Posisi --</option>
                 <option value="Peserta">Peserta</option>
                 <option value="Pembicara">Pembicara</option>
                 <option value="Panitia">Panitia</option>
+                {{-- Tambahkan opsi Lainnya --}}
+                <option value="Lainnya">Lainnya...</option> 
               </select>
+
+              {{-- Tambahkan input field baru yang disembunyikan --}}
+              <input type="text" class="form-control mt-2" id="posisi-lainnya-input" placeholder="Sebutkan posisi lainnya" style="display: none;">
             </div>
 
             <div class="col-12">
@@ -151,7 +157,7 @@
 
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-        <button type="button" class="btn btn-success">Simpan Data</button>
+        <button type="button" class="btn btn-success">Simpan</button>
       </div>
       
     </div>

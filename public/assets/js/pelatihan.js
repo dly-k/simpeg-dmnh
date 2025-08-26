@@ -231,3 +231,19 @@ function addAnggota() {
     `;
     list.appendChild(newRow);
 }
+const posisiSelect = document.getElementById('posisi-pelatihan-select');
+    const posisiLainnyaInput = document.getElementById('posisi-lainnya-input');
+
+    if (posisiSelect && posisiLainnyaInput) {
+        posisiSelect.addEventListener('change', function() {
+            // Periksa apakah nilai yang dipilih adalah "Lainnya"
+            if (this.value === 'Lainnya') {
+                // Jika ya, tampilkan input field
+                posisiLainnyaInput.style.display = 'block';
+            } else {
+                // Jika tidak, sembunyikan input field dan kosongkan nilainya
+                posisiLainnyaInput.style.display = 'none';
+                posisiLainnyaInput.value = ''; 
+            }
+        });
+    }
