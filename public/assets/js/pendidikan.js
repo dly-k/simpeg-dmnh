@@ -1,46 +1,4 @@
-// =======================================================
-// ===     INISIALISASI UTAMA & LOGIKA UMUM HALAMAN    ===
-// =======================================================
 document.addEventListener('DOMContentLoaded', function () {
-  // === Inisialisasi Sidebar ===
-  const sidebar = document.getElementById('sidebar');
-  const overlay = document.getElementById('overlay');
-  const toggleSidebarBtn = document.getElementById('toggleSidebar');
-  const body = document.body;
-
-  if (toggleSidebarBtn && sidebar && overlay) {
-    toggleSidebarBtn.addEventListener('click', function () {
-      const isMobile = window.innerWidth <= 991;
-      if (isMobile) {
-        sidebar.classList.toggle('show');
-        overlay.classList.toggle('show', sidebar.classList.contains('show'));
-      } else {
-        sidebar.classList.toggle('hidden');
-        body.classList.toggle('sidebar-collapsed');
-      }
-    });
-
-    overlay.addEventListener('click', function () {
-      sidebar.classList.remove('show');
-      overlay.classList.remove('show');
-    });
-  }
-
-  // === Inisialisasi Waktu & Tanggal ===
-  function updateDateTime() {
-    const now = new Date();
-    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    const timeOptions = {
-      hour: '2-digit', minute: '2-digit', second: '2-digit',
-      hour12: false, timeZone: 'Asia/Jakarta'
-    };
-    const dateEl = document.getElementById('current-date');
-    const timeEl = document.getElementById('current-time');
-    if (dateEl) dateEl.textContent = now.toLocaleDateString('id-ID', dateOptions);
-    if (timeEl) timeEl.textContent = now.toLocaleTimeString('id-ID', timeOptions);
-  }
-  updateDateTime();
-  setInterval(updateDateTime, 1000);
 
   // =================================================================
   // ===     FUNGSI BANTUAN UNTUK MODAL & NOTIFIKASI SUKSES        ===

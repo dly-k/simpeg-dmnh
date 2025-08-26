@@ -143,21 +143,22 @@
         <!-- Tabel Data -->
         <div class="table-responsive">
           <table class="table table-hover table-bordered">
-            <thead class="table-light">
-              <tr>
-                <th>No</th>
-                <th>Judul</th>
-                <th>Mitra/Instansi</th>
-                <th>No Dokumen</th>
-                <th>Tgl. Dokumen</th>
-                <th>Ketua/Anggota Tim</th>
-                <th>Lokasi</th>
-                <th>Besaran Dana</th>
-                <th>Jenis</th>
-                <th>Dokumen</th>
-                <th>Aksi</th>
-              </tr>
-            </thead>
+          <thead class="table-light">
+            <tr>
+              <th>No</th>
+              <th>Judul</th>
+              <th>Mitra/Instansi</th>
+              <th>No Dokumen</th>
+              <th>TMT</th>
+              <th>TST</th>
+              <th>Ketua/Anggota Tim</th>
+              <th>Lokasi</th>
+              <th>Besaran Dana</th>
+              <th>Jenis</th>
+              <th>Dokumen</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
             <tbody id="kerjasamaTableBody">
               <!-- Data dinamis akan di-render di sini -->
             </tbody>

@@ -40,32 +40,6 @@ document.addEventListener('DOMContentLoaded', function () {
         hideSuccessModal();
     });
 
-    // === Sidebar, Date, and Time Logic (Tidak berubah) ===
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-    const toggleSidebarBtn = document.getElementById('toggleSidebar');
-    if (toggleSidebarBtn) {
-        toggleSidebarBtn.addEventListener('click', () => {
-            const isMobile = window.innerWidth <= 991;
-            sidebar.classList.toggle(isMobile ? 'show' : 'hidden');
-            if (isMobile) overlay.classList.toggle('show');
-        });
-        overlay?.addEventListener('click', () => {
-            sidebar.classList.remove('show');
-            overlay.classList.remove('show');
-        });
-    }
-    (function updateDateTime() {
-        const now = new Date();
-        const dateEl = document.getElementById('current-date');
-        const timeEl = document.getElementById('current-time');
-        if(dateEl && timeEl) {
-            dateEl.textContent = now.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-            timeEl.textContent = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
-        }
-        setTimeout(updateDateTime, 1000);
-    })();
-
     // === Tombol Simpan (di dalam modal) ===
     document.querySelector('#penelitianModal .btn-success')?.addEventListener('click', function() {
         closeModal();
@@ -142,8 +116,7 @@ function openEditModal() {
         modalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Data Penelitian';
     }
     
-    resetPenulisFields(); // Panggil juga saat edit untuk memulai dengan field default
-    // Anda bisa tambahkan logika untuk mengisi data form di sini
+    resetPenulisFields();
     
     penelitianModalInstance.show();
 }

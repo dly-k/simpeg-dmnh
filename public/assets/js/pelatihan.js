@@ -1,92 +1,45 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // === 1. LOGIKA INTI: MODAL BERHASIL (SUCCESS MODAL) ===
+    // === 1. MODAL BERHASIL ===
     const modalBerhasil = document.getElementById('modalBerhasil');
     const berhasilTitle = document.getElementById('berhasil-title');
     const berhasilSubtitle = document.getElementById('berhasil-subtitle');
-    const modalKonfirmasiHapus = document.getElementById('modalKonfirmasiHapus');
-    const bsModal = new bootstrap.Modal(modalKonfirmasiHapus); // Inisialisasi Bootstrap Modal
 
-    let successAudio = null; // Deklarasi variabel global untuk audio
+    const modalKonfirmasiHapus = document.getElementById('modalKonfirmasiHapus');
+    const bsModal = modalKonfirmasiHapus ? new bootstrap.Modal(modalKonfirmasiHapus) : null;
+
+    let successAudio = null;
+    let successModalTimeout = null;
 
     function showSuccessModal(title, subtitle) {
-        if (modalBerhasil && berhasilTitle && berhasilSubtitle) {
-            console.log('Menampilkan modal berhasil:', title, subtitle);
-            berhasilTitle.textContent = title;
-            berhasilSubtitle.textContent = subtitle;
-            modalBerhasil.classList.add('show');
-            bsModal.hide(); // Pastikan modal konfirmasi disembunyikan
-            console.log('Modal Berhasil ditampilkan, classList:', modalBerhasil.classList);
+        if (!modalBerhasil) return;
 
-            // Inisialisasi dan putar suara
-            successAudio = new Audio('/assets/sounds/Success.mp3'); // Pastikan path benar
-            successAudio.play().catch(error => {
-                console.log('Error memutar suara:', error);
-                if (error.name === 'NotAllowedError') {
-                    console.log('Autoplay diblokir oleh browser. Butuh interaksi pengguna terlebih dahulu.');
-                } else if (error.name === 'NotFoundError') {
-                    console.log('File audio tidak ditemukan. Periksa path: /assets/sounds/success.mp3');
-                } else {
-                    console.log('Error lain:', error.message);
-                }
-            });
+        berhasilTitle.textContent = title;
+        berhasilSubtitle.textContent = subtitle;
+        modalBerhasil.classList.add('show');
+        bsModal?.hide();
 
-            // Tutup modal secara otomatis setelah 1 detik
-            setTimeout(() => {
-                console.log('Menutup modal berhasil setelah 1 detik');
-                modalBerhasil.classList.remove('show');
-                if (successAudio) {
-                    successAudio.pause(); // Hentikan suara
-                    successAudio.currentTime = 0; // Reset ke awal
-                }
-                bsModal.hide(); // Pastikan modal konfirmasi tetap disembunyikan
-                const sidebarOverlay = document.getElementById('overlay');
-                if (sidebarOverlay) sidebarOverlay.classList.remove('show');
-            }, 1000);
-        }
+        // Putar audio sukses
+        successAudio = new Audio('/assets/sounds/success.mp3');
+        successAudio.play().catch(error => {
+            console.warn('Error memutar audio:', error.message);
+        });
+
+        // Auto-hide setelah 1.2 detik
+        clearTimeout(successModalTimeout);
+        successModalTimeout = setTimeout(hideSuccessModal, 1200);
     }
 
     function hideSuccessModal() {
-        if (modalBerhasil) {
-            console.log('Menyembunyikan modal berhasil (manual), classList sebelum:', modalBerhasil.classList);
-            modalBerhasil.classList.remove('show');
-            if (successAudio) {
-                successAudio.pause(); // Hentikan suara
-                successAudio.currentTime = 0; // Reset ke awal
-            }
-            bsModal.hide(); // Pastikan modal konfirmasi disembunyikan
-            const sidebarOverlay = document.getElementById('overlay');
-            if (sidebarOverlay) sidebarOverlay.classList.remove('show');
+        modalBerhasil?.classList.remove('show');
+        if (successAudio) {
+            successAudio.pause();
+            successAudio.currentTime = 0;
         }
+        bsModal?.hide();
+        document.getElementById('overlay')?.classList.remove('show');
     }
 
-    // === 2. LOGIKA STANDAR: SIDEBAR & JAM ===
-    function setupStandardUI() {
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('overlay');
-        const toggleSidebarBtn = document.getElementById('toggleSidebar');
-        if (toggleSidebarBtn && sidebar && overlay) {
-            toggleSidebarBtn.addEventListener('click', () => {
-                sidebar.classList.toggle(window.innerWidth <= 991 ? 'show' : 'hidden');
-                overlay.classList.toggle('show', window.innerWidth <= 991 && sidebar.classList.contains('show'));
-            });
-            overlay.addEventListener('click', () => {
-                sidebar.classList.remove('show');
-                overlay.classList.remove('show');
-            });
-        }
-        function updateDateTime() {
-            const now = new Date();
-            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone: 'Asia/Jakarta' };
-            document.getElementById('current-date').textContent = now.toLocaleDateString('id-ID', dateOptions);
-            document.getElementById('current-time').textContent = now.toLocaleTimeString('id-ID', timeOptions).replace(/\./g, ':');
-        }
-        updateDateTime();
-        setInterval(updateDateTime, 1000);
-    }
-    setupStandardUI();
-
-    // === 3. LOGIKA SPESIFIK HALAMAN PELATIHAN ===
+    // === 2. MODAL PELATIHAN ===
     function setupPelatihanModals() {
         const pelatihanModalEl = document.getElementById('pelatihanModal');
         if (!pelatihanModalEl) return;
@@ -97,10 +50,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
         pelatihanModalEl.addEventListener('show.bs.modal', (event) => {
             const button = event.relatedTarget;
-            const isEditMode = button && button.classList.contains('btn-edit');
+            const isEditMode = button?.classList.contains('btn-edit');
             modalTitle.innerHTML = isEditMode
                 ? '<i class="fas fa-edit"></i> Edit Data Pelatihan'
                 : '<i class="fas fa-plus-circle"></i> Tambah Data Pelatihan';
+
             if (!isEditMode) {
                 pelatihanForm?.reset();
                 document.getElementById('anggota-list').innerHTML = '';
@@ -114,13 +68,14 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // === 3. EVENT DELEGATION UNTUK SEMUA TOMBOL ===
     function setupDelegatedEventListeners() {
         let dataToDelete = null;
 
         document.body.addEventListener('click', function (event) {
             const target = event.target;
 
-            // Tombol Hapus pada baris tabel
+            // Tombol Hapus
             if (target.closest('.btn-hapus')) {
                 event.preventDefault();
                 const row = target.closest('tr');
@@ -128,78 +83,79 @@ document.addEventListener('DOMContentLoaded', function () {
                     element: row,
                     nama: row?.querySelector('td:nth-child(2)')?.textContent.trim()
                 };
-                if (modalKonfirmasiHapus) {
-                    console.log('Menampilkan modal konfirmasi hapus untuk:', dataToDelete.nama);
-                    bsModal.show();
-                }
+                bsModal?.show();
             }
 
-            // Tombol "Ya, Hapus" di dalam modal konfirmasi
+            // Konfirmasi Hapus
             if (target.matches('#btnKonfirmasiHapus')) {
                 event.preventDefault();
-                event.stopPropagation();
-                if (dataToDelete && modalKonfirmasiHapus) {
-                    console.log('Menghapus data:', dataToDelete.nama);
+                if (dataToDelete) {
                     dataToDelete.element?.remove();
-                    bsModal.hide();
+                    bsModal?.hide();
                     showSuccessModal('Data Berhasil Dihapus', `Data "${dataToDelete.nama}" telah berhasil dihapus.`);
                 }
             }
 
-            // Tombol "Batal" di modal hapus
+            // Batal Hapus
             if (target.matches('#btnBatalHapus')) {
-                if (modalKonfirmasiHapus) {
-                    bsModal.hide();
-                }
+                bsModal?.hide();
             }
 
-            // Tombol "Selesai" di modal berhasil
+            // Selesai Modal Berhasil
             if (target.matches('#btnSelesai')) {
                 hideSuccessModal();
             }
 
-            // Tombol lihat detail
+            // Detail Pelatihan
             const detailButton = target.closest('.btn-lihat-detail-pelatihan');
             if (detailButton) {
                 const data = detailButton.dataset;
-                document.getElementById('detail_pelatihan_nama').textContent = data.nama_pelatihan || '-';
-                document.getElementById('detail_pelatihan_posisi').textContent = data.posisi || '-';
-                document.getElementById('detail_pelatihan_kota').textContent = data.kota || '-';
-                document.getElementById('detail_pelatihan_lokasi').textContent = data.lokasi || '-';
-                document.getElementById('detail_pelatihan_penyelenggara').textContent = data.penyelenggara || '-';
-                document.getElementById('detail_pelatihan_jenis_diklat').textContent = data.jenis_diklat || '-';
-                document.getElementById('detail_pelatihan_tgl_mulai').textContent = data.tgl_mulai || '-';
-                document.getElementById('detail_pelatihan_tgl_selesai').textContent = data.tgl_selesai || '-';
-                document.getElementById('detail_pelatihan_lingkup').textContent = data.lingkup || '-';
-                document.getElementById('detail_pelatihan_jam').textContent = data.jam || '-';
-                document.getElementById('detail_pelatihan_hari').textContent = data.hari || '-';
-                document.getElementById('detail_pelatihan_struktural').textContent = data.struktural || '-';
-                document.getElementById('detail_pelatihan_sertifikasi').textContent = data.sertifikasi || '-';
-                const docViewer = document.getElementById('detail_pelatihan_document_viewer');
-                if (docViewer) docViewer.setAttribute('src', data.dokumen_path || '');
+                const setText = (id, value) => {
+                    const el = document.getElementById(id);
+                    if (el) el.textContent = value || '-';
+                };
+
+                setText('detail_pelatihan_nama', data.nama_pelatihan);
+                setText('detail_pelatihan_posisi', data.posisi);
+                setText('detail_pelatihan_kota', data.kota);
+                setText('detail_pelatihan_lokasi', data.lokasi);
+                setText('detail_pelatihan_penyelenggara', data.penyelenggara);
+                setText('detail_pelatihan_jenis_diklat', data.jenis_diklat);
+                setText('detail_pelatihan_tgl_mulai', data.tgl_mulai);
+                setText('detail_pelatihan_tgl_selesai', data.tgl_selesai);
+                setText('detail_pelatihan_lingkup', data.lingkup);
+                setText('detail_pelatihan_jam', data.jam);
+                setText('detail_pelatihan_hari', data.hari);
+                setText('detail_pelatihan_struktural', data.struktural);
+                setText('detail_pelatihan_sertifikasi', data.sertifikasi);
+
+                document.getElementById('detail_pelatihan_document_viewer')
+                    ?.setAttribute('src', data.dokumen_path || '');
             }
 
-            // Hapus anggota dari list dinamis
+            // Hapus anggota list dinamis
             if (target.closest('.dynamic-row-close-btn')) {
-                target.closest('.dynamic-row').remove();
+                target.closest('.dynamic-row')?.remove();
             }
 
-            // Klik area upload
+            // Klik upload area untuk trigger input file
             if (target.closest('.upload-area')) {
                 target.closest('.upload-area').querySelector('input[type="file"]')?.click();
             }
         });
     }
 
+    // === 4. UPLOAD AREA RESET ===
     function setupUploadArea() {
         document.querySelectorAll('.upload-area').forEach(uploadArea => {
             const fileInput = uploadArea.querySelector('input[type="file"]');
             const uploadText = uploadArea.querySelector('p');
             if (!fileInput || !uploadText) return;
+
             const originalText = uploadText.innerHTML;
 
             fileInput.addEventListener('change', function () {
-                if (this.files.length > 0) uploadText.textContent = this.files[0].name;
+                uploadText.textContent = this.files.length > 0 ? this.files[0].name : originalText;
             });
 
             uploadArea.reset = () => {
@@ -209,41 +165,47 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Inisialisasi semua fungsi spesifik
+    // === 5. POSISI LAINNYA TOGGLE ===
+    const posisiSelect = document.getElementById('posisi-pelatihan-select');
+    const posisiLainnyaInput = document.getElementById('posisi-lainnya-input');
+    posisiSelect?.addEventListener('change', function () {
+        if (this.value === 'Lainnya') {
+            posisiLainnyaInput.style.display = 'block';
+        } else {
+            posisiLainnyaInput.style.display = 'none';
+            posisiLainnyaInput.value = '';
+        }
+    });
+
+    // Inisialisasi semua
     setupPelatihanModals();
     setupDelegatedEventListeners();
     setupUploadArea();
 });
 
-// === 4. FUNGSI GLOBAL: DIPANGGIL DARI HTML (onclick) ===
+// === 6. FUNGSI GLOBAL: TAMBAH ANGGOTA ===
 function addAnggota() {
     const list = document.getElementById('anggota-list');
     if (!list) return;
+
     const newRow = document.createElement('div');
     newRow.className = 'dynamic-row position-relative border rounded p-3 pt-4 mb-2';
     newRow.innerHTML = `
         <button type="button" class="btn-close dynamic-row-close-btn position-absolute top-0 end-0 p-2" aria-label="Close"></button>
         <div class="row g-2">
-            <div class="col-12"><label class="form-label form-label-sm">Nama Anggota</label><input type="text" class="form-control form-control-sm" placeholder="Nama Anggota"></div>
-            <div class="col-md-6"><label class="form-label form-label-sm">Angkatan</label><input type="text" class="form-control form-control-sm" placeholder="Angkatan"></div>
-            <div class="col-md-6"><label class="form-label form-label-sm">Predikat</label><input type="text" class="form-control form-control-sm" placeholder="Predikat"></div>
+            <div class="col-12">
+                <label class="form-label form-label-sm">Nama Anggota</label>
+                <input type="text" class="form-control form-control-sm" placeholder="Nama Anggota">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label form-label-sm">Angkatan</label>
+                <input type="text" class="form-control form-control-sm" placeholder="Angkatan">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label form-label-sm">Predikat</label>
+                <input type="text" class="form-control form-control-sm" placeholder="Predikat">
+            </div>
         </div>
     `;
     list.appendChild(newRow);
 }
-const posisiSelect = document.getElementById('posisi-pelatihan-select');
-    const posisiLainnyaInput = document.getElementById('posisi-lainnya-input');
-
-    if (posisiSelect && posisiLainnyaInput) {
-        posisiSelect.addEventListener('change', function() {
-            // Periksa apakah nilai yang dipilih adalah "Lainnya"
-            if (this.value === 'Lainnya') {
-                // Jika ya, tampilkan input field
-                posisiLainnyaInput.style.display = 'block';
-            } else {
-                // Jika tidak, sembunyikan input field dan kosongkan nilainya
-                posisiLainnyaInput.style.display = 'none';
-                posisiLainnyaInput.value = ''; 
-            }
-        });
-    }

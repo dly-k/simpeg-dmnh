@@ -43,42 +43,6 @@ document.addEventListener('DOMContentLoaded', function () {
         hideSuccessModal();
     });
 
-    // === Sidebar Logic ===
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-    const toggleSidebarBtn = document.getElementById('toggleSidebar');
-
-    if (toggleSidebarBtn && sidebar && overlay) {
-        toggleSidebarBtn.addEventListener('click', function () {
-            const isMobile = window.innerWidth <= 991;
-            if (isMobile) {
-                sidebar.classList.toggle('show');
-                overlay.classList.toggle('show', sidebar.classList.contains('show'));
-            } else {
-                sidebar.classList.toggle('hidden');
-            }
-        });
-        overlay.addEventListener('click', function () {
-            sidebar.classList.remove('show');
-            overlay.classList.remove('show');
-        });
-    }
-
-    // === Date and Time Logic ===
-    function updateDateTime() {
-        const now = new Date();
-        const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone: 'Asia/Jakarta' };
-        const dateEl = document.getElementById('current-date');
-        const timeEl = document.getElementById('current-time');
-        if (dateEl && timeEl) {
-            dateEl.textContent = now.toLocaleDateString('id-ID', dateOptions);
-            timeEl.textContent = now.toLocaleTimeString('id-ID', timeOptions);
-        }
-    }
-    updateDateTime();
-    setInterval(updateDateTime, 1000);
-
     // === Tombol Simpan Logic ===
     const simpanBtn = document.querySelector('#penunjangModal .btn-success');
     if (simpanBtn) {
@@ -155,10 +119,8 @@ document.addEventListener('DOMContentLoaded', function () {
 function hideDeleteModal() {
    const deleteModal = document.getElementById('modalKonfirmasiHapus');
    if(deleteModal) {
-       deleteModal.classList.remove('show'); // Ini akan memulai transisi keluar (jika CSS sudah benar)
-       document.body.style.overflow = ''; // Aktifkan kembali scroll setelah modal tidak terlihat
-
-       // Tidak perlu lagi class sementara jika transisi opacity dan visibility sudah diatur di CSS
+       deleteModal.classList.remove('show');
+       document.body.style.overflow = '';
    }
 }
 

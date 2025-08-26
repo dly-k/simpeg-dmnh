@@ -188,6 +188,7 @@
     @include('components.pelatihan.detail-pelatihan')
     @include('components.pelatihan.tambah-pelatihan')
 
+  <script src="{{ asset('assets/js/layout.js') }}"></script>
   <script src="{{ asset('assets/js/pelatihan.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

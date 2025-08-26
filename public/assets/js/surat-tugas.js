@@ -48,9 +48,8 @@ const dataSuratTugas = [
 // =================================================
 function initSuratTugasPage() {
   renderTable();
-  generateSemesterOptions(); // buat dropdown filter otomatis
+  generateSemesterOptions();
 
-  // Event: Klik tombol edit pada tabel
   const tbody = document.getElementById('data-body');
   tbody?.addEventListener('click', (event) => {
     const editBtn = event.target.closest('.btn-edit');
@@ -63,47 +62,46 @@ function initSuratTugasPage() {
   });
 }
 
-// Render tabel dari dataSuratTugas
+// Render tabel surat tugas
 function renderTable() {
   const tbody = document.getElementById('data-body');
   if (!tbody) return;
 
   tbody.innerHTML = dataSuratTugas
-    .map(
-      (item, index) => {
-        const formattedDate = new Date(item.tgl_kegiatan).toLocaleDateString(
-          'id-ID',
-          { day: '2-digit', month: 'long', year: 'numeric' }
-        );
+    .map((item, index) => {
+      const formattedDate = new Date(item.tgl_kegiatan).toLocaleDateString('id-ID', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric',
+      });
 
-        return `
-      <tr data-index="${index}">
-        <td class="text-center">${index + 1}</td>
-        <td>${item.nama}</td>
-        <td class="text-center">${item.peran}</td>
-        <td class="text-center">${item.sebagai}</td>
-        <td>${item.mitra}</td>
-        <td class="text-center">${item.surat_instansi}</td>
-        <td class="text-center">${item.surat_kadep}</td>
-        <td class="text-center" data-tgl="${item.tgl_kegiatan}">${formattedDate}</td>
-        <td>${item.lokasi}</td>
-        <td class="text-center">
-          <button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button>
-        </td>
-        <td class="text-center">
-          <div class="d-flex gap-2 justify-content-center">
-            <a href="#" class="btn-aksi btn-edit" title="Edit Data">
-              <i class="fa fa-edit"></i>
-            </a>
-            <a href="#" class="btn-aksi btn-hapus" title="Hapus Data">
-              <i class="fa fa-trash"></i>
-            </a>
-          </div>
-        </td>
-      </tr>
-    `;
-      }
-    )
+      return `
+        <tr data-index="${index}">
+          <td class="text-center">${index + 1}</td>
+          <td>${item.nama}</td>
+          <td class="text-center">${item.peran}</td>
+          <td class="text-center">${item.sebagai}</td>
+          <td>${item.mitra}</td>
+          <td class="text-center">${item.surat_instansi}</td>
+          <td class="text-center">${item.surat_kadep}</td>
+          <td class="text-center" data-tgl="${item.tgl_kegiatan}">${formattedDate}</td>
+          <td>${item.lokasi}</td>
+          <td class="text-center">
+            <button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button>
+          </td>
+          <td class="text-center">
+            <div class="d-flex gap-2 justify-content-center">
+              <a href="#" class="btn-aksi btn-edit" title="Edit Data">
+                <i class="fa fa-edit"></i>
+              </a>
+              <a href="#" class="btn-aksi btn-hapus" title="Hapus Data">
+                <i class="fa fa-trash"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+      `;
+    })
     .join('');
 }
 
@@ -118,10 +116,10 @@ function openModal(modalId) {
   const form = modal.querySelector('form');
 
   if (modalTitle) modalTitle.innerHTML = '<i class="fas fa-plus-circle"></i> Tambah Surat Tugas';
-  if (form) form.reset();
+  form?.reset();
 
   const uploadArea = modal.querySelector('.upload-area');
-  if (uploadArea?.reset) uploadArea.reset();
+  uploadArea?.reset?.();
 
   modal.classList.add('show');
 }
@@ -143,23 +141,20 @@ function openEditModal(data) {
   }
 
   const uploadArea = modal.querySelector('.upload-area');
-  if (uploadArea?.reset) uploadArea.reset();
+  uploadArea?.reset?.();
 
   modal.classList.add('show');
 }
 
 function closeModal(modalId) {
-  const modal = document.getElementById(modalId);
-  modal?.classList.remove('show');
+  document.getElementById(modalId)?.classList.remove('show');
 }
 
 function initModalInteractions() {
   const addEditModal = document.getElementById('suratTugasModal');
 
   addEditModal?.addEventListener('click', (event) => {
-    if (event.target === addEditModal) {
-      closeModal(addEditModal.id);
-    }
+    if (event.target === addEditModal) closeModal(addEditModal.id);
   });
 
   const btnSimpan = document.getElementById('btnSimpanData');
@@ -201,10 +196,10 @@ function initDeleteConfirmation() {
     }
   });
 
-  function hideDeleteModal() {
+  const hideDeleteModal = () => {
     modal.classList.remove('show');
     rowToDelete = null;
-  }
+  };
 
   btnBatal.addEventListener('click', hideDeleteModal);
   modal.addEventListener('click', (event) => {
@@ -221,7 +216,8 @@ let successAudio = null;
 function hideSuccessModal() {
   const modal = document.getElementById('modalBerhasil');
   modal?.classList.remove('show');
-  if (successModalTimer) clearTimeout(successModalTimer);
+
+  clearTimeout(successModalTimer);
   if (successAudio) {
     successAudio.pause();
     successAudio.currentTime = 0;
@@ -242,11 +238,9 @@ function showSuccessModal(title, subtitle) {
   modal.classList.add('show');
 
   successAudio = new Audio('/assets/sounds/success.mp3');
-  successAudio.play().catch(error => {
-    console.log('Error memutar suara:', error);
-  });
+  successAudio.play().catch((error) => console.warn('Error memutar suara:', error));
 
-  successModalTimer = setTimeout(hideSuccessModal, 1000);
+  successModalTimer = setTimeout(hideSuccessModal, 1500);
 }
 
 function initSuccessModal() {
@@ -285,23 +279,17 @@ function initUploadArea() {
 }
 
 // =================================================
-// Filter Semester per Tahun (Dinamis)
+// Filter Semester per Tahun
 // =================================================
 function generateSemesterOptions() {
-  const filterSemester = document.getElementById("filterSemester");
+  const filterSemester = document.getElementById('filterSemester');
   if (!filterSemester) return;
 
-  const years = new Set();
-
-  dataSuratTugas.forEach(item => {
-    const year = new Date(item.tgl_kegiatan).getFullYear();
-    years.add(year);
-  });
-
+  const years = new Set(dataSuratTugas.map(item => new Date(item.tgl_kegiatan).getFullYear()));
   const sortedYears = [...years].sort();
 
   filterSemester.innerHTML = `<option value="all" selected>Semua Semester</option>`;
-  sortedYears.forEach(year => {
+  sortedYears.forEach((year) => {
     filterSemester.innerHTML += `
       <option value="${year}-genap">Semester Genap ${year}</option>
       <option value="${year}-ganjil">Semester Ganjil ${year}</option>
@@ -310,33 +298,33 @@ function generateSemesterOptions() {
 }
 
 function initFilterSemester() {
-  const filterSemester = document.getElementById("filterSemester");
+  const filterSemester = document.getElementById('filterSemester');
   if (!filterSemester) return;
 
-  filterSemester.addEventListener("change", () => {
-    const value = filterSemester.value; 
-    const rows = document.querySelectorAll("#data-body tr");
+  filterSemester.addEventListener('change', () => {
+    const value = filterSemester.value;
+    const rows = document.querySelectorAll('#data-body tr');
 
-    rows.forEach(row => {
-      const cell = row.querySelector("td:nth-child(8)");
-      const rawDate = cell?.getAttribute("data-tgl"); 
+    rows.forEach((row) => {
+      const cell = row.querySelector('td:nth-child(8)');
+      const rawDate = cell?.getAttribute('data-tgl');
       if (!rawDate) return;
 
-      const [year, month] = rawDate.split("-").map(Number);
+      const [year, month] = rawDate.split('-').map(Number);
       let show = true;
 
-      if (value !== "all") {
-        const [filterYear, filterSemesterType] = value.split("-");
+      if (value !== 'all') {
+        const [filterYear, filterType] = value.split('-');
         if (parseInt(filterYear) !== year) {
           show = false;
-        } else if (filterSemesterType === "genap" && (month < 1 || month > 6)) {
+        } else if (filterType === 'genap' && month > 6) {
           show = false;
-        } else if (filterSemesterType === "ganjil" && (month < 7 || month > 12)) {
+        } else if (filterType === 'ganjil' && month < 7) {
           show = false;
         }
       }
 
-      row.style.display = show ? "" : "none";
+      row.style.display = show ? '' : 'none';
     });
   });
 }

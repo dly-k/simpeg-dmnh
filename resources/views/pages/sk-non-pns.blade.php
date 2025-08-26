@@ -178,6 +178,7 @@
   @include('components.sk-nonpns.detail-sk-non-pns')
   @include('components.sk-nonpns.tambah-sk-non-pns')
 
+  <script src="{{ asset('assets/js/layout.js') }}"></script>
   <script src="{{ asset('assets/js/sk-non-pns.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

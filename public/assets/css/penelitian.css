@@ -44,31 +44,14 @@
 /* ========================
    Search and Filter
 ========================= */
-.search-filter-container {
-  /* Ubah nilai pertama dari 1.5rem menjadi lebih kecil */
-  padding: 0.5rem 1.5rem 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-}
 
-.search-icon {
-  color: var(--primary);
-}
+.search-filter-container { margin-bottom: 1.5rem; }
+.search-icon { color: var(--primary); }
+.search-filter-row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
+.search-box { flex: 1; min-width: 250px; }
+.filter-select { width: 180px; }
 
-.search-filter-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  align-items: center;
-}
-
-.search-box {
-  flex: 1;
-  min-width: 250px;
-}
-
-.filter-select {
-  width: 180px;
-}/* ========================
+/* ========================
    Sidebar & Main Content
 ========================= */
 .sidebar .menu a.active, .sidebar .menu button.active { background-color: var(--primary); color: var(--white); font-weight: 600; }

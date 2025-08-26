@@ -52,12 +52,12 @@
             </div>
 
             <div class="col-md-6">
-              <label class="form-label">TMT (Tanggal Mulai Efektif)</label>
+              <label class="form-label">TMT (Terhitung Mulai Tanggal)</label>
               <input type="date" class="form-control" name="tmt">
             </div>
 
             <div class="col-md-6">
-              <label class="form-label">TST (Tanggal Selesai Efektif)</label>
+              <label class="form-label">TST (Terhitung Selesai Tanggal)</label>
               <input type="date" class="form-control" name="tst">
             </div>
 

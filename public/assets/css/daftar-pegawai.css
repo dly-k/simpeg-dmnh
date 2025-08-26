@@ -106,6 +106,15 @@ body.sidebar-collapsed .main-content {
   color: rgba(0, 0, 0, 0.4);
 }
 
+.form-control{
+  color: var(--gray);
+  font-size: 0.8rem;
+}
+.form-select{
+  color: var(--gray);
+  font-size: 0.8rem;
+}
+
 /* ==========================================================================
    Table
    ========================================================================== */

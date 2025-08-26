@@ -211,7 +211,8 @@ function renderKerjasamaTable() {
         <td class="text-start" style="min-width: 250px;">${item.judul}</td>
         <td class="text-start">${item.mitra}</td>
         <td class="text-start"><b>Mitra:</b> ${item.no_surat_mitra}<br><b>Dept:</b> ${item.no_surat_departemen}</td>
-        <td class="text-center">${formatDate(item.tglDoc)}</td>
+        <td class="text-center">${formatDate(item.tmt)}</td>
+        <td class="text-center">${formatDate(item.tst)}</td>
         <td class="text-start"><b>Ketua:</b> ${ketuaNames}<br><b>Anggota:</b> ${anggotaNames}</td>
         <td class="text-center">${item.lokasi}</td>
         <td class="text-end">${danaFormatted}</td>
@@ -227,7 +228,6 @@ function renderKerjasamaTable() {
       </tr>`;
   }).join('');
 }
-
 
 // ==========================================================
 // === Isi Modal Detail Kerjasama

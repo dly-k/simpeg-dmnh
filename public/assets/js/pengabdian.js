@@ -42,31 +42,6 @@ document.addEventListener('DOMContentLoaded', function () {
         hideSuccessModal();
     });
 
-    // === Sidebar, Date, and Time Logic (Tidak berubah) ===
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-    const toggleSidebarBtn = document.getElementById('toggleSidebar');
-    if (toggleSidebarBtn) {
-        toggleSidebarBtn.addEventListener('click', () => {
-            sidebar.classList.toggle(window.innerWidth <= 991 ? 'show' : 'hidden');
-            if (window.innerWidth <= 991) overlay.classList.toggle('show');
-        });
-        overlay.addEventListener('click', () => {
-            sidebar.classList.remove('show');
-            overlay.classList.remove('show');
-        });
-    }
-    (function updateDateTime() {
-        const now = new Date();
-        const dateEl = document.getElementById('current-date');
-        const timeEl = document.getElementById('current-time');
-        if(dateEl && timeEl) {
-            dateEl.textContent = now.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-            timeEl.textContent = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
-        }
-        setTimeout(updateDateTime, 1000);
-    })();
-
     // === Dynamic Member & File Upload Logic (Tidak berubah) ===
     document.body.addEventListener('click', function(event) {
         if (event.target.closest('.dynamic-row-close-btn')) {
