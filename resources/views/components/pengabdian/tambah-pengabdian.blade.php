@@ -1,12 +1,14 @@
-  {{-- Tambah Data Pengabdian --}}
-  <div class="modal-backdrop" id="pengabdianModal">
-      <div class="modal-content-wrapper">
-          <div class="modal-header-custom">
-              <h5 id="modalTitle"><i class="fas fa-plus-circle"></i> Tambah Data Pengabdian</h5>
-          </div>
-          <div class="modal-body-custom">
+<div class="modal fade" id="pengabdianModal" tabindex="-1" aria-labelledby="pengabdianModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pengabdianModalLabel"><i class="fas fa-plus-circle"></i> Tambah Data Pengabdian</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
               <form id="pengabdianForm">
                   <div class="row">
+                      {{-- Kolom Kiri --}}
                       <div class="col-md-7">
                           <div class="row g-3">
                               <div class="col-12"><label class="form-label">Kegiatan</label><input type="text" class="form-control" placeholder="Melaksanakan Perkuliahan/Tutorial/..."></div>
@@ -24,6 +26,7 @@
                               <div class="col-12"><label class="form-label">Dana</label><div class="row g-2"><div class="col-md-4"><input type="number" class="form-control" placeholder="DIKTI"></div><div class="col-md-4"><input type="number" class="form-control" placeholder="Perguruan Tinggi"></div><div class="col-md-4"><input type="number" class="form-control" placeholder="Institusi Lain"></div></div></div>
                           </div>
                       </div>
+                      {{-- Kolom Kanan --}}
                       <div class="col-md-5">
                           <div class="d-grid gap-2 mb-3">
                               <button type="button" class="btn btn-outline-primary" onclick="addAnggota('dosen')">+ Tambah Dosen</button>
@@ -46,10 +49,11 @@
                       </div>
                   </div>
               </form>
-          </div>
-          <div class="modal-footer-custom">
-              <button type="button" class="btn btn-secondary" onclick="closeModal('pengabdianModal')">Batal</button>
-              <button type="button" class="btn btn-success">Simpan</button>
-          </div>
-      </div>
-  </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-success">Simpan</button>
+            </div>
+        </div>
+    </div>
+</div>
