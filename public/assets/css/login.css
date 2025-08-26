@@ -76,8 +76,9 @@ body {
   margin-bottom: 0.5rem;
   opacity: 0;
   transform: translateY(20px);
-  animation: fadeInUp 0.9s ease forwards;
+  animation: fadeInUpScale 0.9s ease forwards;
   color: var(--white);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .login-card p.text-light {
@@ -194,7 +195,8 @@ body {
 .logo-section {
   opacity: 0;
   transform: translateY(-20px);
-  animation: fadeInUp 1s ease forwards 0.3s;
+  animation: fadeInZoom 1s ease forwards 0.3s;
+  transition: transform 0.3s ease;
 }
 
 .logo-ipb {
@@ -205,11 +207,14 @@ body {
 /* ========================
    Animations
 ========================= */
-@keyframes fadeInUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+@keyframes fadeInUpScale {
+  0% { opacity: 0; transform: translateY(20px) scale(0.95); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes fadeInZoom {
+  0% { opacity: 0; transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1); }
 }
 
 /* ========================
