@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const overlay = document.getElementById("overlay");
   const toggleSidebarBtn = document.getElementById("toggleSidebar");
   const body = document.body;
+  let successAudio = null;
 
   if (toggleSidebarBtn && sidebar && overlay && body) {
     toggleSidebarBtn.addEventListener("click", function () {
@@ -18,6 +19,14 @@ document.addEventListener("DOMContentLoaded", function () {
       } else {
         sidebar.classList.toggle("hidden");
         body.classList.toggle("sidebar-collapsed");
+        
+        // Paksa reflow untuk memastikan transisi berjalan
+        setTimeout(() => {
+          const formContainer = document.querySelector('.password-form-container');
+          if (formContainer) {
+            formContainer.style.transition = 'margin 0.3s ease-in-out';
+          }
+        }, 50);
       }
     });
 
@@ -72,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
     openModal('modalBerhasil');
     
     // Putar musik berhasil
-    let successAudio = new Audio('/assets/sounds/success.mp3'); // Pastikan path file audio benar
+    successAudio = new Audio('/assets/sounds/success.mp3');
     successAudio.play().catch(error => {
       console.log('Error memutar suara:', error);
       if (error.name === 'NotAllowedError') {
@@ -85,10 +94,10 @@ document.addEventListener("DOMContentLoaded", function () {
     setTimeout(() => {
       closeModal('modalBerhasil');
       if (successAudio) {
-        successAudio.pause(); // Hentikan audio
-        successAudio.currentTime = 0; // Reset audio ke awal
+        successAudio.pause();
+        successAudio.currentTime = 0;
       }
-    }, 1000); // Otomatis menutup setelah 1 detik
+    }, 3000);
   }
 
   // Listener untuk tombol Selesai di modal
@@ -97,8 +106,8 @@ document.addEventListener("DOMContentLoaded", function () {
     btnSelesai.addEventListener('click', () => {
       closeModal('modalBerhasil');
       if (successAudio) {
-        successAudio.pause(); // Hentikan audio
-        successAudio.currentTime = 0; // Reset audio ke awal
+        successAudio.pause();
+        successAudio.currentTime = 0;
       }
     });
   }
@@ -159,10 +168,9 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       if (isFormValid) {
-        // DIUBAH: Mengganti alert() dengan modal sukses
         showSuccessModal('Perubahan Berhasil', 'Password Anda telah berhasil diperbarui.');
         
-        // Logika reset form tetap dijalankan
+        // Logika reset form
         form.reset();
         allInputs.forEach(clearError);
         togglePasswordIcons.forEach(icon => {
@@ -186,4 +194,17 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
   }
+
+  // Fungsi untuk memastikan form tetap di tengah saat resize
+  window.addEventListener('resize', function() {
+    const sidebar = document.getElementById('sidebar');
+    const formContainer = document.querySelector('.password-form-container');
+    
+    if (sidebar && formContainer) {
+      if (window.innerWidth >= 992 && sidebar.classList.contains('hidden')) {
+        formContainer.style.marginLeft = 'auto';
+        formContainer.style.marginRight = 'auto';
+      }
+    }
+  });
 });
