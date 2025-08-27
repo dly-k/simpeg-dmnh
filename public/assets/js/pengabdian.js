@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // == Inisialisasi Modal Bootstrap ==
+  // == Inisialisasi Modal ==
   let pengabdianModalInstance;
   const pengabdianModalEl = document.getElementById("pengabdianModal");
   if (pengabdianModalEl) {

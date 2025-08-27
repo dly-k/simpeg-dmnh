@@ -1,15 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // == Helper: Modal Bootstrap ==
-  const showBootstrapModal = (elementId) => {
-    const el = document.getElementById(elementId);
-    if (el) {
-      const modal = new bootstrap.Modal(el);
-      modal.show();
-      return modal;
-    }
-    return null;
-  };
-
   // == Modal Berhasil ==
   const modalBerhasil = document.getElementById("modalBerhasil");
   const berhasilTitle = document.getElementById("berhasil-title");

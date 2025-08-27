@@ -1,5 +1,3 @@
-{{-- CONTOH: detail-kerjasama.blade.php dengan data terisi lengkap --}}
-
 {{-- Modal Detail Kerjasama --}}
 <div class="modal fade" id="modalDetailKerjasama" tabindex="-1" aria-labelledby="modalDetailKerjasamaLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-centered">
@@ -39,7 +37,6 @@
           <div class="detail-item"><small>Jenis Usulan</small><p>Baru</p></div>
         </div>
 
-        {{-- Ubah bagian ini di file detail-kerjasama.blade.php --}}
         <div class="file-actions-container">
             <h6 class="file-actions-title">File Terlampir</h6>
             <div class="file-actions-buttons">
