@@ -27,15 +27,21 @@
               <option>Administrasi Kepegawaian</option>
             </select>
           </div>
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Password</label>
-            <input type="password" class="form-control" placeholder="Masukkan Password" required>
-          </div>
+            {{-- SESUDAH --}}
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Password</label>
+              <div class="input-group">
+                <input type="password" id="addPassword" class="form-control" placeholder="Masukkan Password" required>
+                <span class="input-group-text toggle-password-icon" style="cursor: pointer;">
+                  <i class="fa fa-eye-slash"></i>
+                </span>
+              </div>
+            </div>
         </div>
       </form>
     </div>
     <div class="modal-footer-custom">
-      <button type="button" class="btn btn-danger" onclick="closeModal('tambahDataModal')">Batal</button>
+      <button type="button" class="btn btn-secondary" onclick="closeModal('tambahDataModal')">Batal</button>
       <button type="button" class="btn btn-success">Simpan</button>
     </div>
   </div>
@@ -69,12 +75,18 @@
               <option>Administrasi Kepegawaian</option>
             </select>
           </div>
+          {{-- SESUDAH --}}
           <div class="col-md-6 mb-3">
             <label class="form-label">
               Password 
               <small class="text-muted" style="font-size: 70%">(Kosongkan jika tidak diubah)</small>
             </label>
-            <input type="password" class="form-control" placeholder="Masukkan Password Baru">
+            <div class="input-group">
+              <input type="password" id="editPassword" class="form-control" placeholder="Masukkan Password Baru">
+              <span class="input-group-text toggle-password-icon" style="cursor: pointer;">
+                <i class="fa fa-eye-slash"></i>
+              </span>
+            </div>
           </div>
         </div>
       </form>

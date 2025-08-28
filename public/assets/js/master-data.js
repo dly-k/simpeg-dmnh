@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".btn-delete-row").forEach((btn) => {
       btn.addEventListener("click", () => {
         selectedDeleteIndex = parseInt(btn.getAttribute("data-index"));
-        openModal("modalKonfirmasiHapus");
+        window.openModal("modalKonfirmasiHapus");
       });
     });
   };
@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (berhasilTitle) berhasilTitle.textContent = title;
     if (berhasilSubtitle) berhasilSubtitle.textContent = subtitle;
 
-    openModal("modalBerhasil");
+    window.openModal("modalBerhasil");
 
     successAudio = new Audio("/assets/sounds/success.mp3");
     successAudio.play().catch((error) => {
@@ -71,83 +71,16 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     setTimeout(() => {
-      closeModal("modalBerhasil");
+      window.closeModal("modalBerhasil");
       if (successAudio) {
         successAudio.pause();
         successAudio.currentTime = 0;
       }
     }, 1000);
   };
-
-  // == Modal Tambah Data ==
-  const initTambahModal = () => {
-    const btnSimpanTambah = document.querySelector("#tambahDataModal .btn-success");
-    if (btnSimpanTambah) {
-      btnSimpanTambah.addEventListener("click", () => {
-        closeModal("tambahDataModal");
-        showSuccessModal("Data Berhasil Disimpan", "Data pengguna baru telah berhasil ditambahkan ke sistem.");
-      });
-    }
-  };
-
-  // == Modal Edit Data ==
-  const initEditModal = () => {
-    const btnSimpanEdit = document.querySelector("#editDataModal .btn-success");
-    if (btnSimpanEdit) {
-      btnSimpanEdit.addEventListener("click", () => {
-        closeModal("editDataModal");
-        showSuccessModal("Data Berhasil Diperbarui", "Data pengguna telah berhasil diperbarui di sistem.");
-      });
-    }
-  };
-
-  // == Modal Hapus Data ==
-  const initDeleteModal = () => {
-    const btnBatalHapus = document.getElementById("btnBatalHapus");
-    const btnKonfirmasiHapus = document.getElementById("btnKonfirmasiHapus");
-
-    if (btnBatalHapus) {
-      btnBatalHapus.addEventListener("click", () => {
-        closeModal("modalKonfirmasiHapus");
-        selectedDeleteIndex = null;
-      });
-    }
-
-    if (btnKonfirmasiHapus) {
-      btnKonfirmasiHapus.addEventListener("click", (e) => {
-        e.stopPropagation();
-        if (selectedDeleteIndex !== null) {
-          userData.splice(selectedDeleteIndex, 1);
-          renderTable();
-          closeModal("modalKonfirmasiHapus");
-          setTimeout(() => {
-            showSuccessModal("Data Berhasil Dihapus", "Data pengguna telah berhasil dihapus dari sistem.");
-          }, 150);
-          selectedDeleteIndex = null;
-        }
-      });
-    }
-  };
-
-  // == Modal Berhasil ==
-  const initSuccessModal = () => {
-    const btnSelesai = document.getElementById("btnSelesai");
-    if (btnSelesai) {
-      btnSelesai.addEventListener("click", () => closeModal("modalBerhasil"));
-    }
-  };
-
-  // == Tutup Modal dengan Klik Overlay ==
-  const initOverlayClose = () => {
-    document.querySelectorAll(".modal-backdrop, .konfirmasi-hapus-overlay, .modal-berhasil-overlay").forEach((overlay) => {
-      overlay.addEventListener("click", (e) => {
-        if (e.target === overlay) closeModal(overlay.id);
-      });
-    });
-  };
-
-  // == Fungsi Modal dengan Animasi ==
-  const openModal = (modalId) => {
+  
+  // == Fungsi Modal dengan Animasi (Dibuat Global) ==
+  window.openModal = (modalId) => {
     const modal = document.getElementById(modalId);
     if (modal) {
       modal.style.display = "flex";
@@ -155,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  const closeModal = (modalId) => {
+  window.closeModal = (modalId) => {
     const modal = document.getElementById(modalId);
     if (modal) {
       modal.classList.remove("show");
@@ -169,6 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  // == Fungsi Edit Modal (Sudah Global) ==
   window.openEditModal = (nama, user, role) => {
     const namaField = document.getElementById("editNamaPegawai");
     const userField = document.getElementById("editIdPengguna");
@@ -178,7 +112,94 @@ document.addEventListener("DOMContentLoaded", () => {
     if (userField) userField.value = user;
     if (roleField) roleField.value = role;
 
-    openModal("editDataModal");
+    window.openModal("editDataModal");
+  };
+
+  // == Fungsi Toggle Password Visibility ==
+  const initPasswordToggle = () => {
+    document.querySelectorAll(".toggle-password-icon").forEach((toggle) => {
+      toggle.addEventListener("click", () => {
+        const passwordInput = toggle.previousElementSibling;
+        const icon = toggle.querySelector("i");
+  
+        if (passwordInput.type === "password") {
+          passwordInput.type = "text";
+          icon.classList.remove("fa-eye-slash");
+          icon.classList.add("fa-eye");
+        } else {
+          passwordInput.type = "password";
+          icon.classList.remove("fa-eye");
+          icon.classList.add("fa-eye-slash");
+        }
+      });
+    });
+  };
+
+  // == Modal Tambah Data ==
+  const initTambahModal = () => {
+    const btnSimpanTambah = document.querySelector("#tambahDataModal .btn-success");
+    if (btnSimpanTambah) {
+      btnSimpanTambah.addEventListener("click", () => {
+        window.closeModal("tambahDataModal");
+        showSuccessModal("Data Berhasil Disimpan", "Data pengguna baru telah berhasil ditambahkan ke sistem.");
+      });
+    }
+  };
+
+  // == Modal Edit Data ==
+  const initEditModal = () => {
+    const btnSimpanEdit = document.querySelector("#editDataModal .btn-success");
+    if (btnSimpanEdit) {
+      btnSimpanEdit.addEventListener("click", () => {
+        window.closeModal("editDataModal");
+        showSuccessModal("Data Berhasil Diperbarui", "Data pengguna telah berhasil diperbarui di sistem.");
+      });
+    }
+  };
+
+  // == Modal Hapus Data ==
+  const initDeleteModal = () => {
+    const btnBatalHapus = document.getElementById("btnBatalHapus");
+    const btnKonfirmasiHapus = document.getElementById("btnKonfirmasiHapus");
+
+    if (btnBatalHapus) {
+      btnBatalHapus.addEventListener("click", () => {
+        window.closeModal("modalKonfirmasiHapus");
+        selectedDeleteIndex = null;
+      });
+    }
+
+    if (btnKonfirmasiHapus) {
+      btnKonfirmasiHapus.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (selectedDeleteIndex !== null) {
+          userData.splice(selectedDeleteIndex, 1);
+          renderTable();
+          window.closeModal("modalKonfirmasiHapus");
+          setTimeout(() => {
+            showSuccessModal("Data Berhasil Dihapus", "Data pengguna telah berhasil dihapus dari sistem.");
+          }, 150);
+          selectedDeleteIndex = null;
+        }
+      });
+    }
+  };
+
+  // == Modal Berhasil ==
+  const initSuccessModal = () => {
+    const btnSelesai = document.getElementById("btnSelesai");
+    if (btnSelesai) {
+      btnSelesai.addEventListener("click", () => window.closeModal("modalBerhasil"));
+    }
+  };
+
+  // == Tutup Modal dengan Klik Overlay ==
+  const initOverlayClose = () => {
+    document.querySelectorAll(".modal-backdrop, .konfirmasi-hapus-overlay, .modal-berhasil-overlay").forEach((overlay) => {
+      overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) window.closeModal(overlay.id);
+      });
+    });
   };
 
   // == Inisialisasi ==
@@ -188,4 +209,5 @@ document.addEventListener("DOMContentLoaded", () => {
   initDeleteModal();
   initSuccessModal();
   initOverlayClose();
+  initPasswordToggle(); // Panggil fungsi toggle password
 });
