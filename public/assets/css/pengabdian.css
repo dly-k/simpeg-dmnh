@@ -21,7 +21,12 @@
    Table & Pagination
 ========================= */
 .table { vertical-align: middle; font-size: 12px; }
-.table th { font-weight: 600; background-color: var(--primary-light); text-align: center; }
+.table th {
+  font-weight: 600;
+  background-color: var(--primary-light);
+  vertical-align: middle;
+  text-align: center;
+}
 .pagination .page-item.active .page-link { background-color: var(--primary); border-color: var(--primary); }
 .pagination .page-link { color: var(--primary); }
 
@@ -115,6 +120,23 @@
 
 .file-actions-buttons {
   margin-top: 0.5rem;
+}
+
+.detail-grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 kolom */
+  gap: 16px;
+}
+
+.detail-item.full-width-detail {
+  grid-column: 1 / -1; /* Biar lebar penuh */
+}
+
+.detail-grid-container {
+  background-color: #f9f9f9;  /* abu-abu tipis */
+  border-radius: 12px;        /* rounded */
+  padding: 20px;              /* ruang dalam */
+  border: 1px solid #eee;     /* garis tipis */
 }
 
 /* ========================

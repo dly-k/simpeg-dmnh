@@ -1015,7 +1015,7 @@
                             </div>
                             <div class="table-responsive">
                                 <table class="table table-bordered table-hover table-sm">
-                                    <thead><tr><th>No</th><th>Judul</th><th>Tgl. Terbit</th><th>Jenis</th><th>Publik</th><th>Dokumen</th><th>Aksi</th></tr></thead>
+                                    <thead><tr><th>No</th><th>Judul</th><th>Tanggal Terbit</th><th>Jenis Karya</th><th>Publik</th><th>Dokumen</th><th>Aksi</th></tr></thead>
                                     <tbody>
                                         <script>for(let i=1; i<=3; i++){ document.write(`<tr><td class="text-center">${i}</td><td>Pengaruh Air Terhadap Tumbuh Kembang Leles</td><td class="text-center">24 Desember 2021</td><td class="text-center">Karya</td><td class="text-center">Ya</td><td class="text-center"><button class="btn btn-sm text-white px-3 btn-lihat">Lihat</button></td><td class="text-center"><div class="d-flex gap-2 justify-content-center"><button type="button" 
                                             class="btn btn-sm text-white btn-aksi btn-lihat-detail" 
@@ -1231,9 +1231,9 @@
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover table-sm">
-                                        <thead><tr><th>No</th><th>Nama Kegiatan</th><th>Penyelenggara</th><th>Tgl. Pelaksanaan</th><th>Posisi</th><th>Dokumen</th><th>Aksi</th></tr></thead>
+                                        <thead><tr><th>No</th><th>Nama Kegiatan</th><th>Penyelenggara</th><th>Posisi</th><th>Tanggal Mulai</th><th>Tanggal Selesai</th><th>Dokumen</th><th>Aksi</th></tr></thead>
                                         <tbody>
-                                            <tr><td class="text-center">1</td><td>Pelatihan Manajemen Hutan Berkelanjutan</td><td>Kementerian Lingkungan Hidup</td><td class="text-center">10-12 Januari 2023</td><td class="text-center">Bogor</td><td class="text-center"><button class="btn btn-sm btn-lihat text-white">Lihat</button></td>
+                                            <tr><td class="text-center">1</td><td>Pelatihan Manajemen Hutan Berkelanjutan</td><td>Kementerian Lingkungan Hidup</td><td class="text-center">Peserta</td><td class="text-center">12 Januari 2023</td><td class="text-center">19 Januari 2023</td><td class="text-center"><button class="btn btn-sm btn-lihat text-white">Lihat</button></td>
                                             <td>
                                             <div class="d-flex gap-2 justify-content-center">
                                             <a href="#" class="btn-aksi btn-lihat-detail  btn-lihat-detail-pelatihan" title="Lihat Detail"
@@ -1299,7 +1299,7 @@
                                         <thead>
                                             <tr class="text-center">
                                                 <th>No</th>
-                                                <th class="text-start">Nama Kegiatan</th>
+                                                <th>Nama Kegiatan</th>
                                                 <th>Unit</th>
                                                 <th>Nomor</th>
                                                 <th>Penghargaan</th>

@@ -549,6 +549,23 @@ a.dokumen-link:hover {
   margin-top: 0.5rem;
 }
 
+.detail-grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 kolom */
+  gap: 16px;
+}
+
+.detail-item.full-width-detail {
+  grid-column: 1 / -1; /* Biar lebar penuh */
+}
+
+.detail-grid-container {
+  background-color: #f9f9f9;  /* abu-abu tipis */
+  border-radius: 12px;        /* rounded */
+  padding: 20px;              /* ruang dalam */
+  border: 1px solid #eee;     /* garis tipis */
+}
+
 /* ========================
    Modal Konfirmasi Verifikasi
 ========================= */

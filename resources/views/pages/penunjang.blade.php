@@ -143,7 +143,7 @@
               <th>No</th>
               <th>Kegiatan</th>
               <th>Lingkup</th>
-              <th>Nama</th>
+              <th>Nama Kegiatan</th>
               <th>Instansi</th>
               <th>Nomor SK</th>
               <th>TMT</th>
