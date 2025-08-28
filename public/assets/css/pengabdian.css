@@ -113,6 +113,10 @@
   transform: translateY(-2px);
 }
 
+.file-actions-buttons {
+  margin-top: 0.5rem;
+}
+
 /* ========================
    MODAL FORM ELEMENTS (TAMBAH/EDIT)
 ========================= */

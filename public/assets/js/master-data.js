@@ -78,8 +78,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }, 1000);
   };
-  
-  // == Fungsi Modal dengan Animasi (Dibuat Global) ==
+
+  // == Fungsi Modal dengan Animasi (Global) ==
   window.openModal = (modalId) => {
     const modal = document.getElementById(modalId);
     if (modal) {
@@ -95,14 +95,20 @@ document.addEventListener("DOMContentLoaded", () => {
       modal.addEventListener(
         "transitionend",
         () => {
-          if (!modal.classList.contains("show")) modal.style.display = "none";
+          if (!modal.classList.contains("show")) {
+            modal.style.display = "none";
+
+            // Reset otomatis saat modal ditutup
+            if (modalId === "tambahDataModal") resetTambahModal();
+            if (modalId === "editDataModal") resetEditModal();
+          }
         },
         { once: true }
       );
     }
   };
 
-  // == Fungsi Edit Modal (Sudah Global) ==
+  // == Fungsi Edit Modal ==
   window.openEditModal = (nama, user, role) => {
     const namaField = document.getElementById("editNamaPegawai");
     const userField = document.getElementById("editIdPengguna");
@@ -115,13 +121,13 @@ document.addEventListener("DOMContentLoaded", () => {
     window.openModal("editDataModal");
   };
 
-  // == Fungsi Toggle Password Visibility ==
+  // == Toggle Password Visibility ==
   const initPasswordToggle = () => {
     document.querySelectorAll(".toggle-password-icon").forEach((toggle) => {
       toggle.addEventListener("click", () => {
         const passwordInput = toggle.previousElementSibling;
         const icon = toggle.querySelector("i");
-  
+
         if (passwordInput.type === "password") {
           passwordInput.type = "text";
           icon.classList.remove("fa-eye-slash");
@@ -133,6 +139,36 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
     });
+  };
+
+  // == Reset Tambah Data ==
+  const resetTambahModal = () => {
+    const form = document.querySelector("#tambahDataModal form");
+    if (form) form.reset();
+
+    const passwordInput = document.querySelector("#tambahDataModal input[type='password'], #tambahDataModal input[name='password']");
+    const icon = document.querySelector("#tambahDataModal .toggle-password-icon i");
+
+    if (passwordInput) passwordInput.type = "password";
+    if (icon) {
+      icon.classList.remove("fa-eye");
+      icon.classList.add("fa-eye-slash");
+    }
+  };
+
+  // == Reset Edit Data ==
+  const resetEditModal = () => {
+    const form = document.querySelector("#editDataModal form");
+    if (form) form.reset();
+
+    const passwordInput = document.querySelector("#editDataModal input[type='password'], #editDataModal input[name='password']");
+    const icon = document.querySelector("#editDataModal .toggle-password-icon i");
+
+    if (passwordInput) passwordInput.type = "password";
+    if (icon) {
+      icon.classList.remove("fa-eye");
+      icon.classList.add("fa-eye-slash");
+    }
   };
 
   // == Modal Tambah Data ==
@@ -209,5 +245,5 @@ document.addEventListener("DOMContentLoaded", () => {
   initDeleteModal();
   initSuccessModal();
   initOverlayClose();
-  initPasswordToggle(); // Panggil fungsi toggle password
+  initPasswordToggle();
 });

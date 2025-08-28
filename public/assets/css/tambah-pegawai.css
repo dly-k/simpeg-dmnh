@@ -455,6 +455,54 @@ body {
   font-size: 0.8rem;
 }
 
+.foto-container {
+  width: 220px;
+  height: 250px;
+  overflow: hidden;
+}
+
+.foto-icon {
+  font-size: 5rem;
+  color: #bfbfbf;
+}
+
+.edit-foto-btn {
+  max-width: 220px;
+}
+
+.custom-hr {
+  color: #939393;
+}
+
+#biodata-content {
+  display: block;
+}
+
+#kepegawaian {
+  display: block;
+}
+
+#dosen {
+  display: none;
+}
+
+#domisili {
+  display: none;
+}
+
+#kependudukan {
+  display: none;
+}
+
+#efile {
+  display: none;
+}
+
+.readonly-input {
+  background-color: #e9ecef;
+  color: #495057;
+}
+
 /* ========================
    Table
 ========================= */

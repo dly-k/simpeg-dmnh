@@ -32,7 +32,7 @@
           </div>
           <div class="detail-item">
             <small>File Dokumen</small>
-            <div class="file-actions-buttons" style="margin-top: 0.5rem;">
+            <div class="file-actions-buttons">
                 <a href="#" target="_blank" class="btn btn-primary btn-sm">
                     <i class="fas fa-file-alt me-2"></i>Lihat Dokumen
                 </a>

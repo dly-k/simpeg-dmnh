@@ -199,6 +199,15 @@
   color: var(--gray);
 }
 
+/* sembunyikan input 'lainnya' default */
+.posisi-lainnya {
+  display: none;
+}
+
+.posisi-lainnya.show {
+  display: block;
+}
+
 /* ========================
    Dynamic Row
 ========================= */

@@ -545,6 +545,9 @@ a.dokumen-link:hover {
   color: var(--gray);
 }
 
+.file-actions-buttons {
+  margin-top: 0.5rem;
+}
 
 /* ========================
    Modal Konfirmasi Verifikasi

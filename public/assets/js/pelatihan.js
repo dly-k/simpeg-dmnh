@@ -17,13 +17,11 @@ document.addEventListener("DOMContentLoaded", () => {
     modalBerhasil.classList.add("show");
     bsModal?.hide();
 
-    // Putar audio sukses
     successAudio = new Audio("/assets/sounds/success.mp3");
     successAudio.play().catch((error) => {
       console.warn("Error memutar audio:", error.message);
     });
 
-    // Auto-hide setelah 1.2 detik
     clearTimeout(successModalTimeout);
     successModalTimeout = setTimeout(hideSuccessModal, 1200);
   };
@@ -46,6 +44,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const modalTitle = pelatihanModalEl.querySelector(".modal-title");
     const pelatihanForm = document.getElementById("pelatihanForm");
     const bsPelatihanModal = new bootstrap.Modal(pelatihanModalEl);
+    const anggotaList = document.getElementById("anggota-list");
+
+    // Reset form
+    const resetForm = () => {
+      pelatihanForm.reset();
+      anggotaList.innerHTML = "";
+      pelatihanModalEl.querySelectorAll(".upload-area").forEach((ua) => ua.reset?.());
+      document.getElementById("posisi-lainnya-input").classList.remove("show");
+      document.getElementById("posisi-lainnya-input").value = "";
+    };
 
     pelatihanModalEl.addEventListener("show.bs.modal", (event) => {
       const button = event.relatedTarget;
@@ -54,17 +62,19 @@ document.addEventListener("DOMContentLoaded", () => {
         ? '<i class="fas fa-edit"></i> Edit Data Pelatihan'
         : '<i class="fas fa-plus-circle"></i> Tambah Data Pelatihan';
 
-      if (!isEditMode) {
-        pelatihanForm?.reset();
-        document.getElementById("anggota-list").innerHTML = "";
-        pelatihanModalEl.querySelector(".upload-area")?.reset();
-      }
+      if (!isEditMode) resetForm();
     });
 
     pelatihanModalEl.querySelector(".btn-success")?.addEventListener("click", () => {
+      // proses simpan data (misal AJAX)
+      console.log("Data form:", Object.fromEntries(new FormData(pelatihanForm)));
+
       bsPelatihanModal.hide();
       showSuccessModal("Data Berhasil Disimpan", "Data pelatihan telah berhasil disimpan ke sistem.");
+      resetForm();
     });
+
+    pelatihanModalEl.addEventListener("hidden.bs.modal", resetForm);
   };
 
   // == Delegasi Event untuk Tombol ==
@@ -74,7 +84,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.addEventListener("click", (event) => {
       const target = event.target;
 
-      // Tombol Hapus
       if (target.closest(".btn-hapus")) {
         event.preventDefault();
         const row = target.closest("tr");
@@ -85,7 +94,6 @@ document.addEventListener("DOMContentLoaded", () => {
         bsModal?.show();
       }
 
-      // Konfirmasi Hapus
       if (target.matches("#btnKonfirmasiHapus")) {
         event.preventDefault();
         if (dataToDelete) {
@@ -95,20 +103,16 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
 
-      // Batal Hapus
       if (target.matches("#btnBatalHapus")) {
         bsModal?.hide();
       }
 
-      // Selesai Modal Berhasil
       if (target.matches("#btnSelesai")) {
         hideSuccessModal();
       }
 
-      // Detail Pelatihan
-      const detailButton = target.closest(".btn-lihat-detail-pelatihan");
-      if (detailButton) {
-        const data = detailButton.dataset;
+      if (target.closest(".btn-lihat-detail-pelatihan")) {
+        const data = target.closest(".btn-lihat-detail-pelatihan").dataset;
         const setText = (id, value) => {
           const el = document.getElementById(id);
           if (el) el.textContent = value || "-";
@@ -131,12 +135,10 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("detail_pelatihan_document_viewer")?.setAttribute("src", data.dokumen_path || "");
       }
 
-      // Hapus Anggota Dinamis
       if (target.closest(".dynamic-row-close-btn")) {
         target.closest(".dynamic-row")?.remove();
       }
 
-      // Klik Upload Area
       if (target.closest(".upload-area")) {
         target.closest(".upload-area").querySelector('input[type="file"]')?.click();
       }
@@ -167,12 +169,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const setupPosisiLainnya = () => {
     const posisiSelect = document.getElementById("posisi-pelatihan-select");
     const posisiLainnyaInput = document.getElementById("posisi-lainnya-input");
+    if (!posisiSelect || !posisiLainnyaInput) return;
 
-    posisiSelect?.addEventListener("change", function () {
+    posisiSelect.addEventListener("change", function () {
       if (this.value === "Lainnya") {
-        posisiLainnyaInput.style.display = "block";
+        posisiLainnyaInput.classList.add("show");
       } else {
-        posisiLainnyaInput.style.display = "none";
+        posisiLainnyaInput.classList.remove("show");
         posisiLainnyaInput.value = "";
       }
     });

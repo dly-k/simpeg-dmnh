@@ -24,13 +24,13 @@
             <div class="col-12">
               <label class="form-label">Posisi Pelatihan</label>
               <select class="form-select" id="posisi-pelatihan-select">
-                <option selected>-- Pilih Posisi --</option>
+                <option value="" selected>-- Pilih Posisi --</option>
                 <option value="Peserta">Peserta</option>
                 <option value="Pembicara">Pembicara</option>
                 <option value="Panitia">Panitia</option>
                 <option value="Lainnya">Lainnya...</option>
               </select>
-              <input type="text" class="form-control mt-2" id="posisi-lainnya-input" placeholder="Sebutkan posisi lainnya" style="display: none;">
+              <input type="text" class="form-control mt-2 posisi-lainnya" id="posisi-lainnya-input" placeholder="Sebutkan posisi lainnya">
             </div>
 
             <div class="col-12">

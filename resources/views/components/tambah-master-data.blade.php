@@ -79,7 +79,7 @@
           <div class="col-md-6 mb-3">
             <label class="form-label">
               Password 
-              <small class="text-muted" style="font-size: 70%">(Kosongkan jika tidak diubah)</small>
+              <small class="text-muted">(Kosongkan jika tidak diubah)</small>
             </label>
             <div class="input-group">
               <input type="password" id="editPassword" class="form-control" placeholder="Masukkan Password Baru">
