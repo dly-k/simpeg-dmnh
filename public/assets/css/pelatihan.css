@@ -208,6 +208,19 @@
   display: block;
 }
 
+.detail-item p {
+  font-weight: 400;
+  color: #212529 !important;
+  font-size: 0.8rem !important;
+  margin: 0;
+}
+
+h6.mt-4 {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--primary-dark);
+}
+
 /* ========================
    Dynamic Row
 ========================= */

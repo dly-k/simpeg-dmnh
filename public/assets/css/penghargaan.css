@@ -97,6 +97,18 @@
   text-align: center;
 }
 
+#modalDetailPenghargaan h6 {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--primary-dark);
+}
+
+.detail-item p {
+    font-weight: 400;
+    color: #212529 !important;
+    font-size: 0.8rem !important;
+}
+
 /* ========================
    Action Buttons
 ========================= */
