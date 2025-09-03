@@ -171,6 +171,28 @@
 }
 
 /* ========================
+   Modal Scrollable Fix
+========================= */
+.modal-dialog-scrollable .modal-content {
+  max-height: 90vh;
+}
+
+.modal-dialog-scrollable .modal-body {
+  overflow-y: auto;
+  max-height: calc(90vh - 120px); /* Mengurangi tinggi header dan footer modal */
+}
+
+/* Untuk memastikan modal tetap responsif di perangkat mobile */
+@media (max-width: 768px) {
+  .modal-dialog-scrollable .modal-content {
+    max-height: 85vh;
+  }
+  
+  .modal-dialog-scrollable .modal-body {
+    max-height: calc(85vh - 120px);
+  }
+}
+/* ========================
    Modal General
 ========================= */
 .modal-header {

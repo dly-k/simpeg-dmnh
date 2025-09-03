@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SkNonPnsController;
+use App\Http\Controllers\PenghargaanController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -60,11 +62,18 @@ Route::get('/pelatihan', function () {
 
 Route::get('/sk-non-pns', function () {
     return view('pages.sk-non-pns');
-});
+})->name('sk-non-pns.index'); // <-- TAMBAHKAN BAGIAN INI
+Route::get('/sk-non-pns', [SkNonPnsController::class, 'index'])->name('sk-non-pns.index');
+Route::post('/sk-non-pns/store', [SkNonPnsController::class, 'store'])->name('sk-non-pns.store');
+Route::get('/sk-non-pns/{skNonPn}/edit', [SkNonPnsController::class, 'edit'])->name('sk-non-pns.edit');
+Route::put('/sk-non-pns/{skNonPn}', [SkNonPnsController::class, 'update'])->name('sk-non-pns.update');
+Route::delete('/sk-non-pns/{skNonPn}', [SkNonPnsController::class, 'destroy'])->name('sk-non-pns.destroy');
 
-Route::get('/penghargaan', function () {
-    return view('pages.penghargaan');
-});
+Route::get('/penghargaan', [PenghargaanController::class, 'index'])->name('penghargaan.index');
+Route::post('/penghargaan', [PenghargaanController::class, 'store'])->name('penghargaan.store');
+Route::get('/penghargaan/{id}/edit', [PenghargaanController::class, 'edit'])->name('penghargaan.edit'); // <-- TAMBAHKAN INI
+Route::post('/penghargaan/{id}', [PenghargaanController::class, 'update'])->name('penghargaan.update');
+Route::delete('/penghargaan/{id}', [PenghargaanController::class, 'destroy'])->name('penghargaan.destroy');
 
 Route::get('/sidebar', function () {
     return view('pages.sidebar');

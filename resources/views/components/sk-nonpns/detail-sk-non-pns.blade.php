@@ -10,7 +10,6 @@
 
       <div class="modal-body">
         <div class="detail-grid-container">
-          <div class="detail-item"><small>Nama Kegiatan</small><p id="detail_sk_nama_kegiatan">-</p></div>
           <div class="detail-item"><small>Unit</small><p id="detail_sk_unit">-</p></div>
           <div class="detail-item"><small>Jenis SK</small><p id="detail_sk_jenis_sk">-</p></div>
           <div class="detail-item"><small>Nomor SK</small><p id="detail_sk_nomor_sk">-</p></div>

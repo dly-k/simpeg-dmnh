@@ -1,5 +1,5 @@
 {{-- Modal Konfirmasi Hapus --}}
-<div class="modal fade konfirmasi-hapus-overlay" id="modalKonfirmasiHapus" tabindex="-1" aria-hidden="true">
+<div class="konfirmasi-hapus-overlay" id="modalKonfirmasiHapus" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content bg-light">
         <div class="modal-body text-center py-4">
