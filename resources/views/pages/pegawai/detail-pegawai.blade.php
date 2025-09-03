@@ -11,6 +11,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
   <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ asset('assets/css/layout.css') }}" />
   <link rel="stylesheet" href="{{ asset('assets/css/detail-pegawai.css') }}" />
 </head>
 
@@ -109,47 +110,47 @@
                             <div class="row g-3">
 
                                 <div class="col-md-6">
-                                    <label class="small text-dark fw-medium">NIP</label>
+                                    <label class="small text-dark fw-medium mb-1">NIP</label>
                                     <div class="detail-box">3212302291827320009</div>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label class="small text-dark fw-medium">Agama</label>
+                                    <label class="small text-dark fw-medium mb-1">Agama</label>
                                     <div class="detail-box">Islam</div>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label class="small text-dark fw-medium">Nama Lengkap</label>
+                                    <label class="small text-dark fw-medium mb-1">Nama Lengkap</label>
                                     <div class="detail-box">Joko Anwar S.Hut</div>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label class="small text-dark fw-medium">Status Pernikahan</label>
+                                    <label class="small text-dark fw-medium mb-1">Status Pernikahan</label>
                                     <div class="detail-box">Belum Menikah</div>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label class="small text-dark fw-medium">Jenis Kelamin</label>
+                                    <label class="small text-dark fw-medium mb-1">Jenis Kelamin</label>
                                     <div class="detail-box">Laki-laki</div>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label class="small text-dark fw-medium">Pendidikan Terakhir</label>
+                                    <label class="small text-dark fw-medium mb-1">Pendidikan Terakhir</label>
                                     <div class="detail-box">S3</div>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label class="small text-dark fw-medium">Tempat Lahir</label>
+                                    <label class="small text-dark fw-medium mb-1">Tempat Lahir</label>
                                     <div class="detail-box">Jakarta</div>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label class="small text-dark fw-medium">Bidang Ilmu</label>
+                                    <label class="small text-dark fw-medium mb-1">Bidang Ilmu</label>
                                     <div class="detail-box">Ilmu Pengelolaan Hutan</div>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label class="small text-dark fw-medium">Tanggal Lahir</label>
+                                    <label class="small text-dark fw-medium mb-1">Tanggal Lahir</label>
                                     <div class="detail-box">13 Agustus 1961</div>
                                 </div>
                             </div>
@@ -184,72 +185,72 @@
                                 <div class="row g-3">
 
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">Status Kepegawaian</label>
+                                        <label class="small text-dark fw-medium mb-1">Status Kepegawaian</label>
                                         <div class="detail-box">Dosen PNS</div>
                                     </div>
 
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">Status Pegawai</label>
+                                        <label class="small text-dark fw-medium mb-1">Status Pegawai</label>
                                         <div class="detail-box">Aktif</div>
                                     </div>
 
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">Unit Kerja</label>
+                                        <label class="small text-dark fw-medium mb-1">Unit Kerja</label>
                                         <div class="detail-box">Fakultas Kehutanan dan Lingkungan</div>
                                     </div>
 
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">Divisi</label>
+                                        <label class="small text-dark fw-medium mb-1">Divisi</label>
                                         <div class="detail-box">Departemen Manajemen Hutan</div>
                                     </div>
 
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">Nomor Arsip Berkas Kepegawaian</label>
+                                        <label class="small text-dark fw-medium mb-1">Nomor Arsip Berkas Kepegawaian</label>
                                         <div class="detail-box">046</div>
                                     </div>
 
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">Jabatan Fungsional</label>
+                                        <label class="small text-dark fw-medium mb-1">Jabatan Fungsional</label>
                                         <div class="detail-box">Tidak ada</div>
                                     </div>
 
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">Pangkat/Golongan</label>
+                                        <label class="small text-dark fw-medium mb-1">Pangkat/Golongan</label>
                                         <div class="detail-box">Juru Muda / I-a</div>
                                     </div>
 
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">TMT Pangkat Terakhir</label>
+                                        <label class="small text-dark fw-medium mb-1">TMT Pangkat Terakhir</label>
                                         <div class="detail-box">01 Maret 2021</div>
                                     </div>
 
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">Jabatan Struktural (jika ada)</label>
+                                        <label class="small text-dark fw-medium mb-1">Jabatan Struktural (jika ada)</label>
                                         <div class="detail-box">Tidak ada</div>
                                     </div>
 
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">Periode Jabatan Struktural (TMT s/d TST)</label>
+                                        <label class="small text-dark fw-medium mb-1">Periode Jabatan Struktural (TMT s/d TST)</label>
                                         <div class="detail-box">14 Juli 2023 s/d 01 Maret 2028</div>
                                     </div>
 
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">Finger Print ID</label>
+                                        <label class="small text-dark fw-medium mb-1">Finger Print ID</label>
                                         <div class="detail-box">15213</div>
                                     </div>
 
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">NPWP</label>
+                                        <label class="small text-dark fw-medium mb-1">NPWP</label>
                                         <div class="detail-box">764906129203000</div>
                                     </div>
 
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">Nama Bank</label>
+                                        <label class="small text-dark fw-medium mb-1">Nama Bank</label>
                                         <div class="detail-box">Bank BRI</div>
                                     </div>
 
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">No Rekening</label>
+                                        <label class="small text-dark fw-medium mb-1">No Rekening</label>
                                         <div class="detail-box">012819102912191</div>
                                     </div>
 
@@ -260,17 +261,17 @@
                             <div class="sub-tab-content" id="dosen">
                                 <div class="row g-3">
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">NUPTK</label>
+                                        <label class="small text-dark fw-medium mb-1">NUPTK</label>
                                         <div class="detail-box">1234567890123456</div>
                                     </div>
 
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">SINTA ID</label>
+                                        <label class="small text-dark fw-medium mb-1">SINTA ID</label>
                                         <div class="detail-box">1234-5678</div>
                                     </div>
 
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">NIDN</label>
+                                        <label class="small text-dark fw-medium mb-1">NIDN</label>
                                         <div class="detail-box">123456781273811</div>
                                     </div>
 
@@ -280,22 +281,22 @@
                                     </div>
 
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">No. Sertifikasi Dosen</label>
+                                        <label class="small text-dark fw-medium mb-1">No. Sertifikasi Dosen</label>
                                         <div class="detail-box">24-001013-0100</div>
                                     </div>
 
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">Orchid ID</label>
+                                        <label class="small text-dark fw-medium mb-1">Orchid ID</label>
                                         <div class="detail-box">0000-0002-1825-0097</div>
                                     </div>
 
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">Tgl. Sertifikasi Dosen</label>
+                                        <label class="small text-dark fw-medium mb-1">Tgl. Sertifikasi Dosen</label>
                                         <div class="detail-box">17 Agustus 1880</div>
                                     </div>
 
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">Google Scholar ID</label>
+                                        <label class="small text-dark fw-medium mb-1">Google Scholar ID</label>
                                         <div class="detail-box">abcdefg12345678</div>
                                     </div>
                                 </div>
@@ -305,42 +306,42 @@
                             <div class="sub-tab-content" id="domisili">
                                 <div class="row g-3">
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">Provinsi</label>
+                                        <label class="small text-dark fw-medium mb-1">Provinsi</label>
                                         <div class="detail-box">Jawa Barat</div>
                                     </div>
 
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">Alamat</label>
+                                        <label class="small text-dark fw-medium mb-1">Alamat</label>
                                         <div class="detail-box">JL. Lodaya</div>
                                     </div>
 
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">Kota</label>
+                                        <label class="small text-dark fw-medium mb-1">Kota</label>
                                         <div class="detail-box">Bandung</div>
                                     </div>
 
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">Kode Pos</label>
+                                        <label class="small text-dark fw-medium mb-1">Kode Pos</label>
                                         <div class="detail-box">10021</div>
                                     </div>
 
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">Kecamatan</label>
+                                        <label class="small text-dark fw-medium mb-1">Kecamatan</label>
                                         <div class="detail-box">Bandung Tengah</div>
                                     </div>
 
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">No. Telepon/HP</label>
+                                        <label class="small text-dark fw-medium mb-1">No. Telepon/HP</label>
                                         <div class="detail-box">081239128991</div>
                                     </div>
 
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">Kelurahan</label>
+                                        <label class="small text-dark fw-medium mb-1">Kelurahan</label>
                                         <div class="detail-box">Ciawi</div>
                                     </div>
 
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">Email Pribadi / Institusi</label>
+                                        <label class="small text-dark fw-medium mb-1">Email Pribadi / Institusi</label>
                                         <div class="detail-box">aexyifshsi@gmail.com</div>
                                     </div>
                                 </div>
@@ -351,47 +352,47 @@
                                 <div class="row g-3">
 
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">Nomor KTP</label>
+                                        <label class="small text-dark fw-medium mb-1">Nomor KTP</label>
                                         <div class="detail-box">31862908812645811</div>
                                     </div>
 
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">Kecamatan</label>
+                                        <label class="small text-dark fw-medium mb-1">Kecamatan</label>
                                         <div class="detail-box">Talang Ubi</div>
                                     </div>
 
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">Nomor KK</label>
+                                        <label class="small text-dark fw-medium mb-1">Nomor KK</label>
                                         <div class="detail-box">8011447152211029</div>
                                     </div>
 
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">Kelurahan</label>
+                                        <label class="small text-dark fw-medium mb-1">Kelurahan</label>
                                         <div class="detail-box">Pisangan Timur</div>
                                     </div>
 
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">Warga Negara</label>
+                                        <label class="small text-dark fw-medium mb-1">Warga Negara</label>
                                         <div class="detail-box">Indonesia</div>
                                     </div>
 
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">Kode Pos</label>
+                                        <label class="small text-dark fw-medium mb-1">Kode Pos</label>
                                         <div class="detail-box">01984</div>
                                     </div>
 
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">Provinsi</label>
+                                        <label class="small text-dark fw-medium mb-1">Provinsi</label>
                                         <div class="detail-box">Sumatera Barat</div>
                                     </div>
 
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">Kabupaten/Kota</label>
+                                        <label class="small text-dark fw-medium mb-1">Kabupaten/Kota</label>
                                         <div class="detail-box">Cimahi</div>
                                     </div>
 
                                     <div class="col-md-12 form-group">
-                                        <label class="small text-dark fw-medium">Alamat</label>
+                                        <label class="small text-dark fw-medium mb-1">Alamat</label>
                                         <div class="detail-box">Jalan Cendrawasih No. 25, RT 03/RW 05</div>
                                     </div>
                                 </div>

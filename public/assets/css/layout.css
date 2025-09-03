@@ -38,6 +38,7 @@
   --pink: #db2777;
 
   /* Warna Transparan */
+  --light: #f7f9fa;
   --black-05: rgba(0, 0, 0, 0.5);
   --black-01: rgba(0, 0, 0, 0.1);
   --white-02: rgba(255, 255, 255, 0.2);
