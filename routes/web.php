@@ -56,9 +56,10 @@ Route::get('/detail-pegawai', function () {
     return view('pages.pegawai.detail-pegawai');
 });
 
-Route::get('/pelatihan', function () {
-    return view('pages.pelatihan');
-});
+use App\Http\Controllers\PelatihanController;
+
+// Cara terbaik adalah menggunakan resource route
+Route::resource('pelatihan', PelatihanController::class);
 
 Route::get('/sk-non-pns', function () {
     return view('pages.sk-non-pns');

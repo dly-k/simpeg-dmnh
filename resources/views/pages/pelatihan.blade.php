@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+   <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -101,14 +102,13 @@
             </div>
           </div>
 
-          <div class="table-responsive">
+<div class="table-responsive">
             <table class="table table-hover table-bordered">
                 <thead class="table-light">
                     <tr class="text-center">
                         <th>No</th>
                         <th>Nama Kegiatan</th>
                         <th>Penyelenggara</th>
-                        <th>Pegawai</th>
                         <th>Posisi</th>
                         <th>Tanggal Mulai</th>
                         <th>Tanggal Selesai</th>
@@ -117,64 +117,61 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <script>
-                      for(let i=1; i<=7; i++){ 
-                          document.write(`
-                              <tr>
-                                  <td class="text-center">${i}</td>
-                                  <td class="text-start">Alex Kurniawan</td>
-                                  <td class="text-center">IPDN</td>
-                                  <td class="text-center">Biometrika Hutan</td>
-                                  <td class="text-center">Peserta</td>
-                                  <td class="text-center">12 Januari 2023</td>
-                                  <td class="text-center">19 Januari 2023</td>
-                                  <td class="text-center"><a href="#" class="btn btn-sm btn-lihat text-white">Lihat</a></td>
-                                  <td class="text-center">
-                                      <div class="d-flex gap-2 justify-content-center">
-                                          <a href="#" class="btn-aksi btn-lihat-detail  btn-lihat-detail-pelatihan" title="Lihat Detail"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#modalDetailPelatihan"
-                                            data-nama_pelatihan="Senam Lele Merdeka"
-                                            data-posisi="Peserta"
-                                            data-kota="Bogor"
-                                            data-lokasi="Dramaga"
-                                            data-penyelenggara="Fakultas Perikanan"
-                                            data-jenis_diklat="Teknis"
-                                            data-tgl_mulai="2025-08-10"
-                                            data-tgl_selesai="2025-08-15"
-                                            data-lingkup="Internal"
-                                            data-jam="40"
-                                            data-hari="5"
-                                            data-struktural="Tidak"
-                                            data-sertifikasi="Ya"
-                                            data-dokumen_path="assets/pdf/example.pdf">
-                                                <i class="fa fa-eye"></i>
-                                            </a>
-                                          <a href="#" class="btn-aksi btn-edit" title="Edit Data" data-bs-toggle="modal" data-bs-target="#pelatihanModal">
-                                              <i class="fa fa-edit"></i>
-                                          </a>
-                                          <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
-                                      </div>
-                                  </td>
-                              </tr>
-                          `);
-                      }
-                    </script>
+                    @forelse ($dataPelatihan as $pelatihan)
+                    <tr id="pelatihan-{{ $pelatihan->id }}">
+                        <td class="text-center">{{ $dataPelatihan->firstItem() + $loop->index }}</td>
+                        <td class="text-start">{{ $pelatihan->nama_kegiatan }}</td>
+                        <td class="text-center">{{ $pelatihan->penyelenggara }}</td>
+                        <td class="text-center">{{ $pelatihan->posisi }}</td>
+                        <td class="text-center">{{ $pelatihan->tgl_mulai->format('d F Y') }}</td>
+                        <td class="text-center">{{ $pelatihan->tgl_selesai->format('d F Y') }}</td>
+                        <td class="text-center">
+                            <a href="{{ asset('storage/' . $pelatihan->file_path) }}" target="_blank" class="btn btn-sm btn-lihat text-white">Lihat</a>
+                        </td>
+                        <td class="text-center">
+                            <div class="d-flex gap-2 justify-content-center">
+                                <a href="#" class="btn-aksi btn-lihat-detail btn-lihat-detail-pelatihan" title="Lihat Detail"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#modalDetailPelatihan"
+                                  data-nama_pelatihan="{{ $pelatihan->nama_kegiatan }}"
+                                  data-posisi="{{ $pelatihan->posisi === 'Lainnya' ? $pelatihan->posisi_lainnya : $pelatihan->posisi }}"
+                                  data-kota="{{ $pelatihan->kota }}"
+                                  data-lokasi="{{ $pelatihan->lokasi }}"
+                                  data-penyelenggara="{{ $pelatihan->penyelenggara }}"
+                                  data-jenis_diklat="{{ $pelatihan->jenis_diklat }}"
+                                  data-tgl_mulai="{{ $pelatihan->tgl_mulai->format('d F Y') }}"
+                                  data-tgl_selesai="{{ $pelatihan->tgl_selesai->format('d F Y') }}"
+                                  data-lingkup="{{ $pelatihan->lingkup }}"
+                                  data-jam="{{ $pelatihan->jumlah_jam }}"
+                                  data-hari="{{ $pelatihan->jumlah_hari }}"
+                                  data-struktural="{{ $pelatihan->struktural ? 'Ya' : 'Tidak' }}"
+                                  data-sertifikasi="{{ $pelatihan->sertifikasi ? 'Ya' : 'Tidak' }}"
+                                  data-dokumen_path="{{ asset('storage/' . $pelatihan->file_path) }}">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                                <a href="#" class="btn-aksi btn-edit" title="Edit Data" data-id="{{ $pelatihan->id }}" data-bs-toggle="modal" data-bs-target="#pelatihanModal">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                <a href="#" class="btn-aksi btn-hapus" title="Hapus Data" data-id="{{ $pelatihan->id }}"><i class="fa fa-trash"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="8" class="text-center">Belum ada data pelatihan yang tersedia.</td>
+                    </tr>
+                    @endforelse
                 </tbody>
             </table>
           </div>
           
           <div class="d-flex justify-content-between align-items-center mt-4">
-              <span class="text-muted small">Menampilkan 1 sampai 10 dari 13 data</span>
+              <span class="text-muted small">Menampilkan {{ $dataPelatihan->firstItem() }} sampai {{ $dataPelatihan->lastItem() }} dari {{ $dataPelatihan->total() }} data</span>
               <nav aria-label="Page navigation">
-                <ul class="pagination pagination-sm mb-0">
-                  <li class="page-item disabled"><a class="page-link" href="#">Sebelumnya</a></li>
-                  <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">Berikutnya</a></li>
-                </ul>
+                {{ $dataPelatihan->links() }}
               </nav>
           </div>
+
       </div>
   </div>
 
