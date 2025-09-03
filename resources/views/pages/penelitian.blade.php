@@ -207,6 +207,9 @@
       </div>
     </div>
   </div>
+  <footer class="footer-custom">
+    <span>© 2025 Forest Management — All Rights Reserved</span>
+  </footer>
     
   {{-- Kumpulan Modal  --}}
     @include('components.konfirmasi-hapus')

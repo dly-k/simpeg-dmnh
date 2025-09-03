@@ -1,261 +1,329 @@
-/* ========================
-   Sidebar
-========================= */
-.sidebar .menu a.active,
-.sidebar .menu button.active {
-  background-color: var(--primary);
-  color: var(--white);
-  font-weight: 600;
-}
-
-.sidebar .submenu a.active {
-  color: var(--primary);
-  font-weight: 600;
-  background-color: var(--primary-light);
-}
-
-/* ========================
-   Main Content
-========================= */
+/* =============================
+   Konten Utama
+   Gaya untuk area konten utama
+============================= */
 .main-content {
-  margin-left: 250px;
-  padding: 25px;
-  transition: margin-left 0.3s ease-in-out;
-  background-color: var(--light);
-  margin-top: 130px;
-  font-size: 14px;
-  padding-bottom: 70px;
+    margin: 130px 0 70px 250px;
+    padding: 25px;
+    background-color: var(--light);
+    font-size: 14px;
+    transition: margin-left 0.3s ease-in-out;
 }
 
 .sidebar.hidden ~ .navbar-custom ~ .title-bar ~ .main-content {
-  margin-left: 0;
+    margin-left: 0;
 }
 
-/* ========================
-   Card
-========================= */
+/* =============================
+   Main Wrapper
+   Gaya untuk pembungkus utama
+============================= */
+.main-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* =============================
+   Kartu
+   Gaya untuk komponen kartu
+============================= */
 .card {
-  border: none;
-  background: var(--white);
-  padding: 1.5rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    background-color: var(--white);
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    border: none;
 }
 
-/* ========================
-   Search and Filter
-========================= */
+/* =============================
+   Pencarian dan Filter
+   Gaya untuk komponen pencarian dan filter
+============================= */
 .search-filter-container {
-  padding: 0;
-  margin-bottom: 1.5rem;
-  border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+    padding: 0;
+    border-radius: 0.5rem;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .search-filter-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .search-box {
-  flex: 1;
-  min-width: 250px;
-}
-
-.filter-select {
-  width: 180px;
-}
-
-.btn-tambah-container {
-  margin-left: auto;
+    flex: 1;
+    min-width: 250px;
 }
 
 .search-input::placeholder {
-  color: rgba(0, 0, 0, 0.4);
-  opacity: 1;
+    color: rgba(0, 0, 0, 0.4);
+    opacity: 1;
 }
 
-/* ========================
-   Table
-========================= */
+.search-icon {
+    color: var(--primary);
+}
+
+.filter-select {
+    width: 180px;
+}
+
+.btn-tambah-container {
+    margin-left: auto;
+}
+
+/* =============================
+   Tabel
+   Gaya untuk elemen tabel
+============================= */
 .table {
-  vertical-align: middle;
-  font-size: 12px;
+    font-size: 12px;
+    vertical-align: middle;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .table th {
-  font-weight: 600;
-  background-color: var(--primary-light);
-  vertical-align: middle;
-  text-align: center;
+    font-weight: 600;
+    background-color: var(--primary-light);
+    text-align: center;
+    vertical-align: middle;
 }
 
-/* ========================
-   Pagination
-========================= */
+/* =============================
+   Paginasi
+   Gaya untuk kontrol paginasi
+============================= */
 .pagination .page-item.active .page-link {
-  background-color: var(--primary);
-  border-color: var(--primary);
-  color: var(--white);
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: var(--white);
 }
 
 .pagination .page-link {
-  color: var(--primary);
+    color: var(--primary);
 }
 
 .pagination .page-link:hover {
-  background-color: var(--primary-light);
+    background-color: var(--primary-light);
 }
 
 .pagination .page-item.disabled .page-link {
-  color: var(--gray);
+    color: var(--gray);
 }
 
-/* ========================
-   Action Buttons
-========================= */
+/* =============================
+   Tombol Aksi
+   Gaya untuk berbagai jenis tombol aksi
+============================= */
 .btn-aksi {
-  width: 32px;
-  height: 32px;
-  border-radius: 6px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  color: var(--white);
-  text-decoration: none;
-  transition: all 0.3s ease;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    color: var(--white);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-aksi:hover {
+    transform: scale(1.15);
 }
 
 .btn-tambah {
-  background-color: var(--gray-dark);
-  color: var(--white);
+    background-color: var(--gray-dark);
+    color: var(--white);
+    transition: all 0.3s ease;
 }
 
 .btn-tambah:hover {
-  background-color: var(--gray-hover);
-  color: var(--white);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px var(--black-01);
+    background-color: var(--gray-hover);
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--black-01);
 }
 
 .btn-verifikasi {
-  background-color: var(--verifikasi);
+    background-color: var(--verifikasi);
+    transition: all 0.3s ease;
 }
 
 .btn-verifikasi:hover {
-  background-color: var(--verifikasi-hover);
-  transform: scale(1.15);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    background-color: var(--verifikasi-hover);
+    transform: scale(1.15);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .btn-lihat,
 .btn-lihat-detail {
-  background-color: var(--info);
-  transition: all 0.3s ease;
+    background-color: var(--info);
+    transition: all 0.3s ease;
+    cursor: pointer;
 }
 
 .btn-lihat:hover,
 .btn-lihat-detail:hover {
-  background-color: var(--info-hover);
-  transform: scale(1.15);
+    background-color: var(--info-hover);
+    transform: scale(1.15);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .btn-edit {
-  background-color: var(--warning);
+    background-color: var(--warning);
+    transition: all 0.3s ease;
 }
 
 .btn-edit:hover {
-  background-color: var(--warning-hover);
-  transform: scale(1.15);
+    background-color: var(--warning-hover);
+    transform: scale(1.15);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .btn-hapus {
-  background-color: var(--danger);
+    background-color: var(--danger);
+    transition: all 0.3s ease;
 }
 
 .btn-hapus:hover {
-  background-color: var(--danger-hover);
-  transform: scale(1.15);
+    background-color: var(--danger-hover);
+    transform: scale(1.15);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-/* ========================
-   Modal (General)
-========================= */
-/* TAMBAHKAN INI KE penunjang.css UNTUK MENYESUAIKAN TAMPILAN MODAL BOOTSTRAP */
-
-#penunjangModal .modal-header,
-#penunjangDetailModal .modal-header {
-  background: linear-gradient(to right, var(--primary), var(--primary-dark));
-  color: var(--white);
+.btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
 }
 
-#penunjangModal .modal-header .btn-close,
-#penunjangDetailModal .modal-header .btn-close {
-  filter: invert(1) grayscale(100%) brightness(200%);
+/* =============================
+   Modal Umum
+   Gaya dasar untuk komponen modal
+============================= */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: var(--overlay-light);
 }
 
-/* Di penunjang.css atau file CSS modal Anda */
+.modal-content {
+    background-color: var(--white);
+    margin: 4% auto;
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 5px 25px var(--black-005);
+    overflow: hidden;
+    animation: modalFadeIn 0.3s ease-out;
+}
 
-#modalKonfirmasiHapus {
-    display: flex !important; /* Pastikan display flex agar backdrop menutupi */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--overlay-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1050;
     opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
-}
-
-#modalKonfirmasiHapus.show {
-    opacity: 1;
-    visibility: visible;
-}
-
-#modalKonfirmasiHapus .modal-dialog {
-    transform: translateY(0);
-    transition: transform 0.3s ease-out;
-}
-
-#modalKonfirmasiHapus:not(.show) .modal-dialog {
-    transform: translateY(20px); /* Efek slide sedikit ke bawah saat keluar */
-}
-
-.modal-backdrop.fade {
-   opacity: 0;
+    transition: opacity 0.3s ease-out;
 }
 
 .modal-backdrop.show {
-    opacity: 0.5; /* Atau nilai opacity yang Anda inginkan */
+    opacity: 0.5;
 }
 
-#modalKonfirmasiHapus .modal-content {
-    /* Tambahkan transisi jika perlu untuk konten */
-    transition: opacity 0.2s ease-out;
+.modal-content-wrapper {
+    background-color: var(--white);
+    border-radius: 0.5rem;
+    box-shadow: 0 5px 25px var(--black-005);
+    width: 100%;
+    max-width: 800px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    transform: scale(0.9);
+    transition: transform 0.3s ease-out;
 }
 
-#modalKonfirmasiHapus:not(.show) .modal-content {
-    opacity: 0.8; /* Sedikit memudar saat keluar */
+.modal-backdrop.show .modal-content-wrapper {
+    transform: scale(1);
 }
 
-/* ========================
-   Modal Detail (Penunjang)
-========================= */
-#penunjangDetailModal.modal {
-  animation: modalFadeIn 0.3s ease-out;
+.modal-header-custom {
+    background: linear-gradient(to right, var(--primary), var(--primary-dark));
+    color: var(--white);
+    padding: 1.25rem;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    border-bottom: none;
 }
 
-/* ======================================================= */
-/* ==  KODE CSS PERBAIKAN UNTUK DITAMBAHKAN KE penunjang.css  == */
-/* ======================================================= */
-
-/* Mengatur Header dan Body Modal Penunjang */
-#penunjangDetailModal .modal-header {
-  background-color: var(--primary-dark);
-  color: var(--white);
-  border-bottom: none;
+.modal-header-custom h5 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-#penunjangDetailModal .modal-header .btn-close {
-  filter: invert(1) grayscale(100%) brightness(200%);
+.modal-body-custom {
+    padding: 1.5rem;
+    overflow-y: auto;
+    color: #000;
+}
+
+.modal-footer-custom {
+    padding: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    border-top: 1px solid #dee2e6;
+    background-color: var(--white);
+}
+
+/* =============================
+   Modal Detail
+   Gaya untuk tampilan detail pada modal
+============================= */
+#penunjangModal .modal-header,
+#penunjangDetailModal .modal-header,
+#pengabdianModal .modal-header,
+#pengabdianDetailModal .modal-header,
+#penelitianModal .modal-header,
+#detailModal .modal-header {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(to right, var(--primary), var(--primary-dark));
+    color: var(--white);
+    border-bottom: none;
+}
+
+#penunjangModal .modal-header .btn-close,
+#penunjangDetailModal .modal-header .btn-close,
+#pengabdianModal .modal-header .btn-close,
+#pengabdianDetailModal .modal-header .btn-close,
+#penelitianModal .modal-header .btn-close,
+#detailModal .modal-header .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
 }
 
 #penunjangDetailModal .modal-body,
@@ -263,524 +331,687 @@
 #penunjangDetailModal .modal-body p,
 #penunjangDetailModal .modal-body ul,
 #penunjangDetailModal .modal-body h6 {
-  color: #000;
+    color: #000;
 }
 
-/* Menambahkan Style Grid Layout dari Modal Kerjasama */
-.detail-grid-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  padding: 1rem;
-  background-color: #f8f9fa;
-  border: 1px solid #dee2e6;
-  border-radius: 8px;
+.modal-title-group {
+    display: flex;
+    align-items: center;
 }
 
-.detail-item {
-  border-bottom: 1px solid #e9ecef;
-  padding-bottom: 0.5rem;
-  word-wrap: break-word;
+.modal-title-group .fa-info-circle {
+    font-size: 1.3rem;
+    margin-right: 10px;
 }
 
-.detail-item small {
-  color: var(--gray);
-  display: block;
-  margin-bottom: 0.25rem;
-  font-size: 0.8rem;
-  font-weight: 700;
-  text-transform: uppercase;
+.modal-title-group h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 500;
 }
 
-.detail-item p {
-  font-weight: 400;
-  margin: 0;
-  color: #212529;
-  font-size: 0.85rem;
+.modal-body {
+    padding: 10px 25px 20px;
 }
 
-.full-width-detail {
-  grid-column: 1 / -1;
+.modal-row {
+    padding: 15px 0;
+    border-bottom: 1px solid #e9ecef;
 }
 
-/* Menambahkan Style Area Tombol File */
-.file-actions-container {
-  margin-top: 1.5rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid #dee2e6;
+.modal-row.no-border {
+    border-bottom: none;
 }
 
-.file-actions-title {
-  margin-bottom: 1rem;
-  font-weight: 600;
-  color: #495057;
+.modal-row.multi-column {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
-.file-actions-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
+.detail-field {
+    flex: 1;
+    min-width: 150px;
 }
 
-.file-actions-buttons .btn {
-  transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+.modal-row strong {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #1f2937;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
 }
 
-.file-actions-buttons .btn:hover {
-  transform: scale(1.05);
+.modal-row .detail-value {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #6b7280;
 }
 
-/* Mengatur ulang footer agar bersih */
-#penunjangDetailModal .modal-footer {
+.penulis-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.penulis-header strong {
+    margin-bottom: 0;
+}
+
+a.dokumen-link {
+    color: var(--blue);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+a.dokumen-link:hover {
+    text-decoration: underline;
+}
+
+.modal-footer {
+    padding: 15px 25px;
+    text-align: right;
     background-color: var(--white);
     border-top: 1px solid #dee2e6;
 }
-/* ======================================================= */
-/* ==      CSS TAMBAHAN UNTUK JUDUL SEKSI DI MODAL      == */
-/* ======================================================= */
+
+.btn-tutup {
+    background-color: #e5e7eb;
+    border: 1px solid #dee2e6;
+    color: #1f2937;
+    padding: 8px 24px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+}
+
+.btn-tutup:hover {
+    background-color: #d1d5db;
+}
+
+/* =============================
+   Modal Detail Grid
+   Gaya untuk grid detail pada modal
+============================= */
+.detail-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+}
+
+.detail-item {
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 0.5rem;
+    word-break: break-word;
+}
+
+.detail-item small {
+    display: block;
+    margin-bottom: 0.25rem;
+    color: var(--gray);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.detail-item p {
+    margin: 0;
+    color: #212529;
+    font-size: 0.85rem;
+    font-weight: 400;
+}
+
+.full-width-detail {
+    grid-column: 1 / -1;
+}
 
 .detail-section-header {
-  margin-top: 1.5rem; /* Memberi jarak dari seksi sebelumnya */
-  border-radius: 4px;
+    margin-top: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #dee2e6;
+    border-radius: 4px;
 }
 
 .detail-section-header h5 {
-  margin: 0;
-  font-weight: 600;
-  font-size: 1rem;
-  color: var(--primary-dark);
-  display: flex;
-  align-items: center;
+    margin: 0;
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--primary-dark);
+    display: flex;
+    align-items: center;
 }
 
-/* ========================
-   Modal Konfirmasi Verifikasi
-========================= */
-#modalKonfirmasiVerifikasi {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2000;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-  animation: modalFadeIn 0.2s ease-out;
+/* =============================
+   Area Tombol File
+   Gaya untuk tombol aksi file
+============================= */
+.file-actions-container {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #dee2e6;
 }
 
-#modalKonfirmasiVerifikasi.show {
-  opacity: 1;
-  visibility: visible;
+.file-actions-title {
+    margin-bottom: 1rem;
+    font-weight: 600;
+    color: #495057;
 }
 
-.confirmation-popup-box {
-  background-color: #f4f4f4;
-  padding: 30px 40px;
-  border-radius: 12px;
-  text-align: center;
-  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
-  width: 90%;
-  max-width: 500px;
-  transform: scale(0.9);
-  transition: transform 0.3s ease;
-  animation: modalContentZoomIn 0.3s ease-out;
+.file-actions-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
 }
 
-#modalKonfirmasiVerifikasi.show .confirmation-popup-box {
-  transform: scale(1);
+.file-actions-buttons .btn {
+    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
 }
 
-.popup-title {
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: var(--primary-dark);
-  margin-bottom: 8px;
+.file-actions-buttons .btn:hover {
+    transform: scale(1.05);
 }
 
-.popup-subtitle {
-  font-size: 1rem;
-  color: #333;
-  margin-bottom: 25px;
-}
-
-.popup-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-}
-
-/* ========================
-   Modal Buttons
-========================= */
-.btn-popup {
-  border: none;
-  padding: 12px 25px;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  color: var(--white);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.btn-popup:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-}
-
-.btn-terima {
-  background-color: #4caf50;
-}
-
-.btn-tolak {
-  background-color: #e53935;
-}
-
-.btn-kembali {
-  background-color: #9ea4ad;
-}
-
-.btn-batal {
-  background-color: var(--gray);
-}
-
-.btn-batal:hover {
-  background-color: #5a6268;
-}
-
-.btn-hapus {
-  background-color: var(--danger);
-}
-
-.btn-hapus:hover {
-  background-color: var(--danger-hover);
-}
-
-.btn-selesai {
-  background-color: var(--success);
-}
-
-.btn-selesai:hover {
-  background-color: var(--success-hover);
-}
-
-/* ========================
-   Upload Area
-========================= */
+/* =============================
+   Modal Formulir
+   Gaya untuk area unggah pada modal
+============================= */
 .upload-area {
-  border: 2px dashed #dee2e6;
-  border-radius: 0.5rem;
-  padding: 2rem;
-  text-align: center;
-  cursor: pointer;
-  transition: background-color 0.2s;
+    border: 2px dashed #dee2e6;
+    border-radius: 0.5rem;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    background-color: #f8f9fa;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .upload-area:hover {
-  background-color: #f8f9fa;
+    background-color: #e9ecef;
+    border-color: #adb5bd;
 }
 
 .upload-area i {
-  font-size: 2rem;
-  color: #6c757d;
+    font-size: 2rem;
+    color: #6c757d;
 }
 
 .upload-area p {
-  margin-top: 1rem;
-  color: #6c757d;
+    margin-top: 1rem;
+    color: #6c757d;
 }
 
-/* ========================
+.form-control,
+.form-select {
+    color: var(--gray);
+    font-size: 0.8rem;
+}
+
+.dynamic-row {
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+    padding: 1rem;
+    position: relative;
+    margin-bottom: 1rem;
+    background-color: #f8f9fa;
+}
+
+.dynamic-row-close-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    color: var(--danger);
+    font-size: 0.75rem;
+    line-height: 1;
+    padding: 0;
+}
+
+/* =============================
+   Modal Konfirmasi Verifikasi
+   Gaya untuk modal konfirmasi verifikasi
+============================= */
+#modalKonfirmasiVerifikasi {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--overlay);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    animation: modalFadeIn 0.2s ease-out;
+}
+
+#modalKonfirmasiVerifikasi.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.confirmation-popup-box {
+    background-color: #f4f4f4;
+    padding: 30px 40px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 5px 25px var(--black-005);
+    width: 90%;
+    max-width: 500px;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+    animation: modalContentZoomIn 0.3s ease-out;
+}
+
+#modalKonfirmasiVerifikasi.show .confirmation-popup-box {
+    transform: scale(1);
+}
+
+.popup-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin-bottom: 8px;
+}
+
+.popup-subtitle {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 25px;
+}
+
+.popup-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.btn-popup {
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--white);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.btn-popup:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px var(--black-01);
+    filter: brightness(1.1);
+}
+
+.btn-terima {
+    background-color: #4caf50;
+}
+
+.btn-terima:hover {
+    background-color: var(--success-hover);
+}
+
+.btn-tolak {
+    background-color: #e53935;
+}
+
+.btn-tolak:hover {
+    background-color: var(--danger-hover);
+}
+
+.btn-kembali {
+    background-color: #9ea4ad;
+}
+
+.btn-kembali:hover {
+    background-color: #8a919a;
+}
+
+.btn-batal {
+    background-color: #6c757d;
+}
+
+.btn-batal:hover {
+    background-color: #5a6268;
+}
+
+.btn-hapus {
+    background-color: var(--danger);
+}
+
+.btn-hapus:hover {
+    background-color: var(--danger-hover);
+}
+
+.btn-selesai {
+    background-color: var(--success);
+}
+
+.btn-selesai:hover {
+    background-color: var(--success-hover);
+}
+
+/* =============================
    Modal Konfirmasi Hapus
-========================= */
+   Gaya untuk modal konfirmasi penghapusan
+============================= */
 .konfirmasi-hapus-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--overlay);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
 }
 
 .konfirmasi-hapus-overlay.show {
-  opacity: 1;
-  visibility: visible;
+    opacity: 1;
+    visibility: visible;
 }
 
 .konfirmasi-hapus-overlay .modal-dialog {
-  max-width: 500px;
-  width: 100%;
+    max-width: 500px;
+    width: 100%;
 }
 
 .konfirmasi-hapus-box {
-  background-color: #e5e7eb;
-  padding: 2rem;
-  border-radius: 16px;
-  text-align: center;
-  width: 90%;
-  max-width: 450px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  transform: scale(0.9);
-  transition: transform 0.3s ease;
+    background-color: #e5e7eb;
+    padding: 2rem;
+    border-radius: 16px;
+    text-align: center;
+    width: 90%;
+    max-width: 450px;
+    box-shadow: 0 5px 25px var(--black-005);
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
 }
 
 .konfirmasi-hapus-overlay.show .konfirmasi-hapus-box {
-  transform: scale(1);
+    transform: scale(1);
 }
 
 .konfirmasi-hapus-icon {
-  width: 80px;
-  height: 80px;
-  background-color: var(--warning);
-  border-radius: 50%;
-  margin: 0 auto 1.5rem auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  animation: shadowPulseKonfirmasi 1.5s ease-in-out infinite;
+    width: 80px;
+    height: 80px;
+    background-color: var(--warning);
+    border-radius: 50%;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: shadowPulseKonfirmasi 1.5s ease-in-out infinite;
 }
 
 .konfirmasi-hapus-icon i {
-  font-size: 2.5rem;
-  color: var(--white);
-  animation: blinkKonfirmasi 1.2s ease-in-out infinite;
+    font-size: 2.5rem;
+    color: var(--white);
+    animation: blinkKonfirmasi 1.2s ease-in-out infinite;
 }
 
 .konfirmasi-hapus-title {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #1f2937;
-  margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
 }
 
 .konfirmasi-hapus-subtitle {
-  font-size: 1rem;
-  color: #6b7280;
-  margin-bottom: 2rem;
+    font-size: 1rem;
+    color: #6b7280;
+    margin-bottom: 2rem;
 }
 
 .konfirmasi-hapus-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
 }
 
 .btn-popup.btn-batal {
-  background-color: #6c757d;
+    background-color: #6c757d;
 }
 
 .btn-popup.btn-batal:hover {
-  background-color: #5a6268;
+    background-color: #5a6268;
 }
 
 .btn-popup.btn-hapus {
-  background-color: var(--danger);
+    background-color: var(--danger);
 }
 
 .btn-popup.btn-hapus:hover {
-  background-color: var(--danger-hover);
+    background-color: var(--danger-hover);
 }
 
-/* ========================
+/* =============================
    Modal Berhasil
-========================= */
+   Gaya untuk modal konfirmasi keberhasilan
+============================= */
 .modal-berhasil-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 10000;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--overlay-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
 }
 
 .modal-berhasil-overlay.show {
-  opacity: 1;
-  visibility: visible;
+    opacity: 1;
+    visibility: visible;
 }
 
 .modal-berhasil-box {
-  background-color: var(--white);
-  padding: 2rem;
-  border-radius: 16px;
-  text-align: center;
-  width: 90%;
-  max-width: 550px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  transform: scale(0.9);
-  transition: transform 0.3s ease;
+    background-color: var(--white);
+    padding: 2rem;
+    border-radius: 16px;
+    text-align: center;
+    width: 90%;
+    max-width: 550px;
+    box-shadow: 0 5px 25px var(--black-005);
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
 }
 
 .modal-berhasil-overlay.show .modal-berhasil-box {
-  transform: scale(1);
+    transform: scale(1);
 }
 
 .modal-berhasil-icon {
-  width: 80px;
-  height: 80px;
-  background-color: var(--success);
-  border-radius: 50%;
-  margin: 0 auto 1.5rem auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  animation: shadowPulse 1.5s ease-in-out infinite;
+    width: 80px;
+    height: 80px;
+    background-color: var(--success);
+    border-radius: 50%;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: shadowPulse 1.5s ease-in-out infinite;
 }
 
 .modal-berhasil-icon i {
-  font-size: 2.5rem;
-  color: var(--white);
-  animation: blinkKonfirmasi 1.2s ease-in-out infinite;
+    font-size: 2.5rem;
+    color: var(--white);
+    animation: blinkKonfirmasi 1.2s ease-in-out infinite;
 }
 
 .modal-berhasil-title {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #000;
-  margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
 }
 
 .modal-berhasil-subtitle {
-  font-size: 1rem;
-  color: #6b7280;
-  margin-bottom: 2rem;
+    font-size: 1rem;
+    color: #6b7280;
+    margin-bottom: 2rem;
 }
 
 .modal-berhasil-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
 }
 
 .btn-popup.btn-selesai {
-  background-color: var(--success);
+    background-color: var(--success);
 }
 
 .btn-popup.btn-selesai:hover {
-  background-color: var(--success-hover);
+    background-color: var(--success-hover);
 }
 
-.form-control{
-  color: var(--gray);
-  font-size: 0.8rem;
-}
-.form-select{
-  color: var(--gray);
-  font-size: 0.8rem;
-}
-
-/* ========================
-   Animations
-========================= */
-@keyframes blinkKonfirmasi {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.4; /* Efek kedip halus */
-  }
+/* =============================
+   Animasi
+   Keyframe untuk efek animasi modal
+============================= */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 @keyframes shadowPulse {
-  0% {
-    box-shadow: 0 0 0 0 var(--success-shadow);
-  }
-  50% {
-    box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 var(--success-shadow);
-  }
+    0% {
+        box-shadow: 0 0 0 0 var(--success-shadow);
+    }
+    50% {
+        box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 var(--success-shadow);
+    }
 }
 
 @keyframes shadowPulseKonfirmasi {
-  0% {
-    box-shadow: 0 0 0 0 var(--konfirmasi-icon-shadow);
-  }
-  50% {
-    box-shadow: 0 0 0 10px rgba(250, 204, 21, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 var(--konfirmasi-icon-shadow);
-  }
+    0% {
+        box-shadow: 0 0 0 0 var(--konfirmasi-icon-shadow);
+    }
+    50% {
+        box-shadow: 0 0 0 10px rgba(250, 204, 21, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 var(--konfirmasi-icon-shadow);
+    }
 }
 
-/* ========================
-   Responsive Design
-========================= */
+@keyframes blinkKonfirmasi {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.4;
+    }
+}
+
+/* =============================
+   Desain Responsif
+   Penyesuaian untuk berbagai ukuran layar
+============================= */
+
+/* Layar besar (≤1200px) */
+@media (max-width: 1200px) {
+    .search-filter-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn-tambah-container,
+    .btn-tambah {
+        margin-left: 0;
+        width: 100%;
+    }
+}
+
+/* Layar tablet dan lebih kecil (≤991px) */
 @media (max-width: 991px) {
-  .sidebar {
-    transform: translateX(-100%);
-  }
+    .sidebar {
+        transform: translateX(-100%);
+    }
 
-  .sidebar.show {
-    transform: translateX(0);
-  }
+    .sidebar.show {
+        transform: translateX(0);
+    }
 
-  .navbar-custom,
-  .title-bar,
-  .main-content,
-  .footer-custom {
-    margin-left: 0;
-  }
+    .navbar-custom,
+    .title-bar,
+    .main-content,
+    .footer-custom,
+    .main-wrapper {
+        margin-left: 0;
+    }
 
-  .time-date {
-    flex-direction: column;
-    gap: 6px;
-    align-items: flex-start;
-  }
+    .time-date {
+        flex-direction: column;
+        gap: 6px;
+        align-items: flex-start;
+    }
 
-  .account span {
-    font-size: 12px;
-  }
+    .account span {
+        font-size: 12px;
+    }
 
-  .sidebar .menu a,
-  .sidebar .menu button {
-    font-size: 12.5px;
-  }
+    .sidebar .menu a,
+    .sidebar .menu button {
+        font-size: 12.5px;
+    }
 
-  .search-filter-row {
-    flex-direction: column;
-    align-items: stretch;
-  }
+    .search-filter-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
 
-  .search-box,
-  .filter-select {
-    width: 100%;
-  }
+    .search-box,
+    .filter-select,
+    .btn-tambah-container {
+        width: 100%;
+    }
 
-  .btn-tambah-container {
-    margin-left: 0;
-    width: 100%;
-  }
+    .modal-content-wrapper,
+    .konfirmasi-hapus-box,
+    .modal-berhasil-box,
+    .confirmation-popup-box {
+        max-width: 95vw;
+        max-height: 90vh;
+    }
 
-  .btn-tambah {
-    width: 100%;
-  }
-
-  .modal-content-wrapper,
-  .konfirmasi-hapus-box,
-  .modal-berhasil-box,
-  .confirmation-popup-box {
-    max-width: 95vw;
-    max-height: 90vh;
-  }
+    .detail-grid-container {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
 }
