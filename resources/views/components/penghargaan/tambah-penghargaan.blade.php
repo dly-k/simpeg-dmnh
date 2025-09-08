@@ -8,7 +8,6 @@
       <div class="modal-body">
         <form id="penghargaanForm" method="POST" enctype="multipart/form-data">
           @csrf
-          {{-- PERUBAHAN DI SINI: Input tersembunyi untuk menyimpan ID saat mode edit --}}
           <input type="hidden" id="penghargaan_id" name="penghargaan_id">
 
           <div class="row g-3">
@@ -47,7 +46,7 @@
               <label class="form-label">Lingkup</label>
               <select name="lingkup" class="form-select" required>
                 <option value="" selected>-- Pilih Lingkup --</option>
-                <option>Internal</option>
+                <option>Lokal</option>
                 <option>Nasional</option>
                 <option>Internasional</option>
               </select>
@@ -60,20 +59,26 @@
               <label class="form-label">Instansi Pemberi</label>
               <input type="text" name="instansi_pemberi" class="form-control" placeholder="Contoh: Presiden Republik Indonesia" required>
             </div>
-            <div class="col-12"><hr></div>
+            <div class="col-12"><hr class="divider-light"></div>
             <div class="col-12">
               <label class="form-label">Jenis Dokumen</label>
               <select name="jenis_dokumen" class="form-select" required>
                 <option value="" selected>-- Pilih Salah Satu --</option>
-                <option>Sertifikat</option>
-                <option>Piagam</option>
+                <option>Transkrip</option>
+                <option>Surat Tugas</option>
                 <option>SK</option>
+                <option>Sertifikat</option>
+                <option>Penyetaraan Ijazah</option>
+                <option>Laporan Kegiatan</option>
+                <option>Ijazah</option>
+                <option>Buku / Bahan Ajar</option>
               </select>
             </div>
             <div class="col-12">
+            <label class="form-label">Unggah Dokumen</label>
               <div class="upload-area">
                 <i class="fas fa-cloud-upload-alt"></i>
-                <p>Seret & Lepas File di sini<br><small>Ukuran Maksimal 5 MB (PDF)</small></p>
+                <p>Seret & Lepas File di sini<br><small>Ukuran Maksimal 5 MB</small></p>
                 <input type="file" name="dokumen" hidden accept=".pdf">
               </div>
                <span id="file-size-feedback" class="text-danger mt-1 d-block" style="display: none;"></span>
@@ -81,15 +86,15 @@
             <div class="col-12">
               <div class="row g-2">
                 <div class="col-md-4">
-                  <label class="form-label-sm">Nama Dokumen</label>
+                  <label class="form-label-sm mb-1">Nama Dokumen</label>
                   <input type="text" name="nama_dokumen" class="form-control form-control-sm" placeholder="Nama Dokumen" required>
                 </div>
                 <div class="col-md-4">
-                  <label class="form-label-sm">Nomor</label>
+                  <label class="form-label-sm mb-1">Nomor</label>
                   <input type="text" name="nomor_dokumen" class="form-control form-control-sm" placeholder="Nomor Dokumen (Jika Ada)">
                 </div>
                 <div class="col-md-4">
-                  <label class="form-label-sm">Tautan</label>
+                  <label class="form-label-sm mb-1">Tautan</label>
                   <input type="url" name="tautan" class="form-control form-control-sm" placeholder="https://... (Jika Ada)">
                 </div>
               </div>

@@ -1,37 +1,24 @@
-/* ========================
-   Sidebar
-========================= */
-.sidebar .menu a.active,
-.sidebar .menu button.active {
-  background-color: var(--primary);
-  color: var(--white);
-  font-weight: 600;
-}
-
-.sidebar .submenu a.active {
-  color: var(--primary);
-  font-weight: 600;
-  background-color: var(--primary-light);
-}
-
-/* ========================
-   Main Content
-========================= */
+/* =============================
+   Konten Utama
+   Gaya untuk area konten utama
+============================= */
 .main-content {
-  margin: 130px 0 70px 250px;
-  padding: 25px;
-  background-color: var(--light);
-  transition: margin-left 0.3s ease-in-out;
-  font-size: 14px;
+    margin-left: 250px;
+    margin-top: 130px;
+    padding: 25px;
+    padding-bottom: 70px;
+    font-size: 14px;
+    transition: margin-left 0.3s ease-in-out;
 }
 
-.sidebar.hidden ~ .navbar-custom ~ .title-bar ~ .main-content {
-  margin-left: 0;
+.sidebar.hidden ~ .main-wrapper .main-content {
+    margin-left: 0;
 }
 
-/* ========================
-   Card
-========================= */
+/* =============================
+   Kartu
+   Gaya untuk komponen kartu
+============================= */
 .card {
   background: var(--white);
   padding: 1.5rem;
@@ -40,9 +27,10 @@
   border: none;
 }
 
-/* ========================
-   Search and Filter
-========================= */
+/* =============================
+   Pencarian dan Filter
+   Gaya untuk tata letak baris pencarian dan filter
+============================= */
 .search-filter-row {
   display: flex;
   flex-wrap: nowrap;
@@ -50,10 +38,6 @@
   align-items: center;
   justify-content: flex-start;
   margin-bottom: 1.5rem;
-}
-
-.search-icon {
-  color: var(--primary);
 }
 
 .search-box {
@@ -82,9 +66,34 @@
   opacity: 1;
 }
 
-/* ========================
-   Table
-========================= */
+.search-icon {
+  color: var(--primary);
+}
+
+.divider-light {
+    color: #939393;
+}
+
+.tahun-filter {
+    width: auto;          
+    min-width: 120px;   
+    max-width: 150px;    
+}
+
+.lingkup-filter {
+      min-width: 150px;   
+    max-width: 180px;    
+}
+
+.upload-area.drag-over {
+  border-color: var(--primary);
+  background-color: #f8f9fa;
+}
+
+/* =============================
+   Tabel
+   Gaya untuk komponen tabel
+============================= */
 .table {
   font-size: 12px;
   vertical-align: middle;
@@ -97,21 +106,10 @@
   text-align: center;
 }
 
-#modalDetailPenghargaan h6 {
-  font-weight: 600;
-  font-size: 1rem;
-  color: var(--primary-dark);
-}
-
-.detail-item p {
-    font-weight: 400;
-    color: #212529 !important;
-    font-size: 0.8rem !important;
-}
-
-/* ========================
-   Action Buttons
-========================= */
+/* =============================
+   Tombol
+   Gaya untuk tombol aksi dan gaya tombol umum
+============================= */
 .btn-aksi {
   width: 32px;
   height: 32px;
@@ -123,6 +121,10 @@
   color: var(--white);
   text-decoration: none;
   transition: all 0.3s ease;
+}
+
+.btn-aksi:hover {
+  transform: scale(1.15);
 }
 
 .btn-tambah {
@@ -167,9 +169,10 @@
   transform: scale(1.15);
 }
 
-/* ========================
-   Pagination
-========================= */
+/* =============================
+   Paginasi
+   Gaya untuk kontrol paginasi
+============================= */
 .pagination .page-item.active .page-link {
   background-color: var(--primary);
   border-color: var(--primary);
@@ -189,21 +192,10 @@
   color: var(--gray);
 }
 
-/* ========================
-   Modal Headers
-========================= */
-#pelatihanModal .modal-header,
-#penghargaanModal .modal-header {
-  background: linear-gradient(to right, var(--primary), var(--primary-dark));
-  color: var(--white);
-}
-
-#modalDetailPelatihan .modal-header,
-#modalDetailPenghargaan .modal-header {
-  background-color: var(--primary-dark);
-  color: var(--white);
-}
-
+/* =============================
+   Modal Umum
+   Gaya umum untuk komponen modal
+============================= */
 .modal-header {
   border-bottom: none;
 }
@@ -223,9 +215,77 @@
   font-size: 1.2rem;
 }
 
-/* ========================
-   Modal Content
-========================= */
+/* =============================
+   Modal Scrollable
+   Gaya untuk dialog modal yang dapat digulir
+============================= */
+.modal-dialog-scrollable .modal-content {
+  max-height: 90vh;
+}
+
+.modal-dialog-scrollable .modal-body {
+  overflow-y: auto;
+  max-height: calc(90vh - 120px);
+}
+
+/* =============================
+   Modal Spesifik: Pelatihan dan Penghargaan
+   Gaya untuk modal pelatihan dan penghargaan
+============================= */
+#pelatihanModal .modal-header,
+#penghargaanModal .modal-header {
+  background: linear-gradient(to right, var(--primary), var(--primary-dark));
+  color: var(--white);
+}
+
+#modalDetailPelatihan .modal-header,
+#modalDetailPenghargaan .modal-header {
+  background-color: var(--primary-dark);
+  color: var(--white);
+}
+
+/* =============================
+   Modal Spesifik: SK Non PNS
+   Gaya untuk modal SK Non PNS
+============================= */
+#skNonPnsModal .modal-content {
+  display: flex;
+  flex-direction: column;
+  max-height: 100vh;
+}
+
+#skNonPnsModal .modal-body {
+  overflow-y: auto;
+  flex: 1 1 auto;
+}
+
+#skNonPnsModal .modal-footer {
+  position: sticky;
+  bottom: 0;
+  background: #fff;
+  z-index: 10;
+}
+
+#skNonPnsModal .modal-header {
+  background: linear-gradient(to right, var(--primary), var(--primary-dark));
+  color: var(--white);
+}
+
+#modalDetailSkNonPns .modal-header {
+  background-color: var(--primary-dark);
+  color: var(--white);
+}
+
+#modalDetailSkNonPns .modal-body,
+#modalDetailSkNonPns .modal-body small,
+#modalDetailSkNonPns .modal-body h6 {
+  color: #000;
+}
+
+/* =============================
+   Modal Detail
+   Gaya untuk tampilan detail modal
+============================= */
 .detail-grid-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -258,6 +318,16 @@
   font-size: 0.95rem;
 }
 
+#modalDetailPenghargaan h6 {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--primary-dark);
+}
+
+.full-width-detail {
+  grid-column: 1 / -1;
+}
+
 .document-viewer-container {
   border: 1px solid #dee2e6;
   border-radius: 8px;
@@ -270,13 +340,16 @@
   display: block;
 }
 
-.full-width-detail {
-  grid-column: 1 / -1;
+/* =============================
+   Formulir Modal
+   Gaya untuk elemen formulir dalam modal
+============================= */
+.form-control,
+.form-select {
+  color: var(--gray);
+  font-size: 0.8rem;
 }
 
-/* ========================
-   Modal Form Elements
-========================= */
 .upload-area {
   border: 2px dashed #dee2e6;
   border-radius: 0.5rem;
@@ -313,9 +386,10 @@
   right: 0.5rem;
 }
 
-/* ========================
-   Modal Buttons
-========================= */
+/* =============================
+   Tombol Popup
+   Gaya untuk tombol popup
+============================= */
 .btn-popup {
   border: none;
   border-radius: 8px;
@@ -340,14 +414,6 @@
   background-color: #5a6268;
 }
 
-.btn-hapus {
-  background-color: var(--danger);
-}
-
-.btn-hapus:hover {
-  background-color: #c82333;
-}
-
 .btn-selesai {
   background-color: var(--success);
 }
@@ -356,9 +422,18 @@
   background-color: var(--success-hover);
 }
 
-/* ========================
+.btn-hapus {
+  background-color: var(--danger);
+}
+
+.btn-hapus:hover {
+  background-color: #c82333;
+}
+
+/* =============================
    Modal Konfirmasi Hapus
-========================= */
+   Gaya untuk modal konfirmasi penghapusan
+============================= */
 .konfirmasi-hapus-overlay {
   position: fixed;
   top: 0;
@@ -378,6 +453,11 @@
 .konfirmasi-hapus-overlay.show {
   opacity: 1;
   visibility: visible;
+}
+
+.konfirmasi-hapus-overlay .modal-content {
+  border-radius: 16px;
+  box-shadow: 0 2px 10px var(--black-005);
 }
 
 .konfirmasi-hapus-overlay .modal-dialog {
@@ -406,10 +486,10 @@
   height: 80px;
   background-color: var(--warning);
   border-radius: 50%;
-  margin: 0 auto 1.5rem auto;
+  margin: 0 auto 1.5rem;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   animation: shadowPulseKonfirmasi 1.5s ease-in-out infinite;
 }
 
@@ -454,18 +534,10 @@
   background-color: var(--danger-hover);
 }
 
-.form-control{
-  color: var(--gray);
-  font-size: 0.8rem;
-}
-.form-select{
-  color: var(--gray);
-  font-size: 0.8rem;
-}
-
-/* ========================
+/* =============================
    Modal Berhasil
-========================= */
+   Gaya untuk modal keberhasilan
+============================= */
 .modal-berhasil-overlay {
   position: fixed;
   top: 0;
@@ -508,7 +580,7 @@
   height: 80px;
   background-color: var(--success);
   border-radius: 50%;
-  margin: 0 auto 1.5rem auto;
+  margin: 0 auto 1.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -540,23 +612,16 @@
   gap: 1rem;
 }
 
-.btn-popup.btn-selesai {
-  background-color: var(--success);
-}
-
-.btn-popup.btn-selesai:hover {
-  background-color: var(--success-hover);
-}
-
-/* ========================
-   Animations
-========================= */
+/* =============================
+   Animasi
+   Animasi keyframe untuk modal dan ikon
+============================= */
 @keyframes blinkKonfirmasi {
   0%, 100% {
     opacity: 1;
   }
   50% {
-    opacity: 0.4; /* Efek kedip halus */
+    opacity: 0.4;
   }
 }
 
@@ -584,9 +649,10 @@
   }
 }
 
-/* ========================
-   Responsive Design
-========================= */
+/* =============================
+   Desain Responsif
+   Media query untuk tata letak responsif
+============================= */
 @media (max-width: 991px) {
   .sidebar {
     transform: translateX(-100%);
@@ -624,6 +690,8 @@
   }
 
   .search-box,
+  .filter-select,
+  .lingkup-select,
   .btn-tambah-container,
   .btn-tambah {
     width: 100%;
@@ -634,5 +702,28 @@
   .konfirmasi-hapus-box,
   .modal-berhasil-box {
     max-width: 95vw;
+  }
+}
+
+@media (max-width: 768px) {
+  .modal-dialog-scrollable .modal-content {
+    max-height: 85vh;
+  }
+
+  .modal-dialog-scrollable .modal-body {
+    max-height: calc(85vh - 120px);
+  }
+
+  .table {
+    font-size: 0.8125rem;
+  }
+
+  .table th,
+  .table td {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .detail-grid-container {
+    grid-template-columns: 1fr;
   }
 }

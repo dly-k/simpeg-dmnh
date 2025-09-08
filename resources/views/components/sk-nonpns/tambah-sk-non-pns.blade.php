@@ -1,10 +1,11 @@
 <div class="modal fade" id="skNonPnsModal" tabindex="-1" aria-labelledby="skNonPnsModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="skNonPnsModalLabel"></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+
       <form id="skNonPnsForm" method="POST" action="" enctype="multipart/form-data">
         @csrf
         <div id="editMethod"></div>
@@ -15,8 +16,8 @@
               <input type="text" class="form-control" id="nama_pegawai" name="nama_pegawai" placeholder="Masukkan nama pegawai" required>
             </div>
             <div class="col-12">
-              <label class="form-label">Nama Unit</label>
-              <input type="text" class="form-control" id="nama_unit" name="nama_unit" placeholder="Masukkan nama unit" required>
+              <label class="form-label">Unit</label>
+              <input type="text" class="form-control" id="nama_unit" name="nama_unit" value="Departemen Manajemen Hutan" readonly required>
             </div>
             <div class="col-md-6">
               <label class="form-label">Tanggal Mulai</label>
@@ -38,17 +39,32 @@
               <label class="form-label">Jenis SK</label>
               <select class="form-select" id="jenis_sk" name="jenis_sk" required>
                 <option value="" selected>-- Pilih Jenis SK --</option>
-                <option value="Tenaga Kependidikan">Tenaga Kependidikan</option>
-                <option value="Dosen">Dosen</option>
+                <option value="Presiden">Presiden</option>
+                <option value="Mendikbud">Menteri Pendidikan dan Kebudayaan (Mendikbud)</option>
+                <option value="Mendiknas">Menteri Pendidikan Nasional (Mendiknas)</option>
+                <option value="Ristekdikti">Menteri Riset, Teknologi, dan Pendidikan Tinggi (Ristekdikti)</option>
+                <option value="MWA">Majelis Wali Amanat (MWA)</option>
+                <option value="DGB">Dewan Guru Besar (DGB)</option>
+                <option value="Rektor">Rektor IPB</option>
+                <option value="Dekan">Dekan</option>
+                <option value="Wakil Dekan">Wakil Dekan</option>
+                <option value="Ketua Departemen">Ketua Departemen</option>
+                <option value="Kepala Biro">Kepala Biro</option>
+                <option value="Kepala Kantor">Kepala Kantor</option>
+                <option value="Kepala Unit">Kepala Unit</option>
               </select>
             </div>
+
+            <!-- Upload Dokumen -->
             <div class="col-12">
-              <label class="form-label" id="dokumen_label"></label>
-              <div class="upload-area">
-                <i class="fas fa-cloud-upload-alt"></i>
-                <p>Seret & Lepas File di sini atau Klik untuk Pilih File</p>
-                <input type="file" id="dokumen_sk" name="dokumen_sk" hidden accept=".pdf">
+              <label class="form-label" id="dokumen_label">Unggah Dokumen SK</label>
+              <div class="upload-area" data-target="#dokumen_sk">
+                <i class="fas fa-cloud-upload-alt default-icon"></i>
+                <i class="fas fa-file text-success file-icon d-none"></i>
+                <p class="upload-text">Seret & Lepas File di sini<br><small>Ukuran Maksimal 5 MB</small></p>
+                <p class="file-name d-none"></p>
               </div>
+              <input type="file" id="dokumen_sk" name="dokumen_sk" hidden accept=".pdf">
               <div id="file-size-feedback-sk" class="text-danger mt-1" style="display: none;"></div>
               <div id="dokumen-lama-container" class="mt-2" style="display: none;">
                 <small>Dokumen saat ini: <a href="#" id="dokumen-lama-link" target="_blank">Lihat Dokumen</a></small>
@@ -56,6 +72,7 @@
             </div>
           </div>
         </div>
+
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
           <button type="submit" class="btn btn-success" id="btn-simpan"></button>

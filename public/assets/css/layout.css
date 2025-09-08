@@ -175,6 +175,26 @@ body {
     transform: rotate(-90deg);
 }
 
+.brand {
+  display: flex;
+  align-items: center; 
+  justify-content: center; 
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.brand .logo {
+    margin-right: 5px;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.text-jarak {
+  color: #000 !important;
+}
+
 /* =============================
    Bilah Judul
    Gaya untuk bilah judul di atas konten

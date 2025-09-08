@@ -12,12 +12,36 @@ class SkNonPnsController extends Controller
     /**
      * Menampilkan halaman utama dengan data SK Non PNS.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $skData = SkNonPns::latest()->paginate(10);
-        return view('pages.sk-non-pns', [
-            'skData' => $skData
-        ]);
+        $query = SkNonPns::query();
+
+        // Search
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_pegawai', 'like', "%{$search}%")
+                ->orWhere('nama_unit', 'like', "%{$search}%")
+                ->orWhere('nomor_sk', 'like', "%{$search}%");
+            });
+        }
+
+        // Filter Tahun
+        if ($request->filled('tahun')) {
+            $query->whereYear('tanggal_sk', $request->tahun);
+        }
+
+        // Data utama
+        $skData = $query->orderBy('tanggal_sk', 'desc')->paginate(10);
+        $skData->appends($request->all());
+
+        // Ambil tahun unik untuk dropdown
+        $years = SkNonPns::selectRaw('YEAR(tanggal_sk) as year')
+                    ->distinct()
+                    ->orderByDesc('year')
+                    ->pluck('year');
+
+        return view('pages.sk-non-pns', compact('skData', 'years'));
     }
     
     /**

@@ -13,13 +13,43 @@ class PenghargaanController extends Controller
     /**
      * Menampilkan halaman utama dengan data penghargaan.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Menggunakan paginate() untuk mendukung fungsionalitas paginasi di view.
-        // Menampilkan 10 data per halaman, diurutkan berdasarkan tanggal terbaru.
-        $dataPenghargaan = Penghargaan::orderBy('tanggal_perolehan', 'desc')->paginate(10);
-        
-        return view('pages.penghargaan', ['dataPenghargaan' => $dataPenghargaan]);
+        $query = Penghargaan::orderBy('tanggal_perolehan', 'desc');
+
+        // Filter pencarian
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_pegawai', 'like', "%{$search}%")
+                ->orWhere('kegiatan', 'like', "%{$search}%")
+                ->orWhere('nama_penghargaan', 'like', "%{$search}%")
+                ->orWhere('nomor_sk', 'like', "%{$search}%")
+                ->orWhere('lingkup', 'like', "%{$search}%");
+            });
+        }
+
+        // Filter tahun
+        if ($request->filled('tahun')) {
+            $query->whereYear('tanggal_perolehan', $request->tahun);
+        }
+
+        // Filter lingkup
+        if ($request->filled('lingkup')) {
+            $query->where('lingkup', $request->lingkup);
+        }
+
+        // Pagination
+        $dataPenghargaan = $query->paginate(10);
+        $dataPenghargaan->appends($request->all());
+
+        // Ambil daftar tahun unik buat dropdown filter
+        $listTahun = Penghargaan::selectRaw('YEAR(tanggal_perolehan) as tahun')
+                        ->distinct()
+                        ->orderBy('tahun', 'desc')
+                        ->pluck('tahun');
+
+        return view('pages.penghargaan', compact('dataPenghargaan', 'listTahun'));
     }
 
     /**

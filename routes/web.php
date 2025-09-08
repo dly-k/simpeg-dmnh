@@ -1,89 +1,55 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PelatihanController;
 use App\Http\Controllers\SkNonPnsController;
 use App\Http\Controllers\PenghargaanController;
+use App\Http\Controllers\SuratTugasController;
 
-Route::get('/', function () {
-    return view('auth.login');
-});
+// Auth & Dashboard
+Route::view('/', 'auth.login');
+Route::view('/login', 'auth.login')->name('login');
+Route::view('/ubah-password', 'auth.ubah-password');
+Route::view('/master-data', 'auth.master-data');
 
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
+Route::view('/dashboard', 'pages.dashboard');
+Route::view('/sidebar', 'pages.sidebar');
 
-Route::get('/ubah-password', function () {
-    return view('auth.ubah-password');
-});
+// Pegawai
+Route::view('/daftar-pegawai', 'pages.pegawai.daftar-pegawai');
+Route::view('/edit-pegawai', 'pages.pegawai.edit-pegawai');
+Route::view('/tambah-pegawai', 'pages.pegawai.tambah-pegawai');
+Route::view('/detail-pegawai', 'pages.pegawai.detail-pegawai');
 
-Route::get('/master-data', function () {
-    return view('auth.master-data');
-});
+// Menu Lain
+Route::view('/pendidikan', 'pages.pendidikan');
+Route::view('/penelitian', 'pages.penelitian');
+Route::view('/pengabdian', 'pages.pengabdian');
+Route::view('/penunjang', 'pages.penunjang');
+Route::view('/kerjasama', 'pages.kerjasama');
 
-Route::get('/dashboard', function () {
-    return view('pages.dashboard');
-});
+// Surat Tugas
+Route::resource('surat-tugas', SuratTugasController::class)->except(['show']);
+Route::get('/surat-tugas/export', [SuratTugasController::class, 'export'])
+    ->name('surat-tugas.export');
 
-Route::get('/daftar-pegawai', function () {
-    return view('pages.pegawai.daftar-pegawai');
-});
-
-Route::get('/surat-tugas', function () {
-    return view('pages.surat-tugas');
-});
-
-Route::get('/pendidikan', function () {
-    return view('pages.pendidikan');
-});
-
-Route::get('/penelitian', function () {
-    return view('pages.penelitian');
-});
-
-Route::get('/pengabdian', function () {
-    return view('pages.pengabdian');
-});
-
-Route::get('/penunjang', function () {
-    return view('pages.penunjang');
-});
-
-Route::get('/kerjasama', function () {
-    return view('pages.kerjasama');
-});
-
-Route::get('/detail-pegawai', function () {
-    return view('pages.pegawai.detail-pegawai');
-});
-
-use App\Http\Controllers\PelatihanController;
-
-// Cara terbaik adalah menggunakan resource route
+// Pelatihan
 Route::resource('pelatihan', PelatihanController::class);
 
-Route::get('/sk-non-pns', function () {
-    return view('pages.sk-non-pns');
-})->name('sk-non-pns.index'); // <-- TAMBAHKAN BAGIAN INI
-Route::get('/sk-non-pns', [SkNonPnsController::class, 'index'])->name('sk-non-pns.index');
-Route::post('/sk-non-pns/store', [SkNonPnsController::class, 'store'])->name('sk-non-pns.store');
-Route::get('/sk-non-pns/{skNonPn}/edit', [SkNonPnsController::class, 'edit'])->name('sk-non-pns.edit');
-Route::put('/sk-non-pns/{skNonPn}', [SkNonPnsController::class, 'update'])->name('sk-non-pns.update');
-Route::delete('/sk-non-pns/{skNonPn}', [SkNonPnsController::class, 'destroy'])->name('sk-non-pns.destroy');
-
-Route::get('/penghargaan', [PenghargaanController::class, 'index'])->name('penghargaan.index');
-Route::post('/penghargaan', [PenghargaanController::class, 'store'])->name('penghargaan.store');
-Route::get('/penghargaan/{id}/edit', [PenghargaanController::class, 'edit'])->name('penghargaan.edit'); // <-- TAMBAHKAN INI
-Route::post('/penghargaan/{id}', [PenghargaanController::class, 'update'])->name('penghargaan.update');
-Route::delete('/penghargaan/{id}', [PenghargaanController::class, 'destroy'])->name('penghargaan.destroy');
-
-Route::get('/sidebar', function () {
-    return view('pages.sidebar');
+// SK Non PNS
+Route::prefix('sk-non-pns')->name('sk-non-pns.')->controller(SkNonPnsController::class)->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::post('/store', 'store')->name('store');
+    Route::get('/{skNonPn}/edit', 'edit')->name('edit');
+    Route::put('/{skNonPn}', 'update')->name('update');
+    Route::delete('/{skNonPn}', 'destroy')->name('destroy');
 });
 
-Route::get('/edit-pegawai', function () {
-    return view('pages.pegawai.edit-pegawai');
-});
-
-Route::get('/tambah-pegawai', function () {
-    return view('pages.pegawai.tambah-pegawai');
+// Penghargaan
+Route::prefix('penghargaan')->name('penghargaan.')->controller(PenghargaanController::class)->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::post('/', 'store')->name('store');
+    Route::get('/{id}/edit', 'edit')->name('edit');
+    Route::post('/{id}', 'update')->name('update');
+    Route::delete('/{id}', 'destroy')->name('destroy');
 });

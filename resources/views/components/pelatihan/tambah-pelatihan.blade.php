@@ -104,25 +104,30 @@
               <div id="anggota-list" class="vstack gap-2"></div>
             </div> --}}
 
-            <div class="col-12"><hr></div>
+            <div class="col-12"><hr class="divider-light"></div>
 
             <div class="col-12">
               <label class="form-label">Jenis Dokumen</label>
               <select class="form-select" name="jenis_dokumen" required>
                 <option value="" selected disabled>-- Pilih Jenis Dokumen --</option>
-                <option value="Sertifikat">Sertifikat</option>
-                <option value="Surat Tugas">Surat Tugas</option>
-                <option value="Lainnya">Lainnya</option>
+                <option>Transkrip</option>
+                <option>Surat Tugas</option>
+                <option>SK</option>
+                <option>Sertifikat</option>
+                <option>Penyetaraan Ijazah</option>
+                <option>Laporan Kegiatan</option>
+                <option>Ijazah</option>
+                <option>Buku / Bahan Ajar</option>
               </select>
             </div>
 
             <div class="col-12">
-              <label class="form-label">Unggah File</label>
+              <label class="form-label">Unggah Dokumen</label>
               <div class="upload-area">
                 <i class="fas fa-cloud-upload-alt"></i>
                 <p>
                   Seret & Lepas File di sini<br>
-                  <small>Ukuran Maksimal 5 MB, Format: PDF, JPG, PNG</small>
+                  <small>Ukuran Maksimal 5 MB</small>
                 </p>
                 <input type="file" name="dokumen" hidden required>
               </div>

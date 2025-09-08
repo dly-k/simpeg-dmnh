@@ -13,15 +13,54 @@ class PelatihanController extends Controller
     /**
      * Menampilkan halaman utama dengan data pelatihan.
      */
-// app/Http/Controllers/PelatihanController.php
+    public function index(Request $request)
+    {
+        $query = Pelatihan::query();
 
-public function index()
-{
-    $dataPelatihan = Pelatihan::orderBy('tgl_mulai', 'desc')->paginate(10);
-    
-    // Perbaiki path view agar sesuai dengan struktur folder Anda
-    return view('pages.pelatihan', ['dataPelatihan' => $dataPelatihan]); 
-}
+        // Filter tahun
+        if ($request->filled('tahun')) {
+            $query->whereYear('tgl_mulai', $request->tahun);
+        }
+
+        // Filter posisi
+        if ($request->filled('posisi')) {
+            // fixed: Peserta / Pembicara / Panitia
+            if (in_array($request->posisi, ['Peserta', 'Pembicara', 'Panitia'])) {
+                $query->where('posisi', $request->posisi);
+            } else {
+                // selain itu, ambil dari posisi_lainnya
+                $query->where('posisi', 'Lainnya')
+                    ->where('posisi_lainnya', $request->posisi);
+            }
+        }
+
+        // Search
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('nama_kegiatan', 'like', '%' . $request->search . '%')
+                ->orWhere('penyelenggara', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $dataPelatihan = $query->orderBy('tgl_mulai', 'desc')->paginate(10);
+
+        // Ambil daftar tahun
+        $tahunList = Pelatihan::selectRaw('YEAR(tgl_mulai) as tahun')
+            ->distinct()
+            ->orderBy('tahun', 'desc')
+            ->pluck('tahun');
+
+        // Posisi fix
+        $fixedPosisi = ['Peserta', 'Pembicara', 'Panitia'];
+
+        // Posisi lainnya unik
+        $posisiLainnya = Pelatihan::where('posisi', 'Lainnya')
+            ->whereNotNull('posisi_lainnya')
+            ->distinct()
+            ->pluck('posisi_lainnya');
+
+        return view('pages.pelatihan', compact('dataPelatihan', 'tahunList', 'fixedPosisi', 'posisiLainnya'));
+    }
 
     /**
      * Menyimpan data baru dari form modal.

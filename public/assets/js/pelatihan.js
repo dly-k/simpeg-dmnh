@@ -1,284 +1,486 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // == Pengaturan Global untuk Modal dan Notifikasi ==
-  const modalBerhasilEl = document.getElementById("modalBerhasil");
-  const berhasilTitle = document.getElementById("berhasil-title");
-  const berhasilSubtitle = document.getElementById("berhasil-subtitle");
-  let successModalTimeout = null;
-  let successAudio = null;
+(function () {
+  document.addEventListener("DOMContentLoaded", function () {
+    // == Pengaturan Global untuk Modal dan Notifikasi ==
+    // Inisialisasi elemen modal sukses dan variabel global
+    const modalBerhasilEl = document.getElementById("modalBerhasil");
+    const berhasilTitle = document.getElementById("berhasil-title");
+    const berhasilSubtitle = document.getElementById("berhasil-subtitle");
+    let successModalTimeout = null;
 
-  const showSuccessModal = (title, subtitle) => {
-    if (!modalBerhasilEl) return;
-    berhasilTitle.textContent = title;
-    berhasilSubtitle.textContent = subtitle;
-    modalBerhasilEl.classList.add("show");
-    if (!successAudio) {
-      successAudio = new Audio("/assets/sounds/success.mp3");
+    // == Fungsi untuk Menampilkan Modal Sukses ==
+    // Menampilkan modal sukses dengan judul, subjudul, dan audio notifikasi
+    function showSuccessModal(title, subtitle, callback = null) {
+      if (!modalBerhasilEl || !berhasilTitle || !berhasilSubtitle) return;
+
+      berhasilTitle.textContent = title;
+      berhasilSubtitle.textContent = subtitle;
+      modalBerhasilEl.style.display = "flex";
+      requestAnimationFrame(() => modalBerhasilEl.classList.add("show"));
+      document.body.style.overflow = "hidden";
+
+      // Memutar audio sukses
+      const successAudio = new Audio("/assets/sounds/success.mp3");
+      successAudio.play().catch((err) => console.warn("Gagal memutar audio:", err));
+
+      clearTimeout(successModalTimeout);
+      successModalTimeout = setTimeout(() => {
+        hideSuccessModal();
+        if (typeof callback === "function") callback();
+      }, 1200);
     }
-    successAudio.play().catch(() => console.warn("Gagal memutar audio notifikasi."));
-    clearTimeout(successModalTimeout);
-    successModalTimeout = setTimeout(hideSuccessModal, 1200);
-  };
 
-  const hideSuccessModal = () => {
-    modalBerhasilEl?.classList.remove("show");
-  };
-  document.getElementById("btnSelesai")?.addEventListener("click", hideSuccessModal);
+    // == Fungsi untuk Menyembunyikan Modal Sukses ==
+    // Menyembunyikan modal sukses dan mengembalikan overflow body
+    function hideSuccessModal() {
+      if (modalBerhasilEl?.classList.contains("show")) {
+        modalBerhasilEl.classList.remove("show");
+        modalBerhasilEl.addEventListener(
+          "transitionend",
+          () => {
+            if (!modalBerhasilEl.classList.contains("show")) {
+              modalBerhasilEl.style.display = "none";
+              if (!document.querySelector(".modal.show, .konfirmasi-hapus-overlay.show")) {
+                document.body.style.overflow = "";
+              }
+            }
+          },
+          { once: true }
+        );
+      }
+    }
 
-  // == Fungsi Inisialisasi Modal Tambah/Edit Pelatihan ==
-  const initPelatihanModal = () => {
-    const pelatihanModalEl = document.getElementById("pelatihanModal");
-    if (!pelatihanModalEl) return;
-    const bsModal = new bootstrap.Modal(pelatihanModalEl);
-    const form = document.getElementById("pelatihanForm");
-    const saveButton = pelatihanModalEl.querySelector(".btn-success");
-    const modalTitle = pelatihanModalEl.querySelector(".modal-title");
-    const idInput = document.getElementById('pelatihan_id');
-    const fileInput = form.dokumen;
-    const fileSizeFeedbackEl = document.getElementById('file-size-feedback');
-    const showFileSizeError = (message) => {
-        if (fileSizeFeedbackEl) {
-            fileSizeFeedbackEl.textContent = message;
-            fileSizeFeedbackEl.style.display = 'block';
+    document.getElementById("btnSelesai")?.addEventListener("click", () => {
+      clearTimeout(successModalTimeout);
+      hideSuccessModal();
+    });
+
+    // == Inisialisasi Area Unggah ==
+    // Mengelola fungsi area unggah file untuk modal create dan edit
+    function initUploadAreas() {
+  document.querySelectorAll(".upload-area").forEach((uploadArea) => {
+    const fileInput = uploadArea.querySelector('input[type="file"]');
+    const uploadText = uploadArea.querySelector("p");
+    const uploadIcon = uploadArea.querySelector("i"); // ambil icon
+    const feedbackEl = document.getElementById("file-size-feedback");
+
+    if (!fileInput || !uploadText || !uploadIcon) return;
+
+    const originalText = uploadText.innerHTML;
+    const originalIconClass = uploadIcon.className; // simpan class icon awal
+
+    // Klik area untuk buka dialog file
+    uploadArea.addEventListener("click", () => fileInput.click());
+
+    // Fungsi untuk handle file
+    function handleFiles(files) {
+      if (files.length > 0) {
+        const file = files[0];
+        const fileName = file.name.toLowerCase();
+
+        // Ganti teks jadi nama file
+        uploadText.textContent = file.name;
+
+        // Ganti ikon sesuai jenis file
+        if (fileName.endsWith(".pdf")) {
+          uploadIcon.className = "fas fa-file-pdf text-success";
+        } else if (fileName.endsWith(".doc") || fileName.endsWith(".docx")) {
+          uploadIcon.className = "fas fa-file-word text-success";
+        } else if (fileName.endsWith(".jpg") || fileName.endsWith(".jpeg") || fileName.endsWith(".png")) {
+          uploadIcon.className = "fas fa-file-image text-success";
+        } else {
+          uploadIcon.className = "fas fa-file text-success";
         }
-    };
-    const hideFileSizeError = () => {
-        if (fileSizeFeedbackEl) {
-            fileSizeFeedbackEl.textContent = '';
-            fileSizeFeedbackEl.style.display = 'none';
+
+        // Sembunyikan feedback error
+        if (feedbackEl) {
+          feedbackEl.textContent = "";
+          feedbackEl.style.display = "none";
         }
-    };
-    pelatihanModalEl.addEventListener("show.bs.modal", (event) => {
-      const button = event.relatedTarget;
-      const isEditMode = button?.classList.contains('btn-edit');
-      form.reset();
-      pelatihanModalEl.querySelector(".upload-area")?.reset();
-      form.querySelector('input[name="_method"]')?.remove();
-      hideFileSizeError();
-      document.getElementById("posisi-lainnya-input").classList.remove("show");
-      fileInput.required = !isEditMode;
-      if (isEditMode) {
-        modalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Data Pelatihan';
-        const pelatihanId = button.dataset.id;
-        idInput.value = pelatihanId;
-        const methodInput = document.createElement('input');
-        methodInput.type = 'hidden';
-        methodInput.name = '_method';
-        methodInput.value = 'PUT';
-        form.prepend(methodInput);
-        fetch(`/pelatihan/${pelatihanId}/edit`)
-          .then(response => {
-            if (!response.ok) throw new Error('Data tidak ditemukan');
-            return response.json();
-          })
-          .then(data => {
+      } else {
+        resetUpload();
+      }
+    }
+
+    // Reset upload area ke default
+    function resetUpload() {
+      uploadText.innerHTML = originalText;
+      uploadIcon.className = originalIconClass;
+      fileInput.value = "";
+      if (feedbackEl) {
+        feedbackEl.textContent = "";
+        feedbackEl.style.display = "none";
+      }
+    }
+
+    // Event change input
+    fileInput.addEventListener("change", function () {
+      handleFiles(this.files);
+    });
+
+    // Drag & Drop
+    uploadArea.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      uploadArea.classList.add("drag-over");
+    });
+
+    uploadArea.addEventListener("dragleave", () => {
+      uploadArea.classList.remove("drag-over");
+    });
+
+    uploadArea.addEventListener("drop", (e) => {
+      e.preventDefault();
+      uploadArea.classList.remove("drag-over");
+      handleFiles(e.dataTransfer.files);
+    });
+
+    // Simpan reset method biar bisa dipanggil dari luar
+    uploadArea.reset = resetUpload;
+  });
+}
+
+    // == Inisialisasi Modal Pelatihan ==
+    // Mengelola perilaku modal untuk create dan edit data pelatihan
+    function initPelatihanModal() {
+      const pelatihanModalEl = document.getElementById("pelatihanModal");
+      if (!pelatihanModalEl) return;
+
+      const bsModal = new bootstrap.Modal(pelatihanModalEl);
+      const form = document.getElementById("pelatihanForm");
+      const saveButton = pelatihanModalEl.querySelector(".btn-success");
+      const modalTitle = pelatihanModalEl.querySelector(".modal-title");
+      const idInput = document.getElementById("pelatihan_id");
+      const fileInput = form.dokumen;
+      const fileSizeFeedbackEl = document.getElementById("file-size-feedback");
+
+      // Menangani validasi ukuran file
+      function showFileSizeError(message) {
+        if (fileSizeFeedbackEl) {
+          fileSizeFeedbackEl.textContent = message;
+          fileSizeFeedbackEl.style.display = "block";
+        }
+      }
+
+      function hideFileSizeError() {
+        if (fileSizeFeedbackEl) {
+          fileSizeFeedbackEl.textContent = "";
+          fileSizeFeedbackEl.style.display = "none";
+        }
+      }
+
+      // Menangani event saat modal dibuka
+      pelatihanModalEl.addEventListener("show.bs.modal", async (event) => {
+        const button = event.relatedTarget;
+        const isEditMode = button?.classList.contains("btn-edit");
+
+        form.reset();
+        pelatihanModalEl.querySelector(".upload-area")?.reset();
+        form.querySelector('input[name="_method"]')?.remove();
+        hideFileSizeError();
+        document.getElementById("posisi-lainnya-input")?.classList.remove("show");
+
+        fileInput.required = !isEditMode;
+
+        if (isEditMode) {
+          modalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Data Pelatihan';
+          const pelatihanId = button.dataset.id;
+          idInput.value = pelatihanId;
+
+          const methodInput = document.createElement("input");
+          methodInput.type = "hidden";
+          methodInput.name = "_method";
+          methodInput.value = "PUT";
+          form.prepend(methodInput);
+
+          try {
+            const response = await fetch(`/pelatihan/${pelatihanId}/edit`);
+            if (!response.ok) throw new Error("Gagal memuat data");
+            const data = await response.json();
+
             for (const key in data) {
               if (Object.hasOwnProperty.call(data, key)) {
                 const field = form.elements[key];
                 if (field) {
-                  if (field.type === 'date') {
-                    field.value = data[key].split('T')[0]; 
-                  } else if (key === 'struktural' || key === 'sertifikasi') {
-                    field.value = data[key] ? 'Ya' : 'Tidak';
+                  if (field.type === "date") {
+                    field.value = data[key].split("T")[0];
+                  } else if (key === "struktural" || key === "sertifikasi") {
+                    field.value = data[key] ? "Ya" : "Tidak";
                   } else {
                     field.value = data[key];
                   }
                 }
               }
             }
-            if (data.posisi === 'Lainnya') {
-                document.getElementById('posisi-lainnya-input').classList.add('show');
-                form.posisi_lainnya.value = data.posisi_lainnya;
+
+            if (data.posisi === "Lainnya") {
+              document.getElementById("posisi-lainnya-input").classList.add("show");
+              form.posisi_lainnya.value = data.posisi_lainnya || "";
             }
-            pelatihanModalEl.querySelector(".upload-area p").innerHTML = "Pilih file lain jika ingin mengubah<br><small>Maks 5 MB</small>";
-          })
-          .catch(error => {
-            console.error("Gagal mengambil data untuk diedit:", error);
+
+            pelatihanModalEl.querySelector(".upload-area p").innerHTML =
+              "Seret & Lepas File di sini<br><small>Ukuran Maksimal 5 MB</small>";
+          } catch (error) {
+            console.error("Gagal memuat data edit:", error);
             alert("Gagal memuat data. Silakan coba lagi.");
             bsModal.hide();
-          });
-      } else {
-        modalTitle.innerHTML = '<i class="fas fa-plus-circle"></i> Tambah Data Pelatihan';
-        idInput.value = '';
-      }
-    });
-    saveButton.addEventListener("click", (event) => {
-      event.preventDefault();
-      if (!form.checkValidity()) {
-        form.reportValidity();
-        return;
-      }
-      hideFileSizeError();
-      if (fileInput.files.length > 0) {
-        const file = fileInput.files[0];
-        const maxSizeInBytes = 5 * 1024 * 1024;
-        if (file.size > maxSizeInBytes) {
-          showFileSizeError(`File terlalu besar! Maksimal 5 MB. Ukuran file Anda ~${(file.size / 1024 / 1024).toFixed(2)} MB`);
+          }
+        } else {
+          modalTitle.innerHTML = '<i class="fas fa-plus-circle"></i> Tambah Data Pelatihan';
+          idInput.value = "";
+        }
+      });
+
+      // Menangani submit form
+      saveButton.addEventListener("click", async (event) => {
+        event.preventDefault();
+        if (!form.checkValidity()) {
+          form.reportValidity();
           return;
         }
-      }
-      const pelatihanId = idInput.value;
-      const isEditMode = !!pelatihanId;
-      const url = isEditMode ? `/pelatihan/${pelatihanId}` : '/pelatihan';
-      const formData = new FormData(form);
-      saveButton.disabled = true;
-      saveButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Menyimpan...';
-      fetch(url, {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-          'Accept': 'application/json',
-        },
-      })
-      .then(response => {
-        if (!response.ok) {
-           return response.json().then(err => { throw err; });
-        }
-        return response.json();
-      })
-      .then(data => {
-        if (data.success) {
-          bsModal.hide();
-          showSuccessModal(isEditMode ? "Data Berhasil Diperbarui" : "Data Berhasil Disimpan", data.success);
-          setTimeout(() => location.reload(), 1300);
-        }
-      })
-      .catch(error => {
-        console.error("Terjadi kesalahan:", error);
-        if (error.errors) {
-            const errorMessages = Object.values(error.errors).map(msg => `- ${msg}`).join("\n");
-            alert("Validasi Gagal:\n" + errorMessages);
-        } else {
-            alert("Gagal mengirim data. Silakan cek konsol untuk detail.");
-        }
-      })
-      .finally(() => {
-        saveButton.disabled = false;
-        saveButton.innerHTML = 'Simpan';
-      });
-    });
-  };
 
-  // == Inisialisasi semua Event Listener Global di satu tempat ==
-  const initGlobalEventListeners = () => {
-    const overlay = document.querySelector(".konfirmasi-hapus-overlay");
-    if (!overlay) return;
-    const btnKonfirmasi = document.getElementById("btnKonfirmasiHapus");
-    let dataToDelete = null;
-    const showDeleteModal = () => overlay.classList.add("show");
-    const hideDeleteModal = () => overlay.classList.remove("show");
-    document.body.addEventListener("click", (event) => {
-      const target = event.target;
-      const hapusButton = target.closest(".btn-hapus");
-      const detailButton = target.closest(".btn-lihat-detail-pelatihan");
-      if (hapusButton) {
-        event.preventDefault();
-        dataToDelete = { id: hapusButton.dataset.id };
-        showDeleteModal();
+        hideFileSizeError();
+
+        if (fileInput.files.length > 0) {
+          const file = fileInput.files[0];
+          const maxSizeInBytes = 5 * 1024 * 1024; // 5 MB
+          if (file.size > maxSizeInBytes) {
+            showFileSizeError(
+              `File terlalu besar! Maksimal 5 MB. Ukuran file Anda ~${(file.size / 1024 / 1024).toFixed(2)} MB`
+            );
+            return;
+          }
+        }
+
+        const pelatihanId = idInput.value;
+        const isEditMode = !!pelatihanId;
+        const url = isEditMode ? `/pelatihan/${pelatihanId}` : "/pelatihan";
+        const formData = new FormData(form);
+
+        saveButton.disabled = true;
+        saveButton.innerHTML =
+          '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Menyimpan...';
+
+        try {
+          const response = await fetch(url, {
+            method: "POST",
+            body: formData,
+            headers: {
+              "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+              Accept: "application/json",
+            },
+          });
+
+          const data = await response.json();
+          if (!response.ok) {
+            throw new Error(data.message || "Gagal menyimpan data");
+          }
+
+          if (data.success) {
+            bsModal.hide();
+            showSuccessModal(
+              isEditMode ? "Data Berhasil Diperbarui" : "Data Berhasil Disimpan",
+              data.success,
+              () => location.reload()
+            );
+          } else if (data.errors) {
+            const errorMessages = Object.values(data.errors).map((msg) => `- ${msg}`).join("\n");
+            alert(`Validasi Gagal:\n${errorMessages}`);
+          } else {
+            throw new Error(data.message || "Terjadi kesalahan yang tidak diketahui.");
+          }
+        } catch (error) {
+          console.error("Gagal mengirim data:", error);
+          alert(error.message || "Gagal mengirim data. Silakan cek konsol untuk detail.");
+        } finally {
+          saveButton.disabled = false;
+          saveButton.innerHTML = "Simpan";
+        }
+      });
+    }
+
+    // == Inisialisasi Aksi Global ==
+    // Mengelola aksi detail dan hapus pada tabel
+    function initGlobalEventListeners() {
+      const modalKonfirmasiHapus = document.getElementById("modalKonfirmasiHapus");
+      if (!modalKonfirmasiHapus) return;
+
+      const hapusTitle = modalKonfirmasiHapus.querySelector(".konfirmasi-hapus-title");
+      const hapusSubtitle = modalKonfirmasiHapus.querySelector(".konfirmasi-hapus-subtitle");
+      let dataToDelete = { id: null, nama: null };
+      const btnKonfirmasi = document.getElementById("btnKonfirmasiHapus");
+
+      function showDeleteModal() {
+        modalKonfirmasiHapus.style.display = "flex";
+        requestAnimationFrame(() => modalKonfirmasiHapus.classList.add("show"));
+        document.body.style.overflow = "hidden";
       }
-      if (target.matches("#btnBatalHapus") || target.matches(".konfirmasi-hapus-overlay")) {
-        hideDeleteModal();
+
+      function hideDeleteModal() {
+        if (modalKonfirmasiHapus.classList.contains("show")) {
+          modalKonfirmasiHapus.classList.remove("show");
+          modalKonfirmasiHapus.addEventListener(
+            "transitionend",
+            () => {
+              if (!modalKonfirmasiHapus.classList.contains("show")) {
+                modalKonfirmasiHapus.style.display = "none";
+                if (!document.querySelector(".modal.show, .konfirmasi-hapus-overlay.show")) {
+                  document.body.style.overflow = "";
+                }
+              }
+            },
+            { once: true }
+          );
+        }
       }
-      if (detailButton) {
-        const data = detailButton.dataset;
-        document.getElementById("detail_pelatihan_nama").textContent = data.nama_pelatihan || "-";
-        document.getElementById("detail_pelatihan_posisi").textContent = data.posisi || "-";
-        document.getElementById("detail_pelatihan_kota").textContent = data.kota || "-";
-        document.getElementById("detail_pelatihan_lokasi").textContent = data.lokasi || "-";
-        document.getElementById("detail_pelatihan_penyelenggara").textContent = data.penyelenggara || "-";
-        document.getElementById("detail_pelatihan_jenis_diklat").textContent = data.jenis_diklat || "-";
-        document.getElementById("detail_pelatihan_tgl_mulai").textContent = data.tgl_mulai || "-";
-        document.getElementById("detail_pelatihan_tgl_selesai").textContent = data.tgl_selesai || "-";
-        document.getElementById("detail_pelatihan_lingkup").textContent = data.lingkup || "-";
-        document.getElementById("detail_pelatihan_jam").textContent = data.jam || "-";
-        document.getElementById("detail_pelatihan_hari").textContent = data.hari || "-";
-        document.getElementById("detail_pelatihan_struktural").textContent = data.struktural || "-";
-        document.getElementById("detail_pelatihan_sertifikasi").textContent = data.sertifikasi || "-";
-        document.getElementById("detail_pelatihan_document_viewer")?.setAttribute("src", data.dokumen_path || "");
-      }
-    });
-    btnKonfirmasi?.addEventListener('click', (event) => {
-      event.preventDefault();
-      if (!dataToDelete || !dataToDelete.id) return;
-      const originalButtonText = btnKonfirmasi.innerHTML;
-      btnKonfirmasi.disabled = true;
-      btnKonfirmasi.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Menghapus...';
-      fetch(`/pelatihan/${dataToDelete.id}`, {
-        method: 'DELETE',
-        headers: {
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-          'Accept': 'application/json',
-        },
-      })
-      .then(response => {
-        if (!response.ok) throw new Error('Gagal menghapus data di server.');
-        return response.json();
-      })
-      .then(data => {
-        if (data.success) {
+
+      document.body.addEventListener("click", async (event) => {
+        const target = event.target;
+        const detailButton = target.closest(".btn-lihat-detail-pelatihan");
+        const hapusButton = target.closest(".btn-hapus");
+
+        // Menangani aksi detail
+        if (detailButton) {
+          event.preventDefault();
+          const data = detailButton.dataset;
+          const fields = [
+            "nama_pelatihan",
+            "posisi",
+            "kota",
+            "lokasi",
+            "penyelenggara",
+            "jenis_diklat",
+            "tgl_mulai",
+            "tgl_selesai",
+            "lingkup",
+            "jam",
+            "hari",
+            "struktural",
+            "sertifikasi",
+          ];
+
+          fields.forEach((field) => {
+            const el = document.getElementById(`detail_pelatihan_${field}`);
+            if (el) el.textContent = data[field] || "-";
+          });
+          document.getElementById("detail_pelatihan_document_viewer")?.setAttribute("src", data.dokumen_path || "");
+        }
+
+        // Menangani aksi hapus
+        if (hapusButton && hapusButton.hasAttribute("data-id")) {
+          event.preventDefault();
+          dataToDelete.id = hapusButton.dataset.id;
+          dataToDelete.nama = hapusButton.dataset.nama || "pelatihan ini";
+          hapusTitle.textContent = "Apakah Anda Yakin?";
+          hapusSubtitle.textContent = `Data untuk ${dataToDelete.nama} akan dihapus permanen.`;
+          showDeleteModal();
+        }
+
+        // Menangani konfirmasi hapus
+        if (target.matches("#btnKonfirmasiHapus")) {
+          event.preventDefault();
+          if (!dataToDelete || !dataToDelete.id) return;
+
+          const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+          btnKonfirmasi.disabled = true;
+          btnKonfirmasi.innerHTML =
+            '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Menghapus...';
+
+          try {
+            const response = await fetch(`/pelatihan/${dataToDelete.id}`, {
+              method: "DELETE",
+              headers: {
+                "X-CSRF-TOKEN": csrfToken,
+                Accept: "application/json",
+              },
+            });
+            const result = await response.json();
+            if (!response.ok || !result.success) throw new Error(result.message || "Gagal menghapus");
+
+            hideDeleteModal();
+            showSuccessModal("Berhasil Dihapus!", result.message, () => location.reload());
+          } catch (error) {
+            console.error("Gagal menghapus data:", error);
+            alert(error.message || "Gagal menghapus data.");
+            hideDeleteModal();
+          } finally {
+            dataToDelete = { id: null, nama: null };
+            btnKonfirmasi.disabled = false;
+            btnKonfirmasi.innerHTML = "Ya, Hapus";
+          }
+        }
+
+        // Menangani pembatalan hapus atau klik di luar modal
+        if (target.matches("#btnBatalHapus") || target.matches(".konfirmasi-hapus-overlay:not(.konfirmasi-hapus-box)")) {
           hideDeleteModal();
-          showSuccessModal("Berhasil Dihapus", "Data pelatihan telah dihapus.");
-          setTimeout(() => location.reload(), 1300);
-        } else {
-          throw new Error(data.error || 'Terjadi kesalahan.');
-        }
-      })
-      .catch(error => {
-        console.error("Gagal menghapus data:", error);
-        alert("Gagal menghapus data. Silakan coba lagi.");
-        hideDeleteModal();
-      })
-      .finally(() => {
-        btnKonfirmasi.disabled = false;
-        btnKonfirmasi.innerHTML = originalButtonText;
-        dataToDelete = null;
-      });
-    });
-  };
-
-  // == [KUNCI PERBAIKAN] Fungsi Utilitas untuk Area Unggah ==
-  const setupUploadArea = () => {
-    document.querySelectorAll(".upload-area").forEach((uploadArea) => {
-      const fileInput = uploadArea.querySelector('input[type="file"]');
-      const uploadText = uploadArea.querySelector("p");
-      if (!fileInput || !uploadText) return;
-      
-      const originalText = uploadText.innerHTML;
-
-      // MENAMBAHKAN EVENT LISTENER PADA DIV, BUKAN HANYA DI BODY
-      uploadArea.addEventListener("click", () => {
-        fileInput.click();
-      });
-      
-      fileInput.addEventListener("change", function () {
-        if (this.files.length > 0) {
-            uploadText.textContent = this.files[0].name;
-        } else {
-            uploadText.innerHTML = originalText;
         }
       });
-      
-      uploadArea.reset = () => {
-        uploadText.innerHTML = originalText;
-        fileInput.value = "";
-      };
-    });
-  };
-  
-  // == Fungsi Utilitas Lainnya ==
-  const setupPosisiLainnya = () => {
-    const posisiSelect = document.getElementById("posisi-pelatihan-select");
-    const posisiLainnyaInput = document.getElementById("posisi-lainnya-input");
-    if (!posisiSelect || !posisiLainnyaInput) return;
-    posisiSelect.addEventListener("change", function () {
-      posisiLainnyaInput.classList.toggle("show", this.value === "Lainnya");
-      if(this.value !== "Lainnya") posisiLainnyaInput.value = "";
-    });
-  };
 
-  // == Panggil Semua Fungsi Inisialisasi ==
-  initPelatihanModal();
-  initGlobalEventListeners();
-  setupPosisiLainnya();
-  setupUploadArea(); // Pastikan fungsi ini dipanggil
-});
+      // Menangani tombol Escape untuk menutup modal hapus
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && modalKonfirmasiHapus.classList.contains("show")) {
+          hideDeleteModal();
+        }
+      });
+    }
+
+    // == Inisialisasi Input Posisi Lainnya ==
+    // Mengelola visibilitas input posisi lainnya berdasarkan pilihan select
+    function initPosisiLainnya() {
+      const posisiSelect = document.getElementById("posisi-pelatihan-select");
+      const posisiLainnyaInput = document.getElementById("posisi-lainnya-input");
+      if (!posisiSelect || !posisiLainnyaInput) return;
+
+      posisiSelect.addEventListener("change", function () {
+        posisiLainnyaInput.classList.toggle("show", this.value === "Lainnya");
+        if (this.value !== "Lainnya") posisiLainnyaInput.value = "";
+      });
+    }
+
+    // == Peningkatan Input Tanggal ==
+    // Meningkatkan fungsi input tanggal agar dapat diklik di seluruh area
+    function initDateInputs() {
+      document.querySelectorAll('input[type="date"]').forEach((el) => {
+        el.style.cursor = "pointer";
+        el.addEventListener("click", function () {
+          this.showPicker && this.showPicker();
+        });
+      });
+    }
+
+    // == Auto-submit Search dengan Debounce ==
+    function initSearchAutoSubmit() {
+      const searchInput = document.getElementById("searchInput");
+      const searchForm = document.getElementById("searchForm");
+      let typingTimer;
+
+      if (searchInput && searchForm) {
+        searchInput.addEventListener("keyup", function () {
+          clearTimeout(typingTimer);
+          typingTimer = setTimeout(() => {
+            searchForm.submit();
+          }, 500); // delay 500ms biar gak spam
+        });
+      }
+    }
+
+    window.addEventListener("pageshow", function (event) {
+      if (event.persisted || (performance?.navigation?.type === 1)) {
+        const searchInput = document.querySelector('input[name="search"]');
+        if (searchInput) {
+          searchInput.value = "";
+        }
+
+        const cleanUrl = location.origin + location.pathname;
+        window.location.href = cleanUrl;
+      }
+    });
+
+    // == Inisialisasi Fungsi Utama ==
+    // Memanggil semua fungsi inisialisasi
+    initSearchAutoSubmit()
+    initUploadAreas();
+    initPelatihanModal();
+    initGlobalEventListeners();
+    initPosisiLainnya();
+    initDateInputs();
+  });
+})();
