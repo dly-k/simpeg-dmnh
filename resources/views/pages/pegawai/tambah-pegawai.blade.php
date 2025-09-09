@@ -16,7 +16,6 @@
 
 <body>
 <div class="layout">
-    <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
         <div class="brand">SI<span>KEMAH</span></div>
         <div class="menu-wrapper">
@@ -78,7 +77,6 @@
             </div>
         </nav>
 
-        <!-- Title Bar -->
         <div class="title-bar d-flex align-items-center justify-content-between">
             <h1 class="m-0">
                 <i class="fa fa-user-plus"></i> Tambah Data Pegawai
@@ -88,492 +86,369 @@
             </a>
         </div>
 
-        <!-- Main Content -->
         <main class="main-content">
             <div class="card">
                 <div class="card-body p-4">
-                    <!-- Profile Section -->
-                    <div class="d-flex flex-column flex-md-row gap-4 mb-4">
-                        <div class="text-center flex-shrink-0">
-                            <!-- Foto -->
-                            <div class="foto-container mb-2 mx-auto d-flex align-items-center justify-content-center bg-light rounded">
-                                <i class="lni lni-user foto-icon"></i>
-                            </div>
-                            <!-- Tombol Edit -->
-                            <button class="btn btn-editfoto btn-sm w-100 edit-foto-btn" onclick="editPhoto()">
-                                Edit Foto
-                            </button>
-                        </div>
-
-                        <!-- Form Data Dasar -->
-                        <div class="flex-grow-1">
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label class="small text-dark fw-medium mb-1">NIP<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: 198709152023021001" required>
+                    <form action="{{ route('pegawai.store') }}" method="POST">
+                        @csrf
+                        <div class="d-flex flex-column flex-md-row gap-4 mb-4">
+                            <div class="text-center flex-shrink-0">
+                                <div class="foto-container mb-2 mx-auto d-flex align-items-center justify-content-center bg-light rounded">
+                                    <i class="lni lni-user foto-icon"></i>
                                 </div>
-                                <div class="col-md-6">
-                                    <label class="small text-dark fw-medium mb-1">Agama<span class="text-danger">*</span></label>
-                                    <select class="form-select form-select-sm" required>
-                                        <option selected>Islam</option>
-                                        <option>Kristen</option>
-                                        <option>Katolik</option>
-                                        <option>Hindu</option>
-                                        <option>Budha</option>
-                                        <option>Khonghucu</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="small text-dark fw-medium mb-1">Nama Lengkap<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control form-control-sm search-input" placeholder="Termasuk gelar jika ada" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="small text-dark fw-medium mb-1">Status Pernikahan<span class="text-danger">*</span></label>
-                                    <select class="form-select form-select-sm" required>
-                                        <option selected>Belum Menikah</option>
-                                        <option>Menikah</option>
-                                        <option>Janda</option>
-                                        <option>Duda</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="small text-dark fw-medium mb-1">Jenis Kelamin<span class="text-danger">*</span></label>
-                                    <div>
-                                        <div class="form-check form-check-inline pt-1">
-                                            <input class="form-check-input" type="radio" name="jk" id="lk" checked>
-                                            <label class="form-check-label" for="lk">Laki-laki</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="jk" id="pr">
-                                            <label class="form-check-label" for="pr">Perempuan</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="small text-dark fw-medium mb-1">Pendidikan Terakhir<span class="text-danger">*</span></label>
-                                    <select class="form-select form-select-sm">
-                                        <option class="search-input" selected>--Pilih Salah Satu--</option>
-                                        <option>SD</option>
-                                        <option>SMP</option>
-                                        <option>SMA</option>
-                                        <option>S1</option>
-                                        <option>S2</option>
-                                        <option>S3</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="small text-dark fw-medium mb-1">Tempat Lahir<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Jakarta">
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="small text-dark fw-medium mb-1">Bidang Ilmu<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Ilmu Pengelolaan Hutan">
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="small text-dark fw-medium mb-1">Tanggal Lahir<span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control form-control-sm">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <hr class="mb-4 custom-hr">
-                    <div class="main-tab-content" id="biodata-content">
-                    <div id="biodata-sub-tabs" class="btn-group flex-wrap gap-2 mb-4">
-                        <button type="button" class="btn active" data-tab="kepegawaian">Kepegawaian</button>
-                        <button type="button" class="btn" data-tab="dosen">Dosen</button>
-                        <button type="button" class="btn" data-tab="domisili">Alamat Domisili & Kontak</button>
-                        <button type="button" class="btn" data-tab="kependudukan">Kependudukan</button>
-                        <button type="button" class="btn" data-tab="efile">E-File</button>
-                    </div>
-                    <!-- TAB: Kepegawaian -->
-                    <div class="sub-tab-content" id="kepegawaian">
-                        <div class="row g-3">
-
-                        <!-- Status Kepegawaian -->
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">Status Kepegawaian<span class="text-danger">*</span></label>
-                            <select class="form-select form-select-sm" required>
-                            <option selected>Dosen PNS</option>
-                            <option>Tendik PNS</option>
-                            <option>Dosen Tetap</option>
-                            <option>Tendik Tetap</option>
-                            <option>Tendik Kontrak</option>
-                            <option>Dosen Tamu</option>
-                            <option>Tenaga Harian Lepas (THL)</option>
-                            </select>
-                        </div>
-
-                        <!-- Status Pegawai -->
-                        <div class="col-md-6 form-group" required>
-                            <label class="small text-dark fw-medium mb-1">Status Pegawai<span class="text-danger">*</span></label>
-                            <select class="form-select form-select-sm">
-                            <option selected>Aktif</option>
-                            <option>Pensiun</option>
-                            <option>Pensiun Muda</option>
-                            <option>Diberhentikan</option>
-                            <option>Meninggal Dunia</option>
-                            <option>Kontrak Selesai</option>
-                            <option>Mengundurkan diri</option>
-                            <option>Mutasi</option>
-                            </select>
-                        </div>
-
-                       <!-- Unit Kerja -->
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">Unit Kerja</label>
-                            <input type="text" class="form-control form-control-sm readonly-input" value="Fakultas Kehutanan dan Lingkungan" readonly>
-                        </div>
-
-                        <!-- Divisi -->
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">Divisi</label>
-                            <input type="text" class="form-control form-control-sm readonly-input" value="Departemen Manajemen Hutan" readonly>
-                        </div>
-
-                        <!-- Nomor Arsip -->
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">Nomor Arsip Berkas Kepegawaian<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control form-control-sm" required>
-                        </div>
-
-                        <!-- Jabatan Fungsional -->
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">Jabatan Fungsional<span class="text-danger">*</span></label>
-                            <select class="form-select form-select-sm" required>
-                            <option>Tidak ada</option>
-                            <option>Dosen</option>
-                            <option>Asisten Ahli</option>
-                            <option>Lektor</option>
-                            <option>Lektor Kepala</option>
-                            <option>Guru Besar</option>
-                            <option>Pranata Laboratorium Pendidikan Pelaksana Lanjutan</option>
-                            <option>Pranata Laboratorium Pendidikan Muda</option>
-                            <option>Pranata Laboratorium Pendidikan Pertama</option>
-                            <option>Teknisi Hardware dan Software</option>
-                            <option>Pengadministrasi Akademik & Kemahasiswaan PS IPH</option>
-                            <option>Pengadministrasi Akademik & Kemahasiswaan MNH</option>
-                            <option>Pengadministrasi Umum, Sarana & Prasarana</option>
-                            <option>Pengadministrasi Persuratan & Arsip</option>
-                            <option>Pengadministrasi Jurnal Ilmiah</option>
-                            <option>Adm. Bagian/Divisi</option>
-                            <option>Staf Kepegawaian</option>
-                            <option>Laboran Penafsiran Potret Udara</option>
-                            <option>Pramu Kantor</option>
-                            <option>Pramu Gedung dan Halaman</option>
-                            <option>Media Branding & Staf Jurnal Departemen</option>
-                            </select>
-                        </div>
-
-                        <!-- Pangkat Golongan -->
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">Pangkat/Golongan<span class="text-danger">*</span></label>
-                            <select class="form-select form-select-sm" required>
-                            <option selected>Juru Muda / I-a</option>
-                            <option>Juru Muda Tingkat I / I-b</option>
-                            <option>Juru / I-c</option>
-                            <option>Juru Tingkat I / I-d</option>
-                            <option>Pengatur Muda / II-a</option>
-                            <option>Pengatur Muda Tingkat I / II-b</option>
-                            <option>Pengatur / II-c</option>
-                            <option>Pengatur Tingkat I / II-d</option>
-                            <option>Penata Muda / III-a</option>
-                            <option>Penata Muda Tingkat I / III-b</option>
-                            <option>Penata III/c</option>
-                            <option>Penata Tingkat I / III-d</option>
-                            <option>Pembina / IV-a</option>
-                            <option>Pembina Tingkat I / IV-b</option>
-                            <option>Pembina Utama Muda / IV-c</option>
-                            <option>Pembina Utama Madya / IV-d</option>
-                            <option>Pembina Utama / IV-e</option>
-                            </select>
-                        </div>
-
-                        <!-- TMT Pangkat -->
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">TMT Pangkat Terakhir<span class="text-danger">*</span></label>
-                            <input type="date" class="form-control form-control-sm" required>
-                        </div>
-
-                        <!-- Jabatan Struktural -->
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">Jabatan Struktural (jika ada)</label>
-                            <select class="form-select form-select-sm">
-                            <option selected>Tidak ada</option>
-                            <option value="ketua-departemen-mnh">Ketua Departemen MNH</option>
-                            <option value="sekretaris-departemen-mnh">Sekretaris Departemen MNH</option>
-                            <option value="sekretaris-prodi">Sekretaris Program Studi</option>
-                            <option value="ketua-prodi-pp-ip-h">Ketua Program Studi Pascasarjana IPH</option>
-                            <option value="sekretaris-prodi-pp-ip-h">Sekretaris Program Studi Pascasarjana IPH</option>
-                            <option value="ktu">Kepala Tata Usaha (KTU)</option>
-                            <option value="sub-koordinator-akademik">Sub Koordinator Administrasi Akademik</option>
-                            <option value="sub-koordinator-keuangan-umum">Sub Koordinator Keuangan dan Umum</option>
-                            <option value="komisi-akademik">Komisi Akademik</option>
-                            <option value="anggota-komisi-akademik">Anggota Komisi Akademik</option>
-                            <option value="komisi-kemahasiswaan">Komisi Kemahasiswaan</option>
-                            <option value="anggota-komisi-kemahasiswaan">Anggota Komisi Kemahasiswaan</option>
-                            <option value="kepala-divisi-perencanaan-kehutanan">Kepala Divisi Perencanaan Kehutanan</option>
-                            <option value="kepala-divisi-kebijakan-kehutanan">Kepala Divisi Kebijakan Kehutanan</option>
-                            <option value="kepala-divisi-pemanfaatan-sdh">Kepala Divisi Pemanfaatan Sumberdaya Hutan</option>
-                            </select>
-                        </div>
-
-                        <!-- Periode Jabatan -->
-                        <div class="col-md-6 form-group">
-                        <label class="small text-dark fw-medium mb-1">Periode Jabatan Struktural</label>
-                        <div class="d-flex gap-2 periode-jabatan">
-                            <input type="date" class="form-control form-control-sm" placeholder="TMT">
-                            <span class="pt-1">s/d</span>
-                            <input type="date" class="form-control form-control-sm" placeholder="TST">
-                        </div>
-                        </div>
-
-                        <!-- Finger Print -->
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">Finger Print ID</label>
-                            <input type="text" class="form-control form-control-sm">
-                        </div>
-
-                        <!-- NPWP -->
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">NPWP<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control form-control-sm" required>
-                        </div>
-
-                        <!-- Nama Bank -->
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">Nama Bank<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control form-control-sm" required>
-                        </div>
-
-                        <!-- No Rekening -->
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">No Rekening<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control form-control-sm" required>
-                        </div>
-                        </div>
-                    </div>
-
-                    <!-- TAB: Dosen -->
-                    <div class="sub-tab-content" id="dosen">
-                        <div class="row g-3">
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">NUPTK</label>
-                            <input type="text" class="form-control form-control-sm" required>
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">SINTA ID</label>
-                            <input type="text" class="form-control form-control-sm search-input" placeholder="Opsional">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">NIDN</label>
-                            <input type="text" class="form-control form-control-sm">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">Scopus ID</label>
-                            <input type="text" class="form-control form-control-sm search-input" placeholder="Opsional">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">No. Sertifikasi Dosen</label>
-                            <input type="text" class="form-control form-control-sm">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">Orchid ID</label>
-                            <input type="text" class="form-control form-control-sm search-input" placeholder="Opsional">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">Tgl. Sertifikasi Dosen</label>
-                            <input type="date" class="form-control form-control-sm">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">Google Scholar ID</label>
-                            <input type="text" class="form-control form-control-sm search-input" placeholder="Opsional">
-                        </div>
-                        </div>
-                    </div>
-
-                    <!-- TAB: Domisili -->
-                    <div class="sub-tab-content" id="domisili">
-                        <div class="row g-3">
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">Provinsi<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Jawa Barat" required>
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">Alamat<span class="text-danger">*</span></label>
-                            <textarea class="form-control form-control-sm" required>JL. Lodaya</textarea>
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">Kota<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Bandung" required>
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">Kode Pos<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control form-control-sm" value="10021" required>
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">Kecamatan<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Bandung Tengah" required>
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">No. Telepon/HP<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control form-control-sm" value="081239128991" required>
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">Kelurahan<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Ciawi" required>
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">Email Pribadi / Institusi<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control form-control-sm" value="aexyifshsi@gmail.com" required>
-                        </div>
-                        </div>
-                    </div>
-
-                    <!-- TAB: Kependudukan -->
-                    <div class="sub-tab-content" id="kependudukan">
-                        <div class="row g-3">
-
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">Nomor KTP<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control form-control-sm" value="31862908812645811" required>
-                        </div>
-
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">Kecamatan<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Talang Ubi" required>
-                        </div>
-
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">Nomor KK<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control form-control-sm" value="8011447152211029" required>
-                        </div>
-
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">Kelurahan<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Pisangan Timur" required>
-                        </div>
-
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">Warga Negara<span class="text-danger">*</span></label>
-                            <select class="form-select form-select-sm" required>
-                            <option>--Pilih Salah Satu--</option>
-                            <option>Warna Negara Indonesia (WNI)</option>
-                            <option>Warga Negara Asing (WNA)</option>
-                            </select>
-                        </div>
-
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">Kode Pos<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control form-control-sm" value="01984" required>
-                        </div>
-
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">Provinsi<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Sumatera Barat" required>
-                        </div>
-
-                        <div class="col-md-6 form-group">
-                            <label class="small text-dark fw-medium mb-1">Kabupaten/Kota<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control form-control-sm search-input" placeholder="Contoh: Cimahi" required>
-                        </div>
-
-                        <div class="col-md-12 form-group">
-                            <label class="small text-dark fw-medium mb-1">Alamat<span class="text-danger">*</span></label>
-                            <textarea class="form-control form-control-sm" rows="2" required>Jl Pendopo</textarea>
-                        </div>
-                        </div>
-                    </div>
-
-                    <!-- TAB: E-file -->
-                    <div class="sub-tab-content" id="efile">
-                        <!-- Tombol Tambah di pojok kanan -->
-                        <div class="d-flex justify-content-end mb-3">
-                            <button type="button" class="btn btn-tambah btn-sm" id="add-dokumen">
-                                + Tambah Dokumen
-                            </button>
-                        </div>
-
-                        <div id="dokumen-wrapper">
-                            <div class="dokumen-item border p-4 pt-5 mb-4 rounded position-relative">
-                                <!-- Nomor Urut -->
-                                <span class="badge nomor-dokumen position-absolute top-0 start-0 m-3">No. 1</span>
-
-                                <!-- Tombol Hapus -->
-                                <button type="button" class="btn btn-danger btn-sm btn-hapus position-absolute top-0 end-0 m-3">
-                                    &times;
+                                <button class="btn btn-editfoto btn-sm w-100 edit-foto-btn" type="button" onclick="editPhoto()">
+                                    Edit Foto
                                 </button>
+                                <input type="file" name="foto_profil" class="d-none" id="foto-profil-input">
+                            </div>
 
-                                <!-- Kategori -->
-                                <div class="mb-3">
-                                <label class="small text-dark fw-medium mb-1">Kategori<span class="text-danger">*</span></label>
-                                <select id="kategori" class="form-select form-select-sm" required>
-                                    <option value="" selected disabled>-- Pilih Kategori --</option>
-                                    <option value="biodata">Biodata</option>
-                                    <option value="pendidikan">Pendidikan</option>
-                                    <option value="jf">Jabatan Fungsional</option>
-                                    <option value="sk">Surat Keputusan Kepangkatan</option>
-                                    <option value="sp">Surat Penting</option>
-                                    <option value="lain">Dokumen Pendukung Lainnya</option>
-                                </select>
-                                </div>
-
-                                <!-- Jenis Dokumen -->
-                                <div class="mb-3">
-                                <label class="small text-dark fw-medium mb-1">Jenis Dokumen<span class="text-danger">*</span></label>
-                                <select id="jenis-dokumen" class="form-select form-select-sm" required>
-                                    <option value="" selected disabled>-- Pilih Jenis Dokumen --</option>
-                                </select>
-                                </div>
-
-                                <!-- Keaslian Dokumen -->
-                                <div class="mb-3">
-                                    <label class="small text-dark fw-medium mb-1">Keaslian Dokumen<span class="text-danger">*</span></label>
-                                    <select class="form-select form-select-sm" required>
-                                        <option value="" selected disabled>-- Pilih Keaslian --</option>
-                                        <option>Asli</option>
-                                        <option>Scan</option>
-                                        <option>Legalisir</option>
-                                    </select>
-                                </div>
-
-                                <!-- Tanggal Dokumen -->
-                                <div class="mb-3">
-                                    <label class="small text-dark fw-medium mb-1">Tanggal Dokumen<span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control form-control-sm" required>
-                                </div>
-
-                                <!-- Upload Dokumen (Drag & Drop) -->
-                                <div class="mb-3">
-                                    <label class="small text-dark fw-medium mb-1">Upload Dokumen<span class="text-danger">*</span></label>
-                                    <div class="upload-box border rounded d-flex flex-column align-items-center justify-content-center p-4 text-center"
-                                        onclick="this.querySelector('input').click()">
-                                        <i class="fa fa-cloud-upload-alt fa-2x text-secondary"></i>
-                                        <p class="mb-1 text-dark fw-medium">Drag & Drop File here</p>
-                                        <small class="text-muted">Ukuran Maksimal 5 MB</small>
-                                        <input type="file" class="file-input" accept=".pdf,.jpg,.jpeg,.png" hidden required>
+                            <div class="flex-grow-1">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="small text-dark fw-medium mb-1">NIP<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control form-control-sm search-input" name="nip" placeholder="Contoh: 198709152023021001" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="small text-dark fw-medium mb-1">Agama<span class="text-danger">*</span></label>
+                                        <select class="form-select form-select-sm" name="agama">
+                                            <option selected>Islam</option>
+                                            <option>Kristen</option>
+                                            <option>Katolik</option>
+                                            <option>Hindu</option>
+                                            <option>Budha</option>
+                                            <option>Khonghucu</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="small text-dark fw-medium mb-1">Nama Lengkap<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control form-control-sm search-input" name="nama_lengkap" placeholder="Termasuk gelar jika ada" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="small text-dark fw-medium mb-1">Status Pernikahan<span class="text-danger">*</span></label>
+                                        <select class="form-select form-select-sm" name="status_pernikahan">
+                                            <option selected>Belum Menikah</option>
+                                            <option>Menikah</option>
+                                            <option>Janda</option>
+                                            <option>Duda</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="small text-dark fw-medium mb-1">Jenis Kelamin<span class="text-danger">*</span></label>
+                                        <div>
+                                            <div class="form-check form-check-inline pt-1">
+                                                <input class="form-check-input" type="radio" name="jenis_kelamin" id="lk" value="Laki-laki" checked>
+                                                <label class="form-check-label" for="lk">Laki-laki</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="jenis_kelamin" id="pr" value="Perempuan">
+                                                <label class="form-check-label" for="pr">Perempuan</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="small text-dark fw-medium mb-1">Pendidikan Terakhir<span class="text-danger">*</span></label>
+                                        <select class="form-select form-select-sm" name="pendidikan_terakhir">
+                                            <option class="search-input" selected>--Pilih Salah Satu--</option>
+                                            <option>SD</option>
+                                            <option>SMP</option>
+                                            <option>SMA</option>
+                                            <option>S1</option>
+                                            <option>S2</option>
+                                            <option>S3</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="small text-dark fw-medium mb-1">Tempat Lahir<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control form-control-sm search-input" name="tempat_lahir" placeholder="Contoh: Jakarta">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="small text-dark fw-medium mb-1">Bidang Ilmu<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control form-control-sm search-input" name="bidang_ilmu" placeholder="Contoh: Ilmu Pengelolaan Hutan">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="small text-dark fw-medium mb-1">Tanggal Lahir<span class="text-danger">*</span></label>
+                                        <input type="date" class="form-control form-control-sm" name="tanggal_lahir">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Tombol Simpan -->
-                    <button class="btn btn-simpan w-100">
-                        <i class="lni lni-save me-2"></i> Simpan
-                    </button>
+                        <hr class="mb-4 custom-hr">
+                        <div class="main-tab-content" id="biodata-content">
+                            <div id="biodata-sub-tabs" class="btn-group flex-wrap gap-2 mb-4">
+                                <button type="button" class="btn active" data-tab="kepegawaian">Kepegawaian</button>
+                                <button type="button" class="btn" data-tab="dosen">Dosen</button>
+                                <button type="button" class="btn" data-tab="domisili">Alamat Domisili & Kontak</button>
+                                <button type="button" class="btn" data-tab="kependudukan">Kependudukan</button>
+                            </div>
+                            <div class="sub-tab-content" id="kepegawaian">
+                                <div class="row g-3">
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Status Kepegawaian<span class="text-danger">*</span></label>
+                                        <select class="form-select form-select-sm" name="status_kepegawaian" required>
+                                            <option selected>Dosen PNS</option>
+                                            <option>Tendik PNS</option>
+                                            <option>Dosen Tetap</option>
+                                            <option>Tendik Tetap</option>
+                                            <option>Tendik Kontrak</option>
+                                            <option>Dosen Tamu</option>
+                                            <option>Tenaga Harian Lepas (THL)</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Status Pegawai<span class="text-danger">*</span></label>
+                                        <select class="form-select form-select-sm" name="status_pegawai" required>
+                                            <option selected>Aktif</option>
+                                            <option>Pensiun</option>
+                                            <option>Pensiun Muda</option>
+                                            <option>Diberhentikan</option>
+                                            <option>Meninggal Dunia</option>
+                                            <option>Kontrak Selesai</option>
+                                            <option>Mengundurkan diri</option>
+                                            <option>Mutasi</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Unit Kerja</label>
+                                        <input type="text" class="form-control form-control-sm readonly-input" value="Fakultas Kehutanan dan Lingkungan" readonly>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Divisi</label>
+                                        <input type="text" class="form-control form-control-sm readonly-input" value="Departemen Manajemen Hutan" readonly>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Nomor Arsip Berkas Kepegawaian</label>
+                                        <input type="text" class="form-control form-control-sm" name="nomor_arsip">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Jabatan Fungsional<span class="text-danger">*</span></label>
+                                        <select class="form-select form-select-sm" name="jabatan_fungsional" required>
+                                            <option>Tidak ada</option>
+                                            <option>Dosen</option>
+                                            <option>Asisten Ahli</option>
+                                            <option>Lektor</option>
+                                            <option>Lektor Kepala</option>
+                                            <option>Guru Besar</option>
+                                            <option>Pranata Laboratorium Pendidikan Pelaksana Lanjutan</option>
+                                            <option>Pranata Laboratorium Pendidikan Muda</option>
+                                            <option>Pranata Laboratorium Pendidikan Pertama</option>
+                                            <option>Teknisi Hardware dan Software</option>
+                                            <option>Pengadministrasi Akademik & Kemahasiswaan PS IPH</option>
+                                            <option>Pengadministrasi Akademik & Kemahasiswaan MNH</option>
+                                            <option>Pengadministrasi Umum, Sarana & Prasarana</option>
+                                            <option>Pengadministrasi Persuratan & Arsip</option>
+                                            <option>Pengadministrasi Jurnal Ilmiah</option>
+                                            <option>Adm. Bagian/Divisi</option>
+                                            <option>Staf Kepegawaian</option>
+                                            <option>Laboran Penafsiran Potret Udara</option>
+                                            <option>Pramu Kantor</option>
+                                            <option>Pramu Gedung dan Halaman</option>
+                                            <option>Media Branding & Staf Jurnal Departemen</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Pangkat/Golongan<span class="text-danger">*</span></label>
+                                        <select class="form-select form-select-sm" name="pangkat_golongan" required>
+                                            <option selected>Juru Muda / I-a</option>
+                                            <option>Juru Muda Tingkat I / I-b</option>
+                                            <option>Juru / I-c</option>
+                                            <option>Juru Tingkat I / I-d</option>
+                                            <option>Pengatur Muda / II-a</option>
+                                            <option>Pengatur Muda Tingkat I / II-b</option>
+                                            <option>Pengatur / II-c</option>
+                                            <option>Pengatur Tingkat I / II-d</option>
+                                            <option>Penata Muda / III-a</option>
+                                            <option>Penata Muda Tingkat I / III-b</option>
+                                            <option>Penata III/c</option>
+                                            <option>Penata Tingkat I / III-d</option>
+                                            <option>Pembina / IV-a</option>
+                                            <option>Pembina Tingkat I / IV-b</option>
+                                            <option>Pembina Utama Muda / IV-c</option>
+                                            <option>Pembina Utama Madya / IV-d</option>
+                                            <option>Pembina Utama / IV-e</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">TMT Pangkat Terakhir</label>
+                                        <input type="date" class="form-control form-control-sm" name="tmt_pangkat">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Jabatan Struktural</label>
+                                        <select class="form-select form-select-sm" name="jabatan_struktural" required>
+                                            <option selected>Tidak ada</option>
+                                            <option value="ketua-departemen-mnh">Ketua Departemen MNH</option>
+                                            <option value="sekretaris-departemen-mnh">Sekretaris Departemen MNH</option>
+                                            <option value="sekretaris-prodi">Sekretaris Program Studi</option>
+                                            <option value="ketua-prodi-pp-ip-h">Ketua Program Studi Pascasarjana IPH</option>
+                                            <option value="sekretaris-prodi-pp-ip-h">Sekretaris Program Studi Pascasarjana IPH</option>
+                                            <option value="ktu">Kepala Tata Usaha (KTU)</option>
+                                            <option value="sub-koordinator-akademik">Sub Koordinator Administrasi Akademik</option>
+                                            <option value="sub-koordinator-keuangan-umum">Sub Koordinator Keuangan dan Umum</option>
+                                            <option value="komisi-akademik">Komisi Akademik</option>
+                                            <option value="anggota-komisi-akademik">Anggota Komisi Akademik</option>
+                                            <option value="komisi-kemahasiswaan">Komisi Kemahasiswaan</option>
+                                            <option value="anggota-komisi-kemahasiswaan">Anggota Komisi Kemahasiswaan</option>
+                                            <option value="kepala-divisi-perencanaan-kehutanan">Kepala Divisi Perencanaan Kehutanan</option>
+                                            <option value="kepala-divisi-kebijakan-kehutanan">Kepala Divisi Kebijakan Kehutanan</option>
+                                            <option value="kepala-divisi-pemanfaatan-sdh">Kepala Divisi Pemanfaatan Sumberdaya Hutan</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Periode Jabatan Struktural</label>
+                                        <div class="d-flex gap-2 periode-jabatan">
+                                            <input type="date" class="form-control form-control-sm" name="periode_jabatan_mulai" placeholder="TMT">
+                                            <span class="pt-1">s/d</span>
+                                            <input type="date" class="form-control form-control-sm" name="periode_jabatan_selesai" placeholder="TST">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Finger Print ID</label>
+                                        <input type="text" class="form-control form-control-sm" name="finger_print_id">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">NPWP</label>
+                                        <input type="text" class="form-control form-control-sm" name="npwp">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Nama Bank</label>
+                                        <input type="text" class="form-control form-control-sm" name="nama_bank">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">No Rekening</label>
+                                        <input type="text" class="form-control form-control-sm" name="nomor_rekening">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sub-tab-content" id="dosen">
+                                <div class="row g-3">
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">NUPTK</label>
+                                        <input type="text" class="form-control form-control-sm" name="nuptk">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">SINTA ID</label>
+                                        <input type="text" class="form-control form-control-sm search-input" name="sinta_id" placeholder="Opsional">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">NIDN</label>
+                                        <input type="text" class="form-control form-control-sm" name="nidn">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Scopus ID</label>
+                                        <input type="text" class="form-control form-control-sm search-input" name="scopus_id" placeholder="Opsional">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">No. Sertifikasi Dosen</label>
+                                        <input type="text" class="form-control form-control-sm" name="no_sertifikasi_dosen">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Orchid ID</label>
+                                        <input type="text" class="form-control form-control-sm search-input" name="orchid_id" placeholder="Opsional">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Tgl. Sertifikasi Dosen</label>
+                                        <input type="date" class="form-control form-control-sm" name="tgl_sertifikasi_dosen">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Google Scholar ID</label>
+                                        <input type="text" class="form-control form-control-sm search-input" name="google_scholar_id" placeholder="Opsional">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sub-tab-content" id="domisili">
+                                <div class="row g-3">
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Provinsi</label>
+                                        <input type="text" class="form-control form-control-sm search-input" name="provinsi_domisili" placeholder="Contoh: Jawa Barat">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Alamat</label>
+                                        <textarea class="form-control form-control-sm" name="alamat_domisili" placeholder="Contoh: JL. Lodaya"></textarea>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Kota</label>
+                                        <input type="text" class="form-control form-control-sm search-input" name="kota_domisili" placeholder="Contoh: Bandung">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Kode Pos</label>
+                                        <input type="text" class="form-control form-control-sm" name="kode_pos_domisili" placeholder="Contoh: 10021">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Kecamatan</label>
+                                        <input type="text" class="form-control form-control-sm search-input" name="kecamatan_domisili" placeholder="Contoh: Bandung Tengah">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">No. Telepon/HP</label>
+                                        <input type="text" class="form-control form-control-sm" name="no_telepon" placeholder="Contoh: 081239128991">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Kelurahan</label>
+                                        <input type="text" class="form-control form-control-sm search-input" name="kelurahan_domisili" placeholder="Contoh: Ciawi">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Email Pribadi / Institusi</label>
+                                        <input type="text" class="form-control form-control-sm" name="email" placeholder="Contoh: aexyifshsi@gmail.com">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sub-tab-content" id="kependudukan">
+                                <div class="row g-3">
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Nomor KTP</label>
+                                        <input type="text" class="form-control form-control-sm" name="nomor_ktp" placeholder="Contoh: 31862908812645811">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Kecamatan</label>
+                                        <input type="text" class="form-control form-control-sm search-input" name="kecamatan_ktp" placeholder="Contoh: Talang Ubi">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Nomor KK</label>
+                                        <input type="text" class="form-control form-control-sm" name="nomor_kk" placeholder="Contoh: 8011447152211029">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Kelurahan</label>
+                                        <input type="text" class="form-control form-control-sm search-input" name="kelurahan_ktp" placeholder="Contoh: Pisangan Timur">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Warga Negara</label>
+                                        <select class="form-select form-select-sm" name="warga_negara">
+                                            <option>--Pilih Salah Satu--</option>
+                                            <option>Warna Negara Indonesia (WNI)</option>
+                                            <option>Warga Negara Asing (WNA)</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Kode Pos</label>
+                                        <input type="text" class="form-control form-control-sm" name="kode_pos_ktp" placeholder="Contoh: 01984">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Provinsi</label>
+                                        <input type="text" class="form-control form-control-sm search-input" name="provinsi_ktp" placeholder="Contoh: Sumatera Barat">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Kabupaten/Kota</label>
+                                        <input type="text" class="form-control form-control-sm search-input" name="kabupaten_ktp" placeholder="Contoh: Cimahi">
+                                    </div>
+                                    <div class="col-md-12 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Alamat</label>
+                                        <textarea class="form-control form-control-sm" rows="2" name="alamat_ktp" placeholder="Contoh: Jl Pendopo"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-simpan w-100">
+                            <i class="lni lni-save me-2"></i> Simpan
+                        </button>
+                    </form>
                 </div>
             </div>
         </main>
-
-        <!-- Footer -->
         <footer class="footer-custom">
             <span>© 2025 Forest Management — All Rights Reserved</span>
         </footer>
     </div>
 </div>
-
-<!-- Scripts -->
+@include('components.konfirmasi-berhasil')
 <script src="{{ asset('assets/js/layout.js') }}"></script>
 <script src="{{ asset('assets/js/tambah-pegawai.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>

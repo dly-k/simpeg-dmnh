@@ -16,10 +16,13 @@ Route::view('/dashboard', 'pages.dashboard');
 Route::view('/sidebar', 'pages.sidebar');
 
 // Pegawai
-Route::view('/daftar-pegawai', 'pages.pegawai.daftar-pegawai');
-Route::view('/edit-pegawai', 'pages.pegawai.edit-pegawai');
-Route::view('/tambah-pegawai', 'pages.pegawai.tambah-pegawai');
-Route::view('/detail-pegawai', 'pages.pegawai.detail-pegawai');
+use App\Http\Controllers\PegawaiController;
+Route::get('/daftar-pegawai', [PegawaiController::class, 'index'])->name('pegawai.index');
+Route::get('/tambah-pegawai', [PegawaiController::class, 'create'])->name('pegawai.create');
+Route::post('/tambah-pegawai', [PegawaiController::class, 'store'])->name('pegawai.store');
+Route::get('/pegawai/{pegawai}/edit', [PegawaiController::class, 'edit'])->name('pegawai.edit');
+Route::put('/pegawai/{pegawai}', [PegawaiController::class, 'update'])->name('pegawai.update');
+
 
 // Menu Lain
 Route::view('/pendidikan', 'pages.pendidikan');
