@@ -99,6 +99,20 @@ class PegawaiController extends Controller
 
         return redirect()->route('pegawai.index')->with('success', 'Data pegawai berhasil ditambahkan!');
     }
+
+    /**
+     * PERUBAHAN: Tambahkan method `show` di bawah ini.
+     * Tampilkan detail data pegawai.
+     *
+     * @param  \App\Models\Pegawai  $pegawai
+     * @return \Illuminate\View\View
+     */
+    public function show(Pegawai $pegawai)
+    {
+        // Laravel secara otomatis mengambil data pegawai berdasarkan ID dari URL (Route Model Binding).
+        // Kemudian, kirim data tersebut ke view 'detail-pegawai'.
+        return view('pages.pegawai.detail-pegawai', compact('pegawai'));
+    }
     
     /**
      * Tampilkan form untuk mengedit data pegawai.
@@ -125,6 +139,7 @@ class PegawaiController extends Controller
             // Validasi NIP diubah agar mengabaikan NIP milik pegawai yang sedang diedit
             'nip' => 'required|string|max:255|unique:pegawais,nip,' . $pegawai->id,
             'nama_lengkap' => 'required|string|max:255',
+            // ... (validasi lainnya sama seperti di method store)
             'agama' => 'nullable|string|max:255',
             'status_pernikahan' => 'nullable|string|max:255',
             'jenis_kelamin' => 'nullable|string|max:255',

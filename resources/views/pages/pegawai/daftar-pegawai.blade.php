@@ -129,7 +129,8 @@
                                         </td>
                                         <td class="text-center">
                                             <div class="d-flex gap-2 justify-content-center">
-                                                <a href="/detail-pegawai" class="btn-aksi btn-lihat" title="Lihat Detail"><i class="fa fa-eye"></i></a>
+                                                <!-- PERUBAHAN DI SINI -->
+                                                <a href="{{ route('pegawai.show', $pegawai->id) }}" class="btn-aksi btn-lihat" title="Lihat Detail"><i class="fa fa-eye"></i></a>
                                                 <a href="{{ route('pegawai.edit', $pegawai->id) }}" class="btn-aksi btn-edit" title="Edit Data"><i class="fa fa-edit"></i></a>
                                                 <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
                                             </div>
@@ -224,7 +225,8 @@
                                         </td>
                                         <td class="text-center">
                                             <div class="d-flex gap-2 justify-content-center">
-                                                <a href="/detail-pegawai" class="btn-aksi btn-lihat" title="Lihat Detail Riwayat">
+                                                <!-- PERUBAHAN DI SINI -->
+                                                <a href="{{ route('pegawai.show', $pegawai->id) }}" class="btn-aksi btn-lihat" title="Lihat Detail Riwayat">
                                                     <i class="fa fa-eye"></i>
                                                 </a>
                                             </div>

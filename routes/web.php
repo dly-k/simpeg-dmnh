@@ -22,6 +22,7 @@ Route::get('/tambah-pegawai', [PegawaiController::class, 'create'])->name('pegaw
 Route::post('/tambah-pegawai', [PegawaiController::class, 'store'])->name('pegawai.store');
 Route::get('/pegawai/{pegawai}/edit', [PegawaiController::class, 'edit'])->name('pegawai.edit');
 Route::put('/pegawai/{pegawai}', [PegawaiController::class, 'update'])->name('pegawai.update');
+Route::get('/pegawai/{pegawai}', [PegawaiController::class, 'show'])->name('pegawai.show');
 
 
 // Menu Lain
