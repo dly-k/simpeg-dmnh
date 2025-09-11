@@ -37,7 +37,6 @@
                         @csrf
                         @method('PUT')
 
-                        {{-- Menampilkan Ringkasan Error Validasi --}}
                         @if ($errors->any())
                             <div class="alert alert-danger mb-4" role="alert">
                                 <h5 class="alert-heading">Whoops! Terjadi beberapa masalah.</h5>
@@ -172,9 +171,40 @@
                                 <button type="button" class="btn" data-tab="kependudukan">Kependudukan</button>
                             </div>
                             
-                            {{-- TAB KEPEGAWAIAN --}}
                             <div class="sub-tab-content" id="kepegawaian">
                                 <div class="row g-3">
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Jabatan Struktural</label>
+                                        <select class="form-select form-select-sm" name="jabatan_struktural">
+                                            @php
+                                                $jabatanValue = old('jabatan_struktural', $pegawai->jabatan_struktural);
+                                            @endphp
+                                            <option value="Tidak ada" @if($jabatanValue == 'Tidak ada') selected @endif>Tidak ada</option>
+                                            <option value="Ketua Departemen MNH" @if($jabatanValue == 'Ketua Departemen MNH') selected @endif>Ketua Departemen MNH</option>
+                                            <option value="Sekretaris Departemen MNH" @if($jabatanValue == 'Sekretaris Departemen MNH') selected @endif>Sekretaris Departemen MNH</option>
+                                            <option value="Sekretaris Program Studi" @if($jabatanValue == 'Sekretaris Program Studi') selected @endif>Sekretaris Program Studi</option>
+                                            <option value="Ketua Program Studi Pascasarjana IPH" @if($jabatanValue == 'Ketua Program Studi Pascasarjana IPH') selected @endif>Ketua Program Studi Pascasarjana IPH</option>
+                                            <option value="Sekretaris Program Studi Pascasarjana IPH" @if($jabatanValue == 'Sekretaris Program Studi Pascasarjana IPH') selected @endif>Sekretaris Program Studi Pascasarjana IPH</option>
+                                            <option value="Kepala Tata Usaha (KTU)" @if($jabatanValue == 'Kepala Tata Usaha (KTU)') selected @endif>Kepala Tata Usaha (KTU)</option>
+                                            <option value="Sub Koordinator Administrasi Akademik" @if($jabatanValue == 'Sub Koordinator Administrasi Akademik') selected @endif>Sub Koordinator Administrasi Akademik</option>
+                                            <option value="Sub Koordinator Keuangan dan Umum" @if($jabatanValue == 'Sub Koordinator Keuangan dan Umum') selected @endif>Sub Koordinator Keuangan dan Umum</option>
+                                            <option value="Komisi Akademik" @if($jabatanValue == 'Komisi Akademik') selected @endif>Komisi Akademik</option>
+                                            <option value="Anggota Komisi Akademik" @if($jabatanValue == 'Anggota Komisi Akademik') selected @endif>Anggota Komisi Akademik</option>
+                                            <option value="Komisi Kemahasiswaan" @if($jabatanValue == 'Komisi Kemahasiswaan') selected @endif>Komisi Kemahasiswaan</option>
+                                            <option value="Anggota Komisi Kemahasiswaan" @if($jabatanValue == 'Anggota Komisi Kemahasiswaan') selected @endif>Anggota Komisi Kemahasiswaan</option>
+                                            <option value="Kepala Divisi Perencanaan Kehutanan" @if($jabatanValue == 'Kepala Divisi Perencanaan Kehutanan') selected @endif>Kepala Divisi Perencanaan Kehutanan</option>
+                                            <option value="Kepala Divisi Kebijakan Kehutanan" @if($jabatanValue == 'Kepala Divisi Kebijakan Kehutanan') selected @endif>Kepala Divisi Kebijakan Kehutanan</option>
+                                            <option value="Kepala Divisi Pemanfaatan Sumberdaya Hutan" @if($jabatanValue == 'Kepala Divisi Pemanfaatan Sumberdaya Hutan') selected @endif>Kepala Divisi Pemanfaatan Sumberdaya Hutan</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Periode Jabatan Struktural</label>
+                                        <div class="d-flex gap-2">
+                                            <input type="date" class="form-control form-control-sm" name="periode_jabatan_mulai" value="{{ old('periode_jabatan_mulai', $pegawai->periode_jabatan_mulai) }}">
+                                            <span class="pt-1">s/d</span>
+                                            <input type="date" class="form-control form-control-sm" name="periode_jabatan_selesai" value="{{ old('periode_jabatan_selesai', $pegawai->periode_jabatan_selesai) }}">
+                                        </div>
+                                    </div>
                                     <div class="col-md-6 form-group">
                                         <label class="small text-dark fw-medium mb-1">Status Kepegawaian<span class="text-danger">*</span></label>
                                         <select class="form-select form-select-sm" name="status_kepegawaian" required>
@@ -211,27 +241,35 @@
                                             <option value="Asisten Ahli" @if(old('jabatan_fungsional', $pegawai->jabatan_fungsional) == 'Asisten Ahli') selected @endif>Asisten Ahli</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-6 form-group">
+  <div class="col-md-6 form-group">
                                         <label class="small text-dark fw-medium mb-1">Pangkat/Golongan<span class="text-danger">*</span></label>
+                                        {{-- PERUBAHAN DI SINI --}}
                                         <select class="form-select form-select-sm" name="pangkat_golongan" required>
-                                            <option value="Penata Muda / III-a" @if(old('pangkat_golongan', $pegawai->pangkat_golongan) == 'Penata Muda / III-a') selected @endif>Penata Muda / III-a</option>
+                                            @php
+                                                $pangkatValue = old('pangkat_golongan', $pegawai->pangkat_golongan);
+                                            @endphp
+                                            <option value="Juru Muda / I-a" @if($pangkatValue == 'Juru Muda / I-a') selected @endif>Juru Muda / I-a</option>
+                                            <option value="Juru Muda Tingkat I / I-b" @if($pangkatValue == 'Juru Muda Tingkat I / I-b') selected @endif>Juru Muda Tingkat I / I-b</option>
+                                            <option value="Juru / I-c" @if($pangkatValue == 'Juru / I-c') selected @endif>Juru / I-c</option>
+                                            <option value="Juru Tingkat I / I-d" @if($pangkatValue == 'Juru Tingkat I / I-d') selected @endif>Juru Tingkat I / I-d</option>
+                                            <option value="Pengatur Muda / II-a" @if($pangkatValue == 'Pengatur Muda / II-a') selected @endif>Pengatur Muda / II-a</option>
+                                            <option value="Pengatur Muda Tingkat I / II-b" @if($pangkatValue == 'Pengatur Muda Tingkat I / II-b') selected @endif>Pengatur Muda Tingkat I / II-b</option>
+                                            <option value="Pengatur / II-c" @if($pangkatValue == 'Pengatur / II-c') selected @endif>Pengatur / II-c</option>
+                                            <option value="Pengatur Tingkat I / II-d" @if($pangkatValue == 'Pengatur Tingkat I / II-d') selected @endif>Pengatur Tingkat I / II-d</option>
+                                            <option value="Penata Muda / III-a" @if($pangkatValue == 'Penata Muda / III-a') selected @endif>Penata Muda / III-a</option>
+                                            <option value="Penata Muda Tingkat I / III-b" @if($pangkatValue == 'Penata Muda Tingkat I / III-b') selected @endif>Penata Muda Tingkat I / III-b</option>
+                                            <option value="Penata III/c" @if($pangkatValue == 'Penata III/c') selected @endif>Penata III/c</option>
+                                            <option value="Penata Tingkat I / III-d" @if($pangkatValue == 'Penata Tingkat I / III-d') selected @endif>Penata Tingkat I / III-d</option>
+                                            <option value="Pembina / IV-a" @if($pangkatValue == 'Pembina / IV-a') selected @endif>Pembina / IV-a</option>
+                                            <option value="Pembina Tingkat I / IV-b" @if($pangkatValue == 'Pembina Tingkat I / IV-b') selected @endif>Pembina Tingkat I / IV-b</option>
+                                            <option value="Pembina Utama Muda / IV-c" @if($pangkatValue == 'Pembina Utama Muda / IV-c') selected @endif>Pembina Utama Muda / IV-c</option>
+                                            <option value="Pembina Utama Madya / IV-d" @if($pangkatValue == 'Pembina Utama Madya / IV-d') selected @endif>Pembina Utama Madya / IV-d</option>
+                                            <option value="Pembina Utama / IV-e" @if($pangkatValue == 'Pembina Utama / IV-e') selected @endif>Pembina Utama / IV-e</option>
                                         </select>
                                     </div>
                                     <div class="col-md-6 form-group">
                                         <label class="small text-dark fw-medium mb-1">TMT Pangkat Terakhir</label>
                                         <input type="date" class="form-control form-control-sm" name="tmt_pangkat" value="{{ old('tmt_pangkat', $pegawai->tmt_pangkat) }}">
-                                    </div>
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Jabatan Struktural (jika ada)</label>
-                                        <input type="text" class="form-control form-control-sm" name="jabatan_struktural" value="{{ old('jabatan_struktural', $pegawai->jabatan_struktural) }}">
-                                    </div>
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Periode Jabatan Struktural</label>
-                                        <div class="d-flex gap-2">
-                                            <input type="date" class="form-control form-control-sm" name="periode_jabatan_mulai" value="{{ old('periode_jabatan_mulai', $pegawai->periode_jabatan_mulai) }}">
-                                            <span class="pt-1">s/d</span>
-                                            <input type="date" class="form-control form-control-sm" name="periode_jabatan_selesai" value="{{ old('periode_jabatan_selesai', $pegawai->periode_jabatan_selesai) }}">
-                                        </div>
                                     </div>
                                     <div class="col-md-6 form-group">
                                         <label class="small text-dark fw-medium mb-1">NPWP</label>
