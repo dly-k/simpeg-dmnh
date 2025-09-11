@@ -111,9 +111,11 @@ class PegawaiController extends Controller
      */
     public function show(Pegawai $pegawai)
     {
+        // Eager load relasi 'efiles' untuk memastikan datanya selalu ada (bahkan jika kosong)
+        $pegawai->load('efiles');
+
         return view('pages.pegawai.detail-pegawai', compact('pegawai'));
     }
-
     /**
      * Menampilkan form untuk mengedit data pegawai.
      *

@@ -1,185 +1,106 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // == Variabel Global ==
-  let successAudio = null; // Menyimpan instance audio untuk notifikasi sukses
+  /**
+   * Menginisialisasi semua navigasi tab (utama dan sub-tab).
+   */
+  const initTabs = () => {
+    // Logika untuk Main Tab (Biodata, Pendidikan, dll)
+    document.getElementById("main-tab-nav")?.addEventListener("click", (e) => {
+      const tabButton = e.target.closest("button.nav-link");
+      if (!tabButton) return;
+      
+      document.querySelectorAll("#main-tab-nav .nav-link").forEach(t => t.classList.remove("active"));
+      document.querySelectorAll(".main-tab-content").forEach(c => c.style.display = "none");
+      
+      tabButton.classList.add("active");
+      const contentId = `${tabButton.dataset.mainTab}-content`;
+      const contentElement = document.getElementById(contentId);
+      if (contentElement) contentElement.style.display = "block";
+    });
 
-  // == 1. Inisialisasi Tab Utama ==
-  const initMainTabs = () => {
-    const mainTabNav = document.getElementById("main-tab-nav");
-    if (!mainTabNav) return;
+    // Logika untuk Sub Tab (Kepegawaian, E-File, dll)
+    document.getElementById("biodata-sub-tabs")?.addEventListener("click", (e) => {
+        const subTabButton = e.target.closest("button");
+        if (!subTabButton) return;
 
-    mainTabNav.addEventListener("click", (e) => {
-      const tab = e.target.closest("button.nav-link");
-      if (!tab) return;
-
-      // Nonaktifkan semua tab dan sembunyikan konten
-      document.querySelectorAll(".main-tab-nav .nav-link").forEach((t) => t.classList.remove("active"));
-      document.querySelectorAll(".main-tab-content").forEach((c) => (c.style.display = "none"));
-
-      // Aktifkan tab yang diklik dan tampilkan konten terkait
-      tab.classList.add("active");
-      const contentEl = document.getElementById(`${tab.dataset.mainTab}-content`);
-      if (contentEl) contentEl.style.display = "block";
+        const parentContent = subTabButton.closest(".main-tab-content");
+        document.querySelectorAll("#biodata-sub-tabs button").forEach(btn => btn.classList.remove("active"));
+        parentContent.querySelectorAll(".sub-tab-content").forEach(c => c.style.display = "none");
+        
+        subTabButton.classList.add("active");
+        const contentId = subTabButton.dataset.tab;
+        const contentElement = parentContent.querySelector(`#${contentId}`);
+        if(contentElement) contentElement.style.display = "block";
     });
   };
 
-  // == 2. Inisialisasi Sub-Tab ==
-  const initSubTabs = () => {
-    ["#pendidikan-sub-tabs", "#biodata-sub-tabs"].forEach((selector) => {
-      const tabContainer = document.querySelector(selector);
-      if (!tabContainer) return;
-
-      tabContainer.addEventListener("click", (e) => {
-        const button = e.target.closest("button");
-        if (!button) return;
-
-        const parentContent = button.closest(".main-tab-content");
-        if (!parentContent) return;
-
-        // Nonaktifkan semua tombol dan sembunyikan konten
-        tabContainer.querySelectorAll("button").forEach((btn) => btn.classList.remove("active"));
-        parentContent.querySelectorAll(".sub-tab-content").forEach((c) => (c.style.display = "none"));
-
-        // Aktifkan tombol yang diklik dan tampilkan konten terkait
-        button.classList.add("active");
-        const contentEl = parentContent.querySelector(`#${button.dataset.tab}`);
-        if (contentEl) contentEl.style.display = "block";
-      });
-    });
-  };
-
-  // == 3. Inisialisasi Filter Penunjang ==
-  const initPenunjangFilter = () => {
-    const penunjangFilter = document.getElementById("penunjang-filter");
-    if (!penunjangFilter) return;
-
-    penunjangFilter.addEventListener("change", function () {
-      const parentContent = this.closest(".main-tab-content");
-      if (!parentContent) return;
-
-      // Sembunyikan semua konten sub-tab dan tampilkan yang dipilih
-      parentContent.querySelectorAll(".sub-tab-content").forEach((tab) => (tab.style.display = "none"));
-      const activeTab = document.getElementById(this.value);
-      if (activeTab) activeTab.style.display = "block";
-    });
-  };
-
-  // == 4. Inisialisasi Aksi File ==
-  const initFileActions = () => {
-    // Buka file saat kartu diklik
-    document.querySelectorAll(".file-item").forEach((card) => {
-      card.addEventListener("click", (e) => {
-        if (e.target.closest(".btn-unduh") || e.target.closest(".btn-hapus")) return;
-        const fileUrl = card.getAttribute("data-file");
-        if (fileUrl) window.open(fileUrl, "_blank");
-      });
-    });
-
-    // Unduh file saat tombol unduh diklik
-    document.querySelectorAll(".btn-unduh").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        const fileUrl = btn.getAttribute("data-file");
-        if (!fileUrl) return;
-
-        const link = document.createElement("a");
-        link.href = fileUrl;
-        link.download = fileUrl.split("/").pop();
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      });
-    });
-  };
-
-  // == 5. Inisialisasi Modal Hapus ==
-  const initDeleteModal = () => {
-    let itemToDelete = null;
+  /**
+   * Menginisialisasi Modal Konfirmasi Hapus untuk semua form E-File.
+   * PERBAIKAN: Menggunakan kontrol manual untuk modal kustom.
+   */
+  const initDeleteConfirmation = () => {
     const modalElement = document.getElementById("modalKonfirmasiHapus");
-    const modalHapus = modalElement ? new bootstrap.Modal(modalElement) : null;
+    if (!modalElement) {
+        console.warn("Modal konfirmasi hapus tidak ditemukan.");
+        return;
+    }
 
-    if (!modalElement) return;
+    const btnConfirm = document.getElementById("btnKonfirmasiHapus");
+    const btnCancel = document.getElementById("btnBatalHapus"); // Target tombol Batal
+    const modalSubtitle = modalElement.querySelector('.konfirmasi-hapus-subtitle');
+    let formToSubmit = null;
 
-    // Tombol hapus file
-    document.querySelectorAll(".btn-hapusfile").forEach((button) => {
-      button.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        itemToDelete = button.closest(".file-item");
-        modalHapus?.show();
-      });
-    });
+    const showModal = () => {
+        modalElement.style.display = "flex";
+        setTimeout(() => modalElement.classList.add('show'), 10);
+    };
 
-    // Delegasi tombol hapus di tabel
-    document.addEventListener("click", (e) => {
-      const hapusBtn = e.target.closest(".btn-hapus");
-      if (!hapusBtn) return;
+    const hideModal = () => {
+        modalElement.classList.remove('show');
+        setTimeout(() => modalElement.style.display = 'none', 200);
+    };
 
-      e.preventDefault();
-      e.stopPropagation();
-      itemToDelete = hapusBtn.closest("tr");
-      modalHapus?.show();
-    });
-
-    // Konfirmasi hapus
-    document.getElementById("btnKonfirmasiHapus")?.addEventListener("click", () => {
-      if (itemToDelete) {
-        itemToDelete.remove();
-        itemToDelete = null;
-        showModalBerhasil("hapus");
+    document.body.addEventListener('submit', function(e) {
+      if (e.target.matches('.form-hapus-efile')) {
+        e.preventDefault(); 
+        formToSubmit = e.target;
+        
+        const namaDokumen = formToSubmit.querySelector('button[type="submit"]').dataset.nama || 'dokumen ini';
+        if (modalSubtitle) modalSubtitle.innerHTML = `Apakah Anda yakin ingin menghapus file <strong>${namaDokumen}</strong>?`;
+        
+        showModal();
       }
-      modalHapus?.hide();
     });
 
-    // Batal hapus
-    document.getElementById("btnBatalHapus")?.addEventListener("click", () => {
-      modalHapus?.hide();
-      itemToDelete = null;
+    btnConfirm?.addEventListener('click', function() {
+      if (formToSubmit) {
+        formToSubmit.submit();
+      }
+    });
+    
+    // PERBAIKAN DI SINI: Tambahkan event listener untuk tombol Batal
+    btnCancel?.addEventListener('click', function() {
+        hideModal();
+    });
+
+    // Event listener untuk menutup modal jika klik di area overlay
+    modalElement.addEventListener('click', function(event) {
+        if (event.target === modalElement) {
+            hideModal();
+        }
     });
   };
 
-  // == 6. Inisialisasi Mapping Kategori ke Jenis Dokumen ==
+  /**
+   * Menginisialisasi dropdown Kategori -> Jenis Dokumen di dalam modal tambah.
+   */
   const initKategoriMapping = () => {
     const jenisDokumenData = {
-      biodata: [
-        "Pas Foto", "KTP", "NPWP", "Kartu Pegawai (Karpeg)", "Kartu Keluarga (KK)",
-        "KTP Suami/Istri", "BPJS Pribadi", "BPJS Suami/Istri", "BPJS Anak 1", "BPJS Anak 2",
-        "KP4 (Keterangan Tanggungan Keluarga)", "Akta Kelahiran", "Buku Nikah", "Kartu Suami/Istri", "Paspor"
-      ],
-      pendidikan: [
-        "Ijazah SD", "Ijazah SMP", "Ijazah S1", "Transkrip Nilai S1", "Ijazah S2", "Transkrip Nilai S2",
-        "Ijazah S3", "Transkrip Nilai S3", "Penyetaraan Ijazah S1", "Penyetaraan Ijazah S2",
-        "Penyetaraan Ijazah S3", "Ijazah Profesi", "Transkrip Profesi", "Ijazah D3", "Transkrip Nilai D3",
-        "Ijazah D4", "Transkrip Nilai D4", "Ijazah SLTA (SMA/SMK/MA)", "Surat Tugas Belajar",
-        "Surat Penyesuaian Ijazah", "Surat Tanda Lulus Ujian Pencantuman Gelar"
-      ],
-      jf: [
-        "SK Asisten Ahli", "SK Lektor", "SK Lektor Kepala", "SK Guru Besar",
-        "PAK Terakhir (Penetapan Angka Kredit)", "PAK Integrasi", "PAK Konversi", "SK Inpassing Jabfung",
-        "Sertifikasi Dosen", "Sertifikat TOEP (Test of English Proficiency)",
-        "Sertifikat TKDA (Tes Kemampuan Dasar Akademik)", "Surat Pernyataan Menduduki Jabatan",
-        "SK Pembebasan Sementara dari Jabfung", "SK Pemberhentian dari Jabfung", "SK Penugasan Jabfung",
-        "SK Perpanjangan Jabfung", "BAP Sumpah Jabatan Fungsional Dosen"
-      ],
-      sk: [
-        "SK CPNS", "SK PNS", "SK PPPK", "SK Calon Dosen Tetap", "SK Dosen Tetap", "SK Pegawai Tetap",
-        "SK Jabatan Fungsional Terakhir", "SK Kenaikan Gaji Berkala", "SK Penugasan",
-        "SK Perpanjangan Penugasan", "SK Tugas Belajar", "SK Pemberian Tunjangan Tugas Belajar",
-        "SK Perbaikan Data Kepegawaian", "SK Pemberhentian", "SK Pensiun"
-      ],
-      sp: [
-        "Surat Tugas Khusus", "STTPL", "Sertifikat Sertifikasi Dosen",
-        "Surat Pernyataan Melaksanakan Tugas (SPMT)", "Surat Pernyataan Menduduki Jabatan",
-        "Berita Acara Sumpah PNS", "Berita Acara Sumpah Dosen Tetap", "Berita Acara Sumpah Jabfung",
-        "Berita Acara Pelantikan", "Surat Keterangan Dosen Tetap", "Surat Keterangan Aktif Mengajar",
-        "Perjanjian Kerja", "Surat Pencantuman Gelar", "Surat Usulan Pengaktifan Kembali",
-        "SK Perjanjian Beasiswa"
-      ],
-      lain: [
-        "Asuransi Komersil", "Rekening Bank", "Sertifikat Pelatihan Tridharma",
-        "Sertifikat Uji Kompetensi Jabfung", "Satyalencana Karya Satya",
-        "Analisis Kepegawaian Pertama", "Analisis Kepegawaian Muda", "Analisis Kepegawaian Madya",
-        "SK Pembimbing Skripsi/Tesis/Disertasi", "Surat Tugas Reviewer Jurnal", "Surat Tugas Mengajar"
-      ]
+      biodata: ["Pas Foto", "KTP", "NPWP", "Kartu Pegawai", "Kartu Keluarga"],
+      pendidikan: ["Ijazah S1", "Transkrip S1", "Ijazah S2", "Transkrip S2", "Ijazah S3", "Transkrip S3"],
+      jf: ["SK Asisten Ahli", "SK Lektor", "SK Lektor Kepala", "SK Guru Besar", "Sertifikasi Dosen"],
+      sk: ["SK CPNS", "SK PNS", "SK Kenaikan Gaji Berkala"],
+      sp: ["Surat Tugas", "Surat Pernyataan Melaksanakan Tugas (SPMT)"],
+      lain: ["Sertifikat Pelatihan", "Penghargaan", "Lain-lain"]
     };
 
     const kategoriSelect = document.getElementById("kategori");
@@ -189,269 +110,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
     kategoriSelect.addEventListener("change", function () {
       jenisSelect.innerHTML = '<option value="" selected disabled>-- Pilih Jenis Dokumen --</option>';
-
-      if (jenisDokumenData[this.value]) {
-        jenisDokumenData[this.value].forEach((jenis) => {
+      const kategori = this.value;
+      if (jenisDokumenData[kategori]) {
+        jenisDokumenData[kategori].forEach((jenis) => {
           const opt = document.createElement("option");
-          opt.value = jenis.toLowerCase().replace(/\s+/g, "-");
+          opt.value = jenis;
           opt.textContent = jenis;
           jenisSelect.appendChild(opt);
         });
       }
     });
   };
+  
+  /**
+   * Menangani klik pada item file untuk membuka file di tab baru.
+   */
+  const initFileItemClick = () => {
+      document.body.addEventListener('click', function(e) {
+          const fileItem = e.target.closest('.file-item');
+          
+          if (!fileItem) return;
 
-  // == 7. Inisialisasi Modal Detail Penghargaan & Pelatihan ==
-  const initDetailModals = () => {
-    document.addEventListener("click", (event) => {
-      const penghargaanBtn = event.target.closest(".btn-lihat-detail-penghargaan");
-      const pelatihanBtn = event.target.closest(".btn-lihat-detail-pelatihan");
+          if (e.target.closest('.file-item-actions')) {
+              return; 
+          }
 
-      if (penghargaanBtn) {
-        const data = penghargaanBtn.dataset;
-        document.getElementById("detail_penghargaan_pegawai").textContent = data.pegawai || "-";
-        document.getElementById("detail_penghargaan_kegiatan").textContent = data.kegiatan || "-";
-        document.getElementById("detail_penghargaan_nama_penghargaan").textContent = data.nama_penghargaan || "-";
-        document.getElementById("detail_penghargaan_nomor").textContent = data.nomor || "-";
-        document.getElementById("detail_penghargaan_tanggal_perolehan").textContent = data.tanggal_perolehan || "-";
-        document.getElementById("detail_penghargaan_lingkup").textContent = data.lingkup || "-";
-        document.getElementById("detail_penghargaan_negara").textContent = data.negara || "-";
-        document.getElementById("detail_penghargaan_instansi").textContent = data.instansi || "-";
-        document.getElementById("detail_penghargaan_jenis_dokumen").textContent = data.jenis_dokumen || "-";
-        document.getElementById("detail_penghargaan_nama_dokumen").textContent = data.nama_dokumen || "-";
-        document.getElementById("detail_penghargaan_nomor_dokumen").textContent = data.nomor_dokumen || "-";
-        document.getElementById("detail_penghargaan_tautan").textContent = data.tautan || "-";
-        document.getElementById("detail_penghargaan_document_viewer")?.setAttribute("src", data.dokumen_path || "");
-      }
-
-      if (pelatihanBtn) {
-        const data = pelatihanBtn.dataset;
-        document.getElementById("detail_pelatihan_nama").textContent = data.nama_pelatihan || "-";
-        document.getElementById("detail_pelatihan_posisi").textContent = data.posisi || "-";
-        document.getElementById("detail_pelatihan_kota").textContent = data.kota || "-";
-        document.getElementById("detail_pelatihan_lokasi").textContent = data.lokasi || "-";
-        document.getElementById("detail_pelatihan_penyelenggara").textContent = data.penyelenggara || "-";
-        document.getElementById("detail_pelatihan_jenis_diklat").textContent = data.jenis_diklat || "-";
-        document.getElementById("detail_pelatihan_tgl_mulai").textContent = data.tgl_mulai || "-";
-        document.getElementById("detail_pelatihan_tgl_selesai").textContent = data.tgl_selesai || "-";
-        document.getElementById("detail_pelatihan_lingkup").textContent = data.lingkup || "-";
-        document.getElementById("detail_pelatihan_jam").textContent = data.jam || "-";
-        document.getElementById("detail_pelatihan_hari").textContent = data.hari || "-";
-        document.getElementById("detail_pelatihan_struktural").textContent = data.struktural || "-";
-        document.getElementById("detail_pelatihan_sertifikasi").textContent = data.sertifikasi || "-";
-        document.getElementById("detail_pelatihan_document_viewer")?.setAttribute("src", data.dokumen_path || "");
-      }
-    });
+          const fileUrl = fileItem.dataset.fileUrl;
+          if(fileUrl) {
+              window.open(fileUrl, '_blank');
+          }
+      });
   };
 
-  // == 8. Inisialisasi Modal Detail Pembimbing Luar ==
-  const initDetailPembimbingLuar = () => {
-    const tableBody = document.querySelector("#pembimbing-luar .table tbody");
-    if (!tableBody) return;
-
-    tableBody.addEventListener("click", (event) => {
-      const detailButton = event.target.closest(".btn-lihat-detail-pembimbing-luar");
-      if (detailButton) {
-        const data = detailButton.dataset;
-        document.getElementById("detail_pbl_luar_kegiatan").textContent = data.kegiatan || "-";
-        document.getElementById("detail_pbl_luar_nama").textContent = data.nama || "-";
-        document.getElementById("detail_pbl_luar_status").textContent = data.status || "-";
-        document.getElementById("detail_pbl_luar_tahun_semester").textContent = data.tahun_semester || "-";
-        document.getElementById("detail_pbl_luar_nim").textContent = data.nim || "-";
-        document.getElementById("detail_pbl_luar_nama_mahasiswa").textContent = data.nama_mahasiswa || "-";
-        document.getElementById("detail_pbl_luar_universitas").textContent = data.universitas || "-";
-        document.getElementById("detail_pbl_luar_program_studi").textContent = data.program_studi || "-";
-        document.getElementById("detail_pbl_luar_insidental").textContent = data.is_insidental || "-";
-        document.getElementById("detail_pbl_luar_lebih_satu_semester").textContent = data.is_lebih_satu_semester || "-";
-        document.getElementById("detail_pbl_luar_document_viewer").setAttribute("src", data.dokumen_path || "");
-      }
-    });
-  };
-
-  // == 9. Inisialisasi Modal Detail Penguji Luar ==
-  const initDetailPengujiLuar = () => {
-    const tableBody = document.querySelector("#penguji-luar .table tbody");
-    if (!tableBody) return;
-
-    tableBody.addEventListener("click", (event) => {
-      const detailButton = event.target.closest(".btn-lihat-detail-penguji-luar");
-      if (detailButton) {
-        const data = detailButton.dataset;
-        document.getElementById("detail_pjl_luar_kegiatan").textContent = data.kegiatan || "-";
-        document.getElementById("detail_pjl_luar_nama").textContent = data.nama || "-";
-        document.getElementById("detail_pjl_luar_status").textContent = data.status || "-";
-        document.getElementById("detail_pjl_luar_tahun_semester").textContent = data.tahun_semester || "-";
-        document.getElementById("detail_pjl_luar_nim").textContent = data.nim || "-";
-        document.getElementById("detail_pjl_luar_nama_mahasiswa").textContent = data.nama_mahasiswa || "-";
-        document.getElementById("detail_pjl_luar_universitas").textContent = data.universitas || "-";
-        document.getElementById("detail_pjl_luar_program_studi").textContent = data.program_studi || "-";
-        document.getElementById("detail_pjl_luar_insidental").textContent = data.is_insidental || "-";
-        document.getElementById("detail_pjl_luar_lebih_satu_semester").textContent = data.is_lebih_satu_semester || "-";
-        document.getElementById("detail_pjl_luar_document_viewer").setAttribute("src", data.dokumen_path || "");
-      }
-    });
-  };
-
-  // == 10. Inisialisasi Modal Detail Pembimbing Lama ==
-  const initDetailPembimbingLama = () => {
-    const tableBody = document.querySelector("#pembimbing-lama .table tbody");
-    if (!tableBody) return;
-
-    tableBody.addEventListener("click", (event) => {
-      const detailButton = event.target.closest(".btn-lihat-detail-pembimbing");
-      if (detailButton) {
-        const data = detailButton.dataset;
-        document.getElementById("detail_pbl_kegiatan").textContent = data.kegiatan || "-";
-        document.getElementById("detail_pbl_nama").textContent = data.nama || "-";
-        document.getElementById("detail_pbl_tahun_semester").textContent = data.tahun_semester || "-";
-        document.getElementById("detail_pbl_lokasi").textContent = data.lokasi || "-";
-        document.getElementById("detail_pbl_nim").textContent = data.nim || "-";
-        document.getElementById("detail_pbl_nama_mahasiswa").textContent = data.nama_mahasiswa || "-";
-        document.getElementById("detail_pbl_departemen").textContent = data.departemen || "-";
-        document.getElementById("detail_pbl_nama_dokumen").textContent = data.nama_dokumen || "-";
-        document.getElementById("detail_pbl_document_viewer").setAttribute("src", data.dokumen_path || "");
-      }
-    });
-  };
-
-  // == 11. Inisialisasi Modal Detail Pengujian Lama ==
-  const initDetailPengujianLama = () => {
-    const tableBody = document.querySelector("#pengujian-lama .table tbody");
-    if (!tableBody) return;
-
-    tableBody.addEventListener("click", (event) => {
-      const detailButton = event.target.closest(".btn-lihat-detail-pengujian");
-      if (detailButton) {
-        const data = detailButton.dataset;
-        document.getElementById("detail_pjl_kegiatan").textContent = data.kegiatan || "-";
-        document.getElementById("detail_pjl_nama").textContent = data.nama || "-";
-        document.getElementById("detail_pjl_tahun_semester").textContent = data.tahun_semester || "-";
-        document.getElementById("detail_pjl_nim").textContent = data.nim || "-";
-        document.getElementById("detail_pjl_nama_mahasiswa").textContent = data.nama_mahasiswa || "-";
-        document.getElementById("detail_pjl_departemen").textContent = data.departemen || "-";
-        document.getElementById("detail_pjl_document_viewer").setAttribute("src", data.dokumen_path || "");
-      }
-    });
-  };
-
-  // == 12. Inisialisasi Modal Detail Pengajaran Luar ==
-  const initDetailPengajaranLuar = () => {
-    const tableBody = document.querySelector("#pengajaran-luar .table tbody");
-    if (!tableBody) return;
-
-    tableBody.addEventListener("click", (event) => {
-      const detailButton = event.target.closest(".btn-lihat-detail");
-      if (detailButton) {
-        const data = detailButton.dataset;
-        document.getElementById("detail_pluar_nama").textContent = data.nama || "-";
-        document.getElementById("detail_pluar_tahun_semester").textContent = data.tahun_semester || "-";
-        document.getElementById("detail_pluar_universitas").textContent = data.universitas || "-";
-        document.getElementById("detail_pluar_kode_mk").textContent = data.kode_mk || "-";
-        document.getElementById("detail_pluar_nama_mk").textContent = data.nama_mk || "-";
-        document.getElementById("detail_pluar_program_studi").textContent = data.program_studi || "-";
-        document.getElementById("detail_pluar_sks_kuliah").textContent = data.sks_kuliah || "-";
-        document.getElementById("detail_pluar_sks_praktikum").textContent = data.sks_praktikum || "-";
-        document.getElementById("detail_pluar_jenis").textContent = data.jenis || "-";
-        document.getElementById("detail_pluar_kelas_paralel").textContent = data.kelas_paralel || "-";
-        document.getElementById("detail_pluar_jumlah_pertemuan").textContent = data.jumlah_pertemuan || "-";
-        document.getElementById("detail_pluar_insidental").textContent = data.is_insidental || "-";
-        document.getElementById("detail_pluar_lebih_satu_semester").textContent = data.is_lebih_satu_semester || "-";
-        document.getElementById("detail_pluar_document_viewer").setAttribute("src", data.dokumen_path || "");
-      }
-    });
-  };
-
-  // == 13. Inisialisasi Modal Detail Pengajaran Lama ==
-  const initDetailPengajaranLama = () => {
-    const tableBody = document.querySelector("#pengajaran-lama .table tbody");
-    if (!tableBody) return;
-
-    tableBody.addEventListener("click", (event) => {
-      const detailButton = event.target.closest(".btn-lihat-detail");
-      if (detailButton) {
-        const data = detailButton.dataset;
-        document.getElementById("detail_pl_kegiatan").textContent = data.kegiatan || "-";
-        document.getElementById("detail_pl_nama").textContent = data.nama || "-";
-        document.getElementById("detail_pl_tahun_semester").textContent = data.tahun_semester || "-";
-        document.getElementById("detail_pl_kode_mk").textContent = data.kode_mk || "-";
-        document.getElementById("detail_pl_nama_mk").textContent = data.nama_mk || "-";
-        document.getElementById("detail_pl_pengampu").textContent = data.pengampu || "-";
-        document.getElementById("detail_pl_sks_kuliah").textContent = data.sks_kuliah || "-";
-        document.getElementById("detail_pl_sks_praktikum").textContent = data.sks_praktikum || "-";
-        document.getElementById("detail_pl_jenis").textContent = data.jenis || "-";
-        document.getElementById("detail_pl_kelas_paralel").textContent = data.kelas_paralel || "-";
-        document.getElementById("detail_pl_jumlah_pertemuan").textContent = data.jumlah_pertemuan || "-";
-        document.getElementById("detail_pl_document_viewer").setAttribute("src", data.dokumen_path || "");
-      }
-    });
-  };
-
-  // == 14. Modal Berhasil (Reusable) ==
-  const showModalBerhasil = (action = "simpan") => {
-    const modal = document.getElementById("modalBerhasil");
-    const title = document.getElementById("berhasil-title");
-    const subtitle = document.getElementById("berhasil-subtitle");
-
-    if (!modal) return;
-
-    // Atur teks berdasarkan aksi
-    if (action === "hapus") {
-      if (title) title.textContent = "Data Berhasil Dihapus";
-      if (subtitle) subtitle.textContent = "Data Anda sudah dihapus dari sistem.";
-    } else {
-      if (title) title.textContent = "Data Berhasil Disimpan";
-      if (subtitle) subtitle.textContent = "Data Anda sudah tersimpan di sistem.";
-    }
-
-    modal.classList.add("show");
-
-    // Putar audio sukses
-    successAudio = new Audio("/assets/sounds/success.mp3");
-    successAudio.play().catch((error) => {
-      console.error("Error memutar audio:", error);
-      if (error.name === "NotAllowedError") {
-        console.error("Autoplay diblokir oleh browser. Perlu interaksi pengguna.");
-      } else if (error.name === "NotFoundError") {
-        console.error("File audio tidak ditemukan: /assets/sounds/success.mp3");
-      }
-    });
-
-    // Sembunyikan modal setelah 1 detik
-    setTimeout(hideModalBerhasil, 1000);
-  };
-
-  const hideModalBerhasil = () => {
-    const modal = document.getElementById("modalBerhasil");
-    if (modal) modal.classList.remove("show");
-    if (successAudio) {
-      successAudio.pause();
-      successAudio.currentTime = 0;
-    }
-  };
-
-  // Ekspos fungsi ke global scope
-  window.showModalBerhasil = showModalBerhasil;
-
-  // Event listener untuk tombol selesai
-  document.getElementById("btnSelesai")?.addEventListener("click", hideModalBerhasil);
-
-  // Event listener untuk klik di luar modal sukses
-  document.getElementById("modalBerhasil")?.addEventListener("click", (event) => {
-    if (event.target === document.getElementById("modalBerhasil")) hideModalBerhasil();
-  });
-
-  // == Inisialisasi Semua Modul ==
-  initMainTabs();
-  initSubTabs();
-  initPenunjangFilter();
-  initFileActions();
-  initDeleteModal();
+  // Panggil semua fungsi inisialisasi
+  initTabs();
+  initDeleteConfirmation();
   initKategoriMapping();
-  initDetailModals();
-  initDetailPembimbingLuar();
-  initDetailPengujiLuar();
-  initDetailPembimbingLama();
-  initDetailPengujianLama();
-  initDetailPengajaranLuar();
-  initDetailPengajaranLama();
+  initFileItemClick();
 });

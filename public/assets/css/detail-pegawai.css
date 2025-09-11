@@ -980,6 +980,224 @@ a.dokumen-link:hover {
 .btn-batal:hover {
     background-color: #5a6268;
 }
+/* =============================
+   Grid File E-File
+============================= */
+.efile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.efile-header h4 {
+    font-weight: 600;
+    color: var(--dark-gray);
+    margin: 0;
+}
+
+.file-category {
+    margin-bottom: 2rem;
+}
+
+.file-category-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--dark-gray);
+}
+
+.file-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Sedikit diperlebar */
+    gap: 1.25rem;
+}
+
+.file-item {
+    background-color: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+    position: relative;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+}
+
+.file-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* --- BADGE (SUDAH DIPERBAIKI) --- */
+.file-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 4px;
+    color: #fff; /* Default warna teks putih */
+    text-transform: uppercase;
+    z-index: 2;
+}
+
+.badge-asli {
+    background-color: #198754; /* Hijau */
+}
+
+.badge-legalisir {
+    background-color: #0d6efd; /* Biru */
+}
+
+.badge-scan {
+    background-color: #ffc107; /* Kuning */
+    color: #000; /* Teks hitam agar kontras */
+}
+
+/* --- ICON & TEKS --- */
+.file-item-icon {
+    font-size: 4rem;
+    color: var(--light-text, #6c757d);
+    margin-bottom: 0.5rem;
+    line-height: 1;
+}
+
+.file-item p {
+    font-weight: 500;
+    color: var(--dark-gray);
+    margin-bottom: 1rem;
+    word-wrap: break-word; /* Mencegah teks panjang meluber */
+}
+
+.file-item p span {
+    display: block; /* Membuat tanggal di baris baru */
+    font-weight: 400;
+    color: var(--light-text);
+    font-size: 0.9em;
+}
+
+/* --- ACTION BUTTONS --- */
+.file-item-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.file-item-actions .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    font-size: 0.8rem;
+    border-radius: 6px;
+    transition: all 0.2s ease-in-out;
+}
+
+/* =============================
+   Modal Konfirmasi Hapus
+   Gaya untuk modal konfirmasi penghapusan
+============================= */
+.konfirmasi-hapus-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--overlay);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+}
+
+.konfirmasi-hapus-overlay .modal-content{
+    border-radius: 15px;
+}
+.konfirmasi-hapus-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.konfirmasi-hapus-overlay .modal-dialog {
+    max-width: 500px;
+    width: 100%;
+}
+
+.konfirmasi-hapus-box {
+    background-color: #e5e7eb;
+    padding: 2rem;
+    border-radius: 16px;
+    text-align: center;
+    width: 90%;
+    max-width: 450px;
+    box-shadow: 0 5px 25px var(--black-005);
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+.konfirmasi-hapus-overlay.show .konfirmasi-hapus-box {
+    transform: scale(1);
+}
+
+.konfirmasi-hapus-icon {
+    width: 80px;
+    height: 80px;
+    background-color: var(--warning);
+    border-radius: 50%;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: shadowPulseKonfirmasi 1.5s ease-in-out infinite;
+}
+
+.konfirmasi-hapus-icon i {
+    font-size: 2.5rem;
+    color: var(--white);
+    animation: blinkKonfirmasi 1.2s ease-in-out infinite;
+}
+
+.konfirmasi-hapus-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+
+.konfirmasi-hapus-subtitle {
+    font-size: 1rem;
+    color: #6b7280;
+    margin-bottom: 2rem;
+}
+
+.konfirmasi-hapus-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.btn-popup.btn-batal {
+    background-color: #6c757d;
+}
+
+.btn-popup.btn-batal:hover {
+    background-color: #5a6268;
+}
+
+.btn-popup.btn-hapus {
+    background-color: var(--danger);
+}
+
+.btn-popup.btn-hapus:hover {
+    background-color: var(--danger-hover);
+}
 
 /* =============================
    Modal Berhasil

@@ -359,16 +359,72 @@
                                 </div>
                             </div>
 
-                            <div class="sub-tab-content" id="efile">
+                           <div class="sub-tab-content" id="efile" style="display: none;">
                                 <div class="efile-header">
                                     <h4>Dokumen</h4>
                                     <button class="btn btn-tambah" data-bs-toggle="modal" data-bs-target="#tambahDokumenModal"><i class="lni lni-plus me-1"></i> Tambah</button>
                                 </div>
-                                <div class="file-category">
-                                    <p class="file-category-title">Contoh Kategori</p>
-                                    <p class="text-muted">Fitur E-File akan diimplementasikan pada tahap selanjutnya.</p>
-                                </div>
+
+                                @php
+                                    $groupedFiles = $pegawai->efiles->groupBy('kategori_dokumen');
+                                    $kategoriMap = [
+                                        'biodata' => 'Biodata', 'pendidikan' => 'Pendidikan', 'jf' => 'Jabatan Fungsional',
+                                        'sk' => 'Surat Keputusan', 'sp' => 'Surat Penting', 'lain' => 'Lain-lain'
+                                    ];
+                                @endphp
+
+                                @if($pegawai->efiles->isEmpty())
+                                    <div class="text-center text-muted mt-5 py-5">
+                                        <p>Belum ada dokumen E-File yang diunggah.</p>
+                                    </div>
+                                @else
+                                    @foreach($kategoriMap as $key => $namaKategori)
+                                        @if($groupedFiles->has($key))
+                                            <div class="file-category">
+                                                <p class="file-category-title">{{ $namaKategori }}</p>
+                                                <div class="file-grid">
+                                                    @foreach($groupedFiles[$key] as $file)
+                                                        <div class="file-item" data-file-url="{{ asset('storage/' . $file->file_path) }}">
+                                                            @php
+                                                                $keaslian = strtolower($file->keaslian_dokumen ?? '');
+                                                                $badgeClass = 'badge-scan'; // Default
+                                                                if ($keaslian == 'asli') $badgeClass = 'badge-asli';
+                                                                if ($keaslian == 'legalisir') $badgeClass = 'badge-legalisir';
+                                                            @endphp
+                                                            {{-- Menggunakan class .file-badge yang konsisten --}}
+                                                            <span class="file-badge {{ $badgeClass }}">{{ $file->keaslian_dokumen ?? 'N/A' }}</span>
+                                                            
+                                                            {{-- Menggunakan .file-item-icon --}}
+                                                            <div class="file-item-icon">
+                                                                <i class="lni lni-files"></i>
+                                                            </div>
+
+                                                            {{-- Menyesuaikan struktur teks --}}
+                                                            <p title="{{ $file->file_name }}">
+                                                                {{ $file->nama_dokumen }}
+                                                                <span>{{ \Carbon\Carbon::parse($file->tanggal_dokumen)->isoFormat('D MMM YYYY') }}</span>
+                                                            </p>
+                                                            
+                                                            {{-- Menggunakan .file-item-actions --}}
+                                                            <div class="file-item-actions">
+                                                                <a href="{{ asset('storage/' . $file->file_path) }}" target="_blank" class="btn btn-sm btn-outline-secondary">Lihat</a>
+                                                                <form action="{{ route('efile.destroy', $file->id) }}" method="POST" class="d-inline form-hapus-efile w-100">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit" class="btn btn-sm btn-outline-danger w-100" data-nama="{{ $file->nama_dokumen }}">Hapus</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                @endif
                             </div>
+
+                        </div>
+                        </div>
                         </div>
 
                         <div class="main-tab-content" id="pendidikan-content" style="display: none;">

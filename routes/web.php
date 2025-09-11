@@ -25,6 +25,11 @@ Route::put('/pegawai/{pegawai}', [PegawaiController::class, 'update'])->name('pe
 Route::get('/pegawai/{pegawai}', [PegawaiController::class, 'show'])->name('pegawai.show');
 Route::delete('/pegawai/{pegawai}', [PegawaiController::class, 'destroy'])->name('pegawai.destroy');
 
+use App\Http\Controllers\EFileController; // Tambahkan ini di atas
+// Rute untuk E-File
+Route::post('/pegawai/{pegawai}/efile', [EFileController::class, 'store'])->name('efile.store');
+Route::delete('/efile/{efile}', [EFileController::class, 'destroy'])->name('efile.destroy');
+
 // Menu Lain
 Route::view('/pendidikan', 'pages.pendidikan');
 Route::view('/penelitian', 'pages.penelitian');
