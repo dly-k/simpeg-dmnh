@@ -65,9 +65,7 @@
 
                 <div class="tab-content" id="pegawaiTabContent">
 
-                    {{-- ======================================================= --}}
-                    {{-- ================= TAB PEGAWAI AKTIF =================== --}}
-                    {{-- ======================================================= --}}
+                    {{-- TAB PEGAWAI AKTIF --}}
                     <div class="tab-pane fade show active" id="pegawai-aktif" role="tabpanel" aria-labelledby="pegawai-aktif-tab">
                         
                         <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mt-4">
@@ -129,10 +127,15 @@
                                         </td>
                                         <td class="text-center">
                                             <div class="d-flex gap-2 justify-content-center">
-                                                <!-- PERUBAHAN DI SINI -->
                                                 <a href="{{ route('pegawai.show', $pegawai->id) }}" class="btn-aksi btn-lihat" title="Lihat Detail"><i class="fa fa-eye"></i></a>
                                                 <a href="{{ route('pegawai.edit', $pegawai->id) }}" class="btn-aksi btn-edit" title="Edit Data"><i class="fa fa-edit"></i></a>
-                                                <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
+                                                <form action="{{ route('pegawai.destroy', $pegawai->id) }}" method="POST" class="d-inline form-hapus">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn-aksi btn-hapus" type="submit"  title="Hapus Data" data-nama="{{ $pegawai->nama_lengkap }}">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </form>
                                             </div>
                                         </td>
                                     </tr>
@@ -157,11 +160,8 @@
                         </div>
                     </div>
 
-                    {{-- ======================================================= --}}
-                    {{-- ================ TAB RIWAYAT PEGAWAI ================== --}}
-                    {{-- ======================================================= --}}
+                    {{-- TAB RIWAYAT PEGAWAI --}}
                     <div class="tab-pane fade" id="riwayat-pegawai" role="tabpanel" aria-labelledby="riwayat-pegawai-tab">
-                        
                         <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mt-4">
                             <div class="d-flex align-items-center flex-wrap gap-2 flex-grow-1">
                                 <div class="search-group flex-grow-1">
@@ -213,19 +213,17 @@
                                         <td class="text-center">
                                             @php
                                                 $status = $pegawai->status_pegawai;
-                                                $badgeClass = 'text-bg-secondary'; // Default
-                                                if ($status == 'Pensiun' || $status == 'Pensiun Muda') $badgeClass = 'text-bg-warning';
+                                                $badgeClass = 'text-bg-secondary';
+                                                if (in_array($status, ['Pensiun', 'Pensiun Muda'])) $badgeClass = 'text-bg-warning';
                                                 elseif ($status == 'Diberhentikan') $badgeClass = 'text-bg-danger';
                                                 elseif ($status == 'Meninggal Dunia') $badgeClass = 'text-bg-dark';
                                                 elseif ($status == 'Kontrak Selesai') $badgeClass = 'text-bg-info';
                                                 elseif ($status == 'Mengundurkan diri') $badgeClass = 'text-bg-primary';
-                                                elseif ($status == 'Mutasi') $badgeClass = 'text-bg-secondary';
                                             @endphp
                                             <span class="badge {{ $badgeClass }}">{{ $status }}</span>
                                         </td>
                                         <td class="text-center">
                                             <div class="d-flex gap-2 justify-content-center">
-                                                <!-- PERUBAHAN DI SINI -->
                                                 <a href="{{ route('pegawai.show', $pegawai->id) }}" class="btn-aksi btn-lihat" title="Lihat Detail Riwayat">
                                                     <i class="fa fa-eye"></i>
                                                 </a>
@@ -267,17 +265,17 @@
 <script src="{{ asset('assets/js/daftar-pegawai.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
-{{-- Script untuk menampilkan modal sukses setelah redirect --}}
 @if (session('success'))
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-        const berhasilTitle = document.getElementById("berhasil-title");
-        const berhasilSubtitle = document.getElementById("berhasil-subtitle");
         const modalBerhasil = document.getElementById("modalBerhasil");
+        if (modalBerhasil) {
+            const berhasilTitle = document.getElementById("berhasil-title");
+            const berhasilSubtitle = document.getElementById("berhasil-subtitle");
+            
+            if(berhasilTitle) berhasilTitle.textContent = "Berhasil!";
+            if(berhasilSubtitle) berhasilSubtitle.textContent = "{{ session('success') }}";
 
-        if (berhasilTitle && berhasilSubtitle && modalBerhasil) {
-            berhasilTitle.textContent = "Data Berhasil Disimpan";
-            berhasilSubtitle.textContent = "{{ session('success') }}";
             modalBerhasil.classList.add("show");
             
             const successAudio = new Audio("{{ asset('assets/sounds/success.mp3') }}");
@@ -285,7 +283,7 @@
 
             setTimeout(() => {
                 modalBerhasil.classList.remove("show");
-            }, 1500); // Durasi modal sedikit lebih lama
+            }, 2000);
         }
     });
 </script>

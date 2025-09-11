@@ -4,31 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PegawaiController extends Controller
 {
     /**
-     * Tampilkan daftar pegawai.
+     * Menampilkan daftar pegawai aktif dan riwayat pegawai dengan paginasi.
      *
      * @return \Illuminate\View\View
      */
     public function index()
     {
-        // Ambil data pegawai yang statusnya 'Aktif' dengan pagination
-        // Parameter ketiga 'aktifPage' digunakan agar query string pagination tidak bentrok
         $pegawaiAktif = Pegawai::where('status_pegawai', 'Aktif')
                                ->paginate(10, ['*'], 'aktifPage');
 
-        // Ambil data pegawai yang statusnya BUKAN 'Aktif' untuk tab riwayat
         $pegawaiRiwayat = Pegawai::where('status_pegawai', '!=', 'Aktif')
                                  ->paginate(10, ['*'], 'riwayatPage');
 
-        // Kirim kedua variabel ke view
         return view('pages.pegawai.daftar-pegawai', compact('pegawaiAktif', 'pegawaiRiwayat'));
     }
 
     /**
-     * Tampilkan form untuk menambah pegawai baru.
+     * Menampilkan form untuk membuat data pegawai baru.
      *
      * @return \Illuminate\View\View
      */
@@ -38,7 +35,7 @@ class PegawaiController extends Controller
     }
 
     /**
-     * Simpan data pegawai baru ke database.
+     * Menyimpan data pegawai baru ke dalam database.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
@@ -48,6 +45,7 @@ class PegawaiController extends Controller
         $validatedData = $request->validate([
             'nip' => 'required|string|max:255|unique:pegawais,nip',
             'nama_lengkap' => 'required|string|max:255',
+            'foto_profil' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'agama' => 'nullable|string|max:255',
             'status_pernikahan' => 'nullable|string|max:255',
             'jenis_kelamin' => 'nullable|string|max:255',
@@ -95,39 +93,40 @@ class PegawaiController extends Controller
             'alamat_ktp' => 'nullable|string',
         ]);
 
+        if ($request->hasFile('foto_profil')) {
+            $filePath = $request->file('foto_profil')->store('foto_profil', 'public');
+            $validatedData['foto_profil'] = $filePath;
+        }
+
         Pegawai::create($validatedData);
 
         return redirect()->route('pegawai.index')->with('success', 'Data pegawai berhasil ditambahkan!');
     }
 
     /**
-     * PERUBAHAN: Tambahkan method `show` di bawah ini.
-     * Tampilkan detail data pegawai.
+     * Menampilkan detail dari seorang pegawai.
      *
      * @param  \App\Models\Pegawai  $pegawai
      * @return \Illuminate\View\View
      */
     public function show(Pegawai $pegawai)
     {
-        // Laravel secara otomatis mengambil data pegawai berdasarkan ID dari URL (Route Model Binding).
-        // Kemudian, kirim data tersebut ke view 'detail-pegawai'.
         return view('pages.pegawai.detail-pegawai', compact('pegawai'));
     }
-    
+
     /**
-     * Tampilkan form untuk mengedit data pegawai.
+     * Menampilkan form untuk mengedit data pegawai.
      *
      * @param  \App\Models\Pegawai  $pegawai
      * @return \Illuminate\View\View
      */
     public function edit(Pegawai $pegawai)
     {
-        // Menggunakan Route Model Binding, Laravel otomatis mencari data Pegawai berdasarkan ID
         return view('pages.pegawai.edit-pegawai', compact('pegawai'));
     }
 
     /**
-     * Update data pegawai di database.
+     * Memperbarui data pegawai di dalam database.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Pegawai  $pegawai
@@ -136,10 +135,9 @@ class PegawaiController extends Controller
     public function update(Request $request, Pegawai $pegawai)
     {
         $validatedData = $request->validate([
-            // Validasi NIP diubah agar mengabaikan NIP milik pegawai yang sedang diedit
             'nip' => 'required|string|max:255|unique:pegawais,nip,' . $pegawai->id,
             'nama_lengkap' => 'required|string|max:255',
-            // ... (validasi lainnya sama seperti di method store)
+            'foto_profil' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'agama' => 'nullable|string|max:255',
             'status_pernikahan' => 'nullable|string|max:255',
             'jenis_kelamin' => 'nullable|string|max:255',
@@ -186,9 +184,37 @@ class PegawaiController extends Controller
             'kabupaten_ktp' => 'nullable|string|max:255',
             'alamat_ktp' => 'nullable|string',
         ]);
+        
+        if ($request->hasFile('foto_profil')) {
+            if ($pegawai->foto_profil && Storage::disk('public')->exists($pegawai->foto_profil)) {
+                Storage::disk('public')->delete($pegawai->foto_profil);
+            }
+            $filePath = $request->file('foto_profil')->store('foto_profil', 'public');
+            $validatedData['foto_profil'] = $filePath;
+        }
 
         $pegawai->update($validatedData);
 
         return redirect()->route('pegawai.index')->with('success', 'Data pegawai berhasil diperbarui!');
+    }
+
+    /**
+     * Menghapus data pegawai dari database.
+     *
+     * @param  \App\Models\Pegawai  $pegawai
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy(Pegawai $pegawai)
+    {
+        // Hapus file foto jika ada
+        if ($pegawai->foto_profil && Storage::disk('public')->exists($pegawai->foto_profil)) {
+            Storage::disk('public')->delete($pegawai->foto_profil);
+        }
+
+        // Hapus data pegawai dari database
+        $pegawai->delete();
+
+        // Redirect kembali ke halaman index dengan pesan sukses
+        return redirect()->route('pegawai.index')->with('success', 'Data pegawai berhasil dihapus.');
     }
 }

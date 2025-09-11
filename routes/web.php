@@ -23,7 +23,7 @@ Route::post('/tambah-pegawai', [PegawaiController::class, 'store'])->name('pegaw
 Route::get('/pegawai/{pegawai}/edit', [PegawaiController::class, 'edit'])->name('pegawai.edit');
 Route::put('/pegawai/{pegawai}', [PegawaiController::class, 'update'])->name('pegawai.update');
 Route::get('/pegawai/{pegawai}', [PegawaiController::class, 'show'])->name('pegawai.show');
-
+Route::delete('/pegawai/{pegawai}', [PegawaiController::class, 'destroy'])->name('pegawai.destroy');
 
 // Menu Lain
 Route::view('/pendidikan', 'pages.pendidikan');

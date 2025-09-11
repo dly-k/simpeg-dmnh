@@ -24,7 +24,6 @@
     <div class="main-wrapper">
         @include('layouts.header')
 
-        <!-- Title Bar -->
         <div class="title-bar d-flex align-items-center justify-content-between">
             <h1 class="m-0">
                 <i class="fa fa-user"></i>Detail Pegawai
@@ -45,7 +44,6 @@
                     </div>
                     <div class="btn-tambah-container">
                         <div class="d-flex gap-2 flex-wrap">
-                        <!-- PERUBAHAN: Arahkan tombol Edit ke route yang benar -->
                         <a href="{{ route('pegawai.edit', $pegawai->id) }}" class="btn btn-edit d-flex align-items-center justify-content-center">
                             <i class="fa fa-edit me-2"></i>
                             Edit Data
@@ -58,20 +56,16 @@
                 <div class="card-body p-4">
                     <div class="d-flex flex-column flex-md-row gap-4 mb-5 custom-gap-mb">
                         <div class="text-center flex-shrink-0">
-                            <!-- Foto -->
                             <div class="mb-2 mx-auto d-flex align-items-center justify-content-center foto-profil">
-                                <i class="lni lni-user"></i>
-                                <!-- Logika untuk menampilkan foto jika ada -->
-                                {{-- @if($pegawai->foto_profil)
-                                    <img src="{{ asset('storage/' . $pegawai->foto_profil) }}" alt="Foto Profil" class="img-fluid rounded">
+                                @if($pegawai->foto_profil)
+                                    <img src="{{ asset('storage/' . $pegawai->foto_profil) }}" alt="Foto Profil" class="img-fluid rounded" style="width: 100%; height: 100%; object-fit: cover;">
                                 @else
                                     <i class="lni lni-user"></i>
-                                @endif --}}
+                                @endif
                             </div>
-                            <!-- Tombol Edit -->
-                            <button class="btn btn-editfoto btn-sm w-100" onclick="editPhoto()">
+                            <!-- <a href="{{ route('pegawai.edit', $pegawai->id) }}" class="btn btn-editfoto btn-sm w-100">
                                 Edit Foto
-                            </button>
+                            </a> -->
                         </div>
                         <div class="flex-grow-1">
                             <div class="row g-3">
@@ -125,7 +119,6 @@
                     </div>
                     <hr class="mb-4 divider-light">
                      
-                  <!-- Kolom Main-Tab (Biodata)-->
                   <div class="d-flex flex-column flex-lg-row gap-4">
                     <div class="nav flex-column nav-pills main-tab-nav" id="main-tab-nav">
                         <button class="nav-link text-start active" data-main-tab="biodata">Biodata</button>
@@ -137,7 +130,6 @@
                         <button class="nav-link text-start" data-main-tab="penghargaan">Penghargaan</button>
                     </div>
                     <div class="flex-grow-1">
-                        <!-- Biodata Content -->
                         <div class="main-tab-content" id="biodata-content">
                             <div id="biodata-sub-tabs" class="btn-group flex-wrap gap-2 mb-4">
                                 <button type="button" class="btn active" data-tab="kepegawaian">Kepegawaian</button>
@@ -147,7 +139,6 @@
                                 <button type="button" class="btn" data-tab="efile">E-File</button>
                             </div>
 
-                            <!-- Kepegawaian Content -->
                             <div class="sub-tab-content" id="kepegawaian">
                                 <div class="row g-3">
 
@@ -230,7 +221,6 @@
                                 </div>
                             </div>
                             
-                            <!-- Dosen Content -->
                             <div class="sub-tab-content" id="dosen">
                                 <div class="row g-3">
                                     <div class="col-md-6 form-group">
@@ -275,7 +265,6 @@
                                 </div>
                             </div>
                             
-                            <!-- Domisili Content -->
                             <div class="sub-tab-content" id="domisili">
                                 <div class="row g-3">
                                     <div class="col-md-6 form-group">
@@ -320,7 +309,6 @@
                                 </div>
                             </div>
 
-                            <!-- Kependudukan Content -->
                             <div class="sub-tab-content" id="kependudukan">
                                 <div class="row g-3">
 
@@ -371,9 +359,7 @@
                                 </div>
                             </div>
 
-                            <!-- efile Content -->
                             <div class="sub-tab-content" id="efile">
-                                <!-- Konten E-File tetap statis untuk saat ini -->
                                 <div class="efile-header">
                                     <h4>Dokumen</h4>
                                     <button class="btn btn-tambah" data-bs-toggle="modal" data-bs-target="#tambahDokumenModal"><i class="lni lni-plus me-1"></i> Tambah</button>
@@ -385,8 +371,6 @@
                             </div>
                         </div>
 
-                        <!-- Kolom Main-Tab (Pendidikan, Penelitian, dll.) -->
-                        <!-- Konten untuk tab lain tetap statis untuk saat ini -->
                         <div class="main-tab-content" id="pendidikan-content" style="display: none;">
                             <p>Konten Pelaksanaan Pendidikan akan dimuat di sini.</p>
                         </div>
