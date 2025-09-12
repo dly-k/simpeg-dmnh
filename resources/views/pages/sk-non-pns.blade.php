@@ -19,14 +19,11 @@
 </head>
 <body>
   <div class="layout">
-    <!-- Sidebar -->
     @include('layouts.sidebar')
 
     <div class="main-wrapper">
-      <!-- Header -->
       @include('layouts.header')
 
-      <!-- Title Bar -->
       <div class="title-bar">
         <h1>
           <i class="lni lni-pencil-alt"></i>
@@ -34,10 +31,8 @@
         </h1>
       </div>
 
-      <!-- Main Content -->
       <div class="main-content">
         
-        <!-- Alert: Validation Errors -->
         @if ($errors->any())
           <div class="alert alert-danger alert-dismissible fade show" role="alert">
             <h5 class="alert-heading">Terjadi Kesalahan Validasi!</h5>
@@ -51,12 +46,9 @@
         @endif
 
         <div class="card">
-          <!-- Toolbar -->
           <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
             <div class="d-flex align-items-center flex-wrap gap-2 flex-grow-1">
-              <!-- Search & Filter -->
               <form method="GET" id="searchForm" action="{{ route('sk-non-pns.index') }}" class="d-flex align-items-center flex-grow-1 gap-2">
-                <!-- Search -->
                 <div class="input-group search-box bg-white flex-grow-1">
                   <span class="input-group-text bg-light border-end-0">
                     <i class="fas fa-search search-icon"></i>
@@ -64,7 +56,6 @@
                   <input type="text" name="search" id="searchInput" value="{{ request('search') }}" class="form-control border-start-0 search-input" placeholder="Cari Data ...."/>
                 </div>
 
-                <!-- Filter Tahun -->
                 <select name="tahun" class="form-select filter-select" onchange="this.form.submit()">
                   <option value="">Semua Tahun</option>
                   @foreach($years as $year)
@@ -75,14 +66,12 @@
                 </select>
               </form>
 
-              <!-- Tambah Data -->
               <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#skNonPnsModal">
                 <i class="fa fa-plus me-2"></i> Tambah Data
               </a>
             </div>
           </div>
 
-          <!-- Table -->
           <div class="table-responsive">
             <table class="table table-hover table-bordered">
               <thead class="table-light text-center">
@@ -102,7 +91,10 @@
                     <td class="text-center">
                       {{ $loop->iteration + $skData->firstItem() - 1 }}
                     </td>
-                    <td>{{ $item->nama_pegawai }}</td>
+                    {{-- =============================================== --}}
+                    {{-- == PERUBAHAN 1: Menampilkan Nama dari Relasi == --}}
+                    {{-- =============================================== --}}
+                    <td>{{ $item->pegawai->nama_lengkap ?? 'Pegawai Tidak Ditemukan' }}</td>
                     <td>{{ $item->nama_unit }}</td>
                     <td>{{ $item->nomor_sk }}</td>
                     <td class="text-center">
@@ -115,7 +107,6 @@
                     </td>
                     <td class="text-center">
                       <div class="d-flex gap-2 justify-content-center">
-                        <!-- Detail -->
                         <a 
                           href="#" 
                           class="btn-aksi btn-lihat-detail" 
@@ -124,7 +115,10 @@
                           data-bs-target="#modalDetailSkNonPns"
                           data-nomor_sk="{{ $item->nomor_sk }}"
                           data-tanggal_sk="{{ \Carbon\Carbon::parse($item->tanggal_sk)->format('d M Y') }}"
-                          data-pegawai="{{ $item->nama_pegawai }}"
+                          {{-- =============================================== --}}
+                          {{-- == PERUBAHAN 2: Mengirim Nama ke Modal Detail == --}}
+                          {{-- =============================================== --}}
+                          data-pegawai="{{ $item->pegawai->nama_lengkap ?? '' }}"
                           data-unit="{{ $item->nama_unit }}"
                           data-jenis_sk="{{ $item->jenis_sk }}"
                           data-tgl_mulai="{{ \Carbon\Carbon::parse($item->tanggal_mulai)->format('d M Y') }}"
@@ -133,7 +127,6 @@
                           <i class="fas fa-eye"></i>
                         </a>
 
-                        <!-- Edit -->
                         <a 
                           href="#" 
                           class="btn-aksi btn-edit" 
@@ -144,13 +137,15 @@
                           <i class="fas fa-edit"></i>
                         </a>
 
-                        <!-- Hapus -->
                         <a 
                           href="#" 
                           class="btn-aksi btn-hapus" 
                           title="Hapus" 
                           data-id="{{ $item->id }}" 
-                          data-nama="{{ $item->nama_pegawai }}">
+                          {{-- =============================================== --}}
+                          {{-- == PERUBAHAN 3: Mengirim Nama ke Modal Hapus  == --}}
+                          {{-- =============================================== --}}
+                          data-nama="{{ $item->pegawai->nama_lengkap ?? '' }}">
                           <i class="fas fa-trash"></i>
                         </a>
                       </div>
@@ -166,24 +161,20 @@
               </tbody>
             </table>
 
-            <!-- Pagination -->
             {{ $skData->appends(request()->all())->links('pagination::bootstrap-5') }}
           </div>
         </div>
       </div>
 
-      <!-- Footer -->
       @include('layouts.footer')
     </div>
 
-    <!-- Modal & Komponen -->
     @include('components.konfirmasi-hapus')
     @include('components.konfirmasi-berhasil')
     @include('components.sk-nonpns.detail-sk-non-pns')
     @include('components.sk-nonpns.tambah-sk-non-pns')
   </div>
 
-  <!-- Scripts -->
   <script src="{{ asset('assets/js/layout.js') }}"></script>
   <script src="{{ asset('assets/js/sk-non-pns.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

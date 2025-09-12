@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('sk_non_pns', function (Blueprint $table) {
             $table->id();
-            // KOLOM DIUBAH: Tidak lagi terhubung ke tabel lain
-            $table->string('nama_pegawai');
+            // KOLOM DIUBAH: Sekarang terhubung ke tabel pegawais
+            $table->foreignId('pegawai_id')->constrained('pegawais')->onDelete('cascade');
             $table->string('nama_unit');
             $table->date('tanggal_mulai');
             $table->date('tanggal_selesai');

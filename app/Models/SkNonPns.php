@@ -17,8 +17,8 @@ class SkNonPns extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'nama_pegawai', // DIUBAH
-        'nama_unit',    // DIUBAH
+        'pegawai_id', // DIUBAH
+        'nama_unit',
         'tanggal_mulai',
         'tanggal_selesai',
         'nomor_sk',
@@ -26,4 +26,13 @@ class SkNonPns extends Model
         'jenis_sk',
         'dokumen_path',
     ];
+
+    /**
+     * Mendefinisikan relasi ke model Pegawai.
+     * Setiap SK Non PNS dimiliki oleh satu Pegawai.
+     */
+    public function pegawai()
+    {
+        return $this->belongsTo(Pegawai::class);
+    }
 }

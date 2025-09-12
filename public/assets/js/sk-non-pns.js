@@ -135,7 +135,11 @@
             if (!response.ok) throw new Error("Gagal memuat data");
             const data = await response.json();
 
-            document.getElementById("nama_pegawai").value = data.nama_pegawai || "";
+            // ==========================================================
+            // == PERUBAHAN UTAMA ADA DI SINI ==
+            document.getElementById("pegawai_id").value = data.pegawai_id || "";
+            // ==========================================================
+
             document.getElementById("nama_unit").value = data.nama_unit || "";
             document.getElementById("tanggal_mulai").value = data.tanggal_mulai || "";
             document.getElementById("tanggal_selesai").value = data.tanggal_selesai || "";

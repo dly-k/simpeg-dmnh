@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\SkNonPns;
+use App\Models\Pegawai; // <-- 1. TAMBAHKAN MODEL PEGAWAI
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
@@ -14,13 +15,17 @@ class SkNonPnsController extends Controller
      */
     public function index(Request $request)
     {
-        $query = SkNonPns::query();
+        // PERUBAHAN: Gunakan eager loading 'pegawai' untuk efisiensi
+        $query = SkNonPns::with('pegawai');
 
         // Search
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
-                $q->where('nama_pegawai', 'like', "%{$search}%")
+                // PERUBAHAN: Cari berdasarkan relasi ke tabel pegawai
+                $q->whereHas('pegawai', function ($subQuery) use ($search) {
+                    $subQuery->where('nama_lengkap', 'like', "%{$search}%");
+                })
                 ->orWhere('nama_unit', 'like', "%{$search}%")
                 ->orWhere('nomor_sk', 'like', "%{$search}%");
             });
@@ -40,8 +45,12 @@ class SkNonPnsController extends Controller
                     ->distinct()
                     ->orderByDesc('year')
                     ->pluck('year');
+        
+        // <-- 2. AMBIL SEMUA DATA PEGAWAI UNTUK DIKIRIM KE VIEW
+        $pegawai = Pegawai::orderBy('nama_lengkap', 'asc')->get();
 
-        return view('pages.sk-non-pns', compact('skData', 'years'));
+        // <-- 3. KIRIM VARIABEL $pegawai KE VIEW
+        return view('pages.sk-non-pns', compact('skData', 'years', 'pegawai'));
     }
     
     /**
@@ -49,8 +58,9 @@ class SkNonPnsController extends Controller
      */
     public function store(Request $request)
     {
+        // PERUBAHAN VALIDASI: dari 'nama_pegawai' menjadi 'pegawai_id'
         $validatedData = $request->validate([
-            'nama_pegawai' => 'required|string|max:255',
+            'pegawai_id' => 'required|exists:pegawais,id',
             'nama_unit' => 'required|string|max:255',
             'tanggal_mulai' => 'required|date',
             'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
@@ -63,8 +73,9 @@ class SkNonPnsController extends Controller
         $filePath = $request->file('dokumen_sk')->store('dokumen_sk', 'public');
 
         try {
+            // PERUBAHAN PENYIMPANAN: dari 'nama_pegawai' menjadi 'pegawai_id'
             SkNonPns::create([
-                'nama_pegawai' => $validatedData['nama_pegawai'],
+                'pegawai_id' => $validatedData['pegawai_id'],
                 'nama_unit' => $validatedData['nama_unit'],
                 'tanggal_mulai' => $validatedData['tanggal_mulai'],
                 'tanggal_selesai' => $validatedData['tanggal_selesai'],
@@ -85,6 +96,8 @@ class SkNonPnsController extends Controller
      */
     public function edit(SkNonPns $skNonPn)
     {
+        // PERUBAHAN: Sertakan data relasi pegawai
+        $skNonPn->load('pegawai');
         return response()->json($skNonPn);
     }
 
@@ -93,8 +106,9 @@ class SkNonPnsController extends Controller
      */
     public function update(Request $request, SkNonPns $skNonPn)
     {
+        // PERUBAHAN VALIDASI: dari 'nama_pegawai' menjadi 'pegawai_id'
         $validatedData = $request->validate([
-            'nama_pegawai' => 'required|string|max:255',
+            'pegawai_id' => 'required|exists:pegawais,id',
             'nama_unit' => 'required|string|max:255',
             'tanggal_mulai' => 'required|date',
             'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
@@ -106,7 +120,7 @@ class SkNonPnsController extends Controller
 
         if ($request->hasFile('dokumen_sk')) {
             if ($skNonPn->dokumen_path) {
-                Storage::delete($skNonPn->dokumen_path);
+                Storage::disk('public')->delete($skNonPn->dokumen_path);
             }
             $validatedData['dokumen_path'] = $request->file('dokumen_sk')->store('dokumen_sk', 'public');
         }
@@ -123,7 +137,7 @@ class SkNonPnsController extends Controller
     {
         try {
             if ($skNonPn->dokumen_path) {
-                Storage::delete($skNonPn->dokumen_path);
+                Storage::disk('public')->delete($skNonPn->dokumen_path);
             }
             $skNonPn->delete();
             return response()->json(['success' => true, 'message' => 'Data berhasil dihapus.']);

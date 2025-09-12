@@ -13,7 +13,16 @@
           <div class="row g-3">
             <div class="col-12">
               <label class="form-label">Nama Pegawai</label>
-              <input type="text" class="form-control" id="nama_pegawai" name="nama_pegawai" placeholder="Masukkan nama pegawai" required>
+              {{-- PERUBAHAN DARI INPUT MENJADI SELECT --}}
+              <select class="form-select" id="pegawai_id" name="pegawai_id" required>
+                <option value="" selected>-- Pilih Pegawai --</option>
+                {{-- Controller akan mengirim variabel $pegawai yang akan di-loop di sini --}}
+                @if(isset($pegawai))
+                  @foreach($pegawai as $p)
+                    <option value="{{ $p->id }}">{{ $p->nama_lengkap }}</option>
+                  @endforeach
+                @endif
+              </select>
             </div>
             <div class="col-12">
               <label class="form-label">Unit</label>
@@ -55,7 +64,6 @@
               </select>
             </div>
 
-            <!-- Upload Dokumen -->
             <div class="col-12">
               <label class="form-label" id="dokumen_label">Unggah Dokumen SK</label>
               <div class="upload-area" data-target="#dokumen_sk">
