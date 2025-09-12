@@ -178,8 +178,12 @@
             const response = await fetch(`/penghargaan/${penghargaanId}/edit`);
             if (!response.ok) throw new Error("Gagal memuat data");
             const data = await response.json();
+            
+            // ==========================================================
+            // == PERUBAHAN UTAMA ADA DI SINI ==
+            form.pegawai_id.value = data.pegawai_id || "";
+            // ==========================================================
 
-            form.nama_pegawai.value = data.nama_pegawai || "";
             form.kegiatan.value = data.kegiatan || "";
             form.nama_penghargaan.value = data.nama_penghargaan || "";
             form.nomor_sk.value = data.nomor_sk || "";

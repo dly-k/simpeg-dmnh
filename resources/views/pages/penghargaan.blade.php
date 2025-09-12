@@ -18,14 +18,11 @@
 
 <body>
   <div class="layout">
-    <!-- Sidebar -->
     @include('layouts.sidebar')
 
     <div class="main-wrapper">
-      <!-- Header -->
       @include('layouts.header')
 
-      <!-- Title Bar -->
       <div class="title-bar">
         <h1>
           <i class="lni lni-pencil-alt"></i>
@@ -33,13 +30,11 @@
         </h1>
       </div>
 
-  <!-- Main Content -->
   <div class="main-content">
     <div class="card">
       <div class="search-filter-container">
         <div class="search-filter-row">
           <form method="GET" id="searchForm" action="{{ route('penghargaan.index') }}" class="d-flex align-items-center flex-grow-1 gap-2">
-            <!-- Search -->
             <div class="input-group">
               <span class="input-group-text bg-light border-end-0">
                 <i class="fas fa-search search-icon"></i>
@@ -50,7 +45,6 @@
                     value="{{ request('search') }}">
             </div>
 
-            <!-- Filter Tahun -->
             <select class="form-select filter-select tahun-filter" name="tahun" onchange="this.form.submit()">
               <option value="">Semua Tahun</option>
               @foreach ($listTahun as $tahun)
@@ -60,7 +54,6 @@
               @endforeach
             </select>
 
-            <!-- Filter Lingkup -->
             <select class="form-select lingkup-select lingkup-filter" name="lingkup" onchange="this.form.submit()">
               <option value="">Semua Lingkup</option>
               <option value="Nasional" {{ request('lingkup') == 'Nasional' ? 'selected' : '' }}>Nasional</option>
@@ -69,14 +62,12 @@
             </select>
            </form>
 
-            <!-- Tombol tambah -->
             <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#penghargaanModal">
               <i class="fa fa-plus me-2"></i> Tambah Data
             </a>
         </div>
       </div>
 
-      <!-- Table -->
       <div class="table-responsive">
         <table class="table table-hover table-bordered">
           <thead class="table-light">
@@ -95,8 +86,11 @@
           <tbody id="penghargaan-table-body">
             @forelse ($dataPenghargaan as $item)
               <tr>
-                <td class="text-center">{{ $loop->iteration }}</td>
-                <td class="text-start">{{ $item->nama_pegawai }}</td>
+                <td class="text-center">{{ $loop->iteration + $dataPenghargaan->firstItem() - 1 }}</td>
+                {{-- =============================================== --}}
+                {{-- == PERUBAHAN 1: Menampilkan Nama dari Relasi == --}}
+                {{-- =============================================== --}}
+                <td class="text-start">{{ $item->pegawai->nama_lengkap ?? 'N/A' }}</td>
                 <td class="text-start">{{ $item->kegiatan }}</td>
                 <td class="text-center">{{ $item->nama_penghargaan }}</td>
                 <td class="text-center">{{ $item->nomor_sk }}</td>
@@ -108,12 +102,14 @@
                 </td>
                 <td class="text-center">
                   <div class="d-flex gap-2 justify-content-center">
-                    <!-- Detail -->
                     <a href="#" class="btn-aksi btn-lihat-detail btn-lihat-detail-penghargaan"
                        title="Lihat Detail"
                        data-bs-toggle="modal"
                        data-bs-target="#modalDetailPenghargaan"
-                       data-pegawai="{{ $item->nama_pegawai }}"
+                       {{-- =============================================== --}}
+                       {{-- == PERUBAHAN 2: Mengirim Nama ke Modal Detail == --}}
+                       {{-- =============================================== --}}
+                       data-pegawai="{{ $item->pegawai->nama_lengkap ?? '' }}"
                        data-kegiatan="{{ $item->kegiatan }}"
                        data-nama_penghargaan="{{ $item->nama_penghargaan }}"
                        data-nomor="{{ $item->nomor_sk }}"
@@ -129,7 +125,6 @@
                       <i class="fa fa-eye"></i>
                     </a>
 
-                    <!-- Edit -->
                     <a href="#" class="btn-aksi btn-edit" title="Edit Data"
                        data-bs-toggle="modal"
                        data-bs-target="#penghargaanModal"
@@ -137,9 +132,12 @@
                       <i class="fa fa-edit"></i>
                     </a>
 
-                    <!-- Hapus -->
                     <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"
-                       data-id="{{ $item->id }}" data-nama="{{ $item->nama_pegawai }}">
+                       data-id="{{ $item->id }}" 
+                       {{-- =============================================== --}}
+                       {{-- == PERUBAHAN 3: Mengirim Nama ke Modal Hapus  == --}}
+                       {{-- =============================================== --}}
+                       data-nama="{{ $item->pegawai->nama_lengkap ?? '' }}">
                       <i class="fa fa-trash"></i>
                     </a>
                   </div>
@@ -154,22 +152,18 @@
         </table>
       </div>
 
-      <!-- Pagination -->
       {{ $dataPenghargaan->appends(request()->query())->links('pagination::bootstrap-5') }}
     </div>
   </div>
 
-      <!-- Footer -->
       @include('layouts.footer')
     </div>
 
-  <!-- Components -->
   @include('components.konfirmasi-hapus')
   @include('components.konfirmasi-berhasil')
   @include('components.penghargaan.detail-penghargaan')
   @include('components.penghargaan.tambah-penghargaan')
 
-  <!-- Scripts -->
   <script src="{{ asset('assets/js/layout.js') }}"></script>
   <script src="{{ asset('assets/js/penghargaan.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

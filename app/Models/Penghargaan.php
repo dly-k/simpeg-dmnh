@@ -12,7 +12,7 @@ class Penghargaan extends Model
     protected $table = 'penghargaan';
 
     protected $fillable = [
-        'nama_pegawai',
+        'pegawai_id', // DIUBAH
         'kegiatan',
         'nama_penghargaan',
         'nomor_sk',
@@ -26,4 +26,12 @@ class Penghargaan extends Model
         'nomor_dokumen',
         'tautan',
     ];
+
+    /**
+     * Mendefinisikan relasi ke model Pegawai.
+     */
+    public function pegawai()
+    {
+        return $this->belongsTo(Pegawai::class);
+    }
 }

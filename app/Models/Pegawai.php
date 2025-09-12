@@ -28,10 +28,6 @@ class Pegawai extends Model
         'provinsi_ktp', 'kabupaten_ktp', 'alamat_ktp',
     ];
 
-    /**
-     * Mendefinisikan relasi one-to-many ke model EFile.
-     * Seorang pegawai bisa memiliki banyak e-file.
-     */
     public function efiles()
     {
         return $this->hasMany(EFile::class)->orderBy('created_at', 'desc');
@@ -40,5 +36,9 @@ class Pegawai extends Model
     public function skNonPns()
     {
         return $this->hasMany(SkNonPns::class);
+    }
+        public function penghargaan()
+    {
+        return $this->hasMany(Penghargaan::class);
     }
 }

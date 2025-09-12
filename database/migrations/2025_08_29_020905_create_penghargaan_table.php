@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('penghargaan', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_pegawai'); // Diubah dari foreign key menjadi input teks
-            $table->string('kegiatan');     // Diubah dari foreign key menjadi input teks
+            // Menghubungkan ke tabel pegawai
+            $table->foreignId('pegawai_id')->constrained('pegawais')->onDelete('cascade');
+            $table->string('kegiatan');
             $table->string('nama_penghargaan');
             $table->string('nomor_sk');
             $table->date('tanggal_perolehan');

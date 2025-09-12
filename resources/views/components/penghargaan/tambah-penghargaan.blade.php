@@ -13,7 +13,15 @@
           <div class="row g-3">
             <div class="col-12">
               <label class="form-label">Pegawai</label>
-              <input type="text" name="nama_pegawai" class="form-control" placeholder="Masukkan Nama Pegawai" required>
+              <select id="pegawai_id" name="pegawai_id" class="form-select" required>
+                <option value="" selected>-- Pilih Pegawai --</option>
+                {{-- Diisi oleh data dari Controller --}}
+                @if(isset($pegawai))
+                  @foreach($pegawai as $p)
+                    <option value="{{ $p->id }}">{{ $p->nama_lengkap }}</option>
+                  @endforeach
+                @endif
+              </select>
             </div>
             <div class="col-12">
               <label class="form-label">Kegiatan</label>
