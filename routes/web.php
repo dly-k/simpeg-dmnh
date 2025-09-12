@@ -5,6 +5,9 @@ use App\Http\Controllers\PelatihanController;
 use App\Http\Controllers\SkNonPnsController;
 use App\Http\Controllers\PenghargaanController;
 use App\Http\Controllers\SuratTugasController;
+use App\Http\Controllers\KerjasamaController;
+use App\Http\Controllers\EFileController;
+use App\Http\Controllers\PegawaiController;
 
 // Auth & Dashboard
 Route::view('/', 'auth.login');
@@ -16,7 +19,6 @@ Route::view('/dashboard', 'pages.dashboard');
 Route::view('/sidebar', 'pages.sidebar');
 
 // Pegawai
-use App\Http\Controllers\PegawaiController;
 Route::get('/daftar-pegawai', [PegawaiController::class, 'index'])->name('pegawai.index');
 Route::get('/tambah-pegawai', [PegawaiController::class, 'create'])->name('pegawai.create');
 Route::post('/tambah-pegawai', [PegawaiController::class, 'store'])->name('pegawai.store');
@@ -25,7 +27,6 @@ Route::put('/pegawai/{pegawai}', [PegawaiController::class, 'update'])->name('pe
 Route::get('/pegawai/{pegawai}', [PegawaiController::class, 'show'])->name('pegawai.show');
 Route::delete('/pegawai/{pegawai}', [PegawaiController::class, 'destroy'])->name('pegawai.destroy');
 
-use App\Http\Controllers\EFileController; // Tambahkan ini di atas
 // Rute untuk E-File
 Route::post('/pegawai/{pegawai}/efile', [EFileController::class, 'store'])->name('efile.store');
 Route::delete('/efile/{efile}', [EFileController::class, 'destroy'])->name('efile.destroy');
@@ -35,7 +36,6 @@ Route::view('/pendidikan', 'pages.pendidikan');
 Route::view('/penelitian', 'pages.penelitian');
 Route::view('/pengabdian', 'pages.pengabdian');
 Route::view('/penunjang', 'pages.penunjang');
-Route::view('/kerjasama', 'pages.kerjasama');
 
 // Surat Tugas
 Route::resource('surat-tugas', SuratTugasController::class)->except(['show']);
@@ -62,3 +62,8 @@ Route::prefix('penghargaan')->name('penghargaan.')->controller(PenghargaanContro
     Route::post('/{id}', 'update')->name('update');
     Route::delete('/{id}', 'destroy')->name('destroy');
 });
+
+// Kerjasama
+Route::resource('kerjasama', KerjasamaController::class);
+Route::get('/kerjasama/export', [KerjasamaController::class, 'export'])
+    ->name('kerjasama.export');

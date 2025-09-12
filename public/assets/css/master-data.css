@@ -3,15 +3,15 @@
    Gaya untuk area konten utama
 ============================= */
 .main-content {
-    margin: 130px 0 70px 250px;
+    margin-left: 250px;
+    margin-top: 130px;
     padding: 25px;
-    background-color: var(--gray-100);
+    padding-bottom: 70px;
     font-size: 14px;
-    min-height: calc(100vh - 190px);
     transition: margin-left 0.3s ease-in-out;
 }
 
-.sidebar.hidden ~ .navbar-custom ~ .title-bar ~ .main-content {
+.sidebar.hidden ~ .main-wrapper .main-content {
     margin-left: 0;
 }
 
