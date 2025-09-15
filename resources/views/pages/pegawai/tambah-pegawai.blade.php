@@ -10,6 +10,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
   <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
   <link rel="stylesheet" href="{{ asset('assets/css/layout.css') }}" />
   <link rel="stylesheet" href="{{ asset('assets/css/edit-pegawai.css') }}" />
 </head>
@@ -529,6 +530,23 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             reader.readAsDataURL(file);
         }
+    });
+});
+document.addEventListener('DOMContentLoaded', function () {
+    // Ambil semua input dengan tipe 'date'
+    const dateInputs = document.querySelectorAll('input[type="date"]');
+
+    // Tambahkan event listener ke setiap input tanggal
+    dateInputs.forEach(input => {
+        input.addEventListener('click', function(e) {
+            // Tampilkan date picker bawaan browser
+            try {
+                this.showPicker();
+            } catch (error) {
+                // Fallback untuk browser yang tidak mendukung showPicker()
+                console.log("Browser tidak mendukung showPicker(), tapi seharusnya tetap berfungsi di browser modern.");
+            }
+        });
     });
 });
 </script>
