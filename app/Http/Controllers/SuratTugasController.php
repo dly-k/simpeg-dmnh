@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pegawai; // <-- Diimpor
+use App\Models\Pegawai;
 use App\Models\SuratTugas;
 use Illuminate\Http\Request;
 use App\Exports\SuratTugasExport;
@@ -18,16 +18,19 @@ class SuratTugasController extends Controller
      */
     public function index(Request $request)
     {
-        $query = SuratTugas::query();
+        // Gunakan eager loading 'pegawai' untuk query yang lebih efisien
+        $query = SuratTugas::with('pegawai');
 
-        // Filter search
+        // Filter search berdasarkan nama dosen dari tabel relasi 'pegawais'
         if ($request->filled('q')) {
-            $query->where('nama_dosen', 'like', '%' . $request->q . '%');
+            $query->whereHas('pegawai', function ($q) use ($request) {
+                $q->where('nama_lengkap', 'like', '%' . $request->q . '%');
+            });
         }
 
-        // Filter semester otomatis
+        // Filter semester otomatis (tidak ada perubahan)
         if ($request->filled('semester')) {
-            [$tahun, $tipe] = explode('-', $request->semester); // contoh: 2023-genap
+            [$tahun, $tipe] = explode('-', $request->semester);
             $range = $tipe === 'genap'
                 ? ["{$tahun}-01-01", "{$tahun}-06-30"]
                 : ["{$tahun}-07-01", "{$tahun}-12-31"];
@@ -37,7 +40,7 @@ class SuratTugasController extends Controller
 
         $data = $query->latest()->paginate(10);
 
-        // Generate daftar semester unik dari data tgl_kegiatan
+        // Generate daftar semester unik (tidak ada perubahan)
         $semesters = SuratTugas::selectRaw('YEAR(tgl_kegiatan) as tahun, MONTH(tgl_kegiatan) as bulan')
             ->whereNotNull('tgl_kegiatan')
             ->get()
@@ -49,10 +52,9 @@ class SuratTugasController extends Controller
             ->sortByDesc(fn($s) => $s['tahun'])
             ->values();
 
-        // Ambil data pegawai untuk dropdown
+        // Ambil data semua pegawai untuk dikirim ke view (untuk dropdown)
         $pegawais = Pegawai::orderBy('nama_lengkap')->get();
 
-        // Kirim semua data yang diperlukan ke view
         return view('pages.surat-tugas.index', compact('data', 'semesters', 'pegawais'));
     }
 
@@ -61,30 +63,26 @@ class SuratTugasController extends Controller
      */
     public function export(Request $request)
     {
-        $query = SuratTugas::query();
+        $query = SuratTugas::with('pegawai'); // Gunakan eager loading juga di sini
 
-        // Apply filter search
+        // Terapkan filter pencarian pada relasi
         if ($request->filled('q')) {
-            $query->where('nama_dosen', 'like', '%' . $request->q . '%');
+             $query->whereHas('pegawai', function ($q) use ($request) {
+                $q->where('nama_lengkap', 'like', '%' . $request->q . '%');
+            });
         }
 
-        // Apply filter semester
+        // Terapkan filter semester
         $semester = null;
         if ($request->filled('semester')) {
             [$tahun, $tipe] = explode('-', $request->semester);
             $semester = $tipe . '_' . $tahun;
 
-            if ($tipe === 'genap') {
-                $query->whereBetween('tgl_kegiatan', [
-                    "{$tahun}-01-01",
-                    "{$tahun}-06-30"
-                ]);
-            } else {
-                $query->whereBetween('tgl_kegiatan', [
-                    "{$tahun}-07-01",
-                    "{$tahun}-12-31"
-                ]);
-            }
+            $range = $tipe === 'genap'
+                ? ["{$tahun}-01-01", "{$tahun}-06-30"]
+                : ["{$tahun}-07-01", "{$tahun}-12-31"];
+            
+            $query->whereBetween('tgl_kegiatan', $range);
         }
 
         $data = $query->get();
@@ -95,11 +93,11 @@ class SuratTugasController extends Controller
             $filename .= '_' . $semester;
         }
         if ($request->filled('q')) {
-            $filename .= ' (' . $request->q . ')';
+            $namaClean = preg_replace('/[^A-Za-z0-9\-]/', '', $request->q);
+            $filename .= '_(' . $namaClean . ')';
         }
         $filename .= '.xlsx';
 
-        // Export pakai Laravel Excel + kirim semester
         return Excel::download(new SuratTugasExport($data, $semester), $filename);
     }
 
@@ -109,7 +107,7 @@ class SuratTugasController extends Controller
     public function store(StoreSuratTugasRequest $request)
     {
         $input = $request->validated();
-        // Upload dokumen jika ada
+
         if ($request->hasFile('dokumen')) {
             $input['dokumen'] = $request->file('dokumen')->store('dokumen', 'public');
         }
@@ -157,7 +155,6 @@ class SuratTugasController extends Controller
             ], 404);
         }
 
-        // Kalau ada dokumen, hapus juga file dari storage
         if ($surat->dokumen && Storage::disk('public')->exists($surat->dokumen)) {
             Storage::disk('public')->delete($surat->dokumen);
         }

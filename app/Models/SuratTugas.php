@@ -12,7 +12,7 @@ class SuratTugas extends Model
     protected $table = 'surat_tugas';
 
     protected $fillable = [
-        'nama_dosen',
+        'pegawai_id', // Ganti dari 'nama_dosen'
         'peran',
         'diminta_sebagai',
         'mitra_instansi',
@@ -25,12 +25,18 @@ class SuratTugas extends Model
         'dokumen',
     ];
 
-    /**
-     * Casting otomatis untuk kolom tanggal.
-     */
     protected $casts = [
         'tgl_surat_instansi' => 'date',
         'tgl_surat_kadep'    => 'date',
         'tgl_kegiatan'       => 'date',
     ];
+
+    /**
+     * Definisikan relasi one-to-many (inverse) / belongsTo.
+     * Satu surat tugas dimiliki oleh satu pegawai.
+     */
+    public function pegawai()
+    {
+        return $this->belongsTo(Pegawai::class);
+    }
 }

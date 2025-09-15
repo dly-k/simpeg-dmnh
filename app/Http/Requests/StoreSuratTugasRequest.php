@@ -14,7 +14,7 @@ class StoreSuratTugasRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama_dosen'        => 'required|string|max:255',
+            'pegawai_id'        => 'sometimes|required|integer|exists:pegawais,id',
             'peran'             => 'required|string|max:100',
             'diminta_sebagai'   => 'required|string|max:100',
             'mitra_instansi'    => 'required|string|max:150',
@@ -31,7 +31,8 @@ class StoreSuratTugasRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'nama_dosen.required'        => 'Nama dosen wajib diisi.',
+            'pegawai_id.required' => 'Nama dosen wajib diisi.', // Diubah
+            'pegawai_id.exists'   => 'Dosen yang dipilih tidak valid.', // Ditambah
             'peran.required'             => 'Peran wajib diisi.',
             'diminta_sebagai.required'   => 'Pemohon / menjadi wajib diisi.',
             'mitra_instansi.required'    => 'Mitra / instansi wajib diisi.',

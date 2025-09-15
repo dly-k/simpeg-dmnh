@@ -20,15 +20,16 @@
             <!-- Nama Dosen -->
             <div class="col-12">
               <label class="form-label">Nama Dosen</label>
-              <select name="nama_dosen" class="form-control tom-select-dosen">
+              {{-- UBAH BAGIAN INI --}}
+              <select name="pegawai_id" class="form-control tom-select-dosen">
                 <option value="">-- Pilih Dosen --</option>
                 @foreach ($pegawais as $pegawai)
-                  <option value="{{ $pegawai->nama_lengkap }}" {{ old('nama_dosen') == $pegawai->nama_lengkap ? 'selected' : '' }}>
+                  <option value="{{ $pegawai->id }}" {{ old('pegawai_id') == $pegawai->id ? 'selected' : '' }}>
                     {{ $pegawai->nama_lengkap }}
                   </option>
                 @endforeach
               </select>
-              @error('nama_dosen')
+              @error('pegawai_id')
                   <small class="text-danger">{{ $message }}</small>
               @enderror
             </div>

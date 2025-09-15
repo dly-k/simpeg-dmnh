@@ -14,7 +14,7 @@ class UpdateSuratTugasRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama_dosen'        => 'sometimes|required|string|max:255',
+            'pegawai_id'        => 'sometimes|required|integer|exists:pegawais,id',
             'peran'             => 'sometimes|required|string|max:100',
             'diminta_sebagai'   => 'sometimes|nullable|string|max:100',
             'mitra_instansi'    => 'sometimes|nullable|string|max:150',
@@ -31,7 +31,8 @@ class UpdateSuratTugasRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'nama_dosen.required' => 'Nama dosen wajib diisi.',
+            'pegawai_id.required' => 'Nama dosen wajib diisi.', // Diubah
+            'pegawai_id.exists'   => 'Dosen yang dipilih tidak valid.', // Ditambah
             'peran.required'      => 'Peran wajib diisi.',
             'dokumen.mimes'       => 'Dokumen harus berupa pdf, doc, docx',
             'dokumen.max'         => 'Ukuran dokumen maksimal 5MB.',
