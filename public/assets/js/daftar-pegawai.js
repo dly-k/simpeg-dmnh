@@ -1,99 +1,145 @@
 document.addEventListener("DOMContentLoaded", () => {
   /**
    * Modul untuk menangani Modal Konfirmasi Hapus.
-   * Mencegat form hapus, menampilkan modal yang benar, dan mengirimkan form jika dikonfirmasi.
    */
   const initDeleteConfirmation = () => {
     const tableCard = document.querySelector(".table-card");
     const modalKonfirmasi = document.getElementById("modalKonfirmasiHapus");
-
-    // Hentikan eksekusi jika elemen-elemen penting tidak ditemukan di halaman.
-    if (!tableCard || !modalKonfirmasi) {
-      console.warn("Elemen untuk modal konfirmasi hapus tidak ditemukan.");
-      return;
-    }
+    if (!tableCard || !modalKonfirmasi) return;
 
     const modalSubtitle = modalKonfirmasi.querySelector('.konfirmasi-hapus-subtitle');
     const btnKonfirmasi = document.getElementById("btnKonfirmasiHapus");
     const btnBatal = document.getElementById("btnBatalHapus");
+    if (!modalSubtitle || !btnKonfirmasi || !btnBatal) return;
 
-    // Pastikan semua elemen di dalam modal juga ada.
-    if (!modalSubtitle || !btnKonfirmasi || !btnBatal) {
-        console.error("Struktur di dalam modal konfirmasi hapus tidak lengkap (subtitle/tombol).");
-        return;
-    }
+    let formToSubmit = null;
 
-    let formToSubmit = null; // Variabel untuk menyimpan form yang akan di-submit.
-
-    // Fungsi untuk menampilkan modal.
     const showModal = () => {
-      modalKonfirmasi.style.display = 'flex'; // Gunakan flex untuk memusatkan.
-      setTimeout(() => modalKonfirmasi.classList.add('show'), 10); // Tambahkan class untuk animasi fade-in.
+      modalKonfirmasi.style.display = 'flex';
+      setTimeout(() => modalKonfirmasi.classList.add('show'), 10);
     };
-
-    // Fungsi untuk menyembunyikan modal.
     const hideModal = () => {
       modalKonfirmasi.classList.remove('show');
-      setTimeout(() => {
-        modalKonfirmasi.style.display = 'none';
-      }, 200); // Sesuaikan durasi dengan transisi CSS Anda.
-      formToSubmit = null; // Reset form setelah modal ditutup.
+      setTimeout(() => { modalKonfirmasi.style.display = 'none'; }, 200);
+      formToSubmit = null;
     };
 
-    // Gunakan event delegation pada tabel untuk mencegat event 'submit'.
     tableCard.addEventListener("submit", (event) => {
       const form = event.target.closest(".form-hapus");
       if (form) {
-        event.preventDefault(); // Mencegah form dikirim secara langsung.
+        event.preventDefault();
         formToSubmit = form;
-
-        // Ambil nama pegawai dari atribut 'data-nama' pada tombol.
         const namaPegawai = form.querySelector('button[type="submit"]').dataset.nama || 'data ini';
-        
-        // Ubah teks di modal secara dinamis.
         modalSubtitle.innerHTML = `Data untuk <strong>${namaPegawai}</strong> akan dihapus permanen.`;
-        
         showModal();
       }
     });
 
-    // Event listener untuk tombol "Ya, Hapus".
     btnKonfirmasi.addEventListener("click", () => {
-      if (formToSubmit) {
-        formToSubmit.submit(); // Kirim form yang telah disimpan.
-      }
+      if (formToSubmit) formToSubmit.submit();
     });
-
-    // Event listener untuk tombol "Batal" dan klik di luar area modal.
     btnBatal.addEventListener("click", hideModal);
     modalKonfirmasi.addEventListener("click", (event) => {
-      if (event.target === modalKonfirmasi) {
-        hideModal();
+      if (event.target === modalKonfirmasi) hideModal();
+    });
+  };
+
+  /**
+   * PERUBAHAN DI SINI:
+   * Logika baru untuk mengontrol tombol "Tambah Data" yang lebih andal.
+   * Fungsi ini menggantikan 'initTabControls' yang lama.
+   */
+  const initTabAndButtonLogic = () => {
+    const pegawaiTabContainer = document.getElementById('pegawaiTab');
+    const btnTambah = document.getElementById('btn-tambah-pegawai');
+    if (!pegawaiTabContainer || !btnTambah) return;
+
+    // Fungsi untuk memeriksa tab aktif dan mengatur visibilitas tombol
+    const updateTambahButtonVisibility = () => {
+      const activeTab = pegawaiTabContainer.querySelector('.nav-link.active');
+      if (activeTab && activeTab.id === 'riwayat-pegawai-tab') {
+        btnTambah.style.display = 'none'; // Sembunyikan jika di tab riwayat
+      } else {
+        btnTambah.style.display = 'inline-flex'; // Tampilkan di tab lain
+      }
+    };
+
+    // Dengarkan event 'shown.bs.tab' dari Bootstrap.
+    // Event ini akan berjalan setiap kali sebuah tab (selesai) ditampilkan, baik karena diklik maupun oleh kode.
+    pegawaiTabContainer.addEventListener('shown.bs.tab', () => {
+      updateTambahButtonVisibility();
+    });
+
+    // Jalankan fungsi ini sekali saat halaman pertama kali dimuat
+    // untuk mengatur kondisi awal tombol.
+    updateTambahButtonVisibility();
+  };
+
+
+  /**
+   * Inisialisasi filter pencarian dan dropdown.
+   */
+  const initFilters = () => {
+    const inputs = [
+      document.querySelector('input[name="search_aktif"]'),
+      document.querySelector('select[name="filter_kepegawaian_aktif"]'),
+      document.querySelector('input[name="search_riwayat"]'),
+      document.querySelector('select[name="filter_status_riwayat"]')
+    ];
+    let debounceTimeout;
+
+    const submitForm = (form) => {
+      const activeTabId = document.querySelector('.nav-pills .nav-link.active').id;
+      let tabName = activeTabId.replace('-tab', '');
+      
+      let tabInput = form.querySelector('input[name="tab"]');
+      if (!tabInput) {
+        tabInput = document.createElement('input');
+        tabInput.type = 'hidden';
+        tabInput.name = 'tab';
+        form.appendChild(tabInput);
+      }
+      tabInput.value = tabName;
+      
+      form.submit();
+    };
+
+    inputs.forEach(input => {
+      if (input) {
+        if (input.tagName.toLowerCase() === 'select') {
+          input.addEventListener('change', () => {
+            submitForm(input.closest('form'));
+          });
+        } else {
+          input.addEventListener('keyup', () => {
+            clearTimeout(debounceTimeout);
+            debounceTimeout = setTimeout(() => {
+              submitForm(input.closest('form'));
+            }, 500);
+          });
+        }
       }
     });
   };
 
   /**
-   * Modul untuk mengontrol tampilan tombol "Tambah Data" berdasarkan tab yang aktif.
+   * Mengaktifkan tab yang benar saat halaman dimuat berdasarkan parameter URL.
    */
-  const initTabControls = () => {
-    const pegawaiAktifTab = document.getElementById("pegawai-aktif-tab");
-    const riwayatPegawaiTab = document.getElementById("riwayat-pegawai-tab");
-    const btnTambah = document.getElementById("btn-tambah-pegawai");
-
-    if (pegawaiAktifTab && riwayatPegawaiTab && btnTambah) {
-      pegawaiAktifTab.addEventListener("click", () => {
-        btnTambah.style.display = "inline-flex";
-      });
-      
-      riwayatPegawaiTab.addEventListener("click", () => {
-        btnTambah.style.display = "none";
-      });
+  const setActiveTabFromUrl = () => {
+    const params = new URLSearchParams(window.location.search);
+    const tabName = params.get('tab');
+    if (tabName) {
+      const tabElement = document.getElementById(`${tabName}-tab`);
+      if (tabElement) {
+        const tab = new bootstrap.Tab(tabElement);
+        tab.show();
+      }
     }
   };
 
-  // Panggil semua fungsi inisialisasi saat halaman selesai dimuat.
+  // Panggil semua fungsi inisialisasi
   initDeleteConfirmation();
-  initTabControls();
+  initTabAndButtonLogic(); // Memanggil fungsi baru
+  initFilters();
+  setActiveTabFromUrl();
 });
-

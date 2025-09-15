@@ -8,7 +8,6 @@
     <link rel="icon" href="{{ asset('assets/images/logo.png') }}" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('assets/css/layout.css') }}" />
@@ -35,26 +34,12 @@
                 <div class="tab-bar-container d-flex justify-content-between align-items-center">
                     <ul class="nav nav-pills" id="pegawaiTab" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active"
-                                    id="pegawai-aktif-tab"
-                                    data-bs-toggle="tab"
-                                    data-bs-target="#pegawai-aktif"
-                                    type="button"
-                                    role="tab"
-                                    aria-controls="pegawai-aktif"
-                                    aria-selected="true">
+                            <button class="nav-link active" id="pegawai-aktif-tab" data-bs-toggle="tab" data-bs-target="#pegawai-aktif" type="button" role="tab" aria-controls="pegawai-aktif" aria-selected="true">
                                 Pegawai Aktif
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link"
-                                    id="riwayat-pegawai-tab"
-                                    data-bs-toggle="tab"
-                                    data-bs-target="#riwayat-pegawai"
-                                    type="button"
-                                    role="tab"
-                                    aria-controls="riwayat-pegawai"
-                                    aria-selected="false">
+                            <button class="nav-link" id="riwayat-pegawai-tab" data-bs-toggle="tab" data-bs-target="#riwayat-pegawai" type="button" role="tab" aria-controls="riwayat-pegawai" aria-selected="false">
                                 Riwayat Pegawai
                             </button>
                         </li>
@@ -68,35 +53,37 @@
 
                     {{-- TAB PEGAWAI AKTIF --}}
                     <div class="tab-pane fade show active" id="pegawai-aktif" role="tabpanel" aria-labelledby="pegawai-aktif-tab">
-                        
-                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mt-4">
-                            <div class="d-flex align-items-center flex-wrap gap-2 flex-grow-1">
-                                <div class="search-group flex-grow-1">
-                                    <div class="input-group bg-white">
-                                        <span class="input-group-text bg-light border-end-0">
-                                            <i class="fas fa-search search-icon"></i>
-                                        </span>
-                                        <input type="text" class="form-control form-control-sm bg-transparent border-0" placeholder="Cari Pegawai Aktif..." />
+                        <form id="filter-form-aktif" action="{{ route('pegawai.index') }}" method="GET">
+                            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mt-4">
+                                <div class="d-flex align-items-center flex-wrap gap-2 flex-grow-1">
+                                    <div class="search-group flex-grow-1">
+                                        <div class="input-group bg-white">
+                                            <span class="input-group-text bg-light border-end-0">
+                                                <i class="fas fa-search search-icon"></i>
+                                            </span>
+                                            <input type="text" name="search_aktif" class="form-control form-control-sm bg-transparent border-0" placeholder="Cari Nama atau NIP..." value="{{ request('search_aktif') }}" />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <select class="form-select form-select-sm w-100" name="filter_kepegawaian_aktif">
+                                            <option value="">Semua Kepegawaian</option>
+                                            <option value="Dosen PNS" @if(request('filter_kepegawaian_aktif') == 'Dosen PNS') selected @endif>Dosen PNS</option>
+                                            <option value="Tendik PNS" @if(request('filter_kepegawaian_aktif') == 'Tendik PNS') selected @endif>Tendik PNS</option>
+                                            <option value="Dosen Tetap" @if(request('filter_kepegawaian_aktif') == 'Dosen Tetap') selected @endif>Dosen Tetap</option>
+                                            <option value="Tendik Tetap" @if(request('filter_kepegawaian_aktif') == 'Tendik Tetap') selected @endif>Tendik Tetap</option>
+                                            <option value="Tendik Kontrak" @if(request('filter_kepegawaian_aktif') == 'Tendik Kontrak') selected @endif>Tendik Kontrak</option>
+                                            <option value="Dosen Tamu" @if(request('filter_kepegawaian_aktif') == 'Dosen Tamu') selected @endif>Dosen Tamu</option>
+                                            <option value="Tenaga Harian Lepas (THL)" @if(request('filter_kepegawaian_aktif') == 'Tenaga Harian Lepas (THL)') selected @endif>THL</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <a href="{{ route('pegawai.export', ['type' => 'aktif']) }}" class="btn btn-export btn-sm fw-bold">
+                                            <i class="fa-solid fa-file-excel me-2"></i> Export Excel
+                                        </a>
                                     </div>
                                 </div>
-                                <div>
-                                    <select class="form-select form-select-sm w-100">
-                                        <option selected disabled>Kepegawaian</option>
-                                        <option value="pns">Dosen PNS</option>
-                                        <option value="pppk">Dosen Tetap</option>
-                                        <option value="honorer">Tendik Tetap</option>
-                                        <option value="kontrak">Tendik Kontrak</option>
-                                        <option value="dosen_tamu">Dosen Tamu</option>
-                                        <option value="thl">THL</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <a href="{{ route('pegawai.export', ['type' => 'aktif']) }}" class="btn btn-export btn-sm fw-bold">
-                                        <i class="fa-solid fa-file-excel me-2"></i> Export Excel
-                                    </a>
-                                </div>
                             </div>
-                        </div>
+                        </form>
 
                         <div class="table-responsive mt-4">
                             <table class="table table-hover table-bordered">
@@ -142,7 +129,7 @@
                                     </tr>
                                     @empty
                                     <tr>
-                                        <td colspan="9" class="text-center">Tidak ada data pegawai aktif.</td>
+                                        <td colspan="9" class="text-center">Tidak ada data pegawai aktif yang ditemukan.</td>
                                     </tr>
                                     @endforelse
                                 </tbody>
@@ -155,7 +142,7 @@
                             </span>
                             @if ($pegawaiAktif->hasPages())
                                 <nav>
-                                    {{ $pegawaiAktif->appends(['riwayatPage' => $pegawaiRiwayat->currentPage()])->links() }}
+                                    {{ $pegawaiAktif->links() }}
                                 </nav>
                             @endif
                         </div>
@@ -163,37 +150,38 @@
 
                     {{-- TAB RIWAYAT PEGAWAI --}}
                     <div class="tab-pane fade" id="riwayat-pegawai" role="tabpanel" aria-labelledby="riwayat-pegawai-tab">
-                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mt-4">
-                            <div class="d-flex align-items-center flex-wrap gap-2 flex-grow-1">
-                                <div class="search-group flex-grow-1">
-                                    <div class="input-group bg-white">
-                                        <span class="input-group-text bg-light border-end-0">
-                                            <i class="fas fa-search search-icon"></i>
-                                        </span>
-                                        <input type="text" class="form-control form-control-sm bg-transparent border-0" placeholder="Cari Riwayat Pegawai..." />
+                        <form id="filter-form-riwayat" action="{{ route('pegawai.index') }}" method="GET">
+                            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mt-4">
+                                <div class="d-flex align-items-center flex-wrap gap-2 flex-grow-1">
+                                    <div class="search-group flex-grow-1">
+                                        <div class="input-group bg-white">
+                                            <span class="input-group-text bg-light border-end-0">
+                                                <i class="fas fa-search search-icon"></i>
+                                            </span>
+                                            <input type="text" name="search_riwayat" class="form-control form-control-sm bg-transparent border-0" placeholder="Cari Riwayat Pegawai..." value="{{ request('search_riwayat') }}" />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <select class="form-select form-select-sm w-100" name="filter_status_riwayat">
+                                            <option value="">Semua Status Riwayat</option>
+                                            <option value="Pensiun" @if(request('filter_status_riwayat') == 'Pensiun') selected @endif>Pensiun</option>
+                                            <option value="Pensiun Muda" @if(request('filter_status_riwayat') == 'Pensiun Muda') selected @endif>Pensiun Muda</option>
+                                            <option value="Diberhentikan" @if(request('filter_status_riwayat') == 'Diberhentikan') selected @endif>Diberhentikan</option>
+                                            <option value="Meninggal Dunia" @if(request('filter_status_riwayat') == 'Meninggal Dunia') selected @endif>Meninggal Dunia</option>
+                                            <option value="Kontrak Selesai" @if(request('filter_status_riwayat') == 'Kontrak Selesai') selected @endif>Kontrak Selesai</option>
+                                            <option value="Mengundurkan diri" @if(request('filter_status_riwayat') == 'Mengundurkan diri') selected @endif>Mengundurkan Diri</option>
+                                            <option value="Mutasi" @if(request('filter_status_riwayat') == 'Mutasi') selected @endif>Mutasi</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <a href="{{ route('pegawai.export', ['type' => 'riwayat']) }}" class="btn btn-export btn-sm fw-bold">
+                                            <i class="fa-solid fa-file-excel me-2"></i> Export Excel
+                                        </a>
                                     </div>
                                 </div>
-                                <div>
-                                    <select class="form-select form-select-sm w-100">
-                                        <option selected disabled>Status Riwayat</option>
-                                        <option value="pensiun">Pensiun</option>
-                                        <option value="pensiun-muda">Pensiun Muda</option>
-                                        <option value="diberhentikan">Diberhentikan</option>
-                                        <option value="meninggal">Meninggal Dunia</option>
-                                        <option value="kontrak_selesai">Kontrak Selesai</option>
-                                        <option value="mengundurkan_diri">Mengundurkan Diri</option>
-                                        <option value="mutasi">Mutasi</option>
-                                    </select>
-                                </div>
-                                {{-- PERUBAHAN: Tombol export ditambahkan di sini --}}
-                                <div>
-                                    <a href="{{ route('pegawai.export', ['type' => 'riwayat']) }}" class="btn btn-export btn-sm fw-bold">
-                                        <i class="fa-solid fa-file-excel me-2"></i> Export Excel
-                                    </a>
-                                </div>
                             </div>
-                        </div>
-
+                        </form>
+                        
                         <div class="table-responsive mt-4">
                             <table class="table table-hover table-bordered">
                                 <thead class="table-light">
@@ -239,7 +227,7 @@
                                     </tr>
                                     @empty
                                     <tr>
-                                        <td colspan="8" class="text-center">Tidak ada data riwayat pegawai.</td>
+                                        <td colspan="8" class="text-center">Tidak ada data riwayat pegawai yang ditemukan.</td>
                                     </tr>
                                     @endforelse
                                 </tbody>
@@ -252,7 +240,7 @@
                             </span>
                              @if ($pegawaiRiwayat->hasPages())
                                 <nav>
-                                    {{ $pegawaiRiwayat->appends(['aktifPage' => $pegawaiAktif->currentPage()])->links() }}
+                                    {{ $pegawaiRiwayat->links() }}
                                 </nav>
                             @endif
                         </div>
@@ -293,23 +281,6 @@
             }, 2000);
         }
     });
-    document.addEventListener('DOMContentLoaded', function () {
-    // Ambil semua input dengan tipe 'date'
-    const dateInputs = document.querySelectorAll('input[type="date"]');
-
-    // Tambahkan event listener ke setiap input tanggal
-    dateInputs.forEach(input => {
-        input.addEventListener('click', function(e) {
-            // Tampilkan date picker bawaan browser
-            try {
-                this.showPicker();
-            } catch (error) {
-                // Fallback untuk browser yang tidak mendukung showPicker()
-                console.log("Browser tidak mendukung showPicker(), tapi seharusnya tetap berfungsi di browser modern.");
-            }
-        });
-    });
-});
 </script>
 @endif
 

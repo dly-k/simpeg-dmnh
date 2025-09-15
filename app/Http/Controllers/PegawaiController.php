@@ -5,23 +5,54 @@ namespace App\Http\Controllers;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use App\Exports\PegawaiExport; // <-- Diperlukan untuk export
-use Maatwebsite\Excel\Facades\Excel; // <-- Diperlukan untuk export
+use App\Exports\PegawaiExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PegawaiController extends Controller
 {
     /**
-     * Menampilkan daftar pegawai aktif dan riwayat pegawai dengan paginasi.
+     * Menampilkan daftar pegawai dengan fungsionalitas pencarian dan filter.
      *
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
-        $pegawaiAktif = Pegawai::where('status_pegawai', 'Aktif')
-                               ->paginate(10, ['*'], 'aktifPage');
+        // Query untuk Pegawai Aktif
+        $queryAktif = Pegawai::where('status_pegawai', 'Aktif');
 
-        $pegawaiRiwayat = Pegawai::where('status_pegawai', '!=', 'Aktif')
-                                 ->paginate(10, ['*'], 'riwayatPage');
+        // Terapkan filter pencarian untuk Pegawai Aktif
+        $queryAktif->when($request->search_aktif, function ($q, $search) {
+            return $q->where(function ($query) use ($search) {
+                $query->where('nama_lengkap', 'like', "%{$search}%")
+                      ->orWhere('nip', 'like', "%{$search}%");
+            });
+        });
+
+        // Terapkan filter dropdown untuk Pegawai Aktif
+        $queryAktif->when($request->filter_kepegawaian_aktif, function ($q, $filter) {
+            return $q->where('status_kepegawaian', $filter);
+        });
+
+        $pegawaiAktif = $queryAktif->latest()->paginate(10, ['*'], 'aktifPage')->withQueryString();
+
+        // Query untuk Riwayat Pegawai
+        $queryRiwayat = Pegawai::where('status_pegawai', '!=', 'Aktif');
+
+        // Terapkan filter pencarian untuk Riwayat Pegawai
+        $queryRiwayat->when($request->search_riwayat, function ($q, $search) {
+            return $q->where(function ($query) use ($search) {
+                $query->where('nama_lengkap', 'like', "%{$search}%")
+                      ->orWhere('nip', 'like', "%{$search}%");
+            });
+        });
+
+        // Terapkan filter dropdown untuk Riwayat Pegawai
+        $queryRiwayat->when($request->filter_status_riwayat, function ($q, $filter) {
+            return $q->where('status_pegawai', $filter);
+        });
+
+        $pegawaiRiwayat = $queryRiwayat->latest()->paginate(10, ['*'], 'riwayatPage')->withQueryString();
 
         return view('pages.pegawai.daftar-pegawai', compact('pegawaiAktif', 'pegawaiRiwayat'));
     }
@@ -34,13 +65,9 @@ class PegawaiController extends Controller
      */
     public function export(Request $request)
     {
-        $request->validate([
-            'type' => 'required|in:aktif,riwayat',
-        ]);
-
+        $request->validate(['type' => 'required|in:aktif,riwayat']);
         $type = $request->input('type');
         $fileName = 'Daftar_Pegawai_' . ucfirst($type) . '_' . date('d-m-Y') . '.xlsx';
-
         return Excel::download(new PegawaiExport($type), $fileName);
     }
 
