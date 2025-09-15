@@ -161,7 +161,7 @@
                             </div>
                         </div>
 
-                        <hr class="mb-4 divider-light">
+                        <hr class="mb-4 custom-hr">
 
                         <div class="main-tab-content" id="biodata-content">
                             <div id="biodata-sub-tabs" class="btn-group flex-wrap gap-2 mb-4">
@@ -174,11 +174,101 @@
                             <div class="sub-tab-content" id="kepegawaian">
                                 <div class="row g-3">
                                     <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Status Kepegawaian<span class="text-danger">*</span></label>
+                                        <select class="form-select form-select-sm" name="status_kepegawaian" required>
+                                            <option value="Dosen PNS" @if(old('status_kepegawaian', $pegawai->status_kepegawaian) == 'Dosen PNS') selected @endif>Dosen PNS</option>
+                                            <option value="Tendik PNS" @if(old('status_kepegawaian', $pegawai->status_kepegawaian) == 'Tendik PNS') selected @endif>Tendik PNS</option>
+                                            <option value="Dosen Tetap" @if(old('status_kepegawaian', $pegawai->status_kepegawaian) == 'Dosen Tetap') selected @endif>Dosen Tetap</option>
+                                            <option value="Tendik Tetap" @if(old('status_kepegawaian', $pegawai->status_kepegawaian) == 'Tendik Tetap') selected @endif>Tendik Tetap</option>
+                                            <option value="Tendik Kontrak" @if(old('status_kepegawaian', $pegawai->status_kepegawaian) == 'Tendik Kontrak') selected @endif>Tendik Kontrak</option>
+                                            <option value="Dosen Tamu" @if(old('status_kepegawaian', $pegawai->status_kepegawaian) == 'Dosen Tamu') selected @endif>Dosen Tamu</option>
+                                            <option value="Tenaga Harian Lepas (THL)" @if(old('status_kepegawaian', $pegawai->status_kepegawaian) == 'Tenaga Harian Lepas (THL)') selected @endif>Tenaga Harian Lepas (THL)</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Status Pegawai<span class="text-danger">*</span></label>
+                                        <select class="form-select form-select-sm" name="status_pegawai" required>
+                                            <option value="Aktif" @if(old('status_pegawai', $pegawai->status_pegawai) == 'Aktif') selected @endif>Aktif</option>
+                                            <option value="Pensiun" @if(old('status_pegawai', $pegawai->status_pegawai) == 'Pensiun') selected @endif>Pensiun</option>
+                                            <option value="Pensiun Muda" @if(old('status_pegawai', $pegawai->status_pegawai) == 'Pensiun Muda') selected @endif>Pensiun Muda</option>
+                                            <option value="Diberhentikan" @if(old('status_pegawai', $pegawai->status_pegawai) == 'Diberhentikan') selected @endif>Diberhentikan</option>
+                                            <option value="Meninggal Dunia" @if(old('status_pegawai', $pegawai->status_pegawai) == 'Meninggal Dunia') selected @endif>Meninggal Dunia</option>
+                                            <option value="Kontrak Selesai" @if(old('status_pegawai', $pegawai->status_pegawai) == 'Kontrak Selesai') selected @endif>Kontrak Selesai</option>
+                                            <option value="Mengundurkan diri" @if(old('status_pegawai', $pegawai->status_pegawai) == 'Mengundurkan diri') selected @endif>Mengundurkan diri</option>
+                                            <option value="Mutasi" @if(old('status_pegawai', $pegawai->status_pegawai) == 'Mutasi') selected @endif>Mutasi</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Unit Kerja</label>
+                                        <input type="text" class="form-control form-control-sm readonly-input" value="Fakultas Kehutanan dan Lingkungan" readonly>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Divisi</label>
+                                        <input type="text" class="form-control form-control-sm readonly-input" value="Departemen Manajemen Hutan" readonly>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Nomor Arsip Berkas Kepegawaian</label>
+                                        <input type="text" class="form-control form-control-sm" name="nomor_arsip" value="{{ old('nomor_arsip', $pegawai->nomor_arsip) }}">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Jabatan Fungsional<span class="text-danger">*</span></label>
+                                        <select class="form-select form-select-sm @error('jabatan_fungsional') is-invalid @enderror" name="jabatan_fungsional" required>
+                                            @php $fungsionalValue = old('jabatan_fungsional', $pegawai->jabatan_fungsional); @endphp
+                                            <option value="Tidak ada" @if($fungsionalValue == 'Tidak ada') selected @endif>Tidak ada</option>
+                                            <option value="Dosen" @if($fungsionalValue == 'Dosen') selected @endif>Dosen</option>
+                                            <option value="Asisten Ahli" @if($fungsionalValue == 'Asisten Ahli') selected @endif>Asisten Ahli</option>
+                                            <option value="Lektor" @if($fungsionalValue == 'Lektor') selected @endif>Lektor</option>
+                                            <option value="Lektor Kepala" @if($fungsionalValue == 'Lektor Kepala') selected @endif>Lektor Kepala</option>
+                                            <option value="Guru Besar" @if($fungsionalValue == 'Guru Besar') selected @endif>Guru Besar</option>
+                                            <option value="Pranata Laboratorium Pendidikan Pelaksana Lanjutan" @if($fungsionalValue == 'Pranata Laboratorium Pendidikan Pelaksana Lanjutan') selected @endif>Pranata Laboratorium Pendidikan Pelaksana Lanjutan</option>
+                                            <option value="Pranata Laboratorium Pendidikan Muda" @if($fungsionalValue == 'Pranata Laboratorium Pendidikan Muda') selected @endif>Pranata Laboratorium Pendidikan Muda</option>
+                                            <option value="Pranata Laboratorium Pendidikan Pertama" @if($fungsionalValue == 'Pranata Laboratorium Pendidikan Pertama') selected @endif>Pranata Laboratorium Pendidikan Pertama</option>
+                                            <option value="Teknisi Hardware dan Software" @if($fungsionalValue == 'Teknisi Hardware dan Software') selected @endif>Teknisi Hardware dan Software</option>
+                                            <option value="Pengadministrasi Akademik & Kemahasiswaan PS IPH" @if($fungsionalValue == 'Pengadministrasi Akademik & Kemahasiswaan PS IPH') selected @endif>Pengadministrasi Akademik & Kemahasiswaan PS IPH</option>
+                                            <option value="Pengadministrasi Akademik & Kemahasiswaan MNH" @if($fungsionalValue == 'Pengadministrasi Akademik & Kemahasiswaan MNH') selected @endif>Pengadministrasi Akademik & Kemahasiswaan MNH</option>
+                                            <option value="Pengadministrasi Umum, Sarana & Prasarana" @if($fungsionalValue == 'Pengadministrasi Umum, Sarana & Prasarana') selected @endif>Pengadministrasi Umum, Sarana & Prasarana</option>
+                                            <option value="Pengadministrasi Persuratan & Arsip" @if($fungsionalValue == 'Pengadministrasi Persuratan & Arsip') selected @endif>Pengadministrasi Persuratan & Arsip</option>
+                                            <option value="Pengadministrasi Jurnal Ilmiah" @if($fungsionalValue == 'Pengadministrasi Jurnal Ilmiah') selected @endif>Pengadministrasi Jurnal Ilmiah</option>
+                                            <option value="Adm. Bagian/Divisi" @if($fungsionalValue == 'Adm. Bagian/Divisi') selected @endif>Adm. Bagian/Divisi</option>
+                                            <option value="Staf Kepegawaian" @if($fungsionalValue == 'Staf Kepegawaian') selected @endif>Staf Kepegawaian</option>
+                                            <option value="Laboran Penafsiran Potret Udara" @if($fungsionalValue == 'Laboran Penafsiran Potret Udara') selected @endif>Laboran Penafsiran Potret Udara</option>
+                                            <option value="Pramu Kantor" @if($fungsionalValue == 'Pramu Kantor') selected @endif>Pramu Kantor</option>
+                                            <option value="Pramu Gedung dan Halaman" @if($fungsionalValue == 'Pramu Gedung dan Halaman') selected @endif>Pramu Gedung dan Halaman</option>
+                                            <option value="Media Branding & Staf Jurnal Departemen" @if($fungsionalValue == 'Media Branding & Staf Jurnal Departemen') selected @endif>Media Branding & Staf Jurnal Departemen</option>
+                                        </select>
+                                        @error('jabatan_fungsional') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Pangkat/Golongan<span class="text-danger">*</span></label>
+                                        <select class="form-select form-select-sm" name="pangkat_golongan" required>
+                                            @php $pangkatValue = old('pangkat_golongan', $pegawai->pangkat_golongan); @endphp
+                                            <option value="Juru Muda / I-a" @if($pangkatValue == 'Juru Muda / I-a') selected @endif>Juru Muda / I-a</option>
+                                            <option value="Juru Muda Tingkat I / I-b" @if($pangkatValue == 'Juru Muda Tingkat I / I-b') selected @endif>Juru Muda Tingkat I / I-b</option>
+                                            <option value="Juru / I-c" @if($pangkatValue == 'Juru / I-c') selected @endif>Juru / I-c</option>
+                                            <option value="Juru Tingkat I / I-d" @if($pangkatValue == 'Juru Tingkat I / I-d') selected @endif>Juru Tingkat I / I-d</option>
+                                            <option value="Pengatur Muda / II-a" @if($pangkatValue == 'Pengatur Muda / II-a') selected @endif>Pengatur Muda / II-a</option>
+                                            <option value="Pengatur Muda Tingkat I / II-b" @if($pangkatValue == 'Pengatur Muda Tingkat I / II-b') selected @endif>Pengatur Muda Tingkat I / II-b</option>
+                                            <option value="Pengatur / II-c" @if($pangkatValue == 'Pengatur / II-c') selected @endif>Pengatur / II-c</option>
+                                            <option value="Pengatur Tingkat I / II-d" @if($pangkatValue == 'Pengatur Tingkat I / II-d') selected @endif>Pengatur Tingkat I / II-d</option>
+                                            <option value="Penata Muda / III-a" @if($pangkatValue == 'Penata Muda / III-a') selected @endif>Penata Muda / III-a</option>
+                                            <option value="Penata Muda Tingkat I / III-b" @if($pangkatValue == 'Penata Muda Tingkat I / III-b') selected @endif>Penata Muda Tingkat I / III-b</option>
+                                            <option value="Penata III/c" @if($pangkatValue == 'Penata III/c') selected @endif>Penata III/c</option>
+                                            <option value="Penata Tingkat I / III-d" @if($pangkatValue == 'Penata Tingkat I / III-d') selected @endif>Penata Tingkat I / III-d</option>
+                                            <option value="Pembina / IV-a" @if($pangkatValue == 'Pembina / IV-a') selected @endif>Pembina / IV-a</option>
+                                            <option value="Pembina Tingkat I / IV-b" @if($pangkatValue == 'Pembina Tingkat I / IV-b') selected @endif>Pembina Tingkat I / IV-b</option>
+                                            <option value="Pembina Utama Muda / IV-c" @if($pangkatValue == 'Pembina Utama Muda / IV-c') selected @endif>Pembina Utama Muda / IV-c</option>
+                                            <option value="Pembina Utama Madya / IV-d" @if($pangkatValue == 'Pembina Utama Madya / IV-d') selected @endif>Pembina Utama Madya / IV-d</option>
+                                            <option value="Pembina Utama / IV-e" @if($pangkatValue == 'Pembina Utama / IV-e') selected @endif>Pembina Utama / IV-e</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">TMT Pangkat Terakhir</label>
+                                        <input type="date" class="form-control form-control-sm" name="tmt_pangkat" value="{{ old('tmt_pangkat', $pegawai->tmt_pangkat) }}">
+                                    </div>
+                                    <div class="col-md-6 form-group">
                                         <label class="small text-dark fw-medium mb-1">Jabatan Struktural</label>
                                         <select class="form-select form-select-sm" name="jabatan_struktural">
-                                            @php
-                                                $jabatanValue = old('jabatan_struktural', $pegawai->jabatan_struktural);
-                                            @endphp
+                                            @php $jabatanValue = old('jabatan_struktural', $pegawai->jabatan_struktural); @endphp
                                             <option value="Tidak ada" @if($jabatanValue == 'Tidak ada') selected @endif>Tidak ada</option>
                                             <option value="Ketua Departemen MNH" @if($jabatanValue == 'Ketua Departemen MNH') selected @endif>Ketua Departemen MNH</option>
                                             <option value="Sekretaris Departemen MNH" @if($jabatanValue == 'Sekretaris Departemen MNH') selected @endif>Sekretaris Departemen MNH</option>
@@ -206,70 +296,8 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Status Kepegawaian<span class="text-danger">*</span></label>
-                                        <select class="form-select form-select-sm" name="status_kepegawaian" required>
-                                            <option value="Dosen PNS" @if(old('status_kepegawaian', $pegawai->status_kepegawaian) == 'Dosen PNS') selected @endif>Dosen PNS</option>
-                                            <option value="Tendik PNS" @if(old('status_kepegawaian', $pegawai->status_kepegawaian) == 'Tendik PNS') selected @endif>Tendik PNS</option>
-                                            <option value="Dosen Tetap" @if(old('status_kepegawaian', $pegawai->status_kepegawaian) == 'Dosen Tetap') selected @endif>Dosen Tetap</option>
-                                            <option value="Tendik Tetap" @if(old('status_kepegawaian', $pegawai->status_kepegawaian) == 'Tendik Tetap') selected @endif>Tendik Tetap</option>
-                                            <option value="Tendik Kontrak" @if(old('status_kepegawaian', $pegawai->status_kepegawaian) == 'Tendik Kontrak') selected @endif>Tendik Kontrak</option>
-                                            <option value="Dosen Tamu" @if(old('status_kepegawaian', $pegawai->status_kepegawaian) == 'Dosen Tamu') selected @endif>Dosen Tamu</option>
-                                            <option value="Tenaga Harian Lepas (THL)" @if(old('status_kepegawaian', $pegawai->status_kepegawaian) == 'Tenaga Harian Lepas (THL)') selected @endif>Tenaga Harian Lepas (THL)</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Status Pegawai<span class="text-danger">*</span></label>
-                                        <select class="form-select form-select-sm" name="status_pegawai" required>
-                                            <option value="Aktif" @if(old('status_pegawai', $pegawai->status_pegawai) == 'Aktif') selected @endif>Aktif</option>
-                                            <option value="Pensiun" @if(old('status_pegawai', $pegawai->status_pegawai) == 'Pensiun') selected @endif>Pensiun</option>
-                                            <option value="Pensiun Muda" @if(old('status_pegawai', $pegawai->status_pegawai) == 'Pensiun Muda') selected @endif>Pensiun Muda</option>
-                                            <option value="Diberhentikan" @if(old('status_pegawai', $pegawai->status_pegawai) == 'Diberhentikan') selected @endif>Diberhentikan</option>
-                                            <option value="Meninggal Dunia" @if(old('status_pegawai', $pegawai->status_pegawai) == 'Meninggal Dunia') selected @endif>Meninggal Dunia</option>
-                                            <option value="Kontrak Selesai" @if(old('status_pegawai', $pegawai->status_pegawai) == 'Kontrak Selesai') selected @endif>Kontrak Selesai</option>
-                                            <option value="Mengundurkan diri" @if(old('status_pegawai', $pegawai->status_pegawai) == 'Mengundurkan diri') selected @endif>Mengundurkan diri</option>
-                                            <option value="Mutasi" @if(old('status_pegawai', $pegawai->status_pegawai) == 'Mutasi') selected @endif>Mutasi</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Nomor Arsip Berkas Kepegawaian</label>
-                                        <input type="text" class="form-control form-control-sm" name="nomor_arsip" value="{{ old('nomor_arsip', $pegawai->nomor_arsip) }}">
-                                    </div>
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Jabatan Fungsional<span class="text-danger">*</span></label>
-                                        <select class="form-select form-select-sm" name="jabatan_fungsional" required>
-                                            <option value="Dosen" @if(old('jabatan_fungsional', $pegawai->jabatan_fungsional) == 'Dosen') selected @endif>Dosen</option>
-                                            <option value="Asisten Ahli" @if(old('jabatan_fungsional', $pegawai->jabatan_fungsional) == 'Asisten Ahli') selected @endif>Asisten Ahli</option>
-                                        </select>
-                                    </div>
-  <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Pangkat/Golongan<span class="text-danger">*</span></label>
-                                        {{-- PERUBAHAN DI SINI --}}
-                                        <select class="form-select form-select-sm" name="pangkat_golongan" required>
-                                            @php
-                                                $pangkatValue = old('pangkat_golongan', $pegawai->pangkat_golongan);
-                                            @endphp
-                                            <option value="Juru Muda / I-a" @if($pangkatValue == 'Juru Muda / I-a') selected @endif>Juru Muda / I-a</option>
-                                            <option value="Juru Muda Tingkat I / I-b" @if($pangkatValue == 'Juru Muda Tingkat I / I-b') selected @endif>Juru Muda Tingkat I / I-b</option>
-                                            <option value="Juru / I-c" @if($pangkatValue == 'Juru / I-c') selected @endif>Juru / I-c</option>
-                                            <option value="Juru Tingkat I / I-d" @if($pangkatValue == 'Juru Tingkat I / I-d') selected @endif>Juru Tingkat I / I-d</option>
-                                            <option value="Pengatur Muda / II-a" @if($pangkatValue == 'Pengatur Muda / II-a') selected @endif>Pengatur Muda / II-a</option>
-                                            <option value="Pengatur Muda Tingkat I / II-b" @if($pangkatValue == 'Pengatur Muda Tingkat I / II-b') selected @endif>Pengatur Muda Tingkat I / II-b</option>
-                                            <option value="Pengatur / II-c" @if($pangkatValue == 'Pengatur / II-c') selected @endif>Pengatur / II-c</option>
-                                            <option value="Pengatur Tingkat I / II-d" @if($pangkatValue == 'Pengatur Tingkat I / II-d') selected @endif>Pengatur Tingkat I / II-d</option>
-                                            <option value="Penata Muda / III-a" @if($pangkatValue == 'Penata Muda / III-a') selected @endif>Penata Muda / III-a</option>
-                                            <option value="Penata Muda Tingkat I / III-b" @if($pangkatValue == 'Penata Muda Tingkat I / III-b') selected @endif>Penata Muda Tingkat I / III-b</option>
-                                            <option value="Penata III/c" @if($pangkatValue == 'Penata III/c') selected @endif>Penata III/c</option>
-                                            <option value="Penata Tingkat I / III-d" @if($pangkatValue == 'Penata Tingkat I / III-d') selected @endif>Penata Tingkat I / III-d</option>
-                                            <option value="Pembina / IV-a" @if($pangkatValue == 'Pembina / IV-a') selected @endif>Pembina / IV-a</option>
-                                            <option value="Pembina Tingkat I / IV-b" @if($pangkatValue == 'Pembina Tingkat I / IV-b') selected @endif>Pembina Tingkat I / IV-b</option>
-                                            <option value="Pembina Utama Muda / IV-c" @if($pangkatValue == 'Pembina Utama Muda / IV-c') selected @endif>Pembina Utama Muda / IV-c</option>
-                                            <option value="Pembina Utama Madya / IV-d" @if($pangkatValue == 'Pembina Utama Madya / IV-d') selected @endif>Pembina Utama Madya / IV-d</option>
-                                            <option value="Pembina Utama / IV-e" @if($pangkatValue == 'Pembina Utama / IV-e') selected @endif>Pembina Utama / IV-e</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">TMT Pangkat Terakhir</label>
-                                        <input type="date" class="form-control form-control-sm" name="tmt_pangkat" value="{{ old('tmt_pangkat', $pegawai->tmt_pangkat) }}">
+                                        <label class="small text-dark fw-medium mb-1">Finger Print ID</label>
+                                        <input type="text" class="form-control form-control-sm" name="finger_print_id" value="{{ old('finger_print_id', $pegawai->finger_print_id) }}">
                                     </div>
                                     <div class="col-md-6 form-group">
                                         <label class="small text-dark fw-medium mb-1">NPWP</label>
@@ -285,37 +313,123 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="sub-tab-content" id="dosen" style="display: none;">
+                                <div class="row g-3">
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">NUPTK</label>
+                                        <input type="text" class="form-control form-control-sm" name="nuptk" value="{{ old('nuptk', $pegawai->nuptk) }}">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">SINTA ID</label>
+                                        <input type="text" class="form-control form-control-sm" name="sinta_id" placeholder="Opsional" value="{{ old('sinta_id', $pegawai->sinta_id) }}">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">NIDN</label>
+                                        <input type="text" class="form-control form-control-sm" name="nidn" value="{{ old('nidn', $pegawai->nidn) }}">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Scopus ID</label>
+                                        <input type="text" class="form-control form-control-sm" name="scopus_id" placeholder="Opsional" value="{{ old('scopus_id', $pegawai->scopus_id) }}">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">No. Sertifikasi Dosen</label>
+                                        <input type="text" class="form-control form-control-sm" name="no_sertifikasi_dosen" value="{{ old('no_sertifikasi_dosen', $pegawai->no_sertifikasi_dosen) }}">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Orchid ID</label>
+                                        <input type="text" class="form-control form-control-sm" name="orchid_id" placeholder="Opsional" value="{{ old('orchid_id', $pegawai->orchid_id) }}">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Tgl. Sertifikasi Dosen</label>
+                                        <input type="date" class="form-control form-control-sm" name="tgl_sertifikasi_dosen" value="{{ old('tgl_sertifikasi_dosen', $pegawai->tgl_sertifikasi_dosen) }}">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Google Scholar ID</label>
+                                        <input type="text" class="form-control form-control-sm" name="google_scholar_id" placeholder="Opsional" value="{{ old('google_scholar_id', $pegawai->google_scholar_id) }}">
+                                    </div>
+                                </div>
+                            </div>
                             
                             <div class="sub-tab-content" id="domisili" style="display: none;">
                                 <div class="row g-3">
-                                    <div class="col-md-12 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Alamat Domisili</label>
-                                        <textarea class="form-control form-control-sm" name="alamat_domisili" rows="2">{{ old('alamat_domisili', $pegawai->alamat_domisili) }}</textarea>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Provinsi</label>
+                                        <input type="text" class="form-control form-control-sm" name="provinsi_domisili" placeholder="Contoh: Jawa Barat" value="{{ old('provinsi_domisili', $pegawai->provinsi_domisili) }}">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Alamat</label>
+                                        <textarea class="form-control form-control-sm" name="alamat_domisili" placeholder="Contoh: JL. Lodaya">{{ old('alamat_domisili', $pegawai->alamat_domisili) }}</textarea>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Kabupaten/Kota</label>
+                                        <input type="text" class="form-control form-control-sm" name="kota_domisili" placeholder="Contoh: Bandung" value="{{ old('kota_domisili', $pegawai->kota_domisili) }}">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Kode Pos</label>
+                                        <input type="text" class="form-control form-control-sm" name="kode_pos_domisili" placeholder="Contoh: 10021" value="{{ old('kode_pos_domisili', $pegawai->kode_pos_domisili) }}">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Kecamatan</label>
+                                        <input type="text" class="form-control form-control-sm" name="kecamatan_domisili" placeholder="Contoh: Bandung Tengah" value="{{ old('kecamatan_domisili', $pegawai->kecamatan_domisili) }}">
                                     </div>
                                     <div class="col-md-6 form-group">
                                         <label class="small text-dark fw-medium mb-1">No. Telepon/HP</label>
-                                        <input type="text" class="form-control form-control-sm" name="no_telepon" value="{{ old('no_telepon', $pegawai->no_telepon) }}">
+                                        <input type="text" class="form-control form-control-sm" name="no_telepon" placeholder="Contoh: 081239128991" value="{{ old('no_telepon', $pegawai->no_telepon) }}">
                                     </div>
-                                     <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Email</label>
-                                        <input type="email" class="form-control form-control-sm" name="email" value="{{ old('email', $pegawai->email) }}">
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Kelurahan</label>
+                                        <input type="text" class="form-control form-control-sm" name="kelurahan_domisili" placeholder="Contoh: Ciawi" value="{{ old('kelurahan_domisili', $pegawai->kelurahan_domisili) }}">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Email Pribadi / Institusi</label>
+                                        <input type="email" class="form-control form-control-sm" name="email" placeholder="Contoh: aexyifshsi@gmail.com" value="{{ old('email', $pegawai->email) }}">
                                     </div>
                                 </div>
                             </div>
 
-                             <div class="sub-tab-content" id="kependudukan" style="display: none;">
+                            <div class="sub-tab-content" id="kependudukan" style="display: none;">
                                 <div class="row g-3">
                                     <div class="col-md-6 form-group">
                                         <label class="small text-dark fw-medium mb-1">Nomor KTP</label>
-                                        <input type="text" class="form-control form-control-sm" name="nomor_ktp" value="{{ old('nomor_ktp', $pegawai->nomor_ktp) }}">
+                                        <input type="text" class="form-control form-control-sm" name="nomor_ktp" placeholder="Contoh: 31862908812645811" value="{{ old('nomor_ktp', $pegawai->nomor_ktp) }}">
                                     </div>
-                                     <div class="col-md-6 form-group">
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Kecamatan</label>
+                                        <input type="text" class="form-control form-control-sm" name="kecamatan_ktp" placeholder="Contoh: Talang Ubi" value="{{ old('kecamatan_ktp', $pegawai->kecamatan_ktp) }}">
+                                    </div>
+                                    <div class="col-md-6 form-group">
                                         <label class="small text-dark fw-medium mb-1">Nomor KK</label>
-                                        <input type="text" class="form-control form-control-sm" name="nomor_kk" value="{{ old('nomor_kk', $pegawai->nomor_kk) }}">
+                                        <input type="text" class="form-control form-control-sm" name="nomor_kk" placeholder="Contoh: 8011447152211029" value="{{ old('nomor_kk', $pegawai->nomor_kk) }}">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Kelurahan</label>
+                                        <input type="text" class="form-control form-control-sm" name="kelurahan_ktp" placeholder="Contoh: Pisangan Timur" value="{{ old('kelurahan_ktp', $pegawai->kelurahan_ktp) }}">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Warga Negara</label>
+                                        <select class="form-select form-select-sm" name="warga_negara">
+                                            @php $wargaNegaraValue = old('warga_negara', $pegawai->warga_negara); @endphp
+                                            <option value="">--Pilih Salah Satu--</option>
+                                            <option value="WNI" @if($wargaNegaraValue == 'WNI') selected @endif>Warga Negara Indonesia (WNI)</option>
+                                            <option value="WNA" @if($wargaNegaraValue == 'WNA') selected @endif>Warga Negara Asing (WNA)</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Kode Pos</label>
+                                        <input type="text" class="form-control form-control-sm" name="kode_pos_ktp" placeholder="Contoh: 01984" value="{{ old('kode_pos_ktp', $pegawai->kode_pos_ktp) }}">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Provinsi</label>
+                                        <input type="text" class="form-control form-control-sm" name="provinsi_ktp" placeholder="Contoh: Sumatera Barat" value="{{ old('provinsi_ktp', $pegawai->provinsi_ktp) }}">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label class="small text-dark fw-medium mb-1">Kabupaten/Kota</label>
+                                        <input type="text" class="form-control form-control-sm" name="kabupaten_ktp" placeholder="Contoh: Cimahi" value="{{ old('kabupaten_ktp', $pegawai->kabupaten_ktp) }}">
                                     </div>
                                     <div class="col-md-12 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Alamat KTP</label>
-                                        <textarea class="form-control form-control-sm" name="alamat_ktp" rows="2">{{ old('alamat_ktp', $pegawai->alamat_ktp) }}</textarea>
+                                        <label class="small text-dark fw-medium mb-1">Alamat</label>
+                                        <textarea class="form-control form-control-sm" rows="2" name="alamat_ktp" placeholder="Contoh: Jl Pendopo">{{ old('alamat_ktp', $pegawai->alamat_ktp) }}</textarea>
                                     </div>
                                 </div>
                             </div>

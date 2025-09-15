@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Exports\PegawaiExport; // <-- Diperlukan untuk export
+use Maatwebsite\Excel\Facades\Excel; // <-- Diperlukan untuk export
 
 class PegawaiController extends Controller
 {
@@ -22,6 +24,24 @@ class PegawaiController extends Controller
                                  ->paginate(10, ['*'], 'riwayatPage');
 
         return view('pages.pegawai.daftar-pegawai', compact('pegawaiAktif', 'pegawaiRiwayat'));
+    }
+
+    /**
+     * Menangani permintaan ekspor data pegawai ke Excel.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function export(Request $request)
+    {
+        $request->validate([
+            'type' => 'required|in:aktif,riwayat',
+        ]);
+
+        $type = $request->input('type');
+        $fileName = 'Daftar_Pegawai_' . ucfirst($type) . '_' . date('d-m-Y') . '.xlsx';
+
+        return Excel::download(new PegawaiExport($type), $fileName);
     }
 
     /**
@@ -111,11 +131,10 @@ class PegawaiController extends Controller
      */
     public function show(Pegawai $pegawai)
     {
-        // Eager load relasi 'efiles' untuk memastikan datanya selalu ada (bahkan jika kosong)
         $pegawai->load('efiles');
-
         return view('pages.pegawai.detail-pegawai', compact('pegawai'));
     }
+
     /**
      * Menampilkan form untuk mengedit data pegawai.
      *
@@ -208,15 +227,12 @@ class PegawaiController extends Controller
      */
     public function destroy(Pegawai $pegawai)
     {
-        // Hapus file foto jika ada
         if ($pegawai->foto_profil && Storage::disk('public')->exists($pegawai->foto_profil)) {
             Storage::disk('public')->delete($pegawai->foto_profil);
         }
 
-        // Hapus data pegawai dari database
         $pegawai->delete();
 
-        // Redirect kembali ke halaman index dengan pesan sukses
         return redirect()->route('pegawai.index')->with('success', 'Data pegawai berhasil dihapus.');
     }
 }

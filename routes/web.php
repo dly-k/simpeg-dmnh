@@ -26,6 +26,7 @@ Route::get('/pegawai/{pegawai}/edit', [PegawaiController::class, 'edit'])->name(
 Route::put('/pegawai/{pegawai}', [PegawaiController::class, 'update'])->name('pegawai.update');
 Route::get('/pegawai/{pegawai}', [PegawaiController::class, 'show'])->name('pegawai.show');
 Route::delete('/pegawai/{pegawai}', [PegawaiController::class, 'destroy'])->name('pegawai.destroy');
+Route::get('/daftar-pegawai/export', [PegawaiController::class, 'export'])->name('pegawai.export');
 
 // Rute untuk E-File
 Route::post('/pegawai/{pegawai}/efile', [EFileController::class, 'store'])->name('efile.store');

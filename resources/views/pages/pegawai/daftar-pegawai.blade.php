@@ -90,9 +90,9 @@
                                     </select>
                                 </div>
                                 <div>
-                                    <button class="btn btn-export btn-sm fw-bold">
+                                    <a href="{{ route('pegawai.export', ['type' => 'aktif']) }}" class="btn btn-export btn-sm fw-bold">
                                         <i class="fa-solid fa-file-excel me-2"></i> Export Excel
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -183,6 +183,12 @@
                                         <option value="mengundurkan_diri">Mengundurkan Diri</option>
                                         <option value="mutasi">Mutasi</option>
                                     </select>
+                                </div>
+                                {{-- PERUBAHAN: Tombol export ditambahkan di sini --}}
+                                <div>
+                                    <a href="{{ route('pegawai.export', ['type' => 'riwayat']) }}" class="btn btn-export btn-sm fw-bold">
+                                        <i class="fa-solid fa-file-excel me-2"></i> Export Excel
+                                    </a>
                                 </div>
                             </div>
                         </div>
