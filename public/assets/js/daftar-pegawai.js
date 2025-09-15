@@ -45,33 +45,26 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /**
-   * PERUBAHAN DI SINI:
-   * Logika baru untuk mengontrol tombol "Tambah Data" yang lebih andal.
-   * Fungsi ini menggantikan 'initTabControls' yang lama.
+   * Logika untuk mengontrol tombol "Tambah Data".
    */
   const initTabAndButtonLogic = () => {
     const pegawaiTabContainer = document.getElementById('pegawaiTab');
     const btnTambah = document.getElementById('btn-tambah-pegawai');
     if (!pegawaiTabContainer || !btnTambah) return;
 
-    // Fungsi untuk memeriksa tab aktif dan mengatur visibilitas tombol
     const updateTambahButtonVisibility = () => {
       const activeTab = pegawaiTabContainer.querySelector('.nav-link.active');
       if (activeTab && activeTab.id === 'riwayat-pegawai-tab') {
-        btnTambah.style.display = 'none'; // Sembunyikan jika di tab riwayat
+        btnTambah.style.display = 'none';
       } else {
-        btnTambah.style.display = 'inline-flex'; // Tampilkan di tab lain
+        btnTambah.style.display = 'inline-flex';
       }
     };
 
-    // Dengarkan event 'shown.bs.tab' dari Bootstrap.
-    // Event ini akan berjalan setiap kali sebuah tab (selesai) ditampilkan, baik karena diklik maupun oleh kode.
     pegawaiTabContainer.addEventListener('shown.bs.tab', () => {
       updateTambahButtonVisibility();
     });
 
-    // Jalankan fungsi ini sekali saat halaman pertama kali dimuat
-    // untuk mengatur kondisi awal tombol.
     updateTambahButtonVisibility();
   };
 
@@ -123,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /**
-   * Mengaktifkan tab yang benar saat halaman dimuat berdasarkan parameter URL.
+   * Mengaktifkan tab yang benar saat halaman dimuat.
    */
   const setActiveTabFromUrl = () => {
     const params = new URLSearchParams(window.location.search);
@@ -137,9 +130,44 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  /**
+   * Memperbarui link ekspor agar dinamis.
+   */
+  const updateExportLinks = () => {
+    const params = new URLSearchParams(window.location.search);
+
+    // Update link untuk ekspor data aktif
+    const exportAktifLink = document.querySelector('a[href*="export?type=aktif"]');
+    if (exportAktifLink) {
+        const newParams = new URLSearchParams({ type: 'aktif' });
+        if (params.has('search_aktif') && params.get('search_aktif')) {
+            newParams.set('search_aktif', params.get('search_aktif'));
+        }
+        if (params.has('filter_kepegawaian_aktif') && params.get('filter_kepegawaian_aktif')) {
+            newParams.set('filter_kepegawaian_aktif', params.get('filter_kepegawaian_aktif'));
+        }
+        exportAktifLink.href = `${exportAktifLink.pathname}?${newParams.toString()}`;
+    }
+
+    // Update link untuk ekspor data riwayat
+    const exportRiwayatLink = document.querySelector('a[href*="export?type=riwayat"]');
+    if (exportRiwayatLink) {
+        const newParams = new URLSearchParams({ type: 'riwayat' });
+        if (params.has('search_riwayat') && params.get('search_riwayat')) {
+            newParams.set('search_riwayat', params.get('search_riwayat'));
+        }
+        if (params.has('filter_status_riwayat') && params.get('filter_status_riwayat')) {
+            newParams.set('filter_status_riwayat', params.get('filter_status_riwayat'));
+        }
+        exportRiwayatLink.href = `${exportRiwayatLink.pathname}?${newParams.toString()}`;
+    }
+  };
+
+
   // Panggil semua fungsi inisialisasi
   initDeleteConfirmation();
-  initTabAndButtonLogic(); // Memanggil fungsi baru
+  initTabAndButtonLogic();
   initFilters();
   setActiveTabFromUrl();
+  updateExportLinks(); 
 });

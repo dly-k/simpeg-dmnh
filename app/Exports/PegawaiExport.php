@@ -17,58 +17,67 @@ use PhpOffice\PhpSpreadsheet\Style\Fill;
 class PegawaiExport implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize, WithTitle, WithEvents
 {
     protected $type;
+    protected $search;
+    protected $filter;
     private $rowNumber = 0;
 
-    public function __construct(string $type)
+    /**
+     * PERUBAHAN DI SINI:
+     * Constructor sekarang menerima parameter search dan filter.
+     */
+    public function __construct(string $type, $search = null, $filter = null)
     {
         $this->type = $type;
+        $this->search = $search;
+        $this->filter = $filter;
     }
 
     /**
      * PERUBAHAN DI SINI:
-     * Mengambil kolom spesifik dari database sesuai permintaan.
+     * Query sekarang menerapkan filter dan pencarian.
      */
     public function collection()
     {
-        $query = Pegawai::select([
-            'nama_lengkap',
-            'nip',
-            'jabatan_struktural',
-            'jabatan_fungsional',
-            'pangkat_golongan',
-            'alamat_domisili', // Kolom untuk alamat
-            'no_telepon'       // Kolom untuk no telp
-        ]);
+        $query = Pegawai::query();
 
+        // Terapkan filter berdasarkan tipe (Aktif / Riwayat)
         if ($this->type === 'aktif') {
-            return $query->where('status_pegawai', 'Aktif')->get();
+            $query->where('status_pegawai', 'Aktif');
+            // Terapkan filter dropdown (Status Kepegawaian)
+            $query->when($this->filter, function ($q) {
+                return $q->where('status_kepegawaian', $this->filter);
+            });
         } else {
-            return $query->where('status_pegawai', '!=', 'Aktif')->get();
+            $query->where('status_pegawai', '!=', 'Aktif');
+            // Terapkan filter dropdown (Status Riwayat)
+            $query->when($this->filter, function ($q) {
+                return $q->where('status_pegawai', $this->filter);
+            });
         }
+
+        // Terapkan filter pencarian (Nama / NIP)
+        $query->when($this->search, function ($q) {
+            return $q->where(function ($query) {
+                $query->where('nama_lengkap', 'like', "%{$this->search}%")
+                      ->orWhere('nip', 'like', "%{$this->search}%");
+            });
+        });
+
+        // Pilih hanya kolom yang dibutuhkan untuk ekspor
+        return $query->select([
+            'nama_lengkap', 'nip', 'jabatan_struktural', 'jabatan_fungsional',
+            'pangkat_golongan', 'alamat_domisili', 'no_telepon'
+        ])->get();
     }
 
-    /**
-     * PERUBAHAN DI SINI:
-     * Menyesuaikan judul header kolom di Excel.
-     */
     public function headings(): array
     {
         return [
-            'No',
-            'Nama Lengkap',
-            'NIP',
-            'Jabatan Struktural',
-            'Jabatan Fungsional',
-            'Pangkat/Golongan',
-            'Alamat',
-            'No. Telp',
+            'No', 'Nama Lengkap', 'NIP', 'Jabatan Struktural', 'Jabatan Fungsional',
+            'Pangkat/Golongan', 'Alamat', 'No. Telp',
         ];
     }
 
-    /**
-     * PERUBAHAN DI SINI:
-     * Memetakan data ke setiap kolom Excel.
-     */
     public function map($row): array
     {
         $this->rowNumber++;
@@ -88,42 +97,35 @@ class PegawaiExport implements FromCollection, WithHeadings, WithMapping, Should
     {
         return $this->type === 'aktif' ? 'Daftar Pegawai Aktif' : 'Riwayat Pegawai';
     }
-
-    /**
-     * PERUBAHAN DI SINI:
-     * Menyesuaikan styling untuk 8 kolom (A sampai H).
-     */
+    
     public function registerEvents(): array
     {
+        // ... (Kode styling tidak ada perubahan) ...
         return [
             AfterSheet::class => function (AfterSheet $event) {
                 $sheet = $event->sheet->getDelegate();
                 $title = $this->type === 'aktif' ? 'DAFTAR PEGAWAI AKTIF' : 'RIWAYAT PEGAWAI';
-                $lastColumn = 'H'; // Kolom terakhir sekarang H
+                $lastColumn = 'H';
                 $range = 'A1:' . $lastColumn . '1';
                 $headerRange = 'A3:' . $lastColumn . '3';
 
                 $sheet->insertNewRowBefore(1, 2);
-                $sheet->setCellValue('A1', $title . ' DEPARTEMEN MANAJEMEN HUTAN');
+                $sheet->setCellValue('A1', $title . ' DEPARTEMEN MANAJENEN HUTAN');
                 $sheet->mergeCells($range);
                 $sheet->getStyle('A1')->applyFromArray([
                     'font' => ['bold' => true, 'size' => 14],
                     'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER],
                 ]);
-
                 $sheet->getStyle($headerRange)->applyFromArray([
                     'font' => ['bold' => true],
                     'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
                     'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'D9D9D9']],
                     'borders' => ['allBorders' => ['borderStyle' => Border::BORDER_THIN]],
                 ]);
-
                 $lastRow = $sheet->getHighestRow();
                 $sheet->getStyle("A4:{$lastColumn}{$lastRow}")->applyFromArray([
                     'borders' => ['allBorders' => ['borderStyle' => Border::BORDER_THIN]],
                 ]);
-
-                // Pusatkan kolom No, NIP, dan seterusnya
                 $sheet->getStyle("A4:A{$lastRow}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 $sheet->getStyle("C4:{$lastColumn}{$lastRow}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
             },

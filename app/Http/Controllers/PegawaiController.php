@@ -57,7 +57,7 @@ class PegawaiController extends Controller
         return view('pages.pegawai.daftar-pegawai', compact('pegawaiAktif', 'pegawaiRiwayat'));
     }
 
-    /**
+        /**
      * Menangani permintaan ekspor data pegawai ke Excel.
      *
      * @param \Illuminate\Http\Request $request
@@ -66,9 +66,24 @@ class PegawaiController extends Controller
     public function export(Request $request)
     {
         $request->validate(['type' => 'required|in:aktif,riwayat']);
+
         $type = $request->input('type');
+        $search = null;
+        $filter = null;
+
+        // Ambil parameter filter yang sesuai berdasarkan tipe ekspor
+        if ($type === 'aktif') {
+            $search = $request->input('search_aktif');
+            $filter = $request->input('filter_kepegawaian_aktif');
+        } else { // riwayat
+            $search = $request->input('search_riwayat');
+            $filter = $request->input('filter_status_riwayat');
+        }
+
         $fileName = 'Daftar_Pegawai_' . ucfirst($type) . '_' . date('d-m-Y') . '.xlsx';
-        return Excel::download(new PegawaiExport($type), $fileName);
+
+        // Berikan parameter filter ke PegawaiExport
+        return Excel::download(new PegawaiExport($type, $search, $filter), $fileName);
     }
 
     /**
