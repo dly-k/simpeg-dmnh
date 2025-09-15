@@ -20,12 +20,18 @@
             <!-- Nama Dosen -->
             <div class="col-12">
               <label class="form-label">Nama Dosen</label>
-              <input type="text" name="nama_dosen" class="form-control" placeholder="Masukkan Nama Dosen" value="{{ old('nama_dosen') }}">
+              <select name="nama_dosen" class="form-control tom-select-dosen">
+                <option value="">-- Pilih Dosen --</option>
+                @foreach ($pegawais as $pegawai)
+                  <option value="{{ $pegawai->nama_lengkap }}" {{ old('nama_dosen') == $pegawai->nama_lengkap ? 'selected' : '' }}>
+                    {{ $pegawai->nama_lengkap }}
+                  </option>
+                @endforeach
+              </select>
               @error('nama_dosen')
                   <small class="text-danger">{{ $message }}</small>
               @enderror
             </div>
-
             <!-- Peran -->
             <div class="col-12">
               <label class="form-label">Peran</label>

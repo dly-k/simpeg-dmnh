@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Maatwebsite\Excel\Facades\Excel;
-
+use App\Models\Pegawai; // <-- Diimpor
 use App\Models\SuratTugas;
+use Illuminate\Http\Request;
+use App\Exports\SuratTugasExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreSuratTugasRequest;
 use App\Http\Requests\UpdateSuratTugasRequest;
-use App\Exports\SuratTugasExport;
 
 class SuratTugasController extends Controller
 {
     /**
      * Tampilkan daftar surat tugas.
      */
-    public function index(\Illuminate\Http\Request $request)
+    public function index(Request $request)
     {
         $query = SuratTugas::query();
 
@@ -49,9 +49,16 @@ class SuratTugasController extends Controller
             ->sortByDesc(fn($s) => $s['tahun'])
             ->values();
 
-        return view('pages.surat-tugas.index', compact('data', 'semesters'));
+        // Ambil data pegawai untuk dropdown
+        $pegawais = Pegawai::orderBy('nama_lengkap')->get();
+
+        // Kirim semua data yang diperlukan ke view
+        return view('pages.surat-tugas.index', compact('data', 'semesters', 'pegawais'));
     }
 
+    /**
+     * Export data ke Excel.
+     */
     public function export(Request $request)
     {
         $query = SuratTugas::query();
