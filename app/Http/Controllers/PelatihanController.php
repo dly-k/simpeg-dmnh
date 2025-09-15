@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pelatihan; // Pastikan model Pelatihan sudah ada
+use App\Models\Pelatihan;
+use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -15,7 +16,7 @@ class PelatihanController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Pelatihan::query();
+        $query = Pelatihan::with('pegawai');
 
         // Filter tahun
         if ($request->filled('tahun')) {
@@ -24,11 +25,9 @@ class PelatihanController extends Controller
 
         // Filter posisi
         if ($request->filled('posisi')) {
-            // fixed: Peserta / Pembicara / Panitia
             if (in_array($request->posisi, ['Peserta', 'Pembicara', 'Panitia'])) {
                 $query->where('posisi', $request->posisi);
             } else {
-                // selain itu, ambil dari posisi_lainnya
                 $query->where('posisi', 'Lainnya')
                     ->where('posisi_lainnya', $request->posisi);
             }
@@ -38,7 +37,10 @@ class PelatihanController extends Controller
         if ($request->filled('search')) {
             $query->where(function ($q) use ($request) {
                 $q->where('nama_kegiatan', 'like', '%' . $request->search . '%')
-                ->orWhere('penyelenggara', 'like', '%' . $request->search . '%');
+                  ->orWhere('penyelenggara', 'like', '%' . $request->search . '%')
+                  ->orWhereHas('pegawai', function($subq) use ($request) {
+                      $subq->where('nama_lengkap', 'like', '%' . $request->search . '%');
+                  });
             });
         }
 
@@ -58,8 +60,11 @@ class PelatihanController extends Controller
             ->whereNotNull('posisi_lainnya')
             ->distinct()
             ->pluck('posisi_lainnya');
+            
+        // Ambil daftar pegawai aktif untuk dropdown
+        $pegawais = Pegawai::where('status_pegawai', 'Aktif')->orderBy('nama_lengkap')->get();
 
-        return view('pages.pelatihan', compact('dataPelatihan', 'tahunList', 'fixedPosisi', 'posisiLainnya'));
+        return view('pages.pelatihan', compact('dataPelatihan', 'tahunList', 'fixedPosisi', 'posisiLainnya', 'pegawais'));
     }
 
     /**
@@ -68,6 +73,7 @@ class PelatihanController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'pegawai_id'    => 'required|integer|exists:pegawais,id',
             'nama_kegiatan' => 'required|string|max:255',
             'posisi'        => 'required|string',
             'penyelenggara' => 'required|string|max:255',
@@ -75,9 +81,8 @@ class PelatihanController extends Controller
             'tgl_selesai'   => 'required|date|after_or_equal:tgl_mulai',
             'kota'          => 'nullable|string|max:100',
             'lokasi'        => 'nullable|string|max:255',
-            'dokumen'       => 'required|file|mimes:pdf,jpg,png|max:5120', // Maks 5MB
+            'dokumen'       => 'required|file|mimes:pdf,jpg,png,jpeg,doc,docx|max:5120', // Maks 5MB
             'nama_dokumen'  => 'required|string|max:255',
-            // Tambahkan validasi lain sesuai kebutuhan
         ]);
 
         if ($validator->fails()) {
@@ -88,6 +93,7 @@ class PelatihanController extends Controller
             $filePath = $request->file('dokumen')->store('dokumen_pelatihan', 'public');
 
             Pelatihan::create([
+                'pegawai_id'     => $request->pegawai_id,
                 'nama_kegiatan'  => $request->nama_kegiatan,
                 'posisi'         => $request->posisi,
                 'posisi_lainnya' => $request->posisi === 'Lainnya' ? $request->posisi_lainnya : null,
@@ -136,12 +142,13 @@ class PelatihanController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
+            'pegawai_id'    => 'required|integer|exists:pegawais,id',
             'nama_kegiatan' => 'required|string|max:255',
             'posisi'        => 'required|string',
             'penyelenggara' => 'required|string|max:255',
             'tgl_mulai'     => 'required|date',
             'tgl_selesai'   => 'required|date|after_or_equal:tgl_mulai',
-            'dokumen'       => 'nullable|file|mimes:pdf,jpg,png|max:5120', // Dokumen tidak wajib saat update
+            'dokumen'       => 'nullable|file|mimes:pdf,jpg,png,jpeg,doc,docx|max:5120', // Dokumen tidak wajib saat update
             'nama_dokumen'  => 'required|string|max:255',
         ]);
 
@@ -153,18 +160,14 @@ class PelatihanController extends Controller
             $pelatihan = Pelatihan::findOrFail($id);
             $dataToUpdate = $request->except(['dokumen', '_method']);
             
-            // Tambahkan logika untuk field boolean dan kondisional
             $dataToUpdate['posisi_lainnya'] = $request->posisi === 'Lainnya' ? $request->posisi_lainnya : null;
             $dataToUpdate['struktural'] = $request->struktural === 'Ya';
             $dataToUpdate['sertifikasi'] = $request->sertifikasi === 'Ya';
 
-
             if ($request->hasFile('dokumen')) {
-                // Hapus file lama jika ada
                 if ($pelatihan->file_path && Storage::disk('public')->exists($pelatihan->file_path)) {
                     Storage::disk('public')->delete($pelatihan->file_path);
                 }
-                // Simpan file baru
                 $filePath = $request->file('dokumen')->store('dokumen_pelatihan', 'public');
                 $dataToUpdate['file_path'] = $filePath;
             }
@@ -187,7 +190,6 @@ class PelatihanController extends Controller
         try {
             $pelatihan = Pelatihan::findOrFail($id);
 
-            // Hapus file terkait dari storage
             if ($pelatihan->file_path && Storage::disk('public')->exists($pelatihan->file_path)) {
                 Storage::disk('public')->delete($pelatihan->file_path);
             }

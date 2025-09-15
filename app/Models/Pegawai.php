@@ -45,4 +45,8 @@ class Pegawai extends Model
     {
         return $this->hasMany(SuratTugas::class);
     }
+         public function pelatihans()
+    {
+        return $this->hasMany(Pelatihan::class);
+    }
 }

@@ -1,4 +1,5 @@
-{{-- Modal Detail Pelatihan --}}
+{{-- File: resources/views/components/pelatihan/detail-pelatihan.blade.php --}}
+
 <div class="modal fade" id="modalDetailPelatihan" tabindex="-1" aria-labelledby="modalDetailPelatihanLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-centered">
     <div class="modal-content">
@@ -13,9 +14,14 @@
       
       <div class="modal-body">
         <div class="detail-grid-container">
+          {{-- TAMBAHKAN BLOK INI --}}
+          <div class="detail-item">
+            <small>Nama Pegawai</small>
+            <p id="detail_pelatihan_pegawai">-</p> 
+          </div>
           <div class="detail-item">
             <small>Nama Pelatihan</small>
-            <p id="detail_pelatihan_nama">-</p>
+            <p id="detail_pelatihan_nama_kegiatan">-</p> {{-- ID Diperbaiki agar konsisten --}}
           </div>
           <div class="detail-item">
             <small>Posisi Pelatihan</small>

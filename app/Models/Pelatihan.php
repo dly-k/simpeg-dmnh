@@ -9,12 +9,10 @@ class Pelatihan extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    protected $table = 'pelatihans';
+
     protected $fillable = [
+        'pegawai_id',
         'nama_kegiatan',
         'posisi',
         'posisi_lainnya',
@@ -29,22 +27,25 @@ class Pelatihan extends Model
         'lingkup',
         'struktural',
         'sertifikasi',
-        'file_path',       // <-- Pastikan ini ada
-        'jenis_dokumen',   // <-- Pastikan ini ada
-        'nama_dokumen',    // <-- Pastikan ini ada
-        'nomor_dokumen',   // <-- Pastikan ini ada
-        'tautan_dokumen',  // <-- Pastikan ini ada
+        'file_path',
+        'jenis_dokumen',
+        'nama_dokumen',
+        'nomor_dokumen',
+        'tautan_dokumen',
+    ];
+
+    protected $casts = [
+        'tgl_mulai' => 'date',
+        'tgl_selesai' => 'date',
+        'struktural' => 'boolean',
+        'sertifikasi' => 'boolean',
     ];
 
     /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
+     * Mendefinisikan relasi bahwa satu pelatihan dimiliki oleh satu pegawai.
      */
-    protected $casts = [
-        'tgl_mulai'   => 'date',
-        'tgl_selesai' => 'date',
-        'struktural'  => 'boolean',
-        'sertifikasi' => 'boolean',
-    ];
+    public function pegawai()
+    {
+        return $this->belongsTo(Pegawai::class);
+    }
 }

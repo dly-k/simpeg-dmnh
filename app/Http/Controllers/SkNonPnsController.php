@@ -46,8 +46,7 @@ class SkNonPnsController extends Controller
                     ->orderByDesc('year')
                     ->pluck('year');
         
-        // <-- 2. AMBIL SEMUA DATA PEGAWAI UNTUK DIKIRIM KE VIEW
-        $pegawai = Pegawai::orderBy('nama_lengkap', 'asc')->get();
+        $pegawai = Pegawai::where('status_pegawai', 'Aktif')->orderBy('nama_lengkap')->get();
 
         // <-- 3. KIRIM VARIABEL $pegawai KE VIEW
         return view('pages.sk-non-pns', compact('skData', 'years', 'pegawai'));

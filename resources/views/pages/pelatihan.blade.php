@@ -18,14 +18,11 @@
 
 <body>
 <div class="layout">
-    <!-- Sidebar -->
     @include('layouts.sidebar')
 
     <div class="main-wrapper">
-      <!-- Header -->
       @include('layouts.header')
 
-      <!-- Title Bar -->
       <div class="title-bar">
         <h1>
           <i class="lni lni-pencil-alt"></i>
@@ -33,22 +30,19 @@
         </h1>
       </div>
 
-  <!-- Main Content -->
   <div class="main-content">
     <div class="card">
       <div class="search-filter-container">
         <div class="search-filter-row">
           <form method="GET" id="searchForm" action="{{ route('pelatihan.index') }}" class="d-flex align-items-center flex-grow-1 gap-2">
-            <!-- Search -->
             <div class="input-group">
               <span class="input-group-text bg-light border-end-0">
                 <i class="fas fa-search search-icon"></i>
               </span>
               <input type="text" name="search" id="searchInput" class="form-control border-start-0 search-input" 
-                    placeholder="Cari Data ...." value="{{ request('search') }}">
+                    placeholder="Cari nama pegawai, kegiatan..." value="{{ request('search') }}">
             </div>
 
-            <!-- Filter Tahun -->
             <select class="form-select filter-select" name="tahun" onchange="this.form.submit()">
               <option value="">Semua Tahun</option>
               @foreach ($tahunList as $tahun)
@@ -58,18 +52,13 @@
               @endforeach
             </select>
 
-            <!-- Filter Posisi -->
             <select class="form-select filter-select" name="posisi" onchange="this.form.submit()">
               <option value="">Semua Posisi</option>
-
-              {{-- fixed --}}
               @foreach ($fixedPosisi as $posisi)
                 <option value="{{ $posisi }}" {{ request('posisi') == $posisi ? 'selected' : '' }}>
                   {{ $posisi }}
                 </option>
               @endforeach
-
-              {{-- tambahan dari lainnya --}}
               @foreach ($posisiLainnya as $lainnya)
                 <option value="{{ $lainnya }}" {{ request('posisi') == $lainnya ? 'selected' : '' }}>
                   {{ $lainnya }}
@@ -83,12 +72,12 @@
         </div>
       </div>
 
-      <!-- Table -->
       <div class="table-responsive">
         <table class="table table-hover table-bordered">
           <thead class="table-light">
             <tr class="text-center">
               <th>No</th>
+              <th>Nama Pegawai</th>
               <th>Nama Kegiatan</th>
               <th>Penyelenggara</th>
               <th>Posisi</th>
@@ -102,9 +91,10 @@
             @forelse ($dataPelatihan as $pelatihan)
               <tr id="pelatihan-{{ $pelatihan->id }}">
                 <td class="text-center">{{ $dataPelatihan->firstItem() + $loop->index }}</td>
+                <td class="text-start">{{ $pelatihan->pegawai->nama_lengkap ?? 'N/A' }}</td>
                 <td class="text-start">{{ $pelatihan->nama_kegiatan }}</td>
                 <td class="text-center">{{ $pelatihan->penyelenggara }}</td>
-                <td class="text-center">{{ $pelatihan->posisi }}</td>
+                <td class="text-center">{{ $pelatihan->posisi === 'Lainnya' ? $pelatihan->posisi_lainnya : $pelatihan->posisi }}</td>
                 <td class="text-center">{{ $pelatihan->tgl_mulai->format('d F Y') }}</td>
                 <td class="text-center">{{ $pelatihan->tgl_selesai->format('d F Y') }}</td>
                 <td class="text-center">
@@ -112,10 +102,10 @@
                 </td>
                 <td class="text-center">
                   <div class="d-flex gap-2 justify-content-center">
-                    <!-- Detail -->
                     <a href="#" class="btn-aksi btn-lihat-detail btn-lihat-detail-pelatihan" title="Lihat Detail"
                        data-bs-toggle="modal" data-bs-target="#modalDetailPelatihan"
-                       data-nama_pelatihan="{{ $pelatihan->nama_kegiatan }}"
+                       data-pegawai="{{ $pelatihan->pegawai->nama_lengkap ?? 'N/A' }}"
+                       data-nama_kegiatan="{{ $pelatihan->nama_kegiatan }}"
                        data-posisi="{{ $pelatihan->posisi === 'Lainnya' ? $pelatihan->posisi_lainnya : $pelatihan->posisi }}"
                        data-kota="{{ $pelatihan->kota }}"
                        data-lokasi="{{ $pelatihan->lokasi }}"
@@ -131,15 +121,13 @@
                        data-dokumen_path="{{ asset('storage/' . $pelatihan->file_path) }}">
                       <i class="fa fa-eye"></i>
                     </a>
-                    <!-- Edit -->
                     <a href="#" class="btn-aksi btn-edit" title="Edit Data"
                        data-id="{{ $pelatihan->id }}"
                        data-bs-toggle="modal" data-bs-target="#pelatihanModal">
                       <i class="fa fa-edit"></i>
                     </a>
-                    <!-- Hapus -->
                     <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"
-                       data-id="{{ $pelatihan->id }}">
+                       data-id="{{ $pelatihan->id }}" data-nama="{{ $pelatihan->pegawai->nama_lengkap ?? 'Data' }}">
                       <i class="fa fa-trash"></i>
                     </a>
                   </div>
@@ -147,29 +135,25 @@
               </tr>
             @empty
               <tr>
-                <td colspan="8" class="text-center text-muted">Data pelatihan belum tersedia</td>
+                <td colspan="9" class="text-center text-muted">Data pelatihan belum tersedia</td>
               </tr>
             @endforelse
           </tbody>
         </table>
       </div>
 
-      <!-- Pagination -->
       {{ $dataPelatihan->appends(request()->query())->links('pagination::bootstrap-5') }}
     </div>
   </div>
 
-      <!-- Footer -->
       @include('layouts.footer')
     </div>
-
-  <!-- Kumpulan Modal -->
+</div>
   @include('components.konfirmasi-hapus')
   @include('components.konfirmasi-berhasil')
   @include('components.pelatihan.detail-pelatihan')
-  @include('components.pelatihan.tambah-pelatihan')
+  @include('components.pelatihan.tambah-pelatihan', ['pegawais' => $pegawais])
 
-  <!-- Scripts -->
   <script src="{{ asset('assets/js/layout.js') }}"></script>
   <script src="{{ asset('assets/js/pelatihan.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

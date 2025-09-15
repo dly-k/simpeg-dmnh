@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('pelatihans', function (Blueprint $table) {
             $table->id();
             
+            // Relasi ke tabel Pegawai
+            $table->foreignId('pegawai_id')->constrained('pegawais')->onDelete('cascade');
+            
             // Informasi Dasar Pelatihan
             $table->string('nama_kegiatan');
             $table->string('posisi');

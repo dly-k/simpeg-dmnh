@@ -53,7 +53,7 @@ class SuratTugasController extends Controller
             ->values();
 
         // Ambil data semua pegawai untuk dikirim ke view (untuk dropdown)
-        $pegawais = Pegawai::orderBy('nama_lengkap')->get();
+        $pegawais = Pegawai::where('status_pegawai', 'Aktif')->orderBy('nama_lengkap')->get();
 
         return view('pages.surat-tugas.index', compact('data', 'semesters', 'pegawais'));
     }

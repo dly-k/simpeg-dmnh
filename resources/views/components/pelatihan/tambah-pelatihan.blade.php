@@ -1,4 +1,4 @@
-{{-- Modal Tambah Pelatihan --}}
+{{-- Modal Tambah & Edit Pelatihan --}}
 <div class="modal fade" id="pelatihanModal" tabindex="-1" aria-labelledby="pelatihanModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
@@ -16,6 +16,16 @@
           <input type="hidden" id="pelatihan_id" name="id">
 
           <div class="row g-3">
+            <div class="col-12">
+              <label class="form-label">Nama Pegawai</label>
+              <select class="form-select" name="pegawai_id" required>
+                <option value="" selected disabled>-- Pilih Pegawai --</option>
+                @foreach($pegawais as $pegawai)
+                  <option value="{{ $pegawai->id }}">{{ $pegawai->nama_lengkap }}</option>
+                @endforeach
+              </select>
+            </div>
+
             <div class="col-12">
               <label class="form-label">Nama Pelatihan</label>
               <input type="text" class="form-control" name="nama_kegiatan" placeholder="Masukkan nama kegiatan pelatihan" required>
@@ -94,16 +104,6 @@
               </select>
             </div>
 
-            {{-- Anggota Kegiatan bisa dikembangkan di fitur selanjutnya --}}
-            {{-- <div class="col-12">
-              <hr>
-              <div class="d-flex justify-content-between align-items-center mb-2">
-                <label class="form-label mb-0">Anggota Kegiatan</label>
-                <button type="button" class="btn btn-sm btn-primary" onclick="addAnggota()">+ Tambah Anggota</button>
-              </div>
-              <div id="anggota-list" class="vstack gap-2"></div>
-            </div> --}}
-
             <div class="col-12"><hr class="divider-light"></div>
 
             <div class="col-12">
@@ -129,7 +129,7 @@
                   Seret & Lepas File di sini<br>
                   <small>Ukuran Maksimal 5 MB</small>
                 </p>
-                <input type="file" name="dokumen" hidden required>
+                <input type="file" name="dokumen" hidden>
               </div>
               <div id="file-size-feedback" class="invalid-feedback d-block mt-2"></div>
             </div>

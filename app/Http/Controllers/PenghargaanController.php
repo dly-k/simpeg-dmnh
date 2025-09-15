@@ -35,7 +35,7 @@ class PenghargaanController extends Controller
                         ->distinct()->orderBy('tahun', 'desc')->pluck('tahun');
         
         // Mengambil semua data pegawai untuk dropdown
-        $pegawai = Pegawai::orderBy('nama_lengkap')->get();
+        $pegawai = Pegawai::where('status_pegawai', 'Aktif')->orderBy('nama_lengkap')->get();
 
         return view('pages.penghargaan', compact('dataPenghargaan', 'listTahun', 'pegawai'));
     }
