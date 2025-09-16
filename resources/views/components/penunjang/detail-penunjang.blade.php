@@ -1,60 +1,38 @@
 <div class="modal fade" id="penunjangDetailModal" tabindex="-1" aria-labelledby="penunjangDetailLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-centered">
     <div class="modal-content">
-
       <div class="modal-header">
         <h5 class="modal-title" id="penunjangDetailLabel"><i class="fas fa-info-circle"></i> Detail Penunjang</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-
       <div class="modal-body">
         <div class="detail-grid-container">
+          {{-- Berikan ID unik untuk setiap elemen p --}}
+          <div class="detail-item full-width-detail"><small>Kegiatan</small><p id="detail-kegiatan">-</p></div>
+          <div class="detail-item full-width-detail"><small>Jenis Kegiatan</small><p id="detail-jenis_kegiatan">-</p></div>
+          <div class="detail-item"><small>Lingkup</small><p id="detail-lingkup">-</p></div>
+          <div class="detail-item"><small>Nama Kegiatan</small><p id="detail-nama_kegiatan">-</p></div>
+          <div class="detail-item"><small>Instansi</small><p id="detail-instansi">-</p></div>
+          <div class="detail-item"><small>Nomor SK</small><p id="detail-nomor_sk">-</p></div>
+          <div class="detail-item"><small>TMT</small><p id="detail-tmt_mulai">-</p></div>
+          <div class="detail-item"><small>TST</small><p id="detail-tmt_selesai">-</p></div>
 
-          <div class="detail-item full-width-detail">
-            <small>Kegiatan</small>
-            <p>Analisis Pengaruh Kotoran Sapi Terhadap Pertumbuhan Kecambah Pada Media Kapas</p>
+          {{-- Kontainer untuk Anggota --}}
+          <div class="detail-item full-width-detail detail-section-header"><h5><i class="fas fa-users"></i> Anggota</h5></div>
+          <div id="detail-anggota-list" class="full-width-detail">
+             {{-- Anggota akan diisi oleh JavaScript --}}
           </div>
-          <div class="detail-item full-width-detail">
-            <small>Jenis Kegiatan</small>
-            <p>Analisis Pengaruh Kotoran Sapi Terhadap Pertumbuhan Kecambah Pada Media Kapas</p>
-          </div>
-          
-          <div class="detail-item"><small>Lingkup</small><p>UGE - 912</p></div>
-          <div class="detail-item"><small>Nama Kegiatan</small><p>Pembudidayaan Ikan Lele</p></div>
-          <div class="detail-item"><small>Instansi</small><p>Teknologi Rekayasa Empang</p></div>
-          <div class="detail-item"><small>Nomor SK</small><p>2025</p></div>
-          <div class="detail-item"><small>TMT</small><p>2025</p></div>
-          <div class="detail-item"><small>TST</small><p>2025</p></div>
 
-          <div class="detail-item full-width-detail detail-section-header">
-            <h5><i></i>Anggota</h5>
+          {{-- Kontainer untuk Dokumen --}}
+          <div class="detail-item full-width-detail detail-section-header"><h5><i class="fas fa-file-alt"></i> Dokumen</h5></div>
+          <div id="detail-dokumen-list" class="full-width-detail">
+            {{-- Dokumen akan diisi oleh JavaScript --}}
           </div>
-          <div class="detail-item"><small>Nama Dosen</small><p>Siapa gatau</p></div>
-          <div class="detail-item"><small>Peran</small><p>Siapa gatau</p></div>
-
-          <div class="detail-item full-width-detail detail-section-header">
-            <h5><i></i>Dokumen</h5>
-          </div>
-          <div class="detail-item">
-            <small>File Dokumen</small>
-            <div class="file-actions-buttons">
-                <a href="#" target="_blank" class="btn btn-primary btn-sm">
-                    <i class="fas fa-file-alt me-2"></i>Lihat Dokumen
-                </a>
-            </div>
-          </div>
-          <div class="detail-item"><small>Jenis Dokumen</small><p>Dokumen</p></div>
-          <div class="detail-item"><small>Nama Dokumen</small><p>2025</p></div>
-          <div class="detail-item"><small>Nomor Dokumen</small><p>2025</p></div>
-          <div class="detail-item"><small>Tautan</small><p>2025</p></div>
-          
         </div>
       </div>
-
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
       </div>
-
     </div>
   </div>
 </div>

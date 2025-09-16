@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>SIKEMAH - Editor Kegiatan (Penunjang)</title>
 
   <link rel="icon" href="{{ asset('assets/images/logo.png') }}" />
@@ -16,7 +16,6 @@
 </head>
 
 <body>
-  <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
     <div class="brand">SI<span>KEMAH</span></div>
     <div class="menu-wrapper">
@@ -50,7 +49,6 @@
 
   <div class="overlay" id="overlay"></div>
 
-  <!-- Navbar -->
   <div class="navbar-custom">
     <div class="d-flex align-items-center">
       <button class="btn btn-link text-dark me-3" id="toggleSidebar">
@@ -87,15 +85,12 @@
     </div>
   </div>
 
-  <!-- Title Bar -->
   <div class="title-bar">
     <h1><i class="lni lni-pencil-alt"></i> <span id="page-title">Editor Kegiatan - Penunjang</span></h1>
   </div>
 
-  <!-- Main Content -->
   <div class="main-content">
     <div class="card">
-      <!-- Search & Filter -->
       <div class="search-filter-container">
         <div class="search-filter-row">
           <div class="search-box">
@@ -128,14 +123,14 @@
           </select>
 
           <div class="btn-tambah-container">
-            <a href="#" class="btn btn-tambah fw-bold" onclick="openModal('penunjangModal')">
+            {{-- Tombol ini memicu modal tambah data --}}
+            <button class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#penunjangModal">
               <i class="fa fa-plus me-2"></i> Tambah Data
-            </a>
+            </button>
           </div>
         </div>
       </div>
 
-      <!-- Table -->
       <div class="table-responsive">
         <table class="table table-hover table-bordered">
           <thead class="table-light">
@@ -149,81 +144,91 @@
               <th>TMT</th>
               <th>TST</th>
               <th>Verifikasi</th>
-              <th>Dokumen</th>
               <th>Aksi</th>
             </tr>
           </thead>
-          <tbody>
-            <script>
-              for (let i = 1; i <= 10; i++) {
-                document.write(`
-                  <tr>
-                    <td class="text-center">${i}</td>
-                    <td class="text-start">Pengaruh Air Terhadap Tumbuh Kembang Lele</td>
-                    <td class="text-center">Nasional</td>
-                    <td class="text-center">Jurnal</td>
-                    <td class="text-center">Ya</td>
-                    <td class="text-center">SK-129013a7uw</td>
-                    <td class="text-center">25 Jun 2024</td>
-                    <td class="text-center">25 Jun 2024</td>
-                    <td class="text-center">
-                      ${i % 2 === 0 
-                        ? '<i class="fas fa-check-circle text-success"></i>' 
-                        : '<i class="fas fa-times-circle text-danger"></i>'}
-                    </td>
-                    <td class="text-center">
-                      <a href="#" class="btn btn-sm btn-lihat-detail text-white">Lihat</a>
-                    </td>
-                    <td class="text-center">
-                      <div class="d-flex gap-2 justify-content-center">
-                        <a href="#" class="btn-aksi btn-verifikasi"><i class="fa fa-check"></i></a>
-                        <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail Penunjang" data-bs-toggle="modal" data-bs-target="#penunjangDetailModal">
-                          <i class="fa fa-eye"></i>
-                        </a>
-                        <a href="#" class="btn-aksi btn-edit" title="Edit Data" onclick="openEditModal()"><i class="fa fa-edit"></i></a>
-                      <a href="#" class="btn-aksi btn-hapus" title="Hapus Data">
+          <tbody id="penunjang-table-body">
+            {{-- Data dimuat dari controller dan ditampilkan di sini --}}
+            @forelse ($penunjangs as $item)
+              <tr>
+                <td class="text-center">{{ $loop->iteration }}</td>
+                <td class="text-start">{{ $item->kegiatan }}</td>
+                <td class="text-center">{{ $item->lingkup }}</td>
+                <td class="text-center">{{ $item->nama_kegiatan }}</td>
+                <td class="text-center">{{ $item->instansi }}</td>
+                <td class="text-center">{{ $item->nomor_sk }}</td>
+                <td class="text-center">{{ \Carbon\Carbon::parse($item->tmt_mulai)->format('d M Y') }}</td>
+                <td class="text-center">{{ \Carbon\Carbon::parse($item->tmt_selesai)->format('d M Y') }}</td>
+                <td class="text-center">
+                    @if ($item->status == 'Sudah Diverifikasi')
+                        <i class="fas fa-check-circle text-success" title="Sudah Diverifikasi"></i>
+                    @elseif ($item->status == 'Ditolak')
+                        <i class="fas fa-times-circle text-danger" title="Ditolak"></i>
+                    @else
+                        <i class="fas fa-question-circle text-warning" title="Belum Diverifikasi"></i>
+                    @endif
+                </td>
+                <td class="text-center">
+                  <div class="d-flex gap-2 justify-content-center">
+                    <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi" data-id="{{ $item->id }}">
+                        <i class="fa fa-check"></i>
+                    </a>
+                    <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail" 
+                      data-id="{{ $item->id }}" 
+                      data-bs-toggle="modal" 
+                      data-bs-target="#penunjangDetailModal">
+                      <i class="fa fa-eye"></i>
+                    </a>
+                    <a href="#" class="btn-aksi btn-edit" title="Edit Data" data-id="{{ $item->id }}">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                    <a href="#" class="btn-aksi btn-hapus" title="Hapus Data" data-id="{{ $item->id }}">
                         <i class="fa fa-trash"></i>
-                      </a>
-                      </div>
-                    </td>
-                  </tr>
-                `);
-              }
-            </script>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            @empty
+              <tr>
+                <td colspan="10" class="text-center">Tidak ada data untuk ditampilkan.</td>
+              </tr>
+            @endforelse
           </tbody>
         </table>
       </div>
 
-      <!-- Pagination -->
       <div class="d-flex justify-content-between align-items-center mt-4">
-        <span class="text-muted small">Menampilkan 1 sampai 10 dari 13 data</span>
-        <nav aria-label="Page navigation">
-          <ul class="pagination pagination-sm mb-0">
-            <li class="page-item disabled"><a class="page-link" href="#">Sebelumnya</a></li>
-            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">Berikutnya</a></li>
-          </ul>
-        </nav>
+          <span class="text-muted small">
+              @if ($penunjangs->count() > 0)
+                  Menampilkan 1 sampai {{ $penunjangs->count() }} dari {{ $penunjangs->count() }} data
+              @else
+                  Menampilkan 0 dari 0 data
+              @endif
+          </span>
+          {{-- Pagination links can be added here if using pagination --}}
       </div>
     </div>
   </div>
 
-  <!-- Footer -->
   <footer class="footer-custom">
     <span>© 2025 Forest Management — All Rights Reserved</span>
   </footer>
 
-  <!-- Kumpulan Modal -->
+  {{-- Pastikan file-file ini ada di dalam folder `resources/views/components` --}}
   @include('components.konfirmasi-hapus')
   @include('components.konfirmasi-berhasil')
   @include('components.konfirmasi-verifikasi')
   @include('components.penunjang.tambah-penunjang')
   @include('components.penunjang.detail-penunjang')
 
-  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  {{-- Script ini penting untuk memberikan data pegawai ke JavaScript --}}
+  <script>
+    const pegawaiData = @json($pegawais);
+  </script>
+  
   <script src="{{ asset('assets/js/layout.js') }}"></script>
   <script src="{{ asset('assets/js/penunjang.js') }}"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
