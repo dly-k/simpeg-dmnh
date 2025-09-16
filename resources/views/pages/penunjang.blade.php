@@ -95,35 +95,36 @@
         <div class="search-filter-row">
           <div class="search-box">
             <div class="input-group">
-              <span class="input-group-text bg-light border-end-0">
-                <i class="fas fa-search text-success"></i>
-              </span>
+              <span class="input-group-text bg-light border-end-0"><i class="fas fa-search text-success"></i></span>
               <input type="text" class="form-control border-start-0 search-input" placeholder="Cari Data ....">
             </div>
           </div>
 
-          <select class="form-select filter-select">
-            <option selected>Tahun</option>
-            <option>2024</option>
-            <option>2025</option>
+          {{-- Dropdown Semester Dinamis --}}
+          <select class="form-select filter-select" id="filter-semester">
+            <option value="">Semua Semester</option>
+            @foreach ($semesterOptions as $option)
+                <option value="{{ $option }}">{{ $option }}</option>
+            @endforeach
           </select>
 
-          <select class="form-select filter-select">
-            <option selected>Lingkup</option>
+          {{-- Dropdown Lingkup --}}
+          <select class="form-select filter-select" id="filter-lingkup">
+            <option value="">Semua Lingkup</option>
             <option>Lokal</option>
             <option>Nasional</option>
             <option>Internasional</option>
           </select>
 
-          <select class="form-select filter-select">
-            <option selected>Status</option>
+          {{-- Dropdown Status --}}
+          <select class="form-select filter-select" id="filter-status">
+            <option value="">Semua Status</option>
             <option>Sudah Diverifikasi</option>
             <option>Belum Diverifikasi</option>
             <option>Ditolak</option>
           </select>
 
           <div class="btn-tambah-container">
-            {{-- Tombol ini memicu modal tambah data --}}
             <button class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#penunjangModal">
               <i class="fa fa-plus me-2"></i> Tambah Data
             </button>
@@ -198,7 +199,7 @@
       </div>
 
       <div class="d-flex justify-content-between align-items-center mt-4">
-          <span class="text-muted small">
+          <span class="text-muted small pagination-info">
               @if ($penunjangs->count() > 0)
                   Menampilkan 1 sampai {{ $penunjangs->count() }} dari {{ $penunjangs->count() }} data
               @else

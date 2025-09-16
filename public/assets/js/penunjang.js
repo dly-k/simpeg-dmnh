@@ -11,7 +11,110 @@ document.addEventListener("DOMContentLoaded", () => {
   const formMethodInput = document.getElementById('form-method');
   const formEditIdInput = document.getElementById('form-edit-id');
   const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+  
+  const searchInput = document.querySelector('.search-input');
+  const filterSemester = document.getElementById('filter-semester');
+  const filterLingkup = document.getElementById('filter-lingkup');
+  const filterStatus = document.getElementById('filter-status');
+  const tableBody = document.getElementById('penunjang-table-body');
+  const paginationInfo = document.querySelector('.pagination-info');
 
+  // == FUNGSI BARU: Untuk memperbarui dropdown semester ==
+  const updateSemesterDropdown = (options) => {
+    if (!filterSemester || !options) return;
+
+    const selectedValue = filterSemester.value;
+    filterSemester.innerHTML = '<option value="">Semua Semester</option>';
+
+    options.forEach(option => {
+      const optionElement = document.createElement('option');
+      optionElement.value = option;
+      optionElement.textContent = option;
+      filterSemester.appendChild(optionElement);
+    });
+
+    filterSemester.value = selectedValue;
+  };
+
+  // == FUNGSI FILTER & RENDER TABEL (TERPUSAT) ==
+  const renderTable = (data) => {
+    tableBody.innerHTML = '';
+    if (data.length === 0) {
+        tableBody.innerHTML = '<tr><td colspan="10" class="text-center">Data tidak ditemukan.</td></tr>';
+    } else {
+        data.forEach((item, index) => {
+            const tmtMulai = new Date(item.tmt_mulai).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+            const tmtSelesai = new Date(item.tmt_selesai).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+            let statusIcon = '<i class="fas fa-question-circle text-warning" title="Belum Diverifikasi"></i>';
+            if(item.status === 'Sudah Diverifikasi') {
+                statusIcon = '<i class="fas fa-check-circle text-success" title="Sudah Diverifikasi"></i>';
+            } else if (item.status === 'Ditolak') {
+                statusIcon = '<i class="fas fa-times-circle text-danger" title="Ditolak"></i>';
+            }
+            const row = `
+                <tr>
+                    <td class="text-center">${index + 1}</td>
+                    <td class="text-start">${item.kegiatan}</td>
+                    <td class="text-center">${item.lingkup}</td>
+                    <td class="text-center">${item.nama_kegiatan}</td>
+                    <td class="text-center">${item.instansi}</td>
+                    <td class="text-center">${item.nomor_sk}</td>
+                    <td class="text-center">${tmtMulai}</td>
+                    <td class="text-center">${tmtSelesai}</td>
+                    <td class="text-center">${statusIcon}</td>
+                    <td class="text-center">
+                        <div class="d-flex gap-2 justify-content-center">
+                            <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi" data-id="${item.id}"><i class="fa fa-check"></i></a>
+                            <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail" data-id="${item.id}" data-bs-toggle="modal" data-bs-target="#penunjangDetailModal"><i class="fa fa-eye"></i></a>
+                            <a href="#" class="btn-aksi btn-edit" title="Edit Data" data-id="${item.id}"><i class="fa fa-edit"></i></a>
+                            <a href="#" class="btn-aksi btn-hapus" title="Hapus Data" data-id="${item.id}"><i class="fa fa-trash"></i></a>
+                        </div>
+                    </td>
+                </tr>
+            `;
+            tableBody.innerHTML += row;
+        });
+    }
+    if(paginationInfo) {
+      const start = data.length > 0 ? 1 : 0;
+      paginationInfo.textContent = `Menampilkan ${start} sampai ${data.length} dari ${data.length} data`;
+    }
+  };
+
+  const performFilterAndSearch = async () => {
+    const params = new URLSearchParams({
+        search: searchInput.value,
+        semester: filterSemester.value,
+        lingkup: filterLingkup.value,
+        status: filterStatus.value,
+    });
+    try {
+        const response = await fetch(`/penunjang?${params.toString()}`, {
+            headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' }
+        });
+        if (!response.ok) throw new Error('Network response was not ok');
+        const data = await response.json();
+        renderTable(data);
+    } catch (error) {
+        console.error('Filter/Search error:', error);
+        tableBody.innerHTML = '<tr><td colspan="10" class="text-center text-danger">Gagal memuat data.</td></tr>';
+    }
+  };
+
+  const debounce = (func, delay) => {
+    let timeout;
+    return (...args) => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), delay);
+    };
+  };
+
+  const debouncedFilter = debounce(performFilterAndSearch, 500);
+  searchInput?.addEventListener('keyup', debouncedFilter);
+  filterSemester?.addEventListener('change', performFilterAndSearch);
+  filterLingkup?.addEventListener('change', performFilterAndSearch);
+  filterStatus?.addEventListener('change', performFilterAndSearch);
+  
   // == Modal Berhasil ==
   const modalBerhasil = document.getElementById("modalBerhasil");
   const berhasilTitle = document.getElementById("berhasil-title");
@@ -131,12 +234,13 @@ document.addEventListener("DOMContentLoaded", () => {
       penunjangModalInstance.hide();
       const successMessage = isEditMode ? 'Data Berhasil Diperbarui' : 'Data Berhasil Disimpan';
       showSuccessModal(successMessage, result.success);
+
+      if (result.semesterOptions) {
+          updateSemesterDropdown(result.semesterOptions);
+      }
+      
       setTimeout(() => {
-        if (isEditMode) {
-          updateTableRow(result.data);
-        } else {
-          addTableRow(result.data);
-        }
+        performFilterAndSearch();
       }, 1300);
     } catch (error) {
       console.error('Submission error:', error);
@@ -150,53 +254,6 @@ document.addEventListener("DOMContentLoaded", () => {
       simpanBtn.innerHTML = 'Simpan';
     }
   });
-
-  // == FUNGSI UNTUK MEMPERBARUI & MENAMBAH BARIS TABEL ==
-  const updateTableRow = (data) => {
-    const row = document.querySelector(`.btn-edit[data-id="${data.id}"]`)?.closest('tr');
-    if (!row) return;
-    const tmtMulai = new Date(data.tmt_mulai).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
-    const tmtSelesai = new Date(data.tmt_selesai).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
-    row.cells[1].innerText = data.kegiatan;
-    row.cells[2].innerText = data.lingkup;
-    row.cells[3].innerText = data.nama_kegiatan;
-    row.cells[4].innerText = data.instansi;
-    row.cells[5].innerText = data.nomor_sk;
-    row.cells[6].innerText = tmtMulai;
-    row.cells[7].innerText = tmtSelesai;
-  };
-  const addTableRow = (data) => {
-    const tableBody = document.getElementById('penunjang-table-body');
-    if (!tableBody) return;
-    const noDataRow = tableBody.querySelector('td[colspan="10"]');
-    if (noDataRow) noDataRow.parentElement.remove();
-    const allRows = tableBody.querySelectorAll('tr');
-    allRows.forEach((row, index) => {
-      row.cells[0].textContent = index + 2;
-    });
-    const tmtMulai = new Date(data.tmt_mulai).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
-    const tmtSelesai = new Date(data.tmt_selesai).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
-    const newRow = tableBody.insertRow(0);
-    newRow.innerHTML = `
-      <td class="text-center">1</td>
-      <td class="text-start">${data.kegiatan}</td>
-      <td class="text-center">${data.lingkup}</td>
-      <td class="text-center">${data.nama_kegiatan}</td>
-      <td class="text-center">${data.instansi}</td>
-      <td class="text-center">${data.nomor_sk}</td>
-      <td class="text-center">${tmtMulai}</td>
-      <td class="text-center">${tmtSelesai}</td>
-      <td class="text-center"><i class="fas fa-question-circle text-warning" title="Belum Diverifikasi"></i></td>
-      <td class="text-center">
-        <div class="d-flex gap-2 justify-content-center">
-          <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi" data-id="${data.id}"><i class="fa fa-check"></i></a>
-          <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail" data-id="${data.id}" data-bs-toggle="modal" data-bs-target="#penunjangDetailModal"><i class="fa fa-eye"></i></a>
-          <a href="#" class="btn-aksi btn-edit" title="Edit Data" data-id="${data.id}"><i class="fa fa-edit"></i></a>
-          <a href="#" class="btn-aksi btn-hapus" title="Hapus Data" data-id="${data.id}"><i class="fa fa-trash"></i></a>
-        </div>
-      </td>
-    `;
-  };
 
   // == RESET MODAL KETIKA DITUTUP ==
   penunjangModalEl?.addEventListener('hidden.bs.modal', () => {
@@ -343,20 +400,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!verifModal) return;
     const btnTerima = document.getElementById("popupBtnTerima");
     const btnTolak = document.getElementById("popupBtnTolak");
-    const updateUIVerification = (id, newStatus) => {
-        const row = document.querySelector(`.btn-verifikasi[data-id="${id}"]`)?.closest('tr');
-        if (!row) return;
-        const statusCell = row.cells[8];
-        let newIcon = '';
-        if (newStatus === 'Sudah Diverifikasi') {
-            newIcon = '<i class="fas fa-check-circle text-success" title="Sudah Diverifikasi"></i>';
-        } else if (newStatus === 'Ditolak') {
-            newIcon = '<i class="fas fa-times-circle text-danger" title="Ditolak"></i>';
-        } else {
-            newIcon = '<i class="fas fa-question-circle text-warning" title="Belum Diverifikasi"></i>';
-        }
-        statusCell.innerHTML = newIcon;
-    };
     const hideVerifModal = () => {
         verifModal.classList.remove("show");
         verifModal.removeAttribute('data-record-id');
@@ -373,15 +416,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const handleVerification = async (newStatus) => {
         const recordId = verifModal.getAttribute('data-record-id');
         if (!recordId) return;
-        const originalBtnText = newStatus === 'Sudah Diverifikasi' ? btnTerima.innerHTML : btnTolak.innerHTML;
-        const loadingSpinner = '<span class="spinner-border spinner-border-sm"></span> Memproses...';
+        let currentBtn;
+        let originalBtnText;
         if (newStatus === 'Sudah Diverifikasi') {
-          btnTerima.disabled = true;
-          btnTerima.innerHTML = loadingSpinner;
+          currentBtn = btnTerima;
         } else {
-          btnTolak.disabled = true;
-          btnTolak.innerHTML = loadingSpinner;
+          currentBtn = btnTolak;
         }
+        originalBtnText = currentBtn.innerHTML;
+        currentBtn.disabled = true;
+        currentBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Memproses...';
         try {
             const response = await fetch(`/penunjang/${recordId}/verifikasi`, {
                 method: 'PATCH',
@@ -394,24 +438,17 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             const result = await response.json();
             if (!response.ok) throw new Error(result.error || 'Gagal memproses verifikasi.');
-            
             hideVerifModal();
             showSuccessModal("Status Verifikasi Disimpan", result.success);
-
             setTimeout(() => {
-                updateUIVerification(recordId, result.new_status);
+                performFilterAndSearch();
             }, 1300);
         } catch (error) {
             console.error("Verification error:", error);
             alert(error.message);
         } finally {
-            if (newStatus === 'Sudah Diverifikasi') {
-              btnTerima.disabled = false;
-              btnTerima.innerHTML = originalBtnText;
-            } else {
-              btnTolak.disabled = false;
-              btnTolak.innerHTML = originalBtnText;
-            }
+            currentBtn.disabled = false;
+            currentBtn.innerHTML = originalBtnText;
         }
     };
     btnTerima?.addEventListener("click", () => handleVerification('Sudah Diverifikasi'));
@@ -444,12 +481,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("btnBatalHapus")?.addEventListener("click", hideDeleteModal);
     confirmButton?.addEventListener("click", async () => {
       const recordIdToDelete = deleteModal.getAttribute('data-record-id');
-      if (!recordIdToDelete) {
-        console.error("Gagal menghapus: Tidak ada ID yang ditemukan di modal.");
-        hideDeleteModal();
-        return;
-      }
-      const tableRowToDelete = document.querySelector(`.btn-hapus[data-id="${recordIdToDelete}"]`)?.closest('tr');
+      if (!recordIdToDelete) return;
       confirmButton.disabled = true;
       confirmButton.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Menghapus...';
       try {
@@ -462,14 +494,10 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         const result = await response.json();
         if (!response.ok) throw new Error(result.error || 'Gagal menghapus data.');
-        
         hideDeleteModal();
         showSuccessModal("Data Berhasil Dihapus", result.success);
-        
         setTimeout(() => {
-          if (tableRowToDelete) {
-              tableRowToDelete.remove();
-          }
+          performFilterAndSearch();
         }, 1300);
       } catch (error) {
         console.error("Delete error:", error);

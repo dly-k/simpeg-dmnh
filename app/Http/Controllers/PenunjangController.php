@@ -9,22 +9,74 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Carbon\Carbon;
 
 class PenunjangController extends Controller
 {
     /**
-     * Menampilkan halaman utama Penunjang beserta datanya.
+     * Menampilkan halaman utama ATAU data hasil filter & pencarian (AJAX).
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Ambil HANYA pegawai yang berstatus 'Aktif' untuk pilihan form
-        $pegawais = Pegawai::where('status_pegawai', 'Aktif')
-                          ->orderBy('nama_lengkap')
-                          ->get(['id', 'nama_lengkap']);
-                          
-        $penunjangs = Penunjang::with('anggota.pegawai', 'dokumen')->latest()->get();
+        $searchQuery = $request->input('search');
+        $filterSemester = $request->input('semester');
+        $filterLingkup = $request->input('lingkup');
+        $filterStatus = $request->input('status');
 
-        return view('pages.penunjang', compact('pegawais', 'penunjangs'));
+        $query = Penunjang::with('anggota.pegawai', 'dokumen')->latest();
+
+        if ($searchQuery) {
+            $query->where(function ($q) use ($searchQuery) {
+                $q->where('kegiatan', 'like', "%{$searchQuery}%")
+                  ->orWhere('nama_kegiatan', 'like', "%{$searchQuery}%")
+                  ->orWhere('nomor_sk', 'like', "%{$searchQuery}%")
+                  ->orWhere('jenis_kegiatan', 'like', "%{$searchQuery}%")
+                  ->orWhere('lingkup', 'like', "%{$searchQuery}%")
+                  ->orWhere('instansi', 'like', "%{$searchQuery}%")
+                  ->orWhere('status', 'like', "%{$searchQuery}%")
+                  ->orWhereHas('anggota.pegawai', function ($subQ) use ($searchQuery) {
+                      $subQ->where('nama_lengkap', 'like', "%{$searchQuery}%");
+                  });
+            });
+        }
+
+        if ($filterLingkup) {
+            $query->where('lingkup', $filterLingkup);
+        }
+        if ($filterStatus) {
+            $query->where('status', $filterStatus);
+        }
+
+        if ($filterSemester) {
+            list($semesterType, $year) = explode(' ', $filterSemester);
+            
+            if ($semesterType == 'Ganjil') {
+                $semesterStart = Carbon::create($year, 1, 1)->startOfDay();
+                $semesterEnd = Carbon::create($year, 6, 30)->endOfDay();
+            } else { // Genap
+                $semesterStart = Carbon::create($year, 7, 1)->startOfDay();
+                $semesterEnd = Carbon::create($year, 12, 31)->endOfDay();
+            }
+
+            $query->where(function($q) use ($semesterStart, $semesterEnd) {
+                $q->where('tmt_mulai', '<=', $semesterEnd)
+                  ->where('tmt_selesai', '>=', $semesterStart);
+            });
+        }
+
+        $penunjangs = $query->get();
+
+        if ($request->ajax()) {
+            return response()->json($penunjangs);
+        }
+
+        $pegawais = Pegawai::where('status_pegawai', 'Aktif')->orderBy('nama_lengkap')->get(['id', 'nama_lengkap']);
+        
+        return view('pages.penunjang', [
+            'pegawais' => $pegawais,
+            'penunjangs' => $penunjangs,
+            'semesterOptions' => $this->generateSemesterOptions()
+        ]);
     }
 
     /**
@@ -83,8 +135,11 @@ class PenunjangController extends Controller
             }
             
             DB::commit();
-            $newPenunjang = Penunjang::with('anggota.pegawai', 'dokumen')->find($penunjang->id);
-            return response()->json(['success' => 'Data penunjang berhasil ditambahkan.', 'data' => $newPenunjang], 201);
+            
+            return response()->json([
+                'success' => 'Data penunjang berhasil ditambahkan.',
+                'semesterOptions' => $this->generateSemesterOptions()
+            ], 201);
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -158,8 +213,11 @@ class PenunjangController extends Controller
             }
 
             DB::commit();
-            $updatedPenunjang = Penunjang::with('anggota.pegawai', 'dokumen')->find($penunjang->id);
-            return response()->json(['success' => 'Data berhasil diperbarui.', 'data' => $updatedPenunjang]);
+            
+            return response()->json([
+                'success' => 'Data berhasil diperbarui.',
+                'semesterOptions' => $this->generateSemesterOptions()
+            ]);
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -180,7 +238,11 @@ class PenunjangController extends Controller
             
             $penunjang->delete();
             DB::commit();
-            return response()->json(['success' => 'Data berhasil dihapus secara permanen.']);
+
+            return response()->json([
+                'success' => 'Data berhasil dihapus secara permanen.',
+                'semesterOptions' => $this->generateSemesterOptions()
+            ]);
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -213,5 +275,47 @@ class PenunjangController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => 'Gagal memperbarui status: ' . $e->getMessage()], 500);
         }
+    }
+
+    /**
+     * Fungsi helper untuk membuat opsi semester secara dinamis.
+     */
+    private function generateSemesterOptions()
+    {
+        // 1. Ambil semua rentang tanggal dari database dalam satu query
+        $dateRanges = Penunjang::select('tmt_mulai', 'tmt_selesai')->get();
+        $activeSemesters = [];
+
+        // 2. Iterasi setiap rentang tanggal untuk menemukan semester aktif
+        foreach ($dateRanges as $range) {
+            $start = Carbon::parse($range->tmt_mulai)->startOfMonth();
+            $end = Carbon::parse($range->tmt_selesai)->startOfMonth();
+
+            // Loop dari bulan mulai hingga bulan selesai
+            for ($date = $start; $date->lte($end); $date->addMonth()) {
+                $year = $date->year;
+                $semester = ($date->month <= 6) ? 'Ganjil' : 'Genap';
+                $option = "$semester $year";
+                // Gunakan key array untuk memastikan setiap semester unik
+                $activeSemesters[$option] = true;
+            }
+        }
+
+        // 3. Ambil key-nya saja dan urutkan
+        $semesterOptions = array_keys($activeSemesters);
+        
+        // Urutkan dari yang terbaru (misal: Genap 2025, Ganjil 2025, Genap 2024, ...)
+        usort($semesterOptions, function ($a, $b) {
+            list($semesterA, $yearA) = explode(' ', $a);
+            list($semesterB, $yearB) = explode(' ', $b);
+
+            if ($yearA != $yearB) {
+                return $yearB <=> $yearA; // Urutkan tahun descending (terbaru dulu)
+            }
+            // Jika tahun sama, Genap (nilai 2) lebih dulu dari Ganjil (nilai 1)
+            return ($semesterB == 'Genap' ? 2 : 1) <=> ($semesterA == 'Genap' ? 2 : 1);
+        });
+
+        return $semesterOptions;
     }
 }
