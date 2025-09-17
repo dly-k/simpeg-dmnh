@@ -49,4 +49,9 @@ class Pegawai extends Model
     {
         return $this->hasMany(Pelatihan::class);
     }
+    public function pengabdianAnggota()
+    {
+        // Seorang Pegawai memiliki banyak (hasMany) data di PengabdianAnggota
+        return $this->hasMany(PengabdianAnggota::class);
+    }
 }

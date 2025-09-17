@@ -35,7 +35,15 @@ Route::delete('/efile/{efile}', [EFileController::class, 'destroy'])->name('efil
 // Menu Lain
 Route::view('/pendidikan', 'pages.pendidikan');
 Route::view('/penelitian', 'pages.penelitian');
-Route::view('/pengabdian', 'pages.pengabdian');
+
+use App\Http\Controllers\PengabdianController;
+Route::get('/pengabdian', [PengabdianController::class, 'index'])->name('pengabdian.index');
+Route::post('/pengabdian', [PengabdianController::class, 'store'])->name('pengabdian.store');
+Route::get('/pengabdian/{pengabdian}/edit', [PengabdianController::class, 'edit'])->name('pengabdian.edit');
+Route::patch('/pengabdian/{pengabdian}', [PengabdianController::class, 'update'])->name('pengabdian.update');
+Route::delete('/pengabdian/{pengabdian}', [PengabdianController::class, 'destroy'])->name('pengabdian.destroy');
+Route::get('/pengabdian/{pengabdian}', [PengabdianController::class, 'show'])->name('pengabdian.show');
+Route::patch('/pengabdian/{pengabdian}/verifikasi', [PengabdianController::class, 'verifikasi'])->name('pengabdian.verifikasi');
 
 use App\Http\Controllers\PenunjangController;
 Route::get('/penunjang', [PenunjangController::class, 'index'])->name('penunjang.index');
