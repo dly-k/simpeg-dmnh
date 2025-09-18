@@ -12,51 +12,44 @@
 
           <div class="detail-item full-width-detail">
             <small>Judul</small>
-            <p>Analisis Pengaruh Kotoran Sapi Terhadap Pertumbuhan Kecambah Pada Media Kapas</p>
+            <p id="detail-judul">-</p>
           </div>
           
-          <div class="detail-item"><small>Jenis Karya</small><p>Jurnal Nasional Terakreditasi</p></div>
-          <div class="detail-item"><small>Volume/Issue</small><p>Vol. 12, No. 1</p></div>
-          <div class="detail-item"><small>Jumlah Halaman</small><p>15</p></div>
+          <div class="detail-item"><small>Jenis Karya</small><p id="detail-jenis_karya">-</p></div>
+          <div class="detail-item"><small>Volume/Issue</small><p id="detail-volume">-</p></div>
+          <div class="detail-item"><small>Jumlah Halaman</small><p id="detail-jumlah_halaman">-</p></div>
           
-          <div class="detail-item"><small>Tanggal Terbit</small><p>24 Desember 2021</p></div>
-          <div class="detail-item"><small>Publik</small><p>Ya</p></div>
-          <div class="detail-item"><small>URL</small><p><a href="#" target="_blank">Lihat Tautan</a></p></div>
+          <div class="detail-item"><small>Tanggal Terbit</small><p id="detail-tanggal_terbit">-</p></div>
+          <div class="detail-item"><small>Publik</small><p id="detail-publik">-</p></div>
+          <div class="detail-item"><small>URL</small><p id="detail-url">-</p></div>
 
-          <div class="detail-item"><small>ISBN</small><p>978-602-8988-99-9</p></div>
-          <div class="detail-item"><small>ISSN</small><p>2085-4922</p></div>
-          <div class="detail-item"><small>DOI</small><p>10.1234/jurnal.v12i1.5678</p></div>
+          <div class="detail-item"><small>ISBN</small><p id="detail-isbn">-</p></div>
+          <div class="detail-item"><small>ISSN</small><p id="detail-issn">-</p></div>
+          <div class="detail-item"><small>DOI</small><p id="detail-doi">-</p></div>
           
           <div class="detail-item full-width-detail detail-section-header">
-            <h5><i></i>Dokumen</h5>
+            <h5><i class="fas fa-file-alt me-2"></i>Dokumen</h5>
           </div>
           <div class="detail-item">
             <small>File Dokumen</small>
-            <div class="file-actions-buttons">
-                <a href="#" target="_blank" class="btn btn-primary btn-sm">
-                    <i class="fas fa-file-alt me-2"></i>Lihat Dokumen
-                </a>
-            </div>
+            <div id="detail-dokumen" class="mt-2">-</div>
           </div>
           
-          <div class="detail-item full-width-detail detail-section-header">
-            <h5><i></i>Penulis IPB</h5>
+          {{-- Bagian Penulis akan diisi secara dinamis oleh JavaScript --}}
+          <div id="detail-penulis-ipb-section" class="detail-item full-width-detail detail-section-header" style="display: none;">
+            <h5><i class="fas fa-user-tie me-2"></i>Penulis Internal (Pegawai)</h5>
           </div>
-          <div class="detail-item"><small>Nama Penulis</small><p>Prof. Dr. Budi Santoso</p></div>
-          <div class="detail-item"><small>SK Penugasan</small><p><a href="#">Lihat SK</a></p></div>
-          <div class="detail-item"></div>
+          <div id="detail-penulis-ipb-list" class="full-width-detail"></div>
 
-          <div class="detail-item full-width-detail detail-section-header">
-            <h5><i></i>Penulis Luar IPB</h5>
+          <div id="detail-penulis-luar-section" class="detail-item full-width-detail detail-section-header" style="display: none;">
+            <h5><i class="fas fa-user-friends me-2"></i>Penulis Luar</h5>
           </div>
-          <div class="detail-item"><small>Nama Penulis</small><p>Dr. Siti Aminah (Universitas Gadjah Mada)</p></div>
-          <div class="detail-item"><small>SK Penugasan</small><p><a href="#">Lihat SK</a></p></div>
-          <div class="detail-item"></div>
+          <div id="detail-penulis-luar-list" class="full-width-detail"></div>
           
-          <div class="detail-item full-width-detail detail-section-header">
-            <h5><i></i>Penulis Mahasiswa</h5>
+          <div id="detail-penulis-mahasiswa-section" class="detail-item full-width-detail detail-section-header" style="display: none;">
+            <h5><i class="fas fa-user-graduate me-2"></i>Penulis Mahasiswa</h5>
           </div>
-          <div class="detail-item"><small>Nama Mahasiswa</small><p>Andi Wijaya</p></div>
+          <div id="detail-penulis-mahasiswa-list" class="full-width-detail"></div>
 
         </div>
       </div>

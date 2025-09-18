@@ -230,18 +230,23 @@ document.addEventListener("DOMContentLoaded", () => {
       const fileInput = uploadArea.querySelector('input[type="file"]');
       const uploadText = uploadArea.querySelector("p");
       if (!fileInput || !uploadText) return;
-      const originalText = uploadArea.innerHTML;
+
+      const originalHTML = uploadText.innerHTML; // Simpan HTML asli
+
+      // Saat area abu-abu di-klik, picu klik pada input file
       uploadArea.addEventListener("click", () => fileInput.click());
+      
+      // Saat file dipilih, tampilkan nama file
       fileInput.addEventListener("change", () => {
         if (fileInput.files.length > 0) {
           uploadText.textContent = fileInput.files[0].name;
         }
       });
+
+      // Fungsi reset yang sudah diperbaiki
       uploadArea.reset = () => {
-        uploadArea.innerHTML = originalText;
-        // Re-attach file input reference after resetting innerHTML
-        const newFileInput = uploadArea.querySelector('input[type="file"]');
-        newFileInput.value = "";
+        uploadText.innerHTML = originalHTML; // Kembalikan teks asli
+        fileInput.value = ""; // Kosongkan value dari input file
       };
     });
   };

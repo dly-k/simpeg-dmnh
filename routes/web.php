@@ -34,7 +34,17 @@ Route::delete('/efile/{efile}', [EFileController::class, 'destroy'])->name('efil
 
 // Menu Lain
 Route::view('/pendidikan', 'pages.pendidikan');
-Route::view('/penelitian', 'pages.penelitian');
+
+
+// routes/web.php
+use App\Http\Controllers\PenelitianController;
+
+Route::get('/penelitian', [PenelitianController::class, 'index'])->name('penelitian.index');
+Route::post('/penelitian', [PenelitianController::class, 'store'])->name('penelitian.store');
+Route::get('/penelitian/{penelitian}/edit', [PenelitianController::class, 'edit'])->name('penelitian.edit');
+Route::patch('/penelitian/{penelitian}', [PenelitianController::class, 'update'])->name('penelitian.update');
+Route::delete('/penelitian/{penelitian}', [PenelitianController::class, 'destroy'])->name('penelitian.destroy');
+Route::post('/penelitian/{penelitian}/verifikasi', [PenelitianController::class, 'verifikasi'])->name('penelitian.verifikasi');
 
 use App\Http\Controllers\PengabdianController;
 Route::get('/pengabdian', [PengabdianController::class, 'index'])->name('pengabdian.index');
