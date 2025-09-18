@@ -13,25 +13,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   tabs.forEach(tab => {
     tab.addEventListener('shown.bs.tab', event => {
-      localStorage.setItem('tempActivePendidikanTab', event.target.getAttribute('data-bs-target'));
+      localStorage.setItem('activePendidikanTab', event.target.getAttribute('data-bs-target'));
     });
   });
 
-  // == FUNGSI BANTUAN MODAL ==
-  const openModal = (modalId) => {
+  // == FUNGSI BANTUAN MODAL (MENGGUNAKAN API BOOTSTRAP YANG BENAR) ==
+  const getModalInstance = (modalId) => {
     const modalElement = document.getElementById(modalId);
-    if (modalElement) {
-      const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
-      modal.show();
-    }
-  };
-
-  const closeModal = (modalId) => {
-    const modalElement = document.getElementById(modalId);
-    if (modalElement) {
-      const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
-      modal.hide();
-    }
+    return modalElement ? bootstrap.Modal.getOrCreateInstance(modalElement) : null;
   };
 
   const showSuccessModal = (title, subtitle) => {
@@ -39,24 +28,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const berhasilSubtitle = document.getElementById("berhasil-subtitle");
     if (berhasilTitle) berhasilTitle.textContent = title;
     if (berhasilSubtitle) berhasilSubtitle.textContent = subtitle;
-    openModal("modalBerhasil");
 
-    setTimeout(() => {
-      closeModal("modalBerhasil");
-    }, 1200);
+    const successModal = getModalInstance("modalBerhasil");
+    if (successModal) {
+      successModal.show();
+      setTimeout(() => {
+        successModal.hide();
+      }, 1500); // Modal sukses akan hilang setelah 1.5 detik
+    }
   };
   
-  // FUNGSI BARU UNTUK MEMBERSIHKAN MODAL SECARA MANUAL
-  const manualModalCleanup = () => {
-    // Hapus backdrop yang tersangkut
-    const backdrops = document.querySelectorAll('.modal-backdrop');
-    backdrops.forEach(backdrop => backdrop.remove());
-    // Kembalikan kemampuan scroll pada body
-    document.body.classList.remove('modal-open');
-    document.body.style.overflow = '';
-    document.body.style.paddingRight = '';
-  };
-
   // == KONFIGURASI FORM ==
   const formConfigs = [
     { modalId: "modalTambahEditPengajaranLama", formId: "formPengajaranLama", btnId: "btnSimpanPengajaran", postUrl: "/pendidikan/pengajaran-lama" },
@@ -67,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { modalId: "modalPembimbingLuar", formId: "formPembimbingLuar", btnId: "btnSimpanPembimbingLuar", postUrl: "/pendidikan/pembimbing-luar" },
   ];
 
-  // == FUNGSI SUBMIT FORM DENGAN AJAX (LOGIKA BARU) ==
+  // == FUNGSI SUBMIT FORM DENGAN AJAX ==
   const handleFormSubmit = async (config) => {
       const form = document.getElementById(config.formId);
       const saveButton = document.getElementById(config.btnId);
@@ -97,25 +78,22 @@ document.addEventListener("DOMContentLoaded", () => {
                   throw new Error(data.message || 'Terjadi kesalahan pada server.');
               }
           } else {
-              // ### PERBAIKAN UTAMA ADA DI SINI ###
-              // 1. Panggil fungsi closeModal untuk menyembunyikan modal form
-              closeModal(config.modalId);
-              
-              // 2. Panggil fungsi pembersihan manual untuk mengatasi backdrop yang macet
-              manualModalCleanup();
-
-              // 3. Tampilkan modal sukses
-              showSuccessModal("Data Berhasil Disimpan", data.success);
-              
-              // 4. Siapkan untuk refresh halaman
-              const activeTabTarget = document.querySelector('#pendidikanTab .nav-link.active').getAttribute('data-bs-target');
-              localStorage.setItem('activePendidikanTab', activeTabTarget);
-
-              setTimeout(() => { location.reload(); }, 1300);
+              const formModal = getModalInstance(config.modalId);
+              if (formModal) {
+                formModal.hide();
+                // Tunggu modal form tertutup, baru tampilkan notifikasi sukses
+                document.getElementById(config.modalId).addEventListener('hidden.bs.modal', () => {
+                    showSuccessModal("Data Berhasil Disimpan", data.success);
+                    // Siapkan untuk refresh halaman
+                    const activeTabTarget = document.querySelector('#pendidikanTab .nav-link.active').getAttribute('data-bs-target');
+                    localStorage.setItem('activePendidikanTab', activeTabTarget);
+                    setTimeout(() => { location.reload(); }, 1600);
+                }, { once: true });
+              }
           }
       } catch (error) {
           console.error('Submit Error:', error);
-          alert('Gagal menyimpan data. Pastikan semua isian valid dan coba lagi. Cek "console" browser untuk detail.');
+          alert('Gagal menyimpan data. Pastikan semua isian valid dan coba lagi.');
       } finally {
           saveButton.disabled = false;
           saveButton.innerHTML = originalButtonText;
