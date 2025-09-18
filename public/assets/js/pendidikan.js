@@ -26,14 +26,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const showSuccessModal = (title, subtitle) => {
     const berhasilTitle = document.getElementById("berhasil-title");
     const berhasilSubtitle = document.getElementById("berhasil-subtitle");
+    const modalBerhasil = document.getElementById("modalBerhasil");
     if (berhasilTitle) berhasilTitle.textContent = title;
     if (berhasilSubtitle) berhasilSubtitle.textContent = subtitle;
 
-    const successModal = getModalInstance("modalBerhasil");
-    if (successModal) {
-      successModal.show();
+    if (modalBerhasil) {
+      modalBerhasil.classList.add("show");
       setTimeout(() => {
-        successModal.hide();
+        modalBerhasil.classList.remove("show");
       }, 1500); // Modal sukses akan hilang setelah 1.5 detik
     }
   };

@@ -117,7 +117,14 @@
                                 <td>{{ $item->nama_mk }} ({{$item->kode_mk}})</td>
                                 <td class="text-center"><i class="fas fa-{{ $item->is_verified ? 'check-circle text-success' : 'times-circle text-danger' }}"></i></td>
                                 <td class="text-center"><a href="{{ $item->file_path ? asset($item->file_path) : '#' }}" class="btn btn-sm btn-lihat text-white {{ $item->file_path ? '' : 'disabled' }}" target="_blank">Lihat</a></td>
-                                <td class="text-center">{{-- Tombol Aksi --}}</td>
+                                <td class="text-center">
+                                    <div class="d-flex gap-2 justify-content-center">
+                                        <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a>
+                                        <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail" data-bs-toggle="modal" data-bs-target="#modalDetailPengajaranLama"><i class="fa fa-eye"></i></a>
+                                        <a href="#" class="btn-aksi btn-edit" title="Edit Data"><i class="fa fa-edit"></i></a>
+                                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
+                                    </div>
+                                </td>
                             </tr>
                             @empty
                             <tr><td colspan="7" class="text-center text-muted">Belum ada data.</td></tr>
@@ -148,7 +155,14 @@
                                 <td>{{ $item->nama_mk }}</td>
                                 <td class="text-center"><i class="fas fa-{{ $item->is_verified ? 'check-circle text-success' : 'times-circle text-danger' }}"></i></td>
                                 <td class="text-center"><a href="{{ $item->file_path ? asset($item->file_path) : '#' }}" class="btn btn-sm btn-lihat text-white {{ $item->file_path ? '' : 'disabled' }}" target="_blank">Lihat</a></td>
-                                <td class="text-center">{{-- Tombol Aksi --}}</td>
+                                <td class="text-center">
+                                    <div class="d-flex gap-2 justify-content-center">
+                                        <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a>
+                                        <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail" data-bs-toggle="modal" data-bs-target="#modalDetailPengajaranLuar"><i class="fa fa-eye"></i></a>
+                                        <a href="#" class="btn-aksi btn-edit" title="Edit Data"><i class="fa fa-edit"></i></a>
+                                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
+                                    </div>
+                                </td>
                             </tr>
                             @empty
                             <tr><td colspan="7" class="text-center text-muted">Belum ada data.</td></tr>
@@ -179,7 +193,14 @@
                                 <td>{{ $item->departemen }}</td>
                                 <td class="text-center"><i class="fas fa-{{ $item->is_verified ? 'check-circle text-success' : 'times-circle text-danger' }}"></i></td>
                                 <td class="text-center"><a href="{{ $item->file_path ? asset($item->file_path) : '#' }}" class="btn btn-sm btn-lihat text-white {{ $item->file_path ? '' : 'disabled' }}" target="_blank">Lihat</a></td>
-                                <td class="text-center">{{-- Tombol Aksi --}}</td>
+                                <td class="text-center">
+                                    <div class="d-flex gap-2 justify-content-center">
+                                        <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a>
+                                        <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail" data-bs-toggle="modal" data-bs-target="#modalDetailPengujianLama"><i class="fa fa-eye"></i></a>
+                                        <a href="#" class="btn-aksi btn-edit" title="Edit Data"><i class="fa fa-edit"></i></a>
+                                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
+                                    </div>
+                                </td>
                             </tr>
                             @empty
                             <tr><td colspan="7" class="text-center text-muted">Belum ada data.</td></tr>
@@ -210,7 +231,14 @@
                                 <td>{{ $item->nama_mahasiswa }}</td>
                                 <td class="text-center"><i class="fas fa-{{ $item->is_verified ? 'check-circle text-success' : 'times-circle text-danger' }}"></i></td>
                                 <td class="text-center"><a href="{{ $item->file_path ? asset($item->file_path) : '#' }}" class="btn btn-sm btn-lihat text-white {{ $item->file_path ? '' : 'disabled' }}" target="_blank">Lihat</a></td>
-                                <td class="text-center">{{-- Tombol Aksi --}}</td>
+                                <td class="text-center">
+                                    <div class="d-flex gap-2 justify-content-center">
+                                        <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a>
+                                        <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail" data-bs-toggle="modal" data-bs-target="#modalDetailPembimbingLama"><i class="fa fa-eye"></i></a>
+                                        <a href="#" class="btn-aksi btn-edit" title="Edit Data"><i class="fa fa-edit"></i></a>
+                                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
+                                    </div>
+                                </td>
                             </tr>
                             @empty
                             <tr><td colspan="7" class="text-center text-muted">Belum ada data.</td></tr>
@@ -242,7 +270,14 @@
                                 <td>{{ $item->status }}</td>
                                 <td class="text-center"><i class="fas fa-{{ $item->is_verified ? 'check-circle text-success' : 'times-circle text-danger' }}"></i></td>
                                 <td class="text-center"><a href="{{ $item->file_path ? asset($item->file_path) : '#' }}" class="btn btn-sm btn-lihat text-white {{ $item->file_path ? '' : 'disabled' }}" target="_blank">Lihat</a></td>
-                                <td class="text-center">{{-- Tombol Aksi --}}</td>
+                                <td class="text-center">
+                                    <div class="d-flex gap-2 justify-content-center">
+                                        <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a>
+                                        <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail" data-bs-toggle="modal" data-bs-target="#modalDetailPengujiLuar"><i class="fa fa-eye"></i></a>
+                                        <a href="#" class="btn-aksi btn-edit" title="Edit Data"><i class="fa fa-edit"></i></a>
+                                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
+                                    </div>
+                                </td>
                             </tr>
                             @empty
                             <tr><td colspan="8" class="text-center text-muted">Belum ada data.</td></tr>
@@ -274,7 +309,14 @@
                                 <td>{{ $item->status }}</td>
                                 <td class="text-center"><i class="fas fa-{{ $item->is_verified ? 'check-circle text-success' : 'times-circle text-danger' }}"></i></td>
                                 <td class="text-center"><a href="{{ $item->file_path ? asset($item->file_path) : '#' }}" class="btn btn-sm btn-lihat text-white {{ $item->file_path ? '' : 'disabled' }}" target="_blank">Lihat</a></td>
-                                <td class="text-center">{{-- Tombol Aksi --}}</td>
+                                <td class="text-center">
+                                    <div class="d-flex gap-2 justify-content-center">
+                                        <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a>
+                                        <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail" data-bs-toggle="modal" data-bs-target="#modalDetailPembimbingLuar"><i class="fa fa-eye"></i></a>
+                                        <a href="#" class="btn-aksi btn-edit" title="Edit Data"><i class="fa fa-edit"></i></a>
+                                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
+                                    </div>
+                                </td>
                             </tr>
                             @empty
                             <tr><td colspan="8" class="text-center text-muted">Belum ada data.</td></tr>
@@ -285,12 +327,14 @@
             </div>
           </div>
           
-          {{-- Paginasi (jika Anda menggunakannya) --}}
           <div class="d-flex justify-content-between align-items-center mt-4">
               <span class="text-muted small">Menampilkan data</span>
               <nav aria-label="Page navigation">
                 <ul class="pagination pagination-sm mb-0">
-                  {{-- ... --}}
+                  <li class="page-item disabled"><a class="page-link" href="#">Sebelumnya</a></li>
+                  <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                  <li class="page-item"><a class="page-link" href="#">2</a></li>
+                  <li class="page-item"><a class="page-link" href="#">Berikutnya</a></li>
                 </ul>
               </nav>
           </div>
@@ -301,15 +345,11 @@
     <span>© 2025 Forest Management — All Rights Reserved</span>
   </footer>
 
-{{-- ... --}}
   {{-- =================================== KUMPULAN MODAL =================================== --}}
     @include('components.konfirmasi-hapus')
     @include('components.konfirmasi-berhasil')
     @include('components.konfirmasi-verifikasi')
     
-    {{-- Memanggil setiap modal DETAIL dan TAMBAH hanya SATU KALI --}}
-    {{-- Pastikan variabel $dosenAktif dilewatkan ke setiap modal TAMBAH --}}
-
     @include('components.pendidikan.detail-pengajaran-lama')
     @include('components.pendidikan.tambah-pengajaran-lama', ['dosenAktif' => $dosenAktif])
 
@@ -327,9 +367,7 @@
     
     @include('components.pendidikan.detail-pembimbing-luar')
     @include('components.pendidikan.tambah-pembimbing-luar', ['dosenAktif' => $dosenAktif])
-{{-- ... --}}
   
-
   <script src="{{ asset('assets/js/layout.js') }}"></script>
   <script src="{{ asset('assets/js/pendidikan.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
