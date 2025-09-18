@@ -32,8 +32,15 @@ Route::get('/daftar-pegawai/export', [PegawaiController::class, 'export'])->name
 Route::post('/pegawai/{pegawai}/efile', [EFileController::class, 'store'])->name('efile.store');
 Route::delete('/efile/{efile}', [EFileController::class, 'destroy'])->name('efile.destroy');
 
-// Menu Lain
+use App\Http\Controllers\PendidikanController;
 Route::view('/pendidikan', 'pages.pendidikan');
+Route::get('/pendidikan', [PendidikanController::class, 'index'])->name('pendidikan.index');
+Route::post('/pendidikan/pengajaran-lama', [PendidikanController::class, 'storePengajaranLama'])->name('pendidikan.pengajaran-lama.store');
+Route::post('/pendidikan/pengajaran-luar', [PendidikanController::class, 'storePengajaranLuar'])->name('pendidikan.pengajaran-luar.store');
+Route::post('/pendidikan/pengujian-lama', [PendidikanController::class, 'storePengujianLama'])->name('pendidikan.pengujian-lama.store');
+Route::post('/pendidikan/pembimbing-lama', [PendidikanController::class, 'storePembimbingLama'])->name('pendidikan.pembimbing-lama.store');
+Route::post('/pendidikan/penguji-luar', [PendidikanController::class, 'storePengujiLuar'])->name('pendidikan.penguji-luar.store');
+Route::post('/pendidikan/pembimbing-luar', [PendidikanController::class, 'storePembimbingLuar'])->name('pendidikan.pembimbing-luar.store');
 
 
 // routes/web.php

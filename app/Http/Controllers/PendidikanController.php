@@ -1,0 +1,140 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
+use App\Models\Pegawai;
+use App\Models\PengajaranLama;
+use App\Models\PengajaranLuar;
+use App\Models\PengujianLama;
+use App\Models\PembimbingLama;
+use App\Models\PengujiLuar;
+use App\Models\PembimbingLuar;
+
+class PendidikanController extends Controller
+{
+    private function handleFileUpload(Request $request, $fieldName, $directory) {
+        if ($request->hasFile($fieldName)) {
+            $path = $request->file($fieldName)->store($directory, 'public');
+            return Storage::url($path);
+        }
+        return null;
+    }
+
+    public function index() {
+        $dosenAktif = Pegawai::where('status_pegawai', 'Aktif')->orderBy('nama_lengkap')->get();
+        return view('pages.pendidikan', [
+            'dosenAktif' => $dosenAktif,
+            'dataPengajaranLama' => PengajaranLama::with('pegawai')->latest()->get(),
+            'dataPengajaranLuar' => PengajaranLuar::with('pegawai')->latest()->get(),
+            'dataPengujianLama' => PengujianLama::with('pegawai')->latest()->get(),
+            'dataPembimbingLama' => PembimbingLama::with('pegawai')->latest()->get(),
+            'dataPengujiLuar' => PengujiLuar::with('pegawai')->latest()->get(),
+            'dataPembimbingLuar' => PembimbingLuar::with('pegawai')->latest()->get(),
+        ]);
+    }
+
+    private function storeData(Request $request, $modelClass, $validationRules, $directory) {
+        $validationRules['pegawai_id'] = 'required|exists:pegawais,id';
+        $validator = Validator::make($request->all(), $validationRules);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+        $data = $request->except('file');
+        $data['file_path'] = $this->handleFileUpload($request, 'file', $directory);
+        $modelClass::create($data);
+        return response()->json(['success' => 'Data berhasil ditambahkan.']);
+    }
+
+    public function storePengajaranLama(Request $request) {
+        return $this->storeData($request, PengajaranLama::class, [
+            'tahun_semester' => 'required|string',
+            'nama_mk' => 'required|string',
+            'kode_mk' => 'required|string',
+            'sks_kuliah' => 'nullable|integer',
+            'sks_praktikum' => 'nullable|integer',
+            'pengampu' => 'nullable|string',
+            'jenis' => 'required|string',
+            'kelas_paralel' => 'required|string',
+            'jumlah_pertemuan' => 'required|integer|min:1',
+            'file' => 'nullable|file|mimes:pdf,jpg,png,doc,docx|max:5120',
+        ], 'pendidikan/pengajaran-lama');
+    }
+
+    public function storePengajaranLuar(Request $request) {
+        return $this->storeData($request, PengajaranLuar::class, [
+            'tahun_semester' => 'required|string',
+            'kode_mk' => 'required|string',
+            'nama_mk' => 'required|string',
+            'sks_kuliah' => 'nullable|integer',
+            'sks_praktikum' => 'nullable|integer',
+            'universitas' => 'required|string',
+            'strata' => 'required|string',
+            'program_studi' => 'required|string',
+            'jenis' => 'required|string',
+            'kelas_paralel' => 'required|string',
+            'jumlah_pertemuan' => 'required|integer|min:1',
+            'is_insidental' => 'required|string',
+            'is_lebih_satu_semester' => 'required|string',
+            'file' => 'nullable|file|mimes:pdf,jpg,png,doc,docx|max:5120',
+        ], 'pendidikan/pengajaran-luar');
+    }
+
+    public function storePengujianLama(Request $request) {
+        return $this->storeData($request, PengujianLama::class, [
+            'kegiatan' => 'required|string',
+            'strata' => 'required|string',
+            'tahun_semester' => 'required|string',
+            'nim' => 'required|string',
+            'nama_mahasiswa' => 'required|string',
+            'departemen' => 'required|string',
+            'file' => 'nullable|file|mimes:pdf,jpg,png,doc,docx|max:5120',
+        ], 'pendidikan/pengujian-lama');
+    }
+
+    public function storePembimbingLama(Request $request) {
+        return $this->storeData($request, PembimbingLama::class, [
+            'kegiatan' => 'required|string',
+            'tahun_semester' => 'required|string',
+            'nim' => 'required|string',
+            'nama_mahasiswa' => 'required|string',
+            'departemen' => 'required|string',
+            'lokasi' => 'nullable|string',
+            'nama_dokumen' => 'nullable|string',
+            'file' => 'nullable|file|mimes:pdf,jpg,png,doc,docx|max:5120',
+        ], 'pendidikan/pembimbing-lama');
+    }
+
+    public function storePengujiLuar(Request $request) {
+        return $this->storeData($request, PengujiLuar::class, [
+            'kegiatan' => 'required|string',
+            'status' => 'required|string',
+            'tahun_semester' => 'required|string',
+            'nim' => 'required|string',
+            'nama_mahasiswa' => 'required|string',
+            'universitas' => 'required|string',
+            'strata' => 'required|string',
+            'program_studi' => 'required|string',
+            'is_insidental' => 'required|string',
+            'is_lebih_satu_semester' => 'required|string',
+            'file' => 'nullable|file|mimes:pdf,jpg,png,doc,docx|max:5120',
+        ], 'pendidikan/penguji-luar');
+    }
+
+    public function storePembimbingLuar(Request $request) {
+        return $this->storeData($request, PembimbingLuar::class, [
+            'kegiatan' => 'required|string',
+            'status' => 'required|string',
+            'tahun_semester' => 'required|string',
+            'nim' => 'required|string',
+            'nama_mahasiswa' => 'required|string',
+            'universitas' => 'required|string',
+            'program_studi' => 'required|string',
+            'is_insidental' => 'required|string',
+            'is_lebih_satu_semester' => 'required|string',
+            'file' => 'nullable|file|mimes:pdf,jpg,png,doc,docx|max:5120',
+        ], 'pendidikan/pembimbing-luar');
+    }
+}

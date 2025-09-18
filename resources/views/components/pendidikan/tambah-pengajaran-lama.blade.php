@@ -2,8 +2,6 @@
 <div class="modal fade" id="modalTambahEditPengajaranLama" tabindex="-1" aria-labelledby="modalPengajaranLamaLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
-
-      <!-- Modal Header -->
       <div class="modal-header">
         <h5 class="modal-title" id="modalPengajaranLamaLabel">
           <i class="fas fa-plus-circle"></i>
@@ -11,10 +9,8 @@
         </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-
-      <!-- Modal Body -->
       <div class="modal-body">
-        <form id="formPengajaranLama">
+        <form id="formPengajaranLama" onsubmit="return false;">
           <input type="hidden" id="editPengajaranId" name="id">
 
           <div class="mb-3">
@@ -23,11 +19,12 @@
           </div>
 
           <div class="mb-3">
-            <label for="nama" class="form-label">Nama</label>
-            <select class="form-select" id="nama" name="nama">
+            <label for="nama" class="form-label">Nama Dosen</label>
+            <select class="form-select" id="nama" name="pegawai_id">
               <option selected disabled value="">-- Pilih Salah Satu --</option>
-              <option value="Alex Kurniawan">Alex Kurniawan</option>
-              <option value="Budi Santoso">Budi Santoso</option>
+              @foreach($dosenAktif as $dosen)
+                <option value="{{ $dosen->id }}">{{ $dosen->nama_lengkap }}</option>
+              @endforeach
             </select>
           </div>
 
@@ -96,16 +93,12 @@
               <input class="file-input" type="file" id="upload_file" name="file">
             </div>
           </div>
-
         </form>
       </div>
-
-      <!-- Modal Footer -->
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
         <button type="button" class="btn btn-success" id="btnSimpanPengajaran">Simpan</button>
       </div>
-
     </div>
   </div>
 </div>
