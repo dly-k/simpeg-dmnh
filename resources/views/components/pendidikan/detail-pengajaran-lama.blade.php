@@ -3,7 +3,6 @@
   <div class="modal-dialog modal-xl modal-dialog-centered">
     <div class="modal-content">
 
-      <!-- Modal Header -->
       <div class="modal-header">
         <h5 class="modal-title" id="modalDetailPengajaranLamaLabel">
           <i class="fas fa-info-circle"></i>
@@ -12,13 +11,13 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
-      <!-- Modal Body -->
       <div class="modal-body">
         <div class="detail-grid-container">
 
           <div class="detail-item full-width-detail">
             <small>Kegiatan</small>
-            <p id="detail_pl_kegiatan">-</p>
+            {{-- Teks placeholder diperbarui di sini --}}
+            <p id="detail_pl_kegiatan">Melaksanakan perkuliahan/tutorial dan membimbing, menguji serta menyelenggarakan pendidikan di laboratorium.</p>
           </div>
 
           <div class="detail-item">
@@ -73,14 +72,12 @@
 
         </div>
 
-        <!-- Dokumen -->
         <h6 class="mt-4">Dokumen</h6>
         <div class="document-viewer-container">
           <embed id="detail_pl_document_viewer" src="" type="application/pdf" width="100%" height="600px" />
         </div>
       </div>
 
-      <!-- Modal Footer -->
       <div class="modal-footer justify-content-end">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
       </div>

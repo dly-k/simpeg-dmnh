@@ -119,16 +119,24 @@
                 </div>
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered">
-                        <thead class="table-light"><tr class="text-center"><th>No</th><th>Nama Dosen</th><th>Tahun Semester</th><th>Mata Kuliah</th><th>Verifikasi</th><th>Dokumen</th><th>Aksi</th></tr></thead>
+                        <thead class="table-light"><tr class="text-center"><th>No</th><th>Nama Dosen</th><th>Tahun Semester</th><th>Mata Kuliah</th><th>Status</th><th>Dokumen</th><th>Aksi</th></tr></thead>
                         <tbody>
                             @forelse ($dataPengajaranLama as $index => $item)
                             <tr>
-                                <td class="text-center">{{ $index + 1 }}</td>
+                                <td class="text-center">{{ $dataPengajaranLama->firstItem() + $index }}</td>
                                 <td>{{ $item->pegawai->nama_lengkap ?? 'N/A' }}</td>
                                 <td class="text-center">{{ $item->tahun_semester }}</td>
                                 <td>{{ $item->nama_mk }} ({{$item->kode_mk}})</td>
-                                <td class="text-center"><i class="fas fa-{{ $item->is_verified ? 'check-circle text-success' : 'times-circle text-danger' }}"></i></td>
-                                <td class="text-center"><a href="{{ $item->file_path ? asset($item->file_path) : '#' }}" class="btn btn-sm btn-lihat text-white {{ $item->file_path ? '' : 'disabled' }}" target="_blank">Lihat</a></td>
+                                <td class="text-center">
+                                    @if ($item->status_verifikasi == 'diverifikasi')
+                                        <i class="fas fa-check-circle text-success" title="Diverifikasi"></i>
+                                    @elseif ($item->status_verifikasi == 'ditolak')
+                                        <i class="fas fa-times-circle text-danger" title="Ditolak"></i>
+                                    @else
+                                        <i class="fas fa-question-circle text-warning" title="Belum Diverifikasi"></i>
+                                    @endif
+                                </td>
+                                <td class="text-center"><a href="{{ $item->file_path ? Storage::url($item->file_path) : '#' }}" class="btn btn-sm btn-lihat text-white {{ $item->file_path ? '' : 'disabled' }}" target="_blank">Lihat</a></td>
                                 <td class="text-center">
                                     <div class="d-flex gap-2 justify-content-center">
                                         <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a>
@@ -143,6 +151,20 @@
                             @endforelse
                         </tbody>
                     </table>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mt-4">
+                    <span class="text-muted small">
+                        @if ($dataPengajaranLama->total() > 0)
+                            Menampilkan {{ $dataPengajaranLama->firstItem() }} sampai {{ $dataPengajaranLama->lastItem() }} dari {{ $dataPengajaranLama->total() }} data
+                        @else
+                            Tidak ada data untuk ditampilkan
+                        @endif
+                    </span>
+                    @if ($dataPengajaranLama->hasPages())
+                        <nav aria-label="Page navigation">
+                            {{ $dataPengajaranLama->links('pagination::bootstrap-5') }}
+                        </nav>
+                    @endif
                 </div>
             </div>
             
@@ -169,16 +191,24 @@
                 </div>
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered">
-                        <thead class="table-light"><tr class="text-center"><th>No</th><th>Nama Dosen</th><th>Institusi</th><th>Mata Kuliah</th><th>Verifikasi</th><th>Dokumen</th><th>Aksi</th></tr></thead>
+                        <thead class="table-light"><tr class="text-center"><th>No</th><th>Nama Dosen</th><th>Institusi</th><th>Mata Kuliah</th><th>Status</th><th>Dokumen</th><th>Aksi</th></tr></thead>
                         <tbody>
                             @forelse ($dataPengajaranLuar as $index => $item)
                             <tr>
-                                <td class="text-center">{{ $index + 1 }}</td>
+                                <td class="text-center">{{ $dataPengajaranLuar->firstItem() + $index }}</td>
                                 <td>{{ $item->pegawai->nama_lengkap ?? 'N/A' }}</td>
                                 <td>{{ $item->universitas }}</td>
                                 <td>{{ $item->nama_mk }}</td>
-                                <td class="text-center"><i class="fas fa-{{ $item->is_verified ? 'check-circle text-success' : 'times-circle text-danger' }}"></i></td>
-                                <td class="text-center"><a href="{{ $item->file_path ? asset($item->file_path) : '#' }}" class="btn btn-sm btn-lihat text-white {{ $item->file_path ? '' : 'disabled' }}" target="_blank">Lihat</a></td>
+                                <td class="text-center">
+                                    @if ($item->status_verifikasi == 'diverifikasi')
+                                        <i class="fas fa-check-circle text-success" title="Diverifikasi"></i>
+                                    @elseif ($item->status_verifikasi == 'ditolak')
+                                        <i class="fas fa-times-circle text-danger" title="Ditolak"></i>
+                                    @else
+                                        <i class="fas fa-question-circle text-warning" title="Belum Diverifikasi"></i>
+                                    @endif
+                                </td>
+                                <td class="text-center"><a href="{{ $item->file_path ? Storage::url($item->file_path) : '#' }}" class="btn btn-sm btn-lihat text-white {{ $item->file_path ? '' : 'disabled' }}" target="_blank">Lihat</a></td>
                                 <td class="text-center">
                                     <div class="d-flex gap-2 justify-content-center">
                                         <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a>
@@ -193,6 +223,20 @@
                             @endforelse
                         </tbody>
                     </table>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mt-4">
+                    <span class="text-muted small">
+                        @if ($dataPengajaranLuar->total() > 0)
+                            Menampilkan {{ $dataPengajaranLuar->firstItem() }} sampai {{ $dataPengajaranLuar->lastItem() }} dari {{ $dataPengajaranLuar->total() }} data
+                        @else
+                            Tidak ada data untuk ditampilkan
+                        @endif
+                    </span>
+                    @if ($dataPengajaranLuar->hasPages())
+                        <nav aria-label="Page navigation">
+                            {{ $dataPengajaranLuar->links('pagination::bootstrap-5') }}
+                        </nav>
+                    @endif
                 </div>
             </div>
             
@@ -219,16 +263,24 @@
                 </div>
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered">
-                        <thead class="table-light"><tr class="text-center"><th>No</th><th>Nama Dosen</th><th>Nama Mahasiswa</th><th>Departemen</th><th>Verifikasi</th><th>Dokumen</th><th>Aksi</th></tr></thead>
+                        <thead class="table-light"><tr class="text-center"><th>No</th><th>Nama Dosen</th><th>Nama Mahasiswa</th><th>Departemen</th><th>Status</th><th>Dokumen</th><th>Aksi</th></tr></thead>
                         <tbody>
                             @forelse ($dataPengujianLama as $index => $item)
                             <tr>
-                                <td class="text-center">{{ $index + 1 }}</td>
+                                <td class="text-center">{{ $dataPengujianLama->firstItem() + $index }}</td>
                                 <td>{{ $item->pegawai->nama_lengkap ?? 'N/A' }}</td>
                                 <td>{{ $item->nama_mahasiswa }} ({{$item->nim}})</td>
                                 <td>{{ $item->departemen }}</td>
-                                <td class="text-center"><i class="fas fa-{{ $item->is_verified ? 'check-circle text-success' : 'times-circle text-danger' }}"></i></td>
-                                <td class="text-center"><a href="{{ $item->file_path ? asset($item->file_path) : '#' }}" class="btn btn-sm btn-lihat text-white {{ $item->file_path ? '' : 'disabled' }}" target="_blank">Lihat</a></td>
+                                <td class="text-center">
+                                    @if ($item->status_verifikasi == 'diverifikasi')
+                                        <i class="fas fa-check-circle text-success" title="Diverifikasi"></i>
+                                    @elseif ($item->status_verifikasi == 'ditolak')
+                                        <i class="fas fa-times-circle text-danger" title="Ditolak"></i>
+                                    @else
+                                        <i class="fas fa-question-circle text-warning" title="Belum Diverifikasi"></i>
+                                    @endif
+                                </td>
+                                <td class="text-center"><a href="{{ $item->file_path ? Storage::url($item->file_path) : '#' }}" class="btn btn-sm btn-lihat text-white {{ $item->file_path ? '' : 'disabled' }}" target="_blank">Lihat</a></td>
                                 <td class="text-center">
                                     <div class="d-flex gap-2 justify-content-center">
                                         <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a>
@@ -243,6 +295,20 @@
                             @endforelse
                         </tbody>
                     </table>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mt-4">
+                    <span class="text-muted small">
+                        @if ($dataPengujianLama->total() > 0)
+                            Menampilkan {{ $dataPengujianLama->firstItem() }} sampai {{ $dataPengujianLama->lastItem() }} dari {{ $dataPengujianLama->total() }} data
+                        @else
+                            Tidak ada data untuk ditampilkan
+                        @endif
+                    </span>
+                    @if ($dataPengujianLama->hasPages())
+                        <nav aria-label="Page navigation">
+                            {{ $dataPengujianLama->links('pagination::bootstrap-5') }}
+                        </nav>
+                    @endif
                 </div>
             </div>
 
@@ -269,16 +335,24 @@
                   </div>
                   <div class="table-responsive">
                       <table class="table table-hover table-bordered">
-                          <thead class="table-light"><tr class="text-center"><th>No</th><th>Nama Dosen</th><th>Kegiatan</th><th>Nama Mahasiswa</th><th>Verifikasi</th><th>Dokumen</th><th>Aksi</th></tr></thead>
+                          <thead class="table-light"><tr class="text-center"><th>No</th><th>Nama Dosen</th><th>Kegiatan</th><th>Nama Mahasiswa</th><th>Status</th><th>Dokumen</th><th>Aksi</th></tr></thead>
                           <tbody>
                             @forelse ($dataPembimbingLama as $index => $item)
                             <tr>
-                                <td class="text-center">{{ $index + 1 }}</td>
+                                <td class="text-center">{{ $dataPembimbingLama->firstItem() + $index }}</td>
                                 <td>{{ $item->pegawai->nama_lengkap ?? 'N/A' }}</td>
                                 <td class="text-start">{{ Str::limit($item->kegiatan, 30) }}</td>
                                 <td>{{ $item->nama_mahasiswa }}</td>
-                                <td class="text-center"><i class="fas fa-{{ $item->is_verified ? 'check-circle text-success' : 'times-circle text-danger' }}"></i></td>
-                                <td class="text-center"><a href="{{ $item->file_path ? asset($item->file_path) : '#' }}" class="btn btn-sm btn-lihat text-white {{ $item->file_path ? '' : 'disabled' }}" target="_blank">Lihat</a></td>
+                                <td class="text-center">
+                                    @if ($item->status_verifikasi == 'diverifikasi')
+                                        <i class="fas fa-check-circle text-success" title="Diverifikasi"></i>
+                                    @elseif ($item->status_verifikasi == 'ditolak')
+                                        <i class="fas fa-times-circle text-danger" title="Ditolak"></i>
+                                    @else
+                                        <i class="fas fa-question-circle text-warning" title="Belum Diverifikasi"></i>
+                                    @endif
+                                </td>
+                                <td class="text-center"><a href="{{ $item->file_path ? Storage::url($item->file_path) : '#' }}" class="btn btn-sm btn-lihat text-white {{ $item->file_path ? '' : 'disabled' }}" target="_blank">Lihat</a></td>
                                 <td class="text-center">
                                     <div class="d-flex gap-2 justify-content-center">
                                         <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a>
@@ -293,6 +367,20 @@
                             @endforelse
                           </tbody>
                       </table>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center mt-4">
+                    <span class="text-muted small">
+                        @if ($dataPembimbingLama->total() > 0)
+                            Menampilkan {{ $dataPembimbingLama->firstItem() }} sampai {{ $dataPembimbingLama->lastItem() }} dari {{ $dataPembimbingLama->total() }} data
+                        @else
+                            Tidak ada data untuk ditampilkan
+                        @endif
+                    </span>
+                    @if ($dataPembimbingLama->hasPages())
+                        <nav aria-label="Page navigation">
+                            {{ $dataPembimbingLama->links('pagination::bootstrap-5') }}
+                        </nav>
+                    @endif
                   </div>
             </div>
             
@@ -319,17 +407,24 @@
                 </div>
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered">
-                        <thead class="table-light"><tr class="text-center"><th>No</th><th>Nama Dosen</th><th>Nama Mahasiswa</th><th>Universitas</th><th>Status</th><th>Verifikasi</th><th>Dokumen</th><th>Aksi</th></tr></thead>
+                        <thead class="table-light"><tr class="text-center"><th>No</th><th>Nama Dosen</th><th>Nama Mahasiswa</th><th>Universitas</th><th>Status</th><th>Dokumen</th><th>Aksi</th></tr></thead>
                         <tbody>
                             @forelse ($dataPengujiLuar as $index => $item)
                             <tr>
-                                <td class="text-center">{{ $index + 1 }}</td>
+                                <td class="text-center">{{ $dataPengujiLuar->firstItem() + $index }}</td>
                                 <td>{{ $item->pegawai->nama_lengkap ?? 'N/A' }}</td>
                                 <td>{{ $item->nama_mahasiswa }}</td>
                                 <td>{{ $item->universitas }}</td>
-                                <td>{{ $item->status }}</td>
-                                <td class="text-center"><i class="fas fa-{{ $item->is_verified ? 'check-circle text-success' : 'times-circle text-danger' }}"></i></td>
-                                <td class="text-center"><a href="{{ $item->file_path ? asset($item->file_path) : '#' }}" class="btn btn-sm btn-lihat text-white {{ $item->file_path ? '' : 'disabled' }}" target="_blank">Lihat</a></td>
+                                <td class="text-center">
+                                    @if ($item->status_verifikasi == 'diverifikasi')
+                                        <i class="fas fa-check-circle text-success" title="Diverifikasi"></i>
+                                    @elseif ($item->status_verifikasi == 'ditolak')
+                                        <i class="fas fa-times-circle text-danger" title="Ditolak"></i>
+                                    @else
+                                        <i class="fas fa-question-circle text-warning" title="Belum Diverifikasi"></i>
+                                    @endif
+                                </td>
+                                <td class="text-center"><a href="{{ $item->file_path ? Storage::url($item->file_path) : '#' }}" class="btn btn-sm btn-lihat text-white {{ $item->file_path ? '' : 'disabled' }}" target="_blank">Lihat</a></td>
                                 <td class="text-center">
                                     <div class="d-flex gap-2 justify-content-center">
                                         <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a>
@@ -340,10 +435,24 @@
                                 </td>
                             </tr>
                             @empty
-                            <tr><td colspan="8" class="text-center text-muted">Belum ada data.</td></tr>
+                            <tr><td colspan="7" class="text-center text-muted">Belum ada data.</td></tr>
                             @endforelse
                         </tbody>
                     </table>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mt-4">
+                    <span class="text-muted small">
+                        @if ($dataPengujiLuar->total() > 0)
+                            Menampilkan {{ $dataPengujiLuar->firstItem() }} sampai {{ $dataPengujiLuar->lastItem() }} dari {{ $dataPengujiLuar->total() }} data
+                        @else
+                            Tidak ada data untuk ditampilkan
+                        @endif
+                    </span>
+                    @if ($dataPengujiLuar->hasPages())
+                        <nav aria-label="Page navigation">
+                            {{ $dataPengujiLuar->links('pagination::bootstrap-5') }}
+                        </nav>
+                    @endif
                 </div>
             </div>
             
@@ -370,17 +479,24 @@
                 </div>
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered">
-                        <thead class="table-light"><tr class="text-center"><th>No</th><th>Nama Dosen</th><th>Nama Mahasiswa</th><th>Universitas</th><th>Status</th><th>Verifikasi</th><th>Dokumen</th><th>Aksi</th></tr></thead>
+                        <thead class="table-light"><tr class="text-center"><th>No</th><th>Nama Dosen</th><th>Nama Mahasiswa</th><th>Universitas</th><th>Status</th><th>Dokumen</th><th>Aksi</th></tr></thead>
                         <tbody>
                              @forelse ($dataPembimbingLuar as $index => $item)
                             <tr>
-                                <td class="text-center">{{ $index + 1 }}</td>
+                                <td class="text-center">{{ $dataPembimbingLuar->firstItem() + $index }}</td>
                                 <td>{{ $item->pegawai->nama_lengkap ?? 'N/A' }}</td>
                                 <td>{{ $item->nama_mahasiswa }}</td>
                                 <td>{{ $item->universitas }}</td>
-                                <td>{{ $item->status }}</td>
-                                <td class="text-center"><i class="fas fa-{{ $item->is_verified ? 'check-circle text-success' : 'times-circle text-danger' }}"></i></td>
-                                <td class="text-center"><a href="{{ $item->file_path ? asset($item->file_path) : '#' }}" class="btn btn-sm btn-lihat text-white {{ $item->file_path ? '' : 'disabled' }}" target="_blank">Lihat</a></td>
+                                <td class="text-center">
+                                    @if ($item->status_verifikasi == 'diverifikasi')
+                                        <i class="fas fa-check-circle text-success" title="Diverifikasi"></i>
+                                    @elseif ($item->status_verifikasi == 'ditolak')
+                                        <i class="fas fa-times-circle text-danger" title="Ditolak"></i>
+                                    @else
+                                        <i class="fas fa-question-circle text-warning" title="Belum Diverifikasi"></i>
+                                    @endif
+                                </td>
+                                <td class="text-center"><a href="{{ $item->file_path ? Storage::url($item->file_path) : '#' }}" class="btn btn-sm btn-lihat text-white {{ $item->file_path ? '' : 'disabled' }}" target="_blank">Lihat</a></td>
                                 <td class="text-center">
                                     <div class="d-flex gap-2 justify-content-center">
                                         <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a>
@@ -391,25 +507,28 @@
                                 </td>
                             </tr>
                             @empty
-                            <tr><td colspan="8" class="text-center text-muted">Belum ada data.</td></tr>
+                            <tr><td colspan="7" class="text-center text-muted">Belum ada data.</td></tr>
                             @endforelse
                         </tbody>
                     </table>
                 </div>
+                <div class="d-flex justify-content-between align-items-center mt-4">
+                    <span class="text-muted small">
+                        @if ($dataPembimbingLuar->total() > 0)
+                            Menampilkan {{ $dataPembimbingLuar->firstItem() }} sampai {{ $dataPembimbingLuar->lastItem() }} dari {{ $dataPembimbingLuar->total() }} data
+                        @else
+                            Tidak ada data untuk ditampilkan
+                        @endif
+                    </span>
+                    @if ($dataPembimbingLuar->hasPages())
+                        <nav aria-label="Page navigation">
+                            {{ $dataPembimbingLuar->links('pagination::bootstrap-5') }}
+                        </nav>
+                    @endif
+                </div>
             </div>
           </div>
           
-          <div class="d-flex justify-content-between align-items-center mt-4">
-              <span class="text-muted small">Menampilkan data</span>
-              <nav aria-label="Page navigation">
-                <ul class="pagination pagination-sm mb-0">
-                  <li class="page-item disabled"><a class="page-link" href="#">Sebelumnya</a></li>
-                  <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">Berikutnya</a></li>
-                </ul>
-              </nav>
-          </div>
       </div>
   </div>
 

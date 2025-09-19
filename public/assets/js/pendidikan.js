@@ -128,10 +128,23 @@ document.addEventListener("DOMContentLoaded", () => {
     if (element) element.textContent = value || '-';
   };
   
-  const fillDocumentViewer = (id, path) => {
+const fillDocumentViewer = (id, path) => {
     const viewer = document.getElementById(id);
-    if (viewer) viewer.src = path ? `/storage/${path}` : '';
-  };
+    if (viewer) {
+        if (path) {
+            // Ekstrak path relatif dari URL lengkap jika perlu
+            // Contoh: "http://.../storage/pendidikan/file.pdf" -> "pendidikan/file.pdf"
+            const relativePath = path.includes('/storage/') 
+                ? path.split('/storage/')[1] 
+                : path;
+
+            // Atur src ke route preview dokumen yang baru
+            viewer.src = `/dokumen/preview/${relativePath}`;
+        } else {
+            viewer.src = '';
+        }
+    }
+};
 
   const handleViewDetail = async (button, url, fillFunction) => {
     const id = button.getAttribute('data-id');
@@ -192,7 +205,8 @@ document.addEventListener("DOMContentLoaded", () => {
     button.addEventListener('click', () => {
       resetPengajaranLamaModal();
       handleViewDetail(button, '/pendidikan/pengajaran-lama', data => {
-        fillElement('detail_pl_kegiatan', data.kegiatan);
+        const kegiatanText = data.kegiatan || 'Melaksanakan perkuliahan/tutorial dan membimbing, menguji serta menyelenggarakan pendidikan di laboratorium.';
+        fillElement('detail_pl_kegiatan', kegiatanText);
         fillElement('detail_pl_nama', data.pegawai?.nama_lengkap);
         fillElement('detail_pl_tahun_semester', data.tahun_semester);
         fillElement('detail_pl_kode_mk', data.kode_mk);

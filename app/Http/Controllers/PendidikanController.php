@@ -25,14 +25,18 @@ class PendidikanController extends Controller
 
     public function index() {
         $dosenAktif = Pegawai::where('status_pegawai', 'Aktif')->orderBy('nama_lengkap')->get();
+        
+        // Tentukan jumlah item per halaman
+        $perPage = 10;
+
         return view('pages.pendidikan', [
             'dosenAktif' => $dosenAktif,
-            'dataPengajaranLama' => PengajaranLama::with('pegawai')->latest()->get(),
-            'dataPengajaranLuar' => PengajaranLuar::with('pegawai')->latest()->get(),
-            'dataPengujianLama' => PengujianLama::with('pegawai')->latest()->get(),
-            'dataPembimbingLama' => PembimbingLama::with('pegawai')->latest()->get(),
-            'dataPengujiLuar' => PengujiLuar::with('pegawai')->latest()->get(),
-            'dataPembimbingLuar' => PembimbingLuar::with('pegawai')->latest()->get(),
+            'dataPengajaranLama' => PengajaranLama::with('pegawai')->latest()->paginate($perPage, ['*'], 'pengajaran_lama_page'),
+            'dataPengajaranLuar' => PengajaranLuar::with('pegawai')->latest()->paginate($perPage, ['*'], 'pengajaran_luar_page'),
+            'dataPengujianLama' => PengujianLama::with('pegawai')->latest()->paginate($perPage, ['*'], 'pengujian_lama_page'),
+            'dataPembimbingLama' => PembimbingLama::with('pegawai')->latest()->paginate($perPage, ['*'], 'pembimbing_lama_page'),
+            'dataPengujiLuar' => PengujiLuar::with('pegawai')->latest()->paginate($perPage, ['*'], 'penguji_luar_page'),
+            'dataPembimbingLuar' => PembimbingLuar::with('pegawai')->latest()->paginate($perPage, ['*'], 'pembimbing_luar_page'),
         ]);
     }
 
