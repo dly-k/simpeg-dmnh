@@ -18,7 +18,7 @@ class PendidikanController extends Controller
     private function handleFileUpload(Request $request, $fieldName, $directory) {
         if ($request->hasFile($fieldName)) {
             $path = $request->file($fieldName)->store($directory, 'public');
-            return Storage::url($path);
+            return $path;
         }
         return null;
     }
