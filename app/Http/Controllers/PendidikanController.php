@@ -137,4 +137,17 @@ class PendidikanController extends Controller
             'file' => 'nullable|file|mimes:pdf,jpg,png,doc,docx|max:5120',
         ], 'pendidikan/pembimbing-luar');
     }
+
+    // == METHOD BARU UNTUK MENGAMBIL DETAIL DATA ==
+    private function showDetail($model, $id) {
+        $data = $model::with('pegawai')->find($id);
+        return $data ? response()->json($data) : response()->json(['error' => 'Data tidak ditemukan.'], 404);
+    }
+
+    public function showPengajaranLama($id) { return $this->showDetail(PengajaranLama::class, $id); }
+    public function showPengajaranLuar($id) { return $this->showDetail(PengajaranLuar::class, $id); }
+    public function showPengujianLama($id) { return $this->showDetail(PengujianLama::class, $id); }
+    public function showPembimbingLama($id) { return $this->showDetail(PembimbingLama::class, $id); }
+    public function showPengujiLuar($id) { return $this->showDetail(PengujiLuar::class, $id); }
+    public function showPembimbingLuar($id) { return $this->showDetail(PembimbingLuar::class, $id); }
 }

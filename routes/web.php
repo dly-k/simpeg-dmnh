@@ -41,6 +41,13 @@ Route::post('/pendidikan/pengujian-lama', [PendidikanController::class, 'storePe
 Route::post('/pendidikan/pembimbing-lama', [PendidikanController::class, 'storePembimbingLama'])->name('pendidikan.pembimbing-lama.store');
 Route::post('/pendidikan/penguji-luar', [PendidikanController::class, 'storePengujiLuar'])->name('pendidikan.penguji-luar.store');
 Route::post('/pendidikan/pembimbing-luar', [PendidikanController::class, 'storePembimbingLuar'])->name('pendidikan.pembimbing-luar.store');
+//detail
+Route::get('/pendidikan/pengajaran-lama/{id}', [PendidikanController::class, 'showPengajaranLama']);
+Route::get('/pendidikan/pengajaran-luar/{id}', [PendidikanController::class, 'showPengajaranLuar']);
+Route::get('/pendidikan/pengujian-lama/{id}', [PendidikanController::class, 'showPengujianLama']);
+Route::get('/pendidikan/pembimbing-lama/{id}', [PendidikanController::class, 'showPembimbingLama']);
+Route::get('/pendidikan/penguji-luar/{id}', [PendidikanController::class, 'showPengujiLuar']);
+Route::get('/pendidikan/pembimbing-luar/{id}', [PendidikanController::class, 'showPembimbingLuar']);
 
 
 // routes/web.php

@@ -99,10 +99,22 @@
             {{-- =================================== PENGAJARAN LAMA =================================== --}}
             <div class="tab-pane fade show active" id="pengajaran-lama" role="tabpanel">
                 <div class="search-filter-container">
-                    <div class="btn-tambah-container ms-auto">
-                        <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalTambahEditPengajaranLama" id="btnTambahPengajaranLama">
-                            <i class="fa fa-plus me-2"></i> Tambah Data
-                        </a>
+                    <div class="search-filter-row">
+                        <div class="search-box">
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-search search-icon"></i></span>
+                                <input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ....">
+                            </div>
+                        </div>
+                        <select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select>
+                        <select class="form-select filter-select">
+                            <option selected>Status</option><option>Sudah Diverifikasi</option><option>Belum Diverifikasi</option><option>Ditolak</option>
+                        </select>
+                        <div class="btn-tambah-container">
+                            <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalTambahEditPengajaranLama" id="btnTambahPengajaranLama">
+                                <i class="fa fa-plus me-2"></i> Tambah Data
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -120,7 +132,7 @@
                                 <td class="text-center">
                                     <div class="d-flex gap-2 justify-content-center">
                                         <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a>
-                                        <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail" data-bs-toggle="modal" data-bs-target="#modalDetailPengajaranLama"><i class="fa fa-eye"></i></a>
+                                        <a href="#" class="btn-aksi btn-lihat-detail btn-lihat-pengajaran-lama" title="Lihat Detail" data-bs-toggle="modal" data-bs-target="#modalDetailPengajaranLama" data-id="{{ $item->id }}"><i class="fa fa-eye"></i></a>
                                         <a href="#" class="btn-aksi btn-edit" title="Edit Data"><i class="fa fa-edit"></i></a>
                                         <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
                                     </div>
@@ -137,10 +149,22 @@
             {{-- =================================== PENGAJARAN LUAR =================================== --}}
             <div class="tab-pane fade" id="pengajaran-luar" role="tabpanel">
                 <div class="search-filter-container">
-                    <div class="btn-tambah-container ms-auto">
-                        <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalPengajaranLuar" id="btnTambahPengajaranLuar">
-                            <i class="fa fa-plus me-2"></i> Tambah Data
-                        </a>
+                    <div class="search-filter-row">
+                        <div class="search-box">
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-search search-icon"></i></span>
+                                <input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ....">
+                            </div>
+                        </div>
+                        <select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select>
+                        <select class="form-select filter-select">
+                            <option selected>Status</option><option>Sudah Diverifikasi</option><option>Belum Diverifikasi</option><option>Ditolak</option>
+                        </select>
+                        <div class="btn-tambah-container">
+                            <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalPengajaranLuar" id="btnTambahPengajaranLuar">
+                                <i class="fa fa-plus me-2"></i> Tambah Data
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -158,7 +182,7 @@
                                 <td class="text-center">
                                     <div class="d-flex gap-2 justify-content-center">
                                         <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a>
-                                        <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail" data-bs-toggle="modal" data-bs-target="#modalDetailPengajaranLuar"><i class="fa fa-eye"></i></a>
+                                        <a href="#" class="btn-aksi btn-lihat-detail btn-lihat-pengajaran-luar" title="Lihat Detail" data-bs-toggle="modal" data-bs-target="#modalDetailPengajaranLuar" data-id="{{ $item->id }}"><i class="fa fa-eye"></i></a>
                                         <a href="#" class="btn-aksi btn-edit" title="Edit Data"><i class="fa fa-edit"></i></a>
                                         <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
                                     </div>
@@ -175,10 +199,22 @@
             {{-- =================================== PENGUJIAN LAMA =================================== --}}
             <div class="tab-pane fade" id="pengujian-lama" role="tabpanel">
                 <div class="search-filter-container">
-                     <div class="btn-tambah-container ms-auto">
-                        <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalPengujianLama" id="btnTambahPengujianLama">
-                            <i class="fa fa-plus me-2"></i> Tambah Data
-                        </a>
+                    <div class="search-filter-row">
+                        <div class="search-box">
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-search search-icon"></i></span>
+                                <input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ....">
+                            </div>
+                        </div>
+                        <select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select>
+                        <select class="form-select filter-select">
+                            <option selected>Status</option><option>Sudah Diverifikasi</option><option>Belum Diverifikasi</option><option>Ditolak</option>
+                        </select>
+                        <div class="btn-tambah-container">
+                            <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalPengujianLama" id="btnTambahPengujianLama">
+                                <i class="fa fa-plus me-2"></i> Tambah Data
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -196,7 +232,7 @@
                                 <td class="text-center">
                                     <div class="d-flex gap-2 justify-content-center">
                                         <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a>
-                                        <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail" data-bs-toggle="modal" data-bs-target="#modalDetailPengujianLama"><i class="fa fa-eye"></i></a>
+                                        <a href="#" class="btn-aksi btn-lihat-detail btn-lihat-pengujian-lama" title="Lihat Detail" data-bs-toggle="modal" data-bs-target="#modalDetailPengujianLama" data-id="{{ $item->id }}"><i class="fa fa-eye"></i></a>
                                         <a href="#" class="btn-aksi btn-edit" title="Edit Data"><i class="fa fa-edit"></i></a>
                                         <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
                                     </div>
@@ -213,11 +249,23 @@
             {{-- =================================== PEMBIMBING LAMA =================================== --}}
             <div class="tab-pane fade" id="pembimbing-lama" role="tabpanel">
                   <div class="search-filter-container">
-                      <div class="btn-tambah-container ms-auto">
-                          <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalPembimbingLama" id="btnTambahPembimbingLama">
-                              <i class="fa fa-plus me-2"></i> Tambah Data
-                          </a>
-                      </div>
+                    <div class="search-filter-row">
+                        <div class="search-box">
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-search search-icon"></i></span>
+                                <input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ....">
+                            </div>
+                        </div>
+                        <select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select>
+                        <select class="form-select filter-select">
+                            <option selected>Status</option><option>Sudah Diverifikasi</option><option>Belum Diverifikasi</option><option>Ditolak</option>
+                        </select>
+                        <div class="btn-tambah-container">
+                            <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalPembimbingLama" id="btnTambahPembimbingLama">
+                                <i class="fa fa-plus me-2"></i> Tambah Data
+                            </a>
+                        </div>
+                    </div>
                   </div>
                   <div class="table-responsive">
                       <table class="table table-hover table-bordered">
@@ -234,7 +282,7 @@
                                 <td class="text-center">
                                     <div class="d-flex gap-2 justify-content-center">
                                         <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a>
-                                        <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail" data-bs-toggle="modal" data-bs-target="#modalDetailPembimbingLama"><i class="fa fa-eye"></i></a>
+                                        <a href="#" class="btn-aksi btn-lihat-detail btn-lihat-pembimbing-lama" title="Lihat Detail" data-bs-toggle="modal" data-bs-target="#modalDetailPembimbingLama" data-id="{{ $item->id }}"><i class="fa fa-eye"></i></a>
                                         <a href="#" class="btn-aksi btn-edit" title="Edit Data"><i class="fa fa-edit"></i></a>
                                         <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
                                     </div>
@@ -251,10 +299,22 @@
             {{-- =================================== PENGUJI LUAR =================================== --}}
             <div class="tab-pane fade" id="penguji-luar" role="tabpanel">
                 <div class="search-filter-container">
-                    <div class="btn-tambah-container ms-auto">
-                        <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalPengujiLuar" id="btnTambahPengujiLuar">
-                            <i class="fa fa-plus me-2"></i> Tambah Data
-                        </a>
+                    <div class="search-filter-row">
+                        <div class="search-box">
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-search search-icon"></i></span>
+                                <input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ....">
+                            </div>
+                        </div>
+                        <select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select>
+                        <select class="form-select filter-select">
+                            <option selected>Status</option><option>Sudah Diverifikasi</option><option>Belum Diverifikasi</option><option>Ditolak</option>
+                        </select>
+                        <div class="btn-tambah-container">
+                            <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalPengujiLuar" id="btnTambahPengujiLuar">
+                                <i class="fa fa-plus me-2"></i> Tambah Data
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -273,7 +333,7 @@
                                 <td class="text-center">
                                     <div class="d-flex gap-2 justify-content-center">
                                         <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a>
-                                        <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail" data-bs-toggle="modal" data-bs-target="#modalDetailPengujiLuar"><i class="fa fa-eye"></i></a>
+                                        <a href="#" class="btn-aksi btn-lihat-detail btn-lihat-penguji-luar" title="Lihat Detail" data-bs-toggle="modal" data-bs-target="#modalDetailPengujiLuar" data-id="{{ $item->id }}"><i class="fa fa-eye"></i></a>
                                         <a href="#" class="btn-aksi btn-edit" title="Edit Data"><i class="fa fa-edit"></i></a>
                                         <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
                                     </div>
@@ -290,10 +350,22 @@
             {{-- =================================== PEMBIMBING LUAR =================================== --}}
             <div class="tab-pane fade" id="pembimbing-luar" role="tabpanel">
                 <div class="search-filter-container">
-                    <div class="btn-tambah-container ms-auto">
-                        <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalPembimbingLuar" id="btnTambahPembimbingLuar">
-                            <i class="fa fa-plus me-2"></i> Tambah Data
-                        </a>
+                    <div class="search-filter-row">
+                        <div class="search-box">
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-search search-icon"></i></span>
+                                <input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ....">
+                            </div>
+                        </div>
+                        <select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select>
+                        <select class="form-select filter-select">
+                            <option selected>Status</option><option>Sudah Diverifikasi</option><option>Belum Diverifikasi</option><option>Ditolak</option>
+                        </select>
+                        <div class="btn-tambah-container">
+                            <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalPembimbingLuar" id="btnTambahPembimbingLuar">
+                                <i class="fa fa-plus me-2"></i> Tambah Data
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -312,7 +384,7 @@
                                 <td class="text-center">
                                     <div class="d-flex gap-2 justify-content-center">
                                         <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data"><i class="fa fa-check"></i></a>
-                                        <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail" data-bs-toggle="modal" data-bs-target="#modalDetailPembimbingLuar"><i class="fa fa-eye"></i></a>
+                                        <a href="#" class="btn-aksi btn-lihat-detail btn-lihat-pembimbing-luar" title="Lihat Detail" data-bs-toggle="modal" data-bs-target="#modalDetailPembimbingLuar" data-id="{{ $item->id }}"><i class="fa fa-eye"></i></a>
                                         <a href="#" class="btn-aksi btn-edit" title="Edit Data"><i class="fa fa-edit"></i></a>
                                         <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
                                     </div>
