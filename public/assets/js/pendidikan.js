@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (tabElement) {
       new bootstrap.Tab(tabElement).show();
     }
-    localStorage.removeItem('activePendidikanTab');
   }
 
   tabs.forEach(tab => {
@@ -17,38 +16,136 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // KODE BARU UNTUK TOMBOL SELESAI PADA MODAL KUSTOM
+  const modalBerhasil = document.getElementById("modalBerhasil");
+  const btnSelesai = document.getElementById("btnSelesai");
+
+  if (btnSelesai && modalBerhasil) {
+    btnSelesai.addEventListener('click', () => {
+      modalBerhasil.classList.remove("show");
+    });
+  }
+
   // == FUNGSI BANTUAN MODAL ==
   const getModalInstance = (modalId) => {
     const modalElement = document.getElementById(modalId);
     return modalElement ? bootstrap.Modal.getOrCreateInstance(modalElement) : null;
   };
 
-  const showSuccessModal = (title, subtitle) => {
-    const berhasilTitle = document.getElementById("berhasil-title");
-    const berhasilSubtitle = document.getElementById("berhasil-subtitle");
-    const modalBerhasil = document.getElementById("modalBerhasil");
-    if (berhasilTitle) berhasilTitle.textContent = title;
-    if (berhasilSubtitle) berhasilSubtitle.textContent = subtitle;
+  // FUNGSI BARU UNTUK MENAMPILKAN MODAL KUSTOM
+const showSuccessModal = (message) => {
+  const modalBerhasil = document.getElementById("modalBerhasil");
+  const berhasilSubtitle = document.getElementById("berhasil-subtitle");
 
-    if (modalBerhasil) {
-      modalBerhasil.classList.add("show");
-      setTimeout(() => {
-        modalBerhasil.classList.remove("show");
-      }, 1500);
-    }
-  };
+  // Update pesan subtitle sesuai respons dari server
+  if (berhasilSubtitle) {
+    berhasilSubtitle.textContent = message;
+  }
+
+  // Tampilkan modal dengan menambahkan class 'show'
+  if (modalBerhasil) {
+    modalBerhasil.classList.add("show");
+    
+    // --- TAMBAHKAN BARIS INI UNTUK MEMUTAR MUSIK ---
+    document.getElementById('success-sound')?.play();
+  }
+};
   
-  // == KONFIGURASI FORM ==
-  const formConfigs = [
-    { modalId: "modalTambahEditPengajaranLama", formId: "formPengajaranLama", btnId: "btnSimpanPengajaran", postUrl: "/pendidikan/pengajaran-lama" },
-    { modalId: "modalPengajaranLuar", formId: "formPengajaranLuar", btnId: "btnSimpanPengajaranLuar", postUrl: "/pendidikan/pengajaran-luar" },
-    { modalId: "modalPengujianLama", formId: "formPengujianLama", btnId: "btnSimpanPengujianLama", postUrl: "/pendidikan/pengujian-lama" },
-    { modalId: "modalPembimbingLama", formId: "formPembimbingLama", btnId: "btnSimpanPembimbingLama", postUrl: "/pendidikan/pembimbing-lama" },
-    { modalId: "modalPengujiLuar", formId: "formPengujiLuar", btnId: "btnSimpanPengujiLuar", postUrl: "/pendidikan/penguji-luar" },
-    { modalId: "modalPembimbingLuar", formId: "formPembimbingLuar", btnId: "btnSimpanPembimbingLuar", postUrl: "/pendidikan/pembimbing-luar" },
-  ];
+  // == KONFIGURASI FORM UNTUK TAMBAH & EDIT ==
+  const formConfigs = {
+    'pengajaran-lama': { 
+      modalId: "modalTambahEditPengajaranLama", formId: "formPengajaranLama", btnId: "btnSimpanPengajaran", 
+      url: "/pendidikan/pengajaran-lama", title: "Pengajaran Lama" 
+    },
+    'pengajaran-luar': { 
+      modalId: "modalPengajaranLuar", formId: "formPengajaranLuar", btnId: "btnSimpanPengajaranLuar", 
+      url: "/pendidikan/pengajaran-luar", title: "Pengajaran Luar IPB"
+    },
+    'pengujian-lama': { 
+      modalId: "modalPengujianLama", formId: "formPengujianLama", btnId: "btnSimpanPengujianLama", 
+      url: "/pendidikan/pengujian-lama", title: "Pengujian Lama"
+    },
+    'pembimbing-lama': { 
+      modalId: "modalPembimbingLama", formId: "formPembimbingLama", btnId: "btnSimpanPembimbingLama", 
+      url: "/pendidikan/pembimbing-lama", title: "Pembimbing Lama"
+    },
+    'penguji-luar': { 
+      modalId: "modalPengujiLuar", formId: "formPengujiLuar", btnId: "btnSimpanPengujiLuar", 
+      url: "/pendidikan/penguji-luar", title: "Penguji Luar IPB"
+    },
+    'pembimbing-luar': { 
+      modalId: "modalPembimbingLuar", formId: "formPembimbingLuar", btnId: "btnSimpanPembimbingLuar", 
+      url: "/pendidikan/pembimbing-luar", title: "Pembimbing Luar IPB"
+    },
+  };
 
-  // == FUNGSI SUBMIT FORM DENGAN AJAX ==
+  // FUNGSI UNTUK MERESET FILE INPUT
+  const resetFileInput = (form) => {
+      const fileInput = form.querySelector('.file-input');
+      if (fileInput) {
+          const fileDropArea = fileInput.closest('.file-drop-area');
+          const fileMessage = fileDropArea.querySelector('.file-message');
+          fileInput.value = ''; // Hapus file yang dipilih
+          fileMessage.textContent = 'Drag & Drop File here';
+          fileDropArea.classList.remove('file-selected');
+      }
+  };
+
+  // FUNGSI UNTUK MENANGANI OPEN MODAL (TAMBAH DATA)
+  Object.keys(formConfigs).forEach(key => {
+    const config = formConfigs[key];
+    const btnTambah = document.getElementById(`btnTambah${config.title.replace(/\s+/g, '')}`);
+    btnTambah?.addEventListener('click', () => {
+      const form = document.getElementById(config.formId);
+      form.reset(); // Reset semua field form
+      form.querySelector('input[name="id"]').value = ''; // Pastikan ID kosong
+      resetFileInput(form); // Reset tampilan file input
+      
+      const modalTitle = document.querySelector(`#${config.modalId} .modal-title span`);
+      if (modalTitle) modalTitle.textContent = `Tambah ${config.title}`;
+    });
+  });
+
+  // FUNGSI UNTUK MENANGANI OPEN MODAL (EDIT DATA)
+  document.body.addEventListener('click', async (e) => {
+    const editButton = e.target.closest('.btn-edit');
+    if (!editButton) return;
+
+    const key = Object.keys(formConfigs).find(k => editButton.classList.contains(`btn-edit-${k.replace('_','-')}`));
+    if (!key) return;
+
+    const config = formConfigs[key];
+    const id = editButton.dataset.id;
+    const form = document.getElementById(config.formId);
+    
+    try {
+        const response = await fetch(`${config.url}/${id}/edit`);
+        if (!response.ok) throw new Error('Gagal memuat data untuk diedit.');
+        const data = await response.json();
+
+        // Populate form
+        form.reset();
+        resetFileInput(form);
+        Object.keys(data).forEach(fieldName => {
+            const field = form.querySelector(`[name="${fieldName}"]`);
+            if (field) {
+                field.value = data[fieldName];
+            }
+        });
+        
+        const modalTitle = document.querySelector(`#${config.modalId} .modal-title span`);
+        if (modalTitle) modalTitle.textContent = `Edit ${config.title}`;
+
+        getModalInstance(config.modalId).show();
+
+    } catch (error) {
+        console.error('Edit Error:', error);
+        alert(error.message);
+    }
+  });
+
+
+  // == FUNGSI SUBMIT FORM DENGAN AJAX (UNTUK CREATE & UPDATE) ==
   const handleFormSubmit = async (config) => {
       const form = document.getElementById(config.formId);
       const saveButton = document.getElementById(config.btnId);
@@ -58,11 +155,15 @@ document.addEventListener("DOMContentLoaded", () => {
       const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
       const originalButtonText = saveButton.innerHTML;
       
+      const id = formData.get('id');
+      const isUpdate = !!id;
+      const url = isUpdate ? `${config.url}/${id}` : config.url;
+      
       saveButton.disabled = true;
       saveButton.innerHTML = `<span class="spinner-border spinner-border-sm"></span> Menyimpan...`;
 
       try {
-          const response = await fetch(config.postUrl, {
+          const response = await fetch(url, {
               method: 'POST',
               headers: { 'X-CSRF-TOKEN': csrfToken, 'Accept': 'application/json' },
               body: formData,
@@ -81,10 +182,14 @@ document.addEventListener("DOMContentLoaded", () => {
               const formModal = getModalInstance(config.modalId);
               if (formModal) {
                 formModal.hide();
+                // Tunggu modal benar-benar tertutup sebelum menampilkan notifikasi
                 document.getElementById(config.modalId).addEventListener('hidden.bs.modal', () => {
-                    showSuccessModal("Data Berhasil Disimpan", data.success);
-                    const activeTabTarget = document.querySelector('#pendidikanTab .nav-link.active').getAttribute('data-bs-target');
-                    localStorage.setItem('activePendidikanTab', activeTabTarget);
+                    showSuccessModal(data.success);
+                    // Simpan tab aktif dan reload halaman
+                    const activeTab = document.querySelector('#pendidikanTab .nav-link.active');
+                    if (activeTab) {
+                      localStorage.setItem('activePendidikanTab', activeTab.getAttribute('data-bs-target'));
+                    }
                     setTimeout(() => { location.reload(); }, 1600);
                 }, { once: true });
               }
@@ -98,7 +203,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
   };
 
-  formConfigs.forEach((config) => {
+  // Daftarkan event listener untuk semua tombol simpan
+  Object.values(formConfigs).forEach((config) => {
     const saveButton = document.getElementById(config.btnId);
     saveButton?.addEventListener("click", () => handleFormSubmit(config));
   });
@@ -122,41 +228,31 @@ document.addEventListener("DOMContentLoaded", () => {
   // == FUNGSI UNTUK MENAMPILKAN DETAIL DATA ==
   // ===============================================
 
-  // Fungsi bantuan untuk mengisi elemen HTML
   const fillElement = (id, value) => {
     const element = document.getElementById(id);
     if (element) element.textContent = value || '-';
   };
   
-const fillDocumentViewer = (id, path) => {
+  const fillDocumentViewer = (id, path) => {
     const viewer = document.getElementById(id);
     if (viewer) {
         if (path) {
-            // Ekstrak path relatif dari URL lengkap jika perlu
-            // Contoh: "http://.../storage/pendidikan/file.pdf" -> "pendidikan/file.pdf"
-            const relativePath = path.includes('/storage/') 
-                ? path.split('/storage/')[1] 
-                : path;
-
-            // Atur src ke route preview dokumen yang baru
+            const relativePath = path.includes('/storage/') ? path.split('/storage/')[1] : path;
             viewer.src = `/dokumen/preview/${relativePath}`;
         } else {
             viewer.src = '';
         }
     }
-};
+  };
 
   const handleViewDetail = async (button, url, fillFunction) => {
     const id = button.getAttribute('data-id');
     if (!id) return;
-
     try {
       const response = await fetch(`${url}/${id}`);
       if (!response.ok) throw new Error('Gagal mengambil data.');
-      
       const data = await response.json();
       fillFunction(data);
-
     } catch (error) {
       console.error('Error fetching detail:', error);
       alert('Tidak dapat memuat detail data.');
