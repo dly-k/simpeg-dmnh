@@ -148,113 +148,149 @@ document.addEventListener("DOMContentLoaded", () => {
     .catch(error => console.error('Error:', error));
   }
   
-  // --- Fungsi untuk mengisi Form Edit & Detail ---
-  function populateForm(data) { /* ... (kode lengkap dari jawaban sebelumnya) ... */ }
-  function populateDetailModal(data) { /* ... (kode lengkap dari jawaban sebelumnya) ... */ }
-  // (kode lengkap disalin di sini)
-  function populateForm(a){penelitianForm.querySelector('[name="judul"]').value=a.judul,penelitianForm.querySelector('[name="jenis_karya"]').value=a.jenis_karya,penelitianForm.querySelector('[name="volume"]').value=a.volume,penelitianForm.querySelector('[name="jumlah_halaman"]').value=a.jumlah_halaman,penelitianForm.querySelector('[name="tanggal_terbit"]').value=a.tanggal_terbit?a.tanggal_terbit.substring(0,10):"",penelitianForm.querySelector('[name="publik"]').value=a.is_publik?"Ya":"Tidak",penelitianForm.querySelector('[name="isbn"]').value=a.isbn,penelitianForm.querySelector('[name="issn"]').value=a.issn,penelitianForm.querySelector('[name="doi"]').value=a.doi,penelitianForm.querySelector('[name="url"]').value=a.url,document.getElementById("penulis-ipb-list").innerHTML="",document.getElementById("penulis-luar-list").innerHTML="",document.getElementById("penulis-mahasiswa-list").innerHTML="",counters={ipb:0,luar:0,mahasiswa:0},a.penulis&&a.penulis.length>0&&a.penulis.forEach(t=>{let e;e="IPB"===t.tipe_penulis?"ipb":"Luar IPB"===t.tipe_penulis?"luar":"mahasiswa",addPenulis(e),"ipb"===e?document.querySelector(`#penulis-ipb-list .input-group:last-child select`).value=t.pegawai_id:"luar"===e?(document.querySelector(`#penulis-luar-list .input-group:last-child [name$="[nama]"]`).value=t.nama_penulis,document.querySelector(`#penulis-luar-list .input-group:last-child [name$="[afiliasi]"]`).value=t.afiliasi):document.querySelector(`#penulis-mahasiswa-list .input-group:last-child input`).value=t.nama_penulis}),""===document.getElementById("penulis-ipb-list").innerHTML&&addPenulis("ipb"),""===document.getElementById("penulis-luar-list").innerHTML&&addPenulis("luar"),""===document.getElementById("penulis-mahasiswa-list").innerHTML&&addPenulis("mahasiswa")}
-  // GANTI FUNGSI LAMA ANDA DENGAN INI
-// --- Fungsi untuk mengisi Modal Detail ---
-function populateDetailModal(data) {
-  // Fungsi helper untuk mengisi elemen atau menampilkan strip jika data kosong
-  const setDetail = (id, value) => {
-      const el = document.getElementById(id);
-      if (el) el.textContent = value || '-';
-  };
-
-  setDetail('detail-judul', data.judul);
-  setDetail('detail-jenis_karya', data.jenis_karya);
-  setDetail('detail-volume', data.volume);
-  setDetail('detail-jumlah_halaman', data.jumlah_halaman);
-  
-  const tanggalTerbitEl = document.getElementById('detail-tanggal_terbit');
-  if (tanggalTerbitEl) {
-      if (data.tanggal_terbit) {
-          const date = new Date(data.tanggal_terbit);
-          tanggalTerbitEl.textContent = date.toLocaleDateString('id-ID', {
-              day: 'numeric',
-              month: 'long',
-              year: 'numeric'
-          });
-      } else {
-          tanggalTerbitEl.textContent = '-';
+  // --- Fungsi untuk mengisi Form Edit ---
+  function populateForm(data){
+      penelitianForm.querySelector('[name="judul"]').value=data.judul;
+      penelitianForm.querySelector('[name="jenis_karya"]').value=data.jenis_karya;
+      penelitianForm.querySelector('[name="volume"]').value=data.volume;
+      penelitianForm.querySelector('[name="jumlah_halaman"]').value=data.jumlah_halaman;
+      penelitianForm.querySelector('[name="tanggal_terbit"]').value=data.tanggal_terbit?data.tanggal_terbit.substring(0,10):"";
+      penelitianForm.querySelector('[name="publik"]').value=data.is_publik?"Ya":"Tidak";
+      penelitianForm.querySelector('[name="isbn"]').value=data.isbn;
+      penelitianForm.querySelector('[name="issn"]').value=data.issn;
+      penelitianForm.querySelector('[name="doi"]').value=data.doi;
+      penelitianForm.querySelector('[name="url"]').value=data.url;
+      document.getElementById("penulis-ipb-list").innerHTML="";
+      document.getElementById("penulis-luar-list").innerHTML="";
+      document.getElementById("penulis-mahasiswa-list").innerHTML="";
+      counters={ipb:0,luar:0,mahasiswa:0};
+      
+      if(data.penulis && data.penulis.length > 0) {
+        data.penulis.forEach(p => {
+            let type = p.tipe_penulis === "IPB" ? "ipb" : (p.tipe_penulis === "Luar IPB" ? "luar" : "mahasiswa");
+            addPenulis(type);
+            if (type === "ipb") {
+                document.querySelector(`#penulis-ipb-list .input-group:last-child select`).value = p.pegawai_id;
+            } else if (type === "luar") {
+                document.querySelector(`#penulis-luar-list .input-group:last-child [name$="[nama]"]`).value = p.nama_penulis;
+                document.querySelector(`#penulis-luar-list .input-group:last-child [name$="[afiliasi]"]`).value = p.afiliasi;
+            } else {
+                document.querySelector(`#penulis-mahasiswa-list .input-group:last-child input`).value = p.nama_penulis;
+            }
+        });
       }
+
+      if(document.getElementById("penulis-ipb-list").innerHTML === "") addPenulis("ipb");
+      if(document.getElementById("penulis-luar-list").innerHTML === "") addPenulis("luar");
+      if(document.getElementById("penulis-mahasiswa-list").innerHTML === "") addPenulis("mahasiswa");
   }
 
-  setDetail('detail-publik', data.is_publik ? 'Ya' : 'Tidak');
-  setDetail('detail-isbn', data.isbn);
-  setDetail('detail-issn', data.issn);
-  setDetail('detail-doi', data.doi);
+  // --- Fungsi untuk mengisi Modal Detail ---
+  function populateDetailModal(data) {
+    const setDetail = (id, value) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = value || '-';
+    };
 
-  const urlEl = document.getElementById('detail-url');
-  if (urlEl) {
-      urlEl.innerHTML = data.url ? `<a href="${data.url}" target="_blank">Lihat Tautan</a>` : '-';
-  }
+    setDetail('detail-judul', data.judul);
+    setDetail('detail-jenis_karya', data.jenis_karya);
+    setDetail('detail-volume', data.volume);
+    setDetail('detail-jumlah_halaman', data.jumlah_halaman);
+    
+    const tanggalTerbitEl = document.getElementById('detail-tanggal_terbit');
+    if (tanggalTerbitEl) {
+        if (data.tanggal_terbit) {
+            const date = new Date(data.tanggal_terbit);
+            tanggalTerbitEl.textContent = date.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+        } else {
+            tanggalTerbitEl.textContent = '-';
+        }
+    }
 
-  const docEl = document.getElementById('detail-dokumen');
-  if (docEl) {
-      docEl.innerHTML = data.dokumen_path ? `<a href="/storage/${data.dokumen_path}" target="_blank" class="btn btn-primary btn-sm"><i class="fas fa-file-alt me-2"></i>Lihat Dokumen</a>` : '<span class="text-muted">Tidak ada dokumen</span>';
+    setDetail('detail-publik', data.is_publik ? 'Ya' : 'Tidak');
+    setDetail('detail-isbn', data.isbn);
+    setDetail('detail-issn', data.issn);
+    setDetail('detail-doi', data.doi);
+
+    const urlEl = document.getElementById('detail-url');
+    if (urlEl) {
+        urlEl.innerHTML = data.url ? `<a href="${data.url}" target="_blank">Lihat Tautan</a>` : '-';
+    }
+
+    const docEl = document.getElementById('detail-dokumen');
+    if (docEl) {
+        docEl.innerHTML = data.dokumen_path ? `<a href="/storage/${data.dokumen_path}" target="_blank" class="btn btn-primary btn-sm"><i class="fas fa-file-alt me-2"></i>Lihat Dokumen</a>` : '<span class="text-muted">Tidak ada dokumen</span>';
+    }
+    
+    ['ipb', 'luar', 'mahasiswa'].forEach(type => {
+        document.getElementById(`detail-penulis-${type}-section`).style.display = 'none';
+        document.getElementById(`detail-penulis-${type}-list`).innerHTML = '';
+    });
+
+    if (data.penulis && data.penulis.length > 0) {
+        data.penulis.forEach(p => {
+            let type, content = '', namaPenulisHtml = '', skLinkHtml = '';
+
+            if (p.tipe_penulis === 'IPB') {
+                type = 'ipb';
+                namaPenulisHtml = `<div class="detail-item" style="border:none; padding:0;"><small>Nama Penulis</small><p>${p.pegawai.nama_lengkap}</p></div>`;
+            } else if (p.tipe_penulis === 'Luar IPB') {
+                type = 'luar';
+                namaPenulisHtml = `<div class="detail-item" style="border:none; padding:0;"><small>Nama Penulis</small><p>${p.nama_penulis} (${p.afiliasi || 'Tidak ada afiliasi'})</p></div>`;
+            } else {
+                type = 'mahasiswa';
+                namaPenulisHtml = `<div class="detail-item" style="border:none; padding:0;"><small>Nama Mahasiswa</small><p>${p.nama_penulis}</p></div>`;
+            }
+            
+            if (p.sk_penugasan_path) {
+                skLinkHtml = `<div class="detail-item" style="border:none; padding:0;"><small>SK Penugasan</small><p><a href="/storage/${p.sk_penugasan_path}" target="_blank">Lihat SK</a></p></div>`;
+            } else if (p.tipe_penulis !== 'Mahasiswa') {
+                skLinkHtml = '<div></div>';
+            }
+
+            content = `<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; width: 100%; border-bottom: 1px solid #e9ecef; margin-bottom: 1rem; padding-bottom: 1rem;">${namaPenulisHtml}${skLinkHtml}</div>`;
+            
+            document.getElementById(`detail-penulis-${type}-section`).style.display = 'block';
+            const listContainer = document.getElementById(`detail-penulis-${type}-list`);
+            listContainer.style.display = 'block';
+            listContainer.insertAdjacentHTML('beforeend', content);
+        });
+    }
   }
   
-  // Reset dan isi daftar penulis
-  ['ipb', 'luar', 'mahasiswa'].forEach(type => {
-      document.getElementById(`detail-penulis-${type}-section`).style.display = 'none';
-      document.getElementById(`detail-penulis-${type}-list`).innerHTML = '';
-  });
-
-  if (data.penulis && data.penulis.length > 0) {
-      data.penulis.forEach(p => {
-          let type, listEl, content = '';
-          let namaPenulisHtml = '';
-          let skLinkHtml = '';
-
-          // Siapkan HTML untuk Nama Penulis
-          if (p.tipe_penulis === 'IPB') {
-              type = 'ipb';
-              namaPenulisHtml = `<div class="detail-item" style="border:none; padding:0;"><small>Nama Penulis</small><p>${p.pegawai.nama_lengkap}</p></div>`;
-          } else if (p.tipe_penulis === 'Luar IPB') {
-              type = 'luar';
-              namaPenulisHtml = `<div class="detail-item" style="border:none; padding:0;"><small>Nama Penulis</small><p>${p.nama_penulis} (${p.afiliasi || 'Tidak ada afiliasi'})</p></div>`;
-          } else { // Mahasiswa
-              type = 'mahasiswa';
-              namaPenulisHtml = `<div class="detail-item" style="border:none; padding:0;"><small>Nama Mahasiswa</small><p>${p.nama_penulis}</p></div>`;
-          }
-          
-          // Siapkan HTML untuk SK Penugasan (jika ada)
-          // Jika tidak ada SK, buat div kosong agar layout tidak rusak
-          if (p.sk_penugasan_path) {
-              skLinkHtml = `
-                  <div class="detail-item" style="border:none; padding:0;">
-                      <small>SK Penugasan</small>
-                      <p><a href="/storage/${p.sk_penugasan_path}" target="_blank">Lihat SK</a></p>
-                  </div>`;
-          } else if (p.tipe_penulis !== 'Mahasiswa') {
-              skLinkHtml = '<div></div>'; // Placeholder untuk menjaga layout grid
-          }
-
-          // ================== PERUBAHAN UTAMA DI SINI ==================
-          // Gabungkan menjadi satu baris entri penulis dengan layout grid 2 kolom
-          content = `
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; width: 100%; border-bottom: 1px solid #e9ecef; margin-bottom: 1rem; padding-bottom: 1rem;">
-                ${namaPenulisHtml}
-                ${skLinkHtml}
-            </div>
-          `;
-          // ===============================================================
-          
-          document.getElementById(`detail-penulis-${type}-section`).style.display = 'block';
-          const listContainer = document.getElementById(`detail-penulis-${type}-list`);
-          listContainer.style.display = 'block';
-          listContainer.insertAdjacentHTML('beforeend', content);
-      });
-  }
-}
   // --- Fungsi-fungsi pembuka Modal ---
-  window.openModal = () => { /* ... (kode lengkap dari jawaban sebelumnya) ... */ };
-  window.openEditModal = (id) => { /* ... (kode lengkap dari jawaban sebelumnya) ... */ };
-  window.openDetailModal = (id) => { /* ... (kode lengkap dari jawaban sebelumnya) ... */ };
-  // (kode lengkap disalin di sini)
-  window.openModal=()=>{penelitianModalInstance&&(penelitianForm.reset(),penelitianForm.action="/penelitian",document.getElementById("form-method-placeholder").innerHTML="",document.getElementById("penelitianModalLabel").innerHTML='<i class="fas fa-plus-circle"></i> Tambah Data Penelitian',penelitianForm.querySelector('button[type="submit"]').textContent="Simpan Data",resetPenulisFields(),penelitianModalInstance.show())},window.openEditModal=a=>{penelitianModalInstance&&fetch(`/penelitian/${a}/edit`).then(a=>a.json()).then(t=>{penelitianForm.reset(),penelitianForm.action=`/penelitian/${a}`,document.getElementById("form-method-placeholder").innerHTML='<input type="hidden" name="_method" value="PATCH">',document.getElementById("penelitianModalLabel").innerHTML='<i class="fas fa-edit"></i> Edit Data Penelitian',penelitianForm.querySelector('button[type="submit"]').textContent="Update Data",populateForm(t),penelitianModalInstance.show()}).catch(a=>console.error("Error fetching data for edit:",a))},window.openDetailModal=a=>{detailModalInstance&&fetch(`/penelitian/${a}/edit`).then(a=>a.json()).then(t=>{populateDetailModal(t),detailModalInstance.show()}).catch(a=>console.error("Error fetching detail data:",a))};
+  window.openModal=()=>{
+      if(penelitianModalInstance) {
+          penelitianForm.reset();
+          penelitianForm.action="/penelitian";
+          document.getElementById("form-method-placeholder").innerHTML="";
+          document.getElementById("penelitianModalLabel").innerHTML='<i class="fas fa-plus-circle"></i> Tambah Data Penelitian';
+          penelitianForm.querySelector('button[type="submit"]').textContent="Simpan Data";
+          resetPenulisFields();
+          penelitianModalInstance.show();
+      }
+  };
+  window.openEditModal=id=>{
+      if(penelitianModalInstance) {
+          fetch(`/penelitian/${id}/edit`).then(res => res.json()).then(data => {
+              penelitianForm.reset();
+              penelitianForm.action=`/penelitian/${id}`;
+              document.getElementById("form-method-placeholder").innerHTML='<input type="hidden" name="_method" value="PATCH">';
+              document.getElementById("penelitianModalLabel").innerHTML='<i class="fas fa-edit"></i> Edit Data Penelitian';
+              penelitianForm.querySelector('button[type="submit"]').textContent="Update Data";
+              populateForm(data);
+              penelitianModalInstance.show();
+          }).catch(err => console.error("Error fetching data for edit:", err));
+      }
+  };
+  window.openDetailModal=id=>{
+      if(detailModalInstance) {
+          fetch(`/penelitian/${id}/edit`).then(res => res.json()).then(data => {
+              populateDetailModal(data);
+              detailModalInstance.show();
+          }).catch(err => console.error("Error fetching detail data:", err));
+      }
+  };
 
   // --- Event listener untuk tombol Selesai di modal sukses ---
   document.getElementById("btnSelesai")?.addEventListener("click", () => {
@@ -262,12 +298,8 @@ function populateDetailModal(data) {
       location.reload();
   });
 
-  // --- Penanganan event klik terpusat ---
+  // --- Penanganan event klik terpusat untuk aksi di tabel dan modal---
   document.addEventListener('click', function(e) {
-    
-    // ================== PERBAIKAN LOGIKA DIMULAI DI SINI ==================
-    
-    // Cek jika klik ada di dalam MODAL HAPUS
     if (e.target.closest('.konfirmasi-hapus-overlay')) {
         const clickedButtonInHapusModal = e.target.closest('.btn-popup');
         if (clickedButtonInHapusModal) {
@@ -277,10 +309,9 @@ function populateDetailModal(data) {
                 konfirmasiHapusModal.classList.remove('show');
             }
         }
-        return; // Hentikan pengecekan lebih lanjut jika klik sudah ditangani di sini
+        return;
     }
     
-    // Cek jika klik ada di dalam MODAL VERIFIKASI
     if (e.target.closest('#modalKonfirmasiVerifikasi')) {
         const clickedButtonInVerifModal = e.target.closest('.btn-popup');
         if (clickedButtonInVerifModal) {
@@ -289,10 +320,9 @@ function populateDetailModal(data) {
             else if (buttonId === 'popupBtnTolak') { sendVerifikasiRequest('Ditolak'); } 
             else if (buttonId === 'popupBtnKembali') { modalKonfirmasiVerifikasi.classList.remove('show'); }
         }
-        return; // Hentikan pengecekan lebih lanjut
+        return;
     }
 
-    // Cek tombol AKSI di TABEL (Hapus & Verifikasi)
     const aksiBtn = e.target.closest('.btn-aksi');
     if (aksiBtn) {
         if (aksiBtn.classList.contains('btn-verifikasi')) {
@@ -308,4 +338,43 @@ function populateDetailModal(data) {
         }
     }
   });
+
+  // --- Fungsi untuk Filter Otomatis ---
+  const filterForm = document.getElementById('filter-form');
+  if (filterForm) {
+      const debounce = (func, delay) => {
+          let timeoutId;
+          const cancel = () => clearTimeout(timeoutId);
+          const debounced = (...args) => {
+              clearTimeout(timeoutId);
+              timeoutId = setTimeout(() => {
+                  func.apply(this, args);
+              }, delay);
+          };
+          debounced.cancel = cancel;
+          return debounced;
+      };
+
+      const debouncedSubmit = debounce(() => {
+          filterForm.submit();
+      }, 500);
+
+      filterForm.querySelectorAll('.filter-select').forEach(select => {
+          select.addEventListener('change', () => {
+              filterForm.submit();
+          });
+      });
+
+      const searchInput = filterForm.querySelector('.search-input');
+      if (searchInput) {
+          searchInput.addEventListener('keyup', (event) => {
+              if (event.key === 'Enter') {
+                  debouncedSubmit.cancel?.();
+                  filterForm.submit();
+              } else {
+                  debouncedSubmit();
+              }
+          });
+      }
+  }
 });

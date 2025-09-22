@@ -14,16 +14,72 @@ use Illuminate\Validation\Rule;
 class PenelitianController extends Controller
 {
     /**
-     * Menampilkan halaman utama dengan data penelitian.
+     * Menampilkan halaman utama dengan data penelitian yang sudah difilter.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $penelitian = Penelitian::with('penulis.pegawai')
-            ->latest()
-            ->paginate(10);
-            
+        $query = Penelitian::with('penulis.pegawai');
+
+        // 1. Filter Pencarian (Judul atau Penulis)
+        if ($search = $request->input('search')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('judul', 'like', "%{$search}%")
+                  ->orWhereHas('penulis', function ($subq) use ($search) {
+                      $subq->where('nama_penulis', 'like', "%{$search}%")
+                           ->orWhereHas('pegawai', function ($pegawaiSubq) use ($search) {
+                               $pegawaiSubq->where('nama_lengkap', 'like', "%{$search}%");
+                           });
+                  });
+            });
+        }
+
+        // 2. Filter Periode (Ganjil/Genap per Tahun)
+        if ($periode = $request->input('periode')) {
+            list($year, $semester) = explode('_', $periode);
+            $months = ($semester === 'ganjil') ? [1, 6] : [7, 12];
+            $query->whereYear('tanggal_terbit', $year)
+                  ->whereBetween(DB::raw('MONTH(tanggal_terbit)'), $months);
+        }
+
+        // 3. Filter Jenis Karya
+        if ($jenis_karya = $request->input('jenis_karya_lengkap')) {
+            $query->where('jenis_karya', $jenis_karya);
+        }
+
+        // 4. Filter Status
+        if ($status = $request->input('status')) {
+            $query->where('status', $status);
+        }
+
+        $penelitian = $query->latest()->paginate(10)->withQueryString();
         $pegawai = Pegawai::where('status_pegawai', 'Aktif')->orderBy('nama_lengkap')->get();
-        return view('pages.penelitian', compact('penelitian', 'pegawai'));
+        
+        return view('pages.penelitian', [
+            'penelitian' => $penelitian,
+            'pegawai' => $pegawai,
+            'periodeOptions' => $this->getPeriodeOptions(),
+        ]);
+    }
+
+    /**
+     * Helper untuk membuat opsi filter periode dinamis.
+     */
+    private function getPeriodeOptions()
+    {
+        $dates = Penelitian::select(DB::raw('YEAR(tanggal_terbit) as year, MONTH(tanggal_terbit) as month'))
+            ->whereNotNull('tanggal_terbit')
+            ->distinct()
+            ->orderBy('year', 'desc')
+            ->get();
+
+        $options = [];
+        foreach ($dates as $date) {
+            $semester = ($date->month >= 1 && $date->month <= 6) ? 'ganjil' : 'genap';
+            $label = ($semester === 'ganjil' ? 'Ganjil' : 'Genap') . ' ' . $date->year;
+            $value = $date->year . '_' . $semester;
+            $options[$value] = $label; // Menggunakan value sebagai key untuk otomatis handle duplikat
+        }
+        return $options;
     }
 
     /**
@@ -186,6 +242,10 @@ class PenelitianController extends Controller
             }
         }
     }
+    
+    /**
+     * Menghapus data penelitian dari database.
+     */
      public function destroy(Penelitian $penelitian)
     {
         DB::beginTransaction();
@@ -223,5 +283,4 @@ class PenelitianController extends Controller
             ], 500);
         }
     }
-
 }
