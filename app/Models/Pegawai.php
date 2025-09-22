@@ -10,7 +10,7 @@ class Pegawai extends Model
     use HasFactory;
 
     /**
-     * The attributes that are mass assignable.
+     * Atribut yang dapat diisi secara massal.
      *
      * @var array<int, string>
      */
@@ -28,34 +28,61 @@ class Pegawai extends Model
         'provinsi_ktp', 'kabupaten_ktp', 'alamat_ktp',
     ];
 
+    // --- DEFINISI RELASI ---
+
+    /**
+     * Relasi many-to-many ke Penelitian melalui tabel 'penulis_penelitian'.
+     */
+    public function penelitian()
+    {
+        return $this->belongsToMany(Penelitian::class, 'penulis_penelitian');
+    }
+
+    /**
+     * Relasi many-to-many ke Pengabdian melalui tabel 'pengabdian_anggota'.
+     */
+    public function pengabdian()
+    {
+        return $this->belongsToMany(Pengabdian::class, 'pengabdian_anggotas');
+    }
+
+    /**
+     * Relasi one-to-many ke Penghargaan.
+     */
+    public function penghargaan()
+    {
+        return $this->hasMany(Penghargaan::class);
+    }
+
+    /**
+     * Relasi one-to-many ke Pelatihan.
+     */
+    public function pelatihan()
+    {
+        return $this->hasMany(Pelatihan::class);
+    }
+
+    /**
+     * Relasi one-to-many ke SuratTugas.
+     */
+    public function suratTugas()
+    {
+        return $this->hasMany(SuratTugas::class);
+    }
+
+    /**
+     * Relasi one-to-many ke EFile.
+     */
     public function efiles()
     {
         return $this->hasMany(EFile::class)->orderBy('created_at', 'desc');
     }
 
+    /**
+     * Relasi one-to-many ke SkNonPns.
+     */
     public function skNonPns()
     {
         return $this->hasMany(SkNonPns::class);
-    }
-        public function penghargaan()
-    {
-        return $this->hasMany(Penghargaan::class);
-    }
-     public function suratTugas()
-    {
-        return $this->hasMany(SuratTugas::class);
-    }
-         public function pelatihans()
-    {
-        return $this->hasMany(Pelatihan::class);
-    }
-    public function pengabdianAnggota()
-    {
-        // Seorang Pegawai memiliki banyak (hasMany) data di PengabdianAnggota
-        return $this->hasMany(PengabdianAnggota::class);
-    }
-        public function karyaPenelitian()
-    {
-        return $this->hasMany(PenulisPenelitian::class, 'pegawai_id');
     }
 }

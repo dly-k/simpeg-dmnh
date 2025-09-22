@@ -15,7 +15,9 @@ Route::view('/login', 'auth.login')->name('login');
 Route::view('/ubah-password', 'auth.ubah-password');
 Route::view('/master-data', 'auth.master-data');
 
-Route::view('/dashboard', 'pages.dashboard');
+use App\Http\Controllers\DashboardController;
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
 Route::view('/sidebar', 'pages.sidebar');
 
 // Pegawai
