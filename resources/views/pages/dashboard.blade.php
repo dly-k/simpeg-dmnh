@@ -24,32 +24,92 @@
                 </div>
 
                 <div class="card-container">
-                    {{-- Stat Cards Anda --}}
-                    <div class="stat-card"><div class="card-icon icon-blue"><i class="lni lni-users"></i></div><div><div class="card-label">Total Pegawai</div><div class="card-value">{{ $totalPegawai }}</div></div></div>
-                    <div class="stat-card"><div class="card-icon icon-teal"><i class="lni lni-graduation"></i></div><div><div class="card-label">Pendidikan</div><div class="card-value">{{ $totalSemuaPendidikan }}</div></div></div>
-                    <div class="stat-card"><div class="card-icon icon-green"><i class="lni lni-microscope"></i></div><div><div class="card-label">Penelitian</div><div class="card-value">{{ $totalPenelitian }}</div></div></div>
-                    <div class="stat-card"><div class="card-icon icon-orange"><i class="lni lni-users"></i></div><div><div class="card-label">Pengabdian</div><div class="card-value">{{ $totalPengabdian }}</div></div></div>
-                    <div class="stat-card"><div class="card-icon icon-sky"><i class="lni lni-briefcase"></i></div><div><div class="card-label">Penunjang</div><div class="card-value">{{ $totalPenunjang }}</div></div></div>
-                    <div class="stat-card"><div class="card-icon icon-yellow"><i class="lni lni-certificate"></i></div><div><div class="card-label">Pelatihan</div><div class="card-value">{{ $totalPelatihan }}</div></div></div>
-                    <div class="stat-card"><div class="card-icon icon-purple"><i class="lni lni-trophy"></i></div><div><div class="card-label">Penghargaan</div><div class="card-value">{{ $totalPenghargaan }}</div></div></div>
-                    <div class="stat-card"><div class="card-icon icon-red"><i class="lni lni-folder"></i></div><div><div class="card-label">Surat Tugas</div><div class="card-value">{{ $totalSuratTugas }}</div></div></div>
+                    {{-- Stat Cards --}}
+                    <div class="stat-card">
+                        <div class="card-icon icon-blue"><i class="fas fa-users"></i></div>
+                        <div>
+                            <div class="card-label">Total Pegawai</div>
+                            <div class="card-value">{{ $totalPegawai }}</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="card-icon icon-teal"><i class="fas fa-graduation-cap"></i></div>
+                        <div>
+                            <div class="card-label">Pendidikan</div>
+                            <div class="card-value">{{ $totalSemuaPendidikan }}</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="card-icon icon-green"><i class="fas fa-microscope"></i></div>
+                        <div>
+                            <div class="card-label">Penelitian</div>
+                            <div class="card-value">{{ $totalPenelitian }}</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="card-icon icon-orange"><i class="fas fa-hand-holding-heart"></i></div>
+                        <div>
+                            <div class="card-label">Pengabdian</div>
+                            <div class="card-value">{{ $totalPengabdian }}</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="card-icon icon-sky"><i class="fas fa-briefcase"></i></div>
+                        <div>
+                            <div class="card-label">Penunjang</div>
+                            <div class="card-value">{{ $totalPenunjang }}</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="card-icon icon-yellow"><i class="fas fa-certificate"></i></div>
+                        <div>
+                            <div class="card-label">Pelatihan</div>
+                            <div class="card-value">{{ $totalPelatihan }}</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="card-icon icon-purple"><i class="fas fa-trophy"></i></div>
+                        <div>
+                            <div class="card-label">Penghargaan</div>
+                            <div class="card-value">{{ $totalPenghargaan }}</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="card-icon icon-red"><i class="fas fa-folder-open"></i></div>
+                        <div>
+                            <div class="card-label">Surat Tugas</div>
+                            <div class="card-value">{{ $totalSuratTugas }}</div>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="table-container">
                     <div class="table-box">
-                        <h3><i class="lni lni-star"></i> 5 Pegawai Teratas</h3>
+                        <h3><i class="fas fa-crown text-warning"></i> 5 Pegawai Teratas</h3>
                         <ul class="list-group list-group-flush">
-                           @forelse($topPegawai as $pegawai)
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    {{ $pegawai->nama_lengkap }}
-                                    <span class="badge bg-primary rounded-pill">{{ $pegawai->total_submissions }} submisi</span>
-                                </li>
+                        @forelse($topPegawai as $pegawai)
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="fw-bold me-2">{{ $loop->iteration }}.</span>
+                                    <span>{{ $pegawai->nama_lengkap }}</span>
+                                </div>
+                                <span class="badge bg-primary rounded-pill">{{ $pegawai->total_submissions }} submisi</span>
+                            </li>
                             @empty
                                 <li class="list-group-item">Tidak ada data pegawai.</li>
                             @endforelse
                         </ul>
                     </div>
+
                     <div class="table-box">
-                        <h3><i class="lni lni-stats-up"></i> Status Verifikasi (1 Bulan Terakhir)</h3>
+                        <h3><i class="fas fa-check-circle text-success"></i> Status Verifikasi (1 Bulan Terakhir)</h3>
                         <div class="table-responsive">
                             <table class="table table-hover align-middle">
                                 <thead class="table-light">
@@ -63,8 +123,8 @@
                                 <tbody>
                                     @foreach($statusCounts as $category => $counts)
                                     <tr class="text-center">
-                                        <td class="fw-bold text-start">{{ $category }}</td>
-                                        <td><span class="badge bg-warning text-dark">{{ $counts['menunggu'] }}</span></td>
+                                        <td class="text-start">{{ $category }}</td>
+                                        <td><span class="badge bg-warning">{{ $counts['menunggu'] }}</span></td>
                                         <td><span class="badge bg-success">{{ $counts['diverifikasi'] }}</span></td>
                                         <td><span class="badge bg-danger">{{ $counts['ditolak'] }}</span></td>
                                     </tr>
@@ -74,6 +134,7 @@
                         </div>
                     </div>
                 </div>
+
                 
                 <div class="chart-grid">
                     <div class="chart-box">

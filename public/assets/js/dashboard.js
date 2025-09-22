@@ -1,5 +1,49 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // =================================
+    // ==== ANIMASI HITUNG NAIK ====
+    // =================================
+
+    /**
+     * Fungsi untuk membuat animasi angka menghitung dari 0 ke nilai target.
+     * @param {HTMLElement} el - Elemen yang berisi angka.
+     */
+    function animateValue(el) {
+        const target = parseInt(el.getAttribute("data-value"), 10);
+        const duration = 1500; // Durasi animasi dalam milidetik
+        let startTimestamp = null;
+
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            const currentValue = Math.floor(progress * target);
+            
+            // Menggunakan toLocaleString('id-ID') untuk format ribuan dengan titik
+            el.textContent = currentValue.toLocaleString('id-ID');
+
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
+            } else {
+                // Memastikan nilai akhir sesuai target dan terformat
+                el.textContent = target.toLocaleString('id-ID');
+            }
+        };
+        window.requestAnimationFrame(step);
+    }
+
+    // Terapkan animasi ke semua elemen .card-value
+    document.querySelectorAll('.card-value').forEach(card => {
+        // Simpan nilai asli di atribut data dan mulai dari 0
+        const finalValue = card.textContent;
+        card.setAttribute('data-value', finalValue);
+        card.textContent = '0';
+        // Panggil fungsi animasi
+        animateValue(card);
+    });
+
+
+    // =================================
     // ==== LINE CHART ====
+    // =================================
     const lineChartEl = document.getElementById('lineChart');
     if (lineChartEl && typeof lineChartData !== 'undefined') {
         const ctxLine = lineChartEl.getContext('2d');
@@ -29,7 +73,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // =================================
     // ==== PIE CHART ====
+    // =================================
     const pieChartEl = document.getElementById('pieChart');
     if (pieChartEl && typeof pieChartData !== 'undefined') {
         new Chart(pieChartEl.getContext('2d'), {

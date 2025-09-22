@@ -71,9 +71,6 @@ body.sidebar-collapsed .main-content {
     background-color: var(--success);
 }
 
-.card-icon.icon-yellow {
-    background-color: var(--warning);
-}
 
 .card-label {
     color: var(--text-muted);
@@ -199,12 +196,12 @@ body.sidebar-collapsed .main-content {
 .stat-card:nth-child(8) { animation-delay: 0.8s; border-color: #dc3545; }
 
 .icon-blue { background-color: #0d6efd; }
-.icon-teal { background-color: #20c997; }
-.icon-green { background-color: #198754; }
-.icon-orange { background-color: #fd7e14; }
-.icon-sky { background-color: #0dcaf0; }
-.icon-yellow { background-color: #ffc107; }
-.icon-purple { background-color: #6f42c1; }
+.icon-teal { background-color: #198754; }
+.icon-green { background-color: #20c997; }
+.icon-orange { background-color: #ffc107; }
+.icon-sky { background-color: #fd7e14; }
+.icon-yellow { background-color: #6f42c1; }
+.icon-purple { background-color: #d63384; }
 .icon-red { background-color: #dc3545; }
 
 .chart-grid {
@@ -608,4 +605,15 @@ body.sidebar-collapsed .main-content {
         width: 100%;
         min-height: 44px;
     }
+}
+
+/* =============================
+   Penyesuaian Kustom
+   Gaya tambahan atau penggantian
+============================= */
+
+/* Membuat warna badge 'Menunggu' menjadi lebih gelap */
+.badge.bg-warning {
+    background-color: #d39e00 !important;
+    color: #fff !important; /* Mengubah warna teks menjadi putih untuk keterbacaan */
 }
