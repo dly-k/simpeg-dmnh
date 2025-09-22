@@ -239,7 +239,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 resetFileInput(form);
                 Object.keys(data).forEach(fieldName => {
                     const field = form.querySelector(`[name="${fieldName}"]`);
-                    if (field) field.value = data[fieldName];
+                    if (field) {
+                        // Khusus untuk Select2, perlu perlakuan khusus
+                        if (fieldName === 'pengampu' && $(field).hasClass('select2-hidden-accessible')) {
+                            $(field).val(data[fieldName]).trigger('change');
+                        } else {
+                            field.value = data[fieldName];
+                        }
+                    }
                 });
                 const modalTitle = document.querySelector(`#${config.modalId} .modal-title span`);
                 if (modalTitle) modalTitle.textContent = `Edit ${config.title}`;
@@ -301,6 +308,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
         }
+    });
+
+    // -- Inisialisasi Select2 untuk Dropdown Pengampu --
+    $('#pengampu').select2({
+        theme: 'bootstrap-5',
+        placeholder: '-- Pilih Program Studi --',
+        dropdownParent: $('#modalTambahEditPengajaranLama .modal-content')
+    });
+
+    // -- Reset Select2 saat modal ditutup --
+    $('#modalTambahEditPengajaranLama').on('hidden.bs.modal', function () {
+        $(this).find('#pengampu').val(null).trigger('change');
     });
 
     // ===============================================

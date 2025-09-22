@@ -57,10 +57,12 @@
 
           <div class="row">
             <div class="col-md-6 mb-3">
-              <label for="pengampu" class="form-label">Pengampu</label>
-              <select class="form-select" id="pengampu" name="pengampu">
-                <option selected disabled value="">-- Pilih Salah Satu --</option>
-                <option value="1">Pilihan 1</option>
+              <label for="pengampu" class="form-label">Program Studi Pengampu</label>
+              <select class="form-select" id="pengampu" name="pengampu" style="width: 100%;">
+                <option value="">-- Pilih Program Studi --</option>
+                @foreach($programStudi as $prodi)
+                    <option value="{{ $prodi }}">{{ $prodi }}</option>
+                @endforeach
               </select>
             </div>
             <div class="col-md-6 mb-3">
