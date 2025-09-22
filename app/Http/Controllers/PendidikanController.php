@@ -199,4 +199,48 @@ class PendidikanController extends Controller
 
         return response()->json(['success' => 'Status verifikasi berhasil diperbarui.']);
     }
+
+    // --- Method Hapus ---
+    public function hapus(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|integer',
+            'type' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => 'Data tidak valid.'], 422);
+        }
+
+        $modelMapping = [
+            'pengajaran-lama' => PengajaranLama::class,
+            'pengajaran-luar' => PengajaranLuar::class,
+            'pengujian-lama' => PengujianLama::class,
+            'pembimbing-lama' => PembimbingLama::class,
+            'penguji-luar' => PengujiLuar::class,
+            'pembimbing-luar' => PembimbingLuar::class,
+        ];
+
+        $type = $request->input('type');
+        if (!isset($modelMapping[$type])) {
+            return response()->json(['error' => 'Tipe data tidak valid.'], 400);
+        }
+
+        $modelClass = $modelMapping[$type];
+        $record = $modelClass::find($request->input('id'));
+
+        if (!$record) {
+            return response()->json(['error' => 'Data tidak ditemukan.'], 404);
+        }
+
+        // Hapus file dari storage jika ada
+        if ($record->file_path) {
+            Storage::disk('public')->delete($record->file_path);
+        }
+
+        // Hapus data dari database
+        $record->delete();
+
+        return response()->json(['success' => 'Data berhasil dihapus.']);
+    }
 }

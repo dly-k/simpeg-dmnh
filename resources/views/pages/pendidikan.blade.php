@@ -142,7 +142,7 @@
                                         <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data" data-id="{{ $item->id }}" data-type="pengajaran-lama"><i class="fa fa-check"></i></a>
                                         <a href="#" class="btn-aksi btn-lihat-detail btn-lihat-pengajaran-lama" title="Lihat Detail" data-bs-toggle="modal" data-bs-target="#modalDetailPengajaranLama" data-id="{{ $item->id }}"><i class="fa fa-eye"></i></a>
                                         <a href="#" class="btn-aksi btn-edit btn-edit-pengajaran-lama" title="Edit Data" data-id="{{ $item->id }}"><i class="fa fa-edit"></i></a>
-                                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
+                                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data" data-id="{{ $item->id }}" data-type="pengajaran-lama"><i class="fa fa-trash"></i></a>
                                     </div>
                                 </td>
                             </tr>
@@ -214,7 +214,7 @@
                                         <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data" data-id="{{ $item->id }}" data-type="pengajaran-luar"><i class="fa fa-check"></i></a>
                                         <a href="#" class="btn-aksi btn-lihat-detail btn-lihat-pengajaran-luar" title="Lihat Detail" data-bs-toggle="modal" data-bs-target="#modalDetailPengajaranLuar" data-id="{{ $item->id }}"><i class="fa fa-eye"></i></a>
                                         <a href="#" class="btn-aksi btn-edit btn-edit-pengajaran-luar" title="Edit Data" data-id="{{ $item->id }}"><i class="fa fa-edit"></i></a>
-                                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
+                                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data" data-id="{{ $item->id }}" data-type="pengajaran-luar"><i class="fa fa-trash"></i></a>
                                     </div>
                                 </td>
                             </tr>
@@ -286,7 +286,7 @@
                                         <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data" data-id="{{ $item->id }}" data-type="pengujian-lama"><i class="fa fa-check"></i></a>
                                         <a href="#" class="btn-aksi btn-lihat-detail btn-lihat-pengujian-lama" title="Lihat Detail" data-bs-toggle="modal" data-bs-target="#modalDetailPengujianLama" data-id="{{ $item->id }}"><i class="fa fa-eye"></i></a>
                                         <a href="#" class="btn-aksi btn-edit btn-edit-pengujian-lama" title="Edit Data" data-id="{{ $item->id }}"><i class="fa fa-edit"></i></a>
-                                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
+                                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data" data-id="{{ $item->id }}" data-type="pengujian-lama"><i class="fa fa-trash"></i></a>
                                     </div>
                                 </td>
                             </tr>
@@ -358,7 +358,7 @@
                                         <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data" data-id="{{ $item->id }}" data-type="pembimbing-lama"><i class="fa fa-check"></i></a>
                                         <a href="#" class="btn-aksi btn-lihat-detail btn-lihat-pembimbing-lama" title="Lihat Detail" data-bs-toggle="modal" data-bs-target="#modalDetailPembimbingLama" data-id="{{ $item->id }}"><i class="fa fa-eye"></i></a>
                                         <a href="#" class="btn-aksi btn-edit btn-edit-pembimbing-lama" title="Edit Data" data-id="{{ $item->id }}"><i class="fa fa-edit"></i></a>
-                                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
+                                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data" data-id="{{ $item->id }}" data-type="pembimbing-lama"><i class="fa fa-trash"></i></a>
                                     </div>
                                 </td>
                             </tr>
@@ -430,7 +430,7 @@
                                         <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data" data-id="{{ $item->id }}" data-type="penguji-luar"><i class="fa fa-check"></i></a>
                                         <a href="#" class="btn-aksi btn-lihat-detail btn-lihat-penguji-luar" title="Lihat Detail" data-bs-toggle="modal" data-bs-target="#modalDetailPengujiLuar" data-id="{{ $item->id }}"><i class="fa fa-eye"></i></a>
                                         <a href="#" class="btn-aksi btn-edit btn-edit-penguji-luar" title="Edit Data" data-id="{{ $item->id }}"><i class="fa fa-edit"></i></a>
-                                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
+                                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data" data-id="{{ $item->id }}" data-type="penguji-luar"><i class="fa fa-trash"></i></a>
                                     </div>
                                 </td>
                             </tr>
@@ -502,7 +502,7 @@
                                         <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data" data-id="{{ $item->id }}" data-type="pembimbing-luar"><i class="fa fa-check"></i></a>
                                         <a href="#" class="btn-aksi btn-lihat-detail btn-lihat-pembimbing-luar" title="Lihat Detail" data-bs-toggle="modal" data-bs-target="#modalDetailPembimbingLuar" data-id="{{ $item->id }}"><i class="fa fa-eye"></i></a>
                                         <a href="#" class="btn-aksi btn-edit btn-edit-pembimbing-luar" title="Edit Data" data-id="{{ $item->id }}"><i class="fa fa-edit"></i></a>
-                                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
+                                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data" data-id="{{ $item->id }}" data-type="pembimbing-luar"><i class="fa fa-trash"></i></a>
                                     </div>
                                 </td>
                             </tr>

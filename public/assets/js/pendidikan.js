@@ -41,6 +41,18 @@ document.addEventListener("DOMContentLoaded", () => {
         modalVerifikasi.classList.remove('show');
     });
 
+    // -- Elemen & Event Listener untuk Modal Hapus Kustom --
+    const modalHapus = document.getElementById('modalKonfirmasiHapus');
+    const btnKonfirmasiHapus = document.getElementById('btnKonfirmasiHapus');
+    const btnBatalHapus = document.getElementById('btnBatalHapus');
+    let deleteId = null;
+    let deleteType = null;
+
+    btnKonfirmasiHapus?.addEventListener('click', () => submitDelete());
+    btnBatalHapus?.addEventListener('click', () => {
+        modalHapus.classList.remove('show');
+    });
+
     // ===============================================
     // == FUNGSI BANTUAN & KONFIGURASI ==
     // ===============================================
@@ -74,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // ===============================================
-    // == LOGIKA INTI (TAMBAH, EDIT, SUBMIT, VERIFIKASI) ==
+    // == LOGIKA INTI (TAMBAH, EDIT, SUBMIT, VERIFIKASI, HAPUS) ==
     // ===============================================
 
     // -- Fungsi untuk Submit Form Tambah & Edit --
@@ -157,7 +169,40 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    // -- Menyiapkan Event Listener untuk semua Tombol (Tambah, Edit, Verifikasi, Simpan) --
+    // -- Fungsi untuk Submit Hapus --
+    const submitDelete = async () => {
+        if (!deleteId || !deleteType) return;
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        try {
+            const response = await fetch('/pendidikan/hapus', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: deleteId,
+                    type: deleteType
+                })
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data.error || 'Terjadi kesalahan pada server.');
+            }
+            modalHapus.classList.remove('show');
+            showSuccessModal(data.success);
+            setTimeout(() => { location.reload(); }, 1600);
+        } catch (error) {
+            console.error('Delete Error:', error);
+            alert('Gagal menghapus data: ' + error.message);
+        } finally {
+            deleteId = null;
+            deleteType = null;
+        }
+    };
+
+    // -- Menyiapkan Event Listener untuk semua Tombol (Tambah, Edit, Verifikasi, Hapus, Simpan) --
     Object.values(formConfigs).forEach((config) => {
         const saveButton = document.getElementById(config.btnId);
         saveButton?.addEventListener("click", () => handleFormSubmit(config));
@@ -176,6 +221,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.addEventListener('click', async (e) => {
         const editButton = e.target.closest('.btn-edit');
         const verifikasiButton = e.target.closest('.btn-verifikasi');
+        const hapusButton = e.target.closest('.btn-hapus');
 
         if (editButton) {
             e.preventDefault();
@@ -208,6 +254,13 @@ document.addEventListener("DOMContentLoaded", () => {
             verificationId = verifikasiButton.dataset.id;
             verificationType = verifikasiButton.dataset.type;
             modalVerifikasi.classList.add('show');
+        }
+
+        if (hapusButton) {
+            e.preventDefault();
+            deleteId = hapusButton.dataset.id;
+            deleteType = hapusButton.dataset.type;
+            modalHapus.classList.add('show');
         }
     });
 
