@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  {{-- Tambahkan CSRF Token untuk AJAX Request --}}
   <meta name="csrf-token" content="{{ csrf_token() }}">
   
   <title>SIKEMAH - Editor Kegiatan (Pengabdian)</title>
@@ -83,25 +82,45 @@
 
   <div class="main-content">
     <div class="card">
-      <div class="search-filter-container">
-        <div class="search-filter-row">
-          <div class="search-box">
-            <div class="input-group">
-              <span class="input-group-text bg-light border-end-0"><i class="fas fa-search search-icon"></i></span>
-              <input type="text" class="form-control border-start-0 search-input" placeholder="Cari Data ....">
-            </div>
+      <form action="{{ route('pengabdian.index') }}" method="GET" id="filter-form">
+          <div class="search-filter-container">
+              <div class="search-filter-row">
+                  <div class="search-box">
+                      <div class="input-group">
+                          <span class="input-group-text bg-light border-end-0"><i class="fas fa-search search-icon"></i></span>
+                          <input type="text" name="search" class="form-control border-start-0 search-input" placeholder="Cari Kegiatan/Lokasi..." value="{{ request('search') }}">
+                      </div>
+                  </div>
+
+                  <select name="periode" class="form-select filter-select">
+                      <option value="">Semua Periode</option>
+                      @foreach($periodeOptions as $value => $label)
+                          <option value="{{ $value }}" @if(request('periode') == $value) selected @endif>{{ $label }}</option>
+                      @endforeach
+                  </select>
+
+                  <select name="jenis_pengabdian" class="form-select filter-select">
+                      <option value="">Semua Jenis Pengabdian</option>
+                      @foreach($jenisPengabdianOptions as $jenis)
+                          <option value="{{ $jenis }}" @if(request('jenis_pengabdian') == $jenis) selected @endif>{{ $jenis }}</option>
+                      @endforeach
+                  </select>
+
+                  <select name="status" class="form-select filter-select">
+                      <option value="">Semua Status</option>
+                      <option value="Sudah Diverifikasi" @if(request('status') == 'Sudah Diverifikasi') selected @endif>Sudah Diverifikasi</option>
+                      <option value="Belum Diverifikasi" @if(request('status') == 'Belum Diverifikasi') selected @endif>Belum Diverifikasi</option>
+                      <option value="Ditolak" @if(request('status') == 'Ditolak') selected @endif>Ditolak</option>
+                  </select>
+                  
+                  <div class="btn-tambah-container">
+                      <button type="button" class="btn btn-tambah fw-bold" onclick="openModal()">
+                          <i class="fa fa-plus me-2"></i> Tambah Data
+                      </button>
+                  </div>
+              </div>
           </div>
-          <select class="form-select filter-select"><option selected>Tahun</option><option>2024</option><option>2025</option></select>
-          <select class="form-select filter-select"><option selected>Jenis Pengabdian</option></select>
-          <select class="form-select filter-select"><option selected>Status</option><option>Sudah Diverifikasi</option><option>Belum Diverifikasi</option><option>Ditolak</option></select>
-          <div class="btn-tambah-container">
-            {{-- Tombol ini memanggil fungsi JavaScript `openModal()` --}}
-            <button class="btn btn-tambah fw-bold" onclick="openModal()">
-              <i class="fa fa-plus me-2"></i> Tambah Data
-            </button>
-          </div>
-        </div>
-      </div>
+      </form>
 
       <div class="table-responsive">
         <table class="table table-hover table-bordered">
@@ -120,10 +139,9 @@
             </tr>
           </thead>
           <tbody id="pengabdian-table-body">
-            {{-- Data dimuat dari controller dan ditampilkan di sini --}}
-            @forelse ($pengabdians as $item)
+            @forelse ($pengabdians as $index => $item)
               <tr>
-                <td class="text-center">{{ $loop->iteration }}</td>
+                <td class="text-center">{{ $pengabdians->firstItem() + $index }}</td>
                 <td class="text-start">{{ $item->kegiatan }}</td>
                 <td class="text-center">{{ $item->nama_kegiatan }}</td>
                 <td class="text-center">{{ $item->afiliasi_non_pt ?? '-' }}</td>
@@ -140,18 +158,14 @@
                   @endif
                 </td>
                 <td class="text-center">
-                    {{-- Cek apakah ada dokumen terkait --}}
                     @if($item->dokumen->isNotEmpty())
-                        {{-- Ambil dokumen pertama dan buat link menggunakan Storage::url() --}}
                         <a href="{{ Storage::url($item->dokumen->first()->file_path) }}" target="_blank" class="btn btn-sm btn-lihat text-white">
                             Lihat
                         </a>
                     @else
-                        {{-- Tampilkan strip jika tidak ada dokumen --}}
                         <span>-</span>
                     @endif
                 </td>
-                {{-- DIPERBARUI --}}
                 <td class="text-center">
                   <div class="d-flex gap-2 justify-content-center">
                     <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi" data-id="{{ $item->id }}"><i class="fa fa-check"></i></a>
@@ -163,7 +177,7 @@
               </tr>
             @empty
               <tr>
-                <td colspan="10" class="text-center">Tidak ada data untuk ditampilkan.</td>
+                <td colspan="10" class="text-center text-muted">Data tidak ditemukan.</td>
               </tr>
             @endforelse
           </tbody>
@@ -171,8 +185,18 @@
       </div>
 
       <div class="d-flex justify-content-between align-items-center mt-4 mb-4">
-        <span class="text-muted small">Menampilkan 1 sampai {{ $pengabdians->count() }} dari {{ $pengabdians->count() }} data</span>
-        {{-- Jika menggunakan pagination: {{ $pengabdians->links() }} --}}
+        <span class="text-muted small">
+            @if ($pengabdians->total() > 0)
+                Menampilkan {{ $pengabdians->firstItem() }} sampai {{ $pengabdians->lastItem() }} dari {{ $pengabdians->total() }} data
+            @else
+                Tidak ada data untuk ditampilkan
+            @endif
+        </span>
+        @if ($pengabdians->hasPages())
+            <div class="d-flex justify-content-end">
+                {{ $pengabdians->links() }}
+            </div>
+        @endif
       </div>
     </div>
   </div>
@@ -188,12 +212,11 @@
   @include('components.pengabdian.tambah-pengabdian')
 
   <script>
-    // PENTING: Mengirim data pegawai dari PHP (Controller) ke JavaScript
     const pegawaiData = @json($pegawais);
   </script>
   
   <script src="{{ asset('assets/js/layout.js') }}"></script>
-  <script src="{{ asset('assets/js/pengabdian.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{{ asset('assets/js/pengabdian.js') }}"></script>
 </body>
 </html>

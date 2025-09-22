@@ -188,8 +188,9 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (error) {
       console.error('Submission error:', error);
       alert('Terjadi kesalahan: ' + error.message);
-      simpanBtn.disabled = false;
-      simpanBtn.innerHTML = 'Simpan';
+    } finally {
+        simpanBtn.disabled = false;
+        simpanBtn.innerHTML = isEditMode ? 'Update' : 'Simpan';
     }
   });
 
@@ -217,8 +218,9 @@ document.addEventListener("DOMContentLoaded", () => {
       setTimeout(() => location.reload(), 1300);
     } catch (error) {
       alert(error.message);
-      btn.disabled = false;
-      btn.innerHTML = originalBtnText;
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalBtnText;
     }
   };
   verifTerimaBtn?.addEventListener('click', () => handleVerification('Sudah Diverifikasi'));
@@ -231,22 +233,19 @@ document.addEventListener("DOMContentLoaded", () => {
       const uploadText = uploadArea.querySelector("p");
       if (!fileInput || !uploadText) return;
 
-      const originalHTML = uploadText.innerHTML; // Simpan HTML asli
+      const originalHTML = uploadText.innerHTML;
 
-      // Saat area abu-abu di-klik, picu klik pada input file
       uploadArea.addEventListener("click", () => fileInput.click());
       
-      // Saat file dipilih, tampilkan nama file
       fileInput.addEventListener("change", () => {
         if (fileInput.files.length > 0) {
           uploadText.textContent = fileInput.files[0].name;
         }
       });
 
-      // Fungsi reset yang sudah diperbaiki
       uploadArea.reset = () => {
-        uploadText.innerHTML = originalHTML; // Kembalikan teks asli
-        fileInput.value = ""; // Kosongkan value dari input file
+        uploadText.innerHTML = originalHTML;
+        fileInput.value = "";
       };
     });
   };
@@ -267,7 +266,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let dokumenHtml = '<p class="fst-italic text-muted">Tidak ada dokumen.</p>';
     if(data.dokumen && data.dokumen.length > 0){
       const doc = data.dokumen[0];
-      dokumenHtml = `<div class="detail-grid-container nested full-width-detail"><div class="detail-item"><small>Jenis Dokumen</small><p>${doc.jenis_dokumen || '-'}</p></div><div class="detail-item"><small>Nama File</small><p>${doc.nama_file || '-'}</p></div><div class="detail-item"><small>File Dokumen</small><div class="file-actions-buttons"><a href="${doc.file_url}" target="_blank" class="btn btn-primary btn-sm"><i class="fas fa-file-alt me-2"></i>Lihat Dokumen</a></div></div></div>`;
+      const fileUrl = doc.file_path.startsWith('http') ? doc.file_path : `/storage/${doc.file_path}`;
+      dokumenHtml = `<div class="detail-grid-container nested full-width-detail"><div class="detail-item"><small>Jenis Dokumen</small><p>${doc.jenis_dokumen || '-'}</p></div><div class="detail-item"><small>Nama File</small><p>${doc.nama_file || '-'}</p></div><div class="detail-item"><small>File Dokumen</small><div class="file-actions-buttons"><a href="${fileUrl}" target="_blank" class="btn btn-primary btn-sm"><i class="fas fa-file-alt me-2"></i>Lihat Dokumen</a></div></div></div>`;
     }
     detailContentEl.innerHTML = `<div class="detail-item full-width-detail"><small>Judul Kegiatan</small><p>${data.nama_kegiatan || '-'}</p></div><div class="detail-item"><small>Afiliasi Non-PT</small><p>${data.afiliasi_non_pt || '-'}</p></div><div class="detail-item"><small>Jenis Pengabdian</small><p>${data.jenis_pengabdian || '-'}</p></div><div class="detail-item"><small>Lama Kegiatan</small><p>${data.lama_kegiatan || '-'}</p></div><div class="detail-item"><small>Tahun Pelaksanaan</small><p>${data.tahun_pelaksanaan || '-'}</p></div><div class="detail-item"><small>No. SK Penugasan</small><p>${data.no_sk_penugasan || '-'}</p></div><div class="detail-item"><small>Tanggal SK</small><p>${formatDate(data.tgl_sk_penugasan)}</p></div><div class="detail-item"><small>Dana DIKTI</small><p>${formatCurrency(data.dana_dikti)}</p></div><div class="detail-item"><small>Dana PT</small><p>${formatCurrency(data.dana_pt)}</p></div><div class="detail-item"><small>Dana Lain</small><p>${formatCurrency(data.dana_institusi_lain)}</p></div><div class="detail-item full-width-detail detail-section-header"><h5>Anggota Dosen</h5></div>${dosenHtml}<div class="detail-item full-width-detail detail-section-header"><h5>Anggota Mahasiswa</h5></div>${mahasiswaHtml}<div class="detail-item full-width-detail detail-section-header"><h5>Dokumen</h5></div>${dokumenHtml}`;
   };
@@ -374,4 +374,45 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   initUploadArea();
+  
+  // ===============================================
+  // == FUNGSI UNTUK FILTER OTOMATIS ==
+  // ===============================================
+  const filterForm = document.getElementById('filter-form');
+  if (filterForm) {
+      const debounce = (func, delay) => {
+          let timeoutId;
+          const cancel = () => clearTimeout(timeoutId);
+          const debounced = (...args) => {
+              clearTimeout(timeoutId);
+              timeoutId = setTimeout(() => {
+                  func.apply(this, args);
+              }, delay);
+          };
+          debounced.cancel = cancel;
+          return debounced;
+      };
+
+      const debouncedSubmit = debounce(() => {
+          filterForm.submit();
+      }, 500);
+
+      filterForm.querySelectorAll('.filter-select').forEach(select => {
+          select.addEventListener('change', () => {
+              filterForm.submit();
+          });
+      });
+
+      const searchInput = filterForm.querySelector('.search-input');
+      if (searchInput) {
+          searchInput.addEventListener('keyup', (event) => {
+              if (event.key === 'Enter') {
+                  debouncedSubmit.cancel?.();
+                  filterForm.submit();
+              } else {
+                  debouncedSubmit();
+              }
+          });
+      }
+  }
 });

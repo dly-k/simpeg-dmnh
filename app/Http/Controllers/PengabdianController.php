@@ -13,19 +13,94 @@ use Illuminate\Validation\Rule;
 class PengabdianController extends Controller
 {
     /**
-     * Menampilkan halaman utama dengan data pengabdian dan pegawai.
+     * Menampilkan halaman utama dengan data pengabdian yang sudah difilter.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Ambil data pengabdian terbaru beserta relasinya (anggota dan dokumen)
-        $pengabdians = Pengabdian::with('anggota.pegawai', 'dokumen')->latest()->get();
+        $query = Pengabdian::with('anggota.pegawai', 'dokumen');
 
-        // Ambil data pegawai yang berstatus 'Aktif' untuk dikirim ke dropdown di form
+        // 1. Filter Pencarian
+        if ($search = $request->input('search')) {
+            $query->where(function ($q) use ($search) {
+                // Mencari di kolom-kolom tabel utama 'pengabdians'
+                $q->where('kegiatan', 'like', "%{$search}%")
+                  ->orWhere('nama_kegiatan', 'like', "%{$search}%")
+                  ->orWhere('lokasi', 'like', "%{$search}%")
+                  
+                  // Mencari nama dosen di dalam relasi
+                  ->orWhereHas('anggota', function ($anggotaQuery) use ($search) {
+                      $anggotaQuery->where('jenis', 'dosen')
+                                   ->whereHas('pegawai', function ($pegawaiQuery) use ($search) {
+                                       $pegawaiQuery->where('nama_lengkap', 'like', "%{$search}%");
+                                   });
+                  });
+            });
+        }
+
+        // 2. Filter Periode (Semester/Tahun) berdasarkan tgl_mulai
+        if ($periode = $request->input('periode')) {
+            list($year, $semester) = explode('_', $periode);
+            $months = ($semester === 'ganjil') ? [1, 6] : [7, 12];
+            $query->whereYear('tgl_mulai', $year)
+                  ->whereBetween(DB::raw('MONTH(tgl_mulai)'), $months);
+        }
+
+        // 3. Filter Jenis Pengabdian
+        if ($jenis = $request->input('jenis_pengabdian')) {
+            $query->where('jenis_pengabdian', $jenis);
+        }
+
+        // 4. Filter Status
+        if ($status = $request->input('status')) {
+            $query->where('status', $status);
+        }
+
+        // Ambil data pegawai aktif untuk form modal
         $pegawais = Pegawai::where('status_pegawai', 'Aktif')
                            ->orderBy('nama_lengkap')
                            ->get(['id', 'nama_lengkap']);
 
-        return view('pages.pengabdian', compact('pengabdians', 'pegawais'));
+        // Data statis untuk dropdown Jenis Pengabdian
+        $jenisPengabdianOptions = [
+            'Biomedik', 'Hibah HI-LINK', 'Ipteks', 'Ipteks Bagi Inovasi Kreativitas Kampus',
+            'Ipteks Bagi Kewirausahaan', 'Iptek Bagi Masyarakat', 'Iptek Bagi Produk Ekspor',
+            'Iptek Bagi Wilayah', 'Iptek Bagi Wilayah Antara PT-CSR/PT-PEMDA-CSR',
+            'Kerjasama Luar Negeri dan Publikasi Internasional', 'KKN Pembelajaran Pemberdayaan Masyarakat',
+            'Mobil Listrik Nasional', 'MP3EI', 'Pendidikan Magister Doktor Sarjana Unggul',
+            'Penelitian Disertasi Doktor', 'Penelitian Dosen Pemula', 'Penelitian Fundamental',
+            'Penelitian Hibah Bersaing', 'Penelitian Kerjasama Antar Perguruan Tinggi',
+            'Penelitian Kompetensi', 'Penelitian Srategis Nasional', 'Penelitian Tim Pascasarjana',
+            'Penelitian Unggulan Perguruan Tinggi', 'Penelitian Unggulan Strategis Nasional',
+            'Riset Andalan Perguruan Tinggi dan Industri'
+        ];
+
+        return view('pages.pengabdian', [
+            'pengabdians' => $query->latest()->paginate(10)->withQueryString(),
+            'pegawais' => $pegawais,
+            'periodeOptions' => $this->getPeriodeOptions(),
+            'jenisPengabdianOptions' => $jenisPengabdianOptions,
+        ]);
+    }
+    
+    /**
+     * Helper untuk membuat opsi filter periode dinamis.
+     */
+    private function getPeriodeOptions()
+    {
+        $dates = Pengabdian::select(DB::raw('YEAR(tgl_mulai) as year, MONTH(tgl_mulai) as month'))
+            ->whereNotNull('tgl_mulai')
+            ->distinct()
+            ->orderBy('year', 'desc')
+            ->get();
+
+        $options = [];
+        foreach ($dates as $date) {
+            $semester = ($date->month >= 1 && $date->month <= 6) ? 'ganjil' : 'genap';
+            $label = ($semester === 'ganjil' ? 'Ganjil' : 'Genap') . ' ' . $date->year;
+            $value = $date->year . '_' . $semester;
+            $options[$value] = $label;
+        }
+        return $options;
     }
 
     /**
@@ -229,8 +304,8 @@ class PengabdianController extends Controller
     }
 
     /**
- * Memperbarui status verifikasi data penunjang.
- */
+    * Memperbarui status verifikasi data penunjang.
+    */
     public function verifikasi(Request $request, Pengabdian $pengabdian)
     {
         // 1. Validasi input
@@ -259,5 +334,4 @@ class PengabdianController extends Controller
             return response()->json(['error' => 'Gagal memperbarui status: ' . $e->getMessage()], 500);
         }
     }
-
 }
