@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // ===============================================
-    // == LOGIKA INTI (TAMBAH, EDIT, SUBMIT, VERIFIKASI, HAPUS) ==
+    // == LOGIKA INTI (CRUD, VERIFIKASI, HAPUS, FILTER) ==
     // ===============================================
 
     // -- Fungsi untuk Submit Form Tambah & Edit --
@@ -202,7 +202,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    // -- Menyiapkan Event Listener untuk semua Tombol (Tambah, Edit, Verifikasi, Hapus, Simpan) --
+    // -- Menyiapkan Event Listener untuk semua Tombol (Tambah & Simpan) --
     Object.values(formConfigs).forEach((config) => {
         const saveButton = document.getElementById(config.btnId);
         saveButton?.addEventListener("click", () => handleFormSubmit(config));
@@ -218,6 +218,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // -- Event Listener Terpusat untuk Aksi (Edit, Verifikasi, Hapus) --
     document.body.addEventListener('click', async (e) => {
         const editButton = e.target.closest('.btn-edit');
         const verifikasiButton = e.target.closest('.btn-verifikasi');
@@ -261,6 +262,44 @@ document.addEventListener("DOMContentLoaded", () => {
             deleteId = hapusButton.dataset.id;
             deleteType = hapusButton.dataset.type;
             modalHapus.classList.add('show');
+        }
+    });
+
+    // -- Fungsi untuk Filter Otomatis --
+    document.querySelectorAll('.filter-form').forEach(form => {
+        const debounce = (func, delay) => {
+            let timeoutId;
+            const cancel = () => clearTimeout(timeoutId);
+            const debounced = (...args) => {
+                clearTimeout(timeoutId);
+                timeoutId = setTimeout(() => {
+                    func.apply(this, args);
+                }, delay);
+            };
+            debounced.cancel = cancel;
+            return debounced;
+        };
+
+        const debouncedSubmit = debounce(() => {
+            form.submit();
+        }, 500);
+
+        form.querySelectorAll('.filter-select').forEach(select => {
+            select.addEventListener('change', () => {
+                form.submit();
+            });
+        });
+
+        const searchInput = form.querySelector('.search-input');
+        if (searchInput) {
+            searchInput.addEventListener('keyup', (event) => {
+                if (event.key === 'Enter') {
+                    debouncedSubmit.cancel();
+                    form.submit();
+                } else {
+                    debouncedSubmit();
+                }
+            });
         }
     });
 

@@ -98,25 +98,35 @@
           <div class="tab-content" id="pendidikanTabContent">
             {{-- =================================== PENGAJARAN LAMA =================================== --}}
             <div class="tab-pane fade show active" id="pengajaran-lama" role="tabpanel">
-                <div class="search-filter-container">
-                    <div class="search-filter-row">
-                        <div class="search-box">
-                            <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-search search-icon"></i></span>
-                                <input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ....">
+                <form action="{{ route('pendidikan.index') }}" method="GET" class="filter-form">
+                    <div class="search-filter-container">
+                        <div class="search-filter-row">
+                            <div class="search-box">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="fas fa-search search-icon"></i></span>
+                                    <input type="text" name="search" class="form-control search-input border-start-0" placeholder="Cari Nama Dosen/MK..." value="{{ request('search') }}">
+                                </div>
+                            </div>
+                            <select name="tahun_akademik" class="form-select filter-select">
+                                <option value="">Semua Semester</option>
+                                @foreach($tahunAkademikOptions as $tahun)
+                                    <option value="{{ $tahun }}" @if(request('tahun_akademik') == $tahun) selected @endif>{{ $tahun }}</option>
+                                @endforeach
+                            </select>
+                            <select name="status" class="form-select filter-select">
+                                <option value="">Semua Status</option>
+                                <option value="diverifikasi" @if(request('status') == 'diverifikasi') selected @endif>Diverifikasi</option>
+                                <option value="ditolak" @if(request('status') == 'ditolak') selected @endif>Ditolak</option>
+                                <option value="menunggu" @if(request('status') == 'menunggu') selected @endif>Menunggu</option>
+                            </select>
+                            <div class="btn-tambah-container">
+                                <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalTambahEditPengajaranLama" id="btnTambahPengajaranLama">
+                                    <i class="fa fa-plus me-2"></i> Tambah Data
+                                </a>
                             </div>
                         </div>
-                        <select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select>
-                        <select class="form-select filter-select">
-                            <option selected>Status</option><option>Sudah Diverifikasi</option><option>Belum Diverifikasi</option><option>Ditolak</option>
-                        </select>
-                        <div class="btn-tambah-container">
-                            <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalTambahEditPengajaranLama" id="btnTambahPengajaranLama">
-                                <i class="fa fa-plus me-2"></i> Tambah Data
-                            </a>
-                        </div>
                     </div>
-                </div>
+                </form>
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered">
                         <thead class="table-light"><tr class="text-center"><th>No</th><th>Nama Dosen</th><th>Tahun Semester</th><th>Mata Kuliah</th><th>Status</th><th>Dokumen</th><th>Aksi</th></tr></thead>
@@ -133,7 +143,7 @@
                                     @elseif ($item->status_verifikasi == 'ditolak')
                                         <i class="fas fa-times-circle text-danger" title="Ditolak"></i>
                                     @else
-                                        <i class="fas fa-question-circle text-warning" title="Belum Diverifikasi"></i>
+                                        <i class="fas fa-question-circle text-warning" title="Menunggu"></i>
                                     @endif
                                 </td>
                                 <td class="text-center"><a href="{{ $item->file_path ? Storage::url($item->file_path) : '#' }}" class="btn btn-sm btn-lihat text-white {{ $item->file_path ? '' : 'disabled' }}" target="_blank">Lihat</a></td>
@@ -147,7 +157,7 @@
                                 </td>
                             </tr>
                             @empty
-                            <tr><td colspan="7" class="text-center text-muted">Belum ada data.</td></tr>
+                            <tr><td colspan="7" class="text-center text-muted">Data tidak ditemukan.</td></tr>
                             @endforelse
                         </tbody>
                     </table>
@@ -170,25 +180,35 @@
             
             {{-- =================================== PENGAJARAN LUAR =================================== --}}
             <div class="tab-pane fade" id="pengajaran-luar" role="tabpanel">
-                <div class="search-filter-container">
-                    <div class="search-filter-row">
-                        <div class="search-box">
-                            <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-search search-icon"></i></span>
-                                <input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ....">
+                <form action="{{ route('pendidikan.index') }}" method="GET" class="filter-form">
+                    <div class="search-filter-container">
+                        <div class="search-filter-row">
+                            <div class="search-box">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="fas fa-search search-icon"></i></span>
+                                    <input type="text" name="search" class="form-control search-input border-start-0" placeholder="Cari Nama Dosen/Univ..." value="{{ request('search') }}">
+                                </div>
+                            </div>
+                            <select name="tahun_akademik" class="form-select filter-select">
+                                <option value="">Semua Semester</option>
+                                @foreach($tahunAkademikOptions as $tahun)
+                                    <option value="{{ $tahun }}" @if(request('tahun_akademik') == $tahun) selected @endif>{{ $tahun }}</option>
+                                @endforeach
+                            </select>
+                            <select name="status" class="form-select filter-select">
+                                <option value="">Semua Status</option>
+                                <option value="diverifikasi" @if(request('status') == 'diverifikasi') selected @endif>Diverifikasi</option>
+                                <option value="ditolak" @if(request('status') == 'ditolak') selected @endif>Ditolak</option>
+                                <option value="menunggu" @if(request('status') == 'menunggu') selected @endif>Menunggu</option>
+                            </select>
+                            <div class="btn-tambah-container">
+                                <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalPengajaranLuar" id="btnTambahPengajaranLuar">
+                                    <i class="fa fa-plus me-2"></i> Tambah Data
+                                </a>
                             </div>
                         </div>
-                        <select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select>
-                        <select class="form-select filter-select">
-                            <option selected>Status</option><option>Sudah Diverifikasi</option><option>Belum Diverifikasi</option><option>Ditolak</option>
-                        </select>
-                        <div class="btn-tambah-container">
-                            <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalPengajaranLuar" id="btnTambahPengajaranLuar">
-                                <i class="fa fa-plus me-2"></i> Tambah Data
-                            </a>
-                        </div>
                     </div>
-                </div>
+                </form>
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered">
                         <thead class="table-light"><tr class="text-center"><th>No</th><th>Nama Dosen</th><th>Institusi</th><th>Mata Kuliah</th><th>Status</th><th>Dokumen</th><th>Aksi</th></tr></thead>
@@ -205,7 +225,7 @@
                                     @elseif ($item->status_verifikasi == 'ditolak')
                                         <i class="fas fa-times-circle text-danger" title="Ditolak"></i>
                                     @else
-                                        <i class="fas fa-question-circle text-warning" title="Belum Diverifikasi"></i>
+                                        <i class="fas fa-question-circle text-warning" title="Menunggu"></i>
                                     @endif
                                 </td>
                                 <td class="text-center"><a href="{{ $item->file_path ? Storage::url($item->file_path) : '#' }}" class="btn btn-sm btn-lihat text-white {{ $item->file_path ? '' : 'disabled' }}" target="_blank">Lihat</a></td>
@@ -219,7 +239,7 @@
                                 </td>
                             </tr>
                             @empty
-                            <tr><td colspan="7" class="text-center text-muted">Belum ada data.</td></tr>
+                            <tr><td colspan="7" class="text-center text-muted">Data tidak ditemukan.</td></tr>
                             @endforelse
                         </tbody>
                     </table>
@@ -242,25 +262,35 @@
             
             {{-- =================================== PENGUJIAN LAMA =================================== --}}
             <div class="tab-pane fade" id="pengujian-lama" role="tabpanel">
-                <div class="search-filter-container">
-                    <div class="search-filter-row">
-                        <div class="search-box">
-                            <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-search search-icon"></i></span>
-                                <input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ....">
+                <form action="{{ route('pendidikan.index') }}" method="GET" class="filter-form">
+                    <div class="search-filter-container">
+                        <div class="search-filter-row">
+                            <div class="search-box">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="fas fa-search search-icon"></i></span>
+                                    <input type="text" name="search" class="form-control search-input border-start-0" placeholder="Cari Nama Dosen/Mhs..." value="{{ request('search') }}">
+                                </div>
+                            </div>
+                            <select name="tahun_akademik" class="form-select filter-select">
+                                <option value="">Semua Semester</option>
+                                @foreach($tahunAkademikOptions as $tahun)
+                                    <option value="{{ $tahun }}" @if(request('tahun_akademik') == $tahun) selected @endif>{{ $tahun }}</option>
+                                @endforeach
+                            </select>
+                            <select name="status" class="form-select filter-select">
+                                <option value="">Semua Status</option>
+                                <option value="diverifikasi" @if(request('status') == 'diverifikasi') selected @endif>Diverifikasi</option>
+                                <option value="ditolak" @if(request('status') == 'ditolak') selected @endif>Ditolak</option>
+                                <option value="menunggu" @if(request('status') == 'menunggu') selected @endif>Menunggu</option>
+                            </select>
+                            <div class="btn-tambah-container">
+                                <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalPengujianLama" id="btnTambahPengujianLama">
+                                    <i class="fa fa-plus me-2"></i> Tambah Data
+                                </a>
                             </div>
                         </div>
-                        <select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select>
-                        <select class="form-select filter-select">
-                            <option selected>Status</option><option>Sudah Diverifikasi</option><option>Belum Diverifikasi</option><option>Ditolak</option>
-                        </select>
-                        <div class="btn-tambah-container">
-                            <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalPengujianLama" id="btnTambahPengujianLama">
-                                <i class="fa fa-plus me-2"></i> Tambah Data
-                            </a>
-                        </div>
                     </div>
-                </div>
+                </form>
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered">
                         <thead class="table-light"><tr class="text-center"><th>No</th><th>Nama Dosen</th><th>Nama Mahasiswa</th><th>Departemen</th><th>Status</th><th>Dokumen</th><th>Aksi</th></tr></thead>
@@ -277,7 +307,7 @@
                                     @elseif ($item->status_verifikasi == 'ditolak')
                                         <i class="fas fa-times-circle text-danger" title="Ditolak"></i>
                                     @else
-                                        <i class="fas fa-question-circle text-warning" title="Belum Diverifikasi"></i>
+                                        <i class="fas fa-question-circle text-warning" title="Menunggu"></i>
                                     @endif
                                 </td>
                                 <td class="text-center"><a href="{{ $item->file_path ? Storage::url($item->file_path) : '#' }}" class="btn btn-sm btn-lihat text-white {{ $item->file_path ? '' : 'disabled' }}" target="_blank">Lihat</a></td>
@@ -291,7 +321,7 @@
                                 </td>
                             </tr>
                             @empty
-                            <tr><td colspan="7" class="text-center text-muted">Belum ada data.</td></tr>
+                            <tr><td colspan="7" class="text-center text-muted">Data tidak ditemukan.</td></tr>
                             @endforelse
                         </tbody>
                     </table>
@@ -314,25 +344,35 @@
 
             {{-- =================================== PEMBIMBING LAMA =================================== --}}
             <div class="tab-pane fade" id="pembimbing-lama" role="tabpanel">
-                  <div class="search-filter-container">
-                    <div class="search-filter-row">
-                        <div class="search-box">
-                            <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-search search-icon"></i></span>
-                                <input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ....">
+                <form action="{{ route('pendidikan.index') }}" method="GET" class="filter-form">
+                    <div class="search-filter-container">
+                        <div class="search-filter-row">
+                            <div class="search-box">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="fas fa-search search-icon"></i></span>
+                                    <input type="text" name="search" class="form-control search-input border-start-0" placeholder="Cari Nama Dosen/Kegiatan..." value="{{ request('search') }}">
+                                </div>
+                            </div>
+                            <select name="tahun_akademik" class="form-select filter-select">
+                                <option value="">Semua Semester</option>
+                                @foreach($tahunAkademikOptions as $tahun)
+                                    <option value="{{ $tahun }}" @if(request('tahun_akademik') == $tahun) selected @endif>{{ $tahun }}</option>
+                                @endforeach
+                            </select>
+                            <select name="status" class="form-select filter-select">
+                                <option value="">Semua Status</option>
+                                <option value="diverifikasi" @if(request('status') == 'diverifikasi') selected @endif>Diverifikasi</option>
+                                <option value="ditolak" @if(request('status') == 'ditolak') selected @endif>Ditolak</option>
+                                <option value="menunggu" @if(request('status') == 'menunggu') selected @endif>Menunggu</option>
+                            </select>
+                            <div class="btn-tambah-container">
+                                <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalPembimbingLama" id="btnTambahPembimbingLama">
+                                    <i class="fa fa-plus me-2"></i> Tambah Data
+                                </a>
                             </div>
                         </div>
-                        <select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select>
-                        <select class="form-select filter-select">
-                            <option selected>Status</option><option>Sudah Diverifikasi</option><option>Belum Diverifikasi</option><option>Ditolak</option>
-                        </select>
-                        <div class="btn-tambah-container">
-                            <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalPembimbingLama" id="btnTambahPembimbingLama">
-                                <i class="fa fa-plus me-2"></i> Tambah Data
-                            </a>
-                        </div>
                     </div>
-                  </div>
+                </form>
                   <div class="table-responsive">
                       <table class="table table-hover table-bordered">
                           <thead class="table-light"><tr class="text-center"><th>No</th><th>Nama Dosen</th><th>Kegiatan</th><th>Nama Mahasiswa</th><th>Status</th><th>Dokumen</th><th>Aksi</th></tr></thead>
@@ -349,7 +389,7 @@
                                     @elseif ($item->status_verifikasi == 'ditolak')
                                         <i class="fas fa-times-circle text-danger" title="Ditolak"></i>
                                     @else
-                                        <i class="fas fa-question-circle text-warning" title="Belum Diverifikasi"></i>
+                                        <i class="fas fa-question-circle text-warning" title="Menunggu"></i>
                                     @endif
                                 </td>
                                 <td class="text-center"><a href="{{ $item->file_path ? Storage::url($item->file_path) : '#' }}" class="btn btn-sm btn-lihat text-white {{ $item->file_path ? '' : 'disabled' }}" target="_blank">Lihat</a></td>
@@ -363,7 +403,7 @@
                                 </td>
                             </tr>
                             @empty
-                            <tr><td colspan="7" class="text-center text-muted">Belum ada data.</td></tr>
+                            <tr><td colspan="7" class="text-center text-muted">Data tidak ditemukan.</td></tr>
                             @endforelse
                           </tbody>
                       </table>
@@ -386,25 +426,35 @@
             
             {{-- =================================== PENGUJI LUAR =================================== --}}
             <div class="tab-pane fade" id="penguji-luar" role="tabpanel">
-                <div class="search-filter-container">
-                    <div class="search-filter-row">
-                        <div class="search-box">
-                            <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-search search-icon"></i></span>
-                                <input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ....">
+                <form action="{{ route('pendidikan.index') }}" method="GET" class="filter-form">
+                    <div class="search-filter-container">
+                        <div class="search-filter-row">
+                            <div class="search-box">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="fas fa-search search-icon"></i></span>
+                                    <input type="text" name="search" class="form-control search-input border-start-0" placeholder="Cari Nama Dosen/Mhs..." value="{{ request('search') }}">
+                                </div>
+                            </div>
+                            <select name="tahun_akademik" class="form-select filter-select">
+                                <option value="">Semua Semester</option>
+                                @foreach($tahunAkademikOptions as $tahun)
+                                    <option value="{{ $tahun }}" @if(request('tahun_akademik') == $tahun) selected @endif>{{ $tahun }}</option>
+                                @endforeach
+                            </select>
+                            <select name="status" class="form-select filter-select">
+                                <option value="">Semua Status</option>
+                                <option value="diverifikasi" @if(request('status') == 'diverifikasi') selected @endif>Diverifikasi</option>
+                                <option value="ditolak" @if(request('status') == 'ditolak') selected @endif>Ditolak</option>
+                                <option value="menunggu" @if(request('status') == 'menunggu') selected @endif>Menunggu</option>
+                            </select>
+                            <div class="btn-tambah-container">
+                                <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalPengujiLuar" id="btnTambahPengujiLuar">
+                                    <i class="fa fa-plus me-2"></i> Tambah Data
+                                </a>
                             </div>
                         </div>
-                        <select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select>
-                        <select class="form-select filter-select">
-                            <option selected>Status</option><option>Sudah Diverifikasi</option><option>Belum Diverifikasi</option><option>Ditolak</option>
-                        </select>
-                        <div class="btn-tambah-container">
-                            <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalPengujiLuar" id="btnTambahPengujiLuar">
-                                <i class="fa fa-plus me-2"></i> Tambah Data
-                            </a>
-                        </div>
                     </div>
-                </div>
+                </form>
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered">
                         <thead class="table-light"><tr class="text-center"><th>No</th><th>Nama Dosen</th><th>Nama Mahasiswa</th><th>Universitas</th><th>Status</th><th>Dokumen</th><th>Aksi</th></tr></thead>
@@ -421,7 +471,7 @@
                                     @elseif ($item->status_verifikasi == 'ditolak')
                                         <i class="fas fa-times-circle text-danger" title="Ditolak"></i>
                                     @else
-                                        <i class="fas fa-question-circle text-warning" title="Belum Diverifikasi"></i>
+                                        <i class="fas fa-question-circle text-warning" title="Menunggu"></i>
                                     @endif
                                 </td>
                                 <td class="text-center"><a href="{{ $item->file_path ? Storage::url($item->file_path) : '#' }}" class="btn btn-sm btn-lihat text-white {{ $item->file_path ? '' : 'disabled' }}" target="_blank">Lihat</a></td>
@@ -435,7 +485,7 @@
                                 </td>
                             </tr>
                             @empty
-                            <tr><td colspan="7" class="text-center text-muted">Belum ada data.</td></tr>
+                            <tr><td colspan="7" class="text-center text-muted">Data tidak ditemukan.</td></tr>
                             @endforelse
                         </tbody>
                     </table>
@@ -458,25 +508,35 @@
             
             {{-- =================================== PEMBIMBING LUAR =================================== --}}
             <div class="tab-pane fade" id="pembimbing-luar" role="tabpanel">
-                <div class="search-filter-container">
-                    <div class="search-filter-row">
-                        <div class="search-box">
-                            <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-search search-icon"></i></span>
-                                <input type="text" class="form-control search-input border-start-0" placeholder="Cari Data ....">
+                <form action="{{ route('pendidikan.index') }}" method="GET" class="filter-form">
+                    <div class="search-filter-container">
+                        <div class="search-filter-row">
+                            <div class="search-box">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="fas fa-search search-icon"></i></span>
+                                    <input type="text" name="search" class="form-control search-input border-start-0" placeholder="Cari Nama Dosen/Mhs..." value="{{ request('search') }}">
+                                </div>
+                            </div>
+                            <select name="tahun_akademik" class="form-select filter-select">
+                                <option value="">Semua Semester</option>
+                                @foreach($tahunAkademikOptions as $tahun)
+                                    <option value="{{ $tahun }}" @if(request('tahun_akademik') == $tahun) selected @endif>{{ $tahun }}</option>
+                                @endforeach
+                            </select>
+                            <select name="status" class="form-select filter-select">
+                                <option value="">Semua Status</option>
+                                <option value="diverifikasi" @if(request('status') == 'diverifikasi') selected @endif>Diverifikasi</option>
+                                <option value="ditolak" @if(request('status') == 'ditolak') selected @endif>Ditolak</option>
+                                <option value="menunggu" @if(request('status') == 'menunggu') selected @endif>Menunggu</option>
+                            </select>
+                            <div class="btn-tambah-container">
+                                <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalPembimbingLuar" id="btnTambahPembimbingLuar">
+                                    <i class="fa fa-plus me-2"></i> Tambah Data
+                                </a>
                             </div>
                         </div>
-                        <select class="form-select filter-select"><option selected>Semester</option><option>Genap 2024/2025</option></select>
-                        <select class="form-select filter-select">
-                            <option selected>Status</option><option>Sudah Diverifikasi</option><option>Belum Diverifikasi</option><option>Ditolak</option>
-                        </select>
-                        <div class="btn-tambah-container">
-                            <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalPembimbingLuar" id="btnTambahPembimbingLuar">
-                                <i class="fa fa-plus me-2"></i> Tambah Data
-                            </a>
-                        </div>
                     </div>
-                </div>
+                </form>
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered">
                         <thead class="table-light"><tr class="text-center"><th>No</th><th>Nama Dosen</th><th>Nama Mahasiswa</th><th>Universitas</th><th>Status</th><th>Dokumen</th><th>Aksi</th></tr></thead>
@@ -493,7 +553,7 @@
                                     @elseif ($item->status_verifikasi == 'ditolak')
                                         <i class="fas fa-times-circle text-danger" title="Ditolak"></i>
                                     @else
-                                        <i class="fas fa-question-circle text-warning" title="Belum Diverifikasi"></i>
+                                        <i class="fas fa-question-circle text-warning" title="Menunggu"></i>
                                     @endif
                                 </td>
                                 <td class="text-center"><a href="{{ $item->file_path ? Storage::url($item->file_path) : '#' }}" class="btn btn-sm btn-lihat text-white {{ $item->file_path ? '' : 'disabled' }}" target="_blank">Lihat</a></td>
@@ -507,7 +567,7 @@
                                 </td>
                             </tr>
                             @empty
-                            <tr><td colspan="7" class="text-center text-muted">Belum ada data.</td></tr>
+                            <tr><td colspan="7" class="text-center text-muted">Data tidak ditemukan.</td></tr>
                             @endforelse
                         </tbody>
                     </table>
@@ -558,16 +618,13 @@
     
     @include('components.pendidikan.detail-pembimbing-luar')
     @include('components.pendidikan.tambah-pembimbing-luar', ['dosenAktif' => $dosenAktif])
-
-    {{-- File: pendidikan.blade.php --}}
-
-    <audio id="success-sound" preload="auto">
-        <source src="{{ asset('assets/sounds/Success.mp3') }}" type="audio/mpeg">
-        Browser Anda tidak mendukung elemen audio.
-    </audio>
   
+  <audio id="success-sound" preload="auto">
+      <source src="{{ asset('assets/sounds/Success.mp3') }}" type="audio/mpeg">
+  </audio>
+
   <script src="{{ asset('assets/js/layout.js') }}"></script>
-  <script src="{{ asset('assets/js/pendidikan.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{{ asset('assets/js/pendidikan.js') }}"></script>
 </body>
 </html>
