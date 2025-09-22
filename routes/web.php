@@ -41,6 +41,7 @@ use App\Http\Controllers\PendidikanController;
 // ================== Halaman Utama ==================
 Route::view('/pendidikan', 'pages.pendidikan');
 Route::get('/pendidikan', [PendidikanController::class, 'index'])->name('pendidikan.index');
+Route::post('/pendidikan/verifikasi', [PendidikanController::class, 'verifikasi'])->name('pendidikan.verifikasi');
 
 // ================== Pengajaran Lama ==================
 Route::post('/pendidikan/pengajaran-lama', [PendidikanController::class, 'storePengajaranLama'])->name('pendidikan.pengajaran-lama.store');

@@ -159,4 +159,44 @@ class PendidikanController extends Controller
         $data = $model::with('pegawai')->find($id);
         return $data ? response()->json($data) : response()->json(['error' => 'Data tidak ditemukan.'], 404);
     }
+
+    // --- Method Verifikasi ---
+    public function verifikasi(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|integer',
+            'type' => 'required|string',
+            'status' => 'required|in:diverifikasi,ditolak',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => 'Data tidak valid.'], 422);
+        }
+
+        $modelMapping = [
+            'pengajaran-lama' => PengajaranLama::class,
+            'pengajaran-luar' => PengajaranLuar::class,
+            'pengujian-lama' => PengujianLama::class,
+            'pembimbing-lama' => PembimbingLama::class,
+            'penguji-luar' => PengujiLuar::class,
+            'pembimbing-luar' => PembimbingLuar::class,
+        ];
+
+        $type = $request->input('type');
+        if (!isset($modelMapping[$type])) {
+            return response()->json(['error' => 'Tipe data tidak valid.'], 400);
+        }
+
+        $modelClass = $modelMapping[$type];
+        $record = $modelClass::find($request->input('id'));
+
+        if (!$record) {
+            return response()->json(['error' => 'Data tidak ditemukan.'], 404);
+        }
+
+        $record->status_verifikasi = $request->input('status');
+        $record->save();
+
+        return response()->json(['success' => 'Status verifikasi berhasil diperbarui.']);
+    }
 }
