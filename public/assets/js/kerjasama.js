@@ -199,6 +199,60 @@
     });
 
     // ====================================================
+    // Validasi TMT dan TST
+    // ====================================================
+    function validateDates() {
+        const tmtInput = document.querySelector('input[name="tmt"]');
+        const tstInput = document.querySelector('input[name="tst"]');
+        
+        if (!tmtInput || !tstInput) return true;
+        
+        const tmtValue = new Date(tmtInput.value);
+        const tstValue = new Date(tstInput.value);
+        
+        // Remove any existing error messages first
+        const existingError = tstInput.parentNode.querySelector('.date-validation-error');
+        if (existingError) {
+            existingError.remove();
+        }
+        
+        tstInput.classList.remove('is-invalid');
+        
+        if (tstInput.value && tmtInput.value && tstValue < tmtValue) {
+            // Show error message
+            const errorMsg = document.createElement('small');
+            errorMsg.className = 'text-danger date-validation-error';
+            errorMsg.textContent = 'Tanggal selesai harus setelah atau sama dengan tanggal mulai';
+            tstInput.parentNode.appendChild(errorMsg);
+            tstInput.classList.add('is-invalid');
+            return false;
+        }
+        
+        return true;
+    }
+
+    // Add event listeners for date validation
+    const tmtInput = document.querySelector('input[name="tmt"]');
+    const tstInput = document.querySelector('input[name="tst"]');
+    
+    if (tmtInput && tstInput) {
+        tmtInput.addEventListener('change', validateDates);
+        tstInput.addEventListener('change', validateDates);
+        
+        // Also validate on input for real-time feedback
+        tmtInput.addEventListener('input', validateDates);
+        tstInput.addEventListener('input', validateDates);
+    }
+
+    // Validate dates before form submission
+    document.getElementById("kerjasamaForm")?.addEventListener("submit", function (e) {
+        if (!validateDates()) {
+            e.preventDefault();
+            return false;
+        }
+    });
+
+    // ====================================================
     // Auto-submit Search dengan Debounce
     // ====================================================
     (function initSearchAutoSubmit() {

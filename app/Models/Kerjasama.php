@@ -34,6 +34,18 @@ class Kerjasama extends Model
         'tst' => 'date',
     ];
 
+    // Custom validation for date relationships
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($model) {
+            if ($model->tmt && $model->tst && $model->tst < $model->tmt) {
+                throw new \Exception('Tanggal selesai tidak boleh sebelum tanggal mulai');
+            }
+        });
+    }
+
     // Relasi ke tim
     public function tim()
     {
