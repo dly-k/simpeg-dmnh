@@ -1211,6 +1211,13 @@ a.dokumen-link:hover {
     color: var(--primary);
 }
 
+.btn.btn-info.btn-sm{
+    color: white;
+    font-weight: 600;
+}
+.btn.btn-warning.btn-sm{
+    color: white;
+}
 /* =============================
    Modal Berhasil
    Gaya untuk modal konfirmasi keberhasilan

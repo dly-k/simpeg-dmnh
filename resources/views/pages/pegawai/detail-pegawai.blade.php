@@ -449,7 +449,7 @@
                                                     <td class="text-center">{{ \Carbon\Carbon::parse($item->tmt_pangkat)->isoFormat('D MMM YYYY') }}</td>
                                                     <td class="text-center">
                                                         @if($item->file_path)
-                                                            <a href="{{ asset('storage/' . $item->file_path) }}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> Lihat</a>
+                                                            <a href="{{ asset('storage/' . $item->file_path) }}" target="_blank" class="btn btn-info btn-sm">Lihat</a>
                                                         @else
                                                             -
                                                         @endif
@@ -487,7 +487,7 @@
                                                     <td class="text-center">{{ \Carbon\Carbon::parse($item->tmt_jabatan)->isoFormat('D MMM YYYY') }}</td>
                                                     <td class="text-center">
                                                         @if($item->file_path)
-                                                            <a href="{{ asset('storage/' . $item->file_path) }}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> Lihat</a>
+                                                            <a href="{{ asset('storage/' . $item->file_path) }}" target="_blank" class="btn btn-info btn-sm"> Lihat</a>
                                                         @else
                                                             -
                                                         @endif
@@ -522,7 +522,7 @@
                                                     <td>{{ $item->nomor_sk }}</td>
                                                     <td class="text-center">
                                                         @if($item->file_path)
-                                                            <a href="{{ asset('storage/' . $item->file_path) }}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> Lihat</a>
+                                                            <a href="{{ asset('storage/' . $item->file_path) }}" target="_blank" class="btn btn-info btn-sm"> Lihat</a>
                                                         @else
                                                             -
                                                         @endif
@@ -559,7 +559,7 @@
                                                     <td class="text-center">{{ \Carbon\Carbon::parse($item->tmt_pensiun)->isoFormat('D MMM YYYY') }}</td>
                                                     <td class="text-center">
                                                         @if($item->file_path)
-                                                            <a href="{{ asset('storage/' . $item->file_path) }}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> Lihat</a>
+                                                            <a href="{{ asset('storage/' . $item->file_path) }}" target="_blank" class="btn btn-info btn-sm"> Lihat</a>
                                                         @else
                                                             -
                                                         @endif
@@ -597,7 +597,7 @@
                                                     <td>Rp {{ number_format($item->gaji_pokok, 0, ',', '.') }}</td>
                                                     <td class="text-center">
                                                         @if($item->file_path)
-                                                            <a href="{{ asset('storage/' . $item->file_path) }}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> Lihat</a>
+                                                            <a href="{{ asset('storage/' . $item->file_path) }}" target="_blank" class="btn btn-info btn-sm"> Lihat</a>
                                                         @else
                                                             -
                                                         @endif
@@ -635,7 +635,7 @@
                                                     <td class="text-center">{{ \Carbon\Carbon::parse($item->tanggal_selesai)->isoFormat('D MMM YYYY') }}</td>
                                                     <td class="text-center">
                                                         @if($item->file_path)
-                                                            <a href="{{ asset('storage/' . $item->file_path) }}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> Lihat</a>
+                                                            <a href="{{ asset('storage/' . $item->file_path) }}" target="_blank" class="btn btn-info btn-sm"> Lihat</a>
                                                         @else
                                                             -
                                                         @endif
@@ -673,7 +673,7 @@
                                                     <td class="text-center">{{ $item->tanggal_selesai ? \Carbon\Carbon::parse($item->tanggal_selesai)->isoFormat('D MMM YYYY') : '-' }}</td>
                                                     <td class="text-center">
                                                         @if($item->file_path)
-                                                            <a href="{{ asset('storage/' . $item->file_path) }}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> Lihat</a>
+                                                            <a href="{{ asset('storage/' . $item->file_path) }}" target="_blank" class="btn btn-info btn-sm"> Lihat</a>
                                                         @else
                                                             -
                                                         @endif
