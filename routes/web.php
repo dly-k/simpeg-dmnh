@@ -52,50 +52,50 @@ Route::get('/dokumen/preview/{path}', [DokumenController::class, 'show'])->where
 // Rute untuk Penetapan Pangkat
 Route::prefix('pegawai/{pegawai}/pangkat')->name('pangkat.')->controller(PenetapanPangkatController::class)->group(function () {
     Route::post('/', 'store')->name('store');
-    // Route::put('/{pangkat}', 'update')->name('update');
-    // Route::delete('/{pangkat}', 'destroy')->name('destroy');
+    Route::put('/{pangkat}', 'update')->name('update');
+    Route::delete('/{pangkat}', 'destroy')->name('destroy');
 });
 
 // Rute untuk Jabatan
 Route::prefix('pegawai/{pegawai}/jabatan')->name('jabatan.')->controller(JabatanController::class)->group(function () {
     Route::post('/', 'store')->name('store');
-    // Route::put('/{jabatan}', 'update')->name('update');
-    // Route::delete('/{jabatan}', 'destroy')->name('destroy');
+    Route::put('/{jabatan}', 'update')->name('update');
+    Route::delete('/{jabatan}', 'destroy')->name('destroy');
 });
 
 // Rute untuk Jabatan Saat Ini
 Route::prefix('pegawai/{pegawai}/jabatan-saat-ini')->name('jabatan-saat-ini.')->controller(JabatanSaatIniController::class)->group(function () {
     Route::post('/', 'store')->name('store');
-    // Route::put('/{jabatanSaatIni}', 'update')->name('update');
-    // Route::delete('/{jabatanSaatIni}', 'destroy')->name('destroy');
+    Route::put('/{jabatanSaatIni}', 'update')->name('update');
+    Route::delete('/{jabatanSaatIni}', 'destroy')->name('destroy');
 });
 
 // Rute untuk Pensiun
 Route::prefix('pegawai/{pegawai}/pensiun')->name('pensiun.')->controller(PensiunController::class)->group(function () {
     Route::post('/', 'store')->name('store');
-    // Route::put('/{pensiun}', 'update')->name('update');
-    // Route::delete('/{pensiun}', 'destroy')->name('destroy');
+    Route::put('/{pensiun}', 'update')->name('update');
+    Route::delete('/{pensiun}', 'destroy')->name('destroy');
 });
 
 // Rute untuk Kenaikan Gaji Berkala
 Route::prefix('pegawai/{pegawai}/gaji-berkala')->name('gaji-berkala.')->controller(KenaikanGajiBerkalaController::class)->group(function () {
     Route::post('/', 'store')->name('store');
-    // Route::put('/{gajiBerkala}', 'update')->name('update');
-    // Route::delete('/{gajiBerkala}', 'destroy')->name('destroy');
+    Route::put('/{gajiBerkala}', 'update')->name('update');
+    Route::delete('/{gajiBerkala}', 'destroy')->name('destroy');
 });
 
 // Rute untuk Tugas Belajar
 Route::prefix('pegawai/{pegawai}/tugas-belajar')->name('tugas-belajar.')->controller(TugasBelajarController::class)->group(function () {
     Route::post('/', 'store')->name('store');
-    // Route::put('/{tugasBelajar}', 'update')->name('update');
-    // Route::delete('/{tugasBelajar}', 'destroy')->name('destroy');
+    Route::put('/{tugasBelajar}', 'update')->name('update');
+    Route::delete('/{tugasBelajar}', 'destroy')->name('destroy');
 });
 
 // Rute untuk SK Non PNS
 Route::prefix('pegawai/{pegawai}/sk-non-pns')->name('sk-non-pns.')->controller(SkNonPnsController::class)->group(function () {
     Route::post('/', 'store')->name('store');
-    // Route::put('/{skNonPn}', 'update')->name('update');
-    // Route::delete('/{skNonPn}', 'destroy')->name('destroy');
+    Route::put('/{skNonPn}', 'update')->name('update');
+    Route::delete('/{skNonPn}', 'destroy')->name('destroy');
 });
 
 

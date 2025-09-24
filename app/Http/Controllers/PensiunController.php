@@ -9,9 +9,6 @@ use Illuminate\Support\Facades\Storage;
 
 class PensiunController extends Controller
 {
-    /**
-     * Menyimpan data baru.
-     */
     public function store(Request $request, Pegawai $pegawai)
     {
         $validated = $request->validate([
@@ -35,21 +32,43 @@ class PensiunController extends Controller
         ]);
     }
 
-    /**
-     * Memperbarui data yang ada. (Belum diimplementasikan)
-     */
     public function update(Request $request, Pegawai $pegawai, Pensiun $pensiun)
     {
-        // Logika untuk update data
-        return back()->with('success', 'Data berhasil diperbarui!');
+        $validated = $request->validate([
+            'jenis_pensiun' => 'required|string|max:255',
+            'nomor_sk' => 'required|string|max:255',
+            'tanggal_sk' => 'required|date',
+            'tmt_pensiun' => 'required|date',
+            'dokumen' => 'nullable|file|mimes:pdf,jpg,png|max:5120',
+        ]);
+
+        if ($request->hasFile('dokumen')) {
+            if ($pensiun->file_path) {
+                Storage::disk('public')->delete($pensiun->file_path);
+            }
+            $validated['file_path'] = $request->file('dokumen')->store('sk_pensiun', 'public');
+        }
+
+        $pensiun->update($validated);
+
+        return back()->with([
+            'success' => 'Data Pensiun berhasil diperbarui!',
+            'active_tab' => 'sk',
+            'active_subtab' => 'pensiun'
+        ]);
     }
 
-    /**
-     * Menghapus data. (Belum diimplementasikan)
-     */
     public function destroy(Pegawai $pegawai, Pensiun $pensiun)
     {
-        // Logika untuk hapus data
-        return back()->with('success', 'Data berhasil dihapus!');
+        if ($pensiun->file_path) {
+            Storage::disk('public')->delete($pensiun->file_path);
+        }
+        $pensiun->delete();
+
+        return back()->with([
+            'success' => 'Data Pensiun berhasil dihapus!',
+            'active_tab' => 'sk',
+            'active_subtab' => 'pensiun'
+        ]);
     }
 }

@@ -66,51 +66,15 @@
                         </div>
                         <div class="flex-grow-1">
                             <div class="row g-3">
-
-                                <div class="col-md-6">
-                                    <label class="small text-dark fw-medium mb-1">NIP</label>
-                                    <div class="detail-box">{{ $pegawai->nip ?? '-' }}</div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <label class="small text-dark fw-medium mb-1">Agama</label>
-                                    <div class="detail-box">{{ $pegawai->agama ?? '-' }}</div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <label class="small text-dark fw-medium mb-1">Nama Lengkap</label>
-                                    <div class="detail-box">{{ $pegawai->nama_lengkap ?? '-' }}</div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <label class="small text-dark fw-medium mb-1">Status Pernikahan</label>
-                                    <div class="detail-box">{{ $pegawai->status_pernikahan ?? '-' }}</div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <label class="small text-dark fw-medium mb-1">Jenis Kelamin</label>
-                                    <div class="detail-box">{{ $pegawai->jenis_kelamin ?? '-' }}</div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <label class="small text-dark fw-medium mb-1">Pendidikan Terakhir</label>
-                                    <div class="detail-box">{{ $pegawai->pendidikan_terakhir ?? '-' }}</div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <label class="small text-dark fw-medium mb-1">Tempat Lahir</label>
-                                    <div class="detail-box">{{ $pegawai->tempat_lahir ?? '-' }}</div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <label class="small text-dark fw-medium mb-1">Bidang Ilmu</label>
-                                    <div class="detail-box">{{ $pegawai->bidang_ilmu ?? '-' }}</div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <label class="small text-dark fw-medium mb-1">Tanggal Lahir</label>
-                                    <div class="detail-box">{{ $pegawai->tanggal_lahir ? \Carbon\Carbon::parse($pegawai->tanggal_lahir)->isoFormat('D MMMM YYYY') : '-' }}</div>
-                                </div>
+                                <div class="col-md-6"><label class="small text-dark fw-medium mb-1">NIP</label><div class="detail-box">{{ $pegawai->nip ?? '-' }}</div></div>
+                                <div class="col-md-6"><label class="small text-dark fw-medium mb-1">Agama</label><div class="detail-box">{{ $pegawai->agama ?? '-' }}</div></div>
+                                <div class="col-md-6"><label class="small text-dark fw-medium mb-1">Nama Lengkap</label><div class="detail-box">{{ $pegawai->nama_lengkap ?? '-' }}</div></div>
+                                <div class="col-md-6"><label class="small text-dark fw-medium mb-1">Status Pernikahan</label><div class="detail-box">{{ $pegawai->status_pernikahan ?? '-' }}</div></div>
+                                <div class="col-md-6"><label class="small text-dark fw-medium mb-1">Jenis Kelamin</label><div class="detail-box">{{ $pegawai->jenis_kelamin ?? '-' }}</div></div>
+                                <div class="col-md-6"><label class="small text-dark fw-medium mb-1">Pendidikan Terakhir</label><div class="detail-box">{{ $pegawai->pendidikan_terakhir ?? '-' }}</div></div>
+                                <div class="col-md-6"><label class="small text-dark fw-medium mb-1">Tempat Lahir</label><div class="detail-box">{{ $pegawai->tempat_lahir ?? '-' }}</div></div>
+                                <div class="col-md-6"><label class="small text-dark fw-medium mb-1">Bidang Ilmu</label><div class="detail-box">{{ $pegawai->bidang_ilmu ?? '-' }}</div></div>
+                                <div class="col-md-6"><label class="small text-dark fw-medium mb-1">Tanggal Lahir</label><div class="detail-box">{{ $pegawai->tanggal_lahir ? \Carbon\Carbon::parse($pegawai->tanggal_lahir)->isoFormat('D MMMM YYYY') : '-' }}</div></div>
                             </div>
                         </div>
                     </div>
@@ -139,221 +103,60 @@
 
                             <div class="sub-tab-content" id="kepegawaian">
                                 <div class="row g-3">
-
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Status Kepegawaian</label>
-                                        <div class="detail-box">{{ $pegawai->status_kepegawaian ?? '-' }}</div>
-                                    </div>
-
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Status Pegawai</label>
-                                        <div class="detail-box">{{ $pegawai->status_pegawai ?? '-' }}</div>
-                                    </div>
-
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Unit Kerja</label>
-                                        <div class="detail-box">Fakultas Kehutanan dan Lingkungan</div>
-                                    </div>
-
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Divisi</label>
-                                        <div class="detail-box">Departemen Manajemen Hutan</div>
-                                    </div>
-
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Nomor Arsip Berkas Kepegawaian</label>
-                                        <div class="detail-box">{{ $pegawai->nomor_arsip ?? '-' }}</div>
-                                    </div>
-
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Jabatan Fungsional</label>
-                                        <div class="detail-box">{{ $pegawai->jabatan_fungsional ?? '-' }}</div>
-                                    </div>
-
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Pangkat/Golongan</label>
-                                        <div class="detail-box">{{ $pegawai->pangkat_golongan ?? '-' }}</div>
-                                    </div>
-
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">TMT Pangkat Terakhir</label>
-                                        <div class="detail-box">{{ $pegawai->tmt_pangkat ? \Carbon\Carbon::parse($pegawai->tmt_pangkat)->isoFormat('D MMMM YYYY') : '-' }}</div>
-                                    </div>
-
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Jabatan Struktural (jika ada)</label>
-                                        <div class="detail-box">{{ $pegawai->jabatan_struktural ?? '-' }}</div>
-                                    </div>
-
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Periode Jabatan Struktural (TMT s/d TST)</label>
-                                        <div class="detail-box">
-                                            @if($pegawai->periode_jabatan_mulai && $pegawai->periode_jabatan_selesai)
-                                                {{ \Carbon\Carbon::parse($pegawai->periode_jabatan_mulai)->isoFormat('D MMM YYYY') }} s/d {{ \Carbon\Carbon::parse($pegawai->periode_jabatan_selesai)->isoFormat('D MMM YYYY') }}
-                                            @else
-                                                -
-                                            @endif
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Finger Print ID</label>
-                                        <div class="detail-box">{{ $pegawai->finger_print_id ?? '-' }}</div>
-                                    </div>
-
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">NPWP</label>
-                                        <div class="detail-box">{{ $pegawai->npwp ?? '-' }}</div>
-                                    </div>
-
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Nama Bank</label>
-                                        <div class="detail-box">{{ $pegawai->nama_bank ?? '-' }}</div>
-                                    </div>
-
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">No Rekening</label>
-                                        <div class="detail-box">{{ $pegawai->nomor_rekening ?? '-' }}</div>
-                                    </div>
-
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">Status Kepegawaian</label><div class="detail-box">{{ $pegawai->status_kepegawaian ?? '-' }}</div></div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">Status Pegawai</label><div class="detail-box">{{ $pegawai->status_pegawai ?? '-' }}</div></div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">Unit Kerja</label><div class="detail-box">Fakultas Kehutanan dan Lingkungan</div></div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">Divisi</label><div class="detail-box">Departemen Manajemen Hutan</div></div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">Nomor Arsip Berkas Kepegawaian</label><div class="detail-box">{{ $pegawai->nomor_arsip ?? '-' }}</div></div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">Jabatan Fungsional</label><div class="detail-box">{{ $pegawai->jabatan_fungsional ?? '-' }}</div></div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">Pangkat/Golongan</label><div class="detail-box">{{ $pegawai->pangkat_golongan ?? '-' }}</div></div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">TMT Pangkat Terakhir</label><div class="detail-box">{{ $pegawai->tmt_pangkat ? \Carbon\Carbon::parse($pegawai->tmt_pangkat)->isoFormat('D MMMM YYYY') : '-' }}</div></div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">Jabatan Struktural (jika ada)</label><div class="detail-box">{{ $pegawai->jabatan_struktural ?? '-' }}</div></div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">Periode Jabatan Struktural (TMT s/d TST)</label><div class="detail-box">@if($pegawai->periode_jabatan_mulai && $pegawai->periode_jabatan_selesai){{ \Carbon\Carbon::parse($pegawai->periode_jabatan_mulai)->isoFormat('D MMM YYYY') }} s/d {{ \Carbon\Carbon::parse($pegawai->periode_jabatan_selesai)->isoFormat('D MMM YYYY') }}@else - @endif</div></div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">Finger Print ID</label><div class="detail-box">{{ $pegawai->finger_print_id ?? '-' }}</div></div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">NPWP</label><div class="detail-box">{{ $pegawai->npwp ?? '-' }}</div></div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">Nama Bank</label><div class="detail-box">{{ $pegawai->nama_bank ?? '-' }}</div></div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">No Rekening</label><div class="detail-box">{{ $pegawai->nomor_rekening ?? '-' }}</div></div>
                                 </div>
                             </div>
                             
                             <div class="sub-tab-content" id="dosen" style="display: none;">
-                                <div class="row g-3">
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">NUPTK</label>
-                                        <div class="detail-box">{{ $pegawai->nuptk ?? '-' }}</div>
-                                    </div>
-
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">SINTA ID</label>
-                                        <div class="detail-box">{{ $pegawai->sinta_id ?? '-' }}</div>
-                                    </div>
-
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">NIDN</label>
-                                        <div class="detail-box">{{ $pegawai->nidn ?? '-' }}</div>
-                                    </div>
-
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium">Scopus ID</label>
-                                        <div class="detail-box">{{ $pegawai->scopus_id ?? '-' }}</div>
-                                    </div>
-
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">No. Sertifikasi Dosen</label>
-                                        <div class="detail-box">{{ $pegawai->no_sertifikasi_dosen ?? '-' }}</div>
-                                    </div>
-
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Orchid ID</label>
-                                        <div class="detail-box">{{ $pegawai->orchid_id ?? '-' }}</div>
-                                    </div>
-
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Tgl. Sertifikasi Dosen</label>
-                                        <div class="detail-box">{{ $pegawai->tgl_sertifikasi_dosen ? \Carbon\Carbon::parse($pegawai->tgl_sertifikasi_dosen)->isoFormat('D MMMM YYYY') : '-' }}</div>
-                                    </div>
-
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Google Scholar ID</label>
-                                        <div class="detail-box">{{ $pegawai->google_scholar_id ?? '-' }}</div>
-                                    </div>
-                                </div>
+                               <div class="row g-3">
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">NUPTK</label><div class="detail-box">{{ $pegawai->nuptk ?? '-' }}</div></div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">SINTA ID</label><div class="detail-box">{{ $pegawai->sinta_id ?? '-' }}</div></div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">NIDN</label><div class="detail-box">{{ $pegawai->nidn ?? '-' }}</div></div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium">Scopus ID</label><div class="detail-box">{{ $pegawai->scopus_id ?? '-' }}</div></div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">No. Sertifikasi Dosen</label><div class="detail-box">{{ $pegawai->no_sertifikasi_dosen ?? '-' }}</div></div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">Orchid ID</label><div class="detail-box">{{ $pegawai->orchid_id ?? '-' }}</div></div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">Tgl. Sertifikasi Dosen</label><div class="detail-box">{{ $pegawai->tgl_sertifikasi_dosen ? \Carbon\Carbon::parse($pegawai->tgl_sertifikasi_dosen)->isoFormat('D MMMM YYYY') : '-' }}</div></div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">Google Scholar ID</label><div class="detail-box">{{ $pegawai->google_scholar_id ?? '-' }}</div></div>
+                               </div>
                             </div>
                             
                             <div class="sub-tab-content" id="domisili" style="display: none;">
                                 <div class="row g-3">
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Provinsi</label>
-                                        <div class="detail-box">{{ $pegawai->provinsi_domisili ?? '-' }}</div>
-                                    </div>
-
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Kota/Kabupaten</label>
-                                        <div class="detail-box">{{ $pegawai->kota_domisili ?? '-' }}</div>
-                                    </div>
-                                    
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Kecamatan</label>
-                                        <div class="detail-box">{{ $pegawai->kecamatan_domisili ?? '-' }}</div>
-                                    </div>
-                                    
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Kelurahan</label>
-                                        <div class="detail-box">{{ $pegawai->kelurahan_domisili ?? '-' }}</div>
-                                    </div>
-
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Kode Pos</label>
-                                        <div class="detail-box">{{ $pegawai->kode_pos_domisili ?? '-' }}</div>
-                                    </div>
-                                    
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Alamat</label>
-                                        <div class="detail-box">{{ $pegawai->alamat_domisili ?? '-' }}</div>
-                                    </div>
-
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">No. Telepon/HP</label>
-                                        <div class="detail-box">{{ $pegawai->no_telepon ?? '-' }}</div>
-                                    </div>
-
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Email</label>
-                                        <div class="detail-box">{{ $pegawai->email ?? '-' }}</div>
-                                    </div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">Provinsi</label><div class="detail-box">{{ $pegawai->provinsi_domisili ?? '-' }}</div></div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">Kota/Kabupaten</label><div class="detail-box">{{ $pegawai->kota_domisili ?? '-' }}</div></div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">Kecamatan</label><div class="detail-box">{{ $pegawai->kecamatan_domisili ?? '-' }}</div></div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">Kelurahan</label><div class="detail-box">{{ $pegawai->kelurahan_domisili ?? '-' }}</div></div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">Kode Pos</label><div class="detail-box">{{ $pegawai->kode_pos_domisili ?? '-' }}</div></div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">Alamat</label><div class="detail-box">{{ $pegawai->alamat_domisili ?? '-' }}</div></div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">No. Telepon/HP</label><div class="detail-box">{{ $pegawai->no_telepon ?? '-' }}</div></div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">Email</label><div class="detail-box">{{ $pegawai->email ?? '-' }}</div></div>
                                 </div>
                             </div>
 
                             <div class="sub-tab-content" id="kependudukan" style="display: none;">
                                 <div class="row g-3">
-
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Nomor KTP</label>
-                                        <div class="detail-box">{{ $pegawai->nomor_ktp ?? '-' }}</div>
-                                    </div>
-
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Nomor KK</label>
-                                        <div class="detail-box">{{ $pegawai->nomor_kk ?? '-' }}</div>
-                                    </div>
-                                    
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Warga Negara</label>
-                                        <div class="detail-box">{{ $pegawai->warga_negara ?? '-' }}</div>
-                                    </div>
-
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Provinsi KTP</label>
-                                        <div class="detail-box">{{ $pegawai->provinsi_ktp ?? '-' }}</div>
-                                    </div>
-
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Kabupaten/Kota KTP</label>
-                                        <div class="detail-box">{{ $pegawai->kabupaten_ktp ?? '-' }}</div>
-                                    </div>
-
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Kecamatan KTP</label>
-                                        <div class="detail-box">{{ $pegawai->kecamatan_ktp ?? '-' }}</div>
-                                    </div>
-
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Kelurahan KTP</label>
-                                        <div class="detail-box">{{ $pegawai->kelurahan_ktp ?? '-' }}</div>
-                                    </div>
-                                    
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Kode Pos KTP</label>
-                                        <div class="detail-box">{{ $pegawai->kode_pos_ktp ?? '-' }}</div>
-                                    </div>
-
-                                    <div class="col-md-12 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Alamat KTP</label>
-                                        <div class="detail-box">{{ $pegawai->alamat_ktp ?? '-' }}</div>
-                                    </div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">Nomor KTP</label><div class="detail-box">{{ $pegawai->nomor_ktp ?? '-' }}</div></div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">Nomor KK</label><div class="detail-box">{{ $pegawai->nomor_kk ?? '-' }}</div></div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">Warga Negara</label><div class="detail-box">{{ $pegawai->warga_negara ?? '-' }}</div></div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">Provinsi KTP</label><div class="detail-box">{{ $pegawai->provinsi_ktp ?? '-' }}</div></div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">Kabupaten/Kota KTP</label><div class="detail-box">{{ $pegawai->kabupaten_ktp ?? '-' }}</div></div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">Kecamatan KTP</label><div class="detail-box">{{ $pegawai->kecamatan_ktp ?? '-' }}</div></div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">Kelurahan KTP</label><div class="detail-box">{{ $pegawai->kelurahan_ktp ?? '-' }}</div></div>
+                                    <div class="col-md-6 form-group"><label class="small text-dark fw-medium mb-1">Kode Pos KTP</label><div class="detail-box">{{ $pegawai->kode_pos_ktp ?? '-' }}</div></div>
+                                    <div class="col-md-12 form-group"><label class="small text-dark fw-medium mb-1">Alamat KTP</label><div class="detail-box">{{ $pegawai->alamat_ktp ?? '-' }}</div></div>
                                 </div>
                             </div>
 
@@ -362,19 +165,12 @@
                                     <h4>Dokumen</h4>
                                     <button class="btn btn-tambah" data-bs-toggle="modal" data-bs-target="#tambahDokumenModal"><i class="lni lni-plus me-1"></i> Tambah</button>
                                 </div>
-
                                 @php
                                     $groupedFiles = $pegawai->efiles->groupBy('kategori_dokumen');
-                                    $kategoriMap = [
-                                        'biodata' => 'Biodata', 'pendidikan' => 'Pendidikan', 'jf' => 'Jabatan Fungsional',
-                                        'sk' => 'Surat Keputusan', 'sp' => 'Surat Penting', 'lain' => 'Lain-lain'
-                                    ];
+                                    $kategoriMap = ['biodata' => 'Biodata', 'pendidikan' => 'Pendidikan', 'jf' => 'Jabatan Fungsional', 'sk' => 'Surat Keputusan', 'sp' => 'Surat Penting', 'lain' => 'Lain-lain'];
                                 @endphp
-
                                 @if($pegawai->efiles->isEmpty())
-                                    <div class="text-center text-muted mt-5 py-5">
-                                        <p>Belum ada dokumen E-File yang diunggah.</p>
-                                    </div>
+                                    <div class="text-center text-muted mt-5 py-5"><p>Belum ada dokumen E-File yang diunggah.</p></div>
                                 @else
                                     @foreach($kategoriMap as $key => $namaKategori)
                                         @if($groupedFiles->has($key))
@@ -385,23 +181,17 @@
                                                         <div class="file-item" data-file-url="{{ asset('storage/' . $file->file_path) }}">
                                                             @php
                                                                 $keaslian = strtolower($file->keaslian_dokumen ?? '');
-                                                                $badgeClass = 'badge-scan'; // Default
+                                                                $badgeClass = 'badge-scan';
                                                                 if ($keaslian == 'asli') $badgeClass = 'badge-asli';
                                                                 if ($keaslian == 'legalisir') $badgeClass = 'badge-legalisir';
                                                             @endphp
                                                             <span class="file-badge {{ $badgeClass }}">{{ $file->keaslian_dokumen ?? 'N/A' }}</span>
-                                                            <div class="file-item-icon">
-                                                                <i class="lni lni-files"></i>
-                                                            </div>
-                                                            <p title="{{ $file->file_name }}">
-                                                                {{ $file->nama_dokumen }}
-                                                                <span>{{ \Carbon\Carbon::parse($file->tanggal_dokumen)->isoFormat('D MMM YYYY') }}</span>
-                                                            </p>
+                                                            <div class="file-item-icon"><i class="lni lni-files"></i></div>
+                                                            <p title="{{ $file->file_name }}">{{ $file->nama_dokumen }}<span>{{ \Carbon\Carbon::parse($file->tanggal_dokumen)->isoFormat('D MMM YYYY') }}</span></p>
                                                             <div class="file-item-actions">
                                                                 <a href="{{ asset('storage/' . $file->file_path) }}" target="_blank" class="btn btn-sm btn-outline-secondary">Lihat</a>
                                                                 <form action="{{ route('efile.destroy', $file->id) }}" method="POST" class="d-inline form-hapus-efile w-100">
-                                                                    @csrf
-                                                                    @method('DELETE')
+                                                                    @csrf @method('DELETE')
                                                                     <button type="submit" class="btn btn-sm btn-outline-danger w-100" data-nama="{{ $file->nama_dokumen }}">Hapus</button>
                                                                 </form>
                                                             </div>
@@ -415,8 +205,8 @@
                             </div>
                         </div>
 
-                            <div class="main-tab-content" id="sk-content" style="display: none;">
-                                <div id="sk-sub-tabs" class="sub-tab-nav d-flex flex-wrap gap-2 mb-4">
+                        <div class="main-tab-content" id="sk-content" style="display: none;">
+                            <div id="sk-sub-tabs" class="sub-tab-nav d-flex flex-wrap gap-2 mb-4">
                                 <button type="button" class="btn active" data-tab="penetapan-pangkat">Penetapan Pangkat</button>
                                 <button type="button" class="btn" data-tab="jabatan">Jabatan</button>
                                 <button type="button" class="btn" data-tab="jabatan-saat-ini">Jabatan Saat Ini</button>
@@ -429,15 +219,13 @@
                             <div class="sub-tab-content" id="penetapan-pangkat" style="display: block;">
                                 <div class="d-flex flex-wrap gap-2 mb-3">
                                     <div class="input-group" style="flex: 1 1 250px;"><span class="input-group-text"><i class="fas fa-search"></i></span><input type="text" class="form-control" placeholder="Cari di tabel..."></div>
-                                    <select class="form-select" style="flex: 0 1 180px;"><option selected>Filter Tahun</option><option>2025</option><option>2024</option><option>2023</option></select>
+                                    <select class="form-select" style="flex: 0 1 180px;"><option selected>Filter Tahun</option></select>
                                     <button class="btn btn-outline-success" style="flex: 0 1 auto;"><i class="fa fa-file-export me-2"></i>Export</button>
-                                    <button class="btn btn-success" style="flex: 0 1 auto;" data-bs-toggle="modal" data-bs-target="#tambahPangkatModal"><i class="fa fa-plus me-2"></i>Tambah</button>
+                                    <button class="btn btn-success btn-tambah" style="flex: 0 1 auto;" data-bs-toggle="modal" data-bs-target="#pangkatModal" data-store-url="{{ route('pangkat.store', $pegawai->id) }}"><i class="fa fa-plus me-2"></i>Tambah</button>
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover">
-                                        <thead class="text-center">
-                                            <tr><th>Golongan</th><th>Persetujuan BKN</th><th>Tanggal BKN</th><th>Nomor SK</th><th>Tanggal SK</th><th>TMT</th><th>File</th><th>Aksi</th></tr>
-                                        </thead>
+                                        <thead class="text-center"><tr><th>Golongan</th><th>Persetujuan BKN</th><th>Tgl BKN</th><th>Nomor SK</th><th>Tgl SK</th><th>TMT</th><th>File</th><th>Aksi</th></tr></thead>
                                         <tbody>
                                             @forelse ($pegawai->penetapanPangkats as $item)
                                                 <tr>
@@ -447,14 +235,11 @@
                                                     <td>{{ $item->nomor_sk }}</td>
                                                     <td class="text-center">{{ \Carbon\Carbon::parse($item->tanggal_sk)->isoFormat('D MMM YYYY') }}</td>
                                                     <td class="text-center">{{ \Carbon\Carbon::parse($item->tmt_pangkat)->isoFormat('D MMM YYYY') }}</td>
+                                                    <td class="text-center">@if($item->file_path)<a href="{{ asset('storage/' . $item->file_path) }}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>@else - @endif</td>
                                                     <td class="text-center">
-                                                        @if($item->file_path)
-                                                            <a href="{{ asset('storage/' . $item->file_path) }}" target="_blank" class="btn btn-info btn-sm">Lihat</a>
-                                                        @else
-                                                            -
-                                                        @endif
+                                                        <button class="btn btn-warning btn-sm btn-edit" data-bs-toggle="modal" data-bs-target="#pangkatModal" data-item='@json($item)' data-update-url="{{ route('pangkat.update', ['pegawai' => $pegawai->id, 'pangkat' => $item->id]) }}"><i class="fa fa-edit"></i></button>
+                                                        <form action="{{ route('pangkat.destroy', ['pegawai' => $pegawai->id, 'pangkat' => $item->id]) }}" method="POST" class="d-inline form-hapus-sk">@csrf @method('DELETE')<button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></form>
                                                     </td>
-                                                    <td class="text-center"><button class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></button> <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
                                                 </tr>
                                             @empty
                                                 <tr><td colspan="8" class="text-center">Belum ada data.</td></tr>
@@ -467,15 +252,13 @@
                             <div class="sub-tab-content" id="jabatan" style="display: none;">
                                  <div class="d-flex flex-wrap gap-2 mb-3">
                                     <div class="input-group" style="flex: 1 1 250px;"><span class="input-group-text"><i class="fas fa-search"></i></span><input type="text" class="form-control" placeholder="Cari di tabel..."></div>
-                                    <select class="form-select" style="flex: 0 1 180px;"><option selected>Filter Tahun</option><option>2025</option><option>2024</option><option>2023</option></select>
+                                    <select class="form-select" style="flex: 0 1 180px;"><option selected>Filter Tahun</option></select>
                                     <button class="btn btn-outline-success" style="flex: 0 1 auto;"><i class="fa fa-file-export me-2"></i>Export</button>
-                                    <button class="btn btn-success" style="flex: 0 1 auto;" data-bs-toggle="modal" data-bs-target="#tambahJabatanModal"><i class="fa fa-plus me-2"></i>Tambah</button>
+                                    <button class="btn btn-success btn-tambah" style="flex: 0 1 auto;" data-bs-toggle="modal" data-bs-target="#jabatanModal" data-store-url="{{ route('jabatan.store', $pegawai->id) }}"><i class="fa fa-plus me-2"></i>Tambah</button>
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover">
-                                        <thead class="text-center">
-                                            <tr><th>No</th><th>Nama Jabatan</th><th>Jenis SK</th><th>Nomor SK</th><th>Tanggal SK</th><th>TMT</th><th>File</th><th>Aksi</th></tr>
-                                        </thead>
+                                        <thead class="text-center"><tr><th>No</th><th>Nama Jabatan</th><th>Jenis SK</th><th>Nomor SK</th><th>Tgl SK</th><th>TMT</th><th>File</th><th>Aksi</th></tr></thead>
                                         <tbody>
                                             @forelse ($pegawai->jabatans as $index => $item)
                                                 <tr>
@@ -485,14 +268,11 @@
                                                     <td>{{ $item->nomor_sk }}</td>
                                                     <td class="text-center">{{ \Carbon\Carbon::parse($item->tanggal_sk)->isoFormat('D MMM YYYY') }}</td>
                                                     <td class="text-center">{{ \Carbon\Carbon::parse($item->tmt_jabatan)->isoFormat('D MMM YYYY') }}</td>
+                                                    <td class="text-center">@if($item->file_path)<a href="{{ asset('storage/' . $item->file_path) }}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>@else - @endif</td>
                                                     <td class="text-center">
-                                                        @if($item->file_path)
-                                                            <a href="{{ asset('storage/' . $item->file_path) }}" target="_blank" class="btn btn-info btn-sm"> Lihat</a>
-                                                        @else
-                                                            -
-                                                        @endif
+                                                        <button class="btn btn-warning btn-sm btn-edit" data-bs-toggle="modal" data-bs-target="#jabatanModal" data-item='@json($item)' data-update-url="{{ route('jabatan.update', ['pegawai' => $pegawai->id, 'jabatan' => $item->id]) }}"><i class="fa fa-edit"></i></button>
+                                                        <form action="{{ route('jabatan.destroy', ['pegawai' => $pegawai->id, 'jabatan' => $item->id]) }}" method="POST" class="d-inline form-hapus-sk">@csrf @method('DELETE')<button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></form>
                                                     </td>
-                                                    <td class="text-center"><button class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></button> <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
                                                 </tr>
                                             @empty
                                                 <tr><td colspan="8" class="text-center">Belum ada data.</td></tr>
@@ -505,29 +285,24 @@
                             <div class="sub-tab-content" id="jabatan-saat-ini" style="display: none;">
                                 <div class="d-flex flex-wrap gap-2 mb-3">
                                     <div class="input-group" style="flex: 1 1 250px;"><span class="input-group-text"><i class="fas fa-search"></i></span><input type="text" class="form-control" placeholder="Cari di tabel..."></div>
-                                    <select class="form-select" style="flex: 0 1 180px;"><option selected>Filter Tahun</option><option>2025</option><option>2024</option><option>2023</option></select>
+                                    <select class="form-select" style="flex: 0 1 180px;"><option selected>Filter Tahun</option></select>
                                     <button class="btn btn-outline-success" style="flex: 0 1 auto;"><i class="fa fa-file-export me-2"></i>Export</button>
-                                    <button class="btn btn-success" style="flex: 0 1 auto;" data-bs-toggle="modal" data-bs-target="#tambahJabatanSaatIniModal"><i class="fa fa-plus me-2"></i>Tambah</button>
+                                    <button class="btn btn-success btn-tambah" style="flex: 0 1 auto;" data-bs-toggle="modal" data-bs-target="#jabatanSaatIniModal" data-store-url="{{ route('jabatan-saat-ini.store', $pegawai->id) }}"><i class="fa fa-plus me-2"></i>Tambah</button>
                                 </div>
                                <div class="table-responsive">
                                     <table class="table table-bordered table-hover">
-                                        <thead class="text-center">
-                                            <tr><th>Nama Jabatan</th><th>Jenis Jabatan</th><th>Nomor SK</th><th>File</th><th>Aksi</th></tr>
-                                        </thead>
+                                        <thead class="text-center"><tr><th>Nama Jabatan</th><th>Jenis Jabatan</th><th>Nomor SK</th><th>File</th><th>Aksi</th></tr></thead>
                                         <tbody>
                                             @forelse ($pegawai->jabatanSaatInis as $item)
                                                 <tr>
                                                     <td>{{ $item->nama_jabatan }}</td>
                                                     <td>{{ $item->jenis_jabatan }}</td>
                                                     <td>{{ $item->nomor_sk }}</td>
+                                                    <td class="text-center">@if($item->file_path)<a href="{{ asset('storage/' . $item->file_path) }}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>@else - @endif</td>
                                                     <td class="text-center">
-                                                        @if($item->file_path)
-                                                            <a href="{{ asset('storage/' . $item->file_path) }}" target="_blank" class="btn btn-info btn-sm"> Lihat</a>
-                                                        @else
-                                                            -
-                                                        @endif
+                                                        <button class="btn btn-warning btn-sm btn-edit" data-bs-toggle="modal" data-bs-target="#jabatanSaatIniModal" data-item='@json($item)' data-update-url="{{ route('jabatan-saat-ini.update', ['pegawai' => $pegawai->id, 'jabatanSaatIni' => $item->id]) }}"><i class="fa fa-edit"></i></button>
+                                                        <form action="{{ route('jabatan-saat-ini.destroy', ['pegawai' => $pegawai->id, 'jabatanSaatIni' => $item->id]) }}" method="POST" class="d-inline form-hapus-sk">@csrf @method('DELETE')<button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></form>
                                                     </td>
-                                                    <td class="text-center"><button class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></button> <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
                                                 </tr>
                                             @empty
                                                 <tr><td colspan="5" class="text-center">Belum ada data.</td></tr>
@@ -540,15 +315,13 @@
                             <div class="sub-tab-content" id="pensiun" style="display: none;">
                                 <div class="d-flex flex-wrap gap-2 mb-3">
                                     <div class="input-group" style="flex: 1 1 250px;"><span class="input-group-text"><i class="fas fa-search"></i></span><input type="text" class="form-control" placeholder="Cari di tabel..."></div>
-                                    <select class="form-select" style="flex: 0 1 180px;"><option selected>Filter Tahun</option><option>2025</option><option>2024</option><option>2023</option></select>
+                                    <select class="form-select" style="flex: 0 1 180px;"><option selected>Filter Tahun</option></select>
                                     <button class="btn btn-outline-success" style="flex: 0 1 auto;"><i class="fa fa-file-export me-2"></i>Export</button>
-                                    <button class="btn btn-success" style="flex: 0 1 auto;" data-bs-toggle="modal" data-bs-target="#tambahPensiunModal"><i class="fa fa-plus me-2"></i>Tambah</button>
+                                    <button class="btn btn-success btn-tambah" style="flex: 0 1 auto;" data-bs-toggle="modal" data-bs-target="#pensiunModal" data-store-url="{{ route('pensiun.store', $pegawai->id) }}"><i class="fa fa-plus me-2"></i>Tambah</button>
                                 </div>
                                <div class="table-responsive">
                                     <table class="table table-bordered table-hover">
-                                        <thead class="text-center">
-                                            <tr><th>No</th><th>Jenis Pensiun</th><th>Nomor SK</th><th>Tanggal SK</th><th>TMT Pensiun</th><th>File</th><th>Aksi</th></tr>
-                                        </thead>
+                                        <thead class="text-center"><tr><th>No</th><th>Jenis Pensiun</th><th>Nomor SK</th><th>Tgl SK</th><th>TMT Pensiun</th><th>File</th><th>Aksi</th></tr></thead>
                                         <tbody>
                                             @forelse ($pegawai->pensiuns as $index => $item)
                                                 <tr>
@@ -557,14 +330,11 @@
                                                     <td>{{ $item->nomor_sk }}</td>
                                                     <td class="text-center">{{ \Carbon\Carbon::parse($item->tanggal_sk)->isoFormat('D MMM YYYY') }}</td>
                                                     <td class="text-center">{{ \Carbon\Carbon::parse($item->tmt_pensiun)->isoFormat('D MMM YYYY') }}</td>
+                                                    <td class="text-center">@if($item->file_path)<a href="{{ asset('storage/' . $item->file_path) }}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>@else - @endif</td>
                                                     <td class="text-center">
-                                                        @if($item->file_path)
-                                                            <a href="{{ asset('storage/' . $item->file_path) }}" target="_blank" class="btn btn-info btn-sm"> Lihat</a>
-                                                        @else
-                                                            -
-                                                        @endif
+                                                        <button class="btn btn-warning btn-sm btn-edit" data-bs-toggle="modal" data-bs-target="#pensiunModal" data-item='@json($item)' data-update-url="{{ route('pensiun.update', ['pegawai' => $pegawai->id, 'pensiun' => $item->id]) }}"><i class="fa fa-edit"></i></button>
+                                                        <form action="{{ route('pensiun.destroy', ['pegawai' => $pegawai->id, 'pensiun' => $item->id]) }}" method="POST" class="d-inline form-hapus-sk">@csrf @method('DELETE')<button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></form>
                                                     </td>
-                                                    <td class="text-center"><button class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></button> <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
                                                 </tr>
                                             @empty
                                                 <tr><td colspan="7" class="text-center">Belum ada data.</td></tr>
@@ -577,15 +347,13 @@
                             <div class="sub-tab-content" id="sk-kenaikan-gaji" style="display: none;">
                                 <div class="d-flex flex-wrap gap-2 mb-3">
                                     <div class="input-group" style="flex: 1 1 250px;"><span class="input-group-text"><i class="fas fa-search"></i></span><input type="text" class="form-control" placeholder="Cari di tabel..."></div>
-                                    <select class="form-select" style="flex: 0 1 180px;"><option selected>Filter Tahun</option><option>2025</option><option>2024</option><option>2023</option></select>
+                                    <select class="form-select" style="flex: 0 1 180px;"><option selected>Filter Tahun</option></select>
                                     <button class="btn btn-outline-success" style="flex: 0 1 auto;"><i class="fa fa-file-export me-2"></i>Export</button>
-                                    <button class="btn btn-success" style="flex: 0 1 auto;" data-bs-toggle="modal" data-bs-target="#tambahGajiBerkalaModal"><i class="fa fa-plus me-2"></i>Tambah</button>
+                                    <button class="btn btn-success btn-tambah" style="flex: 0 1 auto;" data-bs-toggle="modal" data-bs-target="#gajiBerkalaModal" data-store-url="{{ route('gaji-berkala.store', $pegawai->id) }}"><i class="fa fa-plus me-2"></i>Tambah</button>
                                 </div>
                                <div class="table-responsive">
                                     <table class="table table-bordered table-hover">
-                                        <thead class="text-center">
-                                            <tr><th>No</th><th>Golongan</th><th>Nomor SK</th><th>Tanggal SK</th><th>TMT Gaji</th><th>Gaji Pokok</th><th>File</th><th>Aksi</th></tr>
-                                        </thead>
+                                        <thead class="text-center"><tr><th>No</th><th>Golongan</th><th>Nomor SK</th><th>Tgl SK</th><th>TMT Gaji</th><th>Gaji Pokok</th><th>File</th><th>Aksi</th></tr></thead>
                                         <tbody>
                                             @forelse ($pegawai->kenaikanGajiBerkalas as $index => $item)
                                                 <tr>
@@ -595,14 +363,11 @@
                                                     <td class="text-center">{{ \Carbon\Carbon::parse($item->tanggal_sk)->isoFormat('D MMM YYYY') }}</td>
                                                     <td class="text-center">{{ \Carbon\Carbon::parse($item->tmt_gaji)->isoFormat('D MMM YYYY') }}</td>
                                                     <td>Rp {{ number_format($item->gaji_pokok, 0, ',', '.') }}</td>
+                                                    <td class="text-center">@if($item->file_path)<a href="{{ asset('storage/' . $item->file_path) }}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>@else - @endif</td>
                                                     <td class="text-center">
-                                                        @if($item->file_path)
-                                                            <a href="{{ asset('storage/' . $item->file_path) }}" target="_blank" class="btn btn-info btn-sm"> Lihat</a>
-                                                        @else
-                                                            -
-                                                        @endif
+                                                        <button class="btn btn-warning btn-sm btn-edit" data-bs-toggle="modal" data-bs-target="#gajiBerkalaModal" data-item='@json($item)' data-update-url="{{ route('gaji-berkala.update', ['pegawai' => $pegawai->id, 'gajiBerkala' => $item->id]) }}"><i class="fa fa-edit"></i></button>
+                                                        <form action="{{ route('gaji-berkala.destroy', ['pegawai' => $pegawai->id, 'gajiBerkala' => $item->id]) }}" method="POST" class="d-inline form-hapus-sk">@csrf @method('DELETE')<button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></form>
                                                     </td>
-                                                    <td class="text-center"><button class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></button> <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
                                                 </tr>
                                             @empty
                                                 <tr><td colspan="8" class="text-center">Belum ada data.</td></tr>
@@ -615,15 +380,13 @@
                             <div class="sub-tab-content" id="sk-tugas-belajar" style="display: none;">
                                 <div class="d-flex flex-wrap gap-2 mb-3">
                                     <div class="input-group" style="flex: 1 1 250px;"><span class="input-group-text"><i class="fas fa-search"></i></span><input type="text" class="form-control" placeholder="Cari di tabel..."></div>
-                                    <select class="form-select" style="flex: 0 1 180px;"><option selected>Filter Tahun</option><option>2025</option><option>2024</option><option>2023</option></select>
+                                    <select class="form-select" style="flex: 0 1 180px;"><option selected>Filter Tahun</option></select>
                                     <button class="btn btn-outline-success" style="flex: 0 1 auto;"><i class="fa fa-file-export me-2"></i>Export</button>
-                                    <button class="btn btn-success" style="flex: 0 1 auto;" data-bs-toggle="modal" data-bs-target="#tambahTugasBelajarModal"><i class="fa fa-plus me-2"></i>Tambah</button>
+                                    <button class="btn btn-success btn-tambah" style="flex: 0 1 auto;" data-bs-toggle="modal" data-bs-target="#tugasBelajarModal" data-store-url="{{ route('tugas-belajar.store', $pegawai->id) }}"><i class="fa fa-plus me-2"></i>Tambah</button>
                                 </div>
                                <div class="table-responsive">
                                     <table class="table table-bordered table-hover">
-                                        <thead class="text-center">
-                                            <tr><th>No</th><th>Jenis Tugas Belajar</th><th>Nomor SK</th><th>Tanggal SK</th><th>Tanggal Mulai</th><th>Tanggal Selesai</th><th>File</th><th>Aksi</th></tr>
-                                        </thead>
+                                        <thead class="text-center"><tr><th>No</th><th>Jenis Tugas Belajar</th><th>Nomor SK</th><th>Tgl SK</th><th>Tgl Mulai</th><th>Tgl Selesai</th><th>File</th><th>Aksi</th></tr></thead>
                                         <tbody>
                                             @forelse ($pegawai->tugasBelajars as $index => $item)
                                                 <tr>
@@ -633,14 +396,11 @@
                                                     <td class="text-center">{{ \Carbon\Carbon::parse($item->tanggal_sk)->isoFormat('D MMM YYYY') }}</td>
                                                     <td class="text-center">{{ \Carbon\Carbon::parse($item->tanggal_mulai)->isoFormat('D MMM YYYY') }}</td>
                                                     <td class="text-center">{{ \Carbon\Carbon::parse($item->tanggal_selesai)->isoFormat('D MMM YYYY') }}</td>
+                                                    <td class="text-center">@if($item->file_path)<a href="{{ asset('storage/' . $item->file_path) }}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>@else - @endif</td>
                                                     <td class="text-center">
-                                                        @if($item->file_path)
-                                                            <a href="{{ asset('storage/' . $item->file_path) }}" target="_blank" class="btn btn-info btn-sm"> Lihat</a>
-                                                        @else
-                                                            -
-                                                        @endif
+                                                        <button class="btn btn-warning btn-sm btn-edit" data-bs-toggle="modal" data-bs-target="#tugasBelajarModal" data-item='@json($item)' data-update-url="{{ route('tugas-belajar.update', ['pegawai' => $pegawai->id, 'tugasBelajar' => $item->id]) }}"><i class="fa fa-edit"></i></button>
+                                                        <form action="{{ route('tugas-belajar.destroy', ['pegawai' => $pegawai->id, 'tugasBelajar' => $item->id]) }}" method="POST" class="d-inline form-hapus-sk">@csrf @method('DELETE')<button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></form>
                                                     </td>
-                                                    <td class="text-center"><button class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></button> <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
                                                 </tr>
                                             @empty
                                                 <tr><td colspan="8" class="text-center">Belum ada data.</td></tr>
@@ -653,15 +413,13 @@
                             <div class="sub-tab-content" id="sk-non-pns" style="display: none;">
                                 <div class="d-flex flex-wrap gap-2 mb-3">
                                     <div class="input-group" style="flex: 1 1 250px;"><span class="input-group-text"><i class="fas fa-search"></i></span><input type="text" class="form-control" placeholder="Cari di tabel..."></div>
-                                    <select class="form-select" style="flex: 0 1 180px;"><option selected>Filter Tahun</option><option>2025</option><option>2024</option><option>2023</option></select>
+                                    <select class="form-select" style="flex: 0 1 180px;"><option selected>Filter Tahun</option></select>
                                     <button class="btn btn-outline-success" style="flex: 0 1 auto;"><i class="fa fa-file-export me-2"></i>Export</button>
-                                    <button class="btn btn-success" style="flex: 0 1 auto;" data-bs-toggle="modal" data-bs-target="#tambahNonPnsModal"><i class="fa fa-plus me-2"></i>Tambah</button>
+                                    <button class="btn btn-success btn-tambah" style="flex: 0 1 auto;" data-bs-toggle="modal" data-bs-target="#nonPnsModal" data-store-url="{{ route('sk-non-pns.store', $pegawai->id) }}"><i class="fa fa-plus me-2"></i>Tambah</button>
                                 </div>
                                <div class="table-responsive">
                                     <table class="table table-bordered table-hover">
-                                        <thead class="text-center">
-                                            <tr><th>No</th><th>Jenis SK</th><th>Nomor SK</th><th>Tanggal SK</th><th>Tanggal Mulai</th><th>Tanggal Selesai</th><th>File</th><th>Aksi</th></tr>
-                                        </thead>
+                                        <thead class="text-center"><tr><th>No</th><th>Jenis SK</th><th>Nomor SK</th><th>Tgl SK</th><th>Tgl Mulai</th><th>Tgl Selesai</th><th>File</th><th>Aksi</th></tr></thead>
                                         <tbody>
                                             @forelse ($pegawai->skNonPns as $index => $item)
                                                 <tr>
@@ -671,14 +429,11 @@
                                                     <td class="text-center">{{ \Carbon\Carbon::parse($item->tanggal_sk)->isoFormat('D MMM YYYY') }}</td>
                                                     <td class="text-center">{{ \Carbon\Carbon::parse($item->tanggal_mulai)->isoFormat('D MMM YYYY') }}</td>
                                                     <td class="text-center">{{ $item->tanggal_selesai ? \Carbon\Carbon::parse($item->tanggal_selesai)->isoFormat('D MMM YYYY') : '-' }}</td>
+                                                    <td class="text-center">@if($item->file_path)<a href="{{ asset('storage/' . $item->file_path) }}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>@else - @endif</td>
                                                     <td class="text-center">
-                                                        @if($item->file_path)
-                                                            <a href="{{ asset('storage/' . $item->file_path) }}" target="_blank" class="btn btn-info btn-sm"> Lihat</a>
-                                                        @else
-                                                            -
-                                                        @endif
+                                                        <button class="btn btn-warning btn-sm btn-edit" data-bs-toggle="modal" data-bs-target="#nonPnsModal" data-item='@json($item)' data-update-url="{{ route('sk-non-pns.update', ['pegawai' => $pegawai->id, 'skNonPn' => $item->id]) }}"><i class="fa fa-edit"></i></button>
+                                                        <form action="{{ route('sk-non-pns.destroy', ['pegawai' => $pegawai->id, 'skNonPn' => $item->id]) }}" method="POST" class="d-inline form-hapus-sk">@csrf @method('DELETE')<button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></form>
                                                     </td>
-                                                    <td class="text-center"><button class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></button> <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
                                                 </tr>
                                             @empty
                                                 <tr><td colspan="8" class="text-center">Belum ada data.</td></tr>
@@ -689,34 +444,18 @@
                             </div>
                         </div>
 
-
-                        <div class="main-tab-content" id="pendidikan-content" style="display: none;">
-                            <p>Konten Pelaksanaan Pendidikan akan dimuat di sini.</p>
-                        </div>
-                        <div class="main-tab-content" id="penelitian-content" style="display: none;">
-                           <p>Konten Pelaksanaan Penelitian akan dimuat di sini.</p>
-                        </div>
-                        <div class="main-tab-content" id="pengabdian-content" style="display: none;">
-                            <p>Konten Pelaksanaan Pengabdian akan dimuat di sini.</p>
-                        </div>
-                        <div class="main-tab-content" id="penunjang-content" style="display: none;">
-                            <p>Konten Penunjang akan dimuat di sini.</p>
-                        </div>
-                         <div class="main-tab-content" id="pelatihan-content" style="display: none;">
-                            <p>Konten Pelatihan akan dimuat di sini.</p>
-                        </div>
-                         <div class="main-tab-content" id="penghargaan-content" style="display: none;">
-                            <p>Konten Penghargaan akan dimuat di sini.</p>
-                        </div>
-
+                        <div class="main-tab-content" id="pendidikan-content" style="display: none;"><p>Konten Pelaksanaan Pendidikan akan dimuat di sini.</p></div>
+                        <div class="main-tab-content" id="penelitian-content" style="display: none;"><p>Konten Pelaksanaan Penelitian akan dimuat di sini.</p></div>
+                        <div class="main-tab-content" id="pengabdian-content" style="display: none;"><p>Konten Pelaksanaan Pengabdian akan dimuat di sini.</p></div>
+                        <div class="main-tab-content" id="penunjang-content" style="display: none;"><p>Konten Penunjang akan dimuat di sini.</p></div>
+                        <div class="main-tab-content" id="pelatihan-content" style="display: none;"><p>Konten Pelatihan akan dimuat di sini.</p></div>
+                        <div class="main-tab-content" id="penghargaan-content" style="display: none;"><p>Konten Penghargaan akan dimuat di sini.</p></div>
                     </div> 
                 </div>
             </div>
         </div>
 
-    <footer class="footer-custom">
-        <span>© 2025 Forest Management — All Rights Reserved</span>
-    </footer>
+    <footer class="footer-custom"><span>© 2025 Forest Management — All Rights Reserved</span></footer>
     </div>
 </div>
 
@@ -725,7 +464,7 @@
     @include('components.konfirmasi-hapus')
     @include('components.konfirmasi-berhasil')
     
-    {{-- Modal Untuk Menu SK --}}
+    {{-- Modal Untuk Menu SK (Form Tambah & Edit Gabungan) --}}
     @include('components.pendidikan.tambah-penetapan-pangkat')
     @include('components.pendidikan.tambah-jabatan')
     @include('components.pendidikan.tambah-jabatan-saat-ini')
@@ -733,14 +472,9 @@
     @include('components.pendidikan.tambah-sk-kenaikan-gaji')
     @include('components.pendidikan.tambah-sk-tugas-belajar')
     @include('components.pendidikan.tambah-sk-non-pns')
-
+    
     @if (session('success'))
-    <div id="success-trigger" 
-            data-title="Berhasil!"
-            data-message="{{ session('success') }}"
-            data-active-tab="{{ session('active_tab') }}"
-            data-active-subtab="{{ session('active_subtab') }}">
-    </div>
+        <div id="success-trigger" data-title="Berhasil!" data-message="{{ session('success') }}" data-active-tab="{{ session('active_tab') }}" data-active-subtab="{{ session('active_subtab') }}"></div>
     @endif
         
 <script src="{{ asset('assets/js/layout.js') }}"></script>

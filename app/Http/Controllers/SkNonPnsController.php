@@ -9,9 +9,6 @@ use Illuminate\Support\Facades\Storage;
 
 class SkNonPnsController extends Controller
 {
-    /**
-     * Menyimpan data baru.
-     */
     public function store(Request $request, Pegawai $pegawai)
     {
         $validated = $request->validate([
@@ -36,21 +33,44 @@ class SkNonPnsController extends Controller
         ]);
     }
 
-    /**
-     * Memperbarui data yang ada. (Belum diimplementasikan)
-     */
     public function update(Request $request, Pegawai $pegawai, SkNonPns $skNonPn)
     {
-        // Logika untuk update data
-        return back()->with('success', 'Data berhasil diperbarui!');
+        $validated = $request->validate([
+            'jenis_sk' => 'required|string|max:255',
+            'nomor_sk' => 'required|string|max:255',
+            'tanggal_sk' => 'required|date',
+            'tanggal_mulai' => 'required|date',
+            'tanggal_selesai' => 'nullable|date',
+            'dokumen' => 'nullable|file|mimes:pdf,jpg,png|max:5120',
+        ]);
+
+        if ($request->hasFile('dokumen')) {
+            if ($skNonPn->file_path) {
+                Storage::disk('public')->delete($skNonPn->file_path);
+            }
+            $validated['file_path'] = $request->file('dokumen')->store('sk_non_pns', 'public');
+        }
+
+        $skNonPn->update($validated);
+
+        return back()->with([
+            'success' => 'Data SK Non PNS berhasil diperbarui!',
+            'active_tab' => 'sk',
+            'active_subtab' => 'sk-non-pns'
+        ]);
     }
 
-    /**
-     * Menghapus data. (Belum diimplementasikan)
-     */
     public function destroy(Pegawai $pegawai, SkNonPns $skNonPn)
     {
-        // Logika untuk hapus data
-        return back()->with('success', 'Data berhasil dihapus!');
+        if ($skNonPn->file_path) {
+            Storage::disk('public')->delete($skNonPn->file_path);
+        }
+        $skNonPn->delete();
+
+        return back()->with([
+            'success' => 'Data SK Non PNS berhasil dihapus!',
+            'active_tab' => 'sk',
+            'active_subtab' => 'sk-non-pns'
+        ]);
     }
 }

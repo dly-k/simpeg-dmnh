@@ -9,10 +9,12 @@ use Illuminate\Support\Facades\Storage;
 
 class JabatanController extends Controller
 {
-    /**
-     * Menyimpan data baru.
-     */
     public function store(Request $request, Pegawai $pegawai)
+    {
+        // ... kode store
+    }
+    
+    public function update(Request $request, Pegawai $pegawai, Jabatan $jabatan)
     {
         $validated = $request->validate([
             'nama_jabatan' => 'required|string|max:255',
@@ -24,33 +26,32 @@ class JabatanController extends Controller
         ]);
 
         if ($request->hasFile('dokumen')) {
+            if ($jabatan->file_path) {
+                Storage::disk('public')->delete($jabatan->file_path);
+            }
             $validated['file_path'] = $request->file('dokumen')->store('sk_jabatan', 'public');
         }
 
-        $pegawai->jabatans()->create($validated);
+        $jabatan->update($validated);
 
         return back()->with([
-            'success' => 'Data Jabatan berhasil ditambahkan!',
+            'success' => 'Data Jabatan berhasil diperbarui!',
             'active_tab' => 'sk',
             'active_subtab' => 'jabatan'
         ]);
     }
-
-    /**
-     * Memperbarui data yang ada. (Belum diimplementasikan)
-     */
-    public function update(Request $request, Pegawai $pegawai, Jabatan $jabatan)
-    {
-        // Logika untuk update data
-        return back()->with('success', 'Data berhasil diperbarui!');
-    }
-
-    /**
-     * Menghapus data. (Belum diimplementasikan)
-     */
+    
     public function destroy(Pegawai $pegawai, Jabatan $jabatan)
     {
-        // Logika untuk hapus data
-        return back()->with('success', 'Data berhasil dihapus!');
+        if ($jabatan->file_path) {
+            Storage::disk('public')->delete($jabatan->file_path);
+        }
+        $jabatan->delete();
+        
+        return back()->with([
+            'success' => 'Data Jabatan berhasil dihapus!',
+            'active_tab' => 'sk',
+            'active_subtab' => 'jabatan'
+        ]);
     }
 }
