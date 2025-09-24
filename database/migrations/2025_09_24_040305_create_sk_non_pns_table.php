@@ -8,28 +8,30 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('sk_non_pns', function (Blueprint $table) {
             $table->id();
-            // KOLOM DIUBAH: Sekarang terhubung ke tabel pegawais
             $table->foreignId('pegawai_id')->constrained('pegawais')->onDelete('cascade');
-            $table->string('nama_unit');
-            $table->date('tanggal_mulai');
-            $table->date('tanggal_selesai');
-            $table->string('nomor_sk')->unique();
-            $table->date('tanggal_sk');
             $table->string('jenis_sk');
-            $table->string('dokumen_path');
+            $table->string('nomor_sk');
+            $table->date('tanggal_sk');
+            $table->date('tanggal_mulai');
+            $table->date('tanggal_selesai')->nullable();
+            $table->string('file_path')->nullable();
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('sk_non_pns');
     }

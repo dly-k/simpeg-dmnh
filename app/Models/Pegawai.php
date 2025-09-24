@@ -28,61 +28,72 @@ class Pegawai extends Model
         'provinsi_ktp', 'kabupaten_ktp', 'alamat_ktp',
     ];
 
-    // --- DEFINISI RELASI ---
+    // --- RELASI BAWAAN ---
 
-    /**
-     * Relasi many-to-many ke Penelitian melalui tabel 'penulis_penelitian'.
-     */
     public function penelitian()
     {
         return $this->belongsToMany(Penelitian::class, 'penulis_penelitian');
     }
 
-    /**
-     * Relasi many-to-many ke Pengabdian melalui tabel 'pengabdian_anggota'.
-     */
     public function pengabdian()
     {
         return $this->belongsToMany(Pengabdian::class, 'pengabdian_anggotas');
     }
 
-    /**
-     * Relasi one-to-many ke Penghargaan.
-     */
     public function penghargaan()
     {
         return $this->hasMany(Penghargaan::class);
     }
 
-    /**
-     * Relasi one-to-many ke Pelatihan.
-     */
     public function pelatihan()
     {
         return $this->hasMany(Pelatihan::class);
     }
 
-    /**
-     * Relasi one-to-many ke SuratTugas.
-     */
     public function suratTugas()
     {
         return $this->hasMany(SuratTugas::class);
     }
-
-    /**
-     * Relasi one-to-many ke EFile.
-     */
+    
     public function efiles()
     {
         return $this->hasMany(EFile::class)->orderBy('created_at', 'desc');
     }
 
-    /**
-     * Relasi one-to-many ke SkNonPns.
-     */
+    // --- RELASI UNTUK MENU SK (SURAT KEPUTUSAN) ---
+    
     public function skNonPns()
     {
-        return $this->hasMany(SkNonPns::class);
+        return $this->hasMany(SkNonPns::class)->orderBy('tanggal_mulai', 'desc');
+    }
+    
+    public function penetapanPangkats()
+    {
+        return $this->hasMany(PenetapanPangkat::class)->orderBy('tmt_pangkat', 'desc');
+    }
+
+    public function jabatans()
+    {
+        return $this->hasMany(Jabatan::class)->orderBy('tmt_jabatan', 'desc');
+    }
+
+    public function jabatanSaatInis()
+    {
+        return $this->hasMany(JabatanSaatIni::class)->orderBy('created_at', 'desc');
+    }
+
+    public function pensiuns()
+    {
+        return $this->hasMany(Pensiun::class)->orderBy('tmt_pensiun', 'desc');
+    }
+
+    public function kenaikanGajiBerkalas()
+    {
+        return $this->hasMany(KenaikanGajiBerkala::class)->orderBy('tmt_gaji', 'desc');
+    }
+
+    public function tugasBelajars()
+    {
+        return $this->hasMany(TugasBelajar::class)->orderBy('tanggal_mulai', 'desc');
     }
 }

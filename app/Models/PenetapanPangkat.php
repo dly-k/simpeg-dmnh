@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SkNonPns extends Model
+class PenetapanPangkat extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'pegawai_id', 'jenis_sk', 'nomor_sk', 'tanggal_sk', 
-        'tanggal_mulai', 'tanggal_selesai', 'file_path'
+        'pegawai_id', 'golongan', 'nomor_bkn', 'tanggal_bkn', 'nomor_sk', 
+        'tanggal_sk', 'tmt_pangkat', 'file_path'
     ];
 
     public function pegawai()

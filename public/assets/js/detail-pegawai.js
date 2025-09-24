@@ -17,25 +17,32 @@ document.addEventListener("DOMContentLoaded", () => {
       if (contentElement) contentElement.style.display = "block";
     });
 
-    // Logika untuk Sub Tab (Kepegawaian, E-File, dll)
-    document.getElementById("biodata-sub-tabs")?.addEventListener("click", (e) => {
-        const subTabButton = e.target.closest("button");
+    // Logika umum untuk semua Sub Tab
+    document.querySelector(".main-content").addEventListener('click', function(e) {
+        const subTabButton = e.target.closest('.sub-tab-nav button');
         if (!subTabButton) return;
 
-        const parentContent = subTabButton.closest(".main-tab-content");
-        document.querySelectorAll("#biodata-sub-tabs button").forEach(btn => btn.classList.remove("active"));
-        parentContent.querySelectorAll(".sub-tab-content").forEach(c => c.style.display = "none");
+        const subTabNav = subTabButton.closest('.sub-tab-nav');
+        const parentContent = subTabButton.closest('.main-tab-content');
+
+        if (!subTabNav || !parentContent) return;
+
+        // Nonaktifkan semua tombol di dalam navigasi sub-tab saat ini
+        subTabNav.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
         
-        subTabButton.classList.add("active");
+        // Sembunyikan semua konten sub-tab di dalam konten tab utama saat ini
+        parentContent.querySelectorAll('.sub-tab-content').forEach(c => c.style.display = 'none');
+        
+        // Aktifkan tombol yang diklik dan tampilkan konten yang sesuai
+        subTabButton.classList.add('active');
         const contentId = subTabButton.dataset.tab;
         const contentElement = parentContent.querySelector(`#${contentId}`);
-        if(contentElement) contentElement.style.display = "block";
+        if (contentElement) contentElement.style.display = 'block';
     });
   };
 
   /**
    * Menginisialisasi Modal Konfirmasi Hapus untuk semua form E-File.
-   * PERBAIKAN: Menggunakan kontrol manual untuk modal kustom.
    */
   const initDeleteConfirmation = () => {
     const modalElement = document.getElementById("modalKonfirmasiHapus");
@@ -45,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const btnConfirm = document.getElementById("btnKonfirmasiHapus");
-    const btnCancel = document.getElementById("btnBatalHapus"); // Target tombol Batal
+    const btnCancel = document.getElementById("btnBatalHapus");
     const modalSubtitle = modalElement.querySelector('.konfirmasi-hapus-subtitle');
     let formToSubmit = null;
 
@@ -77,12 +84,10 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
     
-    // PERBAIKAN DI SINI: Tambahkan event listener untuk tombol Batal
     btnCancel?.addEventListener('click', function() {
         hideModal();
     });
 
-    // Event listener untuk menutup modal jika klik di area overlay
     modalElement.addEventListener('click', function(event) {
         if (event.target === modalElement) {
             hideModal();
@@ -91,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /**
-   * Menginisialisasi dropdown Kategori -> Jenis Dokumen di dalam modal tambah.
+   * Menginisialisasi dropdown Kategori -> Jenis Dokumen di dalam modal tambah E-File.
    */
   const initKategoriMapping = () => {
     const jenisDokumenData = {
@@ -123,7 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
   
   /**
-   * Menangani klik pada item file untuk membuka file di tab baru.
+   * Menangani klik pada item file (E-File) untuk membuka file di tab baru.
    */
   const initFileItemClick = () => {
       document.body.addEventListener('click', function(e) {
@@ -131,6 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
           
           if (!fileItem) return;
 
+          // Jangan buka file jika yang diklik adalah tombol aksi (lihat/hapus)
           if (e.target.closest('.file-item-actions')) {
               return; 
           }
@@ -142,9 +148,76 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   };
 
-  // Panggil semua fungsi inisialisasi
+  /**
+   * Menangani kemunculan modal sukses, musik, dan navigasi tab setelah form disubmit.
+   */
+  const handleSuccessFlow = () => {
+    const trigger = document.getElementById('success-trigger');
+    if (!trigger) return; // Keluar jika tidak ada notifikasi sukses
+
+    // Ambil elemen-elemen dari modal sukses
+    const modalBerhasil = document.getElementById('modalBerhasil');
+    const titleElement = document.getElementById('berhasil-title');
+    const subtitleElement = document.getElementById('berhasil-subtitle');
+    const btnSelesai = document.getElementById('btnSelesai');
+    
+    // Ambil data dari elemen pemicu
+    const title = trigger.dataset.title;
+    const message = trigger.dataset.message;
+    const activeTab = trigger.dataset.activeTab;
+    const activeSubtab = trigger.dataset.activeSubtab;
+
+    // Siapkan audio
+    const successSound = new Audio('/assets/sounds/Success.mp3');
+
+    // Fungsi untuk menampilkan modal
+    const showSuccessModal = () => {
+        // Set pesan
+        if(titleElement) titleElement.textContent = title;
+        if(subtitleElement) subtitleElement.textContent = message;
+
+        // Tampilkan modal
+        if(modalBerhasil) modalBerhasil.classList.add('show');
+
+        // Putar musik
+        successSound.play().catch(error => console.error("Gagal memutar audio:", error));
+    };
+
+    // Fungsi untuk menyembunyikan modal
+    const hideSuccessModal = () => {
+        if(modalBerhasil) modalBerhasil.classList.remove('show');
+    };
+        setTimeout(() => {
+        hideSuccessModal();
+    }, 1000); // 1000 milidetik = 1 detik
+
+    // Fungsi untuk mengaktifkan tab yang benar
+    const activateTabs = () => {
+        if (activeTab) {
+            const mainTabButton = document.querySelector(`#main-tab-nav .nav-link[data-main-tab="${activeTab}"]`);
+            mainTabButton?.click();
+        }
+        if (activeSubtab) {
+            // Beri sedikit jeda agar konten sub-tab sempat muncul sebelum diklik
+            setTimeout(() => {
+                const subTabButton = document.querySelector(`.sub-tab-nav button[data-tab="${activeSubtab}"]`);
+                subTabButton?.click();
+            }, 100);
+        }
+    };
+
+    // --- EKSEKUSI ALUR ---
+    activateTabs();
+    showSuccessModal();
+
+    // Tambahkan event listener untuk tombol Selesai
+    btnSelesai?.addEventListener('click', hideSuccessModal);
+  };
+
+  // Panggil semua fungsi inisialisasi saat halaman dimuat
   initTabs();
   initDeleteConfirmation();
   initKategoriMapping();
   initFileItemClick();
+  handleSuccessFlow();
 });

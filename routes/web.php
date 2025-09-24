@@ -11,9 +11,17 @@ use App\Http\Controllers\PengabdianController;
 use App\Http\Controllers\PenunjangController;
 use App\Http\Controllers\SuratTugasController;
 use App\Http\Controllers\PelatihanController;
-use App\Http\Controllers\SkNonPnsController;
 use App\Http\Controllers\PenghargaanController;
 use App\Http\Controllers\KerjasamaController;
+
+// --- CONTROLLER UNTUK MENU SK ---
+use App\Http\Controllers\SkNonPnsController;
+use App\Http\Controllers\PenetapanPangkatController;
+use App\Http\Controllers\JabatanController;
+use App\Http\Controllers\JabatanSaatIniController;
+use App\Http\Controllers\PensiunController;
+use App\Http\Controllers\KenaikanGajiBerkalaController;
+use App\Http\Controllers\TugasBelajarController;
 
 // Auth & Dashboard
 Route::view('/', 'auth.login');
@@ -32,10 +40,64 @@ Route::get('/pegawai/{pegawai}', [PegawaiController::class, 'show'])->name('pega
 Route::delete('/pegawai/{pegawai}', [PegawaiController::class, 'destroy'])->name('pegawai.destroy');
 Route::get('/daftar-pegawai/export', [PegawaiController::class, 'export'])->name('pegawai.export');
 
-// Rute untuk E-File
+// Rute untuk E-File dan Relasi Pegawai Lainnya
 Route::post('/pegawai/{pegawai}/efile', [EFileController::class, 'store'])->name('efile.store');
 Route::delete('/efile/{efile}', [EFileController::class, 'destroy'])->name('efile.destroy');
 Route::get('/dokumen/preview/{path}', [DokumenController::class, 'show'])->where('path', '.*')->name('dokumen.preview');
+
+// ===================================================================
+// ================== RUTE UNTUK MENU SK (SURAT KEPUTUSAN) ==========
+// ===================================================================
+
+// Rute untuk Penetapan Pangkat
+Route::prefix('pegawai/{pegawai}/pangkat')->name('pangkat.')->controller(PenetapanPangkatController::class)->group(function () {
+    Route::post('/', 'store')->name('store');
+    // Route::put('/{pangkat}', 'update')->name('update');
+    // Route::delete('/{pangkat}', 'destroy')->name('destroy');
+});
+
+// Rute untuk Jabatan
+Route::prefix('pegawai/{pegawai}/jabatan')->name('jabatan.')->controller(JabatanController::class)->group(function () {
+    Route::post('/', 'store')->name('store');
+    // Route::put('/{jabatan}', 'update')->name('update');
+    // Route::delete('/{jabatan}', 'destroy')->name('destroy');
+});
+
+// Rute untuk Jabatan Saat Ini
+Route::prefix('pegawai/{pegawai}/jabatan-saat-ini')->name('jabatan-saat-ini.')->controller(JabatanSaatIniController::class)->group(function () {
+    Route::post('/', 'store')->name('store');
+    // Route::put('/{jabatanSaatIni}', 'update')->name('update');
+    // Route::delete('/{jabatanSaatIni}', 'destroy')->name('destroy');
+});
+
+// Rute untuk Pensiun
+Route::prefix('pegawai/{pegawai}/pensiun')->name('pensiun.')->controller(PensiunController::class)->group(function () {
+    Route::post('/', 'store')->name('store');
+    // Route::put('/{pensiun}', 'update')->name('update');
+    // Route::delete('/{pensiun}', 'destroy')->name('destroy');
+});
+
+// Rute untuk Kenaikan Gaji Berkala
+Route::prefix('pegawai/{pegawai}/gaji-berkala')->name('gaji-berkala.')->controller(KenaikanGajiBerkalaController::class)->group(function () {
+    Route::post('/', 'store')->name('store');
+    // Route::put('/{gajiBerkala}', 'update')->name('update');
+    // Route::delete('/{gajiBerkala}', 'destroy')->name('destroy');
+});
+
+// Rute untuk Tugas Belajar
+Route::prefix('pegawai/{pegawai}/tugas-belajar')->name('tugas-belajar.')->controller(TugasBelajarController::class)->group(function () {
+    Route::post('/', 'store')->name('store');
+    // Route::put('/{tugasBelajar}', 'update')->name('update');
+    // Route::delete('/{tugasBelajar}', 'destroy')->name('destroy');
+});
+
+// Rute untuk SK Non PNS
+Route::prefix('pegawai/{pegawai}/sk-non-pns')->name('sk-non-pns.')->controller(SkNonPnsController::class)->group(function () {
+    Route::post('/', 'store')->name('store');
+    // Route::put('/{skNonPn}', 'update')->name('update');
+    // Route::delete('/{skNonPn}', 'destroy')->name('destroy');
+});
+
 
 // ================== Halaman Utama ==================
 Route::view('/pendidikan', 'pages.pendidikan');
@@ -109,15 +171,6 @@ Route::get('/surat-tugas/export', [SuratTugasController::class, 'export'])
 
 // Pelatihan
 Route::resource('pelatihan', PelatihanController::class);
-
-// SK Non PNS
-Route::prefix('sk-non-pns')->name('sk-non-pns.')->controller(SkNonPnsController::class)->group(function () {
-    Route::get('/', 'index')->name('index');
-    Route::post('/store', 'store')->name('store');
-    Route::get('/{skNonPn}/edit', 'edit')->name('edit');
-    Route::put('/{skNonPn}', 'update')->name('update');
-    Route::delete('/{skNonPn}', 'destroy')->name('destroy');
-});
 
 // Penghargaan
 Route::prefix('penghargaan')->name('penghargaan.')->controller(PenghargaanController::class)->group(function () {

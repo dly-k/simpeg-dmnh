@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pegawai;
-use App\Models\SkNonPns;
+use App\Models\PenetapanPangkat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class SkNonPnsController extends Controller
+class PenetapanPangkatController extends Controller
 {
     /**
      * Menyimpan data baru.
@@ -15,31 +15,32 @@ class SkNonPnsController extends Controller
     public function store(Request $request, Pegawai $pegawai)
     {
         $validated = $request->validate([
-            'jenis_sk' => 'required|string|max:255',
+            'golongan' => 'required|string|max:255',
+            'nomor_bkn' => 'required|string|max:255',
+            'tanggal_bkn' => 'required|date',
             'nomor_sk' => 'required|string|max:255',
             'tanggal_sk' => 'required|date',
-            'tanggal_mulai' => 'required|date',
-            'tanggal_selesai' => 'nullable|date',
+            'tmt_pangkat' => 'required|date',
             'dokumen' => 'nullable|file|mimes:pdf,jpg,png|max:5120',
         ]);
 
         if ($request->hasFile('dokumen')) {
-            $validated['file_path'] = $request->file('dokumen')->store('sk_non_pns', 'public');
+            $validated['file_path'] = $request->file('dokumen')->store('sk_pangkat', 'public');
         }
 
-        $pegawai->skNonPns()->create($validated);
+        $pegawai->penetapanPangkats()->create($validated);
 
         return back()->with([
-            'success' => 'Data SK Non PNS berhasil ditambahkan!',
+            'success' => 'Data Penetapan Pangkat berhasil ditambahkan!',
             'active_tab' => 'sk',
-            'active_subtab' => 'sk-non-pns'
+            'active_subtab' => 'penetapan-pangkat'
         ]);
     }
 
     /**
      * Memperbarui data yang ada. (Belum diimplementasikan)
      */
-    public function update(Request $request, Pegawai $pegawai, SkNonPns $skNonPn)
+    public function update(Request $request, Pegawai $pegawai, PenetapanPangkat $pangkat)
     {
         // Logika untuk update data
         return back()->with('success', 'Data berhasil diperbarui!');
@@ -48,9 +49,12 @@ class SkNonPnsController extends Controller
     /**
      * Menghapus data. (Belum diimplementasikan)
      */
-    public function destroy(Pegawai $pegawai, SkNonPns $skNonPn)
+    public function destroy(Pegawai $pegawai, PenetapanPangkat $pangkat)
     {
-        // Logika untuk hapus data
+        // if ($pangkat->file_path) {
+        //     Storage::disk('public')->delete($pangkat->file_path);
+        // }
+        // $pangkat->delete();
         return back()->with('success', 'Data berhasil dihapus!');
     }
 }
