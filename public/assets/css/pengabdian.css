@@ -7,9 +7,11 @@
     padding: 25px;
     background-color: var(--light);
     font-size: 14px;
+    min-height: calc(100vh - 190px);
     transition: margin-left 0.3s ease-in-out;
 }
 
+body.sidebar-collapsed .main-content,
 .sidebar.hidden ~ .navbar-custom ~ .title-bar ~ .main-content {
     margin-left: 0;
 }

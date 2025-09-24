@@ -1,24 +1,26 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\EFileController;
+use App\Http\Controllers\DokumenController;
+use App\Http\Controllers\PendidikanController;
+use App\Http\Controllers\PenelitianController;
+use App\Http\Controllers\PengabdianController;
+use App\Http\Controllers\PenunjangController;
+use App\Http\Controllers\SuratTugasController;
 use App\Http\Controllers\PelatihanController;
 use App\Http\Controllers\SkNonPnsController;
 use App\Http\Controllers\PenghargaanController;
-use App\Http\Controllers\SuratTugasController;
 use App\Http\Controllers\KerjasamaController;
-use App\Http\Controllers\EFileController;
-use App\Http\Controllers\PegawaiController;
 
 // Auth & Dashboard
 Route::view('/', 'auth.login');
 Route::view('/login', 'auth.login')->name('login');
 Route::view('/ubah-password', 'auth.ubah-password');
 Route::view('/master-data', 'auth.master-data');
-
-use App\Http\Controllers\DashboardController;
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-Route::view('/sidebar', 'pages.sidebar');
 
 // Pegawai
 Route::get('/daftar-pegawai', [PegawaiController::class, 'index'])->name('pegawai.index');
@@ -33,12 +35,7 @@ Route::get('/daftar-pegawai/export', [PegawaiController::class, 'export'])->name
 // Rute untuk E-File
 Route::post('/pegawai/{pegawai}/efile', [EFileController::class, 'store'])->name('efile.store');
 Route::delete('/efile/{efile}', [EFileController::class, 'destroy'])->name('efile.destroy');
-
-
-use App\Http\Controllers\DokumenController;
 Route::get('/dokumen/preview/{path}', [DokumenController::class, 'show'])->where('path', '.*')->name('dokumen.preview');
-
-use App\Http\Controllers\PendidikanController;
 
 // ================== Halaman Utama ==================
 Route::view('/pendidikan', 'pages.pendidikan');
@@ -83,9 +80,6 @@ Route::post('/pendidikan/pembimbing-luar/{id}', [PendidikanController::class, 'u
 Route::get('/pendidikan/pembimbing-luar/{id}', [PendidikanController::class, 'showPembimbingLuar']);
 
 
-
-use App\Http\Controllers\PenelitianController;
-
 Route::get('/penelitian', [PenelitianController::class, 'index'])->name('penelitian.index');
 Route::post('/penelitian', [PenelitianController::class, 'store'])->name('penelitian.store');
 Route::get('/penelitian/{penelitian}/edit', [PenelitianController::class, 'edit'])->name('penelitian.edit');
@@ -93,7 +87,6 @@ Route::patch('/penelitian/{penelitian}', [PenelitianController::class, 'update']
 Route::delete('/penelitian/{penelitian}', [PenelitianController::class, 'destroy'])->name('penelitian.destroy');
 Route::post('/penelitian/{penelitian}/verifikasi', [PenelitianController::class, 'verifikasi'])->name('penelitian.verifikasi');
 
-use App\Http\Controllers\PengabdianController;
 Route::get('/pengabdian', [PengabdianController::class, 'index'])->name('pengabdian.index');
 Route::post('/pengabdian', [PengabdianController::class, 'store'])->name('pengabdian.store');
 Route::get('/pengabdian/{pengabdian}/edit', [PengabdianController::class, 'edit'])->name('pengabdian.edit');
@@ -102,7 +95,6 @@ Route::delete('/pengabdian/{pengabdian}', [PengabdianController::class, 'destroy
 Route::get('/pengabdian/{pengabdian}', [PengabdianController::class, 'show'])->name('pengabdian.show');
 Route::patch('/pengabdian/{pengabdian}/verifikasi', [PengabdianController::class, 'verifikasi'])->name('pengabdian.verifikasi');
 
-use App\Http\Controllers\PenunjangController;
 Route::get('/penunjang', [PenunjangController::class, 'index'])->name('penunjang.index');
 Route::post('/penunjang', [PenunjangController::class, 'store'])->name('penunjang.store');
 Route::get('/penunjang/{penunjang}', [PenunjangController::class, 'show'])->name('penunjang.show');

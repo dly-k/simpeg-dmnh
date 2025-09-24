@@ -72,20 +72,27 @@ document.addEventListener("DOMContentLoaded", () => {
     setInterval(updateDateTime, 1000);
   };
 
-  // == Inisialisasi Panel Editor Kegiatan ==
-  const initEditorPanel = () => {
-    const editorButton = document.querySelector('[data-bs-target="#editorKegiatan"]');
-    const editorPanel = document.getElementById("editorKegiatan");
+  // == Inisialisasi Panel Editor & Editor Kegiatan ==
+  const initEditorPanels = () => {
+    const panels = [
+      { button: '[data-bs-target="#editor"]', panel: "editor" },
+      { button: '[data-bs-target="#editorKegiatan"]', panel: "editorKegiatan" }
+    ];
 
-    if (editorButton && editorPanel) {
-      editorButton.classList.remove("collapsed");
-      editorButton.setAttribute("aria-expanded", "true");
-      editorPanel.classList.add("show");
-    }
+    panels.forEach(({ button, panel }) => {
+      const btnEl = document.querySelector(button);
+      const panelEl = document.getElementById(panel);
+
+      if (btnEl && panelEl) {
+        btnEl.classList.remove("collapsed");
+        btnEl.setAttribute("aria-expanded", "true");
+        panelEl.classList.add("show");
+      }
+    });
   };
 
   // == Jalankan Inisialisasi ==
   initSidebar();
   initClock();
-  initEditorPanel();
+  initEditorPanels();
 });

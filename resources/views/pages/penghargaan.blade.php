@@ -26,7 +26,7 @@
       <div class="title-bar">
         <h1>
           <i class="lni lni-pencil-alt"></i>
-          <span id="page-title">Editor Kegiatan - Penghargaan</span>
+          <span id="page-title">Editor - Penghargaan</span>
         </h1>
       </div>
 

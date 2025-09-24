@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <title>SIKEMAH - Editor Kegiatan (Pelatihan)</title>
+  <title>SIKEMAH - Editor Kegiatan (Diklat)</title>
 
   <link rel="icon" href="{{ asset('assets/images/logo.png') }}" />
   <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
@@ -26,7 +26,7 @@
       <div class="title-bar">
         <h1>
           <i class="lni lni-pencil-alt"></i>
-          <span id="page-title">Editor Kegiatan - Pelatihan</span>
+          <span id="page-title">Editor - Diklat</span>
         </h1>
       </div>
 

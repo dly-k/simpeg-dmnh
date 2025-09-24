@@ -73,67 +73,104 @@ body {
 .sidebar {
     width: 250px;
     height: 100vh;
-    background-color: var(--white);
-    border-right: 1px solid var(--border-color);
     position: fixed;
     top: 0;
     left: 0;
+    z-index: 1001;
+
     display: flex;
     flex-direction: column;
-    transition: transform 0.3s ease-in-out;
-    z-index: 1001;
+
+    background-color: var(--white);
+    border-right: 1px solid var(--border-color);
+
     transform: translateX(0);
+    transition: transform 0.3s ease-in-out;
 }
 
 .sidebar.hidden {
     transform: translateX(-100%);
 }
 
+/* =============================
+   Brand / Logo
+============================= */
 .sidebar .brand {
     font-size: 24px;
     font-weight: 700;
     color: var(--text-dark);
     text-align: center;
+    letter-spacing: 1px;
+
     padding: 14.5px 0;
     border-bottom: 1px solid var(--border-color);
-    letter-spacing: 1px;
+
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+}
+
+.brand .logo {
+    width: 32px;
+    height: 32px;
+    margin-right: 5px;
+    object-fit: contain;
 }
 
 .sidebar .brand span {
     color: var(--primary);
 }
 
+.text-jarak {
+    color: #000 !important;
+}
+
+/* =============================
+   Menu Wrapper
+============================= */
 .sidebar .menu-wrapper {
-    overflow-y: auto;
     flex-grow: 1;
-    padding-bottom: 80px;
+    overflow-y: auto;
     max-height: calc(100vh - 66px);
+    padding-bottom: 80px;
 }
 
 .menu p {
     font-size: 13px;
     font-weight: 500;
-    padding: 0 20px;
-    margin: 12px 0 8px;
     color: var(--text-muted);
+
+    margin: 12px 0 8px;
+    padding: 0 20px;
 }
 
+/* =============================
+   Menu Items (Link & Button)
+============================= */
 .sidebar .menu a,
 .sidebar .menu button {
     display: flex;
     align-items: center;
-    padding: 12px 20px;
-    text-decoration: none;
-    color: var(--text-dark);
-    font-size: 13px;
-    transition: all 0.2s ease-in-out;
     width: 100%;
+
+    padding: 12px 20px;
+    font-size: 13px;
+    color: var(--text-dark);
+    text-align: left;
+    text-decoration: none;
+
     background: none;
     border: none;
-    text-align: left;
     cursor: pointer;
+
+    transition: all 0.2s ease-in-out;
 }
 
+.sidebar .menu a:first-of-type {
+    margin-top: 10px;
+}
+
+/* Hover & Active States */
 .sidebar .menu a:hover,
 .sidebar .menu button:hover {
     background-color: var(--primary-light);
@@ -147,25 +184,35 @@ body {
     font-weight: 600;
 }
 
+/* Icons */
 .sidebar .menu a i,
 .sidebar .menu button i {
-    margin-right: 12px;
-    font-size: 16px;
-    min-width: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
+
+    margin-right: 12px;
+    font-size: 16px;
+    min-width: 20px;
 }
 
+/* =============================
+   Submenu
+============================= */
 .sidebar .submenu a {
     padding: 9px 20px 9px 45px;
     font-size: 12.5px;
 }
 
-.sidebar .menu a:first-of-type {
-    margin-top: 10px;
+/* Rapikan jarak dropdown ke submenu */
+#editor.submenu,
+#editorKegiatan.submenu {
+    margin-top: -5px; 
 }
 
+/* =============================
+   Toggle Icon
+============================= */
 .toggle-icon {
     margin-left: auto;
     transition: transform 0.3s;
@@ -173,26 +220,6 @@ body {
 
 .collapsed .toggle-icon {
     transform: rotate(-90deg);
-}
-
-.brand {
-  display: flex;
-  align-items: center; 
-  justify-content: center; 
-  font-size: 22px;
-  font-weight: bold;
-  text-align: center;
-}
-
-.brand .logo {
-    margin-right: 5px;
-  width: 32px;
-  height: 32px;
-  object-fit: contain;
-}
-
-.text-jarak {
-  color: #000 !important;
 }
 
 /* =============================

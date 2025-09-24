@@ -16,78 +16,18 @@
 </head>
 
 <body>
-  <div class="sidebar" id="sidebar">
-    <div class="brand">SI<span>KEMAH</span></div>
-    <div class="menu-wrapper">
-      <div class="menu">
-        <a href="/dashboard" aria-label="Dashboard"><i class="lni lni-grid-alt"></i> Dashboard</a>
+<div class="layout">
+    @include('layouts.sidebar')
 
-        <p>Menu Utama</p>
-        <a href="/daftar-pegawai"><i class="lni lni-users"></i> Daftar Pegawai</a>
-        <a href="/surat-tugas"><i class="lni lni-folder"></i> Manajemen Surat Tugas</a>
+    <div class="main-wrapper">
+      @include('layouts.header')
 
-        <button class="active" data-bs-toggle="collapse" data-bs-target="#editorKegiatan" aria-expanded="true">
-          <i class="lni lni-pencil-alt"></i> Editor Kegiatan
-          <i class="lni lni-chevron-down toggle-icon"></i>
-        </button>
-
-        <div class="collapse show submenu" id="editorKegiatan">
-          <a href="/pendidikan">Pendidikan</a>
-          <a href="/penelitian">Penelitian</a>
-          <a href="/pengabdian">Pengabdian</a>
-          <a href="/penunjang" class="active">Penunjang</a>
-          <a href="/pelatihan">Pelatihan</a>
-          <a href="/penghargaan">Penghargaan</a>
-          <a href="/sk-non-pns">SK Non PNS</a>
-        </div>
-
-        <a href="/kerjasama"><i class="lni lni-handshake"></i> Kerjasama</a>
-        <a href="/master-data"><i class="lni lni-database"></i> Master Data</a>
+      <div class="title-bar">
+        <h1>
+          <i class="lni lni-pencil-alt"></i>
+          <span id="page-title">Editor Kegiatan - Penunjang</span>
+        </h1>
       </div>
-    </div>
-  </div>
-
-  <div class="overlay" id="overlay"></div>
-
-  <div class="navbar-custom">
-    <div class="d-flex align-items-center">
-      <button class="btn btn-link text-dark me-3" id="toggleSidebar">
-        <i class="lni lni-menu"></i>
-      </button>
-    </div>
-
-    <div class="d-flex align-items-center">
-      <div class="time-date me-2">
-        <div><i class="lni lni-calendar"></i> <span id="current-date"></span></div>
-        <div><i class="lni lni-timer"></i> <span id="current-time"></span></div>
-      </div>
-
-      <div class="dropdown">
-        <a href="#" class="account text-decoration-none text-dark" data-bs-toggle="dropdown">
-          <span class="icon-circle"><i class="lni lni-user"></i></span>
-          <span>Halo, Ketua TU</span>
-          <i class="lni lni-chevron-down"></i>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-end shadow">
-          <li>
-            <a class="dropdown-item d-flex align-items-center" href="/ubah-password">
-              <i class="lni lni-key me-2"></i> Ubah Password
-            </a>
-          </li>
-          <li><hr class="dropdown-divider"></li>
-          <li>
-            <a class="dropdown-item d-flex align-items-center dropdown-item-danger" href="/logout">
-              <i class="lni lni-exit me-2"></i> Keluar
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <div class="title-bar">
-    <h1><i class="lni lni-pencil-alt"></i> <span id="page-title">Editor Kegiatan - Penunjang</span></h1>
-  </div>
 
   <div class="main-content">
     <div class="card">
@@ -211,9 +151,8 @@
     </div>
   </div>
 
-  <footer class="footer-custom">
-    <span>© 2025 Forest Management — All Rights Reserved</span>
-  </footer>
+    @include('layouts.footer')
+</div>
 
   {{-- Pastikan file-file ini ada di dalam folder `resources/views/components` --}}
   @include('components.konfirmasi-hapus')
