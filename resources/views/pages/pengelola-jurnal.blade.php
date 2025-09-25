@@ -89,6 +89,7 @@
                     <th>Pegawai</th>
                     <th>Tahun</th>
                     <th>Verifikasi</th>
+                    <th>Dokumen</th>
                     <th class="text-center">Aksi</th>
                   </tr>
                 </thead>
@@ -105,6 +106,7 @@
                         <i class="fa fa-question"></i>
                       </span>
                     </td>
+                    <td><a href="#" class="btn btn-sm btn-lihat">Lihat</a></td>
                     <td class="text-center">
                       <div class="d-flex justify-content-center gap-2">
                         <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi">
@@ -136,6 +138,7 @@
                         <i class="fa fa-check"></i>
                       </span>
                     </td>
+                    <td><a href="#" class="btn btn-sm btn-lihat">Lihat</a></td>
                     <td class="text-center">
                       <div class="d-flex justify-content-center gap-2">
                         <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi">

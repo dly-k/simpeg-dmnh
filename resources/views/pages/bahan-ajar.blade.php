@@ -104,6 +104,7 @@
                     <th>Tanggal Terbit</th>
                     <th>ISBN</th>
                     <th>Verifikasi</th>
+                    <th>Dokumen</th> <!-- Kolom baru -->
                     <th>Aksi</th>
                   </tr>
                 </thead>
@@ -120,6 +121,11 @@
                       <span class="badge rounded-circle bg-warning text-white" title="Belum Diverifikasi">
                         <i class="fa fa-question"></i>
                       </span>
+                    </td>
+                    <td>
+                      <a href="{{ asset('uploads/bahan-ajar/web-dasar.pdf') }}" 
+                         class="btn btn-sm btn-lihat" target="_blank">Lihat
+                      </a>
                     </td>
                     <td>
                       <div class="d-flex gap-2">
@@ -154,6 +160,11 @@
                       </span>
                     </td>
                     <td>
+                      <a href="{{ asset('uploads/bahan-ajar/ekonomi-mikro.pdf') }}" 
+                         class="btn btn-sm btn-lihat" target="_blank">Lihat
+                      </a>
+                    </td>
+                    <td>
                       <div class="d-flex gap-2">
                         <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi">
                           <i class="fa fa-check"></i>
@@ -184,7 +195,7 @@
     </div>
   </div>
 
-  <!-- Modal  -->
+  <!-- Modal -->
   {{-- @include('components.konfirmasi-hapus') --}}
   {{-- @include('components.konfirmasi-berhasil') --}}
   {{-- @include('components.konfirmasi-verifikasi') --}}

@@ -92,6 +92,7 @@
                     <th>Tanggal Pelaksanaan</th>
                     <th>Bahasa</th>
                     <th>Verifikasi</th>
+                    <th>Dokumen</th>
                     <th class="text-center">Aksi</th>
                   </tr>
                 </thead>
@@ -110,6 +111,11 @@
                       <span class="badge rounded-circle bg-warning text-white" title="Belum Diverifikasi">
                         <i class="fa fa-question"></i>
                       </span>
+                    </td>
+                    <td>
+                      <a href="{{ asset('uploads/bahan-ajar/web-dasar.pdf') }}" 
+                         class="btn btn-sm btn-lihat" target="_blank">Lihat
+                      </a>
                     </td>
                     <td class="text-center">
                       <div class="d-flex justify-content-center gap-2">
@@ -144,6 +150,11 @@
                       <span class="badge rounded-circle bg-success text-white" title="Sudah Diverifikasi">
                         <i class="fa fa-check"></i>
                       </span>
+                    </td>
+                    <td>
+                      <a href="{{ asset('uploads/bahan-ajar/web-dasar.pdf') }}" 
+                         class="btn btn-sm btn-lihat" target="_blank">Lihat
+                      </a>
                     </td>
                     <td class="text-center">
                       <div class="d-flex justify-content-center gap-2">

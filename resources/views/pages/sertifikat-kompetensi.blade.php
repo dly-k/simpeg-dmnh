@@ -88,8 +88,8 @@
                     <th>Judul Kegiatan</th>
                     <th>Lembaga Sertifikasi</th>
                     <th>Tahun</th>
-                    <th>Dokumen</th>
                     <th>Verifikasi</th>
+                    <th>Dokumen</th>
                     <th class="text-center">Aksi</th>
                   </tr>
                 </thead>
@@ -101,12 +101,12 @@
                     <td>Strategi Pemasaran Online</td>
                     <td>BNSP</td>
                     <td>2024</td>
-                    <td><a href="#" class="btn btn-sm btn-lihat">Lihat</a></td>
                     <td>
                       <span class="badge rounded-circle bg-warning text-white" title="Belum Diverifikasi">
                         <i class="fa fa-question"></i>
                       </span>
                     </td>
+                    <td><a href="#" class="btn btn-sm btn-lihat">Lihat</a></td>
                     <td class="text-center">
                       <div class="d-flex justify-content-center gap-2">
                         <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi">
@@ -133,12 +133,12 @@
                     <td>Machine Learning Fundamentals</td>
                     <td>Google Certification</td>
                     <td>2023</td>
-                    <td><a href="#" class="btn btn-sm btn-lihat"> Lihat</a></td>
                     <td>
                       <span class="badge rounded-circle bg-success text-white" title="Sudah Diverifikasi">
                         <i class="fa fa-check"></i>
                       </span>
                     </td>
+                    <td><a href="#" class="btn btn-sm btn-lihat">Lihat</a></td>
                     <td class="text-center">
                       <div class="d-flex justify-content-center gap-2">
                         <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi">
