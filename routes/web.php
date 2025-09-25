@@ -30,7 +30,6 @@ use App\Http\Controllers\PengabdianController;
 use App\Http\Controllers\OrganisasiProfesiController;
 use App\Http\Controllers\PembimbinganController;
 use App\Http\Controllers\PenunjangController;
-use App\Http\Controllers\DetaseringController;
 use App\Http\Controllers\OrasiIlmiahController;
 use App\Http\Controllers\SertifikatKompetensiController;
 use App\Http\Controllers\PendidikanController;

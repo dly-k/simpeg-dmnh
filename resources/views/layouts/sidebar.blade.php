@@ -52,7 +52,7 @@
             @php
                 $editorKegiatanRoutes = [
                     'bahan-ajar*', 'pembicara*', 'pengabdian*', 'organisasi-profesi*', 'pembimbingan*',
-                    'penunjang*', 'detasering*', 'orasi-ilmiah*', 'sertifikat-kompetensi*', 'pendidikan*',
+                    'penunjang*', 'orasi-ilmiah*', 'sertifikat-kompetensi*', 'pendidikan*',
                     'pengelola-jurnal*', 'penelitian*', 'kekayaan-intelektual*'
                 ];
                 $isEditorKegiatanActive = Request::is(...$editorKegiatanRoutes);
@@ -76,7 +76,6 @@
                 </a>
                 <a href="/pembimbingan" class="{{ Request::is('pembimbingan*') ? 'active' : '' }}">Pembimbingan</a>
                 <a href="/penunjang" class="{{ Request::is('penunjang*') ? 'active' : '' }}">Penunjang</a>
-                <a href="/detasering" class="{{ Request::is('detasering*') ? 'active' : '' }}">Detasering</a>
                 <a href="/orasi-ilmiah" class="{{ Request::is('orasi-ilmiah*') ? 'active' : '' }}">Orasi Ilmiah</a>
                 <a href="/sertifikat-kompetensi" class="{{ Request::is('sertifikat-kompetensi*') ? 'active' : '' }}">
                     Sertifikat Kompetensi

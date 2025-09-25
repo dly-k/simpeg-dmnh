@@ -5,7 +5,6 @@
 .main-content {
     margin: 130px 0 70px 250px;
     padding: 25px;
-    background-color: var(--light);
     font-size: 14px;
     min-height: calc(100vh - 190px);
     transition: margin-left 0.3s ease-in-out;
