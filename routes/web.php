@@ -33,7 +33,7 @@ use App\Http\Controllers\PenunjangController;
 use App\Http\Controllers\OrasiIlmiahController;
 use App\Http\Controllers\SertifikatKompetensiController;
 use App\Http\Controllers\PendidikanController;
-use App\Http\Controllers\PegelolaJurnalController;
+use App\Http\Controllers\PengelolaJurnalController;
 use App\Http\Controllers\PenelitianController;
 use App\Http\Controllers\KekayaanIntelektualController;
 
@@ -223,3 +223,11 @@ Route::get('/pembicara', [PembicaraController::class, 'index'])->name('pembicara
 Route::get('/organisasi-profesi', [OrganisasiProfesiController::class, 'index'])->name('organisasi-profesi.index');
 
 Route::get('/pembimbingan', [PembimbinganController::class, 'index'])->name('pembimbingan.index');
+
+Route::get('/orasi-ilmiah', [OrasiIlmiahController::class, 'index'])->name('orasi-ilmiah.index');
+
+Route::get('/sertifikat-kompetensi', [SertifikatKompetensiController::class, 'index'])->name('sertifikat-kompetensi.index');
+
+Route::get('/pengelola-jurnal', [PengelolaJurnalController::class, 'index'])->name('pengelola-jurnal.index');
+
+Route::get('/kekayaan-intelektual', [KekayaanIntelektualController::class, 'index'])->name('kekayaan-intelektual.index');

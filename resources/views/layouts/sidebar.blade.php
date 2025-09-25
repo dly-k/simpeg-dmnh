@@ -80,7 +80,7 @@
                 <a href="/sertifikat-kompetensi" class="{{ Request::is('sertifikat-kompetensi*') ? 'active' : '' }}">
                     Sertifikat Kompetensi
                 </a>
-                <a href="/pendidikan" class="{{ Request::is('pendidikan*') ? 'active' : '' }}">Akademik</a>
+                <a href="/pendidikan" class="{{ Request::is('pendidikan*') ? 'active' : '' }}">Pendidikan / Akademik</a>
                 <a href="/pengelola-jurnal" class="{{ Request::is('pengelola-jurnal*') ? 'active' : '' }}">
                     Pengelola Jurnal
                 </a>
