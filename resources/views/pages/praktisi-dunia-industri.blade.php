@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
@@ -13,7 +13,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="{{ asset('assets/css/layout.css') }}" />
-  <link rel="stylesheet" href="{{ asset('assets/css/kerjasama.css') }}" />
+  <link rel="stylesheet" href="{{ asset('assets/css/praktisi.css') }}" />
 </head>
 
 <body>
@@ -27,26 +27,29 @@
       <div class="title-bar">
         <h1>
           <i class="lni lni-write"></i>
-          <span id="page-title"> Editor - Praktisi Dunia Industri</span>
+          <span id="page-title">Editor - Praktisi Dunia Industri</span>
         </h1>
       </div>
 
+      <!-- Main Content -->
       <div class="main-content">
         <div class="card">
           <div class="card-body p-4">
 
             <!-- Filter Bar -->
             <div class="d-flex flex-wrap align-items-center justify-content-between mb-3 gap-2">
-
               <!-- Left: Search & Filters -->
               <div class="d-flex flex-grow-1 gap-2">
-
                 <!-- Search -->
                 <div class="input-group flex-grow-1">
-                  <span class="input-group-text bg-white border-end-0">
-                    <i class="fa fa-search text-success"></i>
+                  <span class="input-group-text bg-light border-end-0">
+                    <i class="fas fa-search text-success"></i>
                   </span>
-                  <input type="text" class="form-control border-start-0" placeholder="Cari Data ....">
+                  <input 
+                    type="text" 
+                    class="form-control border-start-0 search-input" 
+                    placeholder="Cari Data ...."
+                  >
                 </div>
 
                 <!-- Tahun -->
@@ -67,9 +70,9 @@
 
               <!-- Right: Button Tambah Data -->
               <div>
-                <a href="#" class="btn btn-dark fw-bold">
-                  <i class="fa fa-plus me-1"></i> Tambah Data
-                </a>
+                <button class="btn btn-tambah fw-bold">
+                  <i class="fa fa-plus me-2"></i> Tambah Data
+                </button>
               </div>
             </div>
             <!-- End Filter Bar -->
@@ -99,9 +102,7 @@
                     <td>01 Jan 2023</td>
                     <td>31 Des 2023</td>
                     <td>
-                      <a href="#" target="_blank" class="btn btn-sm btn-info text-white px-3">
-                        Lihat
-                      </a>
+                      <a href="#" target="_blank" class="btn btn-sm btn-lihat text-white px-3">Lihat</a>
                     </td>
                     <td>
                       <span class="badge rounded-circle bg-warning text-white" title="Belum Diverifikasi">
@@ -109,7 +110,7 @@
                       </span>
                     </td>
                     <td>
-<div class="d-flex gap-2">
+                      <div class="d-flex gap-2">
                         <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi">
                           <i class="fa fa-check"></i>
                         </a>
@@ -130,9 +131,7 @@
                     <td>15 Feb 2023</td>
                     <td>15 Agu 2023</td>
                     <td>
-                      <a href="#" target="_blank" class="btn btn-sm btn-info text-white px-3">
-                        Lihat
-                      </a>
+                      <a href="#" target="_blank" class="btn btn-sm btn-lihat text-white px-3">Lihat</a>
                     </td>
                     <td>
                       <span class="badge rounded-circle bg-warning text-white" title="Belum Diverifikasi">
@@ -140,7 +139,7 @@
                       </span>
                     </td>
                     <td>
-                    <div class="d-flex gap-2">
+                      <div class="d-flex gap-2">
                         <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi">
                           <i class="fa fa-check"></i>
                         </a>
@@ -161,9 +160,7 @@
                     <td>01 Mar 2023</td>
                     <td>01 Mar 2024</td>
                     <td>
-                      <a href="#" target="_blank" class="btn btn-sm btn-info text-white px-3">
-                        Lihat
-                      </a>
+                      <a href="#" target="_blank" class="btn btn-sm btn-lihat text-white px-3">Lihat</a>
                     </td>
                     <td>
                       <span class="badge rounded-circle bg-warning text-white" title="Belum Diverifikasi">
@@ -171,7 +168,7 @@
                       </span>
                     </td>
                     <td>
-                    <div class="d-flex gap-2">
+                      <div class="d-flex gap-2">
                         <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi">
                           <i class="fa fa-check"></i>
                         </a>
@@ -194,11 +191,11 @@
 
       @include('layouts.footer')
     </div>
-
-    <!-- Scripts -->
-    <script src="{{ asset('assets/js/layout.js') }}"></script>
-    <script src="{{ asset('assets/js/praktisi.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
   </div>
+
+  <!-- Scripts -->
+  <script src="{{ asset('assets/js/layout.js') }}"></script>
+  <script src="{{ asset('assets/js/praktisi.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
