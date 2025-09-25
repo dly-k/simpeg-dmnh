@@ -65,7 +65,7 @@
                   <div class="d-flex flex-column flex-lg-row gap-4">
                     <div class="nav flex-column nav-pills main-tab-nav" id="main-tab-nav">
                         <button class="nav-link text-start active" data-main-tab="biodata">Biodata</button>
-                        <button class="nav-link text-start" data-main-tab="sk">Identitas    SK</button>
+                        <button class="nav-link text-start" data-main-tab="sk">Identitas SK</button>
                         <button class="nav-link text-start" data-main-tab="pendidikan">Pelaksanaan Pendidikan</button>
                         <button class="nav-link text-start" data-main-tab="penelitian">Pelaksanaan Penelitian</button>
                         <button class="nav-link text-start" data-main-tab="pengabdian">Pelaksanaan Pengabdian</button>
@@ -461,7 +461,227 @@
                             </div>
                         </div>
 
-                        <div class="main-tab-content" id="pendidikan-content" style="display: none;"><p>Konten Pelaksanaan Pendidikan akan dimuat di sini.</p></div>
+                        <div class="main-tab-content" id="pendidikan-content" style="display: none;">
+                            <div class="card">
+                                {{-- PERUBAHAN DIMULAI DARI SINI: Mengganti ul.nav-tabs dengan div.sub-tab-nav --}}
+                                <div id="pendidikan-sub-tabs-detail" class="sub-tab-nav d-flex flex-wrap gap-2 mb-4">
+                                    <button type="button" class="btn active" data-tab="pengajaran-lama-detail">Pengajaran Lama</button>
+                                    <button type="button" class="btn" data-tab="pengajaran-luar-detail">Pengajaran Luar IPB</button>
+                                    <button type="button" class="btn" data-tab="pengujian-lama-detail">Pengujian Lama</button>
+                                    <button type="button" class="btn" data-tab="pembimbing-lama-detail">Pembimbing Lama</button>
+                                    <button type="button" class="btn" data-tab="penguji-luar-detail">Penguji Luar IPB</button>
+                                    <button type="button" class="btn" data-tab="pembimbing-luar-detail">Pembimbing Luar IPB</button>
+                                </div>
+
+                                <div class="tab-content" id="pendidikanTabContentDetail">
+                                    {{-- PERUBAHAN KELAS DAN STYLE PADA SETIAP PANEL KONTEN --}}
+                                    <div class="sub-tab-content" id="pengajaran-lama-detail" style="display: block;">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover table-bordered">
+                                                <thead class="table-light"><tr class="text-center"><th>Tahun Semester</th><th>Mata Kuliah</th><th>Status</th><th>Dokumen</th><th>Aksi</th></tr></thead>
+                                                <tbody>
+                                                    @forelse ($dataPengajaranLama as $item)
+                                                    <tr>
+                                                        <td class="text-center">{{ $item->tahun_semester }}</td>
+                                                        <td>{{ $item->nama_mk }} ({{$item->kode_mk}})</td>
+                                                        <td class="text-center">
+                                                            @if ($item->status_verifikasi == 'diverifikasi') <i class="fas fa-check-circle text-success" title="Diverifikasi"></i>
+                                                            @elseif ($item->status_verifikasi == 'ditolak') <i class="fas fa-times-circle text-danger" title="Ditolak"></i>
+                                                            @else <i class="fas fa-question-circle text-warning" title="Menunggu"></i> @endif
+                                                        </td>
+                                                        <td class="text-center"><a href="{{ $item->file_path ? Storage::url($item->file_path) : '#' }}" class="btn btn-sm btn-lihat text-white {{ $item->file_path ? '' : 'disabled' }}" target="_blank">Lihat</a></td>
+                                                        <td class="text-center">
+                                                            <a href="#" class="btn-aksi btn-lihat-detail btn-lihat-pengajaran-lama" title="Lihat Detail" data-bs-toggle="modal" data-bs-target="#modalDetailPengajaranLama" data-id="{{ $item->id }}"><i class="fa fa-eye"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                    @empty
+                                                    <tr><td colspan="5" class="text-center text-muted">Data tidak ditemukan.</td></tr>
+                                                    @endforelse
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="d-flex justify-content-end mt-4">
+                                            @if ($dataPengajaranLama->hasPages())
+                                                <nav aria-label="Page navigation">
+                                                    {{ $dataPengajaranLama->links('pagination::bootstrap-5') }}
+                                                </nav>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="sub-tab-content" id="pengajaran-luar-detail" style="display: none;">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover table-bordered">
+                                                <thead class="table-light"><tr class="text-center"><th>Institusi</th><th>Mata Kuliah</th><th>Status</th><th>Dokumen</th><th>Aksi</th></tr></thead>
+                                                <tbody>
+                                                    @forelse ($dataPengajaranLuar as $item)
+                                                    <tr>
+                                                        <td>{{ $item->universitas }}</td>
+                                                        <td>{{ $item->nama_mk }}</td>
+                                                        <td class="text-center">
+                                                            @if ($item->status_verifikasi == 'diverifikasi') <i class="fas fa-check-circle text-success" title="Diverifikasi"></i>
+                                                            @elseif ($item->status_verifikasi == 'ditolak') <i class="fas fa-times-circle text-danger" title="Ditolak"></i>
+                                                            @else <i class="fas fa-question-circle text-warning" title="Menunggu"></i> @endif
+                                                        </td>
+                                                        <td class="text-center"><a href="{{ $item->file_path ? Storage::url($item->file_path) : '#' }}" class="btn btn-sm btn-lihat text-white {{ $item->file_path ? '' : 'disabled' }}" target="_blank">Lihat</a></td>
+                                                        <td class="text-center">
+                                                            <a href="#" class="btn-aksi btn-lihat-detail btn-lihat-pengajaran-luar" title="Lihat Detail" data-bs-toggle="modal" data-bs-target="#modalDetailPengajaranLuar" data-id="{{ $item->id }}"><i class="fa fa-eye"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                    @empty
+                                                    <tr><td colspan="5" class="text-center text-muted">Data tidak ditemukan.</td></tr>
+                                                    @endforelse
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="d-flex justify-content-end mt-4">
+                                            @if ($dataPengajaranLuar->hasPages())
+                                                <nav aria-label="Page navigation">
+                                                    {{ $dataPengajaranLuar->links('pagination::bootstrap-5') }}
+                                                </nav>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="sub-tab-content" id="pengujian-lama-detail" style="display: none;">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover table-bordered">
+                                                <thead class="table-light"><tr class="text-center"><th>Nama Mahasiswa</th><th>Departemen</th><th>Status</th><th>Dokumen</th><th>Aksi</th></tr></thead>
+                                                <tbody>
+                                                    @forelse ($dataPengujianLama as $item)
+                                                    <tr>
+                                                        <td>{{ $item->nama_mahasiswa }} ({{$item->nim}})</td>
+                                                        <td>{{ $item->departemen }}</td>
+                                                        <td class="text-center">
+                                                            @if ($item->status_verifikasi == 'diverifikasi') <i class="fas fa-check-circle text-success" title="Diverifikasi"></i>
+                                                            @elseif ($item->status_verifikasi == 'ditolak') <i class="fas fa-times-circle text-danger" title="Ditolak"></i>
+                                                            @else <i class="fas fa-question-circle text-warning" title="Menunggu"></i> @endif
+                                                        </td>
+                                                        <td class="text-center"><a href="{{ $item->file_path ? Storage::url($item->file_path) : '#' }}" class="btn btn-sm btn-lihat text-white {{ $item->file_path ? '' : 'disabled' }}" target="_blank">Lihat</a></td>
+                                                        <td class="text-center">
+                                                            <a href="#" class="btn-aksi btn-lihat-detail btn-lihat-pengujian-lama" title="Lihat Detail" data-bs-toggle="modal" data-bs-target="#modalDetailPengujianLama" data-id="{{ $item->id }}"><i class="fa fa-eye"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                    @empty
+                                                    <tr><td colspan="5" class="text-center text-muted">Data tidak ditemukan.</td></tr>
+                                                    @endforelse
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="d-flex justify-content-end mt-4">
+                                            @if ($dataPengujianLama->hasPages())
+                                                <nav aria-label="Page navigation">
+                                                    {{ $dataPengujianLama->links('pagination::bootstrap-5') }}
+                                                </nav>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="sub-tab-content" id="pembimbing-lama-detail" style="display: none;">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover table-bordered">
+                                                <thead class="table-light"><tr class="text-center"><th>Kegiatan</th><th>Nama Mahasiswa</th><th>Status</th><th>Dokumen</th><th>Aksi</th></tr></thead>
+                                                <tbody>
+                                                    @forelse ($dataPembimbingLama as $item)
+                                                    <tr>
+                                                        <td class="text-start">{{ Str::limit($item->kegiatan, 40) }}</td>
+                                                        <td>{{ $item->nama_mahasiswa }}</td>
+                                                        <td class="text-center">
+                                                            @if ($item->status_verifikasi == 'diverifikasi') <i class="fas fa-check-circle text-success" title="Diverifikasi"></i>
+                                                            @elseif ($item->status_verifikasi == 'ditolak') <i class="fas fa-times-circle text-danger" title="Ditolak"></i>
+                                                            @else <i class="fas fa-question-circle text-warning" title="Menunggu"></i> @endif
+                                                        </td>
+                                                        <td class="text-center"><a href="{{ $item->file_path ? Storage::url($item->file_path) : '#' }}" class="btn btn-sm btn-lihat text-white {{ $item->file_path ? '' : 'disabled' }}" target="_blank">Lihat</a></td>
+                                                        <td class="text-center">
+                                                            <a href="#" class="btn-aksi btn-lihat-detail btn-lihat-pembimbing-lama" title="Lihat Detail" data-bs-toggle="modal" data-bs-target="#modalDetailPembimbingLama" data-id="{{ $item->id }}"><i class="fa fa-eye"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                    @empty
+                                                    <tr><td colspan="5" class="text-center text-muted">Data tidak ditemukan.</td></tr>
+                                                    @endforelse
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="d-flex justify-content-end mt-4">
+                                            @if ($dataPembimbingLama->hasPages())
+                                                <nav aria-label="Page navigation">
+                                                    {{ $dataPembimbingLama->links('pagination::bootstrap-5') }}
+                                                </nav>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="sub-tab-content" id="penguji-luar-detail" style="display: none;">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover table-bordered">
+                                                <thead class="table-light"><tr class="text-center"><th>Nama Mahasiswa</th><th>Universitas</th><th>Status</th><th>Dokumen</th><th>Aksi</th></tr></thead>
+                                                <tbody>
+                                                    @forelse ($dataPengujiLuar as $item)
+                                                    <tr>
+                                                        <td>{{ $item->nama_mahasiswa }}</td>
+                                                        <td>{{ $item->universitas }}</td>
+                                                        <td class="text-center">
+                                                            @if ($item->status_verifikasi == 'diverifikasi') <i class="fas fa-check-circle text-success" title="Diverifikasi"></i>
+                                                            @elseif ($item->status_verifikasi == 'ditolak') <i class="fas fa-times-circle text-danger" title="Ditolak"></i>
+                                                            @else <i class="fas fa-question-circle text-warning" title="Menunggu"></i> @endif
+                                                        </td>
+                                                        <td class="text-center"><a href="{{ $item->file_path ? Storage::url($item->file_path) : '#' }}" class="btn btn-sm btn-lihat text-white {{ $item->file_path ? '' : 'disabled' }}" target="_blank">Lihat</a></td>
+                                                        <td class="text-center">
+                                                            <a href="#" class="btn-aksi btn-lihat-detail btn-lihat-penguji-luar" title="Lihat Detail" data-bs-toggle="modal" data-bs-target="#modalDetailPengujiLuar" data-id="{{ $item->id }}"><i class="fa fa-eye"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                    @empty
+                                                    <tr><td colspan="5" class="text-center text-muted">Data tidak ditemukan.</td></tr>
+                                                    @endforelse
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="d-flex justify-content-end mt-4">
+                                            @if ($dataPengujiLuar->hasPages())
+                                                <nav aria-label="Page navigation">
+                                                    {{ $dataPengujiLuar->links('pagination::bootstrap-5') }}
+                                                </nav>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="sub-tab-content" id="pembimbing-luar-detail" style="display: none;">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover table-bordered">
+                                                <thead class="table-light"><tr class="text-center"><th>Nama Mahasiswa</th><th>Universitas</th><th>Status</th><th>Dokumen</th><th>Aksi</th></tr></thead>
+                                                <tbody>
+                                                    @forelse ($dataPembimbingLuar as $item)
+                                                    <tr>
+                                                        <td>{{ $item->nama_mahasiswa }}</td>
+                                                        <td>{{ $item->universitas }}</td>
+                                                        <td class="text-center">
+                                                            @if ($item->status_verifikasi == 'diverifikasi') <i class="fas fa-check-circle text-success" title="Diverifikasi"></i>
+                                                            @elseif ($item->status_verifikasi == 'ditolak') <i class="fas fa-times-circle text-danger" title="Ditolak"></i>
+                                                            @else <i class="fas fa-question-circle text-warning" title="Menunggu"></i> @endif
+                                                        </td>
+                                                        <td class="text-center"><a href="{{ $item->file_path ? Storage::url($item->file_path) : '#' }}" class="btn btn-sm btn-lihat text-white {{ $item->file_path ? '' : 'disabled' }}" target="_blank">Lihat</a></td>
+                                                        <td class="text-center">
+                                                            <a href="#" class="btn-aksi btn-lihat-detail btn-lihat-pembimbing-luar" title="Lihat Detail" data-bs-toggle="modal" data-bs-target="#modalDetailPembimbingLuar" data-id="{{ $item->id }}"><i class="fa fa-eye"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                    @empty
+                                                    <tr><td colspan="5" class="text-center text-muted">Data tidak ditemukan.</td></tr>
+                                                    @endforelse
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="d-flex justify-content-end mt-4">
+                                            @if ($dataPembimbingLuar->hasPages())
+                                                <nav aria-label="Page navigation">
+                                                    {{ $dataPembimbingLuar->links('pagination::bootstrap-5') }}
+                                                </nav>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="main-tab-content" id="penelitian-content" style="display: none;"><p>Konten Pelaksanaan Penelitian akan dimuat di sini.</p></div>
                         <div class="main-tab-content" id="pengabdian-content" style="display: none;"><p>Konten Pelaksanaan Pengabdian akan dimuat di sini.</p></div>
                         <div class="main-tab-content" id="penunjang-content" style="display: none;"><p>Konten Penunjang akan dimuat di sini.</p></div>
@@ -489,6 +709,14 @@
     @include('components.pendidikan.tambah-sk-kenaikan-gaji')
     @include('components.pendidikan.tambah-sk-tugas-belajar')
     @include('components.pendidikan.tambah-sk-non-pns')
+
+     {{-- Modal Detail Untuk Menu Pendidikan --}}
+    @include('components.pendidikan.detail-pengajaran-lama')
+    @include('components.pendidikan.detail-pengajaran-luar')
+    @include('components.pendidikan.detail-pengujian-lama')
+    @include('components.pendidikan.detail-pembimbing-lama')
+    @include('components.pendidikan.detail-penguji-luar')
+    @include('components.pendidikan.detail-pembimbing-luar')
     
     @if (session('success'))
         <div id="success-trigger" data-title="Berhasil!" data-message="{{ session('success') }}" data-active-tab="{{ session('active_tab') }}" data-active-subtab="{{ session('active_subtab') }}"></div>
