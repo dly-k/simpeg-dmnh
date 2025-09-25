@@ -25,7 +25,7 @@
 
       <div class="title-bar">
         <h1>
-          <i class="lni lni-pencil-alt"></i>
+          <i class="lni lni-write"></i>
           <span id="page-title">Editor - Penghargaan</span>
         </h1>
       </div>

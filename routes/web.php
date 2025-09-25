@@ -13,6 +13,7 @@ use App\Http\Controllers\SuratTugasController;
 use App\Http\Controllers\PelatihanController;
 use App\Http\Controllers\PenghargaanController;
 use App\Http\Controllers\KerjasamaController;
+use App\Http\Controllers\PraktisiController;
 
 // --- CONTROLLER UNTUK MENU SK ---
 use App\Http\Controllers\SkNonPnsController;
@@ -185,3 +186,6 @@ Route::prefix('penghargaan')->name('penghargaan.')->controller(PenghargaanContro
 Route::resource('kerjasama', KerjasamaController::class);
 Route::get('/kerjasama/export', [KerjasamaController::class, 'export'])
     ->name('kerjasama.export');
+
+
+Route::get('/praktisi-dunia-industri', [PraktisiController::class, 'index'])->name('praktisi.index');
