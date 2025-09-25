@@ -5,7 +5,7 @@
 
       <div class="modal-header">
         <h5 class="modal-title" id="pelatihanModalLabel">
-          <i class="fas fa-plus-circle"></i> Tambah Data Pelatihan
+          <i class="fas fa-plus-circle"></i> Tambah Data Diklat
         </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
@@ -27,12 +27,12 @@
             </div>
 
             <div class="col-12">
-              <label class="form-label">Nama Pelatihan</label>
+              <label class="form-label">Nama Diklat</label>
               <input type="text" class="form-control" name="nama_kegiatan" placeholder="Masukkan nama kegiatan pelatihan" required>
             </div>
 
             <div class="col-12">
-              <label class="form-label">Posisi Pelatihan</label>
+              <label class="form-label">Posisi Diklat</label>
               <select class="form-select" id="posisi-pelatihan-select" name="posisi" required>
                 <option value="" selected disabled>-- Pilih Posisi --</option>
                 <option value="Peserta">Peserta</option>

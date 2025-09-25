@@ -124,7 +124,7 @@
         document.getElementById("posisi-lainnya-input")?.classList.remove("show");
         fileInput.required = !isEditMode;
         if (isEditMode) {
-          modalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Data Pelatihan';
+          modalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Data Diklat';
           const pelatihanId = button.dataset.id;
           idInput.value = pelatihanId;
           const methodInput = document.createElement("input");
@@ -161,7 +161,7 @@
             bsModal.hide();
           }
         } else {
-          modalTitle.innerHTML = '<i class="fas fa-plus-circle"></i> Tambah Data Pelatihan';
+          modalTitle.innerHTML = '<i class="fas fa-plus-circle"></i> Tambah Data Diklat';
           idInput.value = "";
         }
       });

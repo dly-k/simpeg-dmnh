@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="flash-success" content="{{ session('success') }}">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>SIKEMAH - Praktisi Dunia Industri</title>
+  <title>SIKEMAH - Editor (Praktisi Dunia Industri)</title>
 
   <link rel="icon" href="{{ asset('assets/images/logo.png') }}" />
   <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />

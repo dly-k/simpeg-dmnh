@@ -7,7 +7,7 @@
       <div class="modal-header">
         <h5 class="modal-title" id="modalDetailPelatihanLabel">
           <i class="fas fa-info-circle"></i>
-          <span>Detail Pelatihan</span>
+          <span>Detail Diklat</span>
         </h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
@@ -20,11 +20,11 @@
             <p id="detail_pelatihan_pegawai">-</p> 
           </div>
           <div class="detail-item">
-            <small>Nama Pelatihan</small>
+            <small>Nama Diklat</small>
             <p id="detail_pelatihan_nama_kegiatan">-</p> {{-- ID Diperbaiki agar konsisten --}}
           </div>
           <div class="detail-item">
-            <small>Posisi Pelatihan</small>
+            <small>Posisi Diklat</small>
             <p id="detail_pelatihan_posisi">-</p>
           </div>
           <div class="detail-item">
