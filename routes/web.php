@@ -215,3 +215,12 @@ Route::get('/kerjasama/export', [KerjasamaController::class, 'export'])
 
 
 Route::get('/praktisi-dunia-industri', [PraktisiController::class, 'index'])->name('praktisi.index');
+
+
+Route::get('/bahan-ajar', [BahanAjarController::class, 'index'])->name('bahan-ajar.index');
+
+Route::get('/pembicara', [PembicaraController::class, 'index'])->name('pembicara.index');
+
+Route::get('/organisasi-profesi', [OrganisasiProfesiController::class, 'index'])->name('organisasi-profesi.index');
+
+Route::get('/pembimbingan', [PembimbinganController::class, 'index'])->name('pembimbingan.index');
