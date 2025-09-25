@@ -62,16 +62,18 @@
 
                 <!-- Status / Lingkup -->
                 <select class="form-select" style="max-width: 180px;">
-                  <option value="">Semua Lingkup</option>
-                  <option value="belum">Belum Diverifikasi</option>
-                  <option value="sudah">Sudah Diverifikasi</option>
+                    <option value="">Semua Status</option>
+                    <option>Sudah Diverifikasi</option>
+                    <option>Belum Diverifikasi</option>
+                    <option>Ditolak</option>
                 </select>
               </div>
 
               <!-- Right: Button Tambah Data -->
               <div>
-                <button class="btn btn-tambah fw-bold">
-                  <i class="fa fa-plus me-2"></i> Tambah Data
+                <!-- Button Tambah Data -->
+                <button class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#pengalamanKerjaModal">
+                <i class="fa fa-plus me-2"></i> Tambah Data
                 </button>
               </div>
             </div>
@@ -115,7 +117,12 @@
                           <i class="fa fa-check"></i>
                         </a>
                         <button class="btn btn-sm btn-lihat"><i class="fa fa-eye"></i></button>
-                        <button class="btn btn-sm btn-edit"><i class="fa fa-edit"></i></button>
+                        <button 
+                        class="btn btn-sm btn-warning btn-edit" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#editPengalamanKerjaModal">
+                        <i class="fa fa-edit"></i>
+                        </button>
                         <a href="#" class="btn-aksi btn-hapus" title="Hapus Data">
                           <i class="fa fa-trash"></i>
                         </a>
@@ -144,7 +151,12 @@
                           <i class="fa fa-check"></i>
                         </a>
                         <button class="btn btn-sm btn-lihat"><i class="fa fa-eye"></i></button>
-                        <button class="btn btn-sm btn-edit"><i class="fa fa-edit"></i></button>
+                       <button 
+                        class="btn btn-sm btn-warning btn-edit" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#editPengalamanKerjaModal">
+                        <i class="fa fa-edit"></i>
+                        </button>
                         <a href="#" class="btn-aksi btn-hapus" title="Hapus Data">
                           <i class="fa fa-trash"></i>
                         </a>
@@ -173,7 +185,12 @@
                           <i class="fa fa-check"></i>
                         </a>
                         <button class="btn btn-sm btn-lihat"><i class="fa fa-eye"></i></button>
-                        <button class="btn btn-sm btn-edit"><i class="fa fa-edit"></i></button>
+                                                <button 
+                        class="btn btn-sm btn-warning btn-edit" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#editPengalamanKerjaModal">
+                        <i class="fa fa-edit"></i>
+                        </button>
                         <a href="#" class="btn-aksi btn-hapus" title="Hapus Data">
                           <i class="fa fa-trash"></i>
                         </a>
@@ -192,6 +209,14 @@
       @include('layouts.footer')
     </div>
   </div>
+
+  <!-- Modal  -->
+{{-- @include('components.konfirmasi-hapus') --}}
+{{-- @include('components.konfirmasi-berhasil') --}}
+{{-- @include('components.konfirmasi-verifikasi') --}}
+  @include('components.praktisi.detail-praktisiindustri')
+  @include('components.praktisi.tambah-praktisiindustri')
+  @include('components.praktisi.edit-praktisiindustri')
 
   <!-- Scripts -->
   <script src="{{ asset('assets/js/layout.js') }}"></script>

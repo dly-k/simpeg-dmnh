@@ -2,29 +2,49 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+
+// ================== Pegawai ==================
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\EFileController;
 use App\Http\Controllers\DokumenController;
-use App\Http\Controllers\PendidikanController;
-use App\Http\Controllers\PenelitianController;
-use App\Http\Controllers\PengabdianController;
-use App\Http\Controllers\PenunjangController;
-use App\Http\Controllers\SuratTugasController;
-use App\Http\Controllers\PelatihanController;
-use App\Http\Controllers\PenghargaanController;
-use App\Http\Controllers\KerjasamaController;
-use App\Http\Controllers\PraktisiController;
-
-// --- CONTROLLER UNTUK MENU SK ---
-use App\Http\Controllers\SkNonPnsController;
 use App\Http\Controllers\PenetapanPangkatController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\JabatanSaatIniController;
 use App\Http\Controllers\PensiunController;
 use App\Http\Controllers\KenaikanGajiBerkalaController;
 use App\Http\Controllers\TugasBelajarController;
+use App\Http\Controllers\SkNonPnsController;
 
-// Auth & Dashboard
+// ================== Surat Tugas ==================
+use App\Http\Controllers\SuratTugasController;
+
+// ================== Editor ==================
+use App\Http\Controllers\PelatihanController;
+use App\Http\Controllers\PenghargaanController;
+use App\Http\Controllers\PraktisiController;
+
+// ================== Editor Kegiatan ==================
+use App\Http\Controllers\BahanAjarController;
+use App\Http\Controllers\PembicaraController;
+use App\Http\Controllers\PengabdianController;
+use App\Http\Controllers\OrganisasiProfesiController;
+use App\Http\Controllers\PembimbinganController;
+use App\Http\Controllers\PenunjangController;
+use App\Http\Controllers\DetaseringController;
+use App\Http\Controllers\OrasiIlmiahController;
+use App\Http\Controllers\SertifikatKompetensiController;
+use App\Http\Controllers\PendidikanController;
+use App\Http\Controllers\PegelolaJurnalController;
+use App\Http\Controllers\PenelitianController;
+use App\Http\Controllers\KekayaanIntelektualController;
+
+// ================== Kerjasama ==================
+use App\Http\Controllers\KerjasamaController;
+
+
+// ===================================================================
+// ================== RUTE UNTUK AUTH & DASHBOARD ====================
+// ===================================================================
 Route::view('/', 'auth.login');
 Route::view('/login', 'auth.login')->name('login');
 Route::view('/ubah-password', 'auth.ubah-password');
@@ -105,8 +125,6 @@ Route::prefix('pegawai/{pegawai}/sk-non-pns')->name('sk-non-pns.')->controller(S
     Route::put('/{skNonPn}', 'update')->name('update');
     Route::delete('/{skNonPn}', 'destroy')->name('destroy');
 });
-
-
 
 // ================== Halaman Utama ==================
 Route::view('/pendidikan', 'pages.pendidikan');
