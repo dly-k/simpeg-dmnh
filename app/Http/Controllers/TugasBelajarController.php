@@ -6,6 +6,8 @@ use App\Models\Pegawai;
 use App\Models\TugasBelajar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Exports\TugasBelajarExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TugasBelajarController extends Controller
 {
@@ -72,5 +74,15 @@ class TugasBelajarController extends Controller
             'active_tab' => 'sk',
             'active_subtab' => 'sk-tugas-belajar'
         ]);
+    }
+
+    public function export(Request $request, Pegawai $pegawai)
+    {
+        $search = $request->input('search_tugas_belajar');
+        $tahun = $request->input('tahun_tugas_belajar');
+        
+        $fileName = 'Riwayat_Tugas_Belajar_' . $pegawai->nama_lengkap . '.xlsx';
+
+        return Excel::download(new TugasBelajarExport($pegawai, $search, $tahun), $fileName);
     }
 }

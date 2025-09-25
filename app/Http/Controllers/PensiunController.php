@@ -6,6 +6,8 @@ use App\Models\Pegawai;
 use App\Models\Pensiun;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Exports\PensiunExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PensiunController extends Controller
 {
@@ -25,11 +27,7 @@ class PensiunController extends Controller
 
         $pegawai->pensiuns()->create($validated);
 
-        return back()->with([
-            'success' => 'Data Pensiun berhasil ditambahkan!',
-            'active_tab' => 'sk',
-            'active_subtab' => 'pensiun'
-        ]);
+        return back()->with(['success' => 'Data Pensiun berhasil ditambahkan!', 'active_tab' => 'sk', 'active_subtab' => 'pensiun']);
     }
 
     public function update(Request $request, Pegawai $pegawai, Pensiun $pensiun)
@@ -51,11 +49,7 @@ class PensiunController extends Controller
 
         $pensiun->update($validated);
 
-        return back()->with([
-            'success' => 'Data Pensiun berhasil diperbarui!',
-            'active_tab' => 'sk',
-            'active_subtab' => 'pensiun'
-        ]);
+        return back()->with(['success' => 'Data Pensiun berhasil diperbarui!', 'active_tab' => 'sk', 'active_subtab' => 'pensiun']);
     }
 
     public function destroy(Pegawai $pegawai, Pensiun $pensiun)
@@ -65,10 +59,16 @@ class PensiunController extends Controller
         }
         $pensiun->delete();
 
-        return back()->with([
-            'success' => 'Data Pensiun berhasil dihapus!',
-            'active_tab' => 'sk',
-            'active_subtab' => 'pensiun'
-        ]);
+        return back()->with(['success' => 'Data Pensiun berhasil dihapus!', 'active_tab' => 'sk', 'active_subtab' => 'pensiun']);
+    }
+
+    public function export(Request $request, Pegawai $pegawai)
+    {
+        $search = $request->input('search_pensiun');
+        $tahun = $request->input('tahun_pensiun');
+        
+        $fileName = 'Riwayat_Pensiun_' . $pegawai->nama_lengkap . '.xlsx';
+
+        return Excel::download(new PensiunExport($pegawai, $search, $tahun), $fileName);
     }
 }

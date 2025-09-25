@@ -36,10 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
    */
   const initDeleteConfirmation = () => {
     const modalElement = document.getElementById("modalKonfirmasiHapus");
-    if (!modalElement) {
-        console.warn("Modal konfirmasi hapus tidak ditemukan.");
-        return;
-    }
+    if (!modalElement) return;
 
     const btnConfirm = document.getElementById("btnKonfirmasiHapus");
     const btnCancel = document.getElementById("btnBatalHapus");
@@ -69,11 +66,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
     
-    btnCancel?.addEventListener('click', function() {
-        hideModal();
-    });
-
-    modalElement.addEventListener('click', function(event) {
+    btnCancel?.addEventListener('click', hideModal);
+    modalElement.addEventListener('click', (event) => {
         if (event.target === modalElement) {
             hideModal();
         }
@@ -128,6 +122,25 @@ document.addEventListener("DOMContentLoaded", () => {
               window.open(fileUrl, '_blank');
           }
       });
+  };
+
+  /**
+   * Mengaktifkan tab dan sub-tab berdasarkan parameter di URL (untuk filter).
+   */
+  const restoreTabsFromUrl = () => {
+    const params = new URLSearchParams(window.location.search);
+    const mainTab = params.get('tab');
+    const subTab = params.get('subtab');
+
+    if (mainTab) {
+        document.querySelector(`#main-tab-nav .nav-link[data-main-tab="${mainTab}"]`)?.click();
+    }
+    if (subTab) {
+        // Beri jeda agar konten sub-tab sempat muncul sebelum diklik
+        setTimeout(() => {
+            document.querySelector(`.sub-tab-nav button[data-tab="${subTab}"]`)?.click();
+        }, 50);
+    }
   };
 
   /**
@@ -239,6 +252,28 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   };
+  
+  /**
+   * Pencarian otomatis saat mengetik atau menekan Enter.
+   */
+  const initAutoSearch = () => {
+    let debounceTimeout;
+    
+    document.querySelectorAll('form input[name^="search_"]').forEach(input => {
+      input.addEventListener('keyup', (e) => {
+        if (e.key === 'Enter') {
+          input.closest('form').submit();
+        }
+      });
+
+      input.addEventListener('input', () => {
+        clearTimeout(debounceTimeout);
+        debounceTimeout = setTimeout(() => {
+          input.closest('form').submit();
+        }, 500); // Jeda 500 milidetik
+      });
+    });
+  };
 
   // Panggil semua fungsi inisialisasi
   initTabs();
@@ -247,4 +282,6 @@ document.addEventListener("DOMContentLoaded", () => {
   initFileItemClick();
   handleSuccessFlow();
   initFormModals();
+  restoreTabsFromUrl();
+  initAutoSearch();
 });

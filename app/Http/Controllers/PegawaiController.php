@@ -3,6 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pegawai;
+use App\Models\PenetapanPangkat;
+use App\Models\Jabatan;
+use App\Models\JabatanSaatIni;
+use App\Models\Pensiun;
+use App\Models\KenaikanGajiBerkala;
+use App\Models\TugasBelajar;
+use App\Models\SkNonPns;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Exports\PegawaiExport;
@@ -57,7 +64,7 @@ class PegawaiController extends Controller
         return view('pages.pegawai.daftar-pegawai', compact('pegawaiAktif', 'pegawaiRiwayat'));
     }
 
-        /**
+    /**
      * Menangani permintaan ekspor data pegawai ke Excel.
      *
      * @param \Illuminate\Http\Request $request
@@ -166,25 +173,67 @@ class PegawaiController extends Controller
     }
 
     /**
-     * Menampilkan detail dari seorang pegawai.
+     * Menampilkan detail dari seorang pegawai beserta data relasi yang difilter.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Pegawai  $pegawai
      * @return \Illuminate\View\View
      */
-    public function show(Pegawai $pegawai)
+    public function show(Request $request, Pegawai $pegawai)
     {
-        // PERUBAHAN DI SINI: Memuat semua relasi SK
-        $pegawai->load(
-            'efiles', 
-            'skNonPns',
-            'penetapanPangkats',
-            'jabatans',
-            'jabatanSaatInis',
-            'pensiuns',
-            'kenaikanGajiBerkalas',
-            'tugasBelajars'
-        );
-        return view('pages.pegawai.detail-pegawai', compact('pegawai'));
+        // --- 1. Ambil Opsi Tahun Dinamis untuk Setiap Filter ---
+        $getYears = function ($model, $dateColumn) use ($pegawai) {
+            return $model::where('pegawai_id', $pegawai->id)
+                ->selectRaw("YEAR($dateColumn) as year")
+                ->distinct()
+                ->orderBy('year', 'desc')
+                ->pluck('year');
+        };
+
+        $tahunOptions = [
+            'pangkat' => $getYears(new PenetapanPangkat, 'tanggal_sk'),
+            'jabatan' => $getYears(new Jabatan, 'tanggal_sk'),
+            'jabatanSaatIni' => $getYears(new JabatanSaatIni, 'created_at'),
+            'pensiun' => $getYears(new Pensiun, 'tanggal_sk'),
+            'gajiBerkala' => $getYears(new KenaikanGajiBerkala, 'tanggal_sk'),
+            'tugasBelajar' => $getYears(new TugasBelajar, 'tanggal_sk'),
+            'skNonPns' => $getYears(new SkNonPns, 'tanggal_sk'),
+        ];
+        
+        // --- 2. Muat Data Relasi dengan Filter dari Request URL ---
+        $pegawai->load([
+            'efiles',
+            'penetapanPangkats' => function ($query) use ($request) {
+                $query->when($request->search_pangkat, fn($q, $s) => $q->where('nomor_sk', 'like', "%{$s}%")->orWhere('golongan', 'like', "%{$s}%"))
+                      ->when($request->tahun_pangkat, fn($q, $y) => $q->whereYear('tanggal_sk', $y));
+            },
+            'jabatans' => function ($query) use ($request) {
+                $query->when($request->search_jabatan, fn($q, $s) => $q->where('nomor_sk', 'like', "%{$s}%")->orWhere('nama_jabatan', 'like', "%{$s}%"))
+                      ->when($request->tahun_jabatan, fn($q, $y) => $q->whereYear('tanggal_sk', $y));
+            },
+            'jabatanSaatInis' => function ($query) use ($request) {
+                $query->when($request->search_jabatan_saat_ini, fn($q, $s) => $q->where('nomor_sk', 'like', "%{$s}%")->orWhere('nama_jabatan', 'like', "%{$s}%"))
+                      ->when($request->tahun_jabatan_saat_ini, fn($q, $y) => $q->whereYear('created_at', $y));
+            },
+            'pensiuns' => function ($query) use ($request) {
+                $query->when($request->search_pensiun, fn($q, $s) => $q->where('nomor_sk', 'like', "%{$s}%"))
+                      ->when($request->tahun_pensiun, fn($q, $y) => $q->whereYear('tanggal_sk', $y));
+            },
+            'kenaikanGajiBerkalas' => function ($query) use ($request) {
+                $query->when($request->search_gaji_berkala, fn($q, $s) => $q->where('nomor_sk', 'like', "%{$s}%"))
+                      ->when($request->tahun_gaji_berkala, fn($q, $y) => $q->whereYear('tanggal_sk', $y));
+            },
+            'tugasBelajars' => function ($query) use ($request) {
+                $query->when($request->search_tugas_belajar, fn($q, $s) => $q->where('nomor_sk', 'like', "%{$s}%"))
+                      ->when($request->tahun_tugas_belajar, fn($q, $y) => $q->whereYear('tanggal_sk', $y));
+            },
+            'skNonPns' => function ($query) use ($request) {
+                $query->when($request->search_sk_non_pns, fn($q, $s) => $q->where('nomor_sk', 'like', "%{$s}%"))
+                      ->when($request->tahun_sk_non_pns, fn($q, $y) => $q->whereYear('tanggal_sk', $y));
+            },
+        ]);
+
+        return view('pages.pegawai.detail-pegawai', compact('pegawai', 'tahunOptions'));
     }
 
     /**

@@ -6,6 +6,8 @@ use App\Models\Pegawai;
 use App\Models\JabatanSaatIni;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Exports\JabatanSaatIniExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class JabatanSaatIniController extends Controller
 {
@@ -24,11 +26,7 @@ class JabatanSaatIniController extends Controller
 
         $pegawai->jabatanSaatInis()->create($validated);
 
-        return back()->with([
-            'success' => 'Data Jabatan Saat Ini berhasil ditambahkan!',
-            'active_tab' => 'sk',
-            'active_subtab' => 'jabatan-saat-ini'
-        ]);
+        return back()->with(['success' => 'Data Jabatan Saat Ini berhasil ditambahkan!', 'active_tab' => 'sk', 'active_subtab' => 'jabatan-saat-ini']);
     }
 
     public function update(Request $request, Pegawai $pegawai, JabatanSaatIni $jabatanSaatIni)
@@ -49,11 +47,7 @@ class JabatanSaatIniController extends Controller
 
         $jabatanSaatIni->update($validated);
 
-        return back()->with([
-            'success' => 'Data Jabatan Saat Ini berhasil diperbarui!',
-            'active_tab' => 'sk',
-            'active_subtab' => 'jabatan-saat-ini'
-        ]);
+        return back()->with(['success' => 'Data Jabatan Saat Ini berhasil diperbarui!', 'active_tab' => 'sk', 'active_subtab' => 'jabatan-saat-ini']);
     }
 
     public function destroy(Pegawai $pegawai, JabatanSaatIni $jabatanSaatIni)
@@ -63,10 +57,16 @@ class JabatanSaatIniController extends Controller
         }
         $jabatanSaatIni->delete();
         
-        return back()->with([
-            'success' => 'Data Jabatan Saat Ini berhasil dihapus!',
-            'active_tab' => 'sk',
-            'active_subtab' => 'jabatan-saat-ini'
-        ]);
+        return back()->with(['success' => 'Data Jabatan Saat Ini berhasil dihapus!', 'active_tab' => 'sk', 'active_subtab' => 'jabatan-saat-ini']);
+    }
+
+    public function export(Request $request, Pegawai $pegawai)
+    {
+        $search = $request->input('search_jabatan_saat_ini');
+        $tahun = $request->input('tahun_jabatan_saat_ini');
+        
+        $fileName = 'Riwayat_Jabatan_Saat_Ini_' . $pegawai->nama_lengkap . '.xlsx';
+
+        return Excel::download(new JabatanSaatIniExport($pegawai, $search, $tahun), $fileName);
     }
 }

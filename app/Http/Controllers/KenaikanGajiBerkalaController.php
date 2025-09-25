@@ -6,6 +6,8 @@ use App\Models\Pegawai;
 use App\Models\KenaikanGajiBerkala;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Exports\KenaikanGajiBerkalaExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class KenaikanGajiBerkalaController extends Controller
 {
@@ -72,5 +74,15 @@ class KenaikanGajiBerkalaController extends Controller
             'active_tab' => 'sk',
             'active_subtab' => 'sk-kenaikan-gaji'
         ]);
+    }
+
+    public function export(Request $request, Pegawai $pegawai)
+    {
+        $search = $request->input('search_gaji_berkala');
+        $tahun = $request->input('tahun_gaji_berkala');
+        
+        $fileName = 'Riwayat_Kenaikan_Gaji_Berkala_' . $pegawai->nama_lengkap . '.xlsx';
+
+        return Excel::download(new KenaikanGajiBerkalaExport($pegawai, $search, $tahun), $fileName);
     }
 }

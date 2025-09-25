@@ -34,24 +34,6 @@
         </div>
    
         <div class="main-content">
-            <div class="search-filter-container">
-                <div class="search-filter-row">
-                    <div class="search-box">
-                        <div class="input-group custom-search">
-                            <span class="input-group-text bg-light border-end-0"><i class="fas fa-search search-icon"></i></span>
-                            <input type="text" class="form-control border-start-0 search-icon search-input" placeholder="Cari Data Pegawai...">
-                        </div>
-                    </div>
-                    <div class="btn-tambah-container">
-                        <div class="d-flex gap-2 flex-wrap">
-                        <a href="{{ route('pegawai.edit', $pegawai->id) }}" class="btn btn-edit d-flex align-items-center justify-content-center">
-                            <i class="fa fa-edit me-2"></i>
-                            Edit Data
-                        </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="card">
                 <div class="card-body p-4">
                     <div class="d-flex flex-column flex-md-row gap-4 mb-5 custom-gap-mb">
@@ -83,7 +65,7 @@
                   <div class="d-flex flex-column flex-lg-row gap-4">
                     <div class="nav flex-column nav-pills main-tab-nav" id="main-tab-nav">
                         <button class="nav-link text-start active" data-main-tab="biodata">Biodata</button>
-                        <button class="nav-link text-start" data-main-tab="sk">Identitas SK</button>
+                        <button class="nav-link text-start" data-main-tab="sk">Identitas    SK</button>
                         <button class="nav-link text-start" data-main-tab="pendidikan">Pelaksanaan Pendidikan</button>
                         <button class="nav-link text-start" data-main-tab="penelitian">Pelaksanaan Penelitian</button>
                         <button class="nav-link text-start" data-main-tab="pengabdian">Pelaksanaan Pengabdian</button>
@@ -217,11 +199,16 @@
                             </div>
 
                             <div class="sub-tab-content" id="penetapan-pangkat" style="display: block;">
-                                <div class="d-flex flex-wrap gap-2 mb-3">
-                                    <div class="input-group" style="flex: 1 1 250px;"><span class="input-group-text"><i class="fas fa-search"></i></span><input type="text" class="form-control" placeholder="Cari di tabel..."></div>
-                                    <select class="form-select" style="flex: 0 1 180px;"><option selected>Filter Tahun</option></select>
-                                    <button class="btn btn-outline-success" style="flex: 0 1 auto;"><i class="fa fa-file-export me-2"></i>Export</button>
-                                    <button class="btn btn-success btn-tambah" style="flex: 0 1 auto;" data-bs-toggle="modal" data-bs-target="#pangkatModal" data-store-url="{{ route('pangkat.store', $pegawai->id) }}"><i class="fa fa-plus me-2"></i>Tambah</button>
+                                <div class="d-flex align-items-center flex-wrap gap-2 mb-3">
+                                    <form action="{{ route('pegawai.show', $pegawai->id) }}" method="GET" class="d-flex gap-2 me-auto">
+                                        <input type="hidden" name="tab" value="sk"><input type="hidden" name="subtab" value="penetapan-pangkat">
+                                        <div class="input-group"><span class="input-group-text"><i class="fas fa-search"></i></span><input type="text" name="search_pangkat" class="form-control" placeholder="Cari No SK/Golongan..." value="{{ request('search_pangkat') }}"></div>
+                                        <select name="tahun_pangkat" class="form-select" style="width: auto;" onchange="this.form.submit()"><option value="">Semua Tahun</option>@foreach ($tahunOptions['pangkat'] as $tahun)<option value="{{ $tahun }}" {{ request('tahun_pangkat') == $tahun ? 'selected' : '' }}>{{ $tahun }}</option>@endforeach</select>
+                                    </form>
+                                    <div class="d-flex gap-2">
+                                        <a href="{{ route('pangkat.export', ['pegawai' => $pegawai->id, 'search_pangkat' => request('search_pangkat'), 'tahun_pangkat' => request('tahun_pangkat')]) }}" class="btn btn-outline-success"><i class="fa fa-file-export me-2"></i>Export</a>
+                                        <button class="btn btn-success btn-tambah" type="button" data-bs-toggle="modal" data-bs-target="#pangkatModal" data-store-url="{{ route('pangkat.store', $pegawai->id) }}"><i class="fa fa-plus me-2"></i>Tambah</button>
+                                    </div>
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover">
@@ -242,7 +229,7 @@
                                                     </td>
                                                 </tr>
                                             @empty
-                                                <tr><td colspan="8" class="text-center">Belum ada data.</td></tr>
+                                                <tr><td colspan="8" class="text-center">Data tidak ditemukan.</td></tr>
                                             @endforelse
                                         </tbody>
                                     </table>
@@ -250,11 +237,16 @@
                             </div>
 
                             <div class="sub-tab-content" id="jabatan" style="display: none;">
-                                 <div class="d-flex flex-wrap gap-2 mb-3">
-                                    <div class="input-group" style="flex: 1 1 250px;"><span class="input-group-text"><i class="fas fa-search"></i></span><input type="text" class="form-control" placeholder="Cari di tabel..."></div>
-                                    <select class="form-select" style="flex: 0 1 180px;"><option selected>Filter Tahun</option></select>
-                                    <button class="btn btn-outline-success" style="flex: 0 1 auto;"><i class="fa fa-file-export me-2"></i>Export</button>
-                                    <button class="btn btn-success btn-tambah" style="flex: 0 1 auto;" data-bs-toggle="modal" data-bs-target="#jabatanModal" data-store-url="{{ route('jabatan.store', $pegawai->id) }}"><i class="fa fa-plus me-2"></i>Tambah</button>
+                                 <div class="d-flex align-items-center flex-wrap gap-2 mb-3">
+                                    <form action="{{ route('pegawai.show', $pegawai->id) }}" method="GET" class="d-flex gap-2 me-auto">
+                                        <input type="hidden" name="tab" value="sk"><input type="hidden" name="subtab" value="jabatan">
+                                        <div class="input-group"><span class="input-group-text"><i class="fas fa-search"></i></span><input type="text" name="search_jabatan" class="form-control" placeholder="Cari No SK/Jabatan..." value="{{ request('search_jabatan') }}"></div>
+                                        <select name="tahun_jabatan" class="form-select" style="width: auto;" onchange="this.form.submit()"><option value="">Semua Tahun</option>@foreach ($tahunOptions['jabatan'] as $tahun)<option value="{{ $tahun }}" {{ request('tahun_jabatan') == $tahun ? 'selected' : '' }}>{{ $tahun }}</option>@endforeach</select>
+                                    </form>
+                                    <div class="d-flex gap-2">
+                                        <a href="{{ route('jabatan.export', ['pegawai' => $pegawai->id, 'search_jabatan' => request('search_jabatan'), 'tahun_jabatan' => request('tahun_jabatan')]) }}" class="btn btn-outline-success"><i class="fa fa-file-export me-2"></i>Export</a>
+                                        <button class="btn btn-success btn-tambah" type="button" data-bs-toggle="modal" data-bs-target="#jabatanModal" data-store-url="{{ route('jabatan.store', $pegawai->id) }}"><i class="fa fa-plus me-2"></i>Tambah</button>
+                                    </div>
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover">
@@ -275,7 +267,7 @@
                                                     </td>
                                                 </tr>
                                             @empty
-                                                <tr><td colspan="8" class="text-center">Belum ada data.</td></tr>
+                                                <tr><td colspan="8" class="text-center">Data tidak ditemukan.</td></tr>
                                             @endforelse
                                         </tbody>
                                     </table>
@@ -283,11 +275,16 @@
                             </div>
 
                             <div class="sub-tab-content" id="jabatan-saat-ini" style="display: none;">
-                                <div class="d-flex flex-wrap gap-2 mb-3">
-                                    <div class="input-group" style="flex: 1 1 250px;"><span class="input-group-text"><i class="fas fa-search"></i></span><input type="text" class="form-control" placeholder="Cari di tabel..."></div>
-                                    <select class="form-select" style="flex: 0 1 180px;"><option selected>Filter Tahun</option></select>
-                                    <button class="btn btn-outline-success" style="flex: 0 1 auto;"><i class="fa fa-file-export me-2"></i>Export</button>
-                                    <button class="btn btn-success btn-tambah" style="flex: 0 1 auto;" data-bs-toggle="modal" data-bs-target="#jabatanSaatIniModal" data-store-url="{{ route('jabatan-saat-ini.store', $pegawai->id) }}"><i class="fa fa-plus me-2"></i>Tambah</button>
+                                <div class="d-flex align-items-center flex-wrap gap-2 mb-3">
+                                    <form action="{{ route('pegawai.show', $pegawai->id) }}" method="GET" class="d-flex gap-2 me-auto">
+                                        <input type="hidden" name="tab" value="sk"><input type="hidden" name="subtab" value="jabatan-saat-ini">
+                                        <div class="input-group"><span class="input-group-text"><i class="fas fa-search"></i></span><input type="text" name="search_jabatan_saat_ini" class="form-control" placeholder="Cari No SK/Jabatan..." value="{{ request('search_jabatan_saat_ini') }}"></div>
+                                        <select name="tahun_jabatan_saat_ini" class="form-select" style="width: auto;" onchange="this.form.submit()"><option value="">Semua Tahun</option>@foreach ($tahunOptions['jabatanSaatIni'] as $tahun)<option value="{{ $tahun }}" {{ request('tahun_jabatan_saat_ini') == $tahun ? 'selected' : '' }}>{{ $tahun }}</option>@endforeach</select>
+                                    </form>
+                                    <div class="d-flex gap-2">
+                                        <a href="{{ route('jabatan-saat-ini.export', ['pegawai' => $pegawai->id, 'search_jabatan_saat_ini' => request('search_jabatan_saat_ini'), 'tahun_jabatan_saat_ini' => request('tahun_jabatan_saat_ini')]) }}" class="btn btn-outline-success"><i class="fa fa-file-export me-2"></i>Export</a>
+                                        <button class="btn btn-success btn-tambah" type="button" data-bs-toggle="modal" data-bs-target="#jabatanSaatIniModal" data-store-url="{{ route('jabatan-saat-ini.store', $pegawai->id) }}"><i class="fa fa-plus me-2"></i>Tambah</button>
+                                    </div>
                                 </div>
                                <div class="table-responsive">
                                     <table class="table table-bordered table-hover">
@@ -305,7 +302,7 @@
                                                     </td>
                                                 </tr>
                                             @empty
-                                                <tr><td colspan="5" class="text-center">Belum ada data.</td></tr>
+                                                <tr><td colspan="5" class="text-center">Data tidak ditemukan.</td></tr>
                                             @endforelse
                                         </tbody>
                                     </table>
@@ -313,11 +310,16 @@
                             </div>
 
                             <div class="sub-tab-content" id="pensiun" style="display: none;">
-                                <div class="d-flex flex-wrap gap-2 mb-3">
-                                    <div class="input-group" style="flex: 1 1 250px;"><span class="input-group-text"><i class="fas fa-search"></i></span><input type="text" class="form-control" placeholder="Cari di tabel..."></div>
-                                    <select class="form-select" style="flex: 0 1 180px;"><option selected>Filter Tahun</option></select>
-                                    <button class="btn btn-outline-success" style="flex: 0 1 auto;"><i class="fa fa-file-export me-2"></i>Export</button>
-                                    <button class="btn btn-success btn-tambah" style="flex: 0 1 auto;" data-bs-toggle="modal" data-bs-target="#pensiunModal" data-store-url="{{ route('pensiun.store', $pegawai->id) }}"><i class="fa fa-plus me-2"></i>Tambah</button>
+                                <div class="d-flex align-items-center flex-wrap gap-2 mb-3">
+                                    <form action="{{ route('pegawai.show', $pegawai->id) }}" method="GET" class="d-flex gap-2 me-auto">
+                                        <input type="hidden" name="tab" value="sk"><input type="hidden" name="subtab" value="pensiun">
+                                        <div class="input-group"><span class="input-group-text"><i class="fas fa-search"></i></span><input type="text" name="search_pensiun" class="form-control" placeholder="Cari No SK..." value="{{ request('search_pensiun') }}"></div>
+                                        <select name="tahun_pensiun" class="form-select" style="width: auto;" onchange="this.form.submit()"><option value="">Semua Tahun</option>@foreach ($tahunOptions['pensiun'] as $tahun)<option value="{{ $tahun }}" {{ request('tahun_pensiun') == $tahun ? 'selected' : '' }}>{{ $tahun }}</option>@endforeach</select>
+                                    </form>
+                                    <div class="d-flex gap-2">
+                                        <a href="{{ route('pensiun.export', ['pegawai' => $pegawai->id, 'search_pensiun' => request('search_pensiun'), 'tahun_pensiun' => request('tahun_pensiun')]) }}" class="btn btn-outline-success"><i class="fa fa-file-export me-2"></i>Export</a>
+                                        <button class="btn btn-success btn-tambah" type="button" data-bs-toggle="modal" data-bs-target="#pensiunModal" data-store-url="{{ route('pensiun.store', $pegawai->id) }}"><i class="fa fa-plus me-2"></i>Tambah</button>
+                                    </div>
                                 </div>
                                <div class="table-responsive">
                                     <table class="table table-bordered table-hover">
@@ -337,7 +339,7 @@
                                                     </td>
                                                 </tr>
                                             @empty
-                                                <tr><td colspan="7" class="text-center">Belum ada data.</td></tr>
+                                                <tr><td colspan="7" class="text-center">Data tidak ditemukan.</td></tr>
                                             @endforelse
                                         </tbody>
                                     </table>
@@ -345,11 +347,16 @@
                             </div>
 
                             <div class="sub-tab-content" id="sk-kenaikan-gaji" style="display: none;">
-                                <div class="d-flex flex-wrap gap-2 mb-3">
-                                    <div class="input-group" style="flex: 1 1 250px;"><span class="input-group-text"><i class="fas fa-search"></i></span><input type="text" class="form-control" placeholder="Cari di tabel..."></div>
-                                    <select class="form-select" style="flex: 0 1 180px;"><option selected>Filter Tahun</option></select>
-                                    <button class="btn btn-outline-success" style="flex: 0 1 auto;"><i class="fa fa-file-export me-2"></i>Export</button>
-                                    <button class="btn btn-success btn-tambah" style="flex: 0 1 auto;" data-bs-toggle="modal" data-bs-target="#gajiBerkalaModal" data-store-url="{{ route('gaji-berkala.store', $pegawai->id) }}"><i class="fa fa-plus me-2"></i>Tambah</button>
+                                <div class="d-flex align-items-center flex-wrap gap-2 mb-3">
+                                    <form action="{{ route('pegawai.show', $pegawai->id) }}" method="GET" class="d-flex gap-2 me-auto">
+                                        <input type="hidden" name="tab" value="sk"><input type="hidden" name="subtab" value="sk-kenaikan-gaji">
+                                        <div class="input-group"><span class="input-group-text"><i class="fas fa-search"></i></span><input type="text" name="search_gaji_berkala" class="form-control" placeholder="Cari No SK..." value="{{ request('search_gaji_berkala') }}"></div>
+                                        <select name="tahun_gaji_berkala" class="form-select" style="width: auto;" onchange="this.form.submit()"><option value="">Semua Tahun</option>@foreach ($tahunOptions['gajiBerkala'] as $tahun)<option value="{{ $tahun }}" {{ request('tahun_gaji_berkala') == $tahun ? 'selected' : '' }}>{{ $tahun }}</option>@endforeach</select>
+                                    </form>
+                                    <div class="d-flex gap-2">
+                                        <a href="{{ route('gaji-berkala.export', ['pegawai' => $pegawai->id, 'search_gaji_berkala' => request('search_gaji_berkala'), 'tahun_gaji_berkala' => request('tahun_gaji_berkala')]) }}" class="btn btn-outline-success"><i class="fa fa-file-export me-2"></i>Export</a>
+                                        <button class="btn btn-success btn-tambah" type="button" data-bs-toggle="modal" data-bs-target="#gajiBerkalaModal" data-store-url="{{ route('gaji-berkala.store', $pegawai->id) }}"><i class="fa fa-plus me-2"></i>Tambah</button>
+                                    </div>
                                 </div>
                                <div class="table-responsive">
                                     <table class="table table-bordered table-hover">
@@ -370,7 +377,7 @@
                                                     </td>
                                                 </tr>
                                             @empty
-                                                <tr><td colspan="8" class="text-center">Belum ada data.</td></tr>
+                                                <tr><td colspan="8" class="text-center">Data tidak ditemukan.</td></tr>
                                             @endforelse
                                         </tbody>
                                     </table>
@@ -378,11 +385,16 @@
                             </div>
 
                             <div class="sub-tab-content" id="sk-tugas-belajar" style="display: none;">
-                                <div class="d-flex flex-wrap gap-2 mb-3">
-                                    <div class="input-group" style="flex: 1 1 250px;"><span class="input-group-text"><i class="fas fa-search"></i></span><input type="text" class="form-control" placeholder="Cari di tabel..."></div>
-                                    <select class="form-select" style="flex: 0 1 180px;"><option selected>Filter Tahun</option></select>
-                                    <button class="btn btn-outline-success" style="flex: 0 1 auto;"><i class="fa fa-file-export me-2"></i>Export</button>
-                                    <button class="btn btn-success btn-tambah" style="flex: 0 1 auto;" data-bs-toggle="modal" data-bs-target="#tugasBelajarModal" data-store-url="{{ route('tugas-belajar.store', $pegawai->id) }}"><i class="fa fa-plus me-2"></i>Tambah</button>
+                                <div class="d-flex align-items-center flex-wrap gap-2 mb-3">
+                                    <form action="{{ route('pegawai.show', $pegawai->id) }}" method="GET" class="d-flex gap-2 me-auto">
+                                        <input type="hidden" name="tab" value="sk"><input type="hidden" name="subtab" value="sk-tugas-belajar">
+                                        <div class="input-group"><span class="input-group-text"><i class="fas fa-search"></i></span><input type="text" name="search_tugas_belajar" class="form-control" placeholder="Cari No SK..." value="{{ request('search_tugas_belajar') }}"></div>
+                                        <select name="tahun_tugas_belajar" class="form-select" style="width: auto;" onchange="this.form.submit()"><option value="">Semua Tahun</option>@foreach ($tahunOptions['tugasBelajar'] as $tahun)<option value="{{ $tahun }}" {{ request('tahun_tugas_belajar') == $tahun ? 'selected' : '' }}>{{ $tahun }}</option>@endforeach</select>
+                                    </form>
+                                    <div class="d-flex gap-2">
+                                        <a href="{{ route('tugas-belajar.export', ['pegawai' => $pegawai->id, 'search_tugas_belajar' => request('search_tugas_belajar'), 'tahun_tugas_belajar' => request('tahun_tugas_belajar')]) }}" class="btn btn-outline-success"><i class="fa fa-file-export me-2"></i>Export</a>
+                                        <button class="btn btn-success btn-tambah" type="button" data-bs-toggle="modal" data-bs-target="#tugasBelajarModal" data-store-url="{{ route('tugas-belajar.store', $pegawai->id) }}"><i class="fa fa-plus me-2"></i>Tambah</button>
+                                    </div>
                                 </div>
                                <div class="table-responsive">
                                     <table class="table table-bordered table-hover">
@@ -403,7 +415,7 @@
                                                     </td>
                                                 </tr>
                                             @empty
-                                                <tr><td colspan="8" class="text-center">Belum ada data.</td></tr>
+                                                <tr><td colspan="8" class="text-center">Data tidak ditemukan.</td></tr>
                                             @endforelse
                                         </tbody>
                                     </table>
@@ -411,11 +423,16 @@
                             </div>
 
                             <div class="sub-tab-content" id="sk-non-pns" style="display: none;">
-                                <div class="d-flex flex-wrap gap-2 mb-3">
-                                    <div class="input-group" style="flex: 1 1 250px;"><span class="input-group-text"><i class="fas fa-search"></i></span><input type="text" class="form-control" placeholder="Cari di tabel..."></div>
-                                    <select class="form-select" style="flex: 0 1 180px;"><option selected>Filter Tahun</option></select>
-                                    <button class="btn btn-outline-success" style="flex: 0 1 auto;"><i class="fa fa-file-export me-2"></i>Export</button>
-                                    <button class="btn btn-success btn-tambah" style="flex: 0 1 auto;" data-bs-toggle="modal" data-bs-target="#nonPnsModal" data-store-url="{{ route('sk-non-pns.store', $pegawai->id) }}"><i class="fa fa-plus me-2"></i>Tambah</button>
+                                <div class="d-flex align-items-center flex-wrap gap-2 mb-3">
+                                    <form action="{{ route('pegawai.show', $pegawai->id) }}" method="GET" class="d-flex gap-2 me-auto">
+                                        <input type="hidden" name="tab" value="sk"><input type="hidden" name="subtab" value="sk-non-pns">
+                                        <div class="input-group"><span class="input-group-text"><i class="fas fa-search"></i></span><input type="text" name="search_sk_non_pns" class="form-control" placeholder="Cari No SK..." value="{{ request('search_sk_non_pns') }}"></div>
+                                        <select name="tahun_sk_non_pns" class="form-select" style="width: auto;" onchange="this.form.submit()"><option value="">Semua Tahun</option>@foreach ($tahunOptions['skNonPns'] as $tahun)<option value="{{ $tahun }}" {{ request('tahun_sk_non_pns') == $tahun ? 'selected' : '' }}>{{ $tahun }}</option>@endforeach</select>
+                                    </form>
+                                    <div class="d-flex gap-2">
+                                        <a href="{{ route('sk-non-pns.export', ['pegawai' => $pegawai->id, 'search_sk_non_pns' => request('search_sk_non_pns'), 'tahun_sk_non_pns' => request('tahun_sk_non_pns')]) }}" class="btn btn-outline-success"><i class="fa fa-file-export me-2"></i>Export</a>
+                                        <button class="btn btn-success btn-tambah" type="button" data-bs-toggle="modal" data-bs-target="#nonPnsModal" data-store-url="{{ route('sk-non-pns.store', $pegawai->id) }}"><i class="fa fa-plus me-2"></i>Tambah</button>
+                                    </div>
                                 </div>
                                <div class="table-responsive">
                                     <table class="table table-bordered table-hover">
@@ -436,7 +453,7 @@
                                                     </td>
                                                 </tr>
                                             @empty
-                                                <tr><td colspan="8" class="text-center">Belum ada data.</td></tr>
+                                                <tr><td colspan="8" class="text-center">Data tidak ditemukan.</td></tr>
                                             @endforelse
                                         </tbody>
                                     </table>

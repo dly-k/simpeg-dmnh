@@ -6,6 +6,8 @@ use App\Models\Pegawai;
 use App\Models\PenetapanPangkat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Exports\PenetapanPangkatExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PenetapanPangkatController extends Controller
 {
@@ -27,11 +29,7 @@ class PenetapanPangkatController extends Controller
 
         $pegawai->penetapanPangkats()->create($validated);
 
-        return back()->with([
-            'success' => 'Data Penetapan Pangkat berhasil ditambahkan!',
-            'active_tab' => 'sk',
-            'active_subtab' => 'penetapan-pangkat'
-        ]);
+        return back()->with(['success' => 'Data Penetapan Pangkat berhasil ditambahkan!', 'active_tab' => 'sk', 'active_subtab' => 'penetapan-pangkat']);
     }
 
     public function update(Request $request, Pegawai $pegawai, PenetapanPangkat $pangkat)
@@ -55,11 +53,7 @@ class PenetapanPangkatController extends Controller
 
         $pangkat->update($validated);
 
-        return back()->with([
-            'success' => 'Data Penetapan Pangkat berhasil diperbarui!',
-            'active_tab' => 'sk',
-            'active_subtab' => 'penetapan-pangkat'
-        ]);
+        return back()->with(['success' => 'Data Penetapan Pangkat berhasil diperbarui!', 'active_tab' => 'sk', 'active_subtab' => 'penetapan-pangkat']);
     }
 
     public function destroy(Pegawai $pegawai, PenetapanPangkat $pangkat)
@@ -69,10 +63,16 @@ class PenetapanPangkatController extends Controller
         }
         $pangkat->delete();
         
-        return back()->with([
-            'success' => 'Data Penetapan Pangkat berhasil dihapus!',
-            'active_tab' => 'sk',
-            'active_subtab' => 'penetapan-pangkat'
-        ]);
+        return back()->with(['success' => 'Data Penetapan Pangkat berhasil dihapus!', 'active_tab' => 'sk', 'active_subtab' => 'penetapan-pangkat']);
+    }
+
+    public function export(Request $request, Pegawai $pegawai)
+    {
+        $search = $request->input('search_pangkat');
+        $tahun = $request->input('tahun_pangkat');
+        
+        $fileName = 'Riwayat_Penetapan_Pangkat_' . $pegawai->nama_lengkap . '.xlsx';
+
+        return Excel::download(new PenetapanPangkatExport($pegawai, $search, $tahun), $fileName);
     }
 }
