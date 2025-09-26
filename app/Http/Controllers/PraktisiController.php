@@ -154,4 +154,24 @@ class PraktisiController extends Controller
         return response()->json(['error' => 'Gagal menghapus data.'], 500);
     }
 }
+public function verify(Request $request, Praktisi $praktisi)
+{
+    // Validasi input, pastikan status yang dikirim adalah salah satu dari dua nilai ini
+    $validated = $request->validate([
+        'status' => 'required|string|in:Sudah Diverifikasi,Ditolak',
+    ]);
+
+    try {
+        // Update status di database
+        $praktisi->update(['status' => $validated['status']]);
+
+        // Kirim redirect dengan pesan sukses
+        return redirect()->route('praktisi.index')->with('success', 'Status data berhasil diperbarui!');
+
+    } catch (\Exception $e) {
+        Log::error('Gagal memverifikasi data praktisi: ' . $e->getMessage());
+        return back()->with('error', 'Gagal memperbarui status data.');
+    }
+}
+
 }

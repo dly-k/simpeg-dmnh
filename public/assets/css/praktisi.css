@@ -159,6 +159,7 @@
 .btn-verifikasi {
     background-color: var(--verifikasi);
     transition: all 0.3s ease;
+    border: none;
 }
 
 .btn-verifikasi:hover {
@@ -272,6 +273,109 @@
 .pagination .page-item.disabled .page-link {
   color: var(--gray);
 }
+
+
+/* =============================
+   Modal Konfirmasi Verifikasi
+   Gaya untuk modal konfirmasi verifikasi
+============================= */
+#modalKonfirmasiVerifikasi {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--overlay);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+#modalKonfirmasiVerifikasi.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.confirmation-popup-box {
+    background-color: var(--gray-100);
+    padding: 30px 40px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 5px 25px var(--black-01);
+    width: 90%;
+    max-width: 500px;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+#modalKonfirmasiVerifikasi.show .confirmation-popup-box {
+    transform: scale(1);
+}
+
+.popup-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin-bottom: 8px;
+}
+
+.popup-subtitle {
+    font-size: 1rem;
+    color: var(--text-dark);
+    margin-bottom: 25px;
+}
+
+.popup-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.btn-popup {
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--white);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-popup:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px var(--black-01);
+}
+
+.btn-terima {
+    background-color: var(--success);
+}
+
+.btn-terima:hover {
+    background-color: var(--success-hover);
+}
+
+.btn-tolak {
+    background-color: var(--danger);
+}
+
+.btn-tolak:hover {
+    background-color: var(--danger-hover);
+}
+
+.btn-kembali {
+    background-color: var(--gray);
+}
+
+.btn-kembali:hover {
+    background-color: var(--gray-hover);
+}
+
+/* =============================
 
 /* =============================
    Modal Umum

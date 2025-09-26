@@ -249,4 +249,69 @@ document.addEventListener('DOMContentLoaded', function () {
     btnBatalHapus.addEventListener('click', hideDeleteModal);
   }
 
+/**
+ * =================================================================
+ * BAGIAN 5: LOGIKA UNTUK MODAL KONFIRMASI VERIFIKASI (DIPERBAIKI)
+ * =================================================================
+ */
+const modalVerifikasi = document.getElementById('modalKonfirmasiVerifikasi');
+
+if (modalVerifikasi) {
+  const btnTerima = document.getElementById('popupBtnTerima');
+  const btnTolak = document.getElementById('popupBtnTolak');
+  const btnKembali = document.getElementById('popupBtnKembali');
+  let verificationUrl = null;
+
+  // Menampilkan modal saat tombol verifikasi diklik
+  document.body.addEventListener('click', function(event) {
+    const verifyButton = event.target.closest('.btn-verifikasi');
+    if (verifyButton) {
+      event.preventDefault();
+      verificationUrl = verifyButton.dataset.url;
+      // Gunakan class '.show' sesuai CSS Anda
+      modalVerifikasi.classList.add('show');
+    }
+  });
+
+  // Fungsi untuk menyembunyikan modal
+  const hideVerifyModal = () => {
+    // Gunakan class '.show' sesuai CSS Anda
+    modalVerifikasi.classList.remove('show');
+    verificationUrl = null;
+  };
+  
+  // Fungsi untuk mengirim status verifikasi ke server
+  const handleVerification = (status) => {
+    if (!verificationUrl) return;
+    
+    fetch(verificationUrl, {
+      method: 'PATCH',
+      headers: {
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({ status: status }) // Kirim status (Terima/Tolak)
+    })
+    .then(response => {
+      if (response.ok || response.redirected) {
+        window.location.reload(); // Refresh halaman untuk melihat hasil dan notifikasi
+      } else {
+        alert('Gagal memperbarui status data di server.');
+        hideVerifyModal();
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Tidak dapat terhubung ke server.');
+      hideVerifyModal();
+    });
+  };
+
+  // Event listener untuk tombol-tombol di dalam modal
+  btnTerima.addEventListener('click', () => handleVerification('Sudah Diverifikasi'));
+  btnTolak.addEventListener('click', () => handleVerification('Ditolak'));
+  btnKembali.addEventListener('click', hideVerifyModal);
+}
+
 });

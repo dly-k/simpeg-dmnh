@@ -128,9 +128,12 @@
     </td>
     <td>
       <div class="d-flex gap-2">
-        <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi">
-          <i class="fa fa-check"></i>
-        </a>
+            <button
+                class="btn-aksi btn-verifikasi"
+                title="Verifikasi"
+                data-url="{{ route('praktisi.verify', $praktisi->id) }}">
+                <i class="fa fa-check"></i>
+            </button>
             <button
                 class="btn btn-sm btn-lihat"
                 data-bs-toggle="modal"
@@ -180,7 +183,7 @@
   <!-- Modal  -->
   @include('components.konfirmasi-hapus')
   @include('components.konfirmasi-berhasil')
-{{-- @include('components.konfirmasi-verifikasi') --}}
+  @include('components.konfirmasi-verifikasi') 
   @include('components.praktisi.detail-praktisiindustri')
   @include('components.praktisi.tambah-praktisiindustri', ['pegawais' => $pegawais])
   @include('components.praktisi.edit-praktisiindustri', ['pegawais' => $pegawais])
