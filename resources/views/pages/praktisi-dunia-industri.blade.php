@@ -131,7 +131,13 @@
         <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi">
           <i class="fa fa-check"></i>
         </a>
-        <button class="btn btn-sm btn-lihat"><i class="fa fa-eye"></i></button>
+            <button
+                class="btn btn-sm btn-lihat"
+                data-bs-toggle="modal"
+                data-bs-target="#detailPraktisiModal"
+                data-url="{{ route('praktisi.show', $praktisi->id) }}">
+                <i class="fa fa-eye"></i>
+            </button>
         <button
             class="btn btn-sm btn-warning btn-edit"
             data-bs-toggle="modal"
