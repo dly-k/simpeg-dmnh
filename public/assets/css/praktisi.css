@@ -674,6 +674,9 @@ h6.mt-4 {
   opacity: 1;
   visibility: visible;
 }
+.btn-aksi.btn-hapus.btn-hapus-data{
+  border: none;
+}
 
 .konfirmasi-hapus-overlay .modal-content {
   border-radius: 16px;

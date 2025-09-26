@@ -7,14 +7,12 @@ document.addEventListener('DOMContentLoaded', function () {
    * BAGIAN 1: LOGIKA UNTUK MODAL NOTIFIKASI SUKSES
    * =================================================================
    */
-  const flashSuccessMeta = document.querySelector('meta[name="flash-success"]');
-  
-  if (flashSuccessMeta && flashSuccessMeta.getAttribute('content')) {
+  // Fungsi untuk menampilkan modal sukses dan memainkan suara
+  function showSuccessModal() {
     const successModalOverlay = document.getElementById('modalBerhasil');
     const closeButton = document.getElementById('btnSelesai');
 
     if (successModalOverlay && closeButton) {
-      // ✅ Tambahkan visibility & opacity agar muncul
       successModalOverlay.style.display = 'flex';
       successModalOverlay.style.opacity = '1';
       successModalOverlay.style.visibility = 'visible';
@@ -29,12 +27,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
       setTimeout(() => {
         successModalOverlay.style.display = 'none';
-      }, 1000);
+      }, 2000); // Durasinya saya kembalikan ke 4 detik agar tidak terlalu cepat hilang
 
-      closeButton.addEventListener('click', function() {
-        successModalOverlay.style.display = 'none';
-      });
+      // Pastikan event listener hanya ditambahkan sekali
+      if (!closeButton.dataset.listenerAttached) {
+        closeButton.addEventListener('click', function() {
+          successModalOverlay.style.display = 'none';
+        });
+        closeButton.dataset.listenerAttached = 'true';
+      }
     }
+  }
+
+  // Panggil fungsi di atas jika ada pesan sukses dari server (untuk Tambah/Edit)
+  const flashSuccessMeta = document.querySelector('meta[name="flash-success"]');
+  if (flashSuccessMeta && flashSuccessMeta.getAttribute('content')) {
+    showSuccessModal();
   }
 
   /**
@@ -188,4 +196,57 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
   }
+
+ const modalKonfirmasiHapus = document.getElementById('modalKonfirmasiHapus');
+  
+  if (modalKonfirmasiHapus) {
+    const btnKonfirmasiHapus = document.getElementById('btnKonfirmasiHapus');
+    const btnBatalHapus = document.getElementById('btnBatalHapus');
+    let deleteUrl = null;
+
+    document.body.addEventListener('click', function(event) {
+      const deleteButton = event.target.closest('.btn-hapus-data');
+      if (deleteButton) {
+        event.preventDefault();
+        deleteUrl = deleteButton.dataset.url;
+        modalKonfirmasiHapus.classList.add('show');
+      }
+    });
+
+    const hideDeleteModal = () => {
+      modalKonfirmasiHapus.classList.remove('show');
+      deleteUrl = null;
+    };
+
+    btnKonfirmasiHapus.addEventListener('click', function() {
+      if (!deleteUrl) return;
+
+      fetch(deleteUrl, {
+        method: 'DELETE',
+        headers: {
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+      })
+      .then(response => {
+        // --- PERBAIKAN DI SINI ---
+        // Cek apakah response OK (status 2xx) ATAU merupakan redirect. Keduanya adalah tanda sukses.
+        if (response.ok || response.redirected) {
+        // --- AKHIR PERBAIKAN ---
+          window.location.reload(); 
+        } else {
+          // Jika ada error dari server (misal: 500)
+          alert('Gagal menghapus data di server.');
+          hideDeleteModal();
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Tidak dapat terhubung ke server.');
+        hideDeleteModal();
+      });
+    });
+
+    btnBatalHapus.addEventListener('click', hideDeleteModal);
+  }
+
 });

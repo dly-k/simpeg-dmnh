@@ -217,6 +217,7 @@ Route::get('/praktisi-dunia-industri', [PraktisiController::class, 'index'])->na
 Route::post('/praktisi-dunia-industri', [PraktisiController::class, 'store'])->name('praktisi.store');
 Route::get('/praktisi-dunia-industri/{praktisi}', [PraktisiController::class, 'show'])->name('praktisi.show');
 Route::put('/praktisi-dunia-industri/{praktisi}', [PraktisiController::class, 'update'])->name('praktisi.update');
+Route::delete('/praktisi-dunia-industri/{praktisi}', [PraktisiController::class, 'destroy'])->name('praktisi.destroy');
 
 
 Route::get('/bahan-ajar', [BahanAjarController::class, 'index'])->name('bahan-ajar.index');

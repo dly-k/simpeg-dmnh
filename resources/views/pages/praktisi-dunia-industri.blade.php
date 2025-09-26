@@ -147,9 +147,12 @@
             data-update-url="{{ route('praktisi.update', $praktisi->id) }}">
             <i class="fa fa-edit"></i>
         </button>
-        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data">
-          <i class="fa fa-trash"></i>
-        </a>
+        <button 
+            class="btn-aksi btn-hapus btn-hapus-data" 
+            title="Hapus Data"
+            data-url="{{ route('praktisi.destroy', $praktisi->id) }}">
+            <i class="fa fa-trash"></i>
+        </button>
       </div>
     </td>
   </tr>
@@ -175,7 +178,7 @@
   </div>
 
   <!-- Modal  -->
-{{-- @include('components.konfirmasi-hapus') --}}
+  @include('components.konfirmasi-hapus')
   @include('components.konfirmasi-berhasil')
 {{-- @include('components.konfirmasi-verifikasi') --}}
   @include('components.praktisi.detail-praktisiindustri')

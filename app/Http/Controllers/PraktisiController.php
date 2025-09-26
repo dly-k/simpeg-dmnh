@@ -124,4 +124,34 @@ class PraktisiController extends Controller
             return back()->with('error', 'Terjadi kesalahan saat memperbarui data. Silakan coba lagi.');
         }
     }
+    public function destroy(Praktisi $praktisi)
+{
+    try {
+        // Daftar file yang mungkin ada
+        $filesToDelete = [
+            $praktisi->surat_ipb,
+            $praktisi->surat_instansi,
+            $praktisi->cv,
+            $praktisi->profil_perusahaan,
+        ];
+
+        // Hapus setiap file yang ada dari storage
+        foreach ($filesToDelete as $file) {
+            if ($file && Storage::disk('public')->exists($file)) {
+                Storage::disk('public')->delete($file);
+            }
+        }
+
+        // Hapus record dari database
+        $praktisi->delete();
+
+        // Kirim respon sukses dalam format JSON
+        return redirect()->route('praktisi.index')->with('success', 'Data berhasil dihapus!');
+
+    } catch (\Exception $e) {
+        Log::error('Gagal menghapus data praktisi: ' . $e->getMessage());
+        // Kirim respon error dalam format JSON
+        return response()->json(['error' => 'Gagal menghapus data.'], 500);
+    }
+}
 }
