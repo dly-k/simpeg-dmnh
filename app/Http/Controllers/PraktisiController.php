@@ -6,19 +6,85 @@ use App\Models\Pegawai;
 use App\Models\Praktisi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Log; // Tambahkan untuk logging error
+use Illuminate\Support\Facades\Log;
+use Carbon\Carbon; // <-- Pastikan ini ditambahkan
 
 class PraktisiController extends Controller
 {
     /**
-     * Menampilkan daftar praktisi dan data pegawai untuk form.
+     * =================================================================
+     * METHOD INDEX (DIPERBARUI)
+     * Menampilkan daftar praktisi dengan fungsionalitas filter dan pencarian.
+     * =================================================================
      */
-    public function index()
+    public function index(Request $request)
     {
-        $praktisis = Praktisi::with('pegawai')->latest()->paginate(10);
+        // 1. Membuat daftar Opsi Semester Dinamis
+        $semesterOptions = [];
+        $minDate = Praktisi::min('tmt');
+        $maxDate = Praktisi::max('tst');
+
+        if ($minDate && $maxDate) {
+            $startYear = Carbon::parse($minDate)->year;
+            $endYear = Carbon::parse($maxDate)->year;
+
+            for ($year = $startYear; $year <= $endYear; $year++) {
+                // Semester Ganjil (Januari - Juni)
+                $semesterOptions[$year . '-ganjil'] = $year . '/Ganjil';
+                // Semester Genap (Juli - Desember)
+                $semesterOptions[$year . '-genap'] = $year . '/Genap';
+            }
+        }
+
+        // 2. Query Builder untuk Filter
+        $query = Praktisi::query()->with('pegawai');
+
+        // Filter berdasarkan Pencarian (Nama Pegawai atau Institusi)
+        if ($request->filled('search')) {
+            $searchTerm = $request->search;
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('instansi', 'like', "%{$searchTerm}%")
+                  ->orWhereHas('pegawai', function ($subQ) use ($searchTerm) {
+                      $subQ->where('nama_lengkap', 'like', "%{$searchTerm}%");
+                  });
+            });
+        }
+
+        // Filter berdasarkan Status Verifikasi
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Filter berdasarkan Semester
+        if ($request->filled('semester')) {
+            [$year, $semesterType] = explode('-', $request->semester);
+
+            if ($semesterType == 'ganjil') {
+                $startMonth = 1; // Januari
+                $endMonth = 6;   // Juni
+            } else { // genap
+                $startMonth = 7; // Juli
+                $endMonth = 12;  // Desember
+            }
+
+            $semesterStartDate = Carbon::create($year, $startMonth, 1)->startOfDay();
+            $semesterEndDate = Carbon::create($year, $endMonth, 1)->endOfMonth()->endOfDay();
+
+            // Logika overlap: rentang waktu praktisi bersinggungan dengan rentang semester
+            $query->where(function($q) use ($semesterStartDate, $semesterEndDate) {
+                $q->where('tmt', '<=', $semesterEndDate)
+                  ->where('tst', '>=', $semesterStartDate);
+            });
+        }
+
+        // 3. Ambil data dengan paginasi dan sertakan query string filter
+        $praktisis = $query->latest()->paginate(10)->withQueryString();
+        
         $pegawais = Pegawai::where('status_pegawai', 'Aktif')->orderBy('nama_lengkap')->get();
-        return view('pages.praktisi-dunia-industri', compact('praktisis', 'pegawais'));
+
+        return view('pages.praktisi-dunia-industri', compact('praktisis', 'pegawais', 'semesterOptions'));
     }
+
 
     /**
      * Menyimpan data praktisi baru.
@@ -44,7 +110,6 @@ class PraktisiController extends Controller
         ]);
 
         try {
-            // Helper function untuk menyimpan file
             $storeFile = function ($fileKey) use ($request, &$validatedData) {
                 if ($request->hasFile($fileKey)) {
                     $path = $request->file($fileKey)->store('dokumen_praktisi', 'public');
@@ -66,9 +131,12 @@ class PraktisiController extends Controller
             return back()->with('error', 'Terjadi kesalahan saat menyimpan data. Silakan coba lagi.')->withInput();
         }
     }
-        public function show(Praktisi $praktisi)
+
+    /**
+     * Menampilkan data spesifik untuk modal edit/detail.
+     */
+    public function show(Praktisi $praktisi)
     {
-        // Memuat relasi pegawai untuk mendapatkan nama lengkap
         $praktisi->load('pegawai');
         return response()->json($praktisi);
     }
@@ -97,14 +165,11 @@ class PraktisiController extends Controller
         ]);
 
         try {
-            // Helper function untuk mengelola upload file (hapus yang lama, simpan yang baru)
             $updateFile = function ($fileKey) use ($request, $praktisi, &$validatedData) {
                 if ($request->hasFile($fileKey)) {
-                    // 1. Hapus file lama jika ada
                     if ($praktisi->{$fileKey}) {
                         Storage::disk('public')->delete($praktisi->{$fileKey});
                     }
-                    // 2. Simpan file baru
                     $path = $request->file($fileKey)->store('dokumen_praktisi', 'public');
                     $validatedData[$fileKey] = $path;
                 }
@@ -124,54 +189,53 @@ class PraktisiController extends Controller
             return back()->with('error', 'Terjadi kesalahan saat memperbarui data. Silakan coba lagi.');
         }
     }
+
+    /**
+     * Menghapus data praktisi.
+     */
     public function destroy(Praktisi $praktisi)
-{
-    try {
-        // Daftar file yang mungkin ada
-        $filesToDelete = [
-            $praktisi->surat_ipb,
-            $praktisi->surat_instansi,
-            $praktisi->cv,
-            $praktisi->profil_perusahaan,
-        ];
+    {
+        try {
+            $filesToDelete = [
+                $praktisi->surat_ipb,
+                $praktisi->surat_instansi,
+                $praktisi->cv,
+                $praktisi->profil_perusahaan,
+            ];
 
-        // Hapus setiap file yang ada dari storage
-        foreach ($filesToDelete as $file) {
-            if ($file && Storage::disk('public')->exists($file)) {
-                Storage::disk('public')->delete($file);
+            foreach ($filesToDelete as $file) {
+                if ($file && Storage::disk('public')->exists($file)) {
+                    Storage::disk('public')->delete($file);
+                }
             }
+
+            $praktisi->delete();
+
+            return redirect()->route('praktisi.index')->with('success', 'Data berhasil dihapus!');
+
+        } catch (\Exception $e) {
+            Log::error('Gagal menghapus data praktisi: ' . $e->getMessage());
+            // Mengembalikan redirect dengan pesan error jika gagal
+            return back()->with('error', 'Gagal menghapus data.');
         }
-
-        // Hapus record dari database
-        $praktisi->delete();
-
-        // Kirim respon sukses dalam format JSON
-        return redirect()->route('praktisi.index')->with('success', 'Data berhasil dihapus!');
-
-    } catch (\Exception $e) {
-        Log::error('Gagal menghapus data praktisi: ' . $e->getMessage());
-        // Kirim respon error dalam format JSON
-        return response()->json(['error' => 'Gagal menghapus data.'], 500);
     }
-}
-public function verify(Request $request, Praktisi $praktisi)
-{
-    // Validasi input, pastikan status yang dikirim adalah salah satu dari dua nilai ini
-    $validated = $request->validate([
-        'status' => 'required|string|in:Sudah Diverifikasi,Ditolak',
-    ]);
 
-    try {
-        // Update status di database
-        $praktisi->update(['status' => $validated['status']]);
+    /**
+     * Memperbarui status verifikasi data.
+     */
+    public function verify(Request $request, Praktisi $praktisi)
+    {
+        $validated = $request->validate([
+            'status' => 'required|string|in:Sudah Diverifikasi,Ditolak',
+        ]);
 
-        // Kirim redirect dengan pesan sukses
-        return redirect()->route('praktisi.index')->with('success', 'Status data berhasil diperbarui!');
+        try {
+            $praktisi->update(['status' => $validated['status']]);
+            return redirect()->route('praktisi.index')->with('success', 'Status data berhasil diperbarui!');
 
-    } catch (\Exception $e) {
-        Log::error('Gagal memverifikasi data praktisi: ' . $e->getMessage());
-        return back()->with('error', 'Gagal memperbarui status data.');
+        } catch (\Exception $e) {
+            Log::error('Gagal memverifikasi data praktisi: ' . $e->getMessage());
+            return back()->with('error', 'Gagal memperbarui status data.');
+        }
     }
-}
-
 }

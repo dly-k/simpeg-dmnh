@@ -324,4 +324,51 @@ if (modalVerifikasi) {
   btnKembali.addEventListener('click', hideVerifyModal);
 }
 
+ /**
+   * =================================================================
+   * BAGIAN 6: LOGIKA UNTUK FILTER DAN PENCARIAN (BARU)
+   * =================================================================
+   */
+  const searchInput = document.getElementById('searchInput');
+  const semesterFilter = document.getElementById('semesterFilter');
+  const statusFilter = document.getElementById('statusFilter');
+
+  // Pastikan elemen filter ada di halaman sebelum menambahkan event listener
+  if (searchInput && semesterFilter && statusFilter) {
+    
+    function applyFilters() {
+      const params = new URLSearchParams();
+      
+      const searchValue = searchInput.value;
+      const semesterValue = semesterFilter.value;
+      const statusValue = statusFilter.value;
+
+      if (searchValue) {
+        params.append('search', searchValue);
+      }
+      if (semesterValue) {
+        params.append('semester', semesterValue);
+      }
+      if (statusValue) {
+        params.append('status', statusValue);
+      }
+
+      const queryString = params.toString();
+      // Ganti URL saat ini dengan yang baru (termasuk parameter filter)
+      const newUrl = window.location.pathname + (queryString ? '?' + queryString : '');
+      window.location.href = newUrl;
+    }
+
+    // Terapkan filter saat dropdown diubah
+    semesterFilter.addEventListener('change', applyFilters);
+    statusFilter.addEventListener('change', applyFilters);
+
+    // Terapkan filter saat menekan "Enter" di kolom pencarian
+    searchInput.addEventListener('keyup', function (event) {
+      if (event.key === 'Enter') {
+        applyFilters();
+      }
+    });
+  }
+
 });

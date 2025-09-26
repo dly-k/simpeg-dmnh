@@ -37,46 +37,42 @@
           <div class="card-body p-4">
 
             <!-- Filter Bar -->
-            <div class="d-flex flex-wrap align-items-center justify-content-between mb-3 gap-2">
-              <!-- Left: Search & Filters -->
-              <div class="d-flex flex-grow-1 gap-2">
-                <!-- Search -->
-                <div class="input-group flex-grow-1">
-                  <span class="input-group-text bg-light border-end-0">
-                    <i class="fas fa-search text-success"></i>
-                  </span>
-                  <input 
-                    type="text" 
-                    class="form-control border-start-0 search-input" 
-                    placeholder="Cari Data ...."
-                  >
-                </div>
+<div class="d-flex flex-wrap align-items-center justify-content-between mb-3 gap-2">
+  <div class="d-flex flex-grow-1 gap-2">
+    <div class="input-group flex-grow-1">
+      <span class="input-group-text bg-light border-end-0">
+        <i class="fas fa-search text-success"></i>
+      </span>
+      <input 
+        type="text" 
+        id="searchInput" {{-- ID ditambahkan --}}
+        class="form-control border-start-0 search-input" 
+        placeholder="Cari Nama/Institusi ...."
+        value="{{ request('search') }}"
+      >
+    </div>
 
-                <!-- Tahun -->
-                <select class="form-select" style="max-width: 160px;">
-                  <option value="">Semua Tahun</option>
-                  <option>2023</option>
-                  <option>2024</option>
-                  <option>2025</option>
-                </select>
+    <select class="form-select" id="semesterFilter" style="max-width: 200px;"> {{-- ID diubah --}}
+      <option value="">Semua Semester</option>
+      @foreach($semesterOptions as $value => $label)
+        <option value="{{ $value }}" {{ request('semester') == $value ? 'selected' : '' }}>{{ $label }}</option>
+      @endforeach
+    </select>
 
-                <!-- Status / Lingkup -->
-                <select class="form-select" style="max-width: 180px;">
-                    <option value="">Semua Status</option>
-                    <option>Sudah Diverifikasi</option>
-                    <option>Belum Diverifikasi</option>
-                    <option>Ditolak</option>
-                </select>
-              </div>
+    <select class="form-select" id="statusFilter" style="max-width: 180px;"> {{-- ID ditambahkan --}}
+        <option value="">Semua Status</option>
+        <option value="Sudah Diverifikasi" {{ request('status') == 'Sudah Diverifikasi' ? 'selected' : '' }}>Sudah Diverifikasi</option>
+        <option value="Belum Diverifikasi" {{ request('status') == 'Belum Diverifikasi' ? 'selected' : '' }}>Belum Diverifikasi</option>
+        <option value="Ditolak" {{ request('status') == 'Ditolak' ? 'selected' : '' }}>Ditolak</option>
+    </select>
+  </div>
 
-              <!-- Right: Button Tambah Data -->
-              <div>
-                <!-- Button Tambah Data -->
-                <button class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#pengalamanKerjaModal">
-                <i class="fa fa-plus me-2"></i> Tambah Data
-                </button>
-              </div>
-            </div>
+  <div>
+    <button class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#pengalamanKerjaModal">
+    <i class="fa fa-plus me-2"></i> Tambah Data
+    </button>
+  </div>
+</div>
             <!-- End Filter Bar -->
 
             <!-- Tabel Praktisi Dunia Industri -->
