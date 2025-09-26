@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="{{ asset('assets/css/praktisi.css') }}" />
 </head>
 
-<body>
+<body data-success-sound="{{ asset('assets/sounds/Success.mp3') }}">
   <div class="layout">
     @include('layouts.sidebar')
 
