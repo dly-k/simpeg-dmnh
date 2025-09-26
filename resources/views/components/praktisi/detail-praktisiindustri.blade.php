@@ -74,14 +74,46 @@
           </div>
 
           <!-- Dokumen -->
+          {{-- Ganti bagian Dokumen yang lama dengan ini --}}
           <div class="col-12">
-            <label class="form-label fw-bold">Dokumen</label>
-            <ul class="list-unstyled">
-              <li><a href="#" target="_blank" id="detail-surat-ipb">Surat Tugas IPB</a></li>
-              <li><a href="#" target="_blank" id="detail-surat-instansi">Surat Tugas Instansi</a></li>
-              <li><a href="#" target="_blank" id="detail-cv">CV</a></li>
-              <li><a href="#" target="_blank" id="detail-profil">Profil Perusahaan</a></li>
-            </ul>
+              <label class="form-label fw-bold mb-3">Dokumen Terlampir</label>
+              <div class="row g-3">
+                  {{-- Surat Tugas dari IPB --}}
+                  <div class="col-md-6">
+                      <small class="text-muted d-block">Surat Tugas dari IPB</small>
+                      <a href="#" id="detail-surat-ipb" class="btn btn-sm btn-info text-white" target="_blank" style="display: none;">
+                          <i class="fa fa-eye me-1"></i> Lihat File
+                      </a>
+                      <span id="nodata-surat-ipb" class="text-muted fst-italic">Tidak ada file</span>
+                  </div>
+
+                  {{-- Surat Tugas dari Instansi --}}
+                  <div class="col-md-6">
+                      <small class="text-muted d-block">Surat Tugas dari Instansi</small>
+                      <a href="#" id="detail-surat-instansi" class="btn btn-sm btn-info text-white" target="_blank" style="display: none;">
+                          <i class="fa fa-eye me-1"></i> Lihat File
+                      </a>
+                      <span id="nodata-surat-instansi" class="text-muted fst-italic">Tidak ada file</span>
+                  </div>
+
+                  {{-- Curriculum Vitae (CV) --}}
+                  <div class="col-md-6">
+                      <small class="text-muted d-block">Curriculum Vitae (CV)</small>
+                      <a href="#" id="detail-cv" class="btn btn-sm btn-info text-white" target="_blank" style="display: none;">
+                          <i class="fa fa-eye me-1"></i> Lihat File
+                      </a>
+                      <span id="nodata-cv" class="text-muted fst-italic">Tidak ada file</span>
+                  </div>
+
+                  {{-- Profil Perusahaan --}}
+                  <div class="col-md-6">
+                      <small class="text-muted d-block">Profil Perusahaan</small>
+                      <a href="#" id="detail-profil" class="btn btn-sm btn-info text-white" target="_blank" style="display: none;">
+                          <i class="fa fa-eye me-1"></i> Lihat File
+                      </a>
+                      <span id="nodata-profil" class="text-muted fst-italic">Tidak ada file</span>
+                  </div>
+              </div>
           </div>
 
         </div>

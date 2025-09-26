@@ -121,6 +121,12 @@ document.addEventListener('DOMContentLoaded', function () {
       setFileText('edit-file-profil_perusahaan', null);
     });
   }
+
+    /**
+   * =================================================================
+   * BAGIAN 3: LOGIKA UNTUK MODAL DETAIL DATA (DIPERBARUI)
+   * =================================================================
+   */
   const detailModalElement = document.getElementById('detailPraktisiModal');
 
   if (detailModalElement) {
@@ -132,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function () {
       return new Date(dateString).toLocaleDateString('id-ID', options);
     };
 
-    // Helper function untuk mengisi teks, dengan fallback jika data kosong
+    // Helper function untuk mengisi teks
     const setDetailText = (elementId, text) => {
       const element = document.getElementById(elementId);
       if (element) {
@@ -140,27 +146,31 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     };
     
-    // Helper function untuk mengatur link dokumen
-    const setDetailLink = (elementId, filePath) => {
-      const element = document.getElementById(elementId);
-      if (element) {
+    // --- FUNGSI HELPER BARU UNTUK DOKUMEN ---
+    // Mengatur visibilitas tombol atau teks 'Tidak ada file'
+    const updateDokumenDetail = (buttonId, noDataId, filePath) => {
+      const button = document.getElementById(buttonId);
+      const noDataSpan = document.getElementById(noDataId);
+
+      if (button && noDataSpan) {
         if (filePath) {
-          // Asumsi path disimpan relatif dari 'storage'. URL lengkapnya adalah 'storage/path/ke/file'
-          element.href = `${window.location.origin}/storage/${filePath}`;
-          element.style.display = 'block'; // Tampilkan link
-          element.textContent = filePath.split('/').pop(); // Tampilkan nama filenya saja
+          // Jika file ada, tampilkan tombol dan sembunyikan teks
+          button.href = `${window.location.origin}/storage/${filePath}`;
+          button.style.display = 'inline-block';
+          noDataSpan.style.display = 'none';
         } else {
-          element.style.display = 'none'; // Sembunyikan jika tidak ada file
+          // Jika file tidak ada, sembunyikan tombol dan tampilkan teks
+          button.style.display = 'none';
+          noDataSpan.style.display = 'inline';
         }
       }
     };
 
     // Event listener utama, dijalankan saat modal detail akan ditampilkan
     detailModalElement.addEventListener('show.bs.modal', function (event) {
-      const button = event.relatedTarget; // Tombol mata yang diklik
+      const button = event.relatedTarget;
       const url = button.getAttribute('data-url');
 
-      // Ambil data dari server
       fetch(url)
         .then(response => {
           if (!response.ok) {
@@ -169,7 +179,7 @@ document.addEventListener('DOMContentLoaded', function () {
           return response.json();
         })
         .then(data => {
-          // Isi semua elemen <p> dan <a> di modal detail
+          // Mengisi data teks
           setDetailText('detail-nama', data.pegawai ? data.pegawai.nama_lengkap : 'Tidak Ditemukan');
           setDetailText('detail-bidang', data.bidang_usaha);
           setDetailText('detail-jenis', data.jenis_pekerjaan);
@@ -182,11 +192,11 @@ document.addEventListener('DOMContentLoaded', function () {
           setDetailText('detail-area', data.area_pekerjaan);
           setDetailText('detail-kategori', data.kategori_pekerjaan);
           
-          // Mengatur link untuk setiap dokumen
-          setDetailLink('detail-surat-ipb', data.surat_ipb);
-          setDetailLink('detail-surat-instansi', data.surat_instansi);
-          setDetailLink('detail-cv', data.cv);
-          setDetailLink('detail-profil', data.profil_perusahaan);
+          // --- PERUBAHAN: Gunakan fungsi helper baru untuk dokumen ---
+          updateDokumenDetail('detail-surat-ipb', 'nodata-surat-ipb', data.surat_ipb);
+          updateDokumenDetail('detail-surat-instansi', 'nodata-surat-instansi', data.surat_instansi);
+          updateDokumenDetail('detail-cv', 'nodata-cv', data.cv);
+          updateDokumenDetail('detail-profil', 'nodata-profil', data.profil_perusahaan);
         })
         .catch(error => {
           console.error('Error:', error);
