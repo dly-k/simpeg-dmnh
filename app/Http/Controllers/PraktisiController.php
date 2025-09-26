@@ -34,7 +34,7 @@ class PraktisiController extends Controller
             'divisi' => 'nullable|string|max:255',
             'deskripsi_kerja' => 'nullable|string',
             'tmt' => 'required|date',
-            'tst' => 'required|date|after_or_equal:tmt',
+            'tst' => 'required|date',
             'area_pekerjaan' => 'required|string|max:255',
             'kategori_pekerjaan' => 'required|string|max:255',
             'surat_ipb' => 'nullable|file|mimes:pdf,jpg,jpeg,png,doc,docx,xls,xlsx,txt|max:2048',
