@@ -133,10 +133,13 @@
         </a>
         <button class="btn btn-sm btn-lihat"><i class="fa fa-eye"></i></button>
         <button
-        class="btn btn-sm btn-warning btn-edit"
-        data-bs-toggle="modal"
-        data-bs-target="#editPengalamanKerjaModal">
-        <i class="fa fa-edit"></i>
+            class="btn btn-sm btn-warning btn-edit"
+            data-bs-toggle="modal"
+            data-bs-target="#editPengalamanKerjaModal"
+            data-id="{{ $praktisi->id }}"
+            data-url="{{ route('praktisi.show', $praktisi->id) }}"
+            data-update-url="{{ route('praktisi.update', $praktisi->id) }}">
+            <i class="fa fa-edit"></i>
         </button>
         <a href="#" class="btn-aksi btn-hapus" title="Hapus Data">
           <i class="fa fa-trash"></i>
@@ -171,7 +174,7 @@
 {{-- @include('components.konfirmasi-verifikasi') --}}
   @include('components.praktisi.detail-praktisiindustri')
   @include('components.praktisi.tambah-praktisiindustri', ['pegawais' => $pegawais])
-  @include('components.praktisi.edit-praktisiindustri')
+  @include('components.praktisi.edit-praktisiindustri', ['pegawais' => $pegawais])
 
 {{-- ... (kode lainnya) ... --}}
   <script src="{{ asset('assets/js/layout.js') }}"></script>

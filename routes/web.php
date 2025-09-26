@@ -215,6 +215,8 @@ Route::get('/kerjasama/export', [KerjasamaController::class, 'export'])
 
 Route::get('/praktisi-dunia-industri', [PraktisiController::class, 'index'])->name('praktisi.index');
 Route::post('/praktisi-dunia-industri', [PraktisiController::class, 'store'])->name('praktisi.store');
+Route::get('/praktisi-dunia-industri/{praktisi}', [PraktisiController::class, 'show'])->name('praktisi.show');
+Route::put('/praktisi-dunia-industri/{praktisi}', [PraktisiController::class, 'update'])->name('praktisi.update');
 
 
 Route::get('/bahan-ajar', [BahanAjarController::class, 'index'])->name('bahan-ajar.index');
