@@ -95,109 +95,64 @@
                     <th>Aksi</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Andi Setiawan</td>
-                    <td>PT Telkom</td>
-                    <td>Software Engineer</td>
-                    <td>01 Jan 2023</td>
-                    <td>31 Des 2023</td>
-                    <td>
-                      <a href="#" target="_blank" class="btn btn-sm btn-lihat text-white px-3">Lihat</a>
-                    </td>
-                    <td>
-                      <span class="badge rounded-circle bg-warning text-white" title="Belum Diverifikasi">
-                        <i class="fa fa-question"></i>
-                      </span>
-                    </td>
-                    <td>
-                      <div class="d-flex gap-2">
-                        <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi">
-                          <i class="fa fa-check"></i>
-                        </a>
-                        <button class="btn btn-sm btn-lihat"><i class="fa fa-eye"></i></button>
-                        <button 
-                        class="btn btn-sm btn-warning btn-edit" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#editPengalamanKerjaModal">
-                        <i class="fa fa-edit"></i>
-                        </button>
-                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data">
-                          <i class="fa fa-trash"></i>
-                        </a>
-                      </div>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>2</td>
-                    <td>Siti Rahmawati</td>
-                    <td>Universitas Indonesia</td>
-                    <td>Dosen Tamu</td>
-                    <td>15 Feb 2023</td>
-                    <td>15 Agu 2023</td>
-                    <td>
-                      <a href="#" target="_blank" class="btn btn-sm btn-lihat text-white px-3">Lihat</a>
-                    </td>
-                    <td>
-                      <span class="badge rounded-circle bg-warning text-white" title="Belum Diverifikasi">
-                        <i class="fa fa-question"></i>
-                      </span>
-                    </td>
-                    <td>
-                      <div class="d-flex gap-2">
-                        <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi">
-                          <i class="fa fa-check"></i>
-                        </a>
-                        <button class="btn btn-sm btn-lihat"><i class="fa fa-eye"></i></button>
-                       <button 
-                        class="btn btn-sm btn-warning btn-edit" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#editPengalamanKerjaModal">
-                        <i class="fa fa-edit"></i>
-                        </button>
-                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data">
-                          <i class="fa fa-trash"></i>
-                        </a>
-                      </div>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>3</td>
-                    <td>Budi Hartono</td>
-                    <td>Bank Mandiri</td>
-                    <td>Praktisi Keuangan</td>
-                    <td>01 Mar 2023</td>
-                    <td>01 Mar 2024</td>
-                    <td>
-                      <a href="#" target="_blank" class="btn btn-sm btn-lihat text-white px-3">Lihat</a>
-                    </td>
-                    <td>
-                      <span class="badge rounded-circle bg-warning text-white" title="Belum Diverifikasi">
-                        <i class="fa fa-question"></i>
-                      </span>
-                    </td>
-                    <td>
-                      <div class="d-flex gap-2">
-                        <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi">
-                          <i class="fa fa-check"></i>
-                        </a>
-                        <button class="btn btn-sm btn-lihat"><i class="fa fa-eye"></i></button>
-                                                <button 
-                        class="btn btn-sm btn-warning btn-edit" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#editPengalamanKerjaModal">
-                        <i class="fa fa-edit"></i>
-                        </button>
-                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data">
-                          <i class="fa fa-trash"></i>
-                        </a>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
+<tbody>
+  @forelse ($praktisis as $index => $praktisi)
+  <tr>
+    <td>{{ $praktisis->firstItem() + $index }}</td>
+    <td>{{ $praktisi->pegawai->nama_lengkap ?? 'Pegawai Tidak Ditemukan' }}</td>
+    <td>{{ $praktisi->instansi }}</td>
+    <td>{{ $praktisi->jenis_pekerjaan }}</td>
+    <td>{{ \Carbon\Carbon::parse($praktisi->tmt)->isoFormat('DD MMM YYYY') }}</td>
+    <td>{{ \Carbon\Carbon::parse($praktisi->tst)->isoFormat('DD MMM YYYY') }}</td>
+    <td>
+      @if ($praktisi->surat_instansi)
+        <a href="{{ asset('storage/' . $praktisi->surat_instansi) }}" target="_blank" class="btn btn-sm btn-lihat text-white px-3">Lihat</a>
+      @else
+        <span class="text-muted fst-italic">Tidak Ada</span>
+      @endif
+    </td>
+    <td>
+      @if($praktisi->status == 'Belum Diverifikasi')
+        <span class="badge rounded-circle bg-warning text-white" title="Belum Diverifikasi">
+          <i class="fa fa-question"></i>
+        </span>
+      @elseif($praktisi->status == 'Sudah Diverifikasi')
+        <span class="badge rounded-circle bg-success text-white" title="Sudah Diverifikasi">
+          <i class="fa fa-check"></i>
+        </span>
+      @else
+        <span class="badge rounded-circle bg-danger text-white" title="Ditolak">
+          <i class="fa fa-times"></i>
+        </span>
+      @endif
+    </td>
+    <td>
+      <div class="d-flex gap-2">
+        <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi">
+          <i class="fa fa-check"></i>
+        </a>
+        <button class="btn btn-sm btn-lihat"><i class="fa fa-eye"></i></button>
+        <button
+        class="btn btn-sm btn-warning btn-edit"
+        data-bs-toggle="modal"
+        data-bs-target="#editPengalamanKerjaModal">
+        <i class="fa fa-edit"></i>
+        </button>
+        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data">
+          <i class="fa fa-trash"></i>
+        </a>
+      </div>
+    </td>
+  </tr>
+  @empty
+  <tr>
+    <td colspan="9" class="text-center">Belum ada data praktisi.</td>
+  </tr>
+  @endforelse
+</tbody>
+<div class="d-flex justify-content-end mt-3">
+    {{ $praktisis->links() }}
+</div>
               </table>
             </div>
             <!-- End Tabel -->
@@ -212,15 +167,28 @@
 
   <!-- Modal  -->
 {{-- @include('components.konfirmasi-hapus') --}}
-{{-- @include('components.konfirmasi-berhasil') --}}
+  @include('components.konfirmasi-berhasil')
 {{-- @include('components.konfirmasi-verifikasi') --}}
   @include('components.praktisi.detail-praktisiindustri')
-  @include('components.praktisi.tambah-praktisiindustri')
+  @include('components.praktisi.tambah-praktisiindustri', ['pegawais' => $pegawais])
   @include('components.praktisi.edit-praktisiindustri')
 
-  <!-- Scripts -->
+{{-- ... (kode lainnya) ... --}}
   <script src="{{ asset('assets/js/layout.js') }}"></script>
-  <script src="{{ asset('assets/js/praktisi.js') }}"></script>
+  <script src="{{ asset('assets/js/praktisi.js') }}"></script> {{-- File ini hanya untuk modal sukses --}}
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+  
+  {{-- Pindahkan script untuk error validasi ke sini --}}
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      @if($errors->any())
+        const errorModalElement = document.getElementById('pengalamanKerjaModal');
+        if (errorModalElement) {
+            const errorModal = new bootstrap.Modal(errorModalElement);
+            errorModal.show();
+        }
+      @endif
+    });
+  </script>
 </body>
 </html>

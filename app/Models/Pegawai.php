@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Pegawai extends Model
 {
@@ -95,5 +96,9 @@ class Pegawai extends Model
     public function tugasBelajars()
     {
         return $this->hasMany(TugasBelajar::class)->orderBy('tanggal_mulai', 'desc');
+    }
+    public function praktisis(): HasMany
+    {
+        return $this->hasMany(Praktisi::class);
     }
 }
