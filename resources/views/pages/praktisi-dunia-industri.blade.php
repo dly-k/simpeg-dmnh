@@ -37,42 +37,48 @@
           <div class="card-body p-4">
 
             <!-- Filter Bar -->
-<div class="d-flex flex-wrap align-items-center justify-content-between mb-3 gap-2">
-  <div class="d-flex flex-grow-1 gap-2">
-    <div class="input-group flex-grow-1">
-      <span class="input-group-text bg-light border-end-0">
-        <i class="fas fa-search text-success"></i>
-      </span>
-      <input 
-        type="text" 
-        id="searchInput" {{-- ID ditambahkan --}}
-        class="form-control border-start-0 search-input" 
-        placeholder="Cari Nama/Institusi ...."
-        value="{{ request('search') }}"
-      >
-    </div>
+            <div class="d-flex flex-wrap align-items-center justify-content-between mb-3 gap-2">
+              <div class="d-flex flex-grow-1 gap-2">
+                <!-- Search -->
+                <div class="input-group flex-grow-1">
+                  <span class="input-group-text bg-light border-end-0">
+                    <i class="fas fa-search text-success"></i>
+                  </span>
+                  <input 
+                    type="text" 
+                    id="searchInput"
+                    class="form-control border-start-0 search-input" 
+                    placeholder="Cari Nama/Institusi ...."
+                    value="{{ request('search') }}"
+                  >
+                </div>
 
-    <select class="form-select" id="semesterFilter" style="max-width: 200px;"> {{-- ID diubah --}}
-      <option value="">Semua Semester</option>
-      @foreach($semesterOptions as $value => $label)
-        <option value="{{ $value }}" {{ request('semester') == $value ? 'selected' : '' }}>{{ $label }}</option>
-      @endforeach
-    </select>
+                <!-- Filter Semester -->
+                <select class="form-select" id="semesterFilter" style="max-width: 200px;">
+                  <option value="">Semua Semester</option>
+                  @foreach($semesterOptions as $value => $label)
+                    <option value="{{ $value }}" {{ request('semester') == $value ? 'selected' : '' }}>
+                      {{ $label }}
+                    </option>
+                  @endforeach
+                </select>
 
-    <select class="form-select" id="statusFilter" style="max-width: 180px;"> {{-- ID ditambahkan --}}
-        <option value="">Semua Status</option>
-        <option value="Sudah Diverifikasi" {{ request('status') == 'Sudah Diverifikasi' ? 'selected' : '' }}>Sudah Diverifikasi</option>
-        <option value="Belum Diverifikasi" {{ request('status') == 'Belum Diverifikasi' ? 'selected' : '' }}>Belum Diverifikasi</option>
-        <option value="Ditolak" {{ request('status') == 'Ditolak' ? 'selected' : '' }}>Ditolak</option>
-    </select>
-  </div>
+                <!-- Filter Status -->
+                <select class="form-select" id="statusFilter" style="max-width: 180px;">
+                  <option value="">Semua Status</option>
+                  <option value="Sudah Diverifikasi" {{ request('status') == 'Sudah Diverifikasi' ? 'selected' : '' }}>Sudah Diverifikasi</option>
+                  <option value="Belum Diverifikasi" {{ request('status') == 'Belum Diverifikasi' ? 'selected' : '' }}>Belum Diverifikasi</option>
+                  <option value="Ditolak" {{ request('status') == 'Ditolak' ? 'selected' : '' }}>Ditolak</option>
+                </select>
+              </div>
 
-  <div>
-    <button class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#pengalamanKerjaModal">
-    <i class="fa fa-plus me-2"></i> Tambah Data
-    </button>
-  </div>
-</div>
+              <!-- Button Tambah -->
+              <div>
+                <button class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#pengalamanKerjaModal">
+                  <i class="fa fa-plus me-2"></i> Tambah Data
+                </button>
+              </div>
+            </div>
             <!-- End Filter Bar -->
 
             <!-- Tabel Praktisi Dunia Industri -->
@@ -91,83 +97,73 @@
                     <th>Aksi</th>
                   </tr>
                 </thead>
-<tbody>
-  @forelse ($praktisis as $index => $praktisi)
-  <tr>
-    <td>{{ $praktisis->firstItem() + $index }}</td>
-    <td>{{ $praktisi->pegawai->nama_lengkap ?? 'Pegawai Tidak Ditemukan' }}</td>
-    <td>{{ $praktisi->instansi }}</td>
-    <td>{{ $praktisi->jenis_pekerjaan }}</td>
-    <td>{{ \Carbon\Carbon::parse($praktisi->tmt)->isoFormat('DD MMM YYYY') }}</td>
-    <td>{{ \Carbon\Carbon::parse($praktisi->tst)->isoFormat('DD MMM YYYY') }}</td>
-    <td>
-      @if ($praktisi->surat_instansi)
-        <a href="{{ asset('storage/' . $praktisi->surat_instansi) }}" target="_blank" class="btn btn-sm btn-lihat text-white px-3">Lihat</a>
-      @else
-        <span class="text-muted fst-italic">Tidak Ada</span>
-      @endif
-    </td>
-    <td>
-      @if($praktisi->status == 'Belum Diverifikasi')
-        <span class="badge rounded-circle bg-warning text-white" title="Belum Diverifikasi">
-          <i class="fa fa-question"></i>
-        </span>
-      @elseif($praktisi->status == 'Sudah Diverifikasi')
-        <span class="badge rounded-circle bg-success text-white" title="Sudah Diverifikasi">
-          <i class="fa fa-check"></i>
-        </span>
-      @else
-        <span class="badge rounded-circle bg-danger text-white" title="Ditolak">
-          <i class="fa fa-times"></i>
-        </span>
-      @endif
-    </td>
-    <td>
-      <div class="d-flex gap-2">
-            <button
-                class="btn-aksi btn-verifikasi"
-                title="Verifikasi"
-                data-url="{{ route('praktisi.verify', $praktisi->id) }}">
-                <i class="fa fa-check"></i>
-            </button>
-            <button
-                class="btn btn-sm btn-lihat"
-                data-bs-toggle="modal"
-                data-bs-target="#detailPraktisiModal"
-                data-url="{{ route('praktisi.show', $praktisi->id) }}">
-                <i class="fa fa-eye"></i>
-            </button>
-        <button
-            class="btn btn-sm btn-warning btn-edit"
-            data-bs-toggle="modal"
-            data-bs-target="#editPengalamanKerjaModal"
-            data-id="{{ $praktisi->id }}"
-            data-url="{{ route('praktisi.show', $praktisi->id) }}"
-            data-update-url="{{ route('praktisi.update', $praktisi->id) }}">
-            <i class="fa fa-edit"></i>
-        </button>
-        <button 
-            class="btn-aksi btn-hapus btn-hapus-data" 
-            title="Hapus Data"
-            data-url="{{ route('praktisi.destroy', $praktisi->id) }}">
-            <i class="fa fa-trash"></i>
-        </button>
-      </div>
-    </td>
-  </tr>
-  @empty
-  <tr>
-    <td colspan="9" class="text-center">Belum ada data praktisi.</td>
-  </tr>
-  @endforelse
-</tbody>
-<div class="d-flex justify-content-end mt-3">
-    {{ $praktisis->links() }}
-</div>
+                <tbody>
+                  @forelse ($praktisis as $index => $praktisi)
+                    <tr>
+                      <td>{{ $praktisis->firstItem() + $index }}</td>
+                      <td>{{ $praktisi->pegawai->nama_lengkap ?? 'Pegawai Tidak Ditemukan' }}</td>
+                      <td>{{ $praktisi->instansi }}</td>
+                      <td>{{ $praktisi->jenis_pekerjaan }}</td>
+                      <td>{{ \Carbon\Carbon::parse($praktisi->tmt)->isoFormat('DD MMM YYYY') }}</td>
+                      <td>{{ \Carbon\Carbon::parse($praktisi->tst)->isoFormat('DD MMM YYYY') }}</td>
+                      <td>
+                        @if ($praktisi->surat_instansi)
+                          <a href="{{ asset('storage/' . $praktisi->surat_instansi) }}" target="_blank" class="btn btn-sm btn-lihat text-white px-3">Lihat</a>
+                        @else
+                          <span class="text-muted fst-italic">Tidak Ada</span>
+                        @endif
+                      </td>
+                      <td>
+                        @if($praktisi->status == 'Belum Diverifikasi')
+                          <span class="badge rounded-circle bg-warning text-white" title="Belum Diverifikasi">
+                            <i class="fa fa-question"></i>
+                          </span>
+                        @elseif($praktisi->status == 'Sudah Diverifikasi')
+                          <span class="badge rounded-circle bg-success text-white" title="Sudah Diverifikasi">
+                            <i class="fa fa-check"></i>
+                          </span>
+                        @else
+                          <span class="badge rounded-circle bg-danger text-white" title="Ditolak">
+                            <i class="fa fa-times"></i>
+                          </span>
+                        @endif
+                      </td>
+                      <td>
+                        <div class="d-flex gap-2">
+                          <button class="btn-aksi btn-verifikasi" title="Verifikasi"
+                            data-url="{{ route('praktisi.verify', $praktisi->id) }}">
+                            <i class="fa fa-check"></i>
+                          </button>
+                          <button class="btn btn-sm btn-lihat" data-bs-toggle="modal" data-bs-target="#detailPraktisiModal"
+                            data-url="{{ route('praktisi.show', $praktisi->id) }}">
+                            <i class="fa fa-eye"></i>
+                          </button>
+                          <button class="btn btn-sm btn-warning btn-edit" data-bs-toggle="modal"
+                            data-bs-target="#editPengalamanKerjaModal" data-id="{{ $praktisi->id }}"
+                            data-url="{{ route('praktisi.show', $praktisi->id) }}"
+                            data-update-url="{{ route('praktisi.update', $praktisi->id) }}">
+                            <i class="fa fa-edit"></i>
+                          </button>
+                          <button class="btn-aksi btn-hapus btn-hapus-data" title="Hapus Data"
+                            data-url="{{ route('praktisi.destroy', $praktisi->id) }}">
+                            <i class="fa fa-trash"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  @empty
+                    <tr>
+                      <td colspan="9" class="text-center text-muted">Data Praktisi Dunia Industri belum tersedia</td>
+                    </tr>
+                  @endforelse
+                </tbody>
               </table>
+
+              <div class="d-flex justify-content-end mt-3">
+                {{ $praktisis->links() }}
+              </div>
             </div>
             <!-- End Tabel -->
-
           </div>
         </div>
       </div>
@@ -176,7 +172,7 @@
     </div>
   </div>
 
-  <!-- Modal  -->
+  <!-- Modal -->
   @include('components.konfirmasi-hapus')
   @include('components.konfirmasi-berhasil')
   @include('components.konfirmasi-verifikasi') 
@@ -184,22 +180,9 @@
   @include('components.praktisi.tambah-praktisiindustri', ['pegawais' => $pegawais])
   @include('components.praktisi.edit-praktisiindustri', ['pegawais' => $pegawais])
 
-{{-- ... (kode lainnya) ... --}}
+  <!-- Scripts -->
   <script src="{{ asset('assets/js/layout.js') }}"></script>
-  <script src="{{ asset('assets/js/praktisi.js') }}"></script> {{-- File ini hanya untuk modal sukses --}}
+  <script src="{{ asset('assets/js/praktisi.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-  
-  {{-- Pindahkan script untuk error validasi ke sini --}}
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      @if($errors->any())
-        const errorModalElement = document.getElementById('pengalamanKerjaModal');
-        if (errorModalElement) {
-            const errorModal = new bootstrap.Modal(errorModalElement);
-            errorModal.show();
-        }
-      @endif
-    });
-  </script>
 </body>
 </html>

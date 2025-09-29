@@ -1,3 +1,4 @@
+<!-- Modal Edit Praktisi Dunia Industri -->
 <div class="modal fade" id="editPengalamanKerjaModal" tabindex="-1" aria-labelledby="editModalTitle" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-scrollable">
     <div class="modal-content">
@@ -6,6 +7,7 @@
         @csrf
         @method('PUT')
 
+        <!-- Header -->
         <div class="modal-header bg-warning text-white">
           <h5 class="modal-title" id="editModalTitle">
             <i class="fas fa-edit me-2"></i> Edit Praktisi Dunia Industri
@@ -13,9 +15,11 @@
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
 
+        <!-- Body -->
         <div class="modal-body">
           <div class="row g-3">
 
+            <!-- Nama Pegawai -->
             <div class="col-12">
               <label for="edit-pegawai_id" class="form-label">Nama Pegawai <span class="text-danger">*</span></label>
               <select name="pegawai_id" id="edit-pegawai_id" class="form-select" required>
@@ -28,6 +32,7 @@
               </select>
             </div>
 
+            <!-- Bidang Usaha -->
             <div class="col-12">
               <label for="edit-bidang_usaha" class="form-label">Bidang Usaha <span class="text-danger">*</span></label>
               <select name="bidang_usaha" id="edit-bidang_usaha" class="form-select" required>
@@ -51,11 +56,12 @@
                 <option value="Aktivitas Kesehatan Manusia dan Sosial">Aktivitas Kesehatan Manusia dan Sosial</option>
                 <option value="Kesenian, Hiburan, dan Rekreasi">Kesenian, Hiburan, dan Rekreasi</option>
                 <option value="Aktivitas Jasa Lainnya">Aktivitas Jasa Lainnya</option>
-                <option value="Aktivitas Rumah Tangga: Pekerja, Produksi Barang & Jasa untuk Kebutuhan Sendiri">Aktivitas Rumah Tangga: Pekerja, Produksi Barang & Jasa untuk Kebutuhan Sendiri</option>
-                <option value="Aktivitas Badan Internasional dan Ekstra Internasional">Aktivitas Badan Internasional dan Ekstra Internasional</option>
+                <option value="Aktivitas Rumah Tangga: Pekerja, Produksi Barang & Jasa untuk Kebutuhan Sendiri">Aktivitas Rumah Tangga</option>
+                <option value="Aktivitas Badan Internasional dan Ekstra Internasional">Aktivitas Badan Internasional</option>
               </select>
             </div>
 
+            <!-- Jenis Pekerjaan & Jabatan -->
             <div class="col-md-6">
               <label for="edit-jenis_pekerjaan" class="form-label">Jenis Pekerjaan <span class="text-danger">*</span></label>
               <select name="jenis_pekerjaan" id="edit-jenis_pekerjaan" class="form-select" required>
@@ -73,6 +79,7 @@
               <input type="text" name="jabatan" id="edit-jabatan" class="form-control" placeholder="Masukkan jabatan" required>
             </div>
 
+            <!-- Instansi & Divisi -->
             <div class="col-md-6">
               <label for="edit-instansi" class="form-label">Instansi <span class="text-danger">*</span></label>
               <input type="text" name="instansi" id="edit-instansi" class="form-control" placeholder="Masukkan nama instansi" required>
@@ -82,11 +89,13 @@
               <input type="text" name="divisi" id="edit-divisi" class="form-control" placeholder="Masukkan divisi (jika ada)">
             </div>
 
+            <!-- Deskripsi -->
             <div class="col-12">
               <label for="edit-deskripsi_kerja" class="form-label">Deskripsi Kerja</label>
               <textarea name="deskripsi_kerja" id="edit-deskripsi_kerja" class="form-control" rows="3" placeholder="Tuliskan deskripsi kerja"></textarea>
             </div>
 
+            <!-- TMT & TST -->
             <div class="col-md-6">
               <label for="edit-tmt" class="form-label">Mulai Bekerja (TMT) <span class="text-danger">*</span></label>
               <input type="date" name="tmt" id="edit-tmt" class="form-control" required>
@@ -96,6 +105,7 @@
               <input type="date" name="tst" id="edit-tst" class="form-control" required>
             </div>
 
+            <!-- Area & Kategori -->
             <div class="col-md-6">
               <label for="edit-area_pekerjaan" class="form-label">Area Pekerjaan <span class="text-danger">*</span></label>
               <select name="area_pekerjaan" id="edit-area_pekerjaan" class="form-select" required>
@@ -104,7 +114,6 @@
                 <option value="Luar Negeri">Luar Negeri</option>
               </select>
             </div>
-
             <div class="col-md-6">
               <label for="edit-kategori_pekerjaan" class="form-label">Kategori Pekerjaan <span class="text-danger">*</span></label>
               <select name="kategori_pekerjaan" id="edit-kategori_pekerjaan" class="form-select" required>
@@ -125,9 +134,10 @@
               </select>
             </div>
 
+            <!-- Dokumen -->
             <div class="col-12 mt-4">
-                <p class="fw-bold mb-1">Ubah Dokumen (Opsional)</p>
-                <small class="text-muted d-block mb-3">Kosongkan jika tidak ingin mengubah file yang sudah ada.</small>
+              <p class="fw-bold mb-1">Unggah Dokumen (Opsional)</p>
+              <small class="text-muted d-block mb-3">Kosongkan jika tidak ingin mengubah file yang sudah ada.</small>
             </div>
             <div class="col-md-6">
               <label for="edit-surat_ipb" class="form-label">Surat Tugas dari IPB</label>
@@ -159,9 +169,10 @@
           </div>
         </div>
 
+        <!-- Footer -->
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-          <button type="submit" class="btn btn-warning">Simpan Perubahan</button>
+          <button type="submit" class="btn btn-success">Simpan Perubahan</button>
         </div>
       </form>
     </div>

@@ -442,12 +442,12 @@
    Modal Spesifik: Pelatihan
    Gaya untuk modal pelatihan
 ============================= */
-#pelatihanModal .modal-header {
+#detailPraktisiModal .modal-header {
   background: linear-gradient(to right, var(--primary), var(--primary-dark));
   color: var(--white);
 }
 
-#modalDetailPelatihan .modal-header {
+#detailPraktisiModal .modal-header {
   background-color: var(--primary-dark);
   color: var(--white);
 }
@@ -456,58 +456,50 @@
    Modal Spesifik: Penghargaan
    Gaya untuk modal penghargaan
 ============================= */
-#penghargaanModal .modal-header {
+#detailPraktisiModal .modal-header {
   background: linear-gradient(to right, var(--primary), var(--primary-dark));
   color: var(--white);
 }
 
-#modalDetailPenghargaan .modal-header {
+#detailPraktisiModal.modal-header {
   background-color: var(--primary-dark);
   color: var(--white);
 }
 
-#modalDetailPenghargaan h6 {
+#detailPraktisiModal h6 {
   font-weight: 600;
   font-size: 1rem;
   color: var(--primary-dark);
 }
 
 /* =============================
-   Modal Spesifik: SK Non PNS
-   Gaya untuk modal SK Non PNS
+   General Modal Styling
+   Berlaku untuk semua modal
 ============================= */
-#skNonPnsModal .modal-content {
+.modal-content {
   display: flex;
   flex-direction: column;
   max-height: 100vh;
 }
 
-#skNonPnsModal .modal-body {
+.modal-body {
   overflow-y: auto;
   flex: 1 1 auto;
+  padding-bottom: 2.5rem; /* biar konten gak nempel ke footer */
 }
 
-#skNonPnsModal .modal-footer {
+.modal-footer {
   position: sticky;
   bottom: 0;
   background: #fff;
   z-index: 10;
+  border-top: 1px solid #dee2e6;
+  padding: 1rem 1.5rem;
 }
 
-#skNonPnsModal .modal-header {
+.modal-header {
   background: linear-gradient(to right, var(--primary), var(--primary-dark));
   color: var(--white);
-}
-
-#modalDetailSkNonPns .modal-header {
-  background-color: var(--primary-dark);
-  color: var(--white);
-}
-
-#modalDetailSkNonPns .modal-body,
-#modalDetailSkNonPns .modal-body small,
-#modalDetailSkNonPns .modal-body h6 {
-  color: #000;
 }
 
 /* =============================
@@ -619,6 +611,59 @@ h6.mt-4 {
   font-size: 1rem;
   color: var(--primary-dark);
 }
+
+ .detail-card {
+    background: #f8f9fa;
+    border: 1px solid #e3e6ea;
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+  }
+
+  .detail-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: .5rem 1.5rem;
+  }
+
+.detail-grid > div {
+  padding-bottom: .75rem;
+  margin-bottom: .75rem;
+  border-bottom: 0.5px solid #eee; /* garis lebih tipis & lembut */
+}
+
+
+  .detail-grid span {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #000;
+    display: block;
+  }
+
+  .detail-grid p {
+    margin: 0;
+    font-size: .95rem;
+    color: #212529;
+    padding-top: .25rem;
+  }
+
+  .col-span-3 {
+    grid-column: span 3;
+  }
+
+  .detail-doc {
+    background: #fff;
+    border: 1px dashed #ccc;
+    border-radius: 6px;
+    padding: .75rem;
+  }
+
+  .detail-doc span {
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: block;
+    margin-bottom: .25rem;
+  }
 
 /* =============================
    Badge
