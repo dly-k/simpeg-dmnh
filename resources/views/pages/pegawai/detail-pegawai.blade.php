@@ -66,12 +66,13 @@
                     <div class="nav flex-column nav-pills main-tab-nav" id="main-tab-nav">
                         <button class="nav-link text-start active" data-main-tab="biodata">Biodata</button>
                         <button class="nav-link text-start" data-main-tab="sk">Identitas SK</button>
-                        <button class="nav-link text-start" data-main-tab="pendidikan">Pelaksanaan Pendidikan</button>
-                        <button class="nav-link text-start" data-main-tab="penelitian">Pelaksanaan Penelitian</button>
-                        <button class="nav-link text-start" data-main-tab="pengabdian">Pelaksanaan Pengabdian</button>
+                        <button class="nav-link text-start" data-main-tab="pendidikan">Akademik/Pendidikan</button>
+                        <button class="nav-link text-start" data-main-tab="penelitian">Penelitian</button>
+                        <button class="nav-link text-start" data-main-tab="pengabdian">Pengabdian</button>
                         <button class="nav-link text-start" data-main-tab="penunjang">Penunjang</button>
-                        <button class="nav-link text-start" data-main-tab="pelatihan">Pelatihan</button>
+                        <button class="nav-link text-start" data-main-tab="pelatihan">Diklat</button>
                         <button class="nav-link text-start" data-main-tab="penghargaan">Penghargaan</button>
+                        <button class="nav-link text-start" data-main-tab="sertifikat">Sertifikat Kompetensi</button>
                     </div>
                     <div class="flex-grow-1">
                         <div class="main-tab-content" id="biodata-content">
@@ -682,7 +683,7 @@
                             </div>
                         </div>
 
- <div class="main-tab-content" id="penelitian-content" style="display: none;">
+                        <div class="main-tab-content" id="penelitian-content" style="display: none;">
                             <div class="table-responsive">
                                 <table class="table table-hover table-bordered">
                                   <thead class="table-light text-center align-middle">
@@ -767,10 +768,320 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="main-tab-content" id="pengabdian-content" style="display: none;"><p>Konten Pelaksanaan Pengabdian akan dimuat di sini.</p></div>
-                        <div class="main-tab-content" id="penunjang-content" style="display: none;"><p>Konten Penunjang akan dimuat di sini.</p></div>
-                        <div class="main-tab-content" id="pelatihan-content" style="display: none;"><p>Konten Pelatihan akan dimuat di sini.</p></div>
-                        <div class="main-tab-content" id="penghargaan-content" style="display: none;"><p>Konten Penghargaan akan dimuat di sini.</p></div>
+
+                        <div class="main-tab-content" id="pengabdian-content" style="display: none;">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered">
+                                <thead class="table-light">
+                                    <tr class="text-center">
+                                    <th>No</th>
+                                    <th>Kegiatan</th>
+                                    <th>Nama Kegiatan</th>
+                                    <th>Afiliasi</th>
+                                    <th>Lokasi</th>
+                                    <th>Nomor SK</th>
+                                    <th>Tahun</th>
+                                    <th>Verifikasi</th>
+                                    <th>Dokumen</th>
+                                    <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($pengabdianPegawai as $index => $item)
+                                    <tr>
+                                        <td class="text-center">{{ $pengabdianPegawai->firstItem() + $index }}</td>
+                                        <td class="text-start">{{ $item->kegiatan }}</td>
+                                        <td class="text-center">{{ $item->nama_kegiatan }}</td>
+                                        <td class="text-center">{{ $item->afiliasi_non_pt ?? '-' }}</td>
+                                        <td class="text-center">{{ $item->lokasi ?? '-' }}</td>
+                                        <td class="text-center">{{ $item->no_sk_penugasan ?? '-' }}</td>
+                                        <td class="text-center">{{ $item->tahun_pelaksanaan ?? '-' }}</td>
+                                        <td class="text-center">
+                                        @if ($item->status == 'Sudah Diverifikasi')
+                                            <i class="fas fa-check-circle text-success" title="Sudah Diverifikasi"></i>
+                                        @elseif ($item->status == 'Ditolak')
+                                            <i class="fas fa-times-circle text-danger" title="Ditolak"></i>
+                                        @else
+                                            <i class="fas fa-question-circle text-warning" title="Belum Diverifikasi"></i>
+                                        @endif
+                                        </td>
+                                        <td class="text-center">
+                                            @if($item->dokumen->isNotEmpty())
+                                                <a href="{{ Storage::url($item->dokumen->first()->file_path) }}" target="_blank" class="btn btn-sm btn-lihat text-white">
+                                                    Lihat
+                                                </a>
+                                            @else
+                                                <span>-</span>
+                                            @endif
+                                        </td>
+                                        <td class="text-center">
+                                        <div class="d-flex gap-2 justify-content-center">
+                                            <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail" data-id="{{ $item->id }}" data-bs-toggle="modal" data-bs-target="#pengabdianDetailModal"><i class="fa fa-eye"></i></a>
+                                        </div>
+                                        </td>
+                                    </tr>
+                                    @empty
+                                    <tr>
+                                        <td colspan="10" class="text-center text-muted">Pegawai ini belum memiliki data pengabdian.</td>
+                                    </tr>
+                                    @endforelse
+                                </tbody>
+                                </table>
+                            </div>
+
+                            {{-- Pagination --}}
+                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                <span class="text-muted small">
+                                    @if ($pengabdianPegawai->total() > 0)
+                                        Menampilkan {{ $pengabdianPegawai->firstItem() }} sampai {{ $pengabdianPegawai->lastItem() }} dari {{ $pengabdianPegawai->total() }} data
+                                    @else
+                                        Tidak ada data untuk ditampilkan
+                                    @endif
+                                </span>
+                                @if ($pengabdianPegawai->hasPages())
+                                    <div class="d-flex justify-content-end">
+                                        {{ $pengabdianPegawai->appends(['tab' => 'pengabdian'])->links() }}
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="main-tab-content" id="penunjang-content" style="display: none;">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered">
+                                    <thead class="table-light">
+                                        <tr class="text-center">
+                                        <th>No</th>
+                                        <th>Kegiatan</th>
+                                        <th>Lingkup</th>
+                                        <th>Nama Kegiatan</th>
+                                        <th>Instansi</th>
+                                        <th>Nomor SK</th>
+                                        <th>TMT</th>
+                                        <th>TST</th>
+                                        <th>Verifikasi</th>
+                                        <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse ($penunjangPegawai as $item)
+                                        <tr>
+                                            <td class="text-center">{{ $loop->iteration + $penunjangPegawai->firstItem() - 1 }}</td>
+                                            <td class="text-start">{{ $item->kegiatan }}</td>
+                                            <td class="text-center">{{ $item->lingkup }}</td>
+                                            <td class="text-center">{{ $item->nama_kegiatan }}</td>
+                                            <td class="text-center">{{ $item->instansi }}</td>
+                                            <td class="text-center">{{ $item->nomor_sk }}</td>
+                                            <td class="text-center">{{ \Carbon\Carbon::parse($item->tmt_mulai)->format('d M Y') }}</td>
+                                            <td class="text-center">{{ \Carbon\Carbon::parse($item->tmt_selesai)->format('d M Y') }}</td>
+                                            <td class="text-center">
+                                                @if ($item->status == 'Sudah Diverifikasi')
+                                                    <i class="fas fa-check-circle text-success" title="Sudah Diverifikasi"></i>
+                                                @elseif ($item->status == 'Ditolak')
+                                                    <i class="fas fa-times-circle text-danger" title="Ditolak"></i>
+                                                @else
+                                                    <i class="fas fa-question-circle text-warning" title="Belum Diverifikasi"></i>
+                                                @endif
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="d-flex gap-2 justify-content-center">
+                                                    <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail" 
+                                                    data-id="{{ $item->id }}" 
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#penunjangDetailModal">
+                                                    <i class="fa fa-eye"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        @empty
+                                        <tr>
+                                            <td colspan="10" class="text-center">Pegawai ini belum memiliki data penunjang.</td>
+                                        </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            {{-- Pagination --}}
+                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                <span class="text-muted small">
+                                    @if ($penunjangPegawai->total() > 0)
+                                        Menampilkan {{ $penunjangPegawai->firstItem() }} sampai {{ $penunjangPegawai->lastItem() }} dari {{ $penunjangPegawai->total() }} data
+                                    @else
+                                        Tidak ada data untuk ditampilkan
+                                    @endif
+                                </span>
+                                @if ($penunjangPegawai->hasPages())
+                                    <div class="d-flex justify-content-end">
+                                        {{ $penunjangPegawai->appends(['tab' => 'penunjang'])->links() }}
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="main-tab-content" id="pelatihan-content" style="display: none;">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered">
+                                    <thead class="table-light">
+                                        <tr class="text-center">
+                                        <th>No</th>
+                                        <th>Nama Kegiatan</th>
+                                        <th>Penyelenggara</th>
+                                        <th>Posisi</th>
+                                        <th>Tanggal Mulai</th>
+                                        <th>Tanggal Selesai</th>
+                                        <th>Dokumen</th>
+                                        <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse ($pelatihanPegawai as $pelatihan)
+                                        <tr>
+                                            <td class="text-center">{{ $pelatihanPegawai->firstItem() + $loop->index }}</td>
+                                            <td class="text-start">{{ $pelatihan->nama_kegiatan }}</td>
+                                            <td class="text-center">{{ $pelatihan->penyelenggara }}</td>
+                                            <td class="text-center">
+                                            {{ $pelatihan->posisi === 'Lainnya' ? $pelatihan->posisi_lainnya : $pelatihan->posisi }}
+                                            </td>
+                                            <td class="text-center">{{ $pelatihan->tgl_mulai->format('d F Y') }}</td>
+                                            <td class="text-center">{{ $pelatihan->tgl_selesai->format('d F Y') }}</td>
+                                            <td class="text-center">
+                                                <a href="{{ asset('storage/' . $pelatihan->file_path) }}" 
+                                                    target="_blank" 
+                                                    class="btn btn-sm btn-lihat text-white">Lihat</a>
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="d-flex gap-2 justify-content-center">
+                                                    <a href="#" class="btn-aksi btn-lihat-detail btn-lihat-detail-pelatihan" 
+                                                    title="Lihat Detail"
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#modalDetailPelatihan"
+                                                    data-pegawai="{{ $pelatihan->pegawai->nama_lengkap ?? 'N/A' }}"
+                                                    data-nama_kegiatan="{{ $pelatihan->nama_kegiatan }}"
+                                                    data-posisi="{{ $pelatihan->posisi === 'Lainnya' ? $pelatihan->posisi_lainnya : $pelatihan->posisi }}"
+                                                    data-kota="{{ $pelatihan->kota }}"
+                                                    data-lokasi="{{ $pelatihan->lokasi }}"
+                                                    data-penyelenggara="{{ $pelatihan->penyelenggara }}"
+                                                    data-jenis_diklat="{{ $pelatihan->jenis_diklat }}"
+                                                    data-tgl_mulai="{{ $pelatihan->tgl_mulai->format('d F Y') }}"
+                                                    data-tgl_selesai="{{ $pelatihan->tgl_selesai->format('d F Y') }}"
+                                                    data-lingkup="{{ $pelatihan->lingkup }}"
+                                                    data-jam="{{ $pelatihan->jumlah_jam }}"
+                                                    data-hari="{{ $pelatihan->jumlah_hari }}"
+                                                    data-struktural="{{ $pelatihan->struktural ? 'Ya' : 'Tidak' }}"
+                                                    data-sertifikasi="{{ $pelatihan->sertifikasi ? 'Ya' : 'Tidak' }}"
+                                                    data-dokumen_path="{{ asset('storage/' . $pelatihan->file_path) }}">
+                                                    <i class="fa fa-eye"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        @empty
+                                        <tr>
+                                            <td colspan="8" class="text-center text-muted">Pegawai ini belum memiliki data diklat.</td>
+                                        </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            {{-- Pagination --}}
+                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                <span class="text-muted small">
+                                    @if ($pelatihanPegawai->total() > 0)
+                                        Menampilkan {{ $pelatihanPegawai->firstItem() }} sampai {{ $pelatihanPegawai->lastItem() }} dari {{ $pelatihanPegawai->total() }} data
+                                    @else
+                                        Tidak ada data untuk ditampilkan
+                                    @endif
+                                </span>
+                                @if ($pelatihanPegawai->hasPages())
+                                    <div class="d-flex justify-content-end">
+                                        {{ $pelatihanPegawai->appends(['tab' => 'pelatihan'])->links() }}
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="main-tab-content" id="penghargaan-content" style="display: none;">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered">
+                                    <thead class="table-light">
+                                        <tr class="text-center">
+                                        <th>No</th>
+                                        <th>Kegiatan</th>
+                                        <th>Penghargaan</th>
+                                        <th>Nomor SK</th>
+                                        <th>Lingkup</th>
+                                        <th>Tahun</th>
+                                        <th>Dokumen</th>
+                                        <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse ($penghargaanPegawai as $item)
+                                        <tr>
+                                            <td class="text-center">{{ $loop->iteration + $penghargaanPegawai->firstItem() - 1 }}</td>
+                                            <td class="text-start">{{ $item->kegiatan }}</td>
+                                            <td class="text-center">{{ $item->nama_penghargaan }}</td>
+                                            <td class="text-center">{{ $item->nomor_sk }}</td>
+                                            <td class="text-center">{{ $item->lingkup }}</td>
+                                            <td class="text-center">{{ \Carbon\Carbon::parse($item->tanggal_perolehan)->format('Y') }}</td>
+                                            <td class="text-center">
+                                                <a href="{{ asset('storage/' . $item->file_path) }}" 
+                                                target="_blank"
+                                                class="btn btn-sm btn-lihat text-white">Lihat</a>
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="d-flex gap-2 justify-content-center">
+                                                    <a href="#" class="btn-aksi btn-lihat-detail btn-lihat-detail-penghargaan"
+                                                    title="Lihat Detail"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#modalDetailPenghargaan"
+                                                    data-pegawai="{{ $item->pegawai->nama_lengkap ?? '' }}"
+                                                    data-kegiatan="{{ $item->kegiatan }}"
+                                                    data-nama_penghargaan="{{ $item->nama_penghargaan }}"
+                                                    data-nomor="{{ $item->nomor_sk }}"
+                                                    data-tanggal_perolehan="{{ \Carbon\Carbon::parse($item->tanggal_perolehan)->isoFormat('D MMMM YYYY') }}"
+                                                    data-lingkup="{{ $item->lingkup }}"
+                                                    data-negara="{{ $item->negara }}"
+                                                    data-instansi="{{ $item->instansi_pemberi }}"
+                                                    data-jenis_dokumen="{{ $item->jenis_dokumen }}"
+                                                    data-nama_dokumen="{{ $item->nama_dokumen }}"
+                                                    data-nomor_dokumen="{{ $item->nomor_dokumen ?? '-' }}"
+                                                    data-tautan="{{ $item->tautan ?? '#' }}"
+                                                    data-dokumen_path="{{ asset('storage/' . $item->file_path) }}">
+                                                    <i class="fa fa-eye"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        @empty
+                                        <tr>
+                                            <td colspan="8" class="text-center text-muted">Pegawai ini belum memiliki data penghargaan.</td>
+                                        </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            {{-- Pagination --}}
+                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                <span class="text-muted small">
+                                    @if ($penghargaanPegawai->total() > 0)
+                                        Menampilkan {{ $penghargaanPegawai->firstItem() }} sampai {{ $penghargaanPegawai->lastItem() }} dari {{ $penghargaanPegawai->total() }} data
+                                    @else
+                                        Tidak ada data untuk ditampilkan
+                                    @endif
+                                </span>
+                                @if ($penghargaanPegawai->hasPages())
+                                    <div class="d-flex justify-content-end">
+                                        {{ $penghargaanPegawai->appends(['tab' => 'penghargaan'])->links() }}
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                        
+                        <div class="main-tab-content" id="sertifikat-content" style="display: none;"><p>Konten Sertifikat Kompetensi akan dimuat di sini.</p></div>
                     </div> 
                 </div>
             </div>
@@ -801,8 +1112,13 @@
     @include('components.pendidikan.detail-pembimbing-lama')
     @include('components.pendidikan.detail-penguji-luar')
     @include('components.pendidikan.detail-pembimbing-luar')
+
     @include('components.penelitian.detail-penelitian')
-    
+    @include('components.pengabdian.detail-pengabdian')
+    @include('components.penunjang.detail-penunjang')
+    @include('components.diklat.detail-diklat')
+    @include('components.penghargaan.detail-penghargaan') 
+
     @if (session('success'))
         <div id="success-trigger" data-title="Berhasil!" data-message="{{ session('success') }}" data-active-tab="{{ session('active_tab') }}" data-active-subtab="{{ session('active_subtab') }}"></div>
     @endif
@@ -813,6 +1129,12 @@
 
 {{-- --}}
 <script src="{{ asset('assets/js/penelitian.js') }}"></script>
+<script src="{{ asset('assets/js/pengabdian.js') }}"></script>
+<script src="{{ asset('assets/js/penunjang.js') }}"></script> 
+<script src="{{ asset('assets/js/diklat.js') }}"></script> 
+<script src="{{ asset('assets/js/penghargaan.js') }}"></script> {{-- 2. Tambahkan JS Penghargaan --}}
+
+
 <!-- <script>
     // Helper untuk mencegah error jika fungsi initPegawaiList tidak digunakan di halaman ini
     if (typeof window.initPegawaiList === 'undefined') {

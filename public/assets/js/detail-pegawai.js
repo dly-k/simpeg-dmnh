@@ -272,8 +272,12 @@ document.addEventListener("DOMContentLoaded", () => {
   /**
    * Menangani klik tombol "Lihat Detail" untuk semua data Pendidikan.
    */
-  const initPendidikanDetailModals = () => {
-    document.body.addEventListener('click', function(e) {
+const initPendidikanDetailModals = () => {
+    // Batasi event listener hanya pada container tab Pendidikan
+    const pendidikanTabContainer = document.getElementById('pendidikan-content');
+    if (!pendidikanTabContainer) return;
+
+    pendidikanTabContainer.addEventListener('click', function(e) {
       const detailButton = e.target.closest('.btn-lihat-detail');
       if (!detailButton) return;
       
@@ -282,11 +286,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const itemId = detailButton.dataset.id;
       const typeClass = Array.from(detailButton.classList).find(c => c.startsWith('btn-lihat-') && c !== 'btn-lihat-detail');
       if (!typeClass) return;
+      
       const type = typeClass.replace('btn-lihat-', '');
-
       const url = `/pendidikan/${type}/${itemId}`;
       const modalTarget = detailButton.dataset.bsTarget;
       const modalElement = document.querySelector(modalTarget);
+
       if (!modalElement) {
         console.error(`Modal with target ${modalTarget} not found.`);
         return;
@@ -295,37 +300,27 @@ document.addEventListener("DOMContentLoaded", () => {
       const modalBody = modalElement.querySelector('.modal-body');
       const detailContainer = modalBody.querySelector('.detail-grid-container');
       const docContainer = modalBody.querySelector('.document-viewer-container');
-      
-      // Mengambil semua elemen <p> yang akan diisi
       const fields = modalElement.querySelectorAll('p[id^="detail_"]');
-
-      // 1. Set semua elemen ke status "loading" tanpa menghapus strukturnya
+      
       fields.forEach(field => {
           field.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
       });
       if(docContainer) docContainer.innerHTML = '<div class="text-center p-5"><i class="fas fa-spinner fa-spin fa-2x"></i><p class="mt-2">Memuat dokumen...</p></div>';
 
-      // 2. Lakukan fetch untuk mendapatkan data
       fetch(url)
         .then(response => {
             if (!response.ok) throw new Error('Network response was not ok.');
             return response.json();
         })
         .then(data => {
-            // 3. Isi elemen-elemen yang sudah ada dengan data yang diterima
             fields.forEach(field => {
-                const key = field.id.split('_').slice(2).join('_'); // Ekstrak key dari ID
+                const key = field.id.split('_').slice(2).join('_');
                 let value = data[key] || '-';
-                
-                // Penyesuaian khusus jika diperlukan (misal: format tanggal, relasi)
                 if (key === 'nama' && data.pegawai) {
                     value = data.pegawai.nama_lengkap || '-';
                 }
-                
                 field.textContent = value;
             });
-
-            // 4. Isi kontainer dokumen
             if (docContainer) {
                 if (data.file_path) {
                     docContainer.innerHTML = `<embed src="/storage/${data.file_path}" type="application/pdf" width="100%" height="600px" />`;
@@ -335,12 +330,11 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         })
         .catch(error => {
-            // Jika gagal, tampilkan pesan error di kontainer utama
             detailContainer.innerHTML = '<div class="text-center text-danger p-5">Gagal memuat data. Silakan coba lagi nanti.</div>';
             console.error('Error fetching detail:', error);
         });
     });
-  };
+};
 
   // Panggil semua fungsi inisialisasi
   initTabs();

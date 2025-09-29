@@ -16,7 +16,11 @@ use App\Models\PengujianLama;
 use App\Models\PembimbingLama;
 use App\Models\PengujiLuar;
 use App\Models\PembimbingLuar;
-use App\Models\Penelitian; // 1. Tambahkan model Penelitian
+use App\Models\Penelitian;
+use App\Models\Pengabdian; 
+use App\Models\Penunjang;
+use App\Models\Pelatihan;
+use App\Models\Penghargaan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Exports\PegawaiExport;
@@ -192,8 +196,30 @@ class PegawaiController extends Controller
             $query->where('pegawai_id', $pegawai->id);
         })->with('penulis.pegawai')->latest()->paginate(10, ['*'], 'penelitianPage')->withQueryString();
 
+        // -- Data Pengabdian--
+        $pengabdianPegawai = Pengabdian::whereHas('anggota', function ($query) use ($pegawai) {
+            $query->where('jenis', 'dosen')->where('pegawai_id', $pegawai->id);
+        })->with('dokumen')->latest()->paginate(10, ['*'], 'pengabdianPage')->withQueryString();
+        
+        //-- Data Penunjang --
+        $penunjangPegawai = Penunjang::whereHas('anggota', function ($query) use ($pegawai) {
+            $query->where('pegawai_id', $pegawai->id);
+        })->latest()->paginate(10, ['*'], 'penunjangPage')->withQueryString();
 
-        // --- 4. Muat Relasi SK dengan Filter ---
+        //== Data Diklat / Pelatihan ==
+        $pelatihanPegawai = Pelatihan::where('pegawai_id', $pegawai->id)
+            ->latest()
+            ->paginate(10, ['*'], 'pelatihanPage')
+            ->withQueryString();
+        
+        // -- Data Penghargaan --
+                $penghargaanPegawai = Penghargaan::where('pegawai_id', $pegawai->id)
+            ->latest()
+            ->paginate(10, ['*'], 'penghargaanPage')
+            ->withQueryString();
+
+
+        // --- Relasi SK dengan Filter ---
         $pegawai->load([
             'efiles',
             'penetapanPangkats' => fn($q) => $q->when($request->search_pangkat, fn($q, $s) => $q->where('nomor_sk', 'like', "%{$s}%")->orWhere('golongan', 'like', "%{$s}%"))->when($request->tahun_pangkat, fn($q, $y) => $q->whereYear('tanggal_sk', $y)),
@@ -209,7 +235,11 @@ class PegawaiController extends Controller
             'pegawai', 'tahunOptions', 'tahunAkademikOptions',
             'dataPengajaranLama', 'dataPengajaranLuar', 'dataPengujianLama',
             'dataPembimbingLama', 'dataPengujiLuar', 'dataPembimbingLuar',
-            'penelitianPegawai' // 2. Tambahkan variabel ke compact
+            'penelitianPegawai',
+            'pengabdianPegawai',
+            'penunjangPegawai',
+            'pelatihanPegawai',
+            'penghargaanPegawai'
         ));
     }
 
