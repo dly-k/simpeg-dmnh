@@ -1,374 +1,433 @@
-// public/assets/js/praktisi.js
-
-document.addEventListener('DOMContentLoaded', function () {
-  
+document.addEventListener("DOMContentLoaded", function () {
   /**
-   * =================================================================
-   * BAGIAN 1: LOGIKA UNTUK MODAL NOTIFIKASI SUKSES
-   * =================================================================
+   * ================================================================
+   * BAGIAN 1: MODAL NOTIFIKASI SUKSES
+   * ================================================================
    */
-  // Fungsi untuk menampilkan modal sukses dan memainkan suara
   function showSuccessModal() {
-    const successModalOverlay = document.getElementById('modalBerhasil');
-    const closeButton = document.getElementById('btnSelesai');
+    const successModalOverlay = document.getElementById("modalBerhasil");
+    const closeButton = document.getElementById("btnSelesai");
 
     if (successModalOverlay && closeButton) {
-      successModalOverlay.style.display = 'flex';
-      successModalOverlay.style.opacity = '1';
-      successModalOverlay.style.visibility = 'visible';
+      successModalOverlay.style.display = "flex";
+      successModalOverlay.style.opacity = "1";
+      successModalOverlay.style.visibility = "visible";
 
-      const soundUrl = document.body.getAttribute('data-success-sound');
+      const soundUrl = document.body.getAttribute("data-success-sound");
       if (soundUrl) {
         const successAudio = new Audio(soundUrl);
         setTimeout(() => {
-          successAudio.play().catch(e => console.error("Gagal memutar audio:", e));
+          successAudio.play().catch((e) => console.error("Gagal memutar audio:", e));
         }, 150);
       }
 
       setTimeout(() => {
-        successModalOverlay.style.display = 'none';
-      }, 2000); // Durasinya saya kembalikan ke 4 detik agar tidak terlalu cepat hilang
+        successModalOverlay.style.display = "none";
+      }, 2000);
 
-      // Pastikan event listener hanya ditambahkan sekali
       if (!closeButton.dataset.listenerAttached) {
-        closeButton.addEventListener('click', function() {
-          successModalOverlay.style.display = 'none';
+        closeButton.addEventListener("click", function () {
+          successModalOverlay.style.display = "none";
         });
-        closeButton.dataset.listenerAttached = 'true';
+        closeButton.dataset.listenerAttached = "true";
       }
     }
   }
 
-  // Panggil fungsi di atas jika ada pesan sukses dari server (untuk Tambah/Edit)
   const flashSuccessMeta = document.querySelector('meta[name="flash-success"]');
-  if (flashSuccessMeta && flashSuccessMeta.getAttribute('content')) {
+  if (flashSuccessMeta && flashSuccessMeta.getAttribute("content")) {
     showSuccessModal();
   }
 
   /**
-   * =================================================================
-   * BAGIAN 2: LOGIKA UNTUK MODAL EDIT DATA
-   * =================================================================
+   * ================================================================
+   * BAGIAN 2: MODAL EDIT DATA
+   * ================================================================
    */
-  const editModalElement = document.getElementById('editPengalamanKerjaModal');
-  
+  const editModalElement = document.getElementById("editPengalamanKerjaModal");
+
   if (editModalElement) {
-    const editPraktisiForm = document.getElementById('editPraktisiForm');
+    const editPraktisiForm = document.getElementById("editPraktisiForm");
 
     const setFileText = (elementId, filePath) => {
       const element = document.getElementById(elementId);
       if (element) {
         if (filePath) {
-          const fileName = filePath.split('/').pop();
+          const fileName = filePath.split("/").pop();
           element.textContent = `File lama: ${fileName}`;
         } else {
-          element.textContent = 'File lama: Tidak ada';
+          element.textContent = "File lama: Tidak ada";
         }
       }
     };
-    
-    editModalElement.addEventListener('show.bs.modal', function (event) {
-      const button = event.relatedTarget;
-      const url = button.getAttribute('data-url');
-      const updateUrl = button.getAttribute('data-update-url');
 
-      editPraktisiForm.setAttribute('action', updateUrl);
+    editModalElement.addEventListener("show.bs.modal", function (event) {
+      const button = event.relatedTarget;
+      const url = button.getAttribute("data-url");
+      const updateUrl = button.getAttribute("data-update-url");
+
+      editPraktisiForm.setAttribute("action", updateUrl);
 
       fetch(url)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Respon jaringan bermasalah saat mengambil data.');
-          }
+        .then((response) => {
+          if (!response.ok) throw new Error("Respon jaringan bermasalah.");
           return response.json();
         })
-        .then(data => {
-          // Mengisi dropdown pegawai berdasarkan ID
-          document.getElementById('edit-pegawai_id').value = data.pegawai_id;
+        .then((data) => {
+          document.getElementById("edit-pegawai_id").value = data.pegawai_id;
+          document.getElementById("edit-bidang_usaha").value = data.bidang_usaha;
+          document.getElementById("edit-jenis_pekerjaan").value = data.jenis_pekerjaan;
+          document.getElementById("edit-jabatan").value = data.jabatan;
+          document.getElementById("edit-instansi").value = data.instansi;
+          document.getElementById("edit-divisi").value = data.divisi;
+          document.getElementById("edit-deskripsi_kerja").value = data.deskripsi_kerja;
+          document.getElementById("edit-tmt").value = data.tmt;
+          document.getElementById("edit-tst").value = data.tst;
+          document.getElementById("edit-area_pekerjaan").value = data.area_pekerjaan;
+          document.getElementById("edit-kategori_pekerjaan").value = data.kategori_pekerjaan;
 
-          // Mengisi sisa form
-          document.getElementById('edit-bidang_usaha').value = data.bidang_usaha;
-          document.getElementById('edit-jenis_pekerjaan').value = data.jenis_pekerjaan;
-          document.getElementById('edit-jabatan').value = data.jabatan;
-          document.getElementById('edit-instansi').value = data.instansi;
-          document.getElementById('edit-divisi').value = data.divisi;
-          document.getElementById('edit-deskripsi_kerja').value = data.deskripsi_kerja;
-          document.getElementById('edit-tmt').value = data.tmt;
-          document.getElementById('edit-tst').value = data.tst;
-          document.getElementById('edit-area_pekerjaan').value = data.area_pekerjaan;
-          document.getElementById('edit-kategori_pekerjaan').value = data.kategori_pekerjaan;
-
-          // Menampilkan nama file yang sudah pernah di-upload
-          setFileText('edit-file-surat_ipb', data.surat_ipb);
-          setFileText('edit-file-surat_instansi', data.surat_instansi);
-          setFileText('edit-file-cv', data.cv);
-          setFileText('edit-file-profil_perusahaan', data.profil_perusahaan);
+          setFileText("edit-file-surat_ipb", data.surat_ipb);
+          setFileText("edit-file-surat_instansi", data.surat_instansi);
+          setFileText("edit-file-cv", data.cv);
+          setFileText("edit-file-profil_perusahaan", data.profil_perusahaan);
         })
-        .catch(error => {
-          console.error('Error:', error);
-          alert('Gagal memuat data untuk diedit. Silakan coba lagi.');
-          const modal = bootstrap.Modal.getInstance(editModalElement);
-          modal.hide();
+        .catch((error) => {
+          console.error("Error:", error);
+          alert("Gagal memuat data edit.");
+          bootstrap.Modal.getInstance(editModalElement).hide();
         });
     });
 
-    editModalElement.addEventListener('hidden.bs.modal', function() {
+    editModalElement.addEventListener("hidden.bs.modal", function () {
       editPraktisiForm.reset();
-      editPraktisiForm.setAttribute('action', '#');
-      
-      setFileText('edit-file-surat_ipb', null);
-      setFileText('edit-file-surat_instansi', null);
-      setFileText('edit-file-cv', null);
-      setFileText('edit-file-profil_perusahaan', null);
+      editPraktisiForm.setAttribute("action", "#");
+
+      setFileText("edit-file-surat_ipb", null);
+      setFileText("edit-file-surat_instansi", null);
+      setFileText("edit-file-cv", null);
+      setFileText("edit-file-profil_perusahaan", null);
     });
   }
 
-    /**
-   * =================================================================
-   * BAGIAN 3: LOGIKA UNTUK MODAL DETAIL DATA (DIPERBARUI)
-   * =================================================================
+  /**
+   * ================================================================
+   * BAGIAN 3: MODAL DETAIL DATA
+   * ================================================================
    */
-  const detailModalElement = document.getElementById('detailPraktisiModal');
+  const detailModalElement = document.getElementById("detailPraktisiModal");
 
   if (detailModalElement) {
-    
-    // Helper function untuk memformat tanggal
     const formatDate = (dateString) => {
-      if (!dateString) return '-';
-      const options = { day: 'numeric', month: 'long', year: 'numeric' };
-      return new Date(dateString).toLocaleDateString('id-ID', options);
+      if (!dateString) return "-";
+      const options = { day: "numeric", month: "long", year: "numeric" };
+      return new Date(dateString).toLocaleDateString("id-ID", options);
     };
 
-    // Helper function untuk mengisi teks
     const setDetailText = (elementId, text) => {
       const element = document.getElementById(elementId);
-      if (element) {
-        element.textContent = text || '-';
-      }
+      if (element) element.textContent = text || "-";
     };
-    
-    // --- FUNGSI HELPER BARU UNTUK DOKUMEN ---
-    // Mengatur visibilitas tombol atau teks 'Tidak ada file'
+
     const updateDokumenDetail = (buttonId, noDataId, filePath) => {
       const button = document.getElementById(buttonId);
       const noDataSpan = document.getElementById(noDataId);
 
       if (button && noDataSpan) {
         if (filePath) {
-          // Jika file ada, tampilkan tombol dan sembunyikan teks
           button.href = `${window.location.origin}/storage/${filePath}`;
-          button.style.display = 'inline-block';
-          noDataSpan.style.display = 'none';
+          button.style.display = "inline-block";
+          noDataSpan.style.display = "none";
         } else {
-          // Jika file tidak ada, sembunyikan tombol dan tampilkan teks
-          button.style.display = 'none';
-          noDataSpan.style.display = 'inline';
+          button.style.display = "none";
+          noDataSpan.style.display = "inline";
         }
       }
     };
 
-    // Event listener utama, dijalankan saat modal detail akan ditampilkan
-    detailModalElement.addEventListener('show.bs.modal', function (event) {
+    detailModalElement.addEventListener("show.bs.modal", function (event) {
       const button = event.relatedTarget;
-      const url = button.getAttribute('data-url');
+      const url = button.getAttribute("data-url");
 
       fetch(url)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Gagal mengambil data detail.');
-          }
+        .then((response) => {
+          if (!response.ok) throw new Error("Gagal mengambil data detail.");
           return response.json();
         })
-        .then(data => {
-          // Mengisi data teks
-          setDetailText('detail-nama', data.pegawai ? data.pegawai.nama_lengkap : 'Tidak Ditemukan');
-          setDetailText('detail-bidang', data.bidang_usaha);
-          setDetailText('detail-jenis', data.jenis_pekerjaan);
-          setDetailText('detail-jabatan', data.jabatan);
-          setDetailText('detail-instansi', data.instansi);
-          setDetailText('detail-divisi', data.divisi);
-          setDetailText('detail-deskripsi', data.deskripsi_kerja);
-          setDetailText('detail-mulai', formatDate(data.tmt));
-          setDetailText('detail-selesai', formatDate(data.tst));
-          setDetailText('detail-area', data.area_pekerjaan);
-          setDetailText('detail-kategori', data.kategori_pekerjaan);
-          
-          // --- PERUBAHAN: Gunakan fungsi helper baru untuk dokumen ---
-          updateDokumenDetail('detail-surat-ipb', 'nodata-surat-ipb', data.surat_ipb);
-          updateDokumenDetail('detail-surat-instansi', 'nodata-surat-instansi', data.surat_instansi);
-          updateDokumenDetail('detail-cv', 'nodata-cv', data.cv);
-          updateDokumenDetail('detail-profil', 'nodata-profil', data.profil_perusahaan);
+        .then((data) => {
+          setDetailText("detail-nama", data.pegawai ? data.pegawai.nama_lengkap : "Tidak Ditemukan");
+          setDetailText("detail-bidang", data.bidang_usaha);
+          setDetailText("detail-jenis", data.jenis_pekerjaan);
+          setDetailText("detail-jabatan", data.jabatan);
+          setDetailText("detail-instansi", data.instansi);
+          setDetailText("detail-divisi", data.divisi);
+          setDetailText("detail-deskripsi", data.deskripsi_kerja);
+          setDetailText("detail-mulai", formatDate(data.tmt));
+          setDetailText("detail-selesai", formatDate(data.tst));
+          setDetailText("detail-area", data.area_pekerjaan);
+          setDetailText("detail-kategori", data.kategori_pekerjaan);
+
+          updateDokumenDetail("detail-surat-ipb", "nodata-surat-ipb", data.surat_ipb);
+          updateDokumenDetail("detail-surat-instansi", "nodata-surat-instansi", data.surat_instansi);
+          updateDokumenDetail("detail-cv", "nodata-cv", data.cv);
+          updateDokumenDetail("detail-profil", "nodata-profil", data.profil_perusahaan);
         })
-        .catch(error => {
-          console.error('Error:', error);
-          alert('Gagal memuat data detail. Silakan coba lagi.');
-          const modal = bootstrap.Modal.getInstance(detailModalElement);
-          modal.hide();
+        .catch((error) => {
+          console.error("Error:", error);
+          alert("Gagal memuat data detail.");
+          bootstrap.Modal.getInstance(detailModalElement).hide();
         });
     });
   }
 
- const modalKonfirmasiHapus = document.getElementById('modalKonfirmasiHapus');
-  
+  /**
+   * ================================================================
+   * BAGIAN 4: KONFIRMASI HAPUS DATA
+   * ================================================================
+   */
+  const modalKonfirmasiHapus = document.getElementById("modalKonfirmasiHapus");
+
   if (modalKonfirmasiHapus) {
-    const btnKonfirmasiHapus = document.getElementById('btnKonfirmasiHapus');
-    const btnBatalHapus = document.getElementById('btnBatalHapus');
+    const btnKonfirmasiHapus = document.getElementById("btnKonfirmasiHapus");
+    const btnBatalHapus = document.getElementById("btnBatalHapus");
     let deleteUrl = null;
 
-    document.body.addEventListener('click', function(event) {
-      const deleteButton = event.target.closest('.btn-hapus-data');
+    document.body.addEventListener("click", function (event) {
+      const deleteButton = event.target.closest(".btn-hapus-data");
       if (deleteButton) {
         event.preventDefault();
         deleteUrl = deleteButton.dataset.url;
-        modalKonfirmasiHapus.classList.add('show');
+        modalKonfirmasiHapus.classList.add("show");
       }
     });
 
     const hideDeleteModal = () => {
-      modalKonfirmasiHapus.classList.remove('show');
+      modalKonfirmasiHapus.classList.remove("show");
       deleteUrl = null;
     };
 
-    btnKonfirmasiHapus.addEventListener('click', function() {
+    btnKonfirmasiHapus.addEventListener("click", function () {
       if (!deleteUrl) return;
 
       fetch(deleteUrl, {
-        method: 'DELETE',
+        method: "DELETE",
         headers: {
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        }
+          "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+        },
       })
-      .then(response => {
-        // --- PERBAIKAN DI SINI ---
-        // Cek apakah response OK (status 2xx) ATAU merupakan redirect. Keduanya adalah tanda sukses.
-        if (response.ok || response.redirected) {
-        // --- AKHIR PERBAIKAN ---
-          window.location.reload(); 
-        } else {
-          // Jika ada error dari server (misal: 500)
-          alert('Gagal menghapus data di server.');
+        .then((response) => {
+          if (response.ok || response.redirected) {
+            window.location.reload();
+          } else {
+            alert("Gagal menghapus data di server.");
+            hideDeleteModal();
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          alert("Tidak dapat terhubung ke server.");
           hideDeleteModal();
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        alert('Tidak dapat terhubung ke server.');
-        hideDeleteModal();
-      });
+        });
     });
 
-    btnBatalHapus.addEventListener('click', hideDeleteModal);
+    btnBatalHapus.addEventListener("click", hideDeleteModal);
   }
 
-/**
- * =================================================================
- * BAGIAN 5: LOGIKA UNTUK MODAL KONFIRMASI VERIFIKASI (DIPERBAIKI)
- * =================================================================
- */
-const modalVerifikasi = document.getElementById('modalKonfirmasiVerifikasi');
-
-if (modalVerifikasi) {
-  const btnTerima = document.getElementById('popupBtnTerima');
-  const btnTolak = document.getElementById('popupBtnTolak');
-  const btnKembali = document.getElementById('popupBtnKembali');
-  let verificationUrl = null;
-
-  // Menampilkan modal saat tombol verifikasi diklik
-  document.body.addEventListener('click', function(event) {
-    const verifyButton = event.target.closest('.btn-verifikasi');
-    if (verifyButton) {
-      event.preventDefault();
-      verificationUrl = verifyButton.dataset.url;
-      // Gunakan class '.show' sesuai CSS Anda
-      modalVerifikasi.classList.add('show');
-    }
-  });
-
-  // Fungsi untuk menyembunyikan modal
-  const hideVerifyModal = () => {
-    // Gunakan class '.show' sesuai CSS Anda
-    modalVerifikasi.classList.remove('show');
-    verificationUrl = null;
-  };
-  
-  // Fungsi untuk mengirim status verifikasi ke server
-  const handleVerification = (status) => {
-    if (!verificationUrl) return;
-    
-    fetch(verificationUrl, {
-      method: 'PATCH',
-      headers: {
-        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({ status: status }) // Kirim status (Terima/Tolak)
-    })
-    .then(response => {
-      if (response.ok || response.redirected) {
-        window.location.reload(); // Refresh halaman untuk melihat hasil dan notifikasi
-      } else {
-        alert('Gagal memperbarui status data di server.');
-        hideVerifyModal();
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      alert('Tidak dapat terhubung ke server.');
-      hideVerifyModal();
-    });
-  };
-
-  // Event listener untuk tombol-tombol di dalam modal
-  btnTerima.addEventListener('click', () => handleVerification('Sudah Diverifikasi'));
-  btnTolak.addEventListener('click', () => handleVerification('Ditolak'));
-  btnKembali.addEventListener('click', hideVerifyModal);
-}
-
- /**
-   * =================================================================
-   * BAGIAN 6: LOGIKA UNTUK FILTER DAN PENCARIAN (BARU)
-   * =================================================================
+  /**
+   * ================================================================
+   * BAGIAN 5: KONFIRMASI VERIFIKASI
+   * ================================================================
    */
-  const searchInput = document.getElementById('searchInput');
-  const semesterFilter = document.getElementById('semesterFilter');
-  const statusFilter = document.getElementById('statusFilter');
+  const modalVerifikasi = document.getElementById("modalKonfirmasiVerifikasi");
 
-  // Pastikan elemen filter ada di halaman sebelum menambahkan event listener
+  if (modalVerifikasi) {
+    const btnTerima = document.getElementById("popupBtnTerima");
+    const btnTolak = document.getElementById("popupBtnTolak");
+    const btnKembali = document.getElementById("popupBtnKembali");
+    let verificationUrl = null;
+
+    document.body.addEventListener("click", function (event) {
+      const verifyButton = event.target.closest(".btn-verifikasi");
+      if (verifyButton) {
+        event.preventDefault();
+        verificationUrl = verifyButton.dataset.url;
+        modalVerifikasi.classList.add("show");
+      }
+    });
+
+    const hideVerifyModal = () => {
+      modalVerifikasi.classList.remove("show");
+      verificationUrl = null;
+    };
+
+    const handleVerification = (status) => {
+      if (!verificationUrl) return;
+
+      fetch(verificationUrl, {
+        method: "PATCH",
+        headers: {
+          "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ status }),
+      })
+        .then((response) => {
+          if (response.ok || response.redirected) {
+            window.location.reload();
+          } else {
+            alert("Gagal memperbarui status.");
+            hideVerifyModal();
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          alert("Tidak dapat terhubung ke server.");
+          hideVerifyModal();
+        });
+    };
+
+    btnTerima.addEventListener("click", () => handleVerification("Sudah Diverifikasi"));
+    btnTolak.addEventListener("click", () => handleVerification("Ditolak"));
+    btnKembali.addEventListener("click", hideVerifyModal);
+  }
+
+  /**
+   * ================================================================
+   * BAGIAN 6: FILTER DAN PENCARIAN
+   * ================================================================
+   */
+  const searchInput = document.getElementById("searchInput");
+  const semesterFilter = document.getElementById("semesterFilter");
+  const statusFilter = document.getElementById("statusFilter");
+
   if (searchInput && semesterFilter && statusFilter) {
-    
-    function applyFilters() {
+    const applyFilters = () => {
       const params = new URLSearchParams();
-      
-      const searchValue = searchInput.value;
-      const semesterValue = semesterFilter.value;
-      const statusValue = statusFilter.value;
 
-      if (searchValue) {
-        params.append('search', searchValue);
-      }
-      if (semesterValue) {
-        params.append('semester', semesterValue);
-      }
-      if (statusValue) {
-        params.append('status', statusValue);
-      }
+      if (searchInput.value) params.append("search", searchInput.value);
+      if (semesterFilter.value) params.append("semester", semesterFilter.value);
+      if (statusFilter.value) params.append("status", statusFilter.value);
 
       const queryString = params.toString();
-      // Ganti URL saat ini dengan yang baru (termasuk parameter filter)
-      const newUrl = window.location.pathname + (queryString ? '?' + queryString : '');
+      const newUrl = window.location.pathname + (queryString ? "?" + queryString : "");
       window.location.href = newUrl;
+    };
+
+    semesterFilter.addEventListener("change", applyFilters);
+    statusFilter.addEventListener("change", applyFilters);
+
+    searchInput.addEventListener("keyup", function (event) {
+      if (event.key === "Enter") applyFilters();
+    });
+  }
+
+  /**
+   * ================================================================
+   * BAGIAN 7: DATE PICKER + ERROR VALIDASI
+   * ================================================================
+   */
+  document.querySelectorAll('input[type="date"]').forEach((el) => {
+    el.style.cursor = "pointer";
+    el.addEventListener("click", function () {
+      this.showPicker && this.showPicker();
+    });
+  });
+
+  if (document.querySelector("meta[name='csrf-token']")) {
+    if (window.LaravelErrors && window.LaravelErrors.length > 0) {
+      const errorModalElement = document.getElementById("pengalamanKerjaModal");
+      if (errorModalElement) {
+        const errorModal = new bootstrap.Modal(errorModalElement);
+        errorModal.show();
+      }
     }
-
-    // Terapkan filter saat dropdown diubah
-    semesterFilter.addEventListener('change', applyFilters);
-    statusFilter.addEventListener('change', applyFilters);
-
-    // Terapkan filter saat menekan "Enter" di kolom pencarian
-    searchInput.addEventListener('keyup', function (event) {
-      if (event.key === 'Enter') {
-        applyFilters();
+  }
+  
+    /**
+   * ================================================================
+   * BAGIAN 8: TUTUP MODAL JIKA KLIK DI LUAR
+   * ================================================================
+   */
+  function enableOutsideClickClose(modalElement, hideCallback) {
+    if (!modalElement) return;
+    modalElement.addEventListener("click", function (event) {
+      // cek apakah klik tepat di overlay, bukan di dalam konten
+      if (event.target === modalElement) {
+        hideCallback();
       }
     });
   }
 
+  // Modal custom (bukan bootstrap bawaan)
+  if (modalKonfirmasiHapus) {
+    enableOutsideClickClose(modalKonfirmasiHapus, () => {
+      modalKonfirmasiHapus.classList.remove("show");
+    });
+  }
+
+  if (modalVerifikasi) {
+    enableOutsideClickClose(modalVerifikasi, () => {
+      modalVerifikasi.classList.remove("show");
+    });
+  }
+
+  const successModalOverlay = document.getElementById("modalBerhasil");
+  if (successModalOverlay) {
+    enableOutsideClickClose(successModalOverlay, () => {
+      successModalOverlay.style.display = "none";
+    });
+  }
+
+  // Modal bootstrap (edit & detail)
+  if (editModalElement) {
+    enableOutsideClickClose(editModalElement, () => {
+      bootstrap.Modal.getInstance(editModalElement)?.hide();
+    });
+  }
+
+  if (detailModalElement) {
+    enableOutsideClickClose(detailModalElement, () => {
+      bootstrap.Modal.getInstance(detailModalElement)?.hide();
+    });
+  }
+  /**
+   * ================================================================
+   * BAGIAN 8: TUTUP MODAL JIKA KLIK DI LUAR
+   * ================================================================
+   */
+  function enableOutsideClickClose(modalElement, hideCallback) {
+    if (!modalElement) return;
+    modalElement.addEventListener("click", function (event) {
+      // cek apakah klik tepat di overlay, bukan di dalam konten
+      if (event.target === modalElement) {
+        hideCallback();
+      }
+    });
+  }
+
+  // Modal custom (bukan bootstrap bawaan)
+  if (modalKonfirmasiHapus) {
+    enableOutsideClickClose(modalKonfirmasiHapus, () => {
+      modalKonfirmasiHapus.classList.remove("show");
+    });
+  }
+
+  if (modalVerifikasi) {
+    enableOutsideClickClose(modalVerifikasi, () => {
+      modalVerifikasi.classList.remove("show");
+    });
+  }
+
+  // Modal bootstrap (edit & detail)
+  if (editModalElement) {
+    enableOutsideClickClose(editModalElement, () => {
+      bootstrap.Modal.getInstance(editModalElement)?.hide();
+    });
+  }
+
+  if (detailModalElement) {
+    enableOutsideClickClose(detailModalElement, () => {
+      bootstrap.Modal.getInstance(detailModalElement)?.hide();
+    });
+  }
 });
