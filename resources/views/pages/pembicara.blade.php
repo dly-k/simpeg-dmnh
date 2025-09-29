@@ -13,7 +13,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="{{ asset('assets/css/layout.css') }}" />
-  <link rel="stylesheet" href="{{ asset('assets/css/praktisi.css') }}" />
+  <link rel="stylesheet" href="{{ asset('assets/css/pembicara.css') }}" />
 </head>
 
 <body>
@@ -77,7 +77,7 @@
 
               <!-- Right: Button Tambah Data -->
               <div class="ms-auto">
-                <button class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#tambahPembicaraModal">
+                <button class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#pembicaraModal">
                   <i class="fa fa-plus me-2"></i> Tambah Data
                 </button>
               </div>
@@ -127,13 +127,38 @@
                         <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi">
                           <i class="fa fa-check"></i>
                         </a>
-                        <button class="btn btn-sm btn-lihat"><i class="fa fa-eye"></i></button>
+                        <button class="btn btn-sm btn-lihat btn-detail-pembicara"
+                          data-nama="Budi Santoso"
+                          data-kegiatan="Seminar Teknologi"
+                          data-capaian="Internasional"
+                          data-kategori="Keynote Speaker"
+                          data-makalah="Tren AI dalam Dunia Industri"
+                          data-pertemuan="Seminar Nasional Teknologi"
+                          data-tanggal="12 Oktober 2025"
+                          data-penyelenggara="Universitas IPB"
+                          data-tingkat="Internasional"
+                          data-bahasa="Indonesia"
+                          data-litabmas="Litabmas 2025"
+                          data-sertifikat="uploads/sertifikat.pdf"
+                          data-sk="uploads/sk.pdf"
+                        >
+                          <i class="fa fa-eye"></i> 
+                        </button>
                         <button 
                           class="btn btn-sm btn-warning btn-edit" 
                           data-bs-toggle="modal" 
-                          data-bs-target="#editPembicaraModal">
+                          data-bs-target="#editPembicaraModal"
+                          data-nama="Dr. Andi Saputra"
+                          data-kegiatan="Seminar Nasional"
+                          data-capaian="Nasional"
+                          data-kategori="utama"
+                          data-judul="Peran AI dalam Pendidikan"
+                          data-pertemuan="Seminar Teknologi Pendidikan"
+                          data-tanggal="2024-01-15"
+                          data-penyelenggara="Kemdikbud">
                           <i class="fa fa-edit"></i>
                         </button>
+
                         <a href="#" class="btn-aksi btn-hapus" title="Hapus Data">
                           <i class="fa fa-trash"></i>
                         </a>
@@ -165,8 +190,23 @@
                         <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi">
                           <i class="fa fa-check"></i>
                         </a>
-                        <button class="btn btn-sm btn-lihat"><i class="fa fa-eye"></i></button>
-                        <button 
+                        <button class="btn btn-sm btn-lihat btn-detail-pembicara"
+                          data-nama="Budi Santoso"
+                          data-kegiatan="Seminar Teknologi"
+                          data-capaian="Internasional"
+                          data-kategori="Keynote Speaker"
+                          data-makalah="Tren AI dalam Dunia Industri"
+                          data-pertemuan="Seminar Nasional Teknologi"
+                          data-tanggal="12 Oktober 2025"
+                          data-penyelenggara="Universitas IPB"
+                          data-tingkat="Internasional"
+                          data-bahasa="Indonesia"
+                          data-litabmas="Litabmas 2025"
+                          data-sertifikat="uploads/sertifikat.pdf"
+                          data-sk="uploads/sk.pdf"
+                        >
+                          <i class="fa fa-eye"></i> 
+                        </button>                        <button 
                           class="btn btn-sm btn-warning btn-edit" 
                           data-bs-toggle="modal" 
                           data-bs-target="#editPembicaraModal">
@@ -195,10 +235,13 @@
   {{-- @include('components.konfirmasi-hapus') --}}
   {{-- @include('components.konfirmasi-berhasil') --}}
   {{-- @include('components.konfirmasi-verifikasi') --}}
+  @include('components.pembicara.detail-pembicara')
+  @include('components.pembicara.tambah-pembicara')
+  @include('components.pembicara.edit-pembicara')
 
   <!-- Scripts -->
   <script src="{{ asset('assets/js/layout.js') }}"></script>
-  <script src="{{ asset('assets/js/praktisi.js') }}"></script>
+  <script src="{{ asset('assets/js/pembicara.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
