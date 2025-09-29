@@ -87,19 +87,60 @@ window.showSuccessModal = (title, subtitle) => {
 };
 
 // ===================================================================================
+// FUNGSI PEMBUKA MODAL (DIDEFINISIKAN SECARA GLOBAL)
+// ===================================================================================
+window.openModal=()=>{
+    const penelitianModalEl = document.getElementById("penelitianModal");
+    const penelitianModalInstance = penelitianModalEl ? new bootstrap.Modal(penelitianModalEl) : null;
+    const penelitianForm = document.getElementById("penelitianForm");
+    
+    if(penelitianModalInstance) {
+        penelitianForm.reset();
+        penelitianForm.action="/penelitian";
+        document.getElementById("form-method-placeholder").innerHTML="";
+        document.getElementById("penelitianModalLabel").innerHTML='<i class="fas fa-plus-circle"></i> Tambah Data Penelitian';
+        penelitianForm.querySelector('button[type="submit"]').textContent="Simpan Data";
+        resetPenulisFields();
+        penelitianModalInstance.show();
+    }
+};
+window.openEditModal=id=>{
+    const penelitianModalEl = document.getElementById("penelitianModal");
+    const penelitianModalInstance = penelitianModalEl ? new bootstrap.Modal(penelitianModalEl) : null;
+    const penelitianForm = document.getElementById("penelitianForm");
+    
+    if(penelitianModalInstance) {
+        fetch(`/penelitian/${id}/edit`).then(res => res.json()).then(data => {
+            penelitianForm.reset();
+            penelitianForm.action=`/penelitian/${id}`;
+            document.getElementById("form-method-placeholder").innerHTML='<input type="hidden" name="_method" value="PATCH">';
+            document.getElementById("penelitianModalLabel").innerHTML='<i class="fas fa-edit"></i> Edit Data Penelitian';
+            penelitianForm.querySelector('button[type="submit"]').textContent="Update Data";
+            populateForm(data);
+            penelitianModalInstance.show();
+        }).catch(err => console.error("Error fetching data for edit:", err));
+    }
+};
+window.openDetailModal=id=>{
+    const detailModalEl = document.getElementById("detailModal");
+    const detailModalInstance = detailModalEl ? new bootstrap.Modal(detailModalEl) : null;
+
+    if(detailModalInstance) {
+        fetch(`/penelitian/${id}/edit`).then(res => res.json()).then(data => {
+            populateDetailModal(data);
+            detailModalInstance.show();
+        }).catch(err => console.error("Error fetching detail data:", err));
+    }
+};
+
+// ===================================================================================
 // EKSEKUSI SETELAH HALAMAN SIAP (DOMContentLoaded)
 // ===================================================================================
 document.addEventListener("DOMContentLoaded", () => {
-  // --- Inisialisasi Semua Modal ---
-  const penelitianModalEl = document.getElementById("penelitianModal");
-  const detailModalEl = document.getElementById("detailModal");
+  // --- Inisialisasi Variabel Modal ---
   const modalKonfirmasiVerifikasi = document.getElementById('modalKonfirmasiVerifikasi');
   const konfirmasiHapusModal = document.querySelector('.konfirmasi-hapus-overlay');
   
-  const penelitianModalInstance = penelitianModalEl ? new bootstrap.Modal(penelitianModalEl) : null;
-  const detailModalInstance = detailModalEl ? new bootstrap.Modal(detailModalEl) : null;
-  const penelitianForm = document.getElementById("penelitianForm");
-
   // --- Fungsi untuk mengirim request verifikasi (AJAX) ---
   function sendVerifikasiRequest(status) {
     if (!currentVerifikasiId) return;
@@ -149,7 +190,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   
   // --- Fungsi untuk mengisi Form Edit ---
-  function populateForm(data){
+  // (Fungsi ini hanya akan dipanggil oleh openEditModal yang sudah global)
+  window.populateForm=function(data){
+      const penelitianForm = document.getElementById("penelitianForm");
       penelitianForm.querySelector('[name="judul"]').value=data.judul;
       penelitianForm.querySelector('[name="jenis_karya"]').value=data.jenis_karya;
       penelitianForm.querySelector('[name="volume"]').value=data.volume;
@@ -186,7 +229,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // --- Fungsi untuk mengisi Modal Detail ---
-  function populateDetailModal(data) {
+  // (Fungsi ini hanya akan dipanggil oleh openDetailModal yang sudah global)
+  window.populateDetailModal=function(data) {
     const setDetail = (id, value) => {
         const el = document.getElementById(id);
         if (el) el.textContent = value || '-';
@@ -201,7 +245,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (tanggalTerbitEl) {
         if (data.tanggal_terbit) {
             const date = new Date(data.tanggal_terbit);
-            tanggalTerbitEl.textContent = date.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+            tanggalTerbitEl.textContent = date.toLocaleDate-String('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
         } else {
             tanggalTerbitEl.textContent = '-';
         }
@@ -257,40 +301,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
   }
-  
-  // --- Fungsi-fungsi pembuka Modal ---
-  window.openModal=()=>{
-      if(penelitianModalInstance) {
-          penelitianForm.reset();
-          penelitianForm.action="/penelitian";
-          document.getElementById("form-method-placeholder").innerHTML="";
-          document.getElementById("penelitianModalLabel").innerHTML='<i class="fas fa-plus-circle"></i> Tambah Data Penelitian';
-          penelitianForm.querySelector('button[type="submit"]').textContent="Simpan Data";
-          resetPenulisFields();
-          penelitianModalInstance.show();
-      }
-  };
-  window.openEditModal=id=>{
-      if(penelitianModalInstance) {
-          fetch(`/penelitian/${id}/edit`).then(res => res.json()).then(data => {
-              penelitianForm.reset();
-              penelitianForm.action=`/penelitian/${id}`;
-              document.getElementById("form-method-placeholder").innerHTML='<input type="hidden" name="_method" value="PATCH">';
-              document.getElementById("penelitianModalLabel").innerHTML='<i class="fas fa-edit"></i> Edit Data Penelitian';
-              penelitianForm.querySelector('button[type="submit"]').textContent="Update Data";
-              populateForm(data);
-              penelitianModalInstance.show();
-          }).catch(err => console.error("Error fetching data for edit:", err));
-      }
-  };
-  window.openDetailModal=id=>{
-      if(detailModalInstance) {
-          fetch(`/penelitian/${id}/edit`).then(res => res.json()).then(data => {
-              populateDetailModal(data);
-              detailModalInstance.show();
-          }).catch(err => console.error("Error fetching detail data:", err));
-      }
-  };
 
   // --- Event listener untuk tombol Selesai di modal sukses ---
   document.getElementById("btnSelesai")?.addEventListener("click", () => {

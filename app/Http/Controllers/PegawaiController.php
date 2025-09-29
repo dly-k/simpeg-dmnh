@@ -16,6 +16,7 @@ use App\Models\PengujianLama;
 use App\Models\PembimbingLama;
 use App\Models\PengujiLuar;
 use App\Models\PembimbingLuar;
+use App\Models\Penelitian; // 1. Tambahkan model Penelitian
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Exports\PegawaiExport;
@@ -186,7 +187,13 @@ class PegawaiController extends Controller
         $dataPengujiLuar = $loadPendidikanData(PengujiLuar::class, 'pengujiLuarPage');
         $dataPembimbingLuar = $loadPendidikanData(PembimbingLuar::class, 'pembimbingLuarPage');
 
-        // --- 3. Muat Relasi SK dengan Filter ---
+        // --- 3. Logika untuk Data Penelitian ---
+        $penelitianPegawai = Penelitian::whereHas('penulis', function ($query) use ($pegawai) {
+            $query->where('pegawai_id', $pegawai->id);
+        })->with('penulis.pegawai')->latest()->paginate(10, ['*'], 'penelitianPage')->withQueryString();
+
+
+        // --- 4. Muat Relasi SK dengan Filter ---
         $pegawai->load([
             'efiles',
             'penetapanPangkats' => fn($q) => $q->when($request->search_pangkat, fn($q, $s) => $q->where('nomor_sk', 'like', "%{$s}%")->orWhere('golongan', 'like', "%{$s}%"))->when($request->tahun_pangkat, fn($q, $y) => $q->whereYear('tanggal_sk', $y)),
@@ -201,7 +208,8 @@ class PegawaiController extends Controller
         return view('pages.pegawai.detail-pegawai', compact(
             'pegawai', 'tahunOptions', 'tahunAkademikOptions',
             'dataPengajaranLama', 'dataPengajaranLuar', 'dataPengujianLama',
-            'dataPembimbingLama', 'dataPengujiLuar', 'dataPembimbingLuar'
+            'dataPembimbingLama', 'dataPengujiLuar', 'dataPembimbingLuar',
+            'penelitianPegawai' // 2. Tambahkan variabel ke compact
         ));
     }
 

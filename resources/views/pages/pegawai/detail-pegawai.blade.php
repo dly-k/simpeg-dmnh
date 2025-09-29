@@ -682,7 +682,91 @@
                             </div>
                         </div>
 
-                        <div class="main-tab-content" id="penelitian-content" style="display: none;"><p>Konten Pelaksanaan Penelitian akan dimuat di sini.</p></div>
+ <div class="main-tab-content" id="penelitian-content" style="display: none;">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered">
+                                  <thead class="table-light text-center align-middle">
+                                    <tr>
+                                      <th>No</th>
+                                      <th>Judul & Penulis</th>
+                                      <th>Tgl Terbit</th>
+                                      <th>Jenis Karya</th>
+                                      <th>Publik</th>
+                                      <th>Status</th>
+                                      <th>Dokumen</th>
+                                      <th>Aksi</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    @forelse($penelitianPegawai as $item)
+                                    <tr data-row-id="{{ $item->id }}">
+                                      <td class="text-center">{{ $loop->iteration + $penelitianPegawai->firstItem() - 1 }}</td>
+                                      <td>
+                                        {{ $item->judul }}
+                                        <small class="text-muted d-block mt-1">
+                                          @php
+                                              $penulisDisplay = $item->penulis->map(fn($p) => $p->pegawai->nama_lengkap ?? $p->nama_penulis);
+                                          @endphp
+                                          <i class="fas fa-users me-1"></i> {{ $penulisDisplay->implode(', ') }}
+                                        </small>
+                                      </td>
+                                      <td class="text-center">{{ $item->tanggal_terbit ? $item->tanggal_terbit->format('d M Y') : '-' }}</td>
+                                      <td class="text-center">{{ $item->jenis_karya }}</td>
+                                      <td class="text-center">{{ $item->is_publik ? 'Ya' : 'Tidak' }}</td>
+                                      
+                                      <td class="text-center status-cell">
+                                        @if ($item->status == 'Sudah Diverifikasi')
+                                          <i class="fas fa-check-circle text-success" title="Sudah Diverifikasi"></i>
+                                        @elseif ($item->status == 'Ditolak')
+                                          <i class="fas fa-times-circle text-danger" title="Ditolak"></i>
+                                        @else
+                                          <i class="fas fa-question-circle text-warning" title="Belum Diverifikasi"></i>
+                                        @endif
+                                      </td>
+                      
+                                      <td class="text-center">
+                                        @if($item->dokumen_path)
+                                          <a href="{{ asset('storage/' . $item->dokumen_path) }}" target="_blank" class="btn btn-sm btn-lihat text-white">
+                                              Lihat
+                                          </a>
+                                        @else
+                                          <span>-</span>
+                                        @endif
+                                      </td>
+                      
+                                      <td class="text-center">
+                                        <div class="d-flex gap-2 justify-content-center">
+                                            <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail" onclick="event.preventDefault(); openDetailModal({{ $item->id }})">
+                                              <i class="fa fa-eye"></i>
+                                            </a>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                    @empty
+                                    <tr><td colspan="8" class="text-center py-4">Pegawai ini belum memiliki data penelitian.</td></tr>
+                                    @endforelse
+                                  </tbody>
+                                </table>
+                            </div>
+                      
+                            {{-- Pagination --}}
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <span class="text-muted small">
+                                    @if ($penelitianPegawai->total() > 0)
+                                        Menampilkan {{ $penelitianPegawai->firstItem() }} sampai {{ $penelitianPegawai->lastItem() }} dari {{ $penelitianPegawai->total() }} data
+                                    @else
+                                        Tidak ada data untuk ditampilkan
+                                    @endif
+                                </span>
+                                
+                                @if ($penelitianPegawai->hasPages())
+                                    <div class="d-flex justify-content-end">
+                                        {{-- Menambahkan parameter 'tab' agar tetap di tab penelitian saat ganti halaman --}}
+                                        {{ $penelitianPegawai->appends(['tab' => 'penelitian'])->links() }}
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
                         <div class="main-tab-content" id="pengabdian-content" style="display: none;"><p>Konten Pelaksanaan Pengabdian akan dimuat di sini.</p></div>
                         <div class="main-tab-content" id="penunjang-content" style="display: none;"><p>Konten Penunjang akan dimuat di sini.</p></div>
                         <div class="main-tab-content" id="pelatihan-content" style="display: none;"><p>Konten Pelatihan akan dimuat di sini.</p></div>
@@ -717,6 +801,7 @@
     @include('components.pendidikan.detail-pembimbing-lama')
     @include('components.pendidikan.detail-penguji-luar')
     @include('components.pendidikan.detail-pembimbing-luar')
+    @include('components.penelitian.detail-penelitian')
     
     @if (session('success'))
         <div id="success-trigger" data-title="Berhasil!" data-message="{{ session('success') }}" data-active-tab="{{ session('active_tab') }}" data-active-subtab="{{ session('active_subtab') }}"></div>
@@ -725,5 +810,14 @@
 <script src="{{ asset('assets/js/layout.js') }}"></script>
 <script src="{{ asset('assets/js/detail-pegawai.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
+{{-- --}}
+<script src="{{ asset('assets/js/penelitian.js') }}"></script>
+<!-- <script>
+    // Helper untuk mencegah error jika fungsi initPegawaiList tidak digunakan di halaman ini
+    if (typeof window.initPegawaiList === 'undefined') {
+        window.initPegawaiList = (data) => {}; 
+    }
+</script> -->
 </body>
 </html>
