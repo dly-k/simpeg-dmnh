@@ -85,7 +85,32 @@ class PembicaraController extends Controller
                 ->withInput();
         }
     }
-    
+    public function verifikasi(Request $request, Pembicara $pembicara)
+    {
+        // Validasi input yang masuk, harus 'sudah_diverifikasi' atau 'ditolak'
+        $request->validate([
+            'status' => 'required|string|in:sudah_diverifikasi,ditolak',
+        ]);
+
+        try {
+            // Update kolom status_verifikasi
+            $pembicara->status_verifikasi = $request->status;
+            $pembicara->save();
+
+            // Tentukan pesan sukses berdasarkan status
+            $pesan = $request->status === 'sudah_diverifikasi' 
+                ? 'Data pembicara berhasil diverifikasi.' 
+                : 'Data pembicara berhasil ditolak.';
+
+            // Kembalikan response JSON yang menandakan sukses
+            return response()->json(['success' => true, 'message' => $pesan]);
+
+        } catch (\Exception $e) {
+            Log::error('Gagal verifikasi data pembicara: ' . $e->getMessage());
+            // Kembalikan response JSON jika terjadi error
+            return response()->json(['success' => false, 'message' => 'Terjadi kesalahan di server.'], 500);
+        }
+    }
     /**
      * Mengambil data spesifik untuk diedit dan mengembalikannya sebagai JSON.
      */

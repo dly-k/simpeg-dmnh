@@ -2,11 +2,10 @@ document.addEventListener("DOMContentLoaded", function () {
   /**
    * ===================================================================
    * Notifikasi Sukses (Modal & Suara)
-   * Muncul saat data berhasil disimpan/diperbarui dan hilang setelah 1 detik.
    * ===================================================================
    */
-  const handleSuccessNotification = () => {
-    const successMessage = document.querySelector('meta[name="flash-success"]')?.getAttribute('content');
+  const handleSuccessNotification = (message, autoHideDelay = null) => {
+    const successMessage = message || document.querySelector('meta[name="flash-success"]')?.getAttribute('content');
     if (successMessage) {
       const modalBerhasil = document.getElementById('modalBerhasil');
       if (modalBerhasil) {
@@ -15,9 +14,13 @@ document.addEventListener("DOMContentLoaded", function () {
         modalBerhasil.classList.add('show');
         const successSound = new Audio('/assets/sounds/Success.mp3');
         successSound.play().catch(error => console.error("Gagal memutar suara:", error));
-        setTimeout(() => {
-          modalBerhasil.classList.remove('show');
-        }, 1000); // Hilang setelah 1 detik
+
+        if (autoHideDelay) {
+          setTimeout(() => {
+            modalBerhasil.classList.remove('show');
+          }, autoHideDelay);
+        }
+        
         document.getElementById('btnSelesai').addEventListener('click', () => {
           modalBerhasil.classList.remove('show');
         });
@@ -27,8 +30,84 @@ document.addEventListener("DOMContentLoaded", function () {
 
   /**
    * ===================================================================
+   * Logika untuk Fitur Verifikasi
+   * ===================================================================
+   */
+  const verifikasiModal = document.getElementById('modalKonfirmasiVerifikasi');
+  const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+  let currentVerifikasiId = null;
+
+  // Event delegation untuk semua tombol verifikasi di body
+  document.body.addEventListener('click', function(event) {
+    const verifikasiBtn = event.target.closest('.btn-verifikasi');
+    if (verifikasiBtn) {
+      currentVerifikasiId = verifikasiBtn.dataset.id;
+      if (verifikasiModal) {
+        verifikasiModal.classList.add('show');
+      }
+    }
+  });
+
+  // Event listener untuk tombol di dalam modal verifikasi
+  if (verifikasiModal) {
+    verifikasiModal.addEventListener('click', function(event) {
+        const target = event.target;
+        const actionBtn = target.closest('.btn-popup');
+
+        if (!actionBtn && target.id === 'modalKonfirmasiVerifikasi') {
+            verifikasiModal.classList.remove('show');
+            return;
+        }
+
+        if (actionBtn) {
+            let status = '';
+            if (actionBtn.id === 'popupBtnTerima') {
+                status = 'sudah_diverifikasi';
+            } else if (actionBtn.id === 'popupBtnTolak') {
+                status = 'ditolak';
+            } else if (actionBtn.id === 'popupBtnKembali') {
+                verifikasiModal.classList.remove('show');
+                return;
+            }
+
+            if (status && currentVerifikasiId) {
+                processVerification(currentVerifikasiId, status);
+                verifikasiModal.classList.remove('show');
+            }
+        }
+    });
+  }
+
+  async function processVerification(id, status) {
+    try {
+      const response = await fetch(`/pembicara/${id}/verifikasi`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': csrfToken
+        },
+        body: JSON.stringify({ status: status })
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        handleSuccessNotification(result.message); // Tampilkan notif sukses
+        setTimeout(() => { // Reload halaman setelah notif
+            window.location.reload();
+        }, 1600);
+      } else {
+        throw new Error(result.message || 'Gagal memproses verifikasi.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Error: ' + error.message);
+    }
+  }
+
+  /**
+   * ===================================================================
    * Logika untuk Fitur Edit Data
-   * Mengambil data dari server dan mengisi form modal edit.
    * ===================================================================
    */
   const editModal = document.getElementById('editPembicaraModal');
@@ -108,7 +187,6 @@ document.addEventListener("DOMContentLoaded", function () {
   /**
    * ===================================================================
    * Logika untuk Fitur Detail Data
-   * Mengambil data dari server dan mengisi form modal detail.
    * ===================================================================
    */
   const detailModal = document.getElementById('detailPembicaraModal');
@@ -116,22 +194,18 @@ document.addEventListener("DOMContentLoaded", function () {
     detailModal.addEventListener('show.bs.modal', async function (event) {
         const button = event.relatedTarget;
         const id = button.dataset.id;
-        
         const setDetailText = (elementId, text) => {
             const el = document.getElementById(elementId);
             if (el) el.textContent = text || '-';
         };
-
         const fields = ['nama', 'kegiatan', 'capaian', 'kategori-pembicara', 'makalah', 'pertemuan', 'tanggal', 'penyelenggara', 'tingkat', 'bahasa', 'litabmas'];
         fields.forEach(field => setDetailText(`detail-${field}`, 'Memuat data...'));
         const dokumenList = document.getElementById('detail-dokumen-list');
         dokumenList.innerHTML = '<p class="text-muted">Memuat dokumen...</p>';
-
         try {
             const response = await fetch(`/pembicara/${id}/edit`);
             if (!response.ok) throw new Error('Data tidak ditemukan');
             const data = await response.json();
-
             setDetailText('detail-nama', data.pegawai ? data.pegawai.nama_lengkap : 'N/A');
             setDetailText('detail-kegiatan', data.kegiatan === 'lainnya' ? data.kegiatan_lainnya : data.kegiatan.replace(/_/g, ' '));
             setDetailText('detail-capaian', data.kategori_capaian);
@@ -143,7 +217,6 @@ document.addEventListener("DOMContentLoaded", function () {
             setDetailText('detail-tingkat', data.tingkat_pertemuan);
             setDetailText('detail-bahasa', data.bahasa);
             setDetailText('detail-litabmas', data.litabmas);
-
             dokumenList.innerHTML = '';
             if (data.dokumen && data.dokumen.length > 0) {
                 data.dokumen.forEach(doc => {
@@ -162,7 +235,6 @@ document.addEventListener("DOMContentLoaded", function () {
             } else {
                 dokumenList.innerHTML = '<div class="col-12"><p class="text-muted fst-italic">Tidak ada dokumen terlampir.</p></div>';
             }
-
         } catch (error) {
             console.error('Error fetching details:', error);
             dokumenList.innerHTML = '<p class="text-danger">Gagal memuat data.</p>';
@@ -246,7 +318,7 @@ document.addEventListener("DOMContentLoaded", function () {
    * Inisialisasi semua fungsi saat halaman dimuat
    * ===================================================================
    */
-  handleSuccessNotification();
+  handleSuccessNotification(null, 1500); // Dipanggil saat halaman load (untuk form add/edit)
   initDokumenHandler("dokumenWrapper", "addDokumen");
   initDokumenHandler("editDokumenWrapper", "addEditDokumen");
   initToggleLainnya("kegiatan", "kegiatan_lainnya");

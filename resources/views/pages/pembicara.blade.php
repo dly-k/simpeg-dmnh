@@ -131,7 +131,12 @@
                     </td>
                     <td>
                       <div class="d-flex gap-2">
-                        <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi"><i class="fa fa-check"></i></a>
+                        <button 
+                            class="btn-aksi btn-verifikasi" 
+                            title="Verifikasi" 
+                            data-id="{{ $pembicara->id }}">
+                            <i class="fa fa-check"></i>
+                        </button>
                         <button 
                             class="btn btn-sm btn-lihat btn-detail-pembicara" 
                             data-bs-toggle="modal" 
@@ -165,9 +170,9 @@
   </div>
 
   <!-- Modal  -->
-  {{-- @include('components.konfirmasi-hapus') --}}
+  @include('components.konfirmasi-hapus')
   @include('components.konfirmasi-berhasil')
-  {{-- @include('components.konfirmasi-verifikasi') --}}
+  @include('components.konfirmasi-verifikasi')
  @include('components.pembicara.detail-pembicara')
   @include('components.pembicara.tambah-pembicara', ['pegawais' => $pegawais])
   @include('components.pembicara.edit-pembicara', ['pegawais' => $pegawais])
