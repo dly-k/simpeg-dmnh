@@ -30,6 +30,39 @@ document.addEventListener("DOMContentLoaded", function () {
 
   /**
    * ===================================================================
+   * Logika untuk Fitur Hapus Data
+   * ===================================================================
+   */
+  const hapusModal = document.getElementById('modalKonfirmasiHapus');
+  let formToDelete = null;
+
+  document.body.addEventListener('click', function(event) {
+    const deleteBtn = event.target.closest('.btn-hapus-data');
+    if (deleteBtn) {
+      event.preventDefault();
+      formToDelete = deleteBtn.closest('form');
+      if (hapusModal) {
+        hapusModal.classList.add('show');
+      }
+    }
+  });
+
+  if (hapusModal) {
+    document.getElementById('btnKonfirmasiHapus').addEventListener('click', function() {
+      if (formToDelete) {
+        formToDelete.submit();
+      }
+      hapusModal.classList.remove('show');
+    });
+
+    document.getElementById('btnBatalHapus').addEventListener('click', function() {
+      formToDelete = null;
+      hapusModal.classList.remove('show');
+    });
+  }
+
+  /**
+   * ===================================================================
    * Logika untuk Fitur Verifikasi
    * ===================================================================
    */
@@ -37,7 +70,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
   let currentVerifikasiId = null;
 
-  // Event delegation untuk semua tombol verifikasi di body
   document.body.addEventListener('click', function(event) {
     const verifikasiBtn = event.target.closest('.btn-verifikasi');
     if (verifikasiBtn) {
@@ -48,17 +80,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Event listener untuk tombol di dalam modal verifikasi
   if (verifikasiModal) {
     verifikasiModal.addEventListener('click', function(event) {
         const target = event.target;
         const actionBtn = target.closest('.btn-popup');
-
-        if (!actionBtn && target.id === 'modalKonfirmasiVerifikasi') {
+        if (!actionBtn && (target.id === 'modalKonfirmasiVerifikasi' || target.classList.contains('konfirmasi-hapus-overlay'))) {
             verifikasiModal.classList.remove('show');
             return;
         }
-
         if (actionBtn) {
             let status = '';
             if (actionBtn.id === 'popupBtnTerima') {
@@ -69,7 +98,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 verifikasiModal.classList.remove('show');
                 return;
             }
-
             if (status && currentVerifikasiId) {
                 processVerification(currentVerifikasiId, status);
                 verifikasiModal.classList.remove('show');
@@ -82,27 +110,15 @@ document.addEventListener("DOMContentLoaded", function () {
     try {
       const response = await fetch(`/pembicara/${id}/verifikasi`, {
         method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': csrfToken
-        },
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrfToken },
         body: JSON.stringify({ status: status })
       });
-
       const result = await response.json();
-
       if (response.ok && result.success) {
-        handleSuccessNotification(result.message); // Tampilkan notif sukses
-        setTimeout(() => { // Reload halaman setelah notif
-            window.location.reload();
-        }, 1600);
-      } else {
-        throw new Error(result.message || 'Gagal memproses verifikasi.');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      alert('Error: ' + error.message);
-    }
+        handleSuccessNotification(result.message);
+        setTimeout(() => { window.location.reload(); }, 1600);
+      } else { throw new Error(result.message || 'Gagal memproses verifikasi.'); }
+    } catch (error) { console.error('Error:', error); alert('Error: ' + error.message); }
   }
 
   /**
@@ -121,16 +137,13 @@ document.addEventListener("DOMContentLoaded", function () {
       wrapper.innerHTML = '';
       document.getElementById('deleted_dokumen_ids').value = '';
       form.action = `/pembicara/${id}`;
-
       try {
         const response = await fetch(`/pembicara/${id}/edit`);
         if (!response.ok) throw new Error('Gagal mengambil data untuk diedit');
         const data = await response.json();
         for (const key in data) {
           const field = form.querySelector(`[name="${key}"][id^="edit_"]`);
-          if (field) {
-            field.value = data[key];
-          }
+          if (field) { field.value = data[key]; }
         }
         if (data.dokumen && data.dokumen.length > 0) {
           data.dokumen.forEach(doc => {
@@ -154,9 +167,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const docNomor = doc.nomor || '';
     const docTautan = doc.tautan || '';
     const jenisOptions = ['Transkrip', 'Surat Tugas', 'SK', 'Sertifikat', 'Penyetaraan Ijazah', 'Laporan Kegiatan', 'Ijazah', 'Buku / Bahan Ajar'];
-    const optionsHtml = jenisOptions.map(opt => 
-      `<option value="${opt}" ${doc.jenis_dokumen === opt ? 'selected' : ''}>${opt}</option>`
-    ).join('');
+    const optionsHtml = jenisOptions.map(opt => `<option value="${opt}" ${doc.jenis_dokumen === opt ? 'selected' : ''}>${opt}</option>`).join('');
     item.innerHTML = `
         <button type="button" class="btn-close position-absolute top-0 end-0 m-2 removeExistingDokumen" aria-label="Close" title="Hapus Dokumen Ini"></button>
         <div class="row g-2">
@@ -318,7 +329,7 @@ document.addEventListener("DOMContentLoaded", function () {
    * Inisialisasi semua fungsi saat halaman dimuat
    * ===================================================================
    */
-  handleSuccessNotification(null, 1500); // Dipanggil saat halaman load (untuk form add/edit)
+  handleSuccessNotification(null, 1500);
   initDokumenHandler("dokumenWrapper", "addDokumen");
   initDokumenHandler("editDokumenWrapper", "addEditDokumen");
   initToggleLainnya("kegiatan", "kegiatan_lainnya");

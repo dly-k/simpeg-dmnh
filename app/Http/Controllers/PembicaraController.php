@@ -121,6 +121,34 @@ class PembicaraController extends Controller
         return response()->json($pembicara);
     }
 
+    public function destroy(Pembicara $pembicara)
+    {
+        try {
+            DB::beginTransaction();
+
+            // Hapus semua file dokumen terkait dari storage
+            foreach ($pembicara->dokumen as $dokumen) {
+                // Hapus prefix 'storage/' agar path-nya benar di dalam folder storage/app/public
+                $filePath = str_replace('storage/', '', $dokumen->file_path);
+                Storage::disk('public')->delete($filePath);
+            }
+
+            // Hapus record pembicara (record dokumen akan terhapus otomatis karena onDelete('cascade'))
+            $pembicara->delete();
+
+            DB::commit();
+
+            return redirect()->route('pembicara.index')
+                ->with('success', 'Data pembicara berhasil dihapus!');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Gagal menghapus data pembicara: ' . $e->getMessage());
+            return redirect()->route('pembicara.index')
+                ->with('error', 'Terjadi kesalahan saat menghapus data.');
+        }
+    }
+    
     /**
      * Memperbarui data pembicara yang ada di database.
      */

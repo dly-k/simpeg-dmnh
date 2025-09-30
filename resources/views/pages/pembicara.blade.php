@@ -145,7 +145,13 @@
                             <i class="fa fa-eye"></i>
                         </button>
                         <button class="btn btn-sm btn-warning btn-edit" data-bs-toggle="modal" data-id="{{ $pembicara->id }}" data-bs-target="#editPembicaraModal"><i class="fa fa-edit"></i></button>
-                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
+                        <form action="{{ route('pembicara.destroy', $pembicara->id) }}" method="POST" class="d-inline">
+                          @csrf
+                          @method('DELETE')
+                          <button type="submit" class="btn-aksi btn-hapus btn-hapus-data" title="Hapus Data">
+                              <i class="fa fa-trash"></i>
+                          </button>
+                      </form>
                       </div>
                     </td>
                   </tr>

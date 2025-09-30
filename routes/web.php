@@ -229,6 +229,7 @@ Route::post('/pembicara', [PembicaraController::class, 'store'])->name('pembicar
 Route::get('/pembicara/{pembicara}/edit', [PembicaraController::class, 'edit'])->name('pembicara.edit');
 Route::put('/pembicara/{pembicara}', [PembicaraController::class, 'update'])->name('pembicara.update');
 Route::patch('/pembicara/{pembicara}/verifikasi', [PembicaraController::class, 'verifikasi'])->name('pembicara.verifikasi');
+Route::delete('/pembicara/{pembicara}', [PembicaraController::class, 'destroy'])->name('pembicara.destroy');
 
 Route::get('/organisasi-profesi', [OrganisasiProfesiController::class, 'index'])->name('organisasi-profesi.index');
 
