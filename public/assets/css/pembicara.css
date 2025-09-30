@@ -274,6 +274,39 @@
   color: var(--gray);
 }
 
+/* =============================
+   Pencarian dan Filter
+============================= */
+.search-filter-row {
+  display: flex;
+  flex-wrap: wrap; /* Mengizinkan wrap di layar kecil */
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.search-box {
+  flex-grow: 1; /* Membuat search box mengisi ruang sisa */
+  min-width: 250px; /* Lebar minimum untuk search box */
+}
+
+.filter-select {
+  flex-shrink: 0; /* Mencegah dropdown menyusut */
+  width: auto; /* Biarkan lebarnya menyesuaikan konten, tapi bisa diberi min-width */
+  min-width: 180px;
+}
+
+.btn-tambah-container {
+  margin-left: auto; /* Ini adalah kunci untuk mendorong tombol ke paling kanan */
+}
+
+.search-input::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.search-icon {
+  color: var(--primary);
+}
 
 /* =============================
    Modal Konfirmasi Verifikasi

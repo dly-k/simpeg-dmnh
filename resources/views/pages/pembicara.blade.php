@@ -37,51 +37,55 @@
           <div class="card-body p-4">
 
             <!-- Filter Bar -->
-            <div class="d-flex flex-wrap align-items-center mb-3 gap-2">
-              <div class="d-flex flex-grow-1 gap-2">
-                <!-- Search -->
-                <div class="input-group flex-grow-1">
-                  <span class="input-group-text bg-light border-end-0">
-                    <i class="fas fa-search text-success"></i>
-                  </span>
-                  <input 
-                    type="text" 
-                    class="form-control border-start-0 search-input" 
-                    placeholder="Cari Pembicara ...."
-                  >
-                </div>
+          <form id="filterForm" action="{{ route('pembicara.index') }}" method="GET">
+              <div class="search-filter-row">
 
-                <!-- Tahun -->
-                <select class="form-select" style="max-width: 160px;">
-                  <option value="">Semua Tahun</option>
-                  <option>2023</option>
-                  <option>2024</option>
-                  <option>2025</option>
-                </select>
+                  <div class="search-box">
+                      <div class="input-group">
+                          <span class="input-group-text bg-light border-end-0">
+                              <i class="fas fa-search search-icon"></i>
+                          </span>
+                          <input 
+                              type="text" 
+                              name="search"
+                              class="form-control border-start-0 search-input" 
+                              placeholder="Cari Nama/Judul Makalah...."
+                              value="{{ request('search') }}"
+                          >
+                      </div>
+                  </div>
 
-                <!-- Kategori Capaian -->
-                <select class="form-select" style="max-width: 200px;">
-                  <option value="">Semua Capaian</option>
-                  <option>Nasional</option>
-                  <option>Internasional</option>
-                </select>
+                  <select name="semester" class="form-select filter-select">
+                      <option value="">Semua Tahun/Semester</option>
+                      @foreach ($semesterOptions as $option)
+                          <option value="{{ $option['value'] }}" {{ request('semester') == $option['value'] ? 'selected' : '' }}>
+                              {{ $option['text'] }}
+                          </option>
+                      @endforeach
+                  </select>
 
-                <!-- Status -->
-                <select class="form-select" style="max-width: 180px;">
-                  <option value="">Semua Status</option>
-                  <option>Sudah Diverifikasi</option>
-                  <option>Belum Diverifikasi</option>
-                  <option>Ditolak</option>
-                </select>
+                  <select name="tingkat" class="form-select filter-select">
+                      <option value="">Semua Tingkat</option>
+                      <option value="lokal" {{ request('tingkat') == 'lokal' ? 'selected' : '' }}>Lokal</option>
+                      <option value="nasional" {{ request('tingkat') == 'nasional' ? 'selected' : '' }}>Nasional</option>
+                      <option value="internasional" {{ request('tingkat') == 'internasional' ? 'selected' : '' }}>Internasional</option>
+                  </select>
+
+                  <select name="status" class="form-select filter-select">
+                      <option value="">Semua Status</option>
+                      <option value="sudah_diverifikasi" {{ request('status') == 'sudah_diverifikasi' ? 'selected' : '' }}>Sudah Diverifikasi</option>
+                      <option value="belum_diverifikasi" {{ request('status') == 'belum_diverifikasi' ? 'selected' : '' }}>Belum Diverifikasi</option>
+                      <option value="ditolak" {{ request('status') == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
+                  </select>
+
+                  <div class="btn-tambah-container">
+                      <button class="btn btn-tambah fw-bold" type="button" data-bs-toggle="modal" data-bs-target="#pembicaraModal">
+                          <i class="fa fa-plus me-2"></i> Tambah Data
+                      </button>
+                  </div>
+                  
               </div>
-
-              <!-- Right: Button Tambah Data -->
-              <div class="ms-auto">
-                <button class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#pembicaraModal">
-                  <i class="fa fa-plus me-2"></i> Tambah Data
-                </button>
-              </div>
-            </div>
+          </form>
             <!-- End Filter Bar -->
 
             <!-- Tabel Pembicara -->

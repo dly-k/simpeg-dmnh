@@ -17,22 +17,67 @@ class PembicaraController extends Controller
      * Menampilkan halaman daftar pembicara, mengambil semua data pembicara
      * dan data pegawai untuk mengisi dropdown pada modal.
      */
-    public function index()
+        public function index(Request $request)
     {
-        // Mengambil data pembicara dengan relasi 'pegawai' dan 'dokumen'
-        $pembicaras = Pembicara::with('pegawai', 'dokumen')->latest()->get();
+        // 1. Query dasar untuk data pembicara
+        $query = Pembicara::query();
+
+        // 2. Terapkan logika pencarian (Search)
+        $query->when($request->search, function ($q, $search) {
+            $q->where(function ($subQuery) use ($search) {
+                $subQuery->whereHas('pegawai', function ($pegawaiQuery) use ($search) {
+                    $pegawaiQuery->where('nama_lengkap', 'like', "%{$search}%");
+                })
+                ->orWhere('judul_makalah', 'like', "%{$search}%");
+            });
+        });
+
+        // 3. Terapkan logika filter
+        $query->when($request->semester, function ($q, $semesterValue) {
+            [$semester, $tahun] = explode('_', $semesterValue);
+            if ($semester === 'ganjil') {
+                $q->whereYear('tanggal_pelaksana', $tahun)->whereMonth('tanggal_pelaksana', '<=', 6);
+            } elseif ($semester === 'genap') {
+                $q->whereYear('tanggal_pelaksana', $tahun)->whereMonth('tanggal_pelaksana', '>=', 7);
+            }
+        });
+        $query->when($request->tingkat, function ($q, $tingkat) {
+            $q->where('tingkat_pertemuan', $tingkat);
+        });
+        $query->when($request->status, function ($q, $status) {
+            $q->where('status_verifikasi', $status);
+        });
+
+        // 4. Ambil hasil query yang sudah difilter
+        $pembicaras = $query->with('pegawai', 'dokumen')->latest()->get();
         
-        // Mengambil data pegawai aktif untuk dropdown di form tambah dan edit
+        // 5. Ambil data untuk mengisi dropdown
         $pegawais = Pegawai::where('status_pegawai', 'Aktif')
                           ->orderBy('nama_lengkap', 'asc')
                           ->get(['id', 'nama_lengkap']);
 
-        // Mengirimkan semua data yang dibutuhkan ke view
-        return view('pages.pembicara', compact('pembicaras', 'pegawais'));
+        $semesterOptions = [];
+        $uniqueSemesters = DB::table('pembicaras')
+            ->selectRaw('YEAR(tanggal_pelaksana) as year, MONTH(tanggal_pelaksana) as month')
+            ->distinct()->orderBy('year', 'desc')->orderBy('month', 'desc')->get();
+
+        $addedSemesters = [];
+        foreach ($uniqueSemesters as $item) {
+            $semesterKey = ($item->month <= 6) ? "ganjil_{$item->year}" : "genap_{$item->year}";
+            $semesterText = ($item->month <= 6) ? "Semester Ganjil/{$item->year}" : "Semester Genap/{$item->year}";
+            if (!in_array($semesterKey, $addedSemesters)) {
+                $semesterOptions[] = ['value' => $semesterKey, 'text' => $semesterText];
+                $addedSemesters[] = $semesterKey;
+            }
+        }
+
+        // 6. Kirim semua data ke view
+        return view('pages.pembicara', compact('pembicaras', 'pegawais', 'semesterOptions'));
     }
 
     /**
-     * Menyimpan data pembicara baru yang diinput dari form modal tambah.
+     * [PERBAIKAN] Menyimpan data pembicara baru dari form tambah.
+     * Logika filter sudah dihapus dari sini.
      */
     public function store(Request $request)
     {
@@ -44,7 +89,6 @@ class PembicaraController extends Controller
             'nama_pertemuan' => 'required|string|max:255',
             'penyelenggara' => 'required|string|max:255',
             'tanggal_pelaksana' => 'required|date',
-            'dokumen.*.jenis' => 'nullable|string',
             'dokumen.*.file' => 'nullable|file|mimes:pdf,jpg,jpeg,png,doc,docx,xls,xlsx,txt|max:5120',
         ]);
 
@@ -55,13 +99,11 @@ class PembicaraController extends Controller
         DB::beginTransaction();
         try {
             $pembicara = Pembicara::create($request->except('dokumen', '_token'));
-
             if ($request->has('dokumen')) {
                 foreach ($request->dokumen as $docData) {
                     if (isset($docData['file'])) {
                         $file = $docData['file'];
                         $path = $file->store('dokumen_pembicara', 'public');
-
                         $pembicara->dokumen()->create([
                             'jenis_dokumen' => $docData['jenis'],
                             'nama_dokumen' => $docData['nama'],
@@ -72,19 +114,15 @@ class PembicaraController extends Controller
                     }
                 }
             }
-
             DB::commit();
-
-            return redirect()->route('pembicara.index')
-                ->with('success', 'Data pembicara berhasil ditambahkan!');
+            return redirect()->route('pembicara.index')->with('success', 'Data pembicara berhasil ditambahkan!');
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Gagal menyimpan data pembicara: ' . $e->getMessage());
-            return redirect()->back()
-                ->with('error', 'Terjadi kesalahan saat menyimpan data.')
-                ->withInput();
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat menyimpan data.')->withInput();
         }
     }
+
     public function verifikasi(Request $request, Pembicara $pembicara)
     {
         // Validasi input yang masuk, harus 'sudah_diverifikasi' atau 'ditolak'
@@ -148,7 +186,7 @@ class PembicaraController extends Controller
                 ->with('error', 'Terjadi kesalahan saat menghapus data.');
         }
     }
-    
+
     /**
      * Memperbarui data pembicara yang ada di database.
      */

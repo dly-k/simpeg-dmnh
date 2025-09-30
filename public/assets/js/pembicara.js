@@ -323,6 +323,27 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
+    const filterForm = document.getElementById('filterForm');
+  if (filterForm) {
+    const searchInput = filterForm.querySelector('.search-input');
+    const selectFilters = filterForm.querySelectorAll('.filter-select');
+    let debounceTimeout;
+
+    // Auto-submit untuk input pencarian dengan debounce
+    searchInput.addEventListener('input', function() {
+      clearTimeout(debounceTimeout);
+      debounceTimeout = setTimeout(() => {
+        filterForm.submit();
+      }, 500); // Tunggu 500ms setelah user berhenti mengetik
+    });
+
+    // Auto-submit untuk semua dropdown filter
+    selectFilters.forEach(select => {
+      select.addEventListener('change', function() {
+        filterForm.submit();
+      });
+    });
+  }
 
   /**
    * ===================================================================
