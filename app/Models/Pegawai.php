@@ -101,4 +101,8 @@ class Pegawai extends Model
     {
         return $this->hasMany(Praktisi::class);
     }
+        public function pembicara(): HasMany
+    {
+        return $this->hasMany(Pembicara::class);
+    }
 }

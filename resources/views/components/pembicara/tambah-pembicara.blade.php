@@ -1,7 +1,7 @@
 <div class="modal fade" id="pembicaraModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-scrollable">
     <div class="modal-content">
-      <form action="#" method="POST" enctype="multipart/form-data">
+      <form action="{{ route('pembicara.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="modal-header bg-success text-white">
           <h5 class="modal-title" id="modalTitle">
@@ -59,6 +59,11 @@
               <label for="pegawai_id" class="form-label">Pegawai *</label>
               <select name="pegawai_id" id="pegawai_id" class="form-select">
                 <option value="" disabled selected>-- Pilih Pegawai --</option>
+                @foreach ($pegawais as $pegawai)
+                    <option value="{{ $pegawai->id }}" {{ old('pegawai_id') == $pegawai->id ? 'selected' : '' }}>
+                        {{ $pegawai->nama_lengkap }}
+                    </option>
+                @endforeach
               </select>
             </div>
 

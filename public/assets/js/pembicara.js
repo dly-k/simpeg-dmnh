@@ -1,22 +1,49 @@
-// pembicara.js
 document.addEventListener("DOMContentLoaded", function () {
-  /** ================================
-   * Utility: Validasi File
-   * ================================ */
+  /**
+   * ===================================================================
+   * [PENAMBAHAN] Notifikasi Sukses (Modal & Suara)
+   * Menangkap pesan flash dari server dan menampilkan modal konfirmasi.
+   * ===================================================================
+   */
+const handleSuccessNotification = () => {
+    const successMessage = document.querySelector('meta[name="flash-success"]')?.getAttribute('content');
+
+    if (successMessage) {
+      const modalBerhasil = document.getElementById('modalBerhasil');
+      if (modalBerhasil) {
+        document.getElementById('berhasil-title').textContent = 'Berhasil!';
+        document.getElementById('berhasil-subtitle').textContent = successMessage;
+        
+        modalBerhasil.classList.add('show');
+
+        const successSound = new Audio('/assets/sounds/Success.mp3');
+        successSound.play().catch(error => console.error("Gagal memutar suara:", error));
+
+        // [PENAMBAHAN] Sembunyikan modal secara otomatis setelah 1 detik
+        setTimeout(() => {
+          modalBerhasil.classList.remove('show');
+        }, 1000); // 1000 milidetik = 1 detik
+
+        document.getElementById('btnSelesai').addEventListener('click', () => {
+          modalBerhasil.classList.remove('show');
+        });
+      }
+    }
+  };
+  /**
+   * ===================================================================
+   * Utility: Validasi Ukuran File
+   * ===================================================================
+   */
   function validateFileSize(input) {
     if (input.files.length > 0) {
       const file = input.files[0];
-      if (file.size > 5 * 1024 * 1024) {
+      if (file.size > 5 * 1024 * 1024) { // 5MB
         alert("Ukuran file maksimal 5MB!");
         input.value = "";
       }
     }
   }
-
-  /** ================================
-   * Dynamic Dokumen (Tambah & Hapus)
-   * ================================ */
-  let dokumenIndex = 1;
 
   function initFileValidation(input) {
     input.addEventListener("change", function () {
@@ -24,6 +51,11 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  /**
+   * ===================================================================
+   * Dynamic Dokumen (Tambah & Hapus)
+   * ===================================================================
+   */
   function createDokumenItem(index) {
     const item = document.createElement("div");
     item.classList.add("dokumen-item", "border", "rounded", "p-3", "mb-3", "position-relative");
@@ -74,7 +106,9 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!wrapper || !addBtn) return;
 
     addBtn.addEventListener("click", function () {
-      const newItem = createDokumenItem(dokumenIndex++);
+      // [PERBAIKAN] Hitung indeks berikutnya berdasarkan item yang sudah ada di wrapper ini saja.
+      const nextIndex = wrapper.querySelectorAll(".dokumen-item").length;
+      const newItem = createDokumenItem(nextIndex);
       wrapper.appendChild(newItem);
     });
 
@@ -84,17 +118,14 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 
-    // Inisialisasi validasi untuk input file awal
     wrapper.querySelectorAll(".file-input").forEach(initFileValidation);
   }
 
-  // Init untuk tambah dan edit dokumen
-  initDokumenHandler("dokumenWrapper", "addDokumen");
-  initDokumenHandler("editDokumenWrapper", "addEditDokumen");
-
-  /** ================================
+  /**
+   * ===================================================================
    * Toggle Input "Lainnya"
-   * ================================ */
+   * ===================================================================
+   */
   function initToggleLainnya(selectId, inputId) {
     const select = document.getElementById(selectId);
     const input = document.getElementById(inputId);
@@ -113,21 +144,20 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  initToggleLainnya("kegiatan", "kegiatan_lainnya");
-  initToggleLainnya("kategori_capaian", "kategori_capaian_lainnya");
-  initToggleLainnya("edit_kegiatan", "edit_kegiatan_lainnya");
-  initToggleLainnya("edit_kategori_capaian", "edit_kategori_capaian_lainnya");
-
-  /** ================================
+  /**
+   * ===================================================================
    * Detail Pembicara Modal
-   * ================================ */
+   * ===================================================================
+   */
   function setDetailText(id, value) {
-    document.getElementById(id).textContent = value || "-";
+    const el = document.getElementById(id);
+    if (el) el.textContent = value || "-";
   }
 
   function setDetailFile(linkId, noDataId, url) {
     const link = document.getElementById(linkId);
     const noData = document.getElementById(noDataId);
+    if (!link || !noData) return;
 
     if (url) {
       link.href = url;
@@ -135,10 +165,10 @@ document.addEventListener("DOMContentLoaded", function () {
       noData.style.display = "none";
     } else {
       link.style.display = "none";
-      noData.style.display = "inline";
+      noData.style.display = "inline-block";
     }
   }
-
+  
   document.querySelectorAll(".btn-detail-pembicara").forEach(btn => {
     btn.addEventListener("click", function () {
       setDetailText("detail-nama", this.dataset.nama);
@@ -159,4 +189,17 @@ document.addEventListener("DOMContentLoaded", function () {
       new bootstrap.Modal(document.getElementById("detailPembicaraModal")).show();
     });
   });
+
+  /**
+   * ===================================================================
+   * Inisialisasi semua fungsi saat halaman dimuat
+   * ===================================================================
+   */
+  handleSuccessNotification();
+  initDokumenHandler("dokumenWrapper", "addDokumen");
+  initDokumenHandler("editDokumenWrapper", "addEditDokumen");
+  initToggleLainnya("kegiatan", "kegiatan_lainnya");
+  initToggleLainnya("kategori_capaian", "kategori_capaian_lainnya");
+  initToggleLainnya("edit_kegiatan", "edit_kegiatan_lainnya");
+  initToggleLainnya("edit_kategori_capaian", "edit_kategori_capaian_lainnya");
 });

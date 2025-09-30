@@ -103,121 +103,48 @@
                   </tr>
                 </thead>
                 <tbody>
+                  @forelse ($pembicaras as $pembicara)
                   <tr>
-                    <td>1</td>
-                    <td>Dr. Andi Saputra</td>
-                    <td>Seminar Nasional</td>
-                    <td>Nasional</td>
-                    <td>Keynote Speaker</td>
-                    <td>Peran AI dalam Pendidikan</td>
-                    <td>Seminar Teknologi Pendidikan</td>
-                    <td>15 Jan 2024</td>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $pembicara->pegawai->nama_lengkap ?? 'N/A' }}</td>
+                    <td>{{ $pembicara->kegiatan === 'lainnya' ? $pembicara->kegiatan_lainnya : Str::limit(ucfirst(str_replace('_', ' ', $pembicara->kegiatan)), 30) }}</td>
+                    <td>{{ $pembicara->kategori_capaian ? Str::limit(ucfirst($pembicara->kategori_capaian), 20) : '-' }}</td>
+                    <td>{{ Str::limit(ucfirst($pembicara->kategori_pembicara), 20) }}</td>
+                    <td>{{ Str::limit($pembicara->judul_makalah, 35) }}</td>
+                    <td>{{ Str::limit($pembicara->nama_pertemuan, 35) }}</td>
+                    <td>{{ \Carbon\Carbon::parse($pembicara->tanggal_pelaksana)->translatedFormat('d M Y') }}</td>
                     <td>
-                      <span class="badge rounded-circle bg-warning text-white" title="Belum Diverifikasi">
-                        <i class="fa fa-question"></i>
-                      </span>
+                      @if($pembicara->status_verifikasi == 'belum_diverifikasi')
+                        <span class="badge rounded-circle bg-warning text-white" title="Belum Diverifikasi"><i class="fa fa-question"></i></span>
+                      @elseif($pembicara->status_verifikasi == 'sudah_diverifikasi')
+                        <span class="badge rounded-circle bg-success text-white" title="Sudah Diverifikasi"><i class="fa fa-check"></i></span>
+                      @else
+                        <span class="badge rounded-circle bg-danger text-white" title="Ditolak"><i class="fa fa-times"></i></span>
+                      @endif
                     </td>
                     <td>
-                      <a href="{{ asset('uploads/bahan-ajar/web-dasar.pdf') }}" 
-                         class="btn btn-sm btn-lihat" target="_blank">Lihat
-                      </a>
+                      @if($pembicara->dokumen->isNotEmpty() && $pembicara->dokumen->first()->file_path)
+                        <a href="{{ asset($pembicara->dokumen->first()->file_path) }}" class="btn btn-sm btn-lihat" target="_blank">Lihat</a>
+                      @else
+                        <span class="text-muted fst-italic">N/A</span>
+                      @endif
                     </td>
                     <td>
                       <div class="d-flex gap-2">
-                        <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi">
-                          <i class="fa fa-check"></i>
-                        </a>
-                        <button class="btn btn-sm btn-lihat btn-detail-pembicara"
-                          data-nama="Budi Santoso"
-                          data-kegiatan="Seminar Teknologi"
-                          data-capaian="Internasional"
-                          data-kategori="Keynote Speaker"
-                          data-makalah="Tren AI dalam Dunia Industri"
-                          data-pertemuan="Seminar Nasional Teknologi"
-                          data-tanggal="12 Oktober 2025"
-                          data-penyelenggara="Universitas IPB"
-                          data-tingkat="Internasional"
-                          data-bahasa="Indonesia"
-                          data-litabmas="Litabmas 2025"
-                          data-sertifikat="uploads/sertifikat.pdf"
-                          data-sk="uploads/sk.pdf"
-                        >
-                          <i class="fa fa-eye"></i> 
-                        </button>
-                        <button 
-                          class="btn btn-sm btn-warning btn-edit" 
-                          data-bs-toggle="modal" 
-                          data-bs-target="#editPembicaraModal"
-                          data-nama="Dr. Andi Saputra"
-                          data-kegiatan="Seminar Nasional"
-                          data-capaian="Nasional"
-                          data-kategori="utama"
-                          data-judul="Peran AI dalam Pendidikan"
-                          data-pertemuan="Seminar Teknologi Pendidikan"
-                          data-tanggal="2024-01-15"
-                          data-penyelenggara="Kemdikbud">
-                          <i class="fa fa-edit"></i>
-                        </button>
-
-                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data">
-                          <i class="fa fa-trash"></i>
-                        </a>
+                        <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi"><i class="fa fa-check"></i></a>
+                        <button class="btn btn-sm btn-lihat btn-detail-pembicara"><i class="fa fa-eye"></i></button>
+                        <button class="btn btn-sm btn-warning btn-edit" data-bs-toggle="modal" data-bs-target="#editPembicaraModal"><i class="fa fa-edit"></i></button>
+                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
                       </div>
                     </td>
                   </tr>
-
+                  @empty
                   <tr>
-                    <td>2</td>
-                    <td>Prof. Budi Santoso</td>
-                    <td>Konferensi Internasional</td>
-                    <td>Internasional</td>
-                    <td>Invited Speaker</td>
-                    <td>Ekonomi Digital di Era 5.0</td>
-                    <td>International Conference on Economics</td>
-                    <td>20 Mei 2024</td>
-                    <td>
-                      <span class="badge rounded-circle bg-success text-white" title="Sudah Diverifikasi">
-                        <i class="fa fa-check"></i>
-                      </span>
-                    </td>
-                    <td>
-                      <a href="{{ asset('uploads/bahan-ajar/web-dasar.pdf') }}" 
-                         class="btn btn-sm btn-lihat" target="_blank">Lihat
-                      </a>
-                    </td>
-                    <td>
-                      <div class="d-flex gap-2">
-                        <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi">
-                          <i class="fa fa-check"></i>
-                        </a>
-                        <button class="btn btn-sm btn-lihat btn-detail-pembicara"
-                          data-nama="Budi Santoso"
-                          data-kegiatan="Seminar Teknologi"
-                          data-capaian="Internasional"
-                          data-kategori="Keynote Speaker"
-                          data-makalah="Tren AI dalam Dunia Industri"
-                          data-pertemuan="Seminar Nasional Teknologi"
-                          data-tanggal="12 Oktober 2025"
-                          data-penyelenggara="Universitas IPB"
-                          data-tingkat="Internasional"
-                          data-bahasa="Indonesia"
-                          data-litabmas="Litabmas 2025"
-                          data-sertifikat="uploads/sertifikat.pdf"
-                          data-sk="uploads/sk.pdf"
-                        >
-                          <i class="fa fa-eye"></i> 
-                        </button>                        <button 
-                          class="btn btn-sm btn-warning btn-edit" 
-                          data-bs-toggle="modal" 
-                          data-bs-target="#editPembicaraModal">
-                          <i class="fa fa-edit"></i>
-                        </button>
-                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data">
-                          <i class="fa fa-trash"></i>
-                        </a>
-                      </div>
+                    <td colspan="11" class="text-center py-4">
+                      <p class="mb-0">Belum ada data pembicara.</p>
                     </td>
                   </tr>
+                  @endforelse
                 </tbody>
               </table>
             </div>
@@ -233,11 +160,11 @@
 
   <!-- Modal  -->
   {{-- @include('components.konfirmasi-hapus') --}}
-  {{-- @include('components.konfirmasi-berhasil') --}}
+  @include('components.konfirmasi-berhasil')
   {{-- @include('components.konfirmasi-verifikasi') --}}
-  @include('components.pembicara.detail-pembicara')
-  @include('components.pembicara.tambah-pembicara')
-  @include('components.pembicara.edit-pembicara')
+ @include('components.pembicara.detail-pembicara')
+  @include('components.pembicara.tambah-pembicara', ['pegawais' => $pegawais])
+  @include('components.pembicara.edit-pembicara', ['pegawais' => $pegawais])
 
   <!-- Scripts -->
   <script src="{{ asset('assets/js/layout.js') }}"></script>

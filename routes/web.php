@@ -223,7 +223,9 @@ Route::patch('/praktisi-dunia-industri/{praktisi}/verifikasi', [PraktisiControll
 
 Route::get('/bahan-ajar', [BahanAjarController::class, 'index'])->name('bahan-ajar.index');
 
+
 Route::get('/pembicara', [PembicaraController::class, 'index'])->name('pembicara.index');
+Route::post('/pembicara', [PembicaraController::class, 'store'])->name('pembicara.store');
 
 Route::get('/organisasi-profesi', [OrganisasiProfesiController::class, 'index'])->name('organisasi-profesi.index');
 
