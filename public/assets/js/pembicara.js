@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
   /**
    * ===================================================================
    * Notifikasi Sukses (Modal & Suara)
+   * Muncul saat data berhasil disimpan/diperbarui dan hilang setelah 1 detik.
    * ===================================================================
    */
   const handleSuccessNotification = () => {
@@ -16,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
         successSound.play().catch(error => console.error("Gagal memutar suara:", error));
         setTimeout(() => {
           modalBerhasil.classList.remove('show');
-        }, 1000);
+        }, 1000); // Hilang setelah 1 detik
         document.getElementById('btnSelesai').addEventListener('click', () => {
           modalBerhasil.classList.remove('show');
         });
@@ -27,6 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
   /**
    * ===================================================================
    * Logika untuk Fitur Edit Data
+   * Mengambil data dari server dan mengisi form modal edit.
    * ===================================================================
    */
   const editModal = document.getElementById('editPembicaraModal');
@@ -69,45 +71,21 @@ document.addEventListener("DOMContentLoaded", function () {
     const item = document.createElement("div");
     item.classList.add("dokumen-item", "border", "rounded", "p-3", "mb-3", "position-relative", "bg-light");
     item.dataset.id = doc.id;
-
     const docName = doc.nama_dokumen || '';
     const docNomor = doc.nomor || '';
     const docTautan = doc.tautan || '';
-    
     const jenisOptions = ['Transkrip', 'Surat Tugas', 'SK', 'Sertifikat', 'Penyetaraan Ijazah', 'Laporan Kegiatan', 'Ijazah', 'Buku / Bahan Ajar'];
     const optionsHtml = jenisOptions.map(opt => 
       `<option value="${opt}" ${doc.jenis_dokumen === opt ? 'selected' : ''}>${opt}</option>`
     ).join('');
-
     item.innerHTML = `
         <button type="button" class="btn-close position-absolute top-0 end-0 m-2 removeExistingDokumen" aria-label="Close" title="Hapus Dokumen Ini"></button>
         <div class="row g-2">
-            <div class="col-12">
-                <label class="form-label">Jenis Dokumen</label>
-                <select name="existing_dokumen[${doc.id}][jenis_dokumen]" class="form-select">
-                    <option value="">-- Pilih Jenis Dokumen --</option>
-                    ${optionsHtml}
-                </select>
-            </div>
-            <div class="col-md-4">
-                <label class="form-label">Nama Dokumen</label>
-                <input type="text" name="existing_dokumen[${doc.id}][nama_dokumen]" class="form-control" placeholder="Nama Dokumen" value="${docName}">
-            </div>
-            <div class="col-md-4">
-                <label class="form-label">Nomor</label>
-                <input type="text" name="existing_dokumen[${doc.id}][nomor]" class="form-control" placeholder="Nomor" value="${docNomor}">
-            </div>
-            <div class="col-md-4">
-                <label class="form-label">Tautan</label>
-                <input type="url" name="existing_dokumen[${doc.id}][tautan]" class="form-control" placeholder="https://" value="${docTautan}">
-            </div>
-            <div class="col-12 mt-2">
-                <label class="form-label">File Tersimpan</label>
-                <div class="alert alert-secondary p-2">
-                  <a href="/${doc.file_path}" target="_blank" class="text-primary fw-bold">${docName || 'Lihat File'}</a>
-                  <small class="d-block text-muted">File tidak dapat diubah. Untuk mengganti, hapus dokumen ini dan unggah yang baru.</small>
-                </div>
-            </div>
+            <div class="col-12"><label class="form-label">Jenis Dokumen</label><select name="existing_dokumen[${doc.id}][jenis_dokumen]" class="form-select"><option value="">-- Pilih Jenis Dokumen --</option>${optionsHtml}</select></div>
+            <div class="col-md-4"><label class="form-label">Nama Dokumen</label><input type="text" name="existing_dokumen[${doc.id}][nama_dokumen]" class="form-control" placeholder="Nama Dokumen" value="${docName}"></div>
+            <div class="col-md-4"><label class="form-label">Nomor</label><input type="text" name="existing_dokumen[${doc.id}][nomor]" class="form-control" placeholder="Nomor" value="${docNomor}"></div>
+            <div class="col-md-4"><label class="form-label">Tautan</label><input type="url" name="existing_dokumen[${doc.id}][tautan]" class="form-control" placeholder="https://" value="${docTautan}"></div>
+            <div class="col-12 mt-2"><label class="form-label">File Tersimpan</label><div class="alert alert-secondary p-2"><a href="/${doc.file_path}" target="_blank" class="text-primary fw-bold">${docName || 'Lihat File'}</a><small class="d-block text-muted">File tidak dapat diubah. Untuk mengganti, hapus dokumen ini dan unggah yang baru.</small></div></div>
         </div>
     `;
     return item;
@@ -126,6 +104,71 @@ document.addEventListener("DOMContentLoaded", function () {
           item.remove();
       }
   });
+
+  /**
+   * ===================================================================
+   * Logika untuk Fitur Detail Data
+   * Mengambil data dari server dan mengisi form modal detail.
+   * ===================================================================
+   */
+  const detailModal = document.getElementById('detailPembicaraModal');
+  if (detailModal) {
+    detailModal.addEventListener('show.bs.modal', async function (event) {
+        const button = event.relatedTarget;
+        const id = button.dataset.id;
+        
+        const setDetailText = (elementId, text) => {
+            const el = document.getElementById(elementId);
+            if (el) el.textContent = text || '-';
+        };
+
+        const fields = ['nama', 'kegiatan', 'capaian', 'kategori-pembicara', 'makalah', 'pertemuan', 'tanggal', 'penyelenggara', 'tingkat', 'bahasa', 'litabmas'];
+        fields.forEach(field => setDetailText(`detail-${field}`, 'Memuat data...'));
+        const dokumenList = document.getElementById('detail-dokumen-list');
+        dokumenList.innerHTML = '<p class="text-muted">Memuat dokumen...</p>';
+
+        try {
+            const response = await fetch(`/pembicara/${id}/edit`);
+            if (!response.ok) throw new Error('Data tidak ditemukan');
+            const data = await response.json();
+
+            setDetailText('detail-nama', data.pegawai ? data.pegawai.nama_lengkap : 'N/A');
+            setDetailText('detail-kegiatan', data.kegiatan === 'lainnya' ? data.kegiatan_lainnya : data.kegiatan.replace(/_/g, ' '));
+            setDetailText('detail-capaian', data.kategori_capaian);
+            setDetailText('detail-kategori-pembicara', data.kategori_pembicara);
+            setDetailText('detail-makalah', data.judul_makalah);
+            setDetailText('detail-pertemuan', data.nama_pertemuan);
+            setDetailText('detail-tanggal', data.tanggal_pelaksana);
+            setDetailText('detail-penyelenggara', data.penyelenggara);
+            setDetailText('detail-tingkat', data.tingkat_pertemuan);
+            setDetailText('detail-bahasa', data.bahasa);
+            setDetailText('detail-litabmas', data.litabmas);
+
+            dokumenList.innerHTML = '';
+            if (data.dokumen && data.dokumen.length > 0) {
+                data.dokumen.forEach(doc => {
+                    const docElement = document.createElement('div');
+                    docElement.classList.add('col-md-6');
+                    docElement.innerHTML = `
+                        <div class="detail-doc">
+                            <span>${doc.nama_dokumen || doc.jenis_dokumen || 'Dokumen'}</span>
+                            <a href="/${doc.file_path}" class="btn btn-sm btn-success text-white mt-1" target="_blank">
+                                <i class="fa fa-eye me-1"></i> Lihat File
+                            </a>
+                        </div>
+                    `;
+                    dokumenList.appendChild(docElement);
+                });
+            } else {
+                dokumenList.innerHTML = '<div class="col-12"><p class="text-muted fst-italic">Tidak ada dokumen terlampir.</p></div>';
+            }
+
+        } catch (error) {
+            console.error('Error fetching details:', error);
+            dokumenList.innerHTML = '<p class="text-danger">Gagal memuat data.</p>';
+        }
+    });
+  }
 
   /**
    * ===================================================================
@@ -200,47 +243,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   /**
    * ===================================================================
-   * Detail Modal & Inisialisasi
+   * Inisialisasi semua fungsi saat halaman dimuat
    * ===================================================================
    */
-  function setDetailText(id, value) {
-    const el = document.getElementById(id);
-    if (el) el.textContent = value || "-";
-  }
-
-  function setDetailFile(linkId, noDataId, url) {
-    const link = document.getElementById(linkId);
-    const noData = document.getElementById(noDataId);
-    if (!link || !noData) return;
-    if (url) {
-      link.href = url;
-      link.style.display = "inline-block";
-      noData.style.display = "none";
-    } else {
-      link.style.display = "none";
-      noData.style.display = "inline-block";
-    }
-  }
-  
-  document.querySelectorAll(".btn-detail-pembicara").forEach(btn => {
-    btn.addEventListener("click", function () {
-      setDetailText("detail-nama", this.dataset.nama);
-      setDetailText("detail-kegiatan", this.dataset.kegiatan);
-      setDetailText("detail-capaian", this.dataset.capaian);
-      setDetailText("detail-kategori-pembicara", this.dataset.kategori);
-      setDetailText("detail-makalah", this.dataset.makalah);
-      setDetailText("detail-pertemuan", this.dataset.pertemuan);
-      setDetailText("detail-tanggal", this.dataset.tanggal);
-      setDetailText("detail-penyelenggara", this.dataset.penyelenggara);
-      setDetailText("detail-tingkat", this.dataset.tingkat);
-      setDetailText("detail-bahasa", this.dataset.bahasa);
-      setDetailText("detail-litabmas", this.dataset.litabmas);
-      setDetailFile("detail-sertifikat", "nodata-sertifikat", this.dataset.sertifikat);
-      setDetailFile("detail-sk", "nodata-sk", this.dataset.sk);
-      new bootstrap.Modal(document.getElementById("detailPembicaraModal")).show();
-    });
-  });
-
   handleSuccessNotification();
   initDokumenHandler("dokumenWrapper", "addDokumen");
   initDokumenHandler("editDokumenWrapper", "addEditDokumen");

@@ -91,7 +91,8 @@ class PembicaraController extends Controller
      */
     public function edit(Pembicara $pembicara)
     {
-        $pembicara->load('dokumen');
+        // [MODIFIKASI] Muat kedua relasi, 'dokumen' dan 'pegawai'
+        $pembicara->load('dokumen', 'pegawai'); 
         return response()->json($pembicara);
     }
 
