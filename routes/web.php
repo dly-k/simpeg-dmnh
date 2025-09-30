@@ -226,6 +226,8 @@ Route::get('/bahan-ajar', [BahanAjarController::class, 'index'])->name('bahan-aj
 
 Route::get('/pembicara', [PembicaraController::class, 'index'])->name('pembicara.index');
 Route::post('/pembicara', [PembicaraController::class, 'store'])->name('pembicara.store');
+Route::get('/pembicara/{pembicara}/edit', [PembicaraController::class, 'edit'])->name('pembicara.edit');
+Route::put('/pembicara/{pembicara}', [PembicaraController::class, 'update'])->name('pembicara.update');
 
 Route::get('/organisasi-profesi', [OrganisasiProfesiController::class, 'index'])->name('organisasi-profesi.index');
 
