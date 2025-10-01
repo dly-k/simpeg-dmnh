@@ -123,7 +123,13 @@
                 {{-- Tombol aksi akan kita implementasikan nanti --}}
                 <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi"><i class="fa fa-check"></i></a>
                 <button class="btn btn-sm btn-lihat"><i class="fas fa-eye"></i></button>
-                <button class="btn btn-sm btn-warning btn-edit"><i class="fa fa-edit"></i></button>
+                <button class="btn btn-sm btn-warning btn-edit" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#editSertifikatKompetensiModal"
+                        data-edit-url="{{ route('sertifikat-kompetensi.edit', $item->id) }}"
+                        data-update-url="{{ route('sertifikat-kompetensi.update', $item->id) }}">
+                    <i class="fa fa-edit"></i>
+                </button>
                 <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
             </div>
         </td>

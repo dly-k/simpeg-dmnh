@@ -246,6 +246,9 @@ Route::patch('/orasi-ilmiah/{orasiIlmiah}/verifikasi', [OrasiIlmiahController::c
 // SERTIFIKAT KOMPETENSI
 Route::get('/sertifikat-kompetensi', [SertifikatKompetensiController::class, 'index'])->name('sertifikat-kompetensi.index');
 Route::post('/sertifikat-kompetensi', [SertifikatKompetensiController::class, 'store'])->name('sertifikat-kompetensi.store');
+Route::get('/sertifikat-kompetensi/{sertifikatKompetensi}/edit', [SertifikatKompetensiController::class, 'edit'])->name('sertifikat-kompetensi.edit');
+Route::put('/sertifikat-kompetensi/{sertifikatKompetensi}', [SertifikatKompetensiController::class, 'update'])->name('sertifikat-kompetensi.update');
+
 
 Route::get('/pengelola-jurnal', [PengelolaJurnalController::class, 'index'])->name('pengelola-jurnal.index');
 

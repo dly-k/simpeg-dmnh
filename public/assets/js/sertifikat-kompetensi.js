@@ -86,4 +86,54 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 1200);
         }
     }
+    const modalEdit = document.getElementById('editSertifikatKompetensiModal');
+    if (modalEdit) {
+        modalEdit.addEventListener('show.bs.modal', async (event) => {
+            const button = event.relatedTarget;
+            const form = document.getElementById('editSertifikatForm');
+            form.action = button.dataset.updateUrl;
+
+            // Reset form sebelum fetch data baru
+            form.reset();
+            form.querySelector('.upload-area p').innerHTML = "Seret & Lepas File di sini<br><small>Ukuran Maksimal 5 MB</small>";
+            form.querySelector('#lembaga_sertifikasi_lainnya_edit').style.display = 'none';
+
+            try {
+                const response = await fetch(button.dataset.editUrl);
+                const data = await response.json();
+
+                // Isi semua field form
+                form.querySelector('#pegawai_id_edit').value = data.pegawai_id;
+                form.querySelector('#kegiatan_edit').value = data.kegiatan;
+                form.querySelector('#judul_kegiatan_edit').value = data.judul_kegiatan;
+                form.querySelector('#no_reg_pendidik_edit').value = data.no_reg_pendidik;
+                form.querySelector('#no_sk_sertifikasi_edit').value = data.no_sk_sertifikasi;
+                form.querySelector('#tahun_sertifikasi_edit').value = data.tahun_sertifikasi;
+                form.querySelector('#tmt_sertifikasi_edit').value = data.tmt_sertifikasi;
+                form.querySelector('#tst_sertifikasi_edit').value = data.tst_sertifikasi;
+                form.querySelector('#bidang_studi_edit').value = data.bidang_studi;
+
+                // Logika pintar untuk lembaga sertifikasi
+                const lembagaSelect = form.querySelector('#lembaga_sertifikasi_edit');
+                const lembagaLainnya = form.querySelector('#lembaga_sertifikasi_lainnya_edit');
+                const optionExists = [...lembagaSelect.options].some(opt => opt.value === data.lembaga_sertifikasi);
+
+                if (optionExists) {
+                    lembagaSelect.value = data.lembaga_sertifikasi;
+                } else {
+                    lembagaSelect.value = 'lainnya';
+                    lembagaLainnya.style.display = 'block';
+                    lembagaLainnya.value = data.lembaga_sertifikasi;
+                }
+
+                if (data.dokumen) {
+                    const fileName = data.dokumen.split('/').pop();
+                    form.querySelector('.upload-area p').innerHTML = `File sudah ada: <strong>${fileName}</strong><br><small>Unggah baru untuk mengganti.</small>`;
+                }
+
+            } catch (error) {
+                console.error('Gagal memuat data edit:', error);
+            }
+        });
+    }
 });

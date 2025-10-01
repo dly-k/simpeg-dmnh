@@ -59,4 +59,47 @@ public function store(Request $request)
     // 6. Redirect kembali dengan pesan sukses
     return redirect()->route('sertifikat-kompetensi.index')->with('success', 'Data berhasil ditambahkan!');
 }
+public function edit(SertifikatKompetensi $sertifikatKompetensi)
+    {
+        return response()->json($sertifikatKompetensi);
+    }
+
+    /**
+     * Memperbarui data di database.
+     */
+    public function update(Request $request, SertifikatKompetensi $sertifikatKompetensi)
+    {
+        $validatedData = $request->validate([
+            'pegawai_id' => 'required|exists:pegawais,id',
+            'kegiatan' => 'required|string|max:255',
+            'judul_kegiatan' => 'required|string|max:255',
+            'no_reg_pendidik' => 'nullable|string|max:255',
+            'no_sk_sertifikasi' => 'required|string|max:255',
+            'tahun_sertifikasi' => 'required|digits:4|integer',
+            'tmt_sertifikasi' => 'required|date',
+            'tst_sertifikasi' => 'nullable|date',
+            'bidang_studi' => 'required|string|max:255',
+            'lembaga_sertifikasi' => 'required|string|max:255',
+            'lembaga_sertifikasi_lainnya' => 'required_if:lembaga_sertifikasi,lainnya|nullable|string|max:255',
+            'dokumen' => 'nullable|file|mimes:pdf|max:5120', // Hanya divalidasi jika ada file baru
+        ]);
+
+        if ($request->lembaga_sertifikasi === 'lainnya') {
+            $validatedData['lembaga_sertifikasi'] = $request->lembaga_sertifikasi_lainnya;
+        }
+
+        if ($request->hasFile('dokumen')) {
+            // Hapus file lama jika ada
+            if ($sertifikatKompetensi->dokumen && Storage::disk('public')->exists($sertifikatKompetensi->dokumen)) {
+                Storage::disk('public')->delete($sertifikatKompetensi->dokumen);
+            }
+            // Simpan file baru
+            $validatedData['dokumen'] = $request->file('dokumen')->store('dokumen_sertifikat_kompetensi', 'public');
+        }
+        
+        unset($validatedData['lembaga_sertifikasi_lainnya']);
+        $sertifikatKompetensi->update($validatedData);
+
+        return redirect()->route('sertifikat-kompetensi.index')->with('success', 'Data berhasil diperbarui!');
+    }
 }
