@@ -51,7 +51,7 @@
             {{-- Editor Kegiatan --}}
             @php
                 $editorKegiatanRoutes = [
-                    'bahan-ajar*', 'pembicara*', 'pengabdian*', 'organisasi-profesi*', 'pembimbingan*',
+                    'pembicara*', 'pengabdian*', 'pembimbingan*',
                     'penunjang*', 'orasi-ilmiah*', 'sertifikat-kompetensi*', 'pendidikan*',
                     'pengelola-jurnal*', 'penelitian*', 'kekayaan-intelektual*'
                 ];
@@ -68,12 +68,8 @@
             </button>
 
             <div class="collapse submenu {{ $isEditorKegiatanActive ? 'show' : '' }}" id="editorKegiatan">
-                <a href="/bahan-ajar" class="{{ Request::is('bahan-ajar*') ? 'active' : '' }}">Bahan Ajar</a>
                 <a href="/pembicara" class="{{ Request::is('pembicara*') ? 'active' : '' }}">Pembicara</a>
                 <a href="/pengabdian" class="{{ Request::is('pengabdian*') ? 'active' : '' }}">Pengabdian</a>
-                <a href="/organisasi-profesi" class="{{ Request::is('organisasi-profesi*') ? 'active' : '' }}">
-                    Organisasi Profesi
-                </a>
                 <a href="/pembimbingan" class="{{ Request::is('pembimbingan*') ? 'active' : '' }}">Pembimbingan</a>
                 <a href="/penunjang" class="{{ Request::is('penunjang*') ? 'active' : '' }}">Penunjang</a>
                 <a href="/orasi-ilmiah" class="{{ Request::is('orasi-ilmiah*') ? 'active' : '' }}">Orasi Ilmiah</a>
