@@ -136,4 +136,30 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+    const modalDetail = document.getElementById('modalDetailSertifikatKompetensi');
+    if (modalDetail) {
+        modalDetail.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const setDataText = (id, attribute) => {
+                const element = modalDetail.querySelector(`#${id}`);
+                if(element) element.textContent = button.getAttribute(attribute) || '-';
+            }
+
+            setDataText('detail_sertifikat_nama', 'data-nama');
+            setDataText('detail_sertifikat_kegiatan', 'data-kegiatan');
+            setDataText('detail_sertifikat_judul', 'data-judul');
+            setDataText('detail_sertifikat_no_reg', 'data-no-reg');
+            setDataText('detail_sertifikat_no_sk', 'data-no-sk');
+            setDataText('detail_sertifikat_tahun', 'data-tahun');
+            setDataText('detail_sertifikat_tmt', 'data-tmt');
+            setDataText('detail_sertifikat_tst', 'data-tst');
+            setDataText('detail_sertifikat_bidang', 'data-bidang');
+            setDataText('detail_sertifikat_lembaga', 'data-lembaga');
+            
+            const viewer = modalDetail.querySelector('#detail_sertifikat_document_viewer');
+            if (viewer) {
+                viewer.src = button.getAttribute('data-dokumen') || "";
+            }
+        });
+    }
 });

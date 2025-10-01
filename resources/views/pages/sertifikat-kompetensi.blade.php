@@ -122,7 +122,22 @@
             <div class="d-flex justify-content-center gap-2">
                 {{-- Tombol aksi akan kita implementasikan nanti --}}
                 <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi"><i class="fa fa-check"></i></a>
-                <button class="btn btn-sm btn-lihat"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-sm btn-lihat" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#modalDetailSertifikatKompetensi"
+                        data-nama="{{ $item->pegawai->nama_lengkap ?? 'N/A' }}"
+                        data-kegiatan="{{ $item->kegiatan }}"
+                        data-judul="{{ $item->judul_kegiatan }}"
+                        data-no-reg="{{ $item->no_reg_pendidik ?? '-' }}"
+                        data-no-sk="{{ $item->no_sk_sertifikasi }}"
+                        data-tahun="{{ $item->tahun_sertifikasi }}"
+                        data-tmt="{{ \Carbon\Carbon::parse($item->tmt_sertifikasi)->format('d F Y') }}"
+                        data-tst="{{ $item->tst_sertifikasi ? \Carbon\Carbon::parse($item->tst_sertifikasi)->format('d F Y') : '-' }}"
+                        data-bidang="{{ $item->bidang_studi }}"
+                        data-lembaga="{{ $item->lembaga_sertifikasi }}"
+                        data-dokumen="{{ $item->dokumen ? asset('storage/' . $item->dokumen) : '' }}">
+                    <i class="fas fa-eye"></i>
+                </button>
                 <button class="btn btn-sm btn-warning btn-edit" 
                         data-bs-toggle="modal" 
                         data-bs-target="#editSertifikatKompetensiModal"
