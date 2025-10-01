@@ -136,13 +136,25 @@
                                 <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi">
                                     <i class="fa fa-check"></i>
                                 </a>
-                                <button class="btn btn-sm btn-lihat" 
-                                        data-bs-toggle="modal" 
-                                        data-bs-target="#modalDetailOrasiIlmiah"
-                                        {{-- Atribut data untuk detail view --}}
-                                        >
-                                    <i class="fas fa-eye"></i>
-                                </button>
+                            <button class="btn btn-sm btn-lihat" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#modalDetailOrasiIlmiah"
+                                    data-pegawai="{{ $item->pegawai->nama_lengkap ?? 'N/A' }}"
+                                    data-litabmas="{{ $item->litabmas ?? '-' }}"
+                                    data-kategori="{{ $item->kategori_pembicara ?? '-' }}"
+                                    data-lingkup="{{ $item->lingkup ?? '-' }}"
+                                    data-judul="{{ $item->judul_makalah ?? '-' }}"
+                                    data-pertemuan="{{ $item->nama_pertemuan ?? '-' }}"
+                                    data-penyelenggara="{{ $item->penyelenggara ?? '-' }}"
+                                    data-tanggal="{{ \Carbon\Carbon::parse($item->tanggal_pelaksana)->format('d F Y') }}"
+                                    data-bahasa="{{ $item->bahasa ?? '-' }}"
+                                    data-jenis-dokumen="{{ $item->jenis_dokumen ?? '-' }}"
+                                    data-nama-dokumen="{{ $item->nama_dokumen ?? '-' }}"
+                                    data-nomor-dokumen="{{ $item->nomor_dokumen ?? '-' }}"
+                                    data-tautan="{{ $item->tautan_dokumen ?? '-' }}"
+                                    data-dokumen-src="{{ $item->dokumen ? asset('storage/' . $item->dokumen) : '' }}">
+                                <i class="fas fa-eye"></i>
+                            </button>
                                 <button 
                                     class="btn btn-sm btn-warning btn-edit" 
                                     data-bs-toggle="modal" 
