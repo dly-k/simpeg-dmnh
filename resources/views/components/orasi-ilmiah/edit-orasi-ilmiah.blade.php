@@ -1,8 +1,9 @@
 <div class="modal fade" id="editOrasiIlmiahModal" tabindex="-1" aria-labelledby="modalEditOrasiTitle" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-scrollable">
     <div class="modal-content">
-      <form action="#" method="POST" enctype="multipart/form-data">
-        @csrf
+      <form id="editOrasiIlmiahForm" action="#" method="POST" enctype="multipart/form-data">
+          @csrf
+          @method('PUT')
         <!-- Header -->
         <div class="modal-header bg-warning text-white">
           <h5 class="modal-title" id="modalEditOrasiTitle">
@@ -16,13 +17,16 @@
           <div class="row g-3">
 
             <!-- Pegawai -->
+            {{-- Gunakan kode yang dinamis ini --}}
             <div class="col-12">
-              <label for="pegawai_id_edit" class="form-label">Pegawai *</label>
-              <select name="pegawai_id" id="pegawai_id_edit" class="form-select" required>
-                <option value="" disabled>-- Pilih Pegawai --</option>
-                <option value="1" selected>Andi Saputra</option>
-                <option value="2">Budi Santoso</option>
-              </select>
+                <label for="pegawai_id_edit" class="form-label">Pegawai *</label>
+                <select name="pegawai_id" id="pegawai_id_edit" class="form-select" required>
+                    <option value="" disabled>-- Pilih Pegawai --</option>
+                    {{-- Loop data pegawai aktif dari controller --}}
+                    @foreach($pegawais as $pegawai)
+                        <option value="{{ $pegawai->id }}">{{ $pegawai->nama_lengkap }}</option>
+                    @endforeach
+                </select>
             </div>
 
             <!-- Litabmas -->

@@ -133,4 +133,48 @@ document.addEventListener("DOMContentLoaded", () => {
             textElement.innerHTML = `<strong>File terpilih:</strong><br>${file.name}`;
         }
     });
+    const modalEdit = document.getElementById('editOrasiIlmiahModal');
+    if (modalEdit) {
+        modalEdit.addEventListener('show.bs.modal', async (event) => {
+            const button = event.relatedTarget;
+            const editUrl = button.dataset.editUrl;
+            const updateUrl = button.dataset.updateUrl;
+            
+            const form = document.getElementById('editOrasiIlmiahForm');
+            form.setAttribute('action', updateUrl);
+
+            try {
+                const response = await fetch(editUrl);
+                if (!response.ok) throw new Error('Gagal mengambil data!');
+                
+                const data = await response.json();
+
+                // Isi semua field form dengan data yang didapat
+                form.querySelector('#pegawai_id_edit').value = data.pegawai_id;
+                form.querySelector('#litabmas_edit').value = data.litabmas;
+                form.querySelector('#kategori_pembicara_edit').value = data.kategori_pembicara;
+                form.querySelector('#lingkup_edit').value = data.lingkup;
+                form.querySelector('#judul_makalah_edit').value = data.judul_makalah;
+                form.querySelector('#nama_pertemuan_edit').value = data.nama_pertemuan;
+                form.querySelector('#penyelenggara_edit').value = data.penyelenggara;
+                form.querySelector('#tanggal_pelaksana_edit').value = data.tanggal_pelaksana;
+                form.querySelector('#bahasa_edit').value = data.bahasa;
+                form.querySelector('#jenis_dokumen_edit').value = data.jenis_dokumen;
+                form.querySelector('#nama_dokumen_edit').value = data.nama_dokumen;
+                form.querySelector('#nomor_dokumen_edit').value = data.nomor_dokumen;
+                form.querySelector('#tautan_dokumen_edit').value = data.tautan_dokumen;
+                
+                // Menampilkan nama file yang sudah ada
+                const uploadAreaText = form.querySelector('.upload-area p');
+                if(data.dokumen) {
+                    const fileName = data.dokumen.split('/').pop();
+                    uploadAreaText.innerHTML = `File sudah ada: <strong>${fileName}</strong><br><small>Unggah file baru untuk mengganti.</small>`;
+                }
+
+            } catch (error) {
+                console.error('Error fetching data for edit:', error);
+                // Mungkin tampilkan pesan error ke user
+            }
+        });
+    }
 });

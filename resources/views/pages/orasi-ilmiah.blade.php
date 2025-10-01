@@ -143,7 +143,13 @@
                                         >
                                     <i class="fas fa-eye"></i>
                                 </button>
-                                <button class="btn btn-sm btn-warning btn-edit" data-bs-toggle="modal" data-bs-target="#editOrasiIlmiahModal">
+                                <button 
+                                    class="btn btn-sm btn-warning btn-edit" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#editOrasiIlmiahModal"
+                                    data-edit-url="{{ route('orasi-ilmiah.edit', $item->id) }}" {{-- Tambahkan ini --}}
+                                    data-update-url="{{ route('orasi-ilmiah.update', $item->id) }}" {{-- Tambahkan ini --}}
+                                >
                                     <i class="fa fa-edit"></i>
                                 </button>
                                 <a href="#" class="btn-aksi btn-hapus" title="Hapus Data">
