@@ -105,4 +105,8 @@ class Pegawai extends Model
     {
         return $this->hasMany(Pembicara::class);
     }
+        public function orasiIlmiahs()
+    {
+        return $this->hasMany(OrasiIlmiah::class, 'pegawai_id');
+    }
 }

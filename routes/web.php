@@ -235,7 +235,11 @@ Route::get('/organisasi-profesi', [OrganisasiProfesiController::class, 'index'])
 
 Route::get('/pembimbingan', [PembimbinganController::class, 'index'])->name('pembimbingan.index');
 
+// ORASI ILMIAH
 Route::get('/orasi-ilmiah', [OrasiIlmiahController::class, 'index'])->name('orasi-ilmiah.index');
+Route::post('/orasi-ilmiah', [OrasiIlmiahController::class, 'store'])->name('orasi-ilmiah.store');
+Route::get('/orasi-ilmiah/{orasiIlmiah}/edit', [OrasiIlmiahController::class, 'edit'])->name('orasi-ilmiah.edit');
+Route::put('/orasi-ilmiah/{orasiIlmiah}', [OrasiIlmiahController::class, 'update'])->name('orasi-ilmiah.update');
 
 Route::get('/sertifikat-kompetensi', [SertifikatKompetensiController::class, 'index'])->name('sertifikat-kompetensi.index');
 

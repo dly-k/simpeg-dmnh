@@ -96,119 +96,67 @@
                     <th class="text-center">Aksi</th>
                   </tr>
                 </thead>
+                {{-- Ganti seluruh isi <tbody> dengan kode ini --}}
                 <tbody class="text-center">
-                  <tr>
-                    <td>1</td>
-                    <td class="text-start">Dr. Ahmad</td>
-                    <td>Narasumber Utama</td>
-                    <td>Inovasi Pendidikan di Era Digital</td>
-                    <td>Seminar Nasional Pendidikan</td>
-                    <td>Nasional</td>
-                    <td>Universitas Negeri</td>
-                    <td>12-05-2024</td>
-                    <td>Indonesia</td>
-                    <td>
-                      <span class="badge rounded-circle bg-warning text-white" title="Belum Diverifikasi">
-                        <i class="fa fa-question"></i>
-                      </span>
-                    </td>
-                    <td>
-                      <a href="{{ asset('uploads/bahan-ajar/web-dasar.pdf') }}" 
-                         class="btn btn-sm btn-lihat" target="_blank">Lihat
-                      </a>
-                    </td>
-                    <td class="text-center">
-                      <div class="d-flex justify-content-center gap-2">
-                        <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi">
-                          <i class="fa fa-check"></i>
-                        </a>
-                        <button class="btn btn-sm btn-lihat" 
-                                data-bs-toggle="modal" 
-                                data-bs-target="#modalDetailOrasiIlmiah"
-                                data-pegawai="Budi Santoso"
-                                data-judul="Makalah Tentang AI"
-                                data-pertemuan="Seminar Nasional AI"
-                                data-penyelenggara="Universitas X"
-                                data-tanggal="2025-10-01"
-                                data-bahasa="Indonesia"
-                                data-jenis-dokumen="Sertifikat"
-                                data-nama-dokumen="Sertifikat AI"
-                                data-nomor-dokumen="123/AI/2025"
-                                data-tautan="https://drive.google.com/xxxxx"
-                                data-dokumen-src="/uploads/dokumen_ai.pdf">
-                          <i class="fas fa-eye"></i>
-                        </button>
-                        <button 
-                          class="btn btn-sm btn-warning btn-edit" 
-                          data-bs-toggle="modal" 
-                          data-bs-target="#editOrasiIlmiahModal">
-                          <i class="fa fa-edit"></i>
-                        </button>
-                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data">
-                          <i class="fa fa-trash"></i>
-                        </a>
-                      </div>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>2</td>
-                    <td class="text-start">Prof. Siti</td>
-                    <td>Pembicara Undangan</td>
-                    <td>Strategi Riset Multidisiplin</td>
-                    <td>International Conference on Research</td>
-                    <td>Internasional</td>
-                    <td>ICR Organizing Committee</td>
-                    <td>20-08-2023</td>
-                    <td>Inggris</td>
-                    <td>
-                      <span class="badge rounded-circle bg-success text-white" title="Sudah Diverifikasi">
-                        <i class="fa fa-check"></i>
-                      </span>
-                    </td>
-                    <td>
-                      <a href="{{ asset('uploads/bahan-ajar/web-dasar.pdf') }}" 
-                         class="btn btn-sm btn-lihat" target="_blank">Lihat
-                      </a>
-                    </td>
-                    <td class="text-center">
-                      <div class="d-flex justify-content-center gap-2">
-                        <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi">
-                          <i class="fa fa-check"></i>
-                        </a>
-                        <!-- Tombol dengan data attribute -->
-                        <button class="btn btn-sm btn-lihat" 
-                                data-bs-toggle="modal" 
-                                data-bs-target="#modalDetailOrasiIlmiah"
-                                data-pegawai="Budi Santoso"
-                                data-litabmas="LIT123"
-                                data-kategori="Pembicara Kunci"
-                                data-lingkup="Nasional"
-                                data-judul="Makalah Tentang AI"
-                                data-pertemuan="Seminar Nasional AI"
-                                data-penyelenggara="Universitas X"
-                                data-tanggal="2025-10-01"
-                                data-bahasa="Indonesia"
-                                data-jenis-dokumen="Sertifikat"
-                                data-nama-dokumen="Sertifikat AI"
-                                data-nomor-dokumen="123/AI/2025"
-                                data-tautan="https://drive.google.com/xxxxx"
-                                data-dokumen-src="/uploads/dokumen_ai.pdf">
-                          <i class="fas fa-eye"></i>
-                        </button>
-
-                        <button 
-                          class="btn btn-sm btn-warning btn-edit" 
-                          data-bs-toggle="modal" 
-                          data-bs-target="#editOrasiIlmiahModal">
-                          <i class="fa fa-edit"></i>
-                        </button>
-                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data">
-                          <i class="fa fa-trash"></i>
-                        </a>
-                      </div>
-                    </td>
-                  </tr>
+                    @forelse ($orasiIlmiahs as $item)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td class="text-start">{{ $item->pegawai->nama_lengkap ?? 'N/A' }}</td>
+                        <td>{{ $item->kategori_pembicara }}</td>
+                        <td>{{ $item->judul_makalah }}</td>
+                        <td>{{ $item->nama_pertemuan }}</td>
+                        <td>{{ $item->lingkup }}</td>
+                        <td>{{ $item->penyelenggara }}</td>
+                        <td>{{ \Carbon\Carbon::parse($item->tanggal_pelaksana)->format('d-m-Y') }}</td>
+                        <td>{{ $item->bahasa ?? '-' }}</td>
+                        <td>
+                            @if ($item->verifikasi == 'Sudah Diverifikasi')
+                                <span class="badge rounded-circle bg-success text-white" title="Sudah Diverifikasi">
+                                    <i class="fa fa-check"></i>
+                                </span>
+                            @elseif ($item->verifikasi == 'Ditolak')
+                                <span class="badge rounded-circle bg-danger text-white" title="Ditolak">
+                                    <i class="fa fa-times"></i>
+                                </span>
+                            @else
+                                <span class="badge rounded-circle bg-warning text-white" title="Belum Diverifikasi">
+                                    <i class="fa fa-question"></i>
+                                </span>
+                            @endif
+                        </td>
+                        <td>
+                            @if ($item->dokumen)
+                            <a href="{{ asset('storage/' . $item->dokumen) }}" class="btn btn-sm btn-lihat" target="_blank">Lihat</a>
+                            @else
+                            -
+                            @endif
+                        </td>
+                        <td class="text-center">
+                            <div class="d-flex justify-content-center gap-2">
+                                <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi">
+                                    <i class="fa fa-check"></i>
+                                </a>
+                                <button class="btn btn-sm btn-lihat" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#modalDetailOrasiIlmiah"
+                                        {{-- Atribut data untuk detail view --}}
+                                        >
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="btn btn-sm btn-warning btn-edit" data-bs-toggle="modal" data-bs-target="#editOrasiIlmiahModal">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                <a href="#" class="btn-aksi btn-hapus" title="Hapus Data">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="12" class="text-center">Data Orasi Ilmiah belum ada.</td>
+                    </tr>
+                    @endforelse
                 </tbody>
               </table>
             </div>
@@ -223,10 +171,10 @@
   </div>
 
   <!-- Modal  -->
-  {{-- @include('components.konfirmasi-hapus') --}}
-  {{-- @include('components.konfirmasi-berhasil') --}}
-  {{-- @include('components.konfirmasi-verifikasi') --}}
-    @include('components.orasi-ilmiah.detail-orasi-ilmiah')
+  @include('components.konfirmasi-hapus')
+  @include('components.konfirmasi-berhasil')
+  @include('components.konfirmasi-verifikasi')
+  @include('components.orasi-ilmiah.detail-orasi-ilmiah')
   @include('components.orasi-ilmiah.tambah-orasi-ilmiah')
   @include('components.orasi-ilmiah.edit-orasi-ilmiah')
 

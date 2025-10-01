@@ -1,8 +1,8 @@
 <div class="modal fade" id="orasiIlmiahModal" tabindex="-1" aria-labelledby="modalOrasiTitle" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-scrollable">
     <div class="modal-content">
-      <form action="#" method="POST" enctype="multipart/form-data">
-        @csrf
+      <form action="{{ route('orasi-ilmiah.store') }}" method="POST" enctype="multipart/form-data">
+          @csrf
 
         <!-- Header -->
         <div class="modal-header bg-primary text-white">
@@ -19,9 +19,13 @@
             <!-- Pegawai -->
             <div class="col-12">
               <label for="pegawai_id" class="form-label">Pegawai *</label>
-              <select name="pegawai_id" id="pegawai_id" class="form-select" required>
-                <option value="" disabled selected>-- Pilih Pegawai --</option>
-              </select>
+                <select name="pegawai_id" id="pegawai_id" class="form-select" required>
+                    <option value="" disabled selected>-- Pilih Pegawai --</option>
+                    {{-- Loop data pegawai aktif dari controller --}}
+                    @foreach($pegawais as $pegawai)
+                        <option value="{{ $pegawai->id }}">{{ $pegawai->nama_lengkap }}</option>
+                    @endforeach
+                </select>
             </div>
 
             <!-- Litabmas -->

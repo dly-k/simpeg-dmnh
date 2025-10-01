@@ -1,37 +1,136 @@
+// assets/js/orasi-ilmiah.js (Versi Terbaru & Terlengkap)
+
 document.addEventListener("DOMContentLoaded", () => {
-  const modal = document.getElementById('modalDetailOrasiIlmiah');
-  modal.addEventListener('show.bs.modal', function (event) {
-    let button = event.relatedTarget; // Tombol yang diklik
 
-    // Isi data ke detail modal
-    document.getElementById('detail_orasi_pegawai').textContent = button.getAttribute('data-pegawai');
-    document.getElementById('detail_orasi_litabmas').textContent = button.getAttribute('data-litabmas');
-    document.getElementById('detail_orasi_kategori_pembicara').textContent = button.getAttribute('data-kategori');
-    document.getElementById('detail_orasi_lingkup').textContent = button.getAttribute('data-lingkup');
-    document.getElementById('detail_orasi_judul_makalah').textContent = button.getAttribute('data-judul');
-    document.getElementById('detail_orasi_nama_pertemuan').textContent = button.getAttribute('data-pertemuan');
-    document.getElementById('detail_orasi_penyelenggara').textContent = button.getAttribute('data-penyelenggara');
-    document.getElementById('detail_orasi_tanggal_pelaksana').textContent = button.getAttribute('data-tanggal');
-    document.getElementById('detail_orasi_bahasa').textContent = button.getAttribute('data-bahasa');
+    // =================================================================
+    // BAGIAN 1: LOGIKA UNTUK MODAL DETAIL ORASI ILMIAH
+    // =================================================================
+    const modalDetail = document.getElementById('modalDetailOrasiIlmiah');
+    if (modalDetail) {
+        modalDetail.addEventListener('show.bs.modal', function (event) {
+            let button = event.relatedTarget;
+            const setDataText = (id, attribute) => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.textContent = button.getAttribute(attribute) || '-';
+                }
+            };
+            setDataText('detail_orasi_pegawai', 'data-pegawai');
+            setDataText('detail_orasi_litabmas', 'data-litabmas');
+            setDataText('detail_orasi_kategori_pembicara', 'data-kategori');
+            setDataText('detail_orasi_lingkup', 'data-lingkup');
+            setDataText('detail_orasi_judul_makalah', 'data-judul');
+            setDataText('detail_orasi_nama_pertemuan', 'data-pertemuan');
+            setDataText('detail_orasi_penyelenggara', 'data-penyelenggara');
+            setDataText('detail_orasi_tanggal_pelaksana', 'data-tanggal');
+            setDataText('detail_orasi_bahasa', 'data-bahasa');
+            setDataText('detail_orasi_jenis_dokumen', 'data-jenis-dokumen');
+            setDataText('detail_orasi_nama_dokumen', 'data-nama-dokumen');
+            setDataText('detail_orasi_nomor_dokumen', 'data-nomor-dokumen');
 
-    // Bagian Dokumen
-    document.getElementById('detail_orasi_jenis_dokumen').textContent = button.getAttribute('data-jenis-dokumen');
-    document.getElementById('detail_orasi_nama_dokumen').textContent = button.getAttribute('data-nama-dokumen');
-    document.getElementById('detail_orasi_nomor_dokumen').textContent = button.getAttribute('data-nomor-dokumen');
+            const tautanElement = document.getElementById('detail_orasi_tautan');
+            if (tautanElement) {
+                let tautan = button.getAttribute('data-tautan');
+                tautanElement.innerHTML = tautan ? `<a href="${tautan}" target="_blank">${tautan}</a>` : '-';
+            }
+            const viewer = document.getElementById('detail_orasi_document_viewer');
+            if (viewer) {
+                let fileSrc = button.getAttribute('data-dokumen-src');
+                viewer.setAttribute('src', fileSrc || '');
+            }
+        });
+    }
 
-    let tautan = button.getAttribute('data-tautan');
-    document.getElementById('detail_orasi_tautan').innerHTML = `<a href="${tautan}" target="_blank">${tautan}</a>`;
+    // =================================================================
+    // BAGIAN 2: LOGIKA UNTUK NOTIFIKASI SUKSES SETELAH SIMPAN DATA
+    // =================================================================
+    const successMessage = document.querySelector('meta[name="flash-success"]')?.getAttribute('content');
+    if (successMessage) {
+        const modalBerhasil = document.getElementById('modalBerhasil');
+        const sound = new Audio('/assets/sounds/Success.mp3');
+        if (modalBerhasil) {
+            sound.play();
+            modalBerhasil.classList.add('show');
+            setTimeout(() => {
+                modalBerhasil.classList.remove('show');
+                window.location.reload();
+            }, 1200);
+        }
+    }
 
-    // Viewer PDF
-    let fileSrc = button.getAttribute('data-dokumen-src');
-    document.getElementById('detail_orasi_document_viewer').setAttribute('src', fileSrc);
-  });
-});
-
-    // == Peningkatan Datepicker ==
+    // =================================================================
+    // BAGIAN 3: PENINGKATAN UX UNTUK INPUT DATEPICKER
+    // =================================================================
     document.querySelectorAll('input[type="date"]').forEach((el) => {
-      el.style.cursor = "pointer";
-      el.addEventListener("click", function () {
-        this.showPicker && this.showPicker();
-      });
+        el.style.cursor = "pointer";
+        el.addEventListener("click", function () {
+            this.showPicker && this.showPicker();
+        });
     });
+
+    // =================================================================
+    // BAGIAN 4: LOGIKA UNTUK CUSTOM FILE UPLOAD (BARU DITAMBAHKAN)
+    // =================================================================
+    document.querySelectorAll('.upload-area').forEach(uploadArea => {
+        const fileInput = uploadArea.querySelector('input[type="file"]');
+        const textElement = uploadArea.querySelector('p');
+        const originalText = textElement.innerHTML;
+        const feedbackElement = uploadArea.nextElementSibling; // Elemen span untuk feedback
+
+        // 1. Memicu klik pada input file saat area di-klik
+        uploadArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        // 2. Menangani perubahan saat file dipilih
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                handleFile(fileInput.files[0]);
+            }
+        });
+
+        // 3. Menangani Drag and Drop
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = 'var(--primary)';
+        });
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.style.borderColor = 'var(--border-color)';
+        });
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = 'var(--border-color)';
+            if (e.dataTransfer.files.length > 0) {
+                fileInput.files = e.dataTransfer.files; // Menetapkan file yang di-drop ke input
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        // Fungsi utama untuk menangani file yang dipilih/di-drop
+        function handleFile(file) {
+            const maxSize = 5 * 1024 * 1024; // 5 MB
+
+            // Validasi ukuran
+            if (file.size > maxSize) {
+                feedbackElement.textContent = 'Ukuran file tidak boleh lebih dari 5 MB.';
+                feedbackElement.style.display = 'block';
+                fileInput.value = ''; // Reset input file
+                textElement.innerHTML = originalText; // Kembalikan teks asli
+                return;
+            }
+            
+            // Validasi tipe (hanya PDF)
+            if (file.type !== "application/pdf") {
+                 feedbackElement.textContent = 'Hanya file dengan format .pdf yang diizinkan.';
+                 feedbackElement.style.display = 'block';
+                 fileInput.value = ''; // Reset input file
+                 textElement.innerHTML = originalText; // Kembalikan teks asli
+                return;
+            }
+
+            // Jika valid, tampilkan nama file
+            feedbackElement.style.display = 'none';
+            textElement.innerHTML = `<strong>File terpilih:</strong><br>${file.name}`;
+        }
+    });
+});
