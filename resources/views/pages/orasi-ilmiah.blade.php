@@ -13,7 +13,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="{{ asset('assets/css/layout.css') }}" />
-  <link rel="stylesheet" href="{{ asset('assets/css/praktisi.css') }}" />
+  <link rel="stylesheet" href="{{ asset('assets/css/orasi-ilmiah.css') }}" />
 </head>
 
 <body>
@@ -70,7 +70,7 @@
 
               <!-- Right: Button Tambah Data -->
               <div class="ms-auto">
-                <button class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#tambahOrasiModal">
+                <button class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#orasiIlmiahModal">
                   <i class="fa fa-plus me-2"></i> Tambah Data
                 </button>
               </div>
@@ -122,11 +122,26 @@
                         <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi">
                           <i class="fa fa-check"></i>
                         </a>
-                        <button class="btn btn-sm btn-lihat"><i class="fa fa-eye"></i></button>
+                        <button class="btn btn-sm btn-lihat" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#modalDetailOrasiIlmiah"
+                                data-pegawai="Budi Santoso"
+                                data-judul="Makalah Tentang AI"
+                                data-pertemuan="Seminar Nasional AI"
+                                data-penyelenggara="Universitas X"
+                                data-tanggal="2025-10-01"
+                                data-bahasa="Indonesia"
+                                data-jenis-dokumen="Sertifikat"
+                                data-nama-dokumen="Sertifikat AI"
+                                data-nomor-dokumen="123/AI/2025"
+                                data-tautan="https://drive.google.com/xxxxx"
+                                data-dokumen-src="/uploads/dokumen_ai.pdf">
+                          <i class="fas fa-eye"></i>
+                        </button>
                         <button 
                           class="btn btn-sm btn-warning btn-edit" 
                           data-bs-toggle="modal" 
-                          data-bs-target="#editOrasiModal">
+                          data-bs-target="#editOrasiIlmiahModal">
                           <i class="fa fa-edit"></i>
                         </button>
                         <a href="#" class="btn-aksi btn-hapus" title="Hapus Data">
@@ -161,11 +176,31 @@
                         <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi">
                           <i class="fa fa-check"></i>
                         </a>
-                        <button class="btn btn-sm btn-lihat"><i class="fa fa-eye"></i></button>
+                        <!-- Tombol dengan data attribute -->
+                        <button class="btn btn-sm btn-lihat" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#modalDetailOrasiIlmiah"
+                                data-pegawai="Budi Santoso"
+                                data-litabmas="LIT123"
+                                data-kategori="Pembicara Kunci"
+                                data-lingkup="Nasional"
+                                data-judul="Makalah Tentang AI"
+                                data-pertemuan="Seminar Nasional AI"
+                                data-penyelenggara="Universitas X"
+                                data-tanggal="2025-10-01"
+                                data-bahasa="Indonesia"
+                                data-jenis-dokumen="Sertifikat"
+                                data-nama-dokumen="Sertifikat AI"
+                                data-nomor-dokumen="123/AI/2025"
+                                data-tautan="https://drive.google.com/xxxxx"
+                                data-dokumen-src="/uploads/dokumen_ai.pdf">
+                          <i class="fas fa-eye"></i>
+                        </button>
+
                         <button 
                           class="btn btn-sm btn-warning btn-edit" 
                           data-bs-toggle="modal" 
-                          data-bs-target="#editOrasiModal">
+                          data-bs-target="#editOrasiIlmiahModal">
                           <i class="fa fa-edit"></i>
                         </button>
                         <a href="#" class="btn-aksi btn-hapus" title="Hapus Data">
@@ -191,10 +226,13 @@
   {{-- @include('components.konfirmasi-hapus') --}}
   {{-- @include('components.konfirmasi-berhasil') --}}
   {{-- @include('components.konfirmasi-verifikasi') --}}
+    @include('components.orasi-ilmiah.detail-orasi-ilmiah')
+  @include('components.orasi-ilmiah.tambah-orasi-ilmiah')
+  @include('components.orasi-ilmiah.edit-orasi-ilmiah')
 
   <!-- Scripts -->
   <script src="{{ asset('assets/js/layout.js') }}"></script>
-  <script src="{{ asset('assets/js/praktisi.js') }}"></script>
+  <script src="{{ asset('assets/js/orasi-ilmiah.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
