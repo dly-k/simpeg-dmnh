@@ -278,4 +278,64 @@ document.addEventListener("DOMContentLoaded", () => {
             verifikasiUrl = '';
         });
     }
+    const searchInput = document.getElementById('searchInput');
+    const tahunFilter = document.getElementById('tahunFilter');
+    const statusFilter = document.getElementById('statusFilter');
+    const tableBody = document.getElementById('kompetensiTableBody');
+    const noDataRow = document.getElementById('noDataFoundRow');
+    
+    // Pastikan elemen filter ada sebelum melanjutkan
+    if (searchInput && tahunFilter && statusFilter && tableBody) {
+        const allRows = tableBody.querySelectorAll('tr:not(#noDataFoundRow)');
+
+        function applyFilters() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const tahunValue = tahunFilter.value;
+            const statusValue = statusFilter.value;
+            
+            // Update URL dengan parameter filter
+            const params = new URLSearchParams();
+            if (searchTerm) params.append('cari', searchTerm);
+            if (tahunValue) params.append('tahun', tahunValue);
+            if (statusValue) params.append('status', statusValue);
+            const newUrl = window.location.pathname + (params.toString() ? `?${params.toString()}` : '');
+            history.replaceState(null, '', newUrl);
+
+            let visibleRowCount = 0;
+            allRows.forEach(row => {
+                const rowText = row.textContent.toLowerCase();
+                const rowTahun = row.dataset.tahun;
+                const rowStatus = row.dataset.status;
+
+                const searchMatch = rowText.includes(searchTerm);
+                const tahunMatch = (tahunValue === "") || (rowTahun === tahunValue);
+                const statusMatch = (statusValue === "") || (rowStatus === statusValue);
+                
+                if (searchMatch && tahunMatch && statusMatch) {
+                    row.style.display = '';
+                    visibleRowCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            
+            noDataRow.style.display = (visibleRowCount === 0) ? '' : 'none';
+        }
+
+        // Fungsi untuk menerapkan filter dari URL saat halaman dimuat
+        function applyFiltersFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            searchInput.value = params.get('cari') || '';
+            tahunFilter.value = params.get('tahun') || '';
+            statusFilter.value = params.get('status') || '';
+            applyFilters();
+        }
+
+        searchInput.addEventListener('input', applyFilters);
+        tahunFilter.addEventListener('change', applyFilters);
+        statusFilter.addEventListener('change', applyFilters);
+
+        // Terapkan filter dari URL saat halaman pertama kali dibuka
+        applyFiltersFromUrl();
+    }
 });

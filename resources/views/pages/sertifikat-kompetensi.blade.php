@@ -44,28 +44,28 @@
                   <span class="input-group-text bg-light border-end-0">
                     <i class="fas fa-search text-success"></i>
                   </span>
-                  <input 
-                    type="text" 
-                    class="form-control border-start-0 search-input" 
-                    placeholder="Cari Sertifikat Kompetensi ...."
-                  >
-                </div>
+             <input 
+                type="text" 
+                id="searchInput" {{-- Beri ID --}}
+                class="form-control border-start-0 search-input" 
+                placeholder="Cari berdasarkan judul, nama, dll..."
+            >
+        </div>
 
-                <!-- Tahun -->
-                <select class="form-select" style="max-width: 160px;">
-                  <option value="">Semua Tahun</option>
-                  <option>2023</option>
-                  <option>2024</option>
-                  <option>2025</option>
-                </select>
+        <select id="tahunFilter" class="form-select" style="max-width: 160px;"> {{-- Beri ID --}}
+            <option value="">Semua Tahun</option>
+            {{-- Loop untuk opsi tahun dinamis --}}
+            @foreach($tahunOptions as $tahun)
+                <option value="{{ $tahun }}">{{ $tahun }}</option>
+            @endforeach
+        </select>
 
-                <!-- Status -->
-                <select class="form-select" style="max-width: 180px;">
-                  <option value="">Semua Status</option>
-                  <option>Sudah Diverifikasi</option>
-                  <option>Belum Diverifikasi</option>
-                  <option>Ditolak</option>
-                </select>
+        <select id="statusFilter" class="form-select" style="max-width: 180px;"> {{-- Beri ID --}}
+            <option value="">Semua Status</option>
+            <option value="Sudah Diverifikasi">Sudah Diverifikasi</option>
+            <option value="Belum Diverifikasi">Belum Diverifikasi</option>
+            <option value="Ditolak">Ditolak</option>
+        </select>
               </div>
 
               <!-- Right: Button Tambah Data -->
@@ -93,9 +93,16 @@
                     <th class="text-center">Aksi</th>
                   </tr>
                 </thead>
-<tbody class="text-center">
+<tbody id="kompetensiTableBody" class="text-center"> {{-- Perbaikan #1: ID ditambahkan --}}
+
+    {{-- Perbaikan #3: Baris "Data Tidak Ditemukan" ditambahkan --}}
+    <tr id="noDataFoundRow" style="display: none;">
+        <td colspan="9">Data tidak ditemukan.</td>
+    </tr>
+
     @forelse ($sertifikatKompetensis as $item)
-    <tr>
+    {{-- Perbaikan #2: Atribut data-* ditambahkan ke <tr> --}}
+    <tr data-tahun="{{ $item->tahun_sertifikasi }}" data-status="{{ $item->verifikasi }}">
         <td>{{ $loop->iteration }}</td>
         <td class="text-start">{{ $item->pegawai->nama_lengkap ?? 'N/A' }}</td>
         <td>{{ $item->kegiatan }}</td>
@@ -120,42 +127,29 @@
         </td>
         <td class="text-center">
             <div class="d-flex justify-content-center gap-2">
-                {{-- Tombol aksi akan kita implementasikan nanti --}}
-                    <a href="#" 
-                      class="btn-aksi btn-verifikasi" 
-                      title="Verifikasi"
-                      data-verifikasi-url="{{ route('sertifikat-kompetensi.verifikasi', $item->id) }}">
-                        <i class="fa fa-check"></i>
-                    </a>
-                    <button class="btn btn-sm btn-lihat" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#modalDetailSertifikatKompetensi"
-                        data-nama="{{ $item->pegawai->nama_lengkap ?? 'N/A' }}"
-                        data-kegiatan="{{ $item->kegiatan }}"
-                        data-judul="{{ $item->judul_kegiatan }}"
-                        data-no-reg="{{ $item->no_reg_pendidik ?? '-' }}"
-                        data-no-sk="{{ $item->no_sk_sertifikasi }}"
-                        data-tahun="{{ $item->tahun_sertifikasi }}"
-                        data-tmt="{{ \Carbon\Carbon::parse($item->tmt_sertifikasi)->format('d F Y') }}"
-                        data-tst="{{ $item->tst_sertifikasi ? \Carbon\Carbon::parse($item->tst_sertifikasi)->format('d F Y') : '-' }}"
-                        data-bidang="{{ $item->bidang_studi }}"
-                        data-lembaga="{{ $item->lembaga_sertifikasi }}"
-                        data-dokumen="{{ $item->dokumen ? asset('storage/' . $item->dokumen) : '' }}">
+                 @if ($item->verifikasi != 'Sudah Diverifikasi')
+                    <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi" data-verifikasi-url="{{ route('sertifikat-kompetensi.verifikasi', $item->id) }}"><i class="fa fa-check"></i></a>
+                @endif
+                <button class="btn btn-sm btn-lihat" data-bs-toggle="modal" data-bs-target="#modalDetailSertifikatKompetensi"
+                    data-nama="{{ $item->pegawai->nama_lengkap ?? 'N/A' }}"
+                    data-kegiatan="{{ $item->kegiatan }}"
+                    data-judul="{{ $item->judul_kegiatan }}"
+                    data-no-reg="{{ $item->no_reg_pendidik ?? '-' }}"
+                    data-no-sk="{{ $item->no_sk_sertifikasi }}"
+                    data-tahun="{{ $item->tahun_sertifikasi }}"
+                    data-tmt="{{ \Carbon\Carbon::parse($item->tmt_sertifikasi)->format('d F Y') }}"
+                    data-tst="{{ $item->tst_sertifikasi ? \Carbon\Carbon::parse($item->tst_sertifikasi)->format('d F Y') : '-' }}"
+                    data-bidang="{{ $item->bidang_studi }}"
+                    data-lembaga="{{ $item->lembaga_sertifikasi }}"
+                    data-dokumen="{{ $item->dokumen ? asset('storage/' . $item->dokumen) : '' }}">
                     <i class="fas fa-eye"></i>
                 </button>
-                <button class="btn btn-sm btn-warning btn-edit" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#editSertifikatKompetensiModal"
-                        data-edit-url="{{ route('sertifikat-kompetensi.edit', $item->id) }}"
-                        data-update-url="{{ route('sertifikat-kompetensi.update', $item->id) }}">
+                <button class="btn btn-sm btn-warning btn-edit" data-bs-toggle="modal" data-bs-target="#editSertifikatKompetensiModal"
+                    data-edit-url="{{ route('sertifikat-kompetensi.edit', $item->id) }}"
+                    data-update-url="{{ route('sertifikat-kompetensi.update', $item->id) }}">
                     <i class="fa fa-edit"></i>
                 </button>
-                <a href="#" 
-                  class="btn-aksi btn-hapus" 
-                  title="Hapus Data"
-                  data-delete-url="{{ route('sertifikat-kompetensi.destroy', $item->id) }}">
-                    <i class="fa fa-trash"></i>
-                </a>
+                <a href="#" class="btn-aksi btn-hapus" title="Hapus Data" data-delete-url="{{ route('sertifikat-kompetensi.destroy', $item->id) }}"><i class="fa fa-trash"></i></a>
             </div>
         </td>
     </tr>

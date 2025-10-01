@@ -9,14 +9,20 @@ use Illuminate\Support\Facades\Storage;
 
 class SertifikatKompetensiController extends Controller
 {
-    public function index()
-    {
-        // Ambil semua data sertifikat dan pegawai aktif
-        $sertifikatKompetensis = SertifikatKompetensi::with('pegawai')->latest()->get();
-        $pegawais = Pegawai::where('status_pegawai', 'Aktif')->orderBy('nama_lengkap')->get();
+public function index(Request $request)
+{
+    $sertifikatKompetensis = SertifikatKompetensi::with('pegawai')->latest()->get();
+    $pegawais = Pegawai::where('status_pegawai', 'Aktif')->orderBy('nama_lengkap')->get();
 
-        return view('pages.sertifikat-kompetensi', compact('sertifikatKompetensis', 'pegawais'));
-    }
+    // --- BAGIAN KUNCI YANG MEMPERBAIKI ERROR ---
+    // Kode ini mengambil semua tahun unik dari database untuk dijadikan opsi filter
+    $tahunOptions = SertifikatKompetensi::selectRaw('DISTINCT tahun_sertifikasi')
+        ->orderBy('tahun_sertifikasi', 'desc')
+        ->pluck('tahun_sertifikasi');
+
+    // Pastikan variabel $tahunOptions dikirim ke view menggunakan compact()
+    return view('pages.sertifikat-kompetensi', compact('sertifikatKompetensis', 'pegawais', 'tahunOptions'));
+}
 
 public function store(Request $request)
 {
