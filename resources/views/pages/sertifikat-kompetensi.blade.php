@@ -145,7 +145,12 @@
                         data-update-url="{{ route('sertifikat-kompetensi.update', $item->id) }}">
                     <i class="fa fa-edit"></i>
                 </button>
-                <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
+                <a href="#" 
+                  class="btn-aksi btn-hapus" 
+                  title="Hapus Data"
+                  data-delete-url="{{ route('sertifikat-kompetensi.destroy', $item->id) }}">
+                    <i class="fa fa-trash"></i>
+                </a>
             </div>
         </td>
     </tr>

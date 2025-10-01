@@ -102,4 +102,17 @@ public function edit(SertifikatKompetensi $sertifikatKompetensi)
 
         return redirect()->route('sertifikat-kompetensi.index')->with('success', 'Data berhasil diperbarui!');
     }
+    public function destroy(SertifikatKompetensi $sertifikatKompetensi)
+{
+    // 1. Hapus file dokumen dari storage jika ada
+    if ($sertifikatKompetensi->dokumen && Storage::disk('public')->exists($sertifikatKompetensi->dokumen)) {
+        Storage::disk('public')->delete($sertifikatKompetensi->dokumen);
+    }
+
+    // 2. Hapus data dari database
+    $sertifikatKompetensi->delete();
+
+    // 3. Redirect kembali dengan pesan sukses
+    return redirect()->route('sertifikat-kompetensi.index')->with('success', 'Data berhasil dihapus!');
+}
 }
