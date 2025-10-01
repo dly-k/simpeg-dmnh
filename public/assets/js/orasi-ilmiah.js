@@ -27,3 +27,11 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('detail_orasi_document_viewer').setAttribute('src', fileSrc);
   });
 });
+
+    // == Peningkatan Datepicker ==
+    document.querySelectorAll('input[type="date"]').forEach((el) => {
+      el.style.cursor = "pointer";
+      el.addEventListener("click", function () {
+        this.showPicker && this.showPicker();
+      });
+    });
