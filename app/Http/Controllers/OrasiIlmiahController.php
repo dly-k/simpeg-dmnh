@@ -105,4 +105,17 @@ class OrasiIlmiahController extends Controller
         // 4. Redirect dengan pesan sukses
         return redirect()->route('orasi-ilmiah.index')->with('success', 'Data Orasi Ilmiah berhasil diperbarui!');
     }
+    public function destroy(OrasiIlmiah $orasiIlmiah)
+    {
+        // 1. Hapus file dokumen terkait dari storage jika ada
+        if ($orasiIlmiah->dokumen && Storage::disk('public')->exists($orasiIlmiah->dokumen)) {
+            Storage::disk('public')->delete($orasiIlmiah->dokumen);
+        }
+
+        // 2. Hapus data dari database
+        $orasiIlmiah->delete();
+
+        // 3. Redirect kembali dengan pesan sukses
+        return redirect()->route('orasi-ilmiah.index')->with('success', 'Data Orasi Ilmiah berhasil dihapus!');
+    }
 }

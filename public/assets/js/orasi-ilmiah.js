@@ -179,4 +179,55 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+    const modalKonfirmasiHapus = document.getElementById('modalKonfirmasiHapus');
+    if (modalKonfirmasiHapus) {
+        const btnKonfirmasiHapus = document.getElementById('btnKonfirmasiHapus');
+        const btnBatalHapus = document.getElementById('btnBatalHapus');
+        let deleteUrl = '';
+
+        // Gunakan event delegation untuk menangkap klik pada semua tombol hapus
+        document.body.addEventListener('click', function(e) {
+            // Cari elemen terdekat yang merupakan tombol hapus dengan atribut data-delete-url
+            const deleteButton = e.target.closest('.btn-hapus[data-delete-url]');
+            
+            if (deleteButton) {
+                e.preventDefault();
+                deleteUrl = deleteButton.dataset.deleteUrl;
+                modalKonfirmasiHapus.classList.add('show');
+            }
+        });
+
+        // Saat tombol "Batal" di modal diklik
+        btnBatalHapus.addEventListener('click', () => {
+            modalKonfirmasiHapus.classList.remove('show');
+            deleteUrl = '';
+        });
+
+        // Saat tombol "Ya, Hapus" di modal diklik
+        btnKonfirmasiHapus.addEventListener('click', () => {
+            if (deleteUrl) {
+                // Buat form dinamis untuk mengirim request DELETE
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = deleteUrl;
+
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                const methodInput = document.createElement('input');
+                methodInput.type = 'hidden';
+                methodInput.name = '_method';
+                methodInput.value = 'DELETE';
+
+                const csrfInput = document.createElement('input');
+                csrfInput.type = 'hidden';
+                csrfInput.name = '_token';
+                csrfInput.value = csrfToken;
+
+                form.appendChild(methodInput);
+                form.appendChild(csrfInput);
+                document.body.appendChild(form);
+                form.submit();
+            }
+        });
+    }
 });

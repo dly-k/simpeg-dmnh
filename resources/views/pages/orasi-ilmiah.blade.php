@@ -164,7 +164,10 @@
                                 >
                                     <i class="fa fa-edit"></i>
                                 </button>
-                                <a href="#" class="btn-aksi btn-hapus" title="Hapus Data">
+                                <a href="#" 
+                                  class="btn-aksi btn-hapus" 
+                                  title="Hapus Data"
+                                  data-delete-url="{{ route('orasi-ilmiah.destroy', $item->id) }}">
                                     <i class="fa fa-trash"></i>
                                 </a>
                             </div>

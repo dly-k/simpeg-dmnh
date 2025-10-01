@@ -240,6 +240,7 @@ Route::get('/orasi-ilmiah', [OrasiIlmiahController::class, 'index'])->name('oras
 Route::post('/orasi-ilmiah', [OrasiIlmiahController::class, 'store'])->name('orasi-ilmiah.store');
 Route::get('/orasi-ilmiah/{orasiIlmiah}/edit', [OrasiIlmiahController::class, 'edit'])->name('orasi-ilmiah.edit');
 Route::put('/orasi-ilmiah/{orasiIlmiah}', [OrasiIlmiahController::class, 'update'])->name('orasi-ilmiah.update');
+Route::delete('/orasi-ilmiah/{orasiIlmiah}', [OrasiIlmiahController::class, 'destroy'])->name('orasi-ilmiah.destroy');
 
 Route::get('/sertifikat-kompetensi', [SertifikatKompetensiController::class, 'index'])->name('sertifikat-kompetensi.index');
 
