@@ -230,4 +230,70 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+    const modalVerifikasi = document.getElementById('modalKonfirmasiVerifikasi');
+    if (modalVerifikasi) {
+        const btnTerima = document.getElementById('popupBtnTerima');
+        const btnTolak = document.getElementById('popupBtnTolak');
+        const btnKembali = document.getElementById('popupBtnKembali');
+        let verifikasiUrl = '';
+
+        // Event delegation untuk semua tombol verifikasi
+        document.body.addEventListener('click', function(e) {
+            const verifikasiButton = e.target.closest('.btn-verifikasi[data-verifikasi-url]');
+            if (verifikasiButton) {
+                e.preventDefault();
+                verifikasiUrl = verifikasiButton.dataset.verifikasiUrl;
+                modalVerifikasi.classList.add('show');
+            }
+        });
+
+        // Fungsi untuk mengirim form verifikasi
+        const submitVerifikasiForm = (status) => {
+            if (verifikasiUrl) {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = verifikasiUrl;
+
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                
+                // Input untuk method PATCH
+                const methodInput = document.createElement('input');
+                methodInput.type = 'hidden';
+                methodInput.name = '_method';
+                methodInput.value = 'PATCH';
+                form.appendChild(methodInput);
+
+                // Input untuk CSRF Token
+                const csrfInput = document.createElement('input');
+                csrfInput.type = 'hidden';
+                csrfInput.name = '_token';
+                csrfInput.value = csrfToken;
+                form.appendChild(csrfInput);
+
+                // Input untuk status verifikasi
+                const statusInput = document.createElement('input');
+                statusInput.type = 'hidden';
+                statusInput.name = 'status';
+                statusInput.value = status;
+                form.appendChild(statusInput);
+
+                document.body.appendChild(form);
+                form.submit();
+            }
+        };
+        
+        // Event listener untuk tombol di dalam modal
+        btnTerima.addEventListener('click', () => {
+            submitVerifikasiForm('Sudah Diverifikasi');
+        });
+
+        btnTolak.addEventListener('click', () => {
+            submitVerifikasiForm('Ditolak');
+        });
+
+        btnKembali.addEventListener('click', () => {
+            modalVerifikasi.classList.remove('show');
+            verifikasiUrl = '';
+        });
+    }
 });

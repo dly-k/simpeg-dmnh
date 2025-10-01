@@ -133,9 +133,14 @@
                         </td>
                         <td class="text-center">
                             <div class="d-flex justify-content-center gap-2">
-                                <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi">
-                                    <i class="fa fa-check"></i>
-                                </a>
+                              @if ($item->verifikasi != 'Sudah Diverifikasi')
+                                  <a href="#" 
+                                    class="btn-aksi btn-verifikasi" 
+                                    title="Verifikasi"
+                                    data-verifikasi-url="{{ route('orasi-ilmiah.verifikasi', $item->id) }}">
+                                      <i class="fa fa-check"></i>
+                                  </a>
+                              @endif
                             <button class="btn btn-sm btn-lihat" 
                                     data-bs-toggle="modal" 
                                     data-bs-target="#modalDetailOrasiIlmiah"

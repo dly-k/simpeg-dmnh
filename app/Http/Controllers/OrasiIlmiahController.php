@@ -118,4 +118,18 @@ class OrasiIlmiahController extends Controller
         // 3. Redirect kembali dengan pesan sukses
         return redirect()->route('orasi-ilmiah.index')->with('success', 'Data Orasi Ilmiah berhasil dihapus!');
     }
+        public function verifikasi(Request $request, OrasiIlmiah $orasiIlmiah)
+    {
+        // 1. Validasi input status
+        $request->validate([
+            'status' => 'required|in:Sudah Diverifikasi,Ditolak',
+        ]);
+
+        // 2. Update kolom verifikasi
+        $orasiIlmiah->verifikasi = $request->status;
+        $orasiIlmiah->save();
+
+        // 3. Redirect kembali dengan pesan sukses
+        return redirect()->route('orasi-ilmiah.index')->with('success', 'Status verifikasi berhasil diperbarui!');
+    }
 }
