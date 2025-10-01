@@ -93,103 +93,47 @@
                     <th class="text-center">Aksi</th>
                   </tr>
                 </thead>
-                <tbody class="text-center">
-                  <tr>
-                    <td>1</td>
-                    <td class="text-start">Budi Santoso</td>
-                    <td>Pelatihan Digital Marketing</td>
-                    <td>Strategi Pemasaran Online</td>
-                    <td>BNSP</td>
-                    <td>2024</td>
-                    <td>
-                      <span class="badge rounded-circle bg-warning text-white" title="Belum Diverifikasi">
-                        <i class="fa fa-question"></i>
-                      </span>
-                    </td>
-                    <td><a href="#" class="btn btn-sm btn-lihat">Lihat</a></td>
-                    <td class="text-center">
-                      <div class="d-flex justify-content-center gap-2">
-                        <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi">
-                          <i class="fa fa-check"></i>
-                        </a>
-                     <button class="btn btn-sm btn-lihat"
-                                data-bs-toggle="modal"
-                                data-bs-target="#modalDetailSertifikatKompetensi"
-
-                                data-nama="Pegawai 1"
-                                data-kegiatan="Memperoleh sertifikat Kompetensi"
-                                data-judul="Pelatihan AI Tingkat Lanjut"
-                                data-no-reg="998877"
-                                data-no-sk="19900-999-0001"
-                                data-tahun="2025"
-                                data-tmt="2025-01-01"
-                                data-tst="2028-01-01"
-                                data-bidang="Ilmu Komputer"
-                                data-lembaga="Badan Nasional Sertifikasi Profesi"
-                                data-dokumen="/uploads/sertifikat_ai.pdf">
-                          <i class="fas fa-eye"></i> 
-                        </button>
-                        <button 
-                          class="btn btn-sm btn-warning btn-edit" 
-                          data-bs-toggle="modal" 
-                          data-bs-target="#editSertifikatKompetensiModal">
-                          <i class="fa fa-edit"></i>
-                        </button>
-                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data">
-                          <i class="fa fa-trash"></i>
-                        </a>
-                      </div>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>2</td>
-                    <td class="text-start">Siti Aminah</td>
-                    <td>Pelatihan Data Science</td>
-                    <td>Machine Learning Fundamentals</td>
-                    <td>Google Certification</td>
-                    <td>2023</td>
-                    <td>
-                      <span class="badge rounded-circle bg-success text-white" title="Sudah Diverifikasi">
-                        <i class="fa fa-check"></i>
-                      </span>
-                    </td>
-                    <td><a href="#" class="btn btn-sm btn-lihat">Lihat</a></td>
-                    <td class="text-center">
-                      <div class="d-flex justify-content-center gap-2">
-                        <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi">
-                          <i class="fa fa-check"></i>
-                        </a>
-                        <button class="btn btn-sm btn-lihat"
-                                data-bs-toggle="modal"
-                                data-bs-target="#modalDetailSertifikatKompetensi"
-
-                                data-nama="Pegawai 1"
-                                data-kegiatan="Memperoleh sertifikat Kompetensi"
-                                data-judul="Pelatihan AI Tingkat Lanjut"
-                                data-no-reg="998877"
-                                data-no-sk="19900-999-0001"
-                                data-tahun="2025"
-                                data-tmt="2025-01-01"
-                                data-tst="2028-01-01"
-                                data-bidang="Ilmu Komputer"
-                                data-lembaga="Badan Nasional Sertifikasi Profesi"
-                                data-dokumen="/uploads/sertifikat_ai.pdf">
-                          <i class="fas fa-eye"></i> 
-                        </button>
-                        <button 
-                          class="btn btn-sm btn-warning btn-edit" 
-                          data-bs-toggle="modal" 
-                          data-bs-target="#editSertifikatKompetensiModal">
-                          <i class="fa fa-edit"></i>
-                        </button>
-                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data">
-                          <i class="fa fa-trash"></i>
-                        </a>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
+<tbody class="text-center">
+    @forelse ($sertifikatKompetensis as $item)
+    <tr>
+        <td>{{ $loop->iteration }}</td>
+        <td class="text-start">{{ $item->pegawai->nama_lengkap ?? 'N/A' }}</td>
+        <td>{{ $item->kegiatan }}</td>
+        <td>{{ $item->judul_kegiatan }}</td>
+        <td>{{ $item->lembaga_sertifikasi }}</td>
+        <td>{{ $item->tahun_sertifikasi }}</td>
+        <td>
+            @if ($item->verifikasi == 'Sudah Diverifikasi')
+                <span class="badge rounded-circle bg-success text-white" title="Sudah Diverifikasi"><i class="fa fa-check"></i></span>
+            @elseif ($item->verifikasi == 'Ditolak')
+                <span class="badge rounded-circle bg-danger text-white" title="Ditolak"><i class="fa fa-times"></i></span>
+            @else
+                <span class="badge rounded-circle bg-warning text-white" title="Belum Diverifikasi"><i class="fa fa-question"></i></span>
+            @endif
+        </td>
+        <td>
+            @if ($item->dokumen)
+            <a href="{{ asset('storage/' . $item->dokumen) }}" class="btn btn-sm btn-lihat" target="_blank">Lihat</a>
+            @else
+            -
+            @endif
+        </td>
+        <td class="text-center">
+            <div class="d-flex justify-content-center gap-2">
+                {{-- Tombol aksi akan kita implementasikan nanti --}}
+                <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi"><i class="fa fa-check"></i></a>
+                <button class="btn btn-sm btn-lihat"><i class="fas fa-eye"></i></button>
+                <button class="btn btn-sm btn-warning btn-edit"><i class="fa fa-edit"></i></button>
+                <a href="#" class="btn-aksi btn-hapus" title="Hapus Data"><i class="fa fa-trash"></i></a>
+            </div>
+        </td>
+    </tr>
+    @empty
+    <tr>
+        <td colspan="9" class="text-center">Data Sertifikat Kompetensi belum ada.</td>
+    </tr>
+    @endforelse
+</tbody>
               </table>
             </div>
             <!-- End Tabel -->
@@ -203,9 +147,9 @@
   </div>
 
   <!-- Modal  -->
-  {{-- @include('components.konfirmasi-hapus') --}}
-  {{-- @include('components.konfirmasi-berhasil') --}}
-  {{-- @include('components.konfirmasi-verifikasi') --}}
+   @include('components.konfirmasi-hapus')
+   @include('components.konfirmasi-berhasil')
+   @include('components.konfirmasi-verifikasi')
     @include('components.sertifikat-kompetensi.detail-sertifikat-kompetensi')
     @include('components.sertifikat-kompetensi.tambah-sertifikat-kompetensi')
     @include('components.sertifikat-kompetensi.edit-sertifikat-kompetensi')

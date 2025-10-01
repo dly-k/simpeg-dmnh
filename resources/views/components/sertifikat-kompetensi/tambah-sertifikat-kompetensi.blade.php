@@ -1,8 +1,8 @@
 <div class="modal fade" id="sertifikatKompetensiModal" tabindex="-1" aria-labelledby="sertifikatKompetensiTitle" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-scrollable">
     <div class="modal-content">
-      <form action="#" method="POST" enctype="multipart/form-data">
-        @csrf
+      <form action="{{ route('sertifikat-kompetensi.store') }}" method="POST" enctype="multipart/form-data">
+          @csrf
         <div class="modal-header bg-success text-white">
           <h5 class="modal-title" id="sertifikatKompetensiTitle">
             <i class="fas fa-plus-circle me-2"></i> Tambah Sertifikat Kompetensi
@@ -13,21 +13,19 @@
         <div class="modal-body">
           <div class="row g-3">
 
-            <!-- Nama (Dropdown) -->
             <div class="col-12">
-              <label for="Nama" class="form-label">Nama *</label>
-              <select name="Nama" id="Nama" class="form-select">
-                <option value="">-- Pilih Nama Pegawai --</option>
-                <option value="pegawai1">Pegawai 1</option>
-                <option value="pegawai2">Pegawai 2</option>
-                <option value="pegawai3">Pegawai 3</option>
-              </select>
+                <label for="Nama" class="form-label">Nama *</label>
+                <select name="pegawai_id" id="Nama" class="form-select" required>
+                    <option value="">-- Pilih Nama Pegawai --</option>
+                    @foreach($pegawais as $pegawai)
+                        <option value="{{ $pegawai->id }}">{{ $pegawai->nama_lengkap }}</option>
+                    @endforeach
+                </select>
             </div>
 
-            <!-- Kegiatan (Dropdown) -->
             <div class="col-12">
               <label for="Kegiatan" class="form-label">Kegiatan *</label>
-              <select name="Kegiatan" id="Kegiatan" class="form-select">
+              <select name="kegiatan" id="Kegiatan" class="form-select" required>
                 <option value="">-- Pilih Kegiatan --</option>
                 <option value="nasional">Memperoleh sertifikat profesi: Bereputasi tingkat Nasional</option>
                 <option value="internasional">Memperoleh sertifikat profesi: Bereputasi tingkat Internasional</option>
@@ -35,53 +33,47 @@
               </select>
             </div>
 
-            <!-- Judul Kegiatan -->
             <div class="col-12">
               <label for="Judul_Kegiatan" class="form-label">Judul Kegiatan *</label>
-              <input type="text" name="Judul_Kegiatan" id="Judul_Kegiatan" class="form-control" placeholder="Masukkan judul kegiatan">
+              <input type="text" name="judul_kegiatan" id="Judul_Kegiatan" class="form-control" placeholder="Masukkan judul kegiatan" required>
             </div>
 
-            <!-- Nomor Registrasi Pendidik -->
             <div class="col-md-6">
               <label for="Nomor_Registrasi_Pendidik" class="form-label">Nomor Registrasi Pendidik</label>
-              <input type="text" name="Nomor_Registrasi_Pendidik" id="Nomor_Registrasi_Pendidik" class="form-control" placeholder="Ketik hanya angka">
+              {{-- Diperbaiki: name="no_reg_pendidik" --}}
+              <input type="text" name="no_reg_pendidik" id="Nomor_Registrasi_Pendidik" class="form-control" placeholder="Ketik hanya angka">
             </div>
 
-            <!-- Nomor SK Sertifikasi -->
             <div class="col-md-6">
               <label for="Nomor_SK_Sertifikasi" class="form-label">Nomor SK Sertifikasi *</label>
-              <input type="text" name="Nomor_SK_Sertifikasi" id="Nomor_SK_Sertifikasi" class="form-control" placeholder="Contoh: 19900-999-0001">
+              {{-- Diperbaiki: name="no_sk_sertifikasi" --}}
+              <input type="text" name="no_sk_sertifikasi" id="Nomor_SK_Sertifikasi" class="form-control" placeholder="Contoh: 19900-999-0001" required>
             </div>
 
-            <!-- Tahun Sertifikasi -->
             <div class="col-md-6">
             <label for="Tahun_Sertifikasi" class="form-label">Tahun Sertifikasi *</label>
-            <input type="number" name="Tahun_Sertifikasi" id="Tahun_Sertifikasi" class="form-control" 
-                    placeholder="Contoh: 2025" min="1900" max="2099" step="1">
+            <input type="number" name="tahun_sertifikasi" id="Tahun_Sertifikasi" class="form-control" 
+                    placeholder="Contoh: 2025" min="1900" max="2099" step="1" required>
             </div>
 
-            <!-- TMT Sertifikasi -->
             <div class="col-md-6">
               <label for="TMT_Sertifikasi" class="form-label">TMT Sertifikasi *</label>
-              <input type="date" name="TMT_Sertifikasi" id="TMT_Sertifikasi" class="form-control">
+              <input type="date" name="tmt_sertifikasi" id="TMT_Sertifikasi" class="form-control" required>
             </div>
 
-            <!-- TST Sertifikasi -->
             <div class="col-md-6">
               <label for="TST_Sertifikasi" class="form-label">TST Sertifikasi</label>
-              <input type="date" name="TST_Sertifikasi" id="TST_Sertifikasi" class="form-control">
+              <input type="date" name="tst_sertifikasi" id="TST_Sertifikasi" class="form-control">
             </div>
 
-            <!-- Bidang Studi -->
             <div class="col-md-6">
               <label for="Bidang_Studi" class="form-label">Bidang Studi *</label>
-              <input type="text" name="Bidang_Studi" id="Bidang_Studi" class="form-control" placeholder="Masukkan bidang studi">
+              <input type="text" name="bidang_studi" id="Bidang_Studi" class="form-control" placeholder="Masukkan bidang studi" required>
             </div>
 
-            <!-- Lembaga Sertifikasi (Dropdown + Input jika Lainnya) -->
             <div class="col-12">
               <label for="Lembaga_Sertifikasi" class="form-label">Lembaga Sertifikasi *</label>
-              <select name="Lembaga_Sertifikasi" id="Lembaga_Sertifikasi" class="form-select">
+              <select name="lembaga_sertifikasi" id="Lembaga_Sertifikasi" class="form-select" required>
                 <option value="">-- Pilih Lembaga Sertifikasi --</option>
                 <option value="bpsdm">Badan Pengembangan SDM</option>
                 <option value="bsnp">Badan Standar Nasional Pendidikan</option>
@@ -89,11 +81,9 @@
                 <option value="kemdikbud">Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi</option>
                 <option value="lainnya">Lainnya</option>
               </select>
-              <!-- Input tambahan kalau pilih "Lainnya" -->
-              <input type="text" name="Lembaga_Sertifikasi_Lainnya" id="Lembaga_Sertifikasi_Lainnya" class="form-control mt-2" placeholder="Masukkan lembaga sertifikasi lainnya" style="display:none;">
+              <input type="text" name="lembaga_sertifikasi_lainnya" id="Lembaga_Sertifikasi_Lainnya" class="form-control mt-2" placeholder="Masukkan lembaga sertifikasi lainnya" style="display:none;">
             </div>
 
-            <!-- Dokumen -->
             <div class="col-12">
               <label class="form-label">Unggah Dokumen</label>
               <div class="upload-area">
