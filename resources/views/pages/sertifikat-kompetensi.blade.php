@@ -121,8 +121,13 @@
         <td class="text-center">
             <div class="d-flex justify-content-center gap-2">
                 {{-- Tombol aksi akan kita implementasikan nanti --}}
-                <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi"><i class="fa fa-check"></i></a>
-                                <button class="btn btn-sm btn-lihat" 
+                    <a href="#" 
+                      class="btn-aksi btn-verifikasi" 
+                      title="Verifikasi"
+                      data-verifikasi-url="{{ route('sertifikat-kompetensi.verifikasi', $item->id) }}">
+                        <i class="fa fa-check"></i>
+                    </a>
+                    <button class="btn btn-sm btn-lihat" 
                         data-bs-toggle="modal" 
                         data-bs-target="#modalDetailSertifikatKompetensi"
                         data-nama="{{ $item->pegawai->nama_lengkap ?? 'N/A' }}"
