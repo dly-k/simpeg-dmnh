@@ -296,4 +296,83 @@ document.addEventListener("DOMContentLoaded", () => {
             verifikasiUrl = '';
         });
     }
+const searchInput = document.getElementById('searchInput');
+    const semesterFilter = document.getElementById('semesterFilter');
+    const statusFilter = document.getElementById('statusFilter');
+    const tableBody = document.getElementById('orasiIlmiahTableBody');
+    const allRows = tableBody.querySelectorAll('tr:not(#noDataFoundRow)');
+    const noDataRow = document.getElementById('noDataFoundRow');
+
+    function applyFilters() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const semesterValue = semesterFilter.value;
+        const statusValue = statusFilter.value;
+        
+        // --- AWAL KODE BARU UNTUK UPDATE URL ---
+        const params = new URLSearchParams();
+        if (searchTerm) params.append('cari', searchTerm);
+        if (semesterValue) params.append('semester', semesterValue);
+        if (statusValue) params.append('status', statusValue);
+
+        // Membuat URL baru dan memperbarui address bar tanpa reload
+        // history.pushState(null, '', `?${params.toString()}`);
+        // Kita gunakan replaceState agar tidak memenuhi history browser
+        const newUrl = window.location.pathname + (params.toString() ? `?${params.toString()}` : '');
+        history.replaceState(null, '', newUrl);
+        // --- AKHIR KODE BARU UNTUK UPDATE URL ---
+
+        let visibleRowCount = 0;
+        allRows.forEach(row => {
+            const rowText = row.textContent.toLowerCase();
+            const rowTanggal = row.dataset.tanggal;
+            const rowStatus = row.dataset.status;
+
+            const searchMatch = rowText.includes(searchTerm);
+            const statusMatch = (statusValue === "") || (rowStatus === statusValue);
+            
+            let semesterMatch = true;
+            if (semesterValue) {
+                const [filterSemester, filterYear] = semesterValue.split('-');
+                const rowDate = new Date(rowTanggal);
+                const rowMonth = rowDate.getMonth() + 1;
+                const rowYear = rowDate.getFullYear();
+
+                if (filterSemester === 'ganjil') {
+                    semesterMatch = (rowMonth >= 1 && rowMonth <= 6) && (rowYear == filterYear);
+                } else if (filterSemester === 'genap') {
+                    semesterMatch = (rowMonth >= 7 && rowMonth <= 12) && (rowYear == filterYear);
+                }
+            }
+            
+            if (searchMatch && statusMatch && semesterMatch) {
+                row.style.display = '';
+                visibleRowCount++;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+        
+        noDataRow.style.display = (visibleRowCount === 0) ? '' : 'none';
+    }
+
+    // Fungsi untuk membaca URL saat halaman dimuat dan menerapkan filter
+    function applyFiltersFromUrl() {
+        const params = new URLSearchParams(window.location.search);
+        
+        // Set nilai input/select dari parameter URL
+        searchInput.value = params.get('cari') || '';
+        semesterFilter.value = params.get('semester') || '';
+        statusFilter.value = params.get('status') || '';
+
+        // Terapkan filter
+        applyFilters();
+    }
+
+    // Tambahkan event listener ke setiap elemen filter
+    searchInput.addEventListener('input', applyFilters);
+    semesterFilter.addEventListener('change', applyFilters);
+    statusFilter.addEventListener('change', applyFilters);
+
+    // Jalankan fungsi ini saat halaman pertama kali dimuat
+    applyFiltersFromUrl();
 });

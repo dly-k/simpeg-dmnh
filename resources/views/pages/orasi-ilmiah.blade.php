@@ -40,32 +40,32 @@
             <div class="d-flex flex-wrap align-items-center mb-3 gap-2">
               <div class="d-flex flex-grow-1 gap-2">
                 <!-- Search -->
-                <div class="input-group flex-grow-1">
-                  <span class="input-group-text bg-light border-end-0">
-                    <i class="fas fa-search text-success"></i>
-                  </span>
-                  <input 
-                    type="text" 
-                    class="form-control border-start-0 search-input" 
-                    placeholder="Cari Orasi Ilmiah ...."
-                  >
-                </div>
+                  <div class="input-group flex-grow-1">
+                      <span class="input-group-text bg-light border-end-0">
+                          <i class="fas fa-search text-success"></i>
+                      </span>
+                      <input 
+                          type="text" 
+                          id="searchInput" {{-- Tambahkan ID --}}
+                          class="form-control border-start-0 search-input" 
+                          placeholder="Cari berdasarkan judul, nama, penyelenggara..."
+                      >
+                  </div>
 
-                <!-- Tahun -->
-                <select class="form-select" style="max-width: 160px;">
-                  <option value="">Semua Tahun</option>
-                  <option>2023</option>
-                  <option>2024</option>
-                  <option>2025</option>
-                </select>
+                  <select id="semesterFilter" class="form-select" style="max-width: 220px;"> {{-- Tambahkan ID --}}
+                      <option value="">Semua Semester</option>
+                      {{-- Loop untuk opsi semester dinamis --}}
+                      @foreach($semesterOptions as $option)
+                          <option value="{{ $option['value'] }}">{{ $option['text'] }}</option>
+                      @endforeach
+                  </select>
 
-                <!-- Status -->
-                <select class="form-select" style="max-width: 180px;">
-                  <option value="">Semua Status</option>
-                  <option>Sudah Diverifikasi</option>
-                  <option>Belum Diverifikasi</option>
-                  <option>Ditolak</option>
-                </select>
+                  <select id="statusFilter" class="form-select" style="max-width: 180px;"> {{-- Tambahkan ID --}}
+                      <option value="">Semua Status</option>
+                      <option value="Sudah Diverifikasi">Sudah Diverifikasi</option>
+                      <option value="Belum Diverifikasi">Belum Diverifikasi</option>
+                      <option value="Ditolak">Ditolak</option>
+                  </select>
               </div>
 
               <!-- Right: Button Tambah Data -->
@@ -97,9 +97,12 @@
                   </tr>
                 </thead>
                 {{-- Ganti seluruh isi <tbody> dengan kode ini --}}
-                <tbody class="text-center">
+                <tbody id="orasiIlmiahTableBody" class="text-center">
+                      <tr id="noDataFoundRow" style="display: none;">
+                          <td colspan="12">Data tidak ditemukan.</td>
+                      </tr>
                     @forelse ($orasiIlmiahs as $item)
-                    <tr>
+                    <tr data-tanggal="{{ $item->tanggal_pelaksana }}" data-status="{{ $item->verifikasi }}">
                         <td>{{ $loop->iteration }}</td>
                         <td class="text-start">{{ $item->pegawai->nama_lengkap ?? 'N/A' }}</td>
                         <td>{{ $item->kategori_pembicara }}</td>
