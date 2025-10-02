@@ -415,5 +415,71 @@ detailButtons.forEach(btn => {
       }
     });
   });
+  const modalHapus = document.getElementById('modalKonfirmasiHapus'); // Menyesuaikan dengan ID modal Anda
+if (modalHapus) {
+  const btnKonfirmasiHapus = document.getElementById('btnKonfirmasiHapus'); // Menyesuaikan dengan ID tombol Anda
+  const btnBatalHapus = document.getElementById('btnBatalHapus');
+  const modalBerhasil = document.getElementById('modalBerhasil');
+
+  let currentDeleteUrl = ''; // Variabel untuk menyimpan URL yang akan dieksekusi
+
+  // Tampilkan modal saat tombol hapus di tabel diklik
+  document.querySelectorAll('.btn-hapus-data').forEach(button => {
+    button.addEventListener('click', function(e) {
+      e.preventDefault();
+      // Simpan URL dari tombol yang diklik
+      currentDeleteUrl = this.dataset.url;
+      
+      // Tampilkan modal
+      modalHapus.classList.add('show');
+    });
+  });
+
+  // Sembunyikan modal saat tombol batal diklik
+  btnBatalHapus.addEventListener('click', () => {
+    modalHapus.classList.remove('show');
+  });
+
+  // Event listener untuk tombol konfirmasi, bukan form submit
+  btnKonfirmasiHapus.addEventListener('click', function() {
+    const submitButton = this;
+    const originalButtonText = submitButton.innerHTML;
+
+    submitButton.disabled = true;
+    submitButton.innerHTML = `<span class="spinner-border spinner-border-sm"></span>`;
+
+    // Buat FormData untuk mengirim _method DELETE
+    const formData = new FormData();
+    formData.append('_method', 'DELETE');
+
+    fetch(currentDeleteUrl, {
+      method: 'POST', // Method HTML tetap POST, Laravel akan mengartikannya sbg DELETE
+      headers: {
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        'Accept': 'application/json',
+      },
+      body: formData,
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        modalHapus.classList.remove('show');
+        if(modalBerhasil) modalBerhasil.classList.add('show');
+        new Audio('/assets/sounds/Success.mp3').play();
+        setTimeout(() => {
+          if(modalBerhasil) modalBerhasil.classList.remove('show');
+          window.location.reload();
+        }, 1000);
+      } else {
+        alert(data.error || 'Terjadi kesalahan saat menghapus data.');
+      }
+    })
+    .catch(error => console.error('Error:', error))
+    .finally(() => {
+      submitButton.disabled = false;
+      submitButton.innerHTML = originalButtonText;
+    });
+  });
+}
 
 });

@@ -236,4 +236,29 @@ class PengelolaJurnalController extends Controller
             return response()->json(['error' => 'Terjadi kesalahan pada server.'], 500);
         }
     }
+    public function destroy(PengelolaJurnal $pengelolaJurnal)
+    {
+        DB::beginTransaction();
+        try {
+            // 1. Hapus semua file terkait dari storage terlebih dahulu
+            foreach ($pengelolaJurnal->dokumen as $dokumen) {
+                if ($dokumen->path_file && Storage::disk('public')->exists($dokumen->path_file)) {
+                    Storage::disk('public')->delete($dokumen->path_file);
+                }
+            }
+
+            // 2. Hapus data dari database
+            // Catatan: Record di tabel 'dokumen_pengelola_jurnals' akan ikut terhapus
+            // karena kita sudah set onDelete('cascade') di migrasi.
+            $pengelolaJurnal->delete();
+            
+            DB::commit();
+            return response()->json(['success' => 'Data berhasil dihapus!']);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Delete failed: ' . $e->getMessage());
+            return response()->json(['error' => 'Gagal menghapus data.'], 500);
+        }
+    }
 }

@@ -149,11 +149,11 @@
           </td>
           <td class="text-center">
             <div class="d-flex justify-content-center gap-2">
-<button class="btn-aksi btn-verifikasi" title="Verifikasi Data"
-  {{-- Gunakan satu data-url saja --}}
-  data-url="{{ route('pengelola-jurnal.verifikasi', $jurnal->id) }}">
-  <i class="fa fa-check"></i>
-</button>
+              <button class="btn-aksi btn-verifikasi" title="Verifikasi Data"
+                {{-- Gunakan satu data-url saja --}}
+                data-url="{{ route('pengelola-jurnal.verifikasi', $jurnal->id) }}">
+                <i class="fa fa-check"></i>
+              </button>
               <button 
                   class="btn btn-sm btn-lihat text-white btn-detail"
                   data-bs-toggle="modal" 
@@ -178,9 +178,11 @@
                 data-update-url="{{ route('pengelola-jurnal.update', $jurnal->id) }}">
                 <i class="fa fa-edit"></i>
               </button>
-              <a href="#" class="btn-aksi btn-hapus" title="Hapus Data">
+              <button class="btn-aksi btn-hapus btn-hapus-data" title="Hapus Data"
+                data-url="{{ route('pengelola-jurnal.destroy', $jurnal->id) }}"
+                data-nama="{{ $jurnal->media_publikasi }}">
                 <i class="fa fa-trash"></i>
-              </a>
+              </button>
             </div>
           </td>
         </tr>
