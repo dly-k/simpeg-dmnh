@@ -36,7 +36,7 @@ class UserController extends Controller
         User::create([
             'pegawai_id' => $request->pegawai_id,
             'username' => $request->username,
-            'password' => Hash::make($request->password),
+            'password' => $request->password,
             'role' => $request->role,
         ]);
 

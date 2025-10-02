@@ -1,3 +1,29 @@
+// == Fungsi Modal Berhasil ==
+window.showSuccessModal = (title, subtitle) => {
+  console.log("showSuccessModal called with", title, subtitle);
+  const berhasilTitle = document.getElementById("berhasil-title");
+  const berhasilSubtitle = document.getElementById("berhasil-subtitle");
+  let successAudio = null;
+
+  if (berhasilTitle) berhasilTitle.textContent = title;
+  if (berhasilSubtitle) berhasilSubtitle.textContent = subtitle;
+
+  window.openModal("modalBerhasil");
+
+  successAudio = new Audio("/assets/sounds/Success.mp3");
+  successAudio.play().catch((error) => {
+    console.warn("Error memutar audio:", error);
+  });
+
+  setTimeout(() => {
+    window.closeModal("modalBerhasil");
+    if (successAudio) {
+      successAudio.pause();
+      successAudio.currentTime = 0;
+    }
+  }, 2000);
+};
+
 document.addEventListener("DOMContentLoaded", () => {
   // == Data Awal Pengguna ==
   const userData = [
@@ -54,36 +80,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
-  // == Fungsi Modal Berhasil ==
-  const showSuccessModal = (title, subtitle) => {
-    const berhasilTitle = document.getElementById("berhasil-title");
-    const berhasilSubtitle = document.getElementById("berhasil-subtitle");
-    let successAudio = null;
-
-    if (berhasilTitle) berhasilTitle.textContent = title;
-    if (berhasilSubtitle) berhasilSubtitle.textContent = subtitle;
-
-    window.openModal("modalBerhasil");
-
-    successAudio = new Audio("/assets/sounds/success.mp3");
-    successAudio.play().catch((error) => {
-      console.warn("Error memutar audio:", error);
-    });
-
-    setTimeout(() => {
-      window.closeModal("modalBerhasil");
-      if (successAudio) {
-        successAudio.pause();
-        successAudio.currentTime = 0;
-      }
-    }, 1000);
-  };
-
   // == Fungsi Modal dengan Animasi (Global) ==
   window.openModal = (modalId) => {
     const modal = document.getElementById(modalId);
     if (modal) {
       modal.style.display = "flex";
+      modal.style.zIndex = "9999";
       requestAnimationFrame(() => modal.classList.add("show"));
     }
   };
@@ -173,24 +175,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // == Modal Tambah Data ==
   const initTambahModal = () => {
-    const btnSimpanTambah = document.querySelector("#tambahDataModal .btn-success");
-    if (btnSimpanTambah) {
-      btnSimpanTambah.addEventListener("click", () => {
-        window.closeModal("tambahDataModal");
-        showSuccessModal("Data Berhasil Disimpan", "Data pengguna baru telah berhasil ditambahkan ke sistem.");
-      });
-    }
+    // Form submission handled by the form's action
   };
 
   // == Modal Edit Data ==
   const initEditModal = () => {
-    const btnSimpanEdit = document.querySelector("#editDataModal .btn-success");
-    if (btnSimpanEdit) {
-      btnSimpanEdit.addEventListener("click", () => {
-        window.closeModal("editDataModal");
-        showSuccessModal("Data Berhasil Diperbarui", "Data pengguna telah berhasil diperbarui di sistem.");
-      });
-    }
+    // Form submission handled by the form's action
   };
 
   // == Modal Hapus Data ==

@@ -37,10 +37,14 @@
         <div class="card">
           <div class="card-body p-4">
             
-            <!-- Alert Success -->
-            @if (session('success'))
-              <div class="alert alert-success mb-3">
-                  {{ session('success') }}
+            <!-- Alert Errors -->
+            @if ($errors->any())
+              <div class="alert alert-danger mb-3">
+                  <ul class="mb-0">
+                      @foreach ($errors->all() as $error)
+                          <li>{{ $error }}</li>
+                      @endforeach
+                  </ul>
               </div>
             @endif
 
@@ -111,8 +115,20 @@
     @include('components.master-data.edit-master-data', ['user' => $user])
   @endforeach
 
+  <!-- Modal Berhasil -->
+  @include('components.konfirmasi-berhasil')
+
   <script src="{{ asset('assets/js/layout.js') }}"></script>
   <script src="{{ asset('assets/js/master-data.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
+  @if (session('success'))
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      console.log("Showing success modal for: {{ session('success') }}");
+      window.showSuccessModal("Berhasil", "{{ session('success') }}");
+    });
+  </script>
+  @endif
 </body>
 </html>
