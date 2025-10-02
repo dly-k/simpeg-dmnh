@@ -58,6 +58,7 @@ Route::middleware(['auth'])->group(function () {
     // HALAMAN UTAMA SETELAH LOGIN
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::view('/ubah-password', 'auth.ubah-password');
+    Route::post('/ubah-password', [AuthController::class, 'updatePassword'])->name('password.update');
     Route::get('/dokumen/preview/{path}', [DokumenController::class, 'show'])->where('path', '.*')->name('dokumen.preview');
 
     // ================== HANYA BISA DIAKSES OLEH ROLE: admin ==================

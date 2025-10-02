@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -40,4 +42,28 @@ public function logout(Request $request)
         return redirect('/login'); // Mengarahkan pengguna kembali ke halaman login
     }
     
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'password_lama' => 'required',
+            'password_baru' => 'required|min:8|confirmed',
+        ]);
+
+        if (!Hash::check($request->password_lama, auth()->user()->password)) {
+            throw ValidationException::withMessages([
+                'password_lama' => ['Kata sandi lama Anda tidak cocok.'],
+            ]);
+        }
+
+        auth()->user()->update([
+            'password' => Hash::make($request->password_baru),
+        ]);
+
+        // PERBAIKAN: Selalu kembalikan respons JSON untuk permintaan AJAX
+        if ($request->expectsJson()) {
+            return response()->json(['message' => 'Kata sandi berhasil diubah!']);
+        }
+
+        return back()->with('status', 'Kata sandi berhasil diubah!');
+    }
 }

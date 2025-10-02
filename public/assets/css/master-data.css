@@ -68,6 +68,9 @@ input[type="password"]::-webkit-password-toggle-button {
     background-color: var(--gray-100);
 }
 
+.btn.btn-warning.btn-sm{
+    color: white;
+}
 /* =============================
    Paginasi
    Gaya untuk kontrol paginasi

@@ -49,37 +49,50 @@
   <div class="overlay" id="overlay"></div>
 
   <div class="main-wrapper">
-    <div class="navbar-custom">
-      <div class="d-flex align-items-center">
-        <button class="btn btn-link text-dark me-3" id="toggleSidebar"><i class="lni lni-menu"></i></button>
-      </div>
-      <div class="d-flex align-items-center">
-        <div class="time-date me-2">
-          <div><i class="lni lni-calendar"></i> <span id="current-date"></span></div>
-          <div><i class="lni lni-timer"></i> <span id="current-time"></span></div>
-        </div>
-        <div class="dropdown">
-        <a href="#" class="account text-decoration-none text-dark" data-bs-toggle="dropdown" aria-expanded="false">
-          <span class="icon-circle"><i class="lni lni-user"></i></span>
-          <span>Halo, Ketua TU</span>
-          <i class="lni lni-chevron-down"></i>
-        </a>
-          <ul class="dropdown-menu dropdown-menu-end shadow">
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="/ubah-password">
-                <i class="lni lni-key me-2"></i> Ubah Password
-              </a>
-            </li>
-            <li><hr class="dropdown-divider"></li>
-            <li>
-              <a class="dropdown-item d-flex align-items-center dropdown-item-danger" href="/logout">
-                <i class="lni lni-exit me-2"></i> Keluar
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
+{{-- resources/views/layouts/header.blade.php --}}
+
+<div class="navbar-custom">
+    {{-- Tombol untuk menampilkan/menyembunyikan sidebar di mode mobile --}}
+    <div class="d-flex align-items-center">
+        <button class="btn btn-link text-dark me-3" id="toggleSidebar" aria-label="Toggle Sidebar">
+            <i class="lni lni-menu"></i>
+        </button>
     </div>
+
+    <div class="d-flex align-items-center">
+        {{-- Tampilan Tanggal dan Waktu --}}
+        <div class="time-date me-2">
+            <div><i class="lni lni-calendar"></i> <span id="current-date"></span></div>
+            <div><i class="lni lni-timer"></i> <span id="current-time"></span></div>
+        </div>
+
+        {{-- Dropdown Akun Pengguna --}}
+        <div class="dropdown">
+            <a href="#" class="account text-decoration-none text-dark" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="icon-circle"><i class="lni lni-user"></i></span>
+                {{-- Nama pengguna bisa dibuat dinamis sesuai sesi login --}}
+                <span class="user-name">Halo, {{ Auth::user()->pegawai->nama_lengkap ?? 'Pengguna' }}</span>
+                <i class="lni lni-chevron-down"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end shadow">
+                <li>
+                    <a class="dropdown-item d-flex align-items-center" href="/ubah-password">
+                        <i class="lni lni-key me-2"></i> Ubah Password
+                    </a>
+                </li>
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="dropdown-item d-flex align-items-center dropdown-item-danger">
+                            <i class="lni lni-exit me-2"></i> Keluar
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 
     <div class="title-bar">
       <h1><i class="fas fa-key"></i> <span id="page-title">Password</span></h1>
@@ -91,32 +104,48 @@
       <h2>Ubah Password</h2>
     </div>
     <div class="form-body">
-      <form id="ubahPasswordForm" novalidate>
-        
+      {{-- Menampilkan pesan sukses --}}
+      @if (session('status'))
+        <div class="alert alert-success" role="alert">
+          {{ session('status') }}
+        </div>
+      @endif
+
+      <form id="ubahPasswordForm" method="POST" action="{{ route('password.update') }}" novalidate>
+        @csrf
+
         <div class="mb-4">
           <label for="password_lama" class="form-label">Password Lama<span class="text-danger">*</span></label>
           <div class="password-field-wrapper">
-            <input type="password" class="form-control" id="password_lama" placeholder="Masukkan Password Lama Anda" required aria-describedby="password_lama-error">
+            <input type="password" class="form-control @error('password_lama') is-invalid @enderror" id="password_lama" name="password_lama" placeholder="Masukkan Password Lama Anda" required aria-describedby="password_lama-error">
             <i class="fas fa-eye toggle-password"></i>
-            </div>
-          <div id="password_lama-error" class="error-message"></div>
+          </div>
+          @error('password_lama')
+            <div id="password_lama-error" class="error-message" style="display: block;">{{ $message }}</div>
+          @else
+            <div id="password_lama-error" class="error-message"></div>
+          @enderror
         </div>
 
         <div class="mb-4">
           <label for="password_baru" class="form-label">Password Baru<span class="text-danger">*</span></label>
           <div class="password-field-wrapper">
-            <input type="password" class="form-control" id="password_baru" placeholder="Masukkan Password Baru Anda" required aria-describedby="password_baru-error">
+            <input type="password" class="form-control @error('password_baru') is-invalid @enderror" id="password_baru" name="password_baru" placeholder="Masukkan Password Baru Anda" required aria-describedby="password_baru-error">
             <i class="fas fa-eye toggle-password"></i>
-            </div>
-          <div id="password_baru-error" class="error-message"></div>
+          </div>
+           @error('password_baru')
+            <div id="password_baru-error" class="error-message" style="display: block;">{{ $message }}</div>
+          @else
+            <div id="password_baru-error" class="error-message"></div>
+          @enderror
         </div>
         
         <div class="mb-4">
-          <label for="konfirmasi_password_baru" class="form-label">Konfirmasi Password Baru<span class="text-danger">*</span></label>
+          <label for="password_baru_confirmation" class="form-label">Konfirmasi Password Baru<span class="text-danger">*</span></label>
           <div class="password-field-wrapper">
-            <input type="password" class="form-control" id="konfirmasi_password_baru" placeholder="Masukkan Password Baru Anda" required aria-describedby="konfirmasi_password_baru-error">
+            <input type="password" class="form-control" id="password_baru_confirmation" name="password_baru_confirmation" placeholder="Masukkan Kembali Password Baru Anda" required aria-describedby="konfirmasi_password_baru-error">
             <i class="fas fa-eye toggle-password"></i>
-            </div>
+          </div>
           <div id="konfirmasi_password_baru-error" class="error-message"></div>
         </div>
 
@@ -135,8 +164,8 @@
     {{-- Kumpulan Modal  --}}
     @include('components.konfirmasi-berhasil')
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{ asset('assets/js/layout.js') }}"></script> 
 <script src="{{ asset('assets/js/ubah-password.js') }}"></script> 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
