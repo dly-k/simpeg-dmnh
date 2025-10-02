@@ -415,4 +415,12 @@ document.addEventListener("DOMContentLoaded", () => {
           });
       }
   }
+
+        // == Peningkatan Datepicker ==
+  document.querySelectorAll('input[type="date"]').forEach((el) => {
+    el.style.cursor = "pointer";
+    el.addEventListener("click", function () {
+      this.showPicker && this.showPicker();
+    });
+  });
 });

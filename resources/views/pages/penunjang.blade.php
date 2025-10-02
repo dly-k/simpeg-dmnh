@@ -131,23 +131,16 @@
               </tr>
             @empty
               <tr>
-                <td colspan="10" class="text-center">Tidak ada data untuk ditampilkan.</td>
+                <td colspan="10" class="text-center text-muted">Data Penunjang belum tersedia</td>
               </tr>
             @endforelse
           </tbody>
         </table>
       </div>
 
-      <div class="d-flex justify-content-between align-items-center mt-4">
-          <span class="text-muted small pagination-info">
-              @if ($penunjangs->count() > 0)
-                  Menampilkan 1 sampai {{ $penunjangs->count() }} dari {{ $penunjangs->count() }} data
-              @else
-                  Menampilkan 0 dari 0 data
-              @endif
-          </span>
-          {{-- Pagination links can be added here if using pagination --}}
-      </div>
+        <!-- Pagination -->
+      {{ $penunjangs->appends(request()->query())->links('pagination::bootstrap-5') }}
+      
     </div>
   </div>
 

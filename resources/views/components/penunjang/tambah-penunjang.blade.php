@@ -1,6 +1,6 @@
 {{-- Modal Tambah Data Penunjang --}}
 <div class="modal fade" id="penunjangModal" tabindex="-1" aria-labelledby="penunjangModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="penunjangModalLabel"><i class="fas fa-plus-circle"></i> Tambah Data Penunjang</h5>
@@ -77,7 +77,7 @@
             <div class="col-12">
               <div class="d-flex justify-content-between align-items-center mb-2">
                 <label class="form-label mb-0">Dokumen</label>
-                <button type="button" class="btn btn-sm btn-primary" onclick="addDokumen()">+ Tambah Dokumen</button>
+                <button type="button" class="btn btn-sm btn-success" onclick="addDokumen()">+ Tambah Dokumen</button>
               </div>
               <div id="dokumen-list"></div>
             </div>
@@ -85,7 +85,7 @@
             <div class="col-12">
               <div class="d-flex justify-content-between align-items-center mb-2">
                 <label class="form-label mb-0">Anggota Kegiatan</label>
-                <button type="button" class="btn btn-sm btn-primary" onclick="addAnggota()">+ Tambah Anggota</button>
+                <button type="button" class="btn btn-sm btn-success" onclick="addAnggota()">+ Tambah Anggota</button>
               </div>
               <div id="anggota-list"></div>
             </div>

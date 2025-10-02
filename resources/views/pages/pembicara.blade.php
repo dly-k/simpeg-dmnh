@@ -161,8 +161,7 @@
                   </tr>
                   @empty
                   <tr>
-                    <td colspan="11" class="text-center py-4">
-                      <p class="mb-0">Belum ada data pembicara.</p>
+                    <td colspan="11" class="text-center text-muted">Data Pembicara belum tersedia</td>
                     </td>
                   </tr>
                   @endforelse

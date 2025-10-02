@@ -127,27 +127,15 @@
               </tr>
             @empty
               <tr>
-                <td colspan="10" class="text-center text-muted">Data tidak ditemukan.</td>
+                <td colspan="10" class="text-center text-muted">Data Pengabdian belum tersedia</td>
               </tr>
             @endforelse
           </tbody>
         </table>
       </div>
-
-      <div class="d-flex justify-content-between align-items-center mt-4 mb-4">
-        <span class="text-muted small">
-            @if ($pengabdians->total() > 0)
-                Menampilkan {{ $pengabdians->firstItem() }} sampai {{ $pengabdians->lastItem() }} dari {{ $pengabdians->total() }} data
-            @else
-                Tidak ada data untuk ditampilkan
-            @endif
-        </span>
-        @if ($pengabdians->hasPages())
-            <div class="d-flex justify-content-end">
-                {{ $pengabdians->links() }}
-            </div>
-        @endif
-      </div>
+      <!-- Pagination -->
+          {{ $pengabdians->appends(request()->query())->links('pagination::bootstrap-5') }}
+          
     </div>
   </div>
 

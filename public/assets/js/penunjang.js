@@ -507,6 +507,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     window.addEventListener("click", (event) => { if (event.target === deleteModal) hideDeleteModal(); });
   };
+
+      // == Peningkatan Datepicker ==
+    document.querySelectorAll('input[type="date"]').forEach((el) => {
+      el.style.cursor = "pointer";
+      el.addEventListener("click", function () {
+        this.showPicker && this.showPicker();
+      });
+    });
   
   // Inisialisasi semua fungsi modal di akhir script
   initVerificationModal();

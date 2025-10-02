@@ -64,7 +64,7 @@ class PenunjangController extends Controller
             });
         }
 
-        $penunjangs = $query->get();
+        $penunjangs = $query->paginate(10)->appends($request->query());
 
         if ($request->ajax()) {
             return response()->json($penunjangs);

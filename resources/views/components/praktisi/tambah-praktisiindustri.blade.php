@@ -166,7 +166,7 @@
 
             <div class="col-12">
               <small class="text-muted">
-                Maksimal ukuran file: 2 MB. Jenis file: pdf, jpg, jpeg, png, doc, docx, xls, xlsx, txt
+                Maksimal ukuran file: 5 MB. Jenis file: pdf, jpg, jpeg, png, doc, docx, xls, xlsx, txt
               </small>
             </div>
 

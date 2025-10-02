@@ -163,28 +163,15 @@
                 </td>
               </tr>
               @empty
-              <tr><td colspan="8" class="text-center py-4">Data tidak ditemukan atau belum ada data penelitian yang ditambahkan.</td></tr>
+              <tr><td colspan="8" class="text-center text-muted">Data Penelitian belum tersedia</td></tr>
               @endforelse
             </tbody>
           </table>
         </div>
 
-        {{-- Pagination --}}
-        <div class="d-flex justify-content-between align-items-center mt-3">
-            <span class="text-muted small">
-                @if ($penelitian->total() > 0)
-                    Menampilkan {{ $penelitian->firstItem() }} sampai {{ $penelitian->lastItem() }} dari {{ $penelitian->total() }} data
-                @else
-                    Tidak ada data untuk ditampilkan
-                @endif
-            </span>
-            
-            @if ($penelitian->hasPages())
-                <div class="d-flex justify-content-end">
-                    {{ $penelitian->links() }}
-                </div>
-            @endif
-        </div>
+        <!-- Pagination -->
+        {{ $penelitian->appends(request()->query())->links('pagination::bootstrap-5') }}
+
       </div>
     </div>
   </div>

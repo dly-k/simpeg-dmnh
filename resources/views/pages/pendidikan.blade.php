@@ -8,9 +8,9 @@
   <title>SIKEMAH - Editor Kegiatan (Akademik)</title>
 
     <link rel="icon" href="{{ asset('assets/images/logo.png') }}" />
+    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
@@ -106,25 +106,14 @@
                                 </td>
                             </tr>
                             @empty
-                            <tr><td colspan="7" class="text-center text-muted">Data tidak ditemukan.</td></tr>
+                            <tr><td colspan="7" class="text-center text-muted">Data Pengajaran Lama belum tersedia</td></tr>
                             @endforelse
                         </tbody>
                     </table>
                 </div>
-                <div class="d-flex justify-content-between align-items-center mt-4">
-                    <span class="text-muted small">
-                        @if ($dataPengajaranLama->total() > 0)
-                            Menampilkan {{ $dataPengajaranLama->firstItem() }} sampai {{ $dataPengajaranLama->lastItem() }} dari {{ $dataPengajaranLama->total() }} data
-                        @else
-                            Tidak ada data untuk ditampilkan
-                        @endif
-                    </span>
-                    @if ($dataPengajaranLama->hasPages())
-                        <nav aria-label="Page navigation">
-                            {{ $dataPengajaranLama->links('pagination::bootstrap-5') }}
-                        </nav>
-                    @endif
-                </div>
+
+                <!-- Pagination -->
+                {{ $dataPengajaranLama->appends(request()->query())->links('pagination::bootstrap-5') }}
             </div>
             
             {{-- =================================== PENGAJARAN LUAR =================================== --}}
@@ -188,25 +177,14 @@
                                 </td>
                             </tr>
                             @empty
-                            <tr><td colspan="7" class="text-center text-muted">Data tidak ditemukan.</td></tr>
+                            <tr><td colspan="7" class="text-center text-muted">Data Pengajaran Luar IPB belum tersedia</td></tr>
                             @endforelse
                         </tbody>
                     </table>
                 </div>
-                <div class="d-flex justify-content-between align-items-center mt-4">
-                    <span class="text-muted small">
-                        @if ($dataPengajaranLuar->total() > 0)
-                            Menampilkan {{ $dataPengajaranLuar->firstItem() }} sampai {{ $dataPengajaranLuar->lastItem() }} dari {{ $dataPengajaranLuar->total() }} data
-                        @else
-                            Tidak ada data untuk ditampilkan
-                        @endif
-                    </span>
-                    @if ($dataPengajaranLuar->hasPages())
-                        <nav aria-label="Page navigation">
-                            {{ $dataPengajaranLuar->links('pagination::bootstrap-5') }}
-                        </nav>
-                    @endif
-                </div>
+                <!-- Pagination -->
+                {{ $dataPengajaranLuar->appends(request()->query())->links('pagination::bootstrap-5') }}
+                
             </div>
             
             {{-- =================================== PENGUJIAN LAMA =================================== --}}
@@ -270,25 +248,14 @@
                                 </td>
                             </tr>
                             @empty
-                            <tr><td colspan="7" class="text-center text-muted">Data tidak ditemukan.</td></tr>
+                            <tr><td colspan="7" class="text-center text-muted">Data Pengujian Lama belum tersedia</td></tr>
                             @endforelse
                         </tbody>
                     </table>
                 </div>
-                <div class="d-flex justify-content-between align-items-center mt-4">
-                    <span class="text-muted small">
-                        @if ($dataPengujianLama->total() > 0)
-                            Menampilkan {{ $dataPengujianLama->firstItem() }} sampai {{ $dataPengujianLama->lastItem() }} dari {{ $dataPengujianLama->total() }} data
-                        @else
-                            Tidak ada data untuk ditampilkan
-                        @endif
-                    </span>
-                    @if ($dataPengujianLama->hasPages())
-                        <nav aria-label="Page navigation">
-                            {{ $dataPengujianLama->links('pagination::bootstrap-5') }}
-                        </nav>
-                    @endif
-                </div>
+                <!-- Pagination -->
+                {{ $dataPengujianLama->appends(request()->query())->links('pagination::bootstrap-5') }}
+               
             </div>
 
             {{-- =================================== PEMBIMBING LAMA =================================== --}}
@@ -352,25 +319,13 @@
                                 </td>
                             </tr>
                             @empty
-                            <tr><td colspan="7" class="text-center text-muted">Data tidak ditemukan.</td></tr>
+                            <tr><td colspan="7" class="text-center text-muted">Data Pembimbing Lama belum tersedia</td></tr>
                             @endforelse
                           </tbody>
                       </table>
                   </div>
-                  <div class="d-flex justify-content-between align-items-center mt-4">
-                    <span class="text-muted small">
-                        @if ($dataPembimbingLama->total() > 0)
-                            Menampilkan {{ $dataPembimbingLama->firstItem() }} sampai {{ $dataPembimbingLama->lastItem() }} dari {{ $dataPembimbingLama->total() }} data
-                        @else
-                            Tidak ada data untuk ditampilkan
-                        @endif
-                    </span>
-                    @if ($dataPembimbingLama->hasPages())
-                        <nav aria-label="Page navigation">
-                            {{ $dataPembimbingLama->links('pagination::bootstrap-5') }}
-                        </nav>
-                    @endif
-                  </div>
+                  <!-- Pagination -->
+                {{ $dataPembimbingLama->appends(request()->query())->links('pagination::bootstrap-5') }}
             </div>
             
             {{-- =================================== PENGUJI LUAR =================================== --}}
@@ -434,25 +389,14 @@
                                 </td>
                             </tr>
                             @empty
-                            <tr><td colspan="7" class="text-center text-muted">Data tidak ditemukan.</td></tr>
+                            <tr><td colspan="7" class="text-center text-muted">Data Pengujian Luar IPB belum tersedia</td></tr>
                             @endforelse
                         </tbody>
                     </table>
                 </div>
-                <div class="d-flex justify-content-between align-items-center mt-4">
-                    <span class="text-muted small">
-                        @if ($dataPengujiLuar->total() > 0)
-                            Menampilkan {{ $dataPengujiLuar->firstItem() }} sampai {{ $dataPengujiLuar->lastItem() }} dari {{ $dataPengujiLuar->total() }} data
-                        @else
-                            Tidak ada data untuk ditampilkan
-                        @endif
-                    </span>
-                    @if ($dataPengujiLuar->hasPages())
-                        <nav aria-label="Page navigation">
-                            {{ $dataPengujiLuar->links('pagination::bootstrap-5') }}
-                        </nav>
-                    @endif
-                </div>
+                <!-- Pagination -->
+                {{ $dataPengujiLuar->appends(request()->query())->links('pagination::bootstrap-5') }}
+              
             </div>
             
             {{-- =================================== PEMBIMBING LUAR =================================== --}}
@@ -516,25 +460,14 @@
                                 </td>
                             </tr>
                             @empty
-                            <tr><td colspan="7" class="text-center text-muted">Data tidak ditemukan.</td></tr>
+                            <tr><td colspan="7" class="text-center text-muted">Data Pembimbing Luar IPB belum tersedia</td></tr>
                             @endforelse
                         </tbody>
                     </table>
                 </div>
-                <div class="d-flex justify-content-between align-items-center mt-4">
-                    <span class="text-muted small">
-                        @if ($dataPembimbingLuar->total() > 0)
-                            Menampilkan {{ $dataPembimbingLuar->firstItem() }} sampai {{ $dataPembimbingLuar->lastItem() }} dari {{ $dataPembimbingLuar->total() }} data
-                        @else
-                            Tidak ada data untuk ditampilkan
-                        @endif
-                    </span>
-                    @if ($dataPembimbingLuar->hasPages())
-                        <nav aria-label="Page navigation">
-                            {{ $dataPembimbingLuar->links('pagination::bootstrap-5') }}
-                        </nav>
-                    @endif
-                </div>
+                <!-- Pagination -->
+                {{ $dataPembimbingLuar->appends(request()->query())->links('pagination::bootstrap-5') }}
+
             </div>
           </div>
           
