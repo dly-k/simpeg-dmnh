@@ -109,9 +109,11 @@
                     </td>
                     <td class="text-center">
                       <div class="d-flex justify-content-center gap-2">
+                        @if (Auth::user()->role == 'admin_verifikator')
                         <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi">
                           <i class="fa fa-check"></i>
                         </a>
+                        @endif
                         <button class="btn btn-sm btn-lihat"><i class="fa fa-eye"></i></button>
                         <button 
                           class="btn btn-sm btn-warning btn-edit" 

@@ -127,9 +127,11 @@
         </td>
         <td class="text-center">
             <div class="d-flex justify-content-center gap-2">
+              @if (Auth::user()->role == 'admin_verifikator')
                  @if ($item->verifikasi != 'Sudah Diverifikasi')
                     <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi" data-verifikasi-url="{{ route('sertifikat-kompetensi.verifikasi', $item->id) }}"><i class="fa fa-check"></i></a>
                 @endif
+              @endif
                 <button class="btn btn-sm btn-lihat" data-bs-toggle="modal" data-bs-target="#modalDetailSertifikatKompetensi"
                     data-nama="{{ $item->pegawai->nama_lengkap ?? 'N/A' }}"
                     data-kegiatan="{{ $item->kegiatan }}"

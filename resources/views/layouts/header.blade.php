@@ -20,7 +20,7 @@
             <a href="#" class="account text-decoration-none text-dark" data-bs-toggle="dropdown" aria-expanded="false">
                 <span class="icon-circle"><i class="lni lni-user"></i></span>
                 {{-- Nama pengguna bisa dibuat dinamis sesuai sesi login --}}
-                <span>Halo, Ketua TU</span> 
+                <span class="user-name">Halo, {{ Auth::user()->pegawai->nama_lengkap ?? 'Pengguna' }}</span>
                 <i class="lni lni-chevron-down"></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-end shadow">
@@ -31,9 +31,12 @@
                 </li>
                 <li><hr class="dropdown-divider"></li>
                 <li>
-                    <a class="dropdown-item d-flex align-items-center dropdown-item-danger" href="/logout">
-                        <i class="lni lni-exit me-2"></i> Keluar
-                    </a>
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="dropdown-item d-flex align-items-center dropdown-item-danger">
+                            <i class="lni lni-exit me-2"></i> Keluar
+                        </button>
+                    </form>
                 </li>
             </ul>
         </div>

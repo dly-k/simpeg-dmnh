@@ -155,11 +155,13 @@
           </td>
           <td class="text-center">
             <div class="d-flex justify-content-center gap-2">
+              @if (Auth::user()->role == 'admin_verifikator')
               <button class="btn-aksi btn-verifikasi" title="Verifikasi Data"
                 {{-- Gunakan satu data-url saja --}}
                 data-url="{{ route('pengelola-jurnal.verifikasi', $jurnal->id) }}">
                 <i class="fa fa-check"></i>
               </button>
+              @endif
               <button 
                   class="btn btn-sm btn-lihat text-white btn-detail"
                   data-bs-toggle="modal" 

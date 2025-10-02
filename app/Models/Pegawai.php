@@ -30,7 +30,11 @@ class Pegawai extends Model
     ];
 
     // --- RELASI BAWAAN ---
-
+        public function user()
+    {
+        return $this->hasOne(User::class);
+    }
+    
     public function penelitian()
     {
         return $this->belongsToMany(Penelitian::class, 'penulis_penelitian');

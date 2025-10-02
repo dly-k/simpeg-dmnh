@@ -98,7 +98,9 @@
                                 <td class="text-center"><a href="{{ $item->file_path ? Storage::url($item->file_path) : '#' }}" class="btn btn-sm btn-lihat text-white {{ $item->file_path ? '' : 'disabled' }}" target="_blank">Lihat</a></td>
                                 <td class="text-center">
                                     <div class="d-flex gap-2 justify-content-center">
+                                        @if (Auth::user()->role == 'admin_verifikator')
                                         <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data" data-id="{{ $item->id }}" data-type="pengajaran-lama"><i class="fa fa-check"></i></a>
+                                        @endif
                                         <a href="#" class="btn-aksi btn-lihat-detail btn-lihat-pengajaran-lama" title="Lihat Detail" data-bs-toggle="modal" data-bs-target="#modalDetailPengajaranLama" data-id="{{ $item->id }}"><i class="fa fa-eye"></i></a>
                                         <a href="#" class="btn-aksi btn-edit btn-edit-pengajaran-lama" title="Edit Data" data-id="{{ $item->id }}"><i class="fa fa-edit"></i></a>
                                         <a href="#" class="btn-aksi btn-hapus" title="Hapus Data" data-id="{{ $item->id }}" data-type="pengajaran-lama"><i class="fa fa-trash"></i></a>

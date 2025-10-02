@@ -149,11 +149,13 @@
 
                 <td class="text-center">
                   <div class="d-flex gap-2 justify-content-center">
+                    @if (Auth::user()->role == 'admin_verifikator')
                       <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi Data" 
                         data-id="{{ $item->id }}" 
                         data-judul="{{ $item->judul }}">
                         <i class="fa fa-check"></i>
                       </a>
+                    @endif
                       <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail" onclick="event.preventDefault(); openDetailModal({{ $item->id }})">
                         <i class="fa fa-eye"></i>
                       </a>

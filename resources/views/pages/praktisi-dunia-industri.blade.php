@@ -130,10 +130,12 @@
                       </td>
                       <td>
                         <div class="d-flex gap-2">
+                          @if (Auth::user()->role == 'admin_verifikator')
                           <button class="btn-aksi btn-verifikasi" title="Verifikasi"
                             data-url="{{ route('praktisi.verify', $praktisi->id) }}">
                             <i class="fa fa-check"></i>
                           </button>
+                          @endif
                           <button class="btn btn-sm btn-lihat" data-bs-toggle="modal" data-bs-target="#detailPraktisiModal"
                             data-url="{{ route('praktisi.show', $praktisi->id) }}">
                             <i class="fa fa-eye"></i>

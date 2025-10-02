@@ -15,10 +15,14 @@
 
             <p>Menu Utama</p>
 
-            {{-- Daftar Pegawai --}}
-            <a href="/daftar-pegawai" class="{{ Request::is('daftar-pegawai*') ? 'active' : '' }}">
-                <i class="lni lni-users"></i> Daftar Pegawai
-            </a>
+            {{-- =============================================================== --}}
+            {{-- MENU INI HANYA TAMPIL UNTUK ROLE: admin, admin_verifikator --}}
+            {{-- =============================================================== --}}
+            @if (in_array(Auth::user()->role, ['admin', 'admin_verifikator']))
+                <a href="/daftar-pegawai" class="{{ Request::is('daftar-pegawai*') ? 'active' : '' }}">
+                    <i class="lni lni-users"></i> Daftar Pegawai
+                </a>
+            @endif
 
             {{-- Manajemen Surat Tugas --}}
             <a href="/surat-tugas" class="{{ Request::is('surat-tugas*') ? 'active' : '' }}">
@@ -90,11 +94,15 @@
             <a href="/kerjasama" class="{{ Request::is('kerjasama*') ? 'active' : '' }}">
                 <i class="lni lni-handshake"></i> Kerjasama
             </a>
-
-            {{-- Master Data --}}
-            <a href="/master-data" class="{{ Request::is('master-data*') ? 'active' : '' }}">
-                <i class="lni lni-database"></i> Master Data
-            </a>
+            
+            {{-- =============================================================== --}}
+            {{-- MENU INI HANYA TAMPIL UNTUK ROLE: admin --}}
+            {{-- =============================================================== --}}
+            @if (Auth::user()->role == 'admin')
+                <a href="/master-data" class="{{ Request::is('master-data*') ? 'active' : '' }}">
+                    <i class="lni lni-database"></i> Master Data
+                </a>
+            @endif
         </div>
     </div>
 </div>

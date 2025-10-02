@@ -65,39 +65,29 @@
             Silakan masuk untuk melanjutkan
           </p>
 
-          <form method="POST" action="{{ route('login') }}">
+<form action="{{ route('login') }}" method="POST">
             @csrf
-
-            <!-- ID Pengguna -->
             <div class="floating-label">
-              <input type="text" id="id_pengguna" name="id_pengguna" placeholder=" " required autocomplete="username"
-                value="{{ old('id_pengguna') }}" class="@error('id_pengguna') form-input-error @enderror">
-              <label for="id_pengguna">ID Pengguna</label>
+              <input type="text" id="username" name="username" placeholder=" " required value="{{ old('username') }}" class="@error('username') form-input-error @enderror">
+              <label for="username">ID Pengguna</label>
               <i class="lni lni-user input-icon"></i>
-              @error('id_pengguna')
+              @error('username')
                 <div class="form-text text-danger small">{{ $message }}</div>
               @enderror
             </div>
-
-            <!-- Kata Sandi -->
             <div class="floating-label">
-              <input type="password" id="password" name="password" placeholder=" " required autocomplete="current-password"
-                class="@error('password') form-input-error @enderror">
+              <input type="password" id="password" name="password" placeholder=" " required autocomplete="current-password" class="@error('password') form-input-error @enderror">
               <label for="password">Kata Sandi</label>
               <i class="lni lni-key input-icon"></i>
               @error('password')
                 <div class="form-text text-danger small">{{ $message }}</div>
               @enderror
             </div>
-
-            <!-- Tombol Masuk -->
             <div class="d-grid mb-4">
               <button type="submit" class="btn btn-success py-2 shadow-sm">MASUK</button>
             </div>
-
-            <!-- Footer -->
             <p class="text-center text-light small mb-0">
-              © <span id="copyright-year">2025</span> Forest Management — All Rights Reserved
+              © <span id="copyright-year"></span> Forest Management — All Rights Reserved
             </p>
           </form>
         </div>

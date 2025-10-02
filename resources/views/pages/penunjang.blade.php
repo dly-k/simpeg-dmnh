@@ -111,9 +111,11 @@
                 </td>
                 <td class="text-center">
                   <div class="d-flex gap-2 justify-content-center">
+                    @if (Auth::user()->role == 'admin_verifikator')
                     <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi" data-id="{{ $item->id }}">
                         <i class="fa fa-check"></i>
                     </a>
+                    @endif
                     <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail" 
                       data-id="{{ $item->id }}" 
                       data-bs-toggle="modal" 
