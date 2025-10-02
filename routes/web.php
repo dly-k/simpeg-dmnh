@@ -251,7 +251,8 @@ Route::put('/sertifikat-kompetensi/{sertifikatKompetensi}', [SertifikatKompetens
 Route::delete('/sertifikat-kompetensi/{sertifikatKompetensi}', [SertifikatKompetensiController::class, 'destroy'])->name('sertifikat-kompetensi.destroy');
 Route::patch('/sertifikat-kompetensi/{sertifikatKompetensi}/verifikasi', [SertifikatKompetensiController::class, 'verifikasi'])->name('sertifikat-kompetensi.verifikasi');
 
-
+//pengelola jurnal
 Route::get('/pengelola-jurnal', [PengelolaJurnalController::class, 'index'])->name('pengelola-jurnal.index');
+Route::post('/pengelola-jurnal', [PengelolaJurnalController::class, 'store'])->name('pengelola-jurnal.store');
 
 Route::get('/kekayaan-intelektual', [KekayaanIntelektualController::class, 'index'])->name('kekayaan-intelektual.index');

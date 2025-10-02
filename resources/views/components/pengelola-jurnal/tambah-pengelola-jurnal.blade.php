@@ -1,7 +1,7 @@
 <div class="modal fade" id="pengelolaJurnalModal" tabindex="-1" aria-labelledby="modalPengelolaJurnalTitle" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-scrollable">
     <div class="modal-content">
-      <form action="#" method="POST" enctype="multipart/form-data">
+      <form id="tambahPengelolaJurnalForm" action="{{ route('pengelola-jurnal.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="modal-header bg-success text-white">
           <h5 class="modal-title" id="modalPublikasiTitle">
@@ -18,6 +18,10 @@
               <label for="nama" class="form-label">Nama *</label>
               <select name="nama" id="nama" class="form-select">
                 <option value="">-- Pilih Nama Pegawai --</option>
+                {{-- Loop data pegawai dari controller --}}
+                @foreach ($pegawais as $pegawai)
+                  <option value="{{ $pegawai->id }}">{{ $pegawai->nama_lengkap }}</option>
+                @endforeach
               </select>
             </div>
 

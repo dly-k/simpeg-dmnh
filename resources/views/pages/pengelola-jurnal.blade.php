@@ -78,119 +78,85 @@
             <!-- End Filter Bar -->
 
             <!-- Tabel Pengelola Jurnal -->
-            <div class="table-responsive">
-              <table class="table table-hover table-bordered align-middle">
-                <thead class="table-light text-center">
-                  <tr>
-                    <th>No</th>
-                    <th>Kegiatan</th>
-                    <th>Media Publikasi</th>
-                    <th>Peran</th>
-                    <th>Pegawai</th>
-                    <th>Tahun</th>
-                    <th>Verifikasi</th>
-                    <th>Dokumen</th>
-                    <th class="text-center">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody class="text-center">
-                  <tr>
-                    <td>1</td>
-                    <td>Pengelolaan Jurnal Pendidikan</td>
-                    <td>Jurnal Pendidikan Nasional</td>
-                    <td>Editor</td>
-                    <td class="text-start">Dr. Ahmad</td>
-                    <td>2024</td>
-                    <td>
-                      <span class="badge rounded-circle bg-warning text-white" title="Belum Diverifikasi">
-                        <i class="fa fa-question"></i>
-                      </span>
-                    </td>
-                    <td><a href="#" class="btn btn-sm btn-lihat">Lihat</a></td>
-                    <td class="text-center">
-                      <div class="d-flex justify-content-center gap-2">
-                        <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi">
-                          <i class="fa fa-check"></i>
-                        </a>
-                        <button 
-                          class="btn btn-sm btn-lihat text-white btn-detail"
-                          data-bs-toggle="modal" 
-                          data-bs-target="#detailPengelolaJurnalModal"
-                          data-nama="Budi Santoso"
-                          data-kegiatan="Pengelolaan Jurnal (Internasional)"
-                          data-media="International Journal of Science"
-                          data-peran="Dewan Penyunting"
-                          data-no-sk="SK-2022-045"
-                          data-tgl-mulai="2022-05-01"
-                          data-tgl-selesai="2022-12-31"
-                          data-status="Tidak Aktif"
-                          data-doc1=""
-                          data-doc2="">
-                          <i class="fas fa-eye"></i>
-                        </button>
-                        <button 
-                          class="btn btn-sm btn-warning btn-edit" 
-                          data-bs-toggle="modal" 
-                          data-bs-target="#editPengelolaJurnalModal">
-                          <i class="fa fa-edit"></i>
-                        </button>
-                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data">
-                          <i class="fa fa-trash"></i>
-                        </a>
-                      </div>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>2</td>
-                    <td>Pengelolaan Jurnal Sains</td>
-                    <td>Indonesian Science Journal</td>
-                    <td>Reviewer</td>
-                    <td class="text-start">Prof. Siti</td>
-                    <td>2023</td>
-                    <td>
-                      <span class="badge rounded-circle bg-success text-white" title="Sudah Diverifikasi">
-                        <i class="fa fa-check"></i>
-                      </span>
-                    </td>
-                    <td><a href="#" class="btn btn-sm btn-lihat">Lihat</a></td>
-                    <td class="text-center">
-                      <div class="d-flex justify-content-center gap-2">
-                        <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi">
-                          <i class="fa fa-check"></i>
-                        </a>
-                        <button 
-                          class="btn btn-sm btn-lihat btn-detail"
-                          data-bs-toggle="modal" 
-                          data-bs-target="#detailPengelolaJurnalModal"
-                          data-nama="Andi Saputra"
-                          data-kegiatan="Pengelolaan Jurnal (Nasional)"
-                          data-media="Jurnal Teknologi Indonesia"
-                          data-peran="Editor Utama"
-                          data-no-sk="SK-2023-001"
-                          data-tgl-mulai="2023-01-01"
-                          data-tgl-selesai="2023-12-31"
-                          data-status="Aktif"
-                          data-doc1="https://example.com/sk.pdf"
-                          data-doc2="">
-                          <i class="fas fa-eye"></i> 
-                        </button>
-
-                        <button 
-                          class="btn btn-sm btn-warning btn-edit" 
-                          data-bs-toggle="modal" 
-                          data-bs-target="#editPengelolaJurnalModal">
-                          <i class="fa fa-edit"></i>
-                        </button>
-                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data">
-                          <i class="fa fa-trash"></i>
-                        </a>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+<div class="table-responsive">
+  <table class="table table-hover table-bordered align-middle">
+    <thead class="table-light text-center">
+      <tr>
+        <th>No</th>
+        <th>Kegiatan</th>
+        <th>Media Publikasi</th>
+        <th>Peran</th>
+        <th>Pegawai</th>
+        <th>Tahun</th>
+        <th>Verifikasi</th>
+        <th>Dokumen</th>
+        <th class="text-center">Aksi</th>
+      </tr>
+    </thead>
+    <tbody class="text-center">
+      {{-- Gunakan @forelse untuk looping data, sekaligus handle jika data kosong --}}
+      @forelse ($pengelolaJurnals as $jurnal)
+        <tr>
+          {{-- Menampilkan nomor urut yang benar sesuai halaman pagination --}}
+          <td>{{ ($pengelolaJurnals->currentPage() - 1) * $pengelolaJurnals->perPage() + $loop->iteration }}</td>
+          <td>{{ $jurnal->kegiatan }}</td>
+          <td>{{ $jurnal->media_publikasi }}</td>
+          <td>{{ $jurnal->peran }}</td>
+          {{-- Ambil nama dari relasi 'pegawai' --}}
+          <td class="text-start">{{ $jurnal->pegawai->nama_lengkap ?? 'N/A' }}</td>
+          {{-- Ambil tahun dari tanggal mulai --}}
+          <td>{{ \Carbon\Carbon::parse($jurnal->tanggal_mulai)->format('Y') }}</td>
+          <td>
+            {{-- Contoh logika untuk status verifikasi --}}
+            <span class="badge rounded-circle bg-warning text-white" title="Belum Diverifikasi">
+              <i class="fa fa-question"></i>
+            </span>
+          </td>
+          <td><a href="#" class="btn btn-sm btn-lihat">Lihat</a></td>
+          <td class="text-center">
+            <div class="d-flex justify-content-center gap-2">
+              <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi">
+                <i class="fa fa-check"></i>
+              </a>
+              <button 
+                class="btn btn-sm btn-lihat text-white btn-detail"
+                data-bs-toggle="modal" 
+                data-bs-target="#detailPengelolaJurnalModal"
+                data-nama="{{ $jurnal->pegawai->nama_lengkap ?? 'N/A' }}"
+                data-kegiatan="{{ $jurnal->kegiatan }}"
+                data-media="{{ $jurnal->media_publikasi }}"
+                data-peran="{{ $jurnal->peran }}"
+                data-no-sk="{{ $jurnal->no_sk }}"
+                data-tgl-mulai="{{ $jurnal->tanggal_mulai }}"
+                data-tgl-selesai="{{ $jurnal->tanggal_selesai }}"
+                data-status="{{ $jurnal->status }}"
+                >
+                <i class="fas fa-eye"></i>
+              </button>
+              <button 
+                class="btn btn-sm btn-warning btn-edit" 
+                data-bs-toggle="modal" 
+                data-bs-target="#editPengelolaJurnalModal">
+                <i class="fa fa-edit"></i>
+              </button>
+              <a href="#" class="btn-aksi btn-hapus" title="Hapus Data">
+                <i class="fa fa-trash"></i>
+              </a>
             </div>
+          </td>
+        </tr>
+      @empty
+        {{-- Tampilan jika tidak ada data sama sekali di database --}}
+        <tr>
+          <td colspan="9" class="text-center">Data Pengelola Jurnal tidak ditemukan.</td>
+        </tr>
+      @endforelse
+    </tbody>
+  </table>
+</div>
+<div class="d-flex justify-content-end mt-3">
+    {{ $pengelolaJurnals->links() }}
+</div>
             <!-- End Tabel -->
 
           </div>
@@ -202,11 +168,11 @@
   </div>
 
   <!-- Modal  -->
-  {{-- @include('components.konfirmasi-hapus') --}}
-  {{-- @include('components.konfirmasi-berhasil') --}}
-  {{-- @include('components.konfirmasi-verifikasi') --}}
+  @include('components.konfirmasi-hapus')
+  @include('components.konfirmasi-berhasil')
+  @include('components.konfirmasi-verifikasi')
   @include('components.pengelola-jurnal.detail-pengelola-jurnal')
-  @include('components.pengelola-jurnal.tambah-pengelola-jurnal')
+  @include('components.pengelola-jurnal.tambah-pengelola-jurnal', ['pegawais' => $pegawais])
   @include('components.pengelola-jurnal.edit-pengelola-jurnal')
 
   <!-- Scripts -->
