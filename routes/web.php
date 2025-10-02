@@ -254,5 +254,7 @@ Route::patch('/sertifikat-kompetensi/{sertifikatKompetensi}/verifikasi', [Sertif
 //pengelola jurnal
 Route::get('/pengelola-jurnal', [PengelolaJurnalController::class, 'index'])->name('pengelola-jurnal.index');
 Route::post('/pengelola-jurnal', [PengelolaJurnalController::class, 'store'])->name('pengelola-jurnal.store');
+Route::get('/pengelola-jurnal/{pengelolaJurnal}/edit', [PengelolaJurnalController::class, 'edit'])->name('pengelola-jurnal.edit');
+Route::post('/pengelola-jurnal/{pengelolaJurnal}', [PengelolaJurnalController::class, 'update'])->name('pengelola-jurnal.update');
 
 Route::get('/kekayaan-intelektual', [KekayaanIntelektualController::class, 'index'])->name('kekayaan-intelektual.index');

@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pegawai; // Tambahkan ini
-use App\Models\PengelolaJurnal; // Tambahkan ini
+use App\Models\Pegawai;
+use App\Models\PengelolaJurnal;
+use App\Models\DokumenPengelolaJurnal; // Tambahan penting
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB; // Tambahkan ini
-use Illuminate\Support\Facades\Log; // Tambahkan ini
-use Illuminate\Support\Facades\Validator; // Tambahkan ini
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage; // Tambahan yang Anda tanyakan
 
 
 class PengelolaJurnalController extends Controller
@@ -93,6 +95,126 @@ class PengelolaJurnalController extends Controller
         } catch (\Exception $e) {
             DB::rollBack(); // Batalkan semua perubahan jika terjadi error
             Log::error('Error saving pengelola jurnal: ' . $e->getMessage());
+            return response()->json(['error' => 'Terjadi kesalahan pada server.'], 500);
+        }
+    }
+    public function edit(PengelolaJurnal $pengelolaJurnal)
+    {
+        // Muat relasi dokumen agar datanya ikut terkirim
+        $pengelolaJurnal->load('dokumen');
+        
+        // Kirim data sebagai respons JSON
+        return response()->json($pengelolaJurnal);
+    }
+
+    /**
+     * Memperbarui data pengelola jurnal di database.
+     */
+    public function update(Request $request, PengelolaJurnal $pengelolaJurnal)
+    {
+        // Validasi data (mirip dengan store, tapi beberapa aturan disesuaikan)
+        $validator = Validator::make($request->all(), [
+            'nama' => 'required|exists:pegawais,id',
+            'kegiatan' => 'required|string',
+            'media_publikasi' => 'required|string|max:255',
+            'peran' => 'required|string|max:255',
+            'no_sk' => 'required|string|max:255',
+            'tanggal_mulai' => 'required|date',
+            'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
+            'status' => 'required|string',
+            // Dokumen yang sudah ada
+            'dokumen.*.id' => 'nullable|exists:dokumen_pengelola_jurnals,id',
+            'dokumen.*.jenis' => 'required|string',
+            'dokumen.*.nama' => 'nullable|string|max:255',
+            'dokumen.*.file' => 'nullable|file|mimes:pdf,jpg,jpeg,png,doc,docx,xls,xlsx,txt|max:5120',
+            // Dokumen baru
+            'new_dokumen.*.jenis' => 'required|string',
+            'new_dokumen.*.nama' => 'nullable|string|max:255',
+            'new_dokumen.*.file' => 'required|file|mimes:pdf,jpg,jpeg,png,doc,docx,xls,xlsx,txt|max:5120',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        DB::beginTransaction();
+        try {
+            // 1. Update data utama
+            $pengelolaJurnal->update([
+                'pegawai_id' => $request->nama,
+                'kegiatan' => $request->kegiatan,
+                'media_publikasi' => $request->media_publikasi,
+                'peran' => $request->peran,
+                'no_sk' => $request->no_sk,
+                'tanggal_mulai' => $request->tanggal_mulai,
+                'tanggal_selesai' => $request->tanggal_selesai,
+                'status' => $request->status,
+            ]);
+
+            $existingDocIds = [];
+
+            // 2. Proses dokumen yang sudah ada
+            if ($request->has('dokumen')) {
+                foreach ($request->dokumen as $index => $docData) {
+                    $docId = $docData['id'];
+                    $existingDocIds[] = $docId;
+                    $dokumen = DokumenPengelolaJurnal::find($docId);
+
+                    if ($dokumen) {
+                        $path_file = $dokumen->path_file;
+                        // Cek apakah ada file baru yang diupload untuk dokumen ini
+                        if ($request->hasFile("dokumen.{$index}.file")) {
+                            // Hapus file lama jika ada
+                            if ($path_file && Storage::disk('public')->exists($path_file)) {
+                                Storage::disk('public')->delete($path_file);
+                            }
+                            // Simpan file baru
+                            $path_file = $request->file("dokumen.{$index}.file")->store('dokumen_pengelola_jurnal', 'public');
+                        }
+                        
+                        $dokumen->update([
+                            'jenis_dokumen' => $docData['jenis'],
+                            'nama_dokumen' => $docData['nama'],
+                            'nomor_dokumen' => $docData['nomor'],
+                            'tautan_dokumen' => $docData['tautan'],
+                            'path_file' => $path_file,
+                        ]);
+                    }
+                }
+            }
+
+            // 3. Hapus dokumen lama yang tidak ada di request (dihapus user)
+            $pengelolaJurnal->dokumen()->whereNotIn('id', $existingDocIds)->get()->each(function($doc){
+                if ($doc->path_file && Storage::disk('public')->exists($doc->path_file)) {
+                    Storage::disk('public')->delete($doc->path_file);
+                }
+                $doc->delete();
+            });
+
+
+            // 4. Tambah dokumen baru
+            if ($request->has('new_dokumen')) {
+                foreach ($request->new_dokumen as $index => $docData) {
+                    $path_file = null;
+                    if ($request->hasFile("new_dokumen.{$index}.file")) {
+                        $path_file = $request->file("new_dokumen.{$index}.file")->store('dokumen_pengelola_jurnal', 'public');
+                    }
+                    $pengelolaJurnal->dokumen()->create([
+                        'jenis_dokumen' => $docData['jenis'],
+                        'nama_dokumen' => $docData['nama'],
+                        'nomor_dokumen' => $docData['nomor'],
+                        'tautan_dokumen' => $docData['tautan'],
+                        'path_file' => $path_file,
+                    ]);
+                }
+            }
+            
+            DB::commit();
+            return response()->json(['success' => 'Data berhasil diperbarui!']);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error updating data: ' . $e->getMessage());
             return response()->json(['error' => 'Terjadi kesalahan pada server.'], 500);
         }
     }

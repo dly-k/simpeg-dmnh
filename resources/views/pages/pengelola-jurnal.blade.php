@@ -161,7 +161,9 @@
               <button 
                 class="btn btn-sm btn-warning btn-edit" 
                 data-bs-toggle="modal" 
-                data-bs-target="#editPengelolaJurnalModal">
+                data-bs-target="#editPengelolaJurnalModal"
+                data-id="{{ $jurnal->id }}"
+                data-update-url="{{ route('pengelola-jurnal.update', $jurnal->id) }}">
                 <i class="fa fa-edit"></i>
               </button>
               <a href="#" class="btn-aksi btn-hapus" title="Hapus Data">
@@ -198,7 +200,7 @@
   @include('components.konfirmasi-verifikasi')
   @include('components.pengelola-jurnal.detail-pengelola-jurnal')
   @include('components.pengelola-jurnal.tambah-pengelola-jurnal', ['pegawais' => $pegawais])
-  @include('components.pengelola-jurnal.edit-pengelola-jurnal')
+  @include('components.pengelola-jurnal.edit-pengelola-jurnal', ['pegawais' => $pegawais])
 
   <!-- Scripts -->
   <script src="{{ asset('assets/js/layout.js') }}"></script>
