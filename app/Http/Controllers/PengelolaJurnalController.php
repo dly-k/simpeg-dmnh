@@ -14,6 +14,7 @@ class PengelolaJurnalController extends Controller
 {
     public function index()
     {
+        // 1. Ambil data pegawai aktif untuk dropdown (sudah ada)
         $pegawais = Pegawai::where('status_pegawai', 'Aktif')
                            ->select('id', 'nama_lengkap')
                            ->orderBy('nama_lengkap', 'asc')
@@ -21,7 +22,7 @@ class PengelolaJurnalController extends Controller
 
         // 2. [TAMBAHAN] Ambil data pengelola jurnal untuk ditampilkan di tabel
         //    Gunakan 'with('pegawai')' untuk Eager Loading agar lebih efisien
-        $pengelolaJurnals = PengelolaJurnal::with('pegawai')->latest()->paginate(10);
+        $pengelolaJurnals = PengelolaJurnal::with('pegawai', 'dokumen')->latest()->paginate(10);
 
         // 3. Kirim kedua data tersebut ke view
         return view('pages.pengelola-jurnal', compact('pegawais', 'pengelolaJurnals'));

@@ -112,7 +112,32 @@
               <i class="fa fa-question"></i>
             </span>
           </td>
-          <td><a href="#" class="btn btn-sm btn-lihat">Lihat</a></td>
+          <td>
+          {{-- Cek apakah ada dokumen yang terhubung dengan jurnal ini --}}
+          @if ($jurnal->dokumen->isNotEmpty())
+              
+              {{-- Ambil dokumen pertama dari koleksi/list dokumen --}}
+              @php
+                  $firstDocument = $jurnal->dokumen->first();
+              @endphp
+
+              {{-- Pastikan dokumen pertama tersebut memiliki file yang diunggah (bukan hanya link) --}}
+              @if ($firstDocument->path_file)
+                  <a href="{{ Storage::url($firstDocument->path_file) }}" class="btn btn-sm btn-lihat" target="_blank">
+                      Lihat
+                  </a>
+              @else
+                  {{-- Jika dokumen pertama hanya punya link eksternal, bisa diarahkan ke sana --}}
+                  <a href="{{ $firstDocument->tautan_dokumen ?? '#' }}" class="btn btn-sm btn-lihat" target="_blank">
+                      Lihat
+                  </a>
+              @endif
+
+          @else
+              {{-- Jika tidak ada dokumen sama sekali, tampilkan tombol non-aktif --}}
+              <button class="btn btn-sm btn-secondary" disabled>Kosong</button>
+          @endif
+          </td>
           <td class="text-center">
             <div class="d-flex justify-content-center gap-2">
               <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi">
