@@ -37,44 +37,50 @@
           <div class="card-body p-4">
 
             <!-- Filter Bar -->
-            <div class="d-flex flex-wrap align-items-center mb-3 gap-2">
-              <div class="d-flex flex-grow-1 gap-2">
-                <!-- Search -->
-                <div class="input-group flex-grow-1">
-                  <span class="input-group-text bg-light border-end-0">
-                    <i class="fas fa-search text-success"></i>
-                  </span>
-                  <input 
-                    type="text" 
-                    class="form-control border-start-0 search-input" 
-                    placeholder="Cari Pengelola Jurnal ...."
-                  >
-                </div>
+<form action="{{ route('pengelola-jurnal.index') }}" method="GET" id="filterForm">
+  <div class="d-flex flex-wrap align-items-center mb-3 gap-2">
+    <div class="d-flex flex-grow-1 gap-2">
 
-                <!-- Tahun -->
-                <select class="form-select" style="max-width: 160px;">
-                  <option value="">Semua Tahun</option>
-                  <option>2023</option>
-                  <option>2024</option>
-                  <option>2025</option>
-                </select>
+      <div class="input-group flex-grow-1">
+        <span class="input-group-text bg-light border-end-0">
+          <i class="fas fa-search text-success"></i>
+        </span>
+        <input 
+          type="text" 
+          class="form-control border-start-0 search-input" 
+          name="search"
+          placeholder="Cari berdasarkan kegiatan, media, atau nama pegawai..."
+          value="{{ request('search') }}"
+        >
+      </div>
 
-                <!-- Status -->
-                <select class="form-select" style="max-width: 180px;">
-                  <option value="">Semua Status</option>
-                  <option>Sudah Diverifikasi</option>
-                  <option>Belum Diverifikasi</option>
-                  <option>Ditolak</option>
-                </select>
-              </div>
+      <select name="semester" class="form-select" style="max-width: 200px;">
+        <option value="">Semua Semester</option>
+        @foreach ($semesterOptions as $value => $text)
+          <option value="{{ $value }}" {{ request('semester') == $value ? 'selected' : '' }}>
+            {{ $text }}
+          </option>
+        @endforeach
+      </select>
 
-              <!-- Right: Button Tambah Data -->
-              <div class="ms-auto">
-                <button class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#pengelolaJurnalModal">
-                  <i class="fa fa-plus me-2"></i> Tambah Data
-                </button>
-              </div>
-            </div>
+      <select name="status" class="form-select" style="max-width: 180px;">
+        <option value="">Semua Status</option>
+        <option value="Belum Diverifikasi" {{ request('status') == 'Belum Diverifikasi' ? 'selected' : '' }}>Belum Diverifikasi</option>
+        <option value="Sudah Diverifikasi" {{ request('status') == 'Sudah Diverifikasi' ? 'selected' : '' }}>Sudah Diverifikasi</option>
+        <option value="Ditolak" {{ request('status') == 'Ditolak' ? 'selected' : '' }}>Ditolak</option>
+      </select>
+      
+      {{-- Tombol Filter dan Reset dihapus dari sini --}}
+
+    </div>
+
+    <div class="ms-auto">
+      <button type="button" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#pengelolaJurnalModal">
+        <i class="fa fa-plus me-2"></i> Tambah Data
+      </button>
+    </div>
+  </div>
+</form>
             <!-- End Filter Bar -->
 
             <!-- Tabel Pengelola Jurnal -->

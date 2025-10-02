@@ -15,21 +15,76 @@ use Illuminate\Validation\Rule;
 
 class PengelolaJurnalController extends Controller
 {
-    public function index()
-    {
-        // 1. Ambil data pegawai aktif untuk dropdown (sudah ada)
-        $pegawais = Pegawai::where('status_pegawai', 'Aktif')
-                           ->select('id', 'nama_lengkap')
-                           ->orderBy('nama_lengkap', 'asc')
-                           ->get();
+public function index(Request $request) // Tambahkan Request $request
+{
+    // 1. Ambil data pegawai aktif untuk dropdown modal (tidak berubah)
+    $pegawais = Pegawai::where('status_pegawai', 'Aktif')
+                       ->select('id', 'nama_lengkap')
+                       ->orderBy('nama_lengkap', 'asc')
+                       ->get();
 
-        // 2. [TAMBAHAN] Ambil data pengelola jurnal untuk ditampilkan di tabel
-        //    Gunakan 'with('pegawai')' untuk Eager Loading agar lebih efisien
-        $pengelolaJurnals = PengelolaJurnal::with('pegawai', 'dokumen')->latest()->paginate(10);
+    // 2. [BARU] Hasilkan opsi filter semester secara dinamis dari data yang ada
+    $tanggalData = DB::table('pengelola_jurnals')
+                      ->selectRaw('YEAR(tanggal_mulai) as year, MONTH(tanggal_mulai) as month')
+                      ->distinct()
+                      ->orderBy('year', 'desc')
+                      ->orderBy('month', 'desc')
+                      ->get();
 
-        // 3. Kirim kedua data tersebut ke view
-        return view('pages.pengelola-jurnal', compact('pegawais', 'pengelolaJurnals'));
+    $semesterOptions = [];
+    foreach ($tanggalData as $data) {
+        if ($data->month >= 1 && $data->month <= 6) {
+            $semester = 'Ganjil';
+            $value = 'ganjil_' . $data->year;
+        } else {
+            $semester = 'Genap';
+            $value = 'genap_' . $data->year;
+        }
+        // Pastikan tidak ada duplikat
+        if (!isset($semesterOptions[$value])) {
+            $semesterOptions[$value] = "Semester {$semester} {$data->year}";
+        }
     }
+
+    // 3. [BARU] Query utama dengan filter kondisional
+    $query = PengelolaJurnal::with('pegawai', 'dokumen');
+
+    // Terapkan filter pencarian (search)
+    $query->when($request->search, function ($q, $search) {
+        $q->where(function ($subQuery) use ($search) {
+            $subQuery->where('kegiatan', 'like', "%{$search}%")
+                     ->orWhere('media_publikasi', 'like', "%{$search}%")
+                     ->orWhereHas('pegawai', function ($pegawaiQuery) use ($search) {
+                         $pegawaiQuery->where('nama_lengkap', 'like', "%{$search}%");
+                     });
+        });
+    });
+
+    // Terapkan filter status verifikasi
+    $query->when($request->status, function ($q, $status) {
+        $q->where('status_verifikasi', $status);
+    });
+
+    // Terapkan filter semester
+    $query->when($request->semester, function ($q, $semester) {
+        [$periode, $tahun] = explode('_', $semester);
+        $bulanRange = ($periode == 'ganjil') ? [1, 6] : [7, 12];
+        
+        $q->whereYear('tanggal_mulai', $tahun)
+          ->whereBetween(DB::raw('MONTH(tanggal_mulai)'), $bulanRange);
+    });
+
+    // 4. Eksekusi query dengan pagination
+    // withQueryString() penting agar filter tetap aktif saat pindah halaman
+    $pengelolaJurnals = $query->latest()->paginate(10)->withQueryString();
+
+    // 5. Kirim semua data yang diperlukan ke view
+    return view('pages.pengelola-jurnal', compact(
+        'pegawais', 
+        'pengelolaJurnals', 
+        'semesterOptions'
+    ));
+}
 
     /**
      * Menyimpan data pengelola jurnal baru.

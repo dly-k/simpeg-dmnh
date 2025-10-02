@@ -482,4 +482,31 @@ if (modalHapus) {
   });
 }
 
+const filterForm = document.getElementById('filterForm');
+  if (filterForm) {
+    const searchInput = filterForm.querySelector('input[name="search"]');
+    const semesterSelect = filterForm.querySelector('select[name="semester"]');
+    const statusSelect = filterForm.querySelector('select[name="status"]');
+    let debounceTimer;
+
+    // Fungsi untuk mengirim form
+    const submitForm = () => {
+      filterForm.submit();
+    };
+
+    // Filter otomatis saat dropdown diubah
+    semesterSelect.addEventListener('change', submitForm);
+    statusSelect.addEventListener('change', submitForm);
+
+    // Filter otomatis dengan jeda (debounce) saat pengguna mengetik
+    searchInput.addEventListener('keyup', () => {
+      // Hapus timer sebelumnya
+      clearTimeout(debounceTimer);
+      // Atur timer baru. Form akan dikirim setelah 500ms pengguna berhenti mengetik.
+      debounceTimer = setTimeout(() => {
+        submitForm();
+      }, 500); // Jeda 500 milidetik
+    });
+  }
+  
 });
