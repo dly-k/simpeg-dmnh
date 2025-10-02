@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage; // Tambahan yang Anda tanyakan
+use Illuminate\Validation\Rule;
 
 
 class PengelolaJurnalController extends Controller
@@ -96,6 +97,23 @@ class PengelolaJurnalController extends Controller
             DB::rollBack(); // Batalkan semua perubahan jika terjadi error
             Log::error('Error saving pengelola jurnal: ' . $e->getMessage());
             return response()->json(['error' => 'Terjadi kesalahan pada server.'], 500);
+        }
+    }
+    public function verifikasi(Request $request, PengelolaJurnal $pengelolaJurnal)
+    {
+        // 1. Validasi input agar sesuai dengan nilai di ENUM database
+        $validated = $request->validate([
+            'status' => ['required', Rule::in(['Sudah Diverifikasi', 'Ditolak'])],
+        ]);
+
+        try {
+            // 2. Update kolom status_verifikasi dengan data yang sudah divalidasi
+            $pengelolaJurnal->update(['status_verifikasi' => $validated['status']]);
+            
+            return response()->json(['success' => 'Status verifikasi berhasil diperbarui!']);
+        } catch (\Exception $e) {
+            Log::error('Verification failed: ' . $e->getMessage());
+            return response()->json(['error' => 'Gagal memperbarui status.'], 500);
         }
     }
     public function edit(PengelolaJurnal $pengelolaJurnal)

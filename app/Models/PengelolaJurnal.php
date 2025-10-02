@@ -26,6 +26,7 @@ class PengelolaJurnal extends Model
         'tanggal_mulai',
         'tanggal_selesai',
         'status',
+        'status_verifikasi',
     ];
 
     /**

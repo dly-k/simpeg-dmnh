@@ -107,10 +107,19 @@
           {{-- Ambil tahun dari tanggal mulai --}}
           <td>{{ \Carbon\Carbon::parse($jurnal->tanggal_mulai)->format('Y') }}</td>
           <td>
-            {{-- Contoh logika untuk status verifikasi --}}
-            <span class="badge rounded-circle bg-warning text-white" title="Belum Diverifikasi">
-              <i class="fa fa-question"></i>
-            </span>
+            @if ($jurnal->status_verifikasi == 'Sudah Diverifikasi')
+              <span class="badge rounded-circle bg-success text-white" title="Sudah Diverifikasi">
+                <i class="fa fa-check"></i>
+              </span>
+            @elseif ($jurnal->status_verifikasi == 'Ditolak')
+              <span class="badge rounded-circle bg-danger text-white" title="Ditolak">
+                <i class="fa fa-times"></i>
+              </span>
+            @else {{-- Status 'Belum Diverifikasi' --}}
+              <span class="badge rounded-circle bg-warning text-white" title="Belum Diverifikasi">
+                <i class="fa fa-question"></i>
+              </span>
+            @endif
           </td>
           <td>
           {{-- Cek apakah ada dokumen yang terhubung dengan jurnal ini --}}
@@ -140,9 +149,11 @@
           </td>
           <td class="text-center">
             <div class="d-flex justify-content-center gap-2">
-              <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi">
-                <i class="fa fa-check"></i>
-              </a>
+<button class="btn-aksi btn-verifikasi" title="Verifikasi Data"
+  {{-- Gunakan satu data-url saja --}}
+  data-url="{{ route('pengelola-jurnal.verifikasi', $jurnal->id) }}">
+  <i class="fa fa-check"></i>
+</button>
               <button 
                   class="btn btn-sm btn-lihat text-white btn-detail"
                   data-bs-toggle="modal" 

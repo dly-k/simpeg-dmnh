@@ -328,6 +328,82 @@ detailButtons.forEach(btn => {
   });
 });
 
+ const modalVerifikasi = document.getElementById('modalKonfirmasiVerifikasi');
+  if (modalVerifikasi) {
+    const btnTerima = document.getElementById('popupBtnTerima');
+    const btnTolak = document.getElementById('popupBtnTolak');
+    const btnKembali = document.getElementById('popupBtnKembali');
+    const modalBerhasil = document.getElementById('modalBerhasil');
+
+    let currentActionUrl = ''; // Hanya butuh satu URL
+
+    // Tampilkan modal dan simpan URL saat tombol verifikasi diklik
+    document.querySelectorAll('.btn-verifikasi').forEach(button => {
+      button.addEventListener('click', function() {
+        currentActionUrl = this.dataset.url; // Ambil dari data-url
+        modalVerifikasi.classList.add('show');
+      });
+    });
+
+    // Sembunyikan modal
+    btnKembali.addEventListener('click', () => {
+      modalVerifikasi.classList.remove('show');
+    });
+
+    // Kirim status 'Sudah Diverifikasi' saat tombol 'Terima' diklik
+    btnTerima.addEventListener('click', function() {
+      sendVerificationRequest(currentActionUrl, 'Sudah Diverifikasi', this);
+    });
+
+    // Kirim status 'Ditolak' saat tombol 'Tolak' diklik
+    btnTolak.addEventListener('click', function() {
+      sendVerificationRequest(currentActionUrl, 'Ditolak', this);
+    });
+
+    // Fungsi untuk mengirim request
+    function sendVerificationRequest(url, status, button) {
+      const originalButtonText = button.innerHTML;
+      button.disabled = true;
+      button.innerHTML = `<span class="spinner-border spinner-border-sm"></span>`;
+
+      // Buat FormData untuk mengirim data
+      const formData = new FormData();
+      formData.append('status', status);
+      formData.append('_method', 'PATCH'); // Trik untuk request PATCH
+
+      fetch(url, {
+        method: 'POST', // Method HTML tetap POST
+        headers: {
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+          'Accept': 'application/json',
+        },
+        body: formData, // Kirim status dan method di body
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          modalVerifikasi.classList.remove('show');
+          if(modalBerhasil) modalBerhasil.classList.add('show');
+          new Audio('/assets/sounds/Success.mp3').play();
+          setTimeout(() => {
+            if(modalBerhasil) modalBerhasil.classList.remove('show');
+            window.location.reload();
+          }, 1000);
+        } else {
+          alert(data.error || 'Terjadi kesalahan.');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Gagal terhubung ke server.');
+      })
+      .finally(() => {
+        button.disabled = false;
+        button.innerHTML = originalButtonText;
+      });
+    }
+  }
+
   // ======================================================================
   // BAGIAN 5: PENINGKATAN UX UNTUK INPUT DATE
   // ======================================================================
