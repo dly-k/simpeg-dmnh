@@ -144,21 +144,22 @@
                 <i class="fa fa-check"></i>
               </a>
               <button 
-                class="btn btn-sm btn-lihat text-white btn-detail"
-                data-bs-toggle="modal" 
-                data-bs-target="#detailPengelolaJurnalModal"
-                data-nama="{{ $jurnal->pegawai->nama_lengkap ?? 'N/A' }}"
-                data-kegiatan="{{ $jurnal->kegiatan }}"
-                data-media="{{ $jurnal->media_publikasi }}"
-                data-peran="{{ $jurnal->peran }}"
-                data-no-sk="{{ $jurnal->no_sk }}"
-                data-tgl-mulai="{{ $jurnal->tanggal_mulai }}"
-                data-tgl-selesai="{{ $jurnal->tanggal_selesai }}"
-                data-status="{{ $jurnal->status }}"
-                >
-                <i class="fas fa-eye"></i>
-              </button>
-              <button 
+                  class="btn btn-sm btn-lihat text-white btn-detail"
+                  data-bs-toggle="modal" 
+                  data-bs-target="#detailPengelolaJurnalModal"
+                  data-nama="{{ $jurnal->pegawai->nama_lengkap ?? 'N/A' }}"
+                  data-kegiatan="{{ $jurnal->kegiatan }}"
+                  data-media="{{ $jurnal->media_publikasi }}"
+                  data-peran="{{ $jurnal->peran }}"
+                  data-no-sk="{{ $jurnal->no_sk }}"
+                  data-tgl-mulai="{{ $jurnal->tanggal_mulai }}"
+                  data-tgl-selesai="{{ $jurnal->tanggal_selesai }}"
+                  data-status="{{ $jurnal->status }}"
+                  {{-- [TAMBAHAN] Atribut ini berisi semua data dokumen dalam format JSON --}}
+                  data-dokumen='@json($jurnal->dokumen)'>
+                  <i class="fas fa-eye"></i>
+                </button>
+                              <button 
                 class="btn btn-sm btn-warning btn-edit" 
                 data-bs-toggle="modal" 
                 data-bs-target="#editPengelolaJurnalModal"

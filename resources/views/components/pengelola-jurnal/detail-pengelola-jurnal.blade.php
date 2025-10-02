@@ -55,27 +55,7 @@
         <!-- Dokumen -->
         <h6 class="fw-bold mt-3">Dokumen Terlampir</h6>
         <div class="row g-3" id="detail-dokumen-list">
-          <!-- Contoh dokumen -->
-          <div class="col-md-6">
-            <div class="detail-doc">
-              <span>Dokumen 1</span>
-              <a href="#" id="detail-doc1" class="btn btn-sm btn-success text-white mt-1" target="_blank" style="display:none;">
-                <i class="fa fa-eye me-1"></i> Lihat File
-              </a>
-              <span id="nodata-doc1" class="text-muted fst-italic">Tidak ada file</span>
-            </div>
           </div>
-          <div class="col-md-6">
-            <div class="detail-doc">
-              <span>Dokumen 2</span>
-              <a href="#" id="detail-doc2" class="btn btn-sm btn-success text-white mt-1" target="_blank" style="display:none;">
-                <i class="fa fa-eye me-1"></i> Lihat File
-              </a>
-              <span id="nodata-doc2" class="text-muted fst-italic">Tidak ada file</span>
-            </div>
-          </div>
-          <!-- Tambahan dokumen bisa dimunculkan dinamis lewat JS -->
-        </div>
 
       </div>
 

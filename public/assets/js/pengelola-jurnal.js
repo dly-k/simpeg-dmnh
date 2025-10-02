@@ -268,18 +268,65 @@ document.addEventListener("DOMContentLoaded", function () {
   // BAGIAN 4: TAMPIL DATA KE MODAL DETAIL
   // ======================================================================
   const detailButtons = document.querySelectorAll(".btn-detail");
-  detailButtons.forEach(btn => {
-    btn.addEventListener("click", function () {
-      document.getElementById("detail-nama").textContent = this.dataset.nama || "-";
-      document.getElementById("detail-kegiatan").textContent = this.dataset.kegiatan || "-";
-      document.getElementById("detail-media").textContent = this.dataset.media || "-";
-      document.getElementById("detail-peran").textContent = this.dataset.peran || "-";
-      document.getElementById("detail-no-sk").textContent = this.dataset.noSk || "-";
-      document.getElementById("detail-tgl-mulai").textContent = this.dataset.tglMulai || "-";
-      document.getElementById("detail-tgl-selesai").textContent = this.dataset.tglSelesai || "-";
-      document.getElementById("detail-status").textContent = this.dataset.status || "-";
-    });
+const detailDokumenList = document.getElementById("detail-dokumen-list");
+
+detailButtons.forEach(btn => {
+  btn.addEventListener("click", function () {
+    // 1. Isi data utama (tidak berubah)
+    document.getElementById("detail-nama").textContent = this.dataset.nama || "-";
+    document.getElementById("detail-kegiatan").textContent = this.dataset.kegiatan || "-";
+    document.getElementById("detail-media").textContent = this.dataset.media || "-";
+    document.getElementById("detail-peran").textContent = this.dataset.peran || "-";
+    document.getElementById("detail-no-sk").textContent = this.dataset.noSk || "-";
+    document.getElementById("detail-tgl-mulai").textContent = this.dataset.tglMulai || "-";
+    document.getElementById("detail-tgl-selesai").textContent = this.dataset.tglSelesai || "-";
+    document.getElementById("detail-status").textContent = this.dataset.status || "-";
+
+    // 2. Kosongkan daftar dokumen sebelum diisi
+    if (detailDokumenList) {
+      detailDokumenList.innerHTML = '';
+    }
+
+    // 3. Ambil dan parse data dokumen dari atribut data-
+    const dokumenData = JSON.parse(this.dataset.dokumen || '[]');
+
+    // 4. Bangun daftar dokumen secara dinamis
+    if (dokumenData.length > 0) {
+      dokumenData.forEach(doc => {
+        // Siapkan tombol berdasarkan data yang ada (file atau tautan)
+        let tombolAksi = '<span class="text-muted fst-italic">Tidak ada file atau tautan</span>';
+        if (doc.path_file) {
+          tombolAksi = `<a href="/storage/${doc.path_file}" class="btn btn-sm btn-success text-white mt-1" target="_blank"><i class="fa fa-eye me-1"></i> Lihat File</a>`;
+        } else if (doc.tautan_dokumen) {
+          tombolAksi = `<a href="${doc.tautan_dokumen}" class="btn btn-sm btn-info text-white mt-1" target="_blank"><i class="fa fa-link me-1"></i> Lihat Tautan</a>`;
+        }
+        
+        const docItemHTML = `
+          <div class="col-md-6">
+            <div class="detail-doc">
+              <span>${doc.nama_dokumen || doc.jenis_dokumen}</span>
+              <small class="text-muted d-block">No: ${doc.nomor_dokumen || '-'}</small>
+              ${tombolAksi}
+            </div>
+          </div>
+        `;
+        if (detailDokumenList) {
+          detailDokumenList.innerHTML += docItemHTML;
+        }
+      });
+    } else {
+      // Tampilkan pesan jika tidak ada dokumen
+      const noDocHTML = `
+        <div class="col-12">
+          <p class="text-muted fst-italic">Tidak ada dokumen yang dilampirkan.</p>
+        </div>
+      `;
+      if (detailDokumenList) {
+        detailDokumenList.innerHTML = noDocHTML;
+      }
+    }
   });
+});
 
   // ======================================================================
   // BAGIAN 5: PENINGKATAN UX UNTUK INPUT DATE
