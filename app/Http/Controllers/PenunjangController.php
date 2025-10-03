@@ -16,6 +16,9 @@ class PenunjangController extends Controller
     /**
      * Menampilkan halaman utama ATAU data hasil filter & pencarian (AJAX).
      */
+/**
+     * Menampilkan halaman utama ATAU data hasil filter & pencarian (AJAX).
+     */
     public function index(Request $request)
     {
         $searchQuery = $request->input('search');
@@ -67,7 +70,14 @@ class PenunjangController extends Controller
         $penunjangs = $query->paginate(10)->appends($request->query());
 
         if ($request->ajax()) {
-            return response()->json($penunjangs);
+            // UBAH BAGIAN INI:
+            // Ambil data paginator standar dalam bentuk array/objek
+            $paginatorData = $penunjangs->toArray();
+            
+            // Tambahkan kunci baru yang berisi HTML pagination yang sudah dirender oleh server
+            $paginatorData['pagination_html'] = $penunjangs->links('pagination::bootstrap-5')->toHtml();
+            
+            return response()->json($paginatorData);
         }
 
         $pegawais = Pegawai::where('status_pegawai', 'Aktif')->orderBy('nama_lengkap')->get(['id', 'nama_lengkap']);

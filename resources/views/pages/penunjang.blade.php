@@ -76,8 +76,9 @@
         </div>
       </div>
 
-      <div class="table-responsive">
-        <table class="table table-hover table-bordered">
+<div class="table-responsive">
+        {{-- Perubahan di sini: tambahkan data-user-role --}}
+        <table class="table table-hover table-bordered" data-user-role="{{ Auth::user()->role ?? '' }}">
           <thead class="table-light">
             <tr class="text-center">
               <th>No</th>
@@ -93,6 +94,7 @@
             </tr>
           </thead>
           <tbody id="penunjang-table-body">
+            {{-- Loop forelse untuk data awal --}}
             @forelse ($penunjangs as $item)
               <tr>
                 <td class="text-center">{{ $loop->iteration }}</td>
@@ -143,8 +145,15 @@
         </table>
       </div>
 
-        <!-- Pagination -->
-      {{ $penunjangs->appends(request()->query())->links('pagination::bootstrap-5') }}
+      {{-- Perubahan di sini: tambahkan ID dan class untuk target JS --}}
+      @if ($penunjangs->hasPages())
+        <div id="pagination-container" class="mt-3 d-flex justify-content-center">
+          {{ $penunjangs->appends(request()->query())->links('pagination::bootstrap-5') }}
+        </div>
+      @else
+        {{-- Jika tidak ada halaman, buat div kosong agar JS tidak error --}}
+        <div id="pagination-container"></div>
+      @endif
       
     </div>
   </div>

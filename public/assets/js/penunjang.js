@@ -17,94 +17,115 @@ document.addEventListener("DOMContentLoaded", () => {
   const filterLingkup = document.getElementById('filter-lingkup');
   const filterStatus = document.getElementById('filter-status');
   const tableBody = document.getElementById('penunjang-table-body');
-  const paginationInfo = document.querySelector('.pagination-info');
+  const mainTable = document.querySelector('table[data-user-role]');
+  const paginationContainer = document.getElementById('pagination-container');
+  
+  // Ambil user role dari data attribute
+  const userRole = mainTable.dataset.userRole;
 
-  // == FUNGSI BARU: Untuk memperbarui dropdown semester ==
-  const updateSemesterDropdown = (options) => {
-    if (!filterSemester || !options) return;
-
-    const selectedValue = filterSemester.value;
-    filterSemester.innerHTML = '<option value="">Semua Semester</option>';
-
-    options.forEach(option => {
-      const optionElement = document.createElement('option');
-      optionElement.value = option;
-      optionElement.textContent = option;
-      filterSemester.appendChild(optionElement);
-    });
-
-    filterSemester.value = selectedValue;
-  };
-
-  // == FUNGSI FILTER & RENDER TABEL (TERPUSAT) ==
-  const renderTable = (data) => {
+  // == FUNGSI UNTUK MERENDER KONTEN ==
+  const renderTable = (data, startingNumber) => {
     tableBody.innerHTML = '';
-    if (data.length === 0) {
+    if (!data || data.length === 0) {
         tableBody.innerHTML = '<tr><td colspan="10" class="text-center">Data tidak ditemukan.</td></tr>';
-    } else {
-        data.forEach((item, index) => {
-            const tmtMulai = new Date(item.tmt_mulai).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
-            const tmtSelesai = new Date(item.tmt_selesai).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
-            let statusIcon = '<i class="fas fa-question-circle text-warning" title="Belum Diverifikasi"></i>';
-            if(item.status === 'Sudah Diverifikasi') {
-                statusIcon = '<i class="fas fa-check-circle text-success" title="Sudah Diverifikasi"></i>';
-            } else if (item.status === 'Ditolak') {
-                statusIcon = '<i class="fas fa-times-circle text-danger" title="Ditolak"></i>';
-            }
-            const row = `
-                <tr>
-                    <td class="text-center">${index + 1}</td>
-                    <td class="text-start">${item.kegiatan}</td>
-                    <td class="text-center">${item.lingkup}</td>
-                    <td class="text-center">${item.nama_kegiatan}</td>
-                    <td class="text-center">${item.instansi}</td>
-                    <td class="text-center">${item.nomor_sk}</td>
-                    <td class="text-center">${tmtMulai}</td>
-                    <td class="text-center">${tmtSelesai}</td>
-                    <td class="text-center">${statusIcon}</td>
-                    <td class="text-center">
-                        <div class="d-flex gap-2 justify-content-center">
-                            <a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi" data-id="${item.id}"><i class="fa fa-check"></i></a>
-                            <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail" data-id="${item.id}" data-bs-toggle="modal" data-bs-target="#penunjangDetailModal"><i class="fa fa-eye"></i></a>
-                            <a href="#" class="btn-aksi btn-edit" title="Edit Data" data-id="${item.id}"><i class="fa fa-edit"></i></a>
-                            <a href="#" class="btn-aksi btn-hapus" title="Hapus Data" data-id="${item.id}"><i class="fa fa-trash"></i></a>
-                        </div>
-                    </td>
-                </tr>
-            `;
-            tableBody.innerHTML += row;
-        });
+        return;
     }
-    if(paginationInfo) {
-      const start = data.length > 0 ? 1 : 0;
-      paginationInfo.textContent = `Menampilkan ${start} sampai ${data.length} dari ${data.length} data`;
+
+    data.forEach((item, index) => {
+        const tmtMulai = new Date(item.tmt_mulai).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+        const tmtSelesai = new Date(item.tmt_selesai).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+        
+        let statusIcon = '<i class="fas fa-question-circle text-warning" title="Belum Diverifikasi"></i>';
+        if(item.status === 'Sudah Diverifikasi') {
+            statusIcon = '<i class="fas fa-check-circle text-success" title="Sudah Diverifikasi"></i>';
+        } else if (item.status === 'Ditolak') {
+            statusIcon = '<i class="fas fa-times-circle text-danger" title="Ditolak"></i>';
+        }
+        
+        let verifikasiButton = '';
+        if (userRole === 'admin_verifikator') {
+            verifikasiButton = `<a href="#" class="btn-aksi btn-verifikasi" title="Verifikasi" data-id="${item.id}"><i class="fa fa-check"></i></a>`;
+        }
+
+        const row = `
+            <tr>
+                <td class="text-center">${startingNumber + index}</td>
+                <td class="text-start">${item.kegiatan}</td>
+                <td class="text-center">${item.lingkup}</td>
+                <td class="text-center">${item.nama_kegiatan}</td>
+                <td class="text-center">${item.instansi}</td>
+                <td class="text-center">${item.nomor_sk}</td>
+                <td class="text-center">${tmtMulai}</td>
+                <td class="text-center">${tmtSelesai}</td>
+                <td class="text-center">${statusIcon}</td>
+                <td class="text-center">
+                    <div class="d-flex gap-2 justify-content-center">
+                        ${verifikasiButton}
+                        <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail" data-id="${item.id}" data-bs-toggle="modal" data-bs-target="#penunjangDetailModal"><i class="fa fa-eye"></i></a>
+                        <a href="#" class="btn-aksi btn-edit" title="Edit Data" data-id="${item.id}"><i class="fa fa-edit"></i></a>
+                        <a href="#" class="btn-aksi btn-hapus" title="Hapus Data" data-id="${item.id}"><i class="fa fa-trash"></i></a>
+                    </div>
+                </td>
+            </tr>
+        `;
+        tableBody.innerHTML += row;
+    });
+  };
+
+const renderPagination = (html) => {
+    // Cari dulu container yang ada
+    let container = document.getElementById('pagination-container');
+
+    // Cek apakah ada HTML pagination yang dikirim dari server
+    if (html && html.trim() !== '') {
+      // Jika container belum ada, buat baru
+      if (!container) {
+        container = document.createElement('div');
+        container.id = 'pagination-container';
+        container.className = 'mt-3 d-flex justify-content-center';
+        // Tambahkan setelah div table-responsive
+        document.querySelector('.table-responsive').after(container);
+      }
+      container.innerHTML = html;
+    } else {
+      // Jika tidak ada HTML pagination, dan containernya ada, hapus
+      if (container) {
+        container.remove();
+      }
+    }
+  };
+  
+  // == FUNGSI PENGAMBIL DATA UTAMA ==
+  const fetchData = async (url) => {
+    try {
+        tableBody.innerHTML = '<tr><td colspan="10" class="text-center"><div class="spinner-border spinner-border-sm"></div> Memuat...</td></tr>';
+        
+        const response = await fetch(url, {
+            headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' }
+        });
+        if (!response.ok) throw new Error('Network response was not ok');
+        
+        const result = await response.json();
+        
+        renderTable(result.data, result.from);
+        renderPagination(result.pagination_html); 
+    } catch (error) {
+        console.error('Fetch error:', error);
+        tableBody.innerHTML = '<tr><td colspan="10" class="text-center text-danger">Gagal memuat data.</td></tr>';
     }
   };
 
-  const performFilterAndSearch = async () => {
+  const performFilterAndSearch = () => {
     const params = new URLSearchParams({
         search: searchInput?.value || '',
         semester: filterSemester?.value || '',
         lingkup: filterLingkup?.value || '',
         status: filterStatus?.value || '',
     });
-    try {
-        const response = await fetch(`/penunjang?${params.toString()}`, {
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json'
-            }
-        });
-        if (!response.ok) throw new Error('Network response was not ok');
-        const json = await response.json();
-        const data = Array.isArray(json) ? json : json.data; // <-- antisipasi Laravel paginate
-        renderTable(data || []);
-    } catch (error) {
-        console.error('Filter/Search error:', error);
-        tableBody.innerHTML = '<tr><td colspan="10" class="text-center text-danger">Gagal memuat data.</td></tr>';
-    }
+    const newUrl = `/penunjang?${params.toString()}`;
+    history.pushState(null, '', newUrl);
+    fetchData(newUrl);
   };
-
 
   const debounce = (func, delay) => {
     let timeout;
@@ -114,11 +135,23 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   };
 
-  const debouncedFilter = debounce(performFilterAndSearch, 500);
-  searchInput?.addEventListener('keyup', debouncedFilter);
+  // == EVENT LISTENERS ==
+  searchInput?.addEventListener('keyup', debounce(performFilterAndSearch, 500));
   filterSemester?.addEventListener('change', performFilterAndSearch);
   filterLingkup?.addEventListener('change', performFilterAndSearch);
   filterStatus?.addEventListener('change', performFilterAndSearch);
+
+  document.body.addEventListener('click', (event) => {
+    const link = event.target.closest('#pagination-container a');
+    if (link) {
+        event.preventDefault();
+        const url = link.getAttribute('href');
+        if (url && url !== '#') {
+            history.pushState(null, '', url);
+            fetchData(url);
+        }
+    }
+  });
   
   // == Modal Berhasil ==
   const modalBerhasil = document.getElementById("modalBerhasil");
