@@ -46,21 +46,20 @@
                       </span>
                       <input 
                           type="text" 
-                          id="searchInput" {{-- Tambahkan ID --}}
+                          id="searchInput"
                           class="form-control border-start-0 search-input" 
                           placeholder="Cari berdasarkan judul, nama, penyelenggara..."
                       >
                   </div>
 
-                  <select id="semesterFilter" class="form-select" style="max-width: 220px;"> {{-- Tambahkan ID --}}
+                  <select id="semesterFilter" class="form-select semester-filter">
                       <option value="">Semua Semester</option>
-                      {{-- Loop untuk opsi semester dinamis --}}
                       @foreach($semesterOptions as $option)
                           <option value="{{ $option['value'] }}">{{ $option['text'] }}</option>
                       @endforeach
                   </select>
 
-                  <select id="statusFilter" class="form-select" style="max-width: 180px;"> {{-- Tambahkan ID --}}
+                  <select id="statusFilter" class="form-select status-filter">
                       <option value="">Semua Status</option>
                       <option value="Sudah Diverifikasi">Sudah Diverifikasi</option>
                       <option value="Belum Diverifikasi">Belum Diverifikasi</option>
@@ -68,13 +67,18 @@
                   </select>
               </div>
 
-              <!-- Right: Button Tambah Data -->
-              <div class="ms-auto">
-                <button class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#orasiIlmiahModal">
-                  <i class="fa fa-plus me-2"></i> Tambah Data
-                </button>
-              </div>
+            <div class="ms-auto d-flex gap-2">
+              <!-- Tombol Export Excel -->
+              <a href="#" class="btn btn-success fw-bold">
+                <i class="fa fa-file-excel me-2"></i> Export Excel
+              </a>
+
+              <!-- Tombol Tambah Data -->
+              <button class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#orasiIlmiahModal">
+                <i class="fa fa-plus me-2"></i> Tambah Data
+              </button>
             </div>
+
             <!-- End Filter Bar -->
 
             <!-- Tabel Orasi Ilmiah -->
@@ -96,9 +100,8 @@
                     <th class="text-center">Aksi</th>
                   </tr>
                 </thead>
-                {{-- Ganti seluruh isi <tbody> dengan kode ini --}}
                 <tbody id="orasiIlmiahTableBody" class="text-center">
-                      <tr id="noDataFoundRow" style="display: none;">
+                      <tr id="noDataFoundRow" class="no-data-row d-none">
                           <td colspan="12">Data tidak ditemukan.</td>
                       </tr>
                     @forelse ($orasiIlmiahs as $item)
@@ -169,8 +172,8 @@
                                     class="btn btn-sm btn-warning btn-edit" 
                                     data-bs-toggle="modal" 
                                     data-bs-target="#editOrasiIlmiahModal"
-                                    data-edit-url="{{ route('orasi-ilmiah.edit', $item->id) }}" {{-- Tambahkan ini --}}
-                                    data-update-url="{{ route('orasi-ilmiah.update', $item->id) }}" {{-- Tambahkan ini --}}
+                                    data-edit-url="{{ route('orasi-ilmiah.edit', $item->id) }}"
+                                    data-update-url="{{ route('orasi-ilmiah.update', $item->id) }}"
                                 >
                                     <i class="fa fa-edit"></i>
                                 </button>
@@ -185,7 +188,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="12" class="text-center">Data Orasi Ilmiah belum ada.</td>
+                        <td colspan="12" class="text-center text-muted">Data Orasi Ilmiah belum tersedia</td>
                     </tr>
                     @endforelse
                 </tbody>

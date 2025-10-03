@@ -54,7 +54,7 @@
                 </div>
 
                 <!-- Filter Semester -->
-                <select class="form-select" id="semesterFilter" style="max-width: 200px;">
+                <select class="form-select semester-filter" id="semesterFilter">
                   <option value="">Semua Semester</option>
                   @foreach($semesterOptions as $value => $label)
                     <option value="{{ $value }}" {{ request('semester') == $value ? 'selected' : '' }}>
@@ -64,7 +64,7 @@
                 </select>
 
                 <!-- Filter Status -->
-                <select class="form-select" id="statusFilter" style="max-width: 180px;">
+                <select class="form-select status-filter" id="statusFilter">
                   <option value="">Semua Status</option>
                   <option value="Sudah Diverifikasi" {{ request('status') == 'Sudah Diverifikasi' ? 'selected' : '' }}>Sudah Diverifikasi</option>
                   <option value="Belum Diverifikasi" {{ request('status') == 'Belum Diverifikasi' ? 'selected' : '' }}>Belum Diverifikasi</option>
@@ -72,12 +72,19 @@
                 </select>
               </div>
 
-              <!-- Button Tambah -->
-              <div>
-                <button class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#pengalamanKerjaModal">
-                  <i class="fa fa-plus me-2"></i> Tambah Data
-                </button>
-              </div>
+            <!-- Button Export & Tambah -->
+            <div class="ms-auto d-flex gap-2">
+              <!-- Export Excel -->
+              <a href="#" class="btn btn-success fw-bold">
+                <i class="fa fa-file-excel me-2"></i> Export Excel
+              </a>
+
+              <!-- Tambah Data -->
+              <button class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#pengalamanKerjaModal">
+                <i class="fa fa-plus me-2"></i> Tambah Data
+              </button>
+            </div>
+
             </div>
             <!-- End Filter Bar -->
 

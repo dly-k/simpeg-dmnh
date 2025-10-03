@@ -984,6 +984,32 @@ h6.mt-4 {
   gap: 1rem;
 }
 
+/* ===========================
+   FILTER SELECT
+=========================== */
+.filter-select {
+  border-radius: 6px;
+  padding: 6px 10px;
+}
+
+.semester-filter {
+  max-width: 220px;
+}
+
+.status-filter {
+  max-width: 180px;
+}
+
+/* ===========================
+   ROW "NO DATA"
+=========================== */
+.no-data-row {
+  text-align: center;
+  color: #6c757d; /* abu-abu */
+  font-style: italic;
+  background-color: #f8f9fa; /* abu-abu muda biar beda */
+}
+
 /* =============================
    Animasi
    Animasi keyframe untuk modal dan ikon

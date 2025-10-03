@@ -984,6 +984,22 @@ h6.mt-4 {
   gap: 1rem;
 }
 
+/* ===========================
+   FILTER SELECT
+=========================== */
+.filter-select {
+  border-radius: 6px;
+  padding: 6px 10px;
+}
+
+.semester-filter {
+  max-width: 220px;
+}
+
+.status-filter {
+  max-width: 180px;
+}
+
 /* =============================
    Animasi
    Animasi keyframe untuk modal dan ikon

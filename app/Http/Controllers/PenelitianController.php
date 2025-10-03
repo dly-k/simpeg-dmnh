@@ -93,8 +93,8 @@ class PenelitianController extends Controller
             'publik' => 'required|string',
             'dokumen' => 'nullable|file|mimes:pdf,doc,docx|max:5120',
             'penulis_ipb.*.pegawai_id' => 'required_with:penulis_ipb|exists:pegawais,id',
-            'penulis_luar.*.nama' => 'required_with:penulis_luar|string',
-            'penulis_mahasiswa.*.nama' => 'required_with:penulis_mahasiswa|string',
+            'penulis_luar.*.nama' => 'nullable|string',
+            'penulis_mahasiswa.*.nama' => 'nullable|string',
         ]);
 
         DB::beginTransaction();

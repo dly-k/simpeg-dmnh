@@ -83,23 +83,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const performFilterAndSearch = async () => {
     const params = new URLSearchParams({
-        search: searchInput.value,
-        semester: filterSemester.value,
-        lingkup: filterLingkup.value,
-        status: filterStatus.value,
+        search: searchInput?.value || '',
+        semester: filterSemester?.value || '',
+        lingkup: filterLingkup?.value || '',
+        status: filterStatus?.value || '',
     });
     try {
         const response = await fetch(`/penunjang?${params.toString()}`, {
-            headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' }
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            }
         });
         if (!response.ok) throw new Error('Network response was not ok');
-        const data = await response.json();
-        renderTable(data);
+        const json = await response.json();
+        const data = Array.isArray(json) ? json : json.data; // <-- antisipasi Laravel paginate
+        renderTable(data || []);
     } catch (error) {
         console.error('Filter/Search error:', error);
         tableBody.innerHTML = '<tr><td colspan="10" class="text-center text-danger">Gagal memuat data.</td></tr>';
     }
   };
+
 
   const debounce = (func, delay) => {
     let timeout;
@@ -515,6 +520,20 @@ document.addEventListener("DOMContentLoaded", () => {
         this.showPicker && this.showPicker();
       });
     });
+
+    const table = document.getElementById("penunjang-table");
+    let pegawaiData = [];
+
+    if (table) {
+        try {
+            pegawaiData = JSON.parse(table.dataset.pegawai);
+        } catch (err) {
+            console.error("Gagal parsing pegawaiData:", err);
+        }
+    }
+
+    console.log("Pegawai dari table:", pegawaiData);
+
   
   // Inisialisasi semua fungsi modal di akhir script
   initVerificationModal();

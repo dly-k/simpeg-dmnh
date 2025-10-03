@@ -26,7 +26,7 @@
       <!-- Title Bar -->
       <div class="title-bar">
         <h1>
-          <i class="lni lni-book"></i>
+          <i class="lni lni-pencil-alt"></i>
           <span id="page-title">Editor Kegiatan - Pengelola Jurnal</span>
         </h1>
       </div>
@@ -54,7 +54,7 @@
         >
       </div>
 
-      <select name="semester" class="form-select" style="max-width: 200px;">
+      <select name="semester" class="form-select semester-filter">
         <option value="">Semua Semester</option>
         @foreach ($semesterOptions as $value => $text)
           <option value="{{ $value }}" {{ request('semester') == $value ? 'selected' : '' }}>
@@ -63,22 +63,27 @@
         @endforeach
       </select>
 
-      <select name="status" class="form-select" style="max-width: 180px;">
+      <select name="status" class="form-select status-filter">
         <option value="">Semua Status</option>
         <option value="Belum Diverifikasi" {{ request('status') == 'Belum Diverifikasi' ? 'selected' : '' }}>Belum Diverifikasi</option>
         <option value="Sudah Diverifikasi" {{ request('status') == 'Sudah Diverifikasi' ? 'selected' : '' }}>Sudah Diverifikasi</option>
         <option value="Ditolak" {{ request('status') == 'Ditolak' ? 'selected' : '' }}>Ditolak</option>
       </select>
       
-      {{-- Tombol Filter dan Reset dihapus dari sini --}}
-
     </div>
 
-    <div class="ms-auto">
+    <div class="ms-auto d-flex gap-2">
+      <!-- Tombol Export Excel -->
+      <a href="#" class="btn btn-success fw-bold">
+        <i class="fa fa-file-excel me-2"></i> Export Excel
+      </a>
+
+      <!-- Tombol Tambah Data -->
       <button type="button" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#pengelolaJurnalModal">
         <i class="fa fa-plus me-2"></i> Tambah Data
       </button>
     </div>
+
   </div>
 </form>
             <!-- End Filter Bar -->
@@ -197,7 +202,7 @@
       @empty
         {{-- Tampilan jika tidak ada data sama sekali di database --}}
         <tr>
-          <td colspan="9" class="text-center">Data Pengelola Jurnal tidak ditemukan.</td>
+          <td colspan="9" class="text-center text-muted">Data Pengelola Jurnal belum tersedia</td>
         </tr>
       @endforelse
     </tbody>

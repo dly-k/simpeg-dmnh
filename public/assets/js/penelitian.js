@@ -1,7 +1,3 @@
-// ===================================================================================
-// DEFINISI FUNGSI GLOBAL & VARIABEL
-// ===================================================================================
-
 // Variabel global untuk menyimpan data pegawai & counter
 let pegawaiList = [];
 let counters = { ipb: 1, luar: 1, mahasiswa: 1 };
@@ -141,7 +137,7 @@ window.openDetailModal=id=>{
 };
 
 // ===================================================================================
-// EKSEKUSI SETELAH HALAMAN SIAP (DOMContentLoaded)
+// EKSEKUSI SETELAH HALAMAN SIAP (DOMContentLoaded)  <-- SATU BLOK SAJA
 // ===================================================================================
 document.addEventListener("DOMContentLoaded", () => {
   // --- Inisialisasi Variabel Modal ---
@@ -200,16 +196,17 @@ document.addEventListener("DOMContentLoaded", () => {
   // (Fungsi ini hanya akan dipanggil oleh openEditModal yang sudah global)
   window.populateForm=function(data){
       const penelitianForm = document.getElementById("penelitianForm");
-      penelitianForm.querySelector('[name="judul"]').value=data.judul;
-      penelitianForm.querySelector('[name="jenis_karya"]').value=data.jenis_karya;
-      penelitianForm.querySelector('[name="volume"]').value=data.volume;
-      penelitianForm.querySelector('[name="jumlah_halaman"]').value=data.jumlah_halaman;
-      penelitianForm.querySelector('[name="tanggal_terbit"]').value=data.tanggal_terbit?data.tanggal_terbit.substring(0,10):"";
-      penelitianForm.querySelector('[name="publik"]').value=data.is_publik?"Ya":"Tidak";
-      penelitianForm.querySelector('[name="isbn"]').value=data.isbn;
-      penelitianForm.querySelector('[name="issn"]').value=data.issn;
-      penelitianForm.querySelector('[name="doi"]').value=data.doi;
-      penelitianForm.querySelector('[name="url"]').value=data.url;
+      if (!penelitianForm) return;
+      penelitianForm.querySelector('[name="judul"]').value = data.judul || '';
+      penelitianForm.querySelector('[name="jenis_karya"]').value = data.jenis_karya || '';
+      penelitianForm.querySelector('[name="volume"]').value = data.volume || '';
+      penelitianForm.querySelector('[name="jumlah_halaman"]').value = data.jumlah_halaman || '';
+      penelitianForm.querySelector('[name="tanggal_terbit"]').value = data.tanggal_terbit ? data.tanggal_terbit.substring(0,10) : "";
+      penelitianForm.querySelector('[name="publik"]').value = data.is_publik ? "Ya" : "Tidak";
+      penelitianForm.querySelector('[name="isbn"]').value = data.isbn || '';
+      penelitianForm.querySelector('[name="issn"]').value = data.issn || '';
+      penelitianForm.querySelector('[name="doi"]').value = data.doi || '';
+      penelitianForm.querySelector('[name="url"]').value = data.url || '';
       document.getElementById("penulis-ipb-list").innerHTML="";
       document.getElementById("penulis-luar-list").innerHTML="";
       document.getElementById("penulis-mahasiswa-list").innerHTML="";
@@ -218,7 +215,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if(data.penulis && data.penulis.length > 0) {
         data.penulis.forEach(p => {
             let type = p.tipe_penulis === "IPB" ? "ipb" : (p.tipe_penulis === "Luar IPB" ? "luar" : "mahasiswa");
-            addPenulis(type);
+            // gunakan window.addPenulis agar selalu mengakses fungsi global
+            window.addPenulis(type);
             if (type === "ipb") {
                 document.querySelector(`#penulis-ipb-list .input-group:last-child select`).value = p.pegawai_id;
             } else if (type === "luar") {
@@ -230,9 +228,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
 
-      if(document.getElementById("penulis-ipb-list").innerHTML === "") addPenulis("ipb");
-      if(document.getElementById("penulis-luar-list").innerHTML === "") addPenulis("luar");
-      if(document.getElementById("penulis-mahasiswa-list").innerHTML === "") addPenulis("mahasiswa");
+      if(document.getElementById("penulis-ipb-list").innerHTML === "") window.addPenulis("ipb");
+      if(document.getElementById("penulis-luar-list").innerHTML === "") window.addPenulis("luar");
+      if(document.getElementById("penulis-mahasiswa-list").innerHTML === "") window.addPenulis("mahasiswa");
   }
 
   // --- Fungsi untuk mengisi Modal Detail ---
@@ -252,7 +250,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (tanggalTerbitEl) {
         if (data.tanggal_terbit) {
             const date = new Date(data.tanggal_terbit);
-            tanggalTerbitEl.textContent = date.toLocaleDate-String('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+            // perbaikan fungsi tanggal
+            tanggalTerbitEl.textContent = date.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
         } else {
             tanggalTerbitEl.textContent = '-';
         }
@@ -274,8 +273,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     ['ipb', 'luar', 'mahasiswa'].forEach(type => {
-        document.getElementById(`detail-penulis-${type}-section`).style.display = 'none';
-        document.getElementById(`detail-penulis-${type}-list`).innerHTML = '';
+        const section = document.getElementById(`detail-penulis-${type}-section`);
+        const list = document.getElementById(`detail-penulis-${type}-list`);
+        if(section) section.style.display = 'none';
+        if(list) list.innerHTML = '';
     });
 
     if (data.penulis && data.penulis.length > 0) {
@@ -284,7 +285,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (p.tipe_penulis === 'IPB') {
                 type = 'ipb';
-                namaPenulisHtml = `<div class="detail-item" style="border:none; padding:0;"><small>Nama Penulis</small><p>${p.pegawai.nama_lengkap}</p></div>`;
+                namaPenulisHtml = `<div class="detail-item" style="border:none; padding:0;"><small>Nama Penulis</small><p>${p.pegawai?.nama_lengkap || ''}</p></div>`;
             } else if (p.tipe_penulis === 'Luar IPB') {
                 type = 'luar';
                 namaPenulisHtml = `<div class="detail-item" style="border:none; padding:0;"><small>Nama Penulis</small><p>${p.nama_penulis} (${p.afiliasi || 'Tidak ada afiliasi'})</p></div>`;
@@ -301,10 +302,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
             content = `<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; width: 100%; border-bottom: 1px solid #e9ecef; margin-bottom: 1rem; padding-bottom: 1rem;">${namaPenulisHtml}${skLinkHtml}</div>`;
             
-            document.getElementById(`detail-penulis-${type}-section`).style.display = 'block';
+            const sectionEl = document.getElementById(`detail-penulis-${type}-section`);
             const listContainer = document.getElementById(`detail-penulis-${type}-list`);
-            listContainer.style.display = 'block';
-            listContainer.insertAdjacentHTML('beforeend', content);
+            if (sectionEl) sectionEl.style.display = 'block';
+            if (listContainer) {
+              listContainer.style.display = 'block';
+              listContainer.insertAdjacentHTML('beforeend', content);
+            }
         });
     }
   }
@@ -317,6 +321,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- Penanganan event klik terpusat untuk aksi di tabel dan modal---
   document.addEventListener('click', function(e) {
+    // Kalau klik di dalam overlay konfirmasi hapus
     if (e.target.closest('.konfirmasi-hapus-overlay')) {
         const clickedButtonInHapusModal = e.target.closest('.btn-popup');
         if (clickedButtonInHapusModal) {
@@ -329,6 +334,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
     
+    // Kalau klik di dalam modal konfirmasi verifikasi
     if (e.target.closest('#modalKonfirmasiVerifikasi')) {
         const clickedButtonInVerifModal = e.target.closest('.btn-popup');
         if (clickedButtonInVerifModal) {
@@ -340,6 +346,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
+    // Aksi tombol di tabel (verifikasi, lihat, edit, hapus)
     const aksiBtn = e.target.closest('.btn-aksi');
     if (aksiBtn) {
         if (aksiBtn.classList.contains('btn-verifikasi')) {
@@ -395,7 +402,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
   }
 
-      // == Peningkatan Datepicker ==
+  // == Peningkatan Datepicker ==
   document.querySelectorAll('input[type="date"]').forEach((el) => {
     el.style.cursor = "pointer";
     el.addEventListener("click", function () {
@@ -403,8 +410,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Tutup modal kalau klik di luar konten modal
-    document.addEventListener("click", function(e) {
+  // Tutup modal kalau klik di luar konten modal (overlay)
+  document.addEventListener("click", function(e) {
     // --- Modal Konfirmasi Verifikasi ---
     if (e.target === document.getElementById("modalKonfirmasiVerifikasi")) {
         document.getElementById("modalKonfirmasiVerifikasi").classList.remove("show");
@@ -422,6 +429,27 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.style.overflow = "";
         }
     }
-    });
+  });
 
-});
+  // --------------------- Ambil Data Pegawai dari <meta> ---------------------
+  const pegawaiMeta = document.querySelector('meta[name="pegawai"]');
+  let pegawaiData = [];
+  if (pegawaiMeta) {
+    try {
+      pegawaiData = JSON.parse(pegawaiMeta.getAttribute("content") || "[]");
+    } catch (e) {
+      console.error("Pegawai JSON tidak valid:", e);
+    }
+  }
+  if (typeof window.initPegawaiList === "function") {
+    window.initPegawaiList(pegawaiData);
+  }
+
+  // --------------------- Ambil Flash Success dari <meta> ---------------------
+  const flashMeta = document.querySelector('meta[name="flash-success"]');
+  const flashMessage = flashMeta ? flashMeta.getAttribute("content") : null;
+  if (flashMessage && typeof window.showSuccessModal === "function") {
+    showSuccessModal("Berhasil!", flashMessage);
+  }
+
+}); // end DOMContentLoaded

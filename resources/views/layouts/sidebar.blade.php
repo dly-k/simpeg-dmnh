@@ -55,9 +55,9 @@
             {{-- Editor Kegiatan --}}
             @php
                 $editorKegiatanRoutes = [
-                    'pembicara*', 'pengabdian*', 'pembimbingan*',
+                    'pembicara*', 'pengabdian*',
                     'penunjang*', 'orasi-ilmiah*', 'sertifikat-kompetensi*', 'pendidikan*',
-                    'pengelola-jurnal*', 'penelitian*', 'kekayaan-intelektual*'
+                    'pengelola-jurnal*', 'penelitian*',
                 ];
                 $isEditorKegiatanActive = Request::is(...$editorKegiatanRoutes);
             @endphp
@@ -74,7 +74,6 @@
             <div class="collapse submenu {{ $isEditorKegiatanActive ? 'show' : '' }}" id="editorKegiatan">
                 <a href="/pembicara" class="{{ Request::is('pembicara*') ? 'active' : '' }}">Pembicara</a>
                 <a href="/pengabdian" class="{{ Request::is('pengabdian*') ? 'active' : '' }}">Pengabdian</a>
-                <a href="/pembimbingan" class="{{ Request::is('pembimbingan*') ? 'active' : '' }}">Pembimbingan</a>
                 <a href="/penunjang" class="{{ Request::is('penunjang*') ? 'active' : '' }}">Penunjang</a>
                 <a href="/orasi-ilmiah" class="{{ Request::is('orasi-ilmiah*') ? 'active' : '' }}">Orasi Ilmiah</a>
                 <a href="/sertifikat-kompetensi" class="{{ Request::is('sertifikat-kompetensi*') ? 'active' : '' }}">
@@ -85,9 +84,6 @@
                     Pengelola Jurnal
                 </a>
                 <a href="/penelitian" class="{{ Request::is('penelitian*') ? 'active' : '' }}">Penelitian</a>
-                <a href="/kekayaan-intelektual" class="{{ Request::is('kekayaan-intelektual*') ? 'active' : '' }}">
-                    Kekayaan Intelektual
-                </a>
             </div>
 
             {{-- Kerjasama --}}

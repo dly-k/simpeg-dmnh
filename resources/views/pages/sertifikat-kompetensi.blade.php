@@ -26,7 +26,7 @@
       <!-- Title Bar -->
       <div class="title-bar">
         <h1>
-          <i class="lni lni-certificate"></i>
+          <i class="lni lni-pencil-alt"></i>
           <span id="page-title">Editor Kegiatan - Sertifikat Kompetensi</span>
         </h1>
       </div>
@@ -52,15 +52,14 @@
             >
         </div>
 
-        <select id="tahunFilter" class="form-select" style="max-width: 160px;"> {{-- Beri ID --}}
+        <select id="tahunFilter" class="form-select tahun-filter">
             <option value="">Semua Tahun</option>
-            {{-- Loop untuk opsi tahun dinamis --}}
             @foreach($tahunOptions as $tahun)
                 <option value="{{ $tahun }}">{{ $tahun }}</option>
             @endforeach
         </select>
 
-        <select id="statusFilter" class="form-select" style="max-width: 180px;"> {{-- Beri ID --}}
+        <select id="statusFilter" class="form-select status-filter">
             <option value="">Semua Status</option>
             <option value="Sudah Diverifikasi">Sudah Diverifikasi</option>
             <option value="Belum Diverifikasi">Belum Diverifikasi</option>
@@ -68,12 +67,19 @@
         </select>
               </div>
 
-              <!-- Right: Button Tambah Data -->
-              <div class="ms-auto">
-                <button class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#sertifikatKompetensiModal">
-                  <i class="fa fa-plus me-2"></i> Tambah Data
-                </button>
-              </div>
+          <!-- Right: Button Export & Tambah -->
+          <div class="ms-auto d-flex gap-2">
+            <!-- Export Excel -->
+            <a href="#" class="btn btn-success fw-bold">
+              <i class="fa fa-file-excel me-2"></i> Export Excel
+            </a>
+
+            <!-- Tambah Data -->
+            <button class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#sertifikatKompetensiModal">
+              <i class="fa fa-plus me-2"></i> Tambah Data
+            </button>
+          </div>
+
             </div>
             <!-- End Filter Bar -->
 
@@ -93,15 +99,12 @@
                     <th class="text-center">Aksi</th>
                   </tr>
                 </thead>
-<tbody id="kompetensiTableBody" class="text-center"> {{-- Perbaikan #1: ID ditambahkan --}}
-
-    {{-- Perbaikan #3: Baris "Data Tidak Ditemukan" ditambahkan --}}
-    <tr id="noDataFoundRow" style="display: none;">
+<tbody id="kompetensiTableBody" class="text-center">
+    <tr id="noDataFoundRow" class="no-data-row d-none">
         <td colspan="9">Data tidak ditemukan.</td>
     </tr>
 
     @forelse ($sertifikatKompetensis as $item)
-    {{-- Perbaikan #2: Atribut data-* ditambahkan ke <tr> --}}
     <tr data-tahun="{{ $item->tahun_sertifikasi }}" data-status="{{ $item->verifikasi }}">
         <td>{{ $loop->iteration }}</td>
         <td class="text-start">{{ $item->pegawai->nama_lengkap ?? 'N/A' }}</td>
@@ -157,7 +160,7 @@
     </tr>
     @empty
     <tr>
-        <td colspan="9" class="text-center">Data Sertifikat Kompetensi belum ada.</td>
+        <td colspan="9" class="text-center text-muted">Data Sertifikat Kompetensi belum tersedia</td>
     </tr>
     @endforelse
 </tbody>

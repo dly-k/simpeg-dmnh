@@ -65,6 +65,10 @@
           </select>
 
           <div class="btn-tambah-container">
+                        <!-- Export Excel -->
+            <a href="#" class="btn btn-success fw-bold">
+              <i class="fa fa-file-excel me-2"></i> Export Excel
+            </a>
             <button class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#penunjangModal">
               <i class="fa fa-plus me-2"></i> Tambah Data
             </button>
@@ -89,7 +93,6 @@
             </tr>
           </thead>
           <tbody id="penunjang-table-body">
-            {{-- Data dimuat dari controller dan ditampilkan di sini --}}
             @forelse ($penunjangs as $item)
               <tr>
                 <td class="text-center">{{ $loop->iteration }}</td>
@@ -149,21 +152,15 @@
     @include('layouts.footer')
 </div>
 
-  {{-- Pastikan file-file ini ada di dalam folder `resources/views/components` --}}
+  {{-- Kumpulan Modal --}}
   @include('components.konfirmasi-hapus')
   @include('components.konfirmasi-berhasil')
   @include('components.konfirmasi-verifikasi')
   @include('components.penunjang.tambah-penunjang')
   @include('components.penunjang.detail-penunjang')
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  
-  {{-- Script ini penting untuk memberikan data pegawai ke JavaScript --}}
-  <script>
-    const pegawaiData = @json($pegawais);
-  </script>
-  
   <script src="{{ asset('assets/js/layout.js') }}"></script>
   <script src="{{ asset('assets/js/penunjang.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

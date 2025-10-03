@@ -3,13 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SIKEMAH - Editor Kegiatan (Penelitian)</title>
   <meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta name="pegawai" content='@json($pegawai->map(fn($p) => ["id"=>$p->id, "nama"=>$p->nama_lengkap]))'>
+  <meta name="flash-success" content="{{ session('success') }}">
+
+  <title>SIKEMAH - Editor Kegiatan (Penelitian)</title>
   
   <link rel="icon" href="{{ asset('assets/images/logo.png') }}" />
+  <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-  <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="{{ asset('assets/css/layout.css') }}" />
   <link rel="stylesheet" href="{{ asset('assets/css/penelitian.css') }}" />
@@ -73,6 +76,10 @@
                     </select>
                     
                     <div class="btn-tambah-container">
+                          <!-- Export Button -->
+                        <a href="#" class="btn btn-success fw-bold">
+                            <i class="fas fa-file-excel me-2"></i> Export Excel
+                        </a>
                         <a href="#" class="btn btn-tambah fw-bold" onclick="openModal()">
                             <i class="fas fa-plus me-2"></i> Tambah Data
                         </a>
@@ -190,19 +197,7 @@
   @include('components.penelitian.tambah-penelitian')
 
   <script src="{{ asset('assets/js/layout.js') }}"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-  
   <script src="{{ asset('assets/js/penelitian.js') }}"></script>
-  
-  <script>
-    const pegawaiData = @json($pegawai->map(fn($p) => ['id' => $p->id, 'nama' => $p->nama_lengkap]));
-    window.initPegawaiList(pegawaiData);
-
-    @if (session('success'))
-      document.addEventListener('DOMContentLoaded', () => {
-        showSuccessModal("Berhasil!", "{{ session('success') }}");
-      });
-    @endif
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
