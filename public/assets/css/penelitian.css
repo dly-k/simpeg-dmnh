@@ -177,6 +177,19 @@
     filter: invert(1) grayscale(80%) brightness(200%);
 }
 
+.btn-export {
+  background-color: var(--primary);
+  color: var(--white);
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-export:hover {
+  background-color: var(--success-hover);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--black-01);
+}
+
 /* =============================
    Modal Umum
    Gaya dasar untuk komponen modal

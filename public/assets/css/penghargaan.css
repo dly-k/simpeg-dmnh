@@ -27,6 +27,25 @@
   border: none;
 }
 
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  white-space: nowrap; /* biar teks nggak turun ke bawah */
+}
+
+.btn-sm i {
+  font-size: 14px;
+}
+
+.select2-container--bootstrap-5 .select2-results__option--highlighted {
+  background-color:  #1966d1 !important;
+  color: white !important;
+}
+
 /* =============================
    Pencarian dan Filter
    Gaya untuk tata letak baris pencarian dan filter
@@ -167,6 +186,19 @@
 .btn-hapus:hover {
   background-color: var(--danger-hover);
   transform: scale(1.15);
+}
+
+.btn-export {
+  background-color: var(--primary);
+  color: var(--white);
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-export:hover {
+  background-color: var(--success-hover);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--black-01);
 }
 
 /* =============================

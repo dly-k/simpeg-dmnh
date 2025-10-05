@@ -1,6 +1,5 @@
-{{-- Modal Tambah & Edit Pelatihan --}}
 <div class="modal fade" id="pelatihanModal" tabindex="-1" aria-labelledby="pelatihanModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
     <div class="modal-content">
 
       <div class="modal-header">
@@ -18,7 +17,7 @@
           <div class="row g-3">
             <div class="col-12">
               <label class="form-label">Nama Pegawai</label>
-              <select class="form-select" name="pegawai_id" required>
+              <select class="form-select form-select-sm" id="pegawai-select" name="pegawai_id" required>
                 <option value="" selected disabled>-- Pilih Pegawai --</option>
                 @foreach($pegawais as $pegawai)
                   <option value="{{ $pegawai->id }}">{{ $pegawai->nama_lengkap }}</option>

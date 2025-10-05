@@ -127,149 +127,171 @@
 
     // == Inisialisasi Modal Penghargaan ==
     function initPenghargaanModal() {
-      const penghargaanModalEl = document.getElementById("penghargaanModal");
-      if (!penghargaanModalEl) return;
+    const penghargaanModalEl = document.getElementById("penghargaanModal");
+    if (!penghargaanModalEl) return;
 
-      const bsModal = new bootstrap.Modal(penghargaanModalEl);
-      const form = document.getElementById("penghargaanForm");
-      const saveButton = penghargaanModalEl.querySelector(".btn-success");
-      const modalTitle = penghargaanModalEl.querySelector(".modal-title");
-      const idInput = document.getElementById("penghargaan_id");
-      const fileInput = form.dokumen;
-      const fileSizeFeedbackEl = document.getElementById("file-size-feedback");
+    const bsModal = new bootstrap.Modal(penghargaanModalEl);
+    const form = document.getElementById("penghargaanForm");
+    const saveButton = penghargaanModalEl.querySelector(".btn-success");
+    const modalTitle = penghargaanModalEl.querySelector(".modal-title");
+    const idInput = form.penghargaan_id;
+    const fileInput = form.dokumen;
+    const fileSizeFeedbackEl = document.getElementById("file-size-feedback");
 
-      function showFileSizeError(message) {
-        if (fileSizeFeedbackEl) {
-          fileSizeFeedbackEl.textContent = message;
-          fileSizeFeedbackEl.style.display = "block";
-        }
+    // ===== Inisialisasi Select2 =====
+    const pegawaiSelect = $("#pegawai_id");
+    if (pegawaiSelect.length) {
+      pegawaiSelect.select2({
+        theme: "bootstrap-5",
+        placeholder: "-- Pilih Pegawai --",
+        dropdownParent: $("#penghargaanModal .modal-content"),
+        allowClear: true,
+        width: '100%'
+      });
+    }
+
+    // ===== Event show.bs.modal =====
+    penghargaanModalEl.addEventListener("show.bs.modal", async (event) => {
+      const button = event.relatedTarget;
+      const isEditMode = button?.hasAttribute("data-id"); // cek tombol edit
+      const uploadArea = penghargaanModalEl.querySelector(".upload-area");
+
+      function resetFileUpload() {
+        if (!uploadArea) return;
+        const uploadText = uploadArea.querySelector("p");
+        const uploadIcon = uploadArea.querySelector("i");
+        const inputFile = uploadArea.querySelector('input[type="file"]');
+        uploadText.innerHTML = "Seret & Lepas File di sini<br><small>Ukuran Maksimal 5 MB</small>";
+        uploadIcon.className = "fas fa-cloud-upload-alt";
+        inputFile.value = "";
+        fileSizeFeedbackEl.textContent = "";
+        fileSizeFeedbackEl.style.display = "none";
       }
 
-      function hideFileSizeError() {
-        if (fileSizeFeedbackEl) {
+      if (!isEditMode) {
+        // ==== MODE TAMBAH ====
+        modalTitle.innerHTML = '<i class="fas fa-plus-circle"></i> Tambah Data Penghargaan';
+        idInput.value = "";
+        form.reset();
+        $('#pegawai_id').val(null).trigger('change'); // reset Select2
+        resetFileUpload();
+        fileInput.required = true;
+      } else {
+        // ==== MODE EDIT ====
+        modalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Data Penghargaan';
+        const penghargaanId = button.dataset.id;
+        idInput.value = penghargaanId;
+        fileInput.required = false; // tidak wajib upload baru
+        saveButton.textContent = "Simpan Perubahan";
+
+        try {
+          const response = await fetch(`/penghargaan/${penghargaanId}/edit`);
+          if (!response.ok) throw new Error("Gagal memuat data");
+
+          const data = await response.json();
+
+          // ===== Set semua field =====
+          form.kegiatan.value = data.kegiatan || "";
+          form.nama_penghargaan.value = data.nama_penghargaan || "";
+          form.nomor_sk.value = data.nomor_sk || "";
+          form.tanggal_perolehan.value = data.tanggal_perolehan || "";
+          form.lingkup.value = data.lingkup || "";
+          form.negara.value = data.negara || "";
+          form.instansi_pemberi.value = data.instansi_pemberi || "";
+          form.jenis_dokumen.value = data.jenis_dokumen || "";
+          form.nama_dokumen.value = data.nama_dokumen || "";
+          form.nomor_dokumen.value = data.nomor_dokumen || "";
+          form.tautan.value = data.tautan || "";
+
+          // ===== Set Select2 =====
+          $('#pegawai_id').val(data.pegawai_id).trigger('change');
+
+          // ===== File upload (tampilkan nama dokumen lama jika ada) =====
+          if (data.dokumen_name) {
+            const uploadText = uploadArea.querySelector("p");
+            const uploadIcon = uploadArea.querySelector("i");
+            uploadText.textContent = data.dokumen_name;
+            uploadIcon.className = "fas fa-file-pdf text-success";
+          } else {
+            resetFileUpload();
+          }
+        } catch (error) {
+          console.error("Gagal memuat data edit:", error);
+          alert("Gagal memuat data. Silakan coba lagi.");
+          bsModal.hide();
+        }
+      }
+    });
+
+    // ===== Save Button =====
+    saveButton.addEventListener("click", async (event) => {
+      event.preventDefault();
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      // Validasi ukuran file
+      if (fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        const maxSize = 5 * 1024 * 1024;
+        if (file.size > maxSize) {
+          fileSizeFeedbackEl.textContent = `File terlalu besar! Maksimal 5 MB. File Anda ~${(file.size / 1024 / 1024).toFixed(2)} MB`;
+          fileSizeFeedbackEl.style.display = "block";
+          return;
+        } else {
           fileSizeFeedbackEl.textContent = "";
           fileSizeFeedbackEl.style.display = "none";
         }
       }
 
-      penghargaanModalEl.addEventListener("show.bs.modal", async (event) => {
-        const button = event.relatedTarget;
-        const isEditMode = button?.hasAttribute("data-id");
+      const penghargaanId = idInput.value;
+      const isEditMode = !!penghargaanId;
+      const url = isEditMode ? `/penghargaan/${penghargaanId}` : "/penghargaan";
+      const formData = new FormData(form);
 
-        form.reset();
-        penghargaanModalEl.querySelector(".upload-area")?.reset();
-        form.querySelector('input[name="_method"]')?.remove();
-        hideFileSizeError();
+      saveButton.disabled = true;
+      saveButton.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Menyimpan...';
 
-        fileInput.required = !isEditMode;
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          body: formData,
+          headers: {
+            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+            Accept: "application/json",
+          },
+        });
+        const data = await response.json();
 
-        if (isEditMode) {
-          modalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Data Penghargaan';
-          const penghargaanId = button.dataset.id;
-          idInput.value = penghargaanId;
-
-          const methodInput = document.createElement("input");
-          methodInput.type = "hidden";
-          methodInput.name = "_method";
-          methodInput.value = "POST";
-          form.prepend(methodInput);
-
-          try {
-            const response = await fetch(`/penghargaan/${penghargaanId}/edit`);
-            if (!response.ok) throw new Error("Gagal memuat data");
-            const data = await response.json();
-            
-            // ==========================================================
-            // == PERUBAHAN UTAMA ADA DI SINI ==
-            form.pegawai_id.value = data.pegawai_id || "";
-            // ==========================================================
-
-            form.kegiatan.value = data.kegiatan || "";
-            form.nama_penghargaan.value = data.nama_penghargaan || "";
-            form.nomor_sk.value = data.nomor_sk || "";
-            form.tanggal_perolehan.value = data.tanggal_perolehan || "";
-            form.lingkup.value = data.lingkup || "";
-            form.negara.value = data.negara || "";
-            form.instansi_pemberi.value = data.instansi_pemberi || "";
-            form.jenis_dokumen.value = data.jenis_dokumen || "";
-            form.nama_dokumen.value = data.nama_dokumen || "";
-            form.nomor_dokumen.value = data.nomor_dokumen || "";
-            form.tautan.value = data.tautan || "";
-            penghargaanModalEl.querySelector(".upload-area p").innerHTML =
-              "Seret & Lepas File di sini<br><small>Ukuran Maksimal 5 MB</small>";
-          } catch (error) {
-            console.error("Gagal memuat data edit:", error);
-            alert("Gagal memuat data. Silakan coba lagi.");
-            bsModal.hide();
-          }
-        } else {
-          modalTitle.innerHTML = '<i class="fas fa-plus-circle"></i> Tambah Data Penghargaan';
-          idInput.value = "";
-        }
-      });
-
-      saveButton.addEventListener("click", async (event) => {
-        event.preventDefault();
-        if (!form.checkValidity()) {
-          form.reportValidity();
-          return;
-        }
-
-        hideFileSizeError();
-
-        if (fileInput.files.length > 0) {
-          const file = fileInput.files[0];
-          const maxSizeInBytes = 5 * 1024 * 1024; // 5 MB
-          if (file.size > maxSizeInBytes) {
-            showFileSizeError(
-              `File terlalu besar! Maksimal 5 MB. File Anda ~${(file.size / 1024 / 1024).toFixed(2)} MB`
-            );
-            return;
-          }
-        }
-
-        const penghargaanId = idInput.value;
-        const isEditMode = !!penghargaanId;
-        const url = isEditMode ? `/penghargaan/${penghargaanId}` : "/penghargaan";
-        const formData = new FormData(form);
-
-        saveButton.disabled = true;
-        saveButton.innerHTML =
-          '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Menyimpan...';
-
-        try {
-          const response = await fetch(url, {
-            method: "POST",
-            body: formData,
-            headers: {
-              "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
-              Accept: "application/json",
-            },
-          });
-          const data = await response.json();
-
-          if (data.success) {
-            bsModal.hide();
+        if (data.success) {
+          bsModal.hide();
+          // Tampilkan modal sukses atau reload halaman
+          if (typeof showSuccessModal === "function") {
             showSuccessModal(
               isEditMode ? "Data Berhasil Diperbarui" : "Data Berhasil Disimpan",
               data.success,
               () => location.reload()
             );
-          } else if (data.errors) {
-            const errorMessages = Object.values(data.errors).map((msg) => `- ${msg}`).join("\n");
-            alert(`Validasi Gagal:\n${errorMessages}`);
           } else {
-            throw new Error(data.error || "Terjadi kesalahan yang tidak diketahui.");
+            location.reload();
           }
-        } catch (error) {
-          console.error("Gagal mengirim data:", error);
-          alert("Gagal mengirim data. Silakan cek konsol untuk detail.");
-        } finally {
-          saveButton.disabled = false;
-          saveButton.innerHTML = "Simpan";
+        } else if (data.errors) {
+          const errorMessages = Object.values(data.errors).map((msg) => `- ${msg}`).join("\n");
+          alert(`Validasi Gagal:\n${errorMessages}`);
+        } else {
+          throw new Error(data.error || "Terjadi kesalahan yang tidak diketahui.");
         }
-      });
-    }
+      } catch (error) {
+        console.error("Gagal mengirim data:", error);
+        alert("Gagal mengirim data. Silakan cek konsol untuk detail.");
+      } finally {
+        saveButton.disabled = false;
+        saveButton.innerHTML = "Simpan";
+      }
+    });
+  }
 
     function initDetailModal() {
       document.addEventListener("click", (event) => {

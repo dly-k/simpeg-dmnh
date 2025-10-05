@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
-// KUMPULAN CONTROLLER YANG DIGUNAKAN
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
@@ -200,7 +198,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/surat-tugas/export', [SuratTugasController::class, 'export'])->name('surat-tugas.export');
 
     // Pelatihan
-    Route::resource('pelatihan', PelatihanController::class);
+    Route::resource('pelatihan', PelatihanController::class)->except(['show']);
+    Route::get('/pelatihan/export', [PelatihanController::class, 'export'])->name('pelatihan.export');
 
     // Penghargaan
     Route::prefix('penghargaan')->name('penghargaan.')->controller(PenghargaanController::class)->group(function () {
@@ -210,6 +209,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/{id}', 'update')->name('update');
         Route::delete('/{id}', 'destroy')->name('destroy');
     });
+    Route::get('/penghargaan/export', [PenghargaanController::class, 'export'])->name('penghargaan.export');
 
     // Kerjasama
     Route::resource('kerjasama', KerjasamaController::class);
@@ -221,6 +221,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/praktisi-dunia-industri/{praktisi}', [PraktisiController::class, 'show'])->name('praktisi.show');
     Route::put('/praktisi-dunia-industri/{praktisi}', [PraktisiController::class, 'update'])->name('praktisi.update');
     Route::delete('/praktisi-dunia-industri/{praktisi}', [PraktisiController::class, 'destroy'])->name('praktisi.destroy');
+    Route::get('/praktisi/export', [PraktisiController::class, 'export'])->name('praktisi.export');
 
     // Lain-lain
     Route::get('/bahan-ajar', [BahanAjarController::class, 'index'])->name('bahan-ajar.index');

@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+
   <title>SIKEMAH - Master Data</title>
 
   <link rel="icon" href="{{ asset('assets/images/logo.png') }}" />
@@ -14,7 +16,7 @@
   <link rel="stylesheet" href="{{ asset('assets/css/master-data.css') }}" />
 </head>
 
-<body>
+<body data-success="{{ session('success') }}">
  <div class="layout">
     <!-- Sidebar -->
     @include('layouts.sidebar')
@@ -36,7 +38,7 @@
       <div class="main-content">
         <div class="card">
           <div class="card-body p-4">
-            
+
             <!-- Alert Errors -->
             @if ($errors->any())
               <div class="alert alert-danger mb-3">
@@ -48,9 +50,23 @@
               </div>
             @endif
 
-            <!-- Tombol Tambah Data -->
-            <div class="d-flex justify-content-end mb-3">
-              <button class="btn btn-tambah fw-bold" onclick="openModal('tambahDataModal')">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <!-- Search -->
+              <form method="GET" action="{{ route('master-data.index') }}" class="d-flex flex-grow-1 me-3">
+                  <div class="input-group flex-grow-1">
+                      <span class="input-group-text bg-light border-end-0">
+                          <i class="fas fa-search text-success"></i>
+                      </span>
+                      <input type="text" 
+                            class="form-control border-start-0 search-input" 
+                            name="search"
+                            placeholder="Cari berdasarkan Nama/ID Pengguna..."
+                            value="{{ request('search') }}">
+                  </div>
+              </form>
+
+              <!-- Tombol Tambah Data -->
+              <button class="btn btn-tambah fw-bold flex-shrink-0" data-bs-toggle="modal" data-bs-target="#tambahDataModal">
                 <i class="fa fa-plus me-2"></i> Tambah Data
               </button>
             </div>
@@ -76,17 +92,16 @@
                       <td>{{ $user->role }}</td>
                       <td>
                           <!-- Tombol Edit -->
-                          <button class="btn btn-warning btn-sm" onclick="openModal('editDataModal-{{ $user->id }}')">
+                          <button class="btn btn-edit btn-sm" data-bs-toggle="modal" data-bs-target="#editDataModal-{{ $user->id }}">
                               <i class="fas fa-edit"></i>
                           </button>
+                          
                           <!-- Tombol Hapus -->
-                          <form action="{{ route('master-data.destroy', $user) }}" method="POST" class="d-inline">
-                              @csrf
-                              @method('DELETE')
-                              <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
-                                  <i class="fas fa-trash"></i>
-                              </button>
-                          </form>
+                          <button type="button" class="btn btn-delete btn-sm trigger-hapus" 
+                                  data-id="{{ $user->id }}" 
+                                  data-nama="{{ $user->pegawai->nama_lengkap ?? 'Pegawai Telah Dihapus' }}">
+                              <i class="fas fa-trash"></i>
+                          </button>
                       </td>
                   </tr>
                   @empty
@@ -96,6 +111,9 @@
                   @endforelse
                 </tbody>
               </table>
+
+            <!-- Pagination -->
+            {{ $users->appends(request()->all())->links('pagination::bootstrap-5') }}
             </div>
 
           </div>
@@ -107,28 +125,20 @@
     </div>
   </div>
 
-  <!-- Modal Tambah -->
+  <!-- Konfirmasi Modal -->
+  <form class="d-none" id="hapusForm" method="POST">
+      @csrf
+      @method('DELETE')
+  </form>
+  @include('components.konfirmasi-hapus')
+  @include('components.konfirmasi-berhasil')
   @include('components.master-data.tambah-master-data', ['pegawais' => $pegawais])
-  
-  <!-- Modal Edit -->
   @foreach ($users as $user)
     @include('components.master-data.edit-master-data', ['user' => $user])
   @endforeach
 
-  <!-- Modal Berhasil -->
-  @include('components.konfirmasi-berhasil')
-
   <script src="{{ asset('assets/js/layout.js') }}"></script>
   <script src="{{ asset('assets/js/master-data.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-
-  @if (session('success'))
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      console.log("Showing success modal for: {{ session('success') }}");
-      window.showSuccessModal("Berhasil", "{{ session('success') }}");
-    });
-  </script>
-  @endif
 </body>
 </html>

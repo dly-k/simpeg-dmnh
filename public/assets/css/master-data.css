@@ -27,6 +27,19 @@
 }
 
 /* =============================
+   Input Pencarian
+   Gaya untuk input pencarian dan ikon
+============================= */
+.search-input::placeholder {
+    color: rgba(0, 0, 0, 0.4);
+    opacity: 1;
+}
+
+.search-icon {
+  color: var(--primary);
+}
+
+/* =============================
    Input Kata Sandi
    Menghilangkan ikon bawaan browser pada input kata sandi
 ============================= */
@@ -125,26 +138,26 @@ input[type="password"]::-webkit-password-toggle-button {
     box-shadow: 0 4px 8px var(--black-01);
 }
 
-.btn-edit-row {
+.btn-edit {
     background-color: var(--warning);
     color: var(--white);
     transition: all 0.2s ease-in-out;
 }
 
-.btn-edit-row:hover {
+.btn-edit:hover {
     background-color: var(--warning-hover);
     color: var(--white);
     transform: scale(1.15);
     filter: brightness(1.2);
 }
 
-.btn-delete-row {
+.btn-delete {
     background-color: var(--danger);
     color: var(--white);
     transition: all 0.2s ease-in-out;
 }
 
-.btn-delete-row:hover {
+.btn-delete:hover {
     background-color: var(--danger-hover);
     color: var(--white);
     transform: scale(1.15);

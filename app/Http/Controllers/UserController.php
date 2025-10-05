@@ -13,9 +13,19 @@ class UserController extends Controller
     /**
      * Menampilkan halaman master data dengan daftar pengguna.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::with('pegawai')->get();
+        $search = $request->input('search');
+
+        $users = User::with('pegawai')
+            ->when($search, function ($query, $search) {
+                $query->where('username', 'like', '%'.$search.'%')
+                    ->orWhereHas('pegawai', function($q) use ($search) {
+                        $q->where('nama_lengkap', 'like', '%'.$search.'%');
+                    });
+            })
+            ->paginate(10);
+
         $pegawais = Pegawai::whereDoesntHave('user')->get(); // Hanya pegawai yang belum punya akun
 
         return view('auth.master-data', compact('users', 'pegawais'));

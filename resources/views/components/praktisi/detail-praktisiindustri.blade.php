@@ -1,4 +1,3 @@
-<!-- Modal Detail Praktisi Dunia Industri -->
 <div class="modal fade" id="detailPraktisiModal" tabindex="-1" aria-labelledby="detailModalTitle" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-scrollable">
     <div class="modal-content">
@@ -18,7 +17,7 @@
         <div class="detail-card mb-3">
           <div class="detail-grid">
             <div>
-              <span>Nama</span>
+              <span>Nama Pegawai</span>
               <p id="detail-nama">-</p>
             </div>
             <div>
@@ -70,7 +69,7 @@
           <div class="col-md-6">
             <div class="detail-doc">
               <span>Surat Tugas dari IPB</span>
-              <a href="#" id="detail-surat-ipb" class="btn btn-sm btn-success text-white mt-1" target="_blank" style="display:none;">
+              <a href="#" id="detail-surat-ipb" class="btn btn-sm btn-success text-white mt-1 d-none" target="_blank">
                 <i class="fa fa-eye me-1"></i> Lihat File
               </a>
               <span id="nodata-surat-ipb" class="text-muted fst-italic">Tidak ada file</span>
@@ -79,7 +78,7 @@
           <div class="col-md-6">
             <div class="detail-doc">
               <span>Surat Tugas dari Instansi</span>
-              <a href="#" id="detail-surat-instansi" class="btn btn-sm btn-success text-white mt-1" target="_blank" style="display:none;">
+              <a href="#" id="detail-surat-instansi" class="btn btn-sm btn-success text-white mt-1 d-none" target="_blank">
                 <i class="fa fa-eye me-1"></i> Lihat File
               </a>
               <span id="nodata-surat-instansi" class="text-muted fst-italic">Tidak ada file</span>
@@ -88,7 +87,7 @@
           <div class="col-md-6">
             <div class="detail-doc">
               <span>Curriculum Vitae (CV)</span>
-              <a href="#" id="detail-cv" class="btn btn-sm btn-success text-white mt-1" target="_blank" style="display:none;">
+              <a href="#" id="detail-cv" class="btn btn-sm btn-success text-white mt-1 d-none" target="_blank">
                 <i class="fa fa-eye me-1"></i> Lihat File
               </a>
               <span id="nodata-cv" class="text-muted fst-italic">Tidak ada file</span>
@@ -97,7 +96,7 @@
           <div class="col-md-6">
             <div class="detail-doc">
               <span>Profil Perusahaan</span>
-              <a href="#" id="detail-profil" class="btn btn-sm btn-success text-white mt-1" target="_blank" style="display:none;">
+              <a href="#" id="detail-profil" class="btn btn-sm btn-success text-white mt-1 d-none" target="_blank">
                 <i class="fa fa-eye me-1"></i> Lihat File
               </a>
               <span id="nodata-profil" class="text-muted fst-italic">Tidak ada file</span>

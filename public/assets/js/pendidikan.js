@@ -523,4 +523,20 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     });
+
+    // Membuat elemen audio untuk suara sukses
+    const successSound = document.createElement('audio');
+    successSound.id = 'success-sound';
+    successSound.preload = 'auto';
+
+    // Tambahkan source
+    const source = document.createElement('source');
+    source.src = '/assets/sounds/Success.mp3'; // pastikan path sesuai public folder
+    source.type = 'audio/mpeg';
+
+    successSound.appendChild(source);
+
+    // Masukkan ke body supaya bisa diputar
+    document.body.appendChild(successSound);
+
 });

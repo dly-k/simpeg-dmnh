@@ -3,11 +3,16 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="line-chart-data" content='@json($lineChartData)'>
+    <meta name="line-chart-labels" content='@json($lineChartLabels)'>
+    <meta name="pie-chart-data" content='@json($pieChartData)'>
+
     <title>SIKEMAH - Dashboard</title>
+
     <link rel="icon" href="{{ asset('assets/images/logo.png') }}" />
+    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('assets/css/layout.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/dashboard.css') }}" />
@@ -146,25 +151,15 @@
                         <canvas id="pieChart"></canvas>
                     </div>
                 </div>
-                
-
-
             </div>
 
             @include('layouts.footer')
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        const lineChartData = {
-            labels: @json($lineChartLabels),
-            data: @json($lineChartData)
-        };
-        const pieChartData = @json($pieChartData);
-    </script>
-    <script src="{{ asset('assets/js/dashboard.js') }}"></script>
     <script src="{{ asset('assets/js/layout.js') }}"></script>
+    <script src="{{ asset('assets/js/dashboard.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

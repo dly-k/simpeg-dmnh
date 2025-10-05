@@ -71,7 +71,7 @@
           <div class="col-md-6">
             <div class="detail-doc">
               <span>File Sertifikat</span>
-              <a href="#" id="detail-sertifikat" class="btn btn-sm btn-success text-white mt-1" target="_blank" style="display:none;">
+              <a href="#" id="detail-sertifikat" class="btn btn-sm btn-success text-white mt-1 d-none" target="_blank">
                 <i class="fa fa-eye me-1"></i> Lihat File
               </a>
               <span id="nodata-sertifikat" class="text-muted fst-italic">Tidak ada file</span>
@@ -80,7 +80,7 @@
           <div class="col-md-6">
             <div class="detail-doc">
               <span>File SK/Surat Tugas</span>
-              <a href="#" id="detail-sk" class="btn btn-sm btn-success text-white mt-1" target="_blank" style="display:none;">
+              <a href="#" id="detail-sk" class="btn btn-sm btn-success text-white mt-1 d-none" target="_blank">
                 <i class="fa fa-eye me-1"></i> Lihat File
               </a>
               <span id="nodata-sk" class="text-muted fst-italic">Tidak ada file</span>

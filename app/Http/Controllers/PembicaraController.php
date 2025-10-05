@@ -17,12 +17,12 @@ class PembicaraController extends Controller
      * Menampilkan halaman daftar pembicara, mengambil semua data pembicara
      * dan data pegawai untuk mengisi dropdown pada modal.
      */
-        public function index(Request $request)
+     public function index(Request $request)
     {
         // 1. Query dasar untuk data pembicara
-        $query = Pembicara::query();
+        $query = Pembicara::with(['pegawai', 'dokumen']);
 
-        // 2. Terapkan logika pencarian (Search)
+        // 2. Search
         $query->when($request->search, function ($q, $search) {
             $q->where(function ($subQuery) use ($search) {
                 $subQuery->whereHas('pegawai', function ($pegawaiQuery) use ($search) {
@@ -32,7 +32,7 @@ class PembicaraController extends Controller
             });
         });
 
-        // 3. Terapkan logika filter
+        // 3. Filter Semester
         $query->when($request->semester, function ($q, $semesterValue) {
             [$semester, $tahun] = explode('_', $semesterValue);
             if ($semester === 'ganjil') {
@@ -41,21 +41,22 @@ class PembicaraController extends Controller
                 $q->whereYear('tanggal_pelaksana', $tahun)->whereMonth('tanggal_pelaksana', '>=', 7);
             }
         });
-        $query->when($request->tingkat, function ($q, $tingkat) {
-            $q->where('tingkat_pertemuan', $tingkat);
-        });
-        $query->when($request->status, function ($q, $status) {
-            $q->where('status_verifikasi', $status);
-        });
 
-        // 4. Ambil hasil query yang sudah difilter
-        $pembicaras = $query->with('pegawai', 'dokumen')->latest()->get();
-        
-        // 5. Ambil data untuk mengisi dropdown
+        // 4. Filter Tingkat
+        $query->when($request->tingkat, fn($q, $tingkat) => $q->where('tingkat_pertemuan', $tingkat));
+
+        // 5. Filter Status
+        $query->when($request->status, fn($q, $status) => $q->where('status_verifikasi', $status));
+
+        // 6. Ambil hasil dengan pagination
+        $pembicaras = $query->latest()->paginate(10)->appends($request->query());
+
+        // Data pegawai
         $pegawais = Pegawai::where('status_pegawai', 'Aktif')
-                          ->orderBy('nama_lengkap', 'asc')
-                          ->get(['id', 'nama_lengkap']);
+            ->orderBy('nama_lengkap', 'asc')
+            ->get(['id', 'nama_lengkap']);
 
+        // Data semester untuk filter
         $semesterOptions = [];
         $uniqueSemesters = DB::table('pembicaras')
             ->selectRaw('YEAR(tanggal_pelaksana) as year, MONTH(tanggal_pelaksana) as month')
@@ -71,7 +72,6 @@ class PembicaraController extends Controller
             }
         }
 
-        // 6. Kirim semua data ke view
         return view('pages.pembicara', compact('pembicaras', 'pegawais', 'semesterOptions'));
     }
 

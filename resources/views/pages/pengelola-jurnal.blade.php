@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="flash-success" content="{{ session('success') }}">
   <meta name="csrf-token" content="{{ csrf_token() }}">
+  
   <title>SIKEMAH - Editor Kegiatan (Pengelola Jurnal)</title>
 
   <link rel="icon" href="{{ asset('assets/images/logo.png') }}" />
@@ -37,182 +38,168 @@
           <div class="card-body p-4">
 
             <!-- Filter Bar -->
-<form action="{{ route('pengelola-jurnal.index') }}" method="GET" id="filterForm">
-  <div class="d-flex flex-wrap align-items-center mb-3 gap-2">
-    <div class="d-flex flex-grow-1 gap-2">
+            <form action="{{ route('pengelola-jurnal.index') }}" method="GET" id="filterForm">
+              <div class="d-flex flex-wrap align-items-center mb-3 gap-2">
+                <div class="d-flex flex-grow-1 gap-2">
 
-      <div class="input-group flex-grow-1">
-        <span class="input-group-text bg-light border-end-0">
-          <i class="fas fa-search text-success"></i>
-        </span>
-        <input 
-          type="text" 
-          class="form-control border-start-0 search-input" 
-          name="search"
-          placeholder="Cari berdasarkan kegiatan, media, atau nama pegawai..."
-          value="{{ request('search') }}"
-        >
-      </div>
+                  <!-- Search -->
+                  <div class="input-group flex-grow-1">
+                    <span class="input-group-text bg-light border-end-0">
+                      <i class="fas fa-search text-success"></i>
+                    </span>
+                    <input type="text" name="search" class="form-control border-start-0 search-input" 
+                      placeholder="Cari berdasarkan kegiatan, media, atau nama pegawai..."
+                      value="{{ request('search') }}">
+                  </div>
 
-      <select name="semester" class="form-select semester-filter">
-        <option value="">Semua Semester</option>
-        @foreach ($semesterOptions as $value => $text)
-          <option value="{{ $value }}" {{ request('semester') == $value ? 'selected' : '' }}>
-            {{ $text }}
-          </option>
-        @endforeach
-      </select>
+                  <!-- Filter Semester -->
+                  <select name="semester" class="form-select semester-filter">
+                    <option value="">Semua Semester</option>
+                    @foreach ($semesterOptions as $value => $text)
+                      <option value="{{ $value }}" {{ request('semester') == $value ? 'selected' : '' }}>
+                        {{ $text }}
+                      </option>
+                    @endforeach
+                  </select>
 
-      <select name="status" class="form-select status-filter">
-        <option value="">Semua Status</option>
-        <option value="Belum Diverifikasi" {{ request('status') == 'Belum Diverifikasi' ? 'selected' : '' }}>Belum Diverifikasi</option>
-        <option value="Sudah Diverifikasi" {{ request('status') == 'Sudah Diverifikasi' ? 'selected' : '' }}>Sudah Diverifikasi</option>
-        <option value="Ditolak" {{ request('status') == 'Ditolak' ? 'selected' : '' }}>Ditolak</option>
-      </select>
-      
-    </div>
+                  <!-- Filter Status -->
+                  <select name="status" class="form-select status-filter">
+                    <option value="">Semua Status</option>
+                    <option value="Belum Diverifikasi" {{ request('status') == 'Belum Diverifikasi' ? 'selected' : '' }}>Belum Diverifikasi</option>
+                    <option value="Sudah Diverifikasi" {{ request('status') == 'Sudah Diverifikasi' ? 'selected' : '' }}>Sudah Diverifikasi</option>
+                    <option value="Ditolak" {{ request('status') == 'Ditolak' ? 'selected' : '' }}>Ditolak</option>
+                  </select>
+                </div>
 
-    <div class="ms-auto d-flex gap-2">
-      <!-- Tombol Export Excel -->
-      <a href="#" class="btn btn-success fw-bold">
-        <i class="fa fa-file-excel me-2"></i> Export Excel
-      </a>
-
-      <!-- Tombol Tambah Data -->
-      <button type="button" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#pengelolaJurnalModal">
-        <i class="fa fa-plus me-2"></i> Tambah Data
-      </button>
-    </div>
-
-  </div>
-</form>
+                <!-- Right: Button Export & Tambah -->
+                <div class="ms-auto d-flex gap-2">
+                  <a href="#" class="btn btn-export fw-bold">
+                    <i class="fa fa-file-excel me-2"></i> Export Excel
+                  </a>
+                  <button type="button" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#pengelolaJurnalModal">
+                    <i class="fa fa-plus me-2"></i> Tambah Data
+                  </button>
+                </div>
+              </div>
+            </form>
             <!-- End Filter Bar -->
 
             <!-- Tabel Pengelola Jurnal -->
-<div class="table-responsive">
-  <table class="table table-hover table-bordered align-middle">
-    <thead class="table-light text-center">
-      <tr>
-        <th>No</th>
-        <th>Kegiatan</th>
-        <th>Media Publikasi</th>
-        <th>Peran</th>
-        <th>Pegawai</th>
-        <th>Tahun</th>
-        <th>Verifikasi</th>
-        <th>Dokumen</th>
-        <th class="text-center">Aksi</th>
-      </tr>
-    </thead>
-    <tbody class="text-center">
-      {{-- Gunakan @forelse untuk looping data, sekaligus handle jika data kosong --}}
-      @forelse ($pengelolaJurnals as $jurnal)
-        <tr>
-          {{-- Menampilkan nomor urut yang benar sesuai halaman pagination --}}
-          <td>{{ ($pengelolaJurnals->currentPage() - 1) * $pengelolaJurnals->perPage() + $loop->iteration }}</td>
-          <td>{{ $jurnal->kegiatan }}</td>
-          <td>{{ $jurnal->media_publikasi }}</td>
-          <td>{{ $jurnal->peran }}</td>
-          {{-- Ambil nama dari relasi 'pegawai' --}}
-          <td class="text-start">{{ $jurnal->pegawai->nama_lengkap ?? 'N/A' }}</td>
-          {{-- Ambil tahun dari tanggal mulai --}}
-          <td>{{ \Carbon\Carbon::parse($jurnal->tanggal_mulai)->format('Y') }}</td>
-          <td>
-            @if ($jurnal->status_verifikasi == 'Sudah Diverifikasi')
-              <span class="badge rounded-circle bg-success text-white" title="Sudah Diverifikasi">
-                <i class="fa fa-check"></i>
-              </span>
-            @elseif ($jurnal->status_verifikasi == 'Ditolak')
-              <span class="badge rounded-circle bg-danger text-white" title="Ditolak">
-                <i class="fa fa-times"></i>
-              </span>
-            @else {{-- Status 'Belum Diverifikasi' --}}
-              <span class="badge rounded-circle bg-warning text-white" title="Belum Diverifikasi">
-                <i class="fa fa-question"></i>
-              </span>
-            @endif
-          </td>
-          <td>
-          {{-- Cek apakah ada dokumen yang terhubung dengan jurnal ini --}}
-          @if ($jurnal->dokumen->isNotEmpty())
-              
-              {{-- Ambil dokumen pertama dari koleksi/list dokumen --}}
-              @php
-                  $firstDocument = $jurnal->dokumen->first();
-              @endphp
+            <div class="table-responsive">
+              <table class="table table-hover table-bordered align-middle">
+                <thead class="table-light text-center">
+                  <tr>
+                    <th>No</th>
+                    <th>Kegiatan</th>
+                    <th>Media Publikasi</th>
+                    <th>Peran</th>
+                    <th>Pegawai</th>
+                    <th>Tahun</th>
+                    <th>Verifikasi</th>
+                    <th>Dokumen</th>
+                    <th class="text-center">Aksi</th>
+                  </tr>
+                </thead>
 
-              {{-- Pastikan dokumen pertama tersebut memiliki file yang diunggah (bukan hanya link) --}}
-              @if ($firstDocument->path_file)
-                  <a href="{{ Storage::url($firstDocument->path_file) }}" class="btn btn-sm btn-lihat" target="_blank">
-                      Lihat
-                  </a>
-              @else
-                  {{-- Jika dokumen pertama hanya punya link eksternal, bisa diarahkan ke sana --}}
-                  <a href="{{ $firstDocument->tautan_dokumen ?? '#' }}" class="btn btn-sm btn-lihat" target="_blank">
-                      Lihat
-                  </a>
-              @endif
+                <tbody class="text-center">
+                  @forelse ($pengelolaJurnals as $jurnal)
+                    <tr>
+                      <!-- Nomor urut sesuai pagination -->
+                      <td>{{ ($pengelolaJurnals->currentPage() - 1) * $pengelolaJurnals->perPage() + $loop->iteration }}</td>
+                      <td>{{ $jurnal->kegiatan }}</td>
+                      <td>{{ $jurnal->media_publikasi }}</td>
+                      <td>{{ $jurnal->peran }}</td>
+                      <td class="text-start">{{ $jurnal->pegawai->nama_lengkap ?? 'N/A' }}</td>
+                      <td>{{ \Carbon\Carbon::parse($jurnal->tanggal_mulai)->format('Y') }}</td>
+                      <td>
+                        @if ($jurnal->status_verifikasi == 'Sudah Diverifikasi')
+                          <span class="badge rounded-circle bg-success text-white" title="Sudah Diverifikasi">
+                            <i class="fa fa-check"></i>
+                          </span>
+                        @elseif ($jurnal->status_verifikasi == 'Ditolak')
+                          <span class="badge rounded-circle bg-danger text-white" title="Ditolak">
+                            <i class="fa fa-times"></i>
+                          </span>
+                        @else
+                          <span class="badge rounded-circle bg-warning text-white" title="Belum Diverifikasi">
+                            <i class="fa fa-question"></i>
+                          </span>
+                        @endif
+                      </td>
+                      <td>
+                        @if ($jurnal->dokumen->isNotEmpty())
+                          @php $firstDocument = $jurnal->dokumen->first(); @endphp
+                          @if ($firstDocument->path_file)
+                            <a href="{{ Storage::url($firstDocument->path_file) }}" class="btn btn-sm btn-lihat" target="_blank">Lihat</a>
+                          @else
+                            <a href="{{ $firstDocument->tautan_dokumen ?? '#' }}" class="btn btn-sm btn-lihat" target="_blank">Lihat</a>
+                          @endif
+                        @else
+                          <button class="btn btn-sm btn-secondary" disabled>Kosong</button>
+                        @endif
+                      </td>
+                      <td class="text-center">
+                        <div class="d-flex justify-content-center gap-2">
+                          @if (Auth::user()->role == 'admin_verifikator')
+                            <button 
+                              class="btn-aksi btn-verifikasi" 
+                              title="Verifikasi Data"
+                              data-url="{{ route('pengelola-jurnal.verifikasi', $jurnal->id) }}"
+                            >
+                              <i class="fa fa-check"></i>
+                            </button>
+                          @endif
 
-          @else
-              {{-- Jika tidak ada dokumen sama sekali, tampilkan tombol non-aktif --}}
-              <button class="btn btn-sm btn-secondary" disabled>Kosong</button>
-          @endif
-          </td>
-          <td class="text-center">
-            <div class="d-flex justify-content-center gap-2">
-              @if (Auth::user()->role == 'admin_verifikator')
-              <button class="btn-aksi btn-verifikasi" title="Verifikasi Data"
-                {{-- Gunakan satu data-url saja --}}
-                data-url="{{ route('pengelola-jurnal.verifikasi', $jurnal->id) }}">
-                <i class="fa fa-check"></i>
-              </button>
-              @endif
-              <button 
-                  class="btn btn-sm btn-lihat text-white btn-detail"
-                  data-bs-toggle="modal" 
-                  data-bs-target="#detailPengelolaJurnalModal"
-                  data-nama="{{ $jurnal->pegawai->nama_lengkap ?? 'N/A' }}"
-                  data-kegiatan="{{ $jurnal->kegiatan }}"
-                  data-media="{{ $jurnal->media_publikasi }}"
-                  data-peran="{{ $jurnal->peran }}"
-                  data-no-sk="{{ $jurnal->no_sk }}"
-                  data-tgl-mulai="{{ $jurnal->tanggal_mulai }}"
-                  data-tgl-selesai="{{ $jurnal->tanggal_selesai }}"
-                  data-status="{{ $jurnal->status }}"
-                  {{-- [TAMBAHAN] Atribut ini berisi semua data dokumen dalam format JSON --}}
-                  data-dokumen='@json($jurnal->dokumen)'>
-                  <i class="fas fa-eye"></i>
-                </button>
-                              <button 
-                class="btn btn-sm btn-warning btn-edit" 
-                data-bs-toggle="modal" 
-                data-bs-target="#editPengelolaJurnalModal"
-                data-id="{{ $jurnal->id }}"
-                data-update-url="{{ route('pengelola-jurnal.update', $jurnal->id) }}">
-                <i class="fa fa-edit"></i>
-              </button>
-              <button class="btn-aksi btn-hapus btn-hapus-data" title="Hapus Data"
-                data-url="{{ route('pengelola-jurnal.destroy', $jurnal->id) }}"
-                data-nama="{{ $jurnal->media_publikasi }}">
-                <i class="fa fa-trash"></i>
-              </button>
+                          <button 
+                            class="btn btn-sm btn-lihat text-white btn-detail"
+                            data-bs-toggle="modal" 
+                            data-bs-target="#detailPengelolaJurnalModal"
+                            data-nama="{{ $jurnal->pegawai->nama_lengkap ?? 'N/A' }}"
+                            data-kegiatan="{{ $jurnal->kegiatan }}"
+                            data-media="{{ $jurnal->media_publikasi }}"
+                            data-peran="{{ $jurnal->peran }}"
+                            data-no-sk="{{ $jurnal->no_sk }}"
+                            data-tgl-mulai="{{ $jurnal->tanggal_mulai }}"
+                            data-tgl-selesai="{{ $jurnal->tanggal_selesai }}"
+                            data-status="{{ $jurnal->status }}"
+                            data-dokumen='@json($jurnal->dokumen)'
+                          >
+                            <i class="fas fa-eye"></i>
+                          </button>
+
+                          <button 
+                            class="btn btn-sm btn-warning btn-edit" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#editPengelolaJurnalModal"
+                            data-id="{{ $jurnal->id }}"
+                            data-update-url="{{ route('pengelola-jurnal.update', $jurnal->id) }}"
+                          >
+                            <i class="fa fa-edit"></i>
+                          </button>
+
+                          <button 
+                            class="btn-aksi btn-hapus btn-hapus-data" 
+                            title="Hapus Data"
+                            data-url="{{ route('pengelola-jurnal.destroy', $jurnal->id) }}"
+                            data-nama="{{ $jurnal->media_publikasi }}"
+                          >
+                            <i class="fa fa-trash"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  @empty
+                    <tr>
+                      <td colspan="9" class="text-center text-muted">Data Pengelola Jurnal belum tersedia</td>
+                    </tr>
+                  @endforelse
+                </tbody>
+              </table>
             </div>
-          </td>
-        </tr>
-      @empty
-        {{-- Tampilan jika tidak ada data sama sekali di database --}}
-        <tr>
-          <td colspan="9" class="text-center text-muted">Data Pengelola Jurnal belum tersedia</td>
-        </tr>
-      @endforelse
-    </tbody>
-  </table>
-</div>
-<div class="d-flex justify-content-end mt-3">
-    {{ $pengelolaJurnals->links() }}
-</div>
             <!-- End Tabel -->
 
+            <!-- Pagination -->
+            {{ $pengelolaJurnals->appends(request()->query())->links('pagination::bootstrap-5') }}
           </div>
         </div>
       </div>
@@ -221,7 +208,7 @@
     </div>
   </div>
 
-  <!-- Modal  -->
+  <!-- Kumpulan Modal -->
   @include('components.konfirmasi-hapus')
   @include('components.konfirmasi-berhasil')
   @include('components.konfirmasi-verifikasi')

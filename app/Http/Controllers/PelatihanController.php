@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Pelatihan;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PelatihanExport;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -134,6 +136,59 @@ class PelatihanController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => 'Data tidak ditemukan.'], 404);
         }
+    }
+
+   public function export(Request $request)
+    {
+        $query = Pelatihan::with('pegawai');
+
+        // Filter search
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('nama_kegiatan', 'like', '%' . $request->search . '%')
+                ->orWhere('penyelenggara', 'like', '%' . $request->search . '%')
+                ->orWhereHas('pegawai', function ($subq) use ($request) {
+                    $subq->where('nama_lengkap', 'like', '%' . $request->search . '%');
+                });
+            });
+        }
+
+        // Filter tahun
+        $tahun = null;
+        if ($request->filled('tahun')) {
+            $tahun = $request->tahun;
+            $query->whereYear('tgl_mulai', $tahun);
+        }
+
+        // Filter posisi/peserta
+        $peserta = null;
+        if ($request->filled('posisi')) {
+            $peserta = $request->posisi;
+            if (in_array($peserta, ['Peserta', 'Pembicara', 'Panitia'])) {
+                $query->where('posisi', $peserta);
+            } else {
+                $query->where('posisi', 'Lainnya')
+                    ->where('posisi_lainnya', $peserta);
+            }
+        }
+
+        $data = $query->get();
+
+        // Buat nama file dinamis
+        $filename = 'Data_Pelatihan';
+        if ($tahun) {
+            $filename .= "_{$tahun}";
+        }
+        if ($peserta) {
+            $filename .= '_' . preg_replace('/[^A-Za-z0-9\-]/', '', $peserta);
+        }
+        if ($request->filled('search')) {
+            $filename .= '_(' . preg_replace('/[^A-Za-z0-9\-]/', '', $request->search) . ')';
+        }
+        $filename .= '.xlsx';
+
+        // Kirim data + filter ke export
+        return Excel::download(new PelatihanExport($data, $tahun, $peserta), $filename);
     }
 
     /**

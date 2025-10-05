@@ -1,5 +1,5 @@
 <div class="modal fade" id="modalDetailPelatihan" tabindex="-1" aria-labelledby="modalDetailPelatihanLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl modal-dialog-centered">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
     <div class="modal-content">
 
       <!-- Modal Header -->

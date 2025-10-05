@@ -69,6 +69,9 @@
                                 <option value="menunggu" @if(request('status') == 'menunggu') selected @endif>Menunggu</option>
                             </select>
                             <div class="btn-tambah-container">
+                               <a href="#" class="btn btn-export fw-bold">
+                                <i class="fa fa-file-excel me-2"></i> Export Excel
+                               </a>
                                 <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalTambahEditPengajaranLama" id="btnTambahPengajaranLama">
                                     <i class="fa fa-plus me-2"></i> Tambah Data
                                 </a>
@@ -142,6 +145,9 @@
                                 <option value="menunggu" @if(request('status') == 'menunggu') selected @endif>Menunggu</option>
                             </select>
                             <div class="btn-tambah-container">
+                              <a href="#" class="btn btn-export fw-bold">
+                                <i class="fa fa-file-excel me-2"></i> Export Excel
+                               </a>
                                 <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalPengajaranLuar" id="btnTambahPengajaranLuar">
                                     <i class="fa fa-plus me-2"></i> Tambah Data
                                 </a>
@@ -213,6 +219,9 @@
                                 <option value="menunggu" @if(request('status') == 'menunggu') selected @endif>Menunggu</option>
                             </select>
                             <div class="btn-tambah-container">
+                              <a href="#" class="btn btn-export fw-bold">
+                                <i class="fa fa-file-excel me-2"></i> Export Excel
+                               </a>
                                 <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalPengujianLama" id="btnTambahPengujianLama">
                                     <i class="fa fa-plus me-2"></i> Tambah Data
                                 </a>
@@ -284,6 +293,9 @@
                                 <option value="menunggu" @if(request('status') == 'menunggu') selected @endif>Menunggu</option>
                             </select>
                             <div class="btn-tambah-container">
+                               <a href="#" class="btn btn-export fw-bold">
+                                <i class="fa fa-file-excel me-2"></i> Export Excel
+                               </a>
                                 <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalPembimbingLama" id="btnTambahPembimbingLama">
                                     <i class="fa fa-plus me-2"></i> Tambah Data
                                 </a>
@@ -354,6 +366,9 @@
                                 <option value="menunggu" @if(request('status') == 'menunggu') selected @endif>Menunggu</option>
                             </select>
                             <div class="btn-tambah-container">
+                               <a href="#" class="btn btn-export fw-bold">
+                                <i class="fa fa-file-excel me-2"></i> Export Excel
+                               </a>
                                 <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalPengujiLuar" id="btnTambahPengujiLuar">
                                     <i class="fa fa-plus me-2"></i> Tambah Data
                                 </a>
@@ -425,6 +440,9 @@
                                 <option value="menunggu" @if(request('status') == 'menunggu') selected @endif>Menunggu</option>
                             </select>
                             <div class="btn-tambah-container">
+                               <a href="#" class="btn btn-export fw-bold">
+                                <i class="fa fa-file-excel me-2"></i> Export Excel
+                               </a>
                                 <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalPembimbingLuar" id="btnTambahPembimbingLuar">
                                     <i class="fa fa-plus me-2"></i> Tambah Data
                                 </a>
@@ -502,12 +520,9 @@
     @include('components.pendidikan.detail-pembimbing-luar')
     @include('components.pendidikan.tambah-pembimbing-luar', ['dosenAktif' => $dosenAktif])
   
-  <audio id="success-sound" preload="auto">
-      <source src="{{ asset('assets/sounds/Success.mp3') }}" type="audio/mpeg">
-  </audio>
-
-  <script src="{{ asset('assets/js/pendidikan.js') }}"></script>
+  <!-- Scripts -->
   <script src="{{ asset('assets/js/layout.js') }}"></script>
+  <script src="{{ asset('assets/js/pendidikan.js') }}"></script>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

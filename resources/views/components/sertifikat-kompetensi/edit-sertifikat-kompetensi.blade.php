@@ -68,7 +68,7 @@
                 <option value="kemdikbud">Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi</option>
                 <option value="lainnya">Lainnya</option>
               </select>
-              <input type="text" name="lembaga_sertifikasi_lainnya" id="lembaga_sertifikasi_lainnya_edit" class="form-control mt-2" style="display:none;">
+              <input type="text" name="lembaga_sertifikasi_lainnya" id="lembaga_sertifikasi_lainnya_edit" class="form-control mt-2 d-none">
             </div>
             <div class="col-12">
               <label class="form-label">Unggah Dokumen (kosongkan jika tidak diubah)</label>
@@ -77,7 +77,7 @@
                 <p>Seret & Lepas File di sini<br><small>Ukuran Maksimal 5 MB</small></p>
                 <input type="file" name="dokumen" hidden accept=".pdf">
               </div>
-              <span class="text-danger mt-1 d-block" style="display: none;"></span>
+              <span class="text-danger mt-1 d-block d-none"></span>
             </div>
           </div>
         </div>

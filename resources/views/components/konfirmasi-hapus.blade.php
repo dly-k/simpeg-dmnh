@@ -1,7 +1,7 @@
 {{-- Modal Konfirmasi Hapus --}}
 <div class="konfirmasi-hapus-overlay" id="modalKonfirmasiHapus" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content bg-light">
+        <div class="modal-content bg-light rounded-4">
         <div class="modal-body text-center py-4">
             <div class="konfirmasi-hapus-icon">
             <i class="fas fa-exclamation"></i>

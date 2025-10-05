@@ -85,6 +85,72 @@ class PraktisiController extends Controller
         return view('pages.praktisi-dunia-industri', compact('praktisis', 'pegawais', 'semesterOptions'));
     }
 
+    public function export(Request $request)
+    {
+        $query = Praktisi::with('pegawai');
+
+        // Filter search
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('instansi', 'like', '%' . $request->search . '%')
+                ->orWhereHas('pegawai', function ($subq) use ($request) {
+                    $subq->where('nama_lengkap', 'like', '%' . $request->search . '%');
+                });
+            });
+        }
+
+        // Filter status
+        $status = null;
+        if ($request->filled('status')) {
+            $status = $request->status;
+            $query->where('status', $status);
+        }
+
+        // Filter semester
+        $semester = null;
+        if ($request->filled('semester')) {
+            $semester = $request->semester;
+            [$year, $semesterType] = explode('-', $semester);
+
+            if ($semesterType == 'ganjil') {
+                $startMonth = 1;
+                $endMonth   = 6;
+            } else {
+                $startMonth = 7;
+                $endMonth   = 12;
+            }
+
+            $semesterStartDate = \Carbon\Carbon::create($year, $startMonth, 1)->startOfDay();
+            $semesterEndDate   = \Carbon\Carbon::create($year, $endMonth, 1)->endOfMonth()->endOfDay();
+
+            $query->where(function ($q) use ($semesterStartDate, $semesterEndDate) {
+                $q->where('tmt', '<=', $semesterEndDate)
+                ->where('tst', '>=', $semesterStartDate);
+            });
+        }
+
+        // Ambil data setelah filter
+        $data = $query->get();
+
+        // Buat nama file dinamis
+        $filename = 'Data_Praktisi';
+        if ($semester) {
+            $filename .= '_' . $semester;
+        }
+        if ($status) {
+            $filename .= '_' . preg_replace('/[^A-Za-z0-9\-]/', '', $status);
+        }
+        if ($request->filled('search')) {
+            $filename .= '_(' . preg_replace('/[^A-Za-z0-9\-]/', '', $request->search) . ')';
+        }
+        $filename .= '.xlsx';
+
+        // Export ke Excel
+        return \Maatwebsite\Excel\Facades\Excel::download(
+            new \App\Exports\PraktisiExport($data, $semester, $status, $request->search),
+            $filename
+        );
+    }
 
     /**
      * Menyimpan data praktisi baru.

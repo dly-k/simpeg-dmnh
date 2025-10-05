@@ -7,9 +7,9 @@
   <title>Login - SIKEMAH</title>
 
   <link rel="icon" href="{{ asset('assets/images/logo.png') }}" />
+  <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-  <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="{{ asset('assets/css/login.css') }}" />
 </head>
@@ -65,7 +65,7 @@
             Silakan masuk untuk melanjutkan
           </p>
 
-<form action="{{ route('login') }}" method="POST">
+          <form action="{{ route('login') }}" method="POST">
             @csrf
             <div class="floating-label">
               <input type="text" id="username" name="username" placeholder=" " required value="{{ old('username') }}" class="@error('username') form-input-error @enderror">

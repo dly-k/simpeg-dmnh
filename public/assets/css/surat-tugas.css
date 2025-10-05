@@ -521,6 +521,9 @@
     background-color: var(--success-hover);
 }
 
+.filter-select {
+    width: 200px;
+}
 /* =============================
    Animasi
    Keyframe untuk efek animasi modal

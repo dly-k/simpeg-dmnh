@@ -36,17 +36,17 @@
           </div>
           
           {{-- Bagian Penulis akan diisi secara dinamis oleh JavaScript --}}
-          <div id="detail-penulis-ipb-section" class="detail-item full-width-detail detail-section-header" style="display: none;">
+          <div id="detail-penulis-ipb-section" class="detail-item full-width-detail detail-section-header d-none">
             <h5><i class="fas fa-user-tie me-2"></i>Penulis Internal (Pegawai)</h5>
           </div>
           <div id="detail-penulis-ipb-list" class="full-width-detail"></div>
 
-          <div id="detail-penulis-luar-section" class="detail-item full-width-detail detail-section-header" style="display: none;">
+          <div id="detail-penulis-luar-section" class="detail-item full-width-detail detail-section-header d-none">
             <h5><i class="fas fa-user-friends me-2"></i>Penulis Luar</h5>
           </div>
           <div id="detail-penulis-luar-list" class="full-width-detail"></div>
           
-          <div id="detail-penulis-mahasiswa-section" class="detail-item full-width-detail detail-section-header" style="display: none;">
+          <div id="detail-penulis-mahasiswa-section" class="detail-item full-width-detail detail-section-header d-none">
             <h5><i class="fas fa-user-graduate me-2"></i>Penulis Mahasiswa</h5>
           </div>
           <div id="detail-penulis-mahasiswa-list" class="full-width-detail"></div>

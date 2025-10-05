@@ -91,7 +91,7 @@
                 <p>Seret & Lepas File di sini<br><small>Ukuran Maksimal 5 MB</small></p>
                 <input type="file" name="dokumen" hidden accept=".pdf">
               </div>
-              <span id="file-size-feedback" class="text-danger mt-1 d-block" style="display: none;"></span>
+              <span id="file-size-feedback" class="text-danger mt-1 d-block d-none"></span>
             </div>
 
           </div>

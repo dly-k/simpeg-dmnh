@@ -73,8 +73,8 @@
                 <p class="file-name d-none"></p>
               </div>
               <input type="file" id="dokumen_sk" name="dokumen_sk" hidden accept=".pdf">
-              <div id="file-size-feedback-sk" class="text-danger mt-1" style="display: none;"></div>
-              <div id="dokumen-lama-container" class="mt-2" style="display: none;">
+              <div id="file-size-feedback-sk" class="text-danger mt-1 d-none"></div>
+              <div id="dokumen-lama-container" class="mt-2 d-none">
                 <small>Dokumen saat ini: <a href="#" id="dokumen-lama-link" target="_blank">Lihat Dokumen</a></small>
               </div>
             </div>

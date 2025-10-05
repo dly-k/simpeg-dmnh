@@ -8,7 +8,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <div id="editErrorMessages" class="alert alert-danger" style="display: none;"></div>
+          <div id="editErrorMessages" class="alert alert-danger d-none"></div>
           <div class="row g-3">
             <div class="col-12">
               <label for="edit_nama" class="form-label">Nama *</label>

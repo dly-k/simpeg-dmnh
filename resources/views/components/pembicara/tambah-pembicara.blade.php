@@ -56,7 +56,7 @@
 
             <!-- Pegawai -->
             <div class="col-12">
-              <label for="pegawai_id" class="form-label">Pegawai *</label>
+              <label for="pegawai_id" class="form-label">Nama Pegawai *</label>
               <select name="pegawai_id" id="pegawai_id" class="form-select">
                 <option value="" disabled selected>-- Pilih Pegawai --</option>
                 @foreach ($pegawais as $pegawai)

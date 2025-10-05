@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Penghargaan;
-use App\Models\Pegawai; // <-- Import model Pegawai
+use App\Models\Pegawai;
 use Illuminate\Http\Request;
+use App\Exports\PenghargaanExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -15,6 +17,7 @@ class PenghargaanController extends Controller
     {
         $query = Penghargaan::with('pegawai')->orderBy('tanggal_perolehan', 'desc');
 
+        // Filter
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
@@ -26,19 +29,76 @@ class PenghargaanController extends Controller
             });
         }
 
-        if ($request->filled('tahun')) $query->whereYear('tanggal_perolehan', $request->tahun);
-        if ($request->filled('lingkup')) $query->where('lingkup', $request->lingkup);
+        if ($request->filled('tahun')) {
+            $query->whereYear('tanggal_perolehan', $request->tahun);
+        }
+        if ($request->filled('lingkup')) {
+            $query->where('lingkup', $request->lingkup);
+        }
+        if ($request->filled('pegawai')) {
+            $query->where('pegawai_id', $request->pegawai);
+        }
 
         $dataPenghargaan = $query->paginate(10)->appends($request->all());
 
         $listTahun = Penghargaan::selectRaw('YEAR(tanggal_perolehan) as tahun')
                         ->distinct()->orderBy('tahun', 'desc')->pluck('tahun');
         
-        // Mengambil semua data pegawai untuk dropdown
         $pegawai = Pegawai::where('status_pegawai', 'Aktif')->orderBy('nama_lengkap')->get();
 
         return view('pages.penghargaan', compact('dataPenghargaan', 'listTahun', 'pegawai'));
     }
+
+    
+    public function export(Request $request)
+    {
+        $query = Penghargaan::with('pegawai');
+
+        // Filter search
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('kegiatan', 'like', '%' . $request->search . '%')
+                ->orWhere('nama_penghargaan', 'like', '%' . $request->search . '%')
+                ->orWhereHas('pegawai', function ($subq) use ($request) {
+                    $subq->where('nama_lengkap', 'like', '%' . $request->search . '%');
+                });
+            });
+        }
+
+        // Filter tahun
+        $tahun = null;
+        if ($request->filled('tahun')) {
+            $tahun = $request->tahun;
+            $query->whereYear('tanggal_perolehan', $tahun);
+        }
+
+        // Filter lingkup
+        $lingkup = null;
+        if ($request->filled('lingkup')) {
+            $lingkup = $request->lingkup;
+            $query->where('lingkup', $lingkup);
+        }
+
+        // Ambil data setelah filter (boleh kosong, tetap diexport)
+        $data = $query->get();
+
+        // Buat nama file dinamis
+        $filename = 'Data_Penghargaan';
+        if ($tahun) {
+            $filename .= "_{$tahun}";
+        }
+        if ($lingkup) {
+            $filename .= '_' . preg_replace('/[^A-Za-z0-9\-]/', '', $lingkup);
+        }
+        if ($request->filled('search')) {
+            $filename .= '_(' . preg_replace('/[^A-Za-z0-9\-]/', '', $request->search) . ')';
+        }
+        $filename .= '.xlsx';
+
+        // Export (walaupun data kosong tetap export header)
+        return Excel::download(new PenghargaanExport($data, $tahun, $lingkup, $request->search), $filename);
+    }
+
 
     public function store(Request $request)
     {
@@ -113,7 +173,9 @@ class PenghargaanController extends Controller
             $dataToUpdate = $validator->validated();
 
             if ($request->hasFile('dokumen')) {
-                if ($penghargaan->file_path) Storage::disk('public')->delete($penghargaan->file_path);
+                if ($penghargaan->file_path) {
+                    Storage::disk('public')->delete($penghargaan->file_path);
+                }
                 $dataToUpdate['file_path'] = $request->file('dokumen')->store('dokumen_penghargaan', 'public');
             }
 
@@ -130,7 +192,9 @@ class PenghargaanController extends Controller
     {
         try {
             $penghargaan = Penghargaan::findOrFail($id);
-            if ($penghargaan->file_path) Storage::disk('public')->delete($penghargaan->file_path);
+            if ($penghargaan->file_path) {
+                Storage::disk('public')->delete($penghargaan->file_path);
+            }
             $penghargaan->delete();
 
             return response()->json(['success' => 'Data penghargaan berhasil dihapus!']);

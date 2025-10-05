@@ -1,5 +1,5 @@
 <div class="modal fade" id="penghargaanModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title"><i class="fas fa-plus-circle"></i> Tambah Data Penghargaan</h5>
@@ -12,10 +12,9 @@
 
           <div class="row g-3">
             <div class="col-12">
-              <label class="form-label">Pegawai</label>
-              <select id="pegawai_id" name="pegawai_id" class="form-select" required>
+              <label class="form-label">Nama Pegawai</label>
+              <select id="pegawai_id" name="pegawai_id" class="form-select form-select-sm" required>
                 <option value="" selected>-- Pilih Pegawai --</option>
-                {{-- Diisi oleh data dari Controller --}}
                 @if(isset($pegawai))
                   @foreach($pegawai as $p)
                     <option value="{{ $p->id }}">{{ $p->nama_lengkap }}</option>
@@ -89,7 +88,7 @@
                 <p>Seret & Lepas File di sini<br><small>Ukuran Maksimal 5 MB</small></p>
                 <input type="file" name="dokumen" hidden accept=".pdf">
               </div>
-               <span id="file-size-feedback" class="text-danger mt-1 d-block" style="display: none;"></span>
+               <span id="file-size-feedback" class="text-danger mt-1 d-block d-none"></span>
             </div>
             <div class="col-12">
               <div class="row g-2">

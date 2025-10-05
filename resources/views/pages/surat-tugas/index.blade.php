@@ -8,7 +8,6 @@
   
   <title>SIKEMAH - Manajemen Surat Tugas</title>
 
-  {{-- Stylesheets --}}
   <link rel="icon" href="{{ asset('assets/images/logo.png') }}" />
   <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -46,7 +45,7 @@
                         <input type="text" name="q" value="{{ request('q') }}" id="searchInput" class="form-control border-start-0 search-input" placeholder="Cari nama dosen ...." />
                     </div>
 
-                    <select name="semester" class="form-select filter-select" style="width:200px" onchange="this.form.submit()">
+                    <select name="semester" class="form-select filter-select" onchange="this.form.submit()">
                         <option value="">Semua Semester</option>
                         @foreach($semesters as $s)
                             <option value="{{ $s['tahun'] }}-{{ $s['tipe'] }}" {{ request('semester') == $s['tahun'].'-'.$s['tipe'] ? 'selected' : '' }}>
@@ -88,7 +87,6 @@
                 @forelse($data as $index => $item)
                   <tr>
                     <td class="text-center">{{ $data->firstItem() + $index }}</td>
-                    {{-- PERBAIKAN: Menampilkan nama dari relasi pegawai --}}
                     <td>{{ $item->pegawai->nama_lengkap ?? 'Pegawai Telah Dihapus' }}</td>
                     <td>{{ $item->peran }}</td>
                     <td>{{ $item->diminta_sebagai ?? '-' }}</td>
@@ -117,14 +115,12 @@
                         <a href="#" class="btn-aksi btn-edit" title="Edit Data" data-bs-toggle="modal" data-bs-target="#editModal{{ $item->id }}">
                           <i class="fa fa-edit"></i>
                         </a>
-                        {{-- PERBAIKAN: Mengambil data nama dari relasi untuk konfirmasi hapus --}}
                         <a href="#" class="btn-aksi btn-hapus" data-id="{{ $item->id }}" data-nama="{{ $item->pegawai->nama_lengkap ?? 'Data' }}">
                             <i class="fas fa-trash"></i>
                         </a>
                       </div>
                     </td>
                   </tr>
-                  {{-- Mengirimkan variabel $pegawais ke modal edit --}}
                   @include('pages.surat-tugas.edit', ['item' => $item, 'pegawais' => $pegawais])
                 @empty
                   <tr>
@@ -134,9 +130,8 @@
               </tbody>
             </table>
 
-            <div class="mt-4">
-              {{ $data->appends(request()->all())->links('pagination::bootstrap-5') }}
-            </div>
+            <!-- Pagination -->
+            {{ $data->appends(request()->all())->links('pagination::bootstrap-5') }}
           </div>
         </div>
       </div>
@@ -147,12 +142,11 @@
 
     @include('components.konfirmasi-hapus')
     @include('components.konfirmasi-berhasil')
-    {{-- Mengirimkan variabel $pegawais ke modal create --}}
     @include('pages.surat-tugas.create', ['pegawais' => $pegawais])
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
   <script src="{{ asset('assets/js/layout.js') }}"></script>
   <script src="{{ asset('assets/js/surat-tugas.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
 </body>
 </html>

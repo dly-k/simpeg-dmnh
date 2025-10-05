@@ -9,12 +9,15 @@ use Illuminate\Support\Facades\Storage; // Tambahkan ini
 
 class OrasiIlmiahController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $orasiIlmiahs = OrasiIlmiah::with('pegawai')->latest()->get();
+        $query = OrasiIlmiah::with('pegawai')->latest();
+
+        $orasiIlmiahs = $query->paginate(10)->appends($request->query());
+
         $pegawais = Pegawai::where('status_pegawai', 'Aktif')->orderBy('nama_lengkap')->get();
 
-        // --- AWAL KODE BARU UNTUK FILTER SEMESTER ---
+        // --- Semester Options tetap sama ---
         $semesterOptions = [];
         $uniqueSemesters = [];
 
@@ -26,12 +29,11 @@ class OrasiIlmiahController extends Controller
             if ($bulan >= 1 && $bulan <= 6) {
                 $semester = 'Ganjil';
                 $key = "ganjil-{$tahun}";
-            } else { // Juli - Desember
+            } else {
                 $semester = 'Genap';
                 $key = "genap-{$tahun}";
             }
 
-            // Pastikan setiap semester hanya masuk sekali
             if (!in_array($key, $uniqueSemesters)) {
                 $uniqueSemesters[] = $key;
                 $semesterOptions[] = [
@@ -41,12 +43,7 @@ class OrasiIlmiahController extends Controller
             }
         }
 
-        // Mengurutkan opsi filter berdasarkan tahun dan semester
-        usort($semesterOptions, function ($a, $b) {
-            return $b['value'] <=> $a['value']; // Urutkan dari yang terbaru
-        });
-        // --- AKHIR KODE BARU ---
-
+        usort($semesterOptions, fn($a, $b) => $b['value'] <=> $a['value']);
 
         return view('pages.orasi-ilmiah', compact('orasiIlmiahs', 'pegawais', 'semesterOptions'));
     }

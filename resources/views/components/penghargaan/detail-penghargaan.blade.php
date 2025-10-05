@@ -1,6 +1,5 @@
-{{-- Modal Detail Penghargaan --}}
 <div class="modal fade" id="modalDetailPenghargaan" tabindex="-1" aria-labelledby="modalDetailPenghargaanLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl modal-dialog-centered">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
     <div class="modal-content">
 
       <!-- Header -->
@@ -18,7 +17,7 @@
         <!-- Informasi Penghargaan -->
         <div class="detail-grid-container">
           <div class="detail-item">
-            <small>Pegawai</small>
+            <small>Nama Pegawai</small>
             <p id="detail_penghargaan_pegawai">-</p>
           </div>
           <div class="detail-item">

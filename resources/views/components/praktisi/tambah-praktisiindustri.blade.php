@@ -16,7 +16,7 @@
             <!-- Nama Pegawai -->
             <div class="col-12">
               <label for="pegawai_id" class="form-label">Nama Pegawai <span class="text-danger">*</span></label>
-              <select name="pegawai_id" id="pegawai_id" class="form-select @error('pegawai_id') is-invalid @enderror" required>
+              <select name="pegawai_id" id="pegawai_id" class="form-select form-select-sm @error('pegawai_id') is-invalid @enderror" required>
                 <option value="" selected disabled>-- Pilih Pegawai --</option>
                 @foreach($pegawais as $pegawai)
                   <option value="{{ $pegawai->id }}" {{ old('pegawai_id') == $pegawai->id ? 'selected' : '' }}>
@@ -29,7 +29,7 @@
 
             <!-- Bidang Usaha -->
             <div class="col-12">
-              <label for="bidang_usaha" class="form-label">Bidang Usaha <span class="text-danger">*</span></label>
+              <label for="bidang_usaha" class="form-label form-select-sm">Bidang Usaha <span class="text-danger">*</span></label>
               <select name="bidang_usaha" id="bidang_usaha" class="form-select @error('bidang_usaha') is-invalid @enderror" required>
                 <option value="" disabled selected>-- Pilih Bidang Usaha --</option>
                 <option>Pertanian, Kehutanan, dan Perikanan</option>
@@ -142,32 +142,48 @@
             </div>
 
             <!-- Upload Dokumen -->
-            <div class="col-md-6">
-              <label for="surat_ipb" class="form-label">Surat Tugas dari IPB</label>
-              <input type="file" name="surat_ipb" id="surat_ipb" class="form-control @error('surat_ipb') is-invalid @enderror" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.txt">
-              @error('surat_ipb') <div class="invalid-feedback">{{ $message }}</div> @enderror
-            </div>
-            <div class="col-md-6">
-              <label for="surat_instansi" class="form-label">Surat Tugas/Kontrak dari Instansi</label>
-              <input type="file" name="surat_instansi" id="surat_instansi" class="form-control @error('surat_instansi') is-invalid @enderror" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.txt">
-              @error('surat_instansi') <div class="invalid-feedback">{{ $message }}</div> @enderror
-            </div>
-            <div class="col-md-6">
-              <label for="cv" class="form-label">CV</label>
-              <input type="file" name="cv" id="cv" class="form-control @error('cv') is-invalid @enderror" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.txt">
-              <small class="text-muted">*Dosen tamu wajib upload CV</small>
-              @error('cv') <div class="invalid-feedback">{{ $message }}</div> @enderror
-            </div>
-            <div class="col-md-6">
-              <label for="profil_perusahaan" class="form-label">Profil Perusahaan</label>
-              <input type="file" name="profil_perusahaan" id="profil_perusahaan" class="form-control @error('profil_perusahaan') is-invalid @enderror" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.txt">
-              @error('profil_perusahaan') <div class="invalid-feedback">{{ $message }}</div> @enderror
-            </div>
-
             <div class="col-12">
-              <small class="text-muted">
-                Maksimal ukuran file: 5 MB. Jenis file: pdf, jpg, jpeg, png, doc, docx, xls, xlsx, txt
-              </small>
+              <div class="card border shadow-none">
+                <div class="card-header">
+                  <h6 class="mb-0">Unggah Dokumen <small>(Maksimal ukuran file: 5 MB)</small></h6>
+                </div>
+                <div class="card-body">
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <label for="surat_ipb" class="form-label">Surat Tugas dari IPB</label>
+                      <input type="file" name="surat_ipb" id="surat_ipb"
+                             class="form-control @error('surat_ipb') is-invalid @enderror"
+                             accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.txt">
+                      @error('surat_ipb') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
+
+                    <div class="col-md-6">
+                      <label for="surat_instansi" class="form-label">Surat Tugas/Kontrak dari Instansi</label>
+                      <input type="file" name="surat_instansi" id="surat_instansi"
+                             class="form-control @error('surat_instansi') is-invalid @enderror"
+                             accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.txt">
+                      @error('surat_instansi') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
+
+                    <div class="col-md-6">
+                      <label for="cv" class="form-label">CV</label>
+                      <input type="file" name="cv" id="cv"
+                             class="form-control @error('cv') is-invalid @enderror"
+                             accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.txt">
+                      <small class="text-muted">*Dosen tamu wajib upload CV</small>
+                      @error('cv') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
+
+                    <div class="col-md-6">
+                      <label for="profil_perusahaan" class="form-label">Profil Perusahaan</label>
+                      <input type="file" name="profil_perusahaan" id="profil_perusahaan"
+                             class="form-control @error('profil_perusahaan') is-invalid @enderror"
+                             accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.txt">
+                      @error('profil_perusahaan') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
           </div>

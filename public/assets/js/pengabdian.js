@@ -423,4 +423,10 @@ document.addEventListener("DOMContentLoaded", () => {
       this.showPicker && this.showPicker();
     });
   });
+
+  const pegawaiMeta = document.querySelector('meta[name="pegawai-data"]');
+  const pegawaiData = JSON.parse(pegawaiMeta.content);
+
+  console.log(pegawaiData);
+
 });

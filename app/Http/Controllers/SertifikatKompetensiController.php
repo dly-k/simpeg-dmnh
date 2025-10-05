@@ -9,20 +9,31 @@ use Illuminate\Support\Facades\Storage;
 
 class SertifikatKompetensiController extends Controller
 {
-public function index(Request $request)
-{
-    $sertifikatKompetensis = SertifikatKompetensi::with('pegawai')->latest()->get();
-    $pegawais = Pegawai::where('status_pegawai', 'Aktif')->orderBy('nama_lengkap')->get();
+    public function index(Request $request)
+    {
+        // Ambil data sertifikat + relasi pegawai, pakai pagination
+        $sertifikatKompetensis = SertifikatKompetensi::with('pegawai')
+            ->latest()
+            ->paginate(10)
+            ->appends($request->query()); 
 
-    // --- BAGIAN KUNCI YANG MEMPERBAIKI ERROR ---
-    // Kode ini mengambil semua tahun unik dari database untuk dijadikan opsi filter
-    $tahunOptions = SertifikatKompetensi::selectRaw('DISTINCT tahun_sertifikasi')
-        ->orderBy('tahun_sertifikasi', 'desc')
-        ->pluck('tahun_sertifikasi');
+        // Data pegawai aktif
+        $pegawais = Pegawai::where('status_pegawai', 'Aktif')
+            ->orderBy('nama_lengkap')
+            ->get();
 
-    // Pastikan variabel $tahunOptions dikirim ke view menggunakan compact()
-    return view('pages.sertifikat-kompetensi', compact('sertifikatKompetensis', 'pegawais', 'tahunOptions'));
-}
+        // Ambil tahun unik untuk filter
+        $tahunOptions = SertifikatKompetensi::selectRaw('DISTINCT tahun_sertifikasi')
+            ->orderBy('tahun_sertifikasi', 'desc')
+            ->pluck('tahun_sertifikasi');
+
+        // Kirim ke view
+        return view('pages.sertifikat-kompetensi', compact(
+            'sertifikatKompetensis',
+            'pegawais',
+            'tahunOptions'
+        ));
+    }
 
 public function store(Request $request)
 {
@@ -65,6 +76,7 @@ public function store(Request $request)
     // 6. Redirect kembali dengan pesan sukses
     return redirect()->route('sertifikat-kompetensi.index')->with('success', 'Data berhasil ditambahkan!');
 }
+
 public function edit(SertifikatKompetensi $sertifikatKompetensi)
     {
         return response()->json($sertifikatKompetensi);
