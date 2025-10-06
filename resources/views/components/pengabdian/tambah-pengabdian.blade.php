@@ -48,7 +48,7 @@
               </div>
               <div class="col-md-4">
                 <label class="form-label">Lokasi Kegiatan</label>
-                <input type="text" name="lokasi" class="form-control" placeholder="Contoh: Desa Cibanteng">
+                <input type="text" name="lokasi" class="form-control" placeholder="Contoh: Desa Cibanteng" required>
               </div>
               <div class="col-md-4">
                 <label class="form-label">Jenis Pengabdian</label>
@@ -87,25 +87,25 @@
             <div class="row g-3">
               <div class="col-md-4">
                 <label class="form-label">Tahun Usulan</label>
-                <input type="number" name="tahun_usulan" class="form-control" placeholder="Usulan">
+                <input type="number" name="tahun_usulan" class="form-control" placeholder="Usulan" min="1900" max="2100">
               </div>
               <div class="col-md-4">
                 <label class="form-label">Tahun Kegiatan</label>
-                <input type="number" name="tahun_kegiatan" class="form-control" placeholder="Kegiatan">
+                <input type="number" name="tahun_kegiatan" class="form-control" placeholder="Kegiatan" min="1900" max="2100">
               </div>
               <div class="col-md-4">
                 <label class="form-label">Tahun Pelaksanaan</label>
-                <input type="number" name="tahun_pelaksanaan" class="form-control" placeholder="Pelaksanaan">
+                <input type="number" name="tahun_pelaksanaan" class="form-control" placeholder="Pelaksanaan" min="1900" max="2100">
               </div>
             </div>
 
             <div class="col-md-6">
               <label class="form-label">Terhitung Mulai Tgl</label>
-              <input type="date" name="tgl_mulai" class="form-control">
+              <input type="date" name="tgl_mulai" class="form-control" required>
             </div>
             <div class="col-md-6">
               <label class="form-label">Terhitung Sampai Tgl</label>
-              <input type="date" name="tgl_selesai" class="form-control">
+              <input type="date" name="tgl_selesai" class="form-control" required>
             </div>
 
             <div class="col-md-6">

@@ -332,22 +332,65 @@ document.addEventListener("DOMContentLoaded", () => {
     newRow.className = 'dynamic-row';
     let content = "";
     switch (type) {
-      case "dosen":
-        let pegawaiOptions = '<option selected disabled value="">-- Pilih Dosen --</option>';
-        if (typeof pegawaiData !== 'undefined' && pegawaiData) {
-          pegawaiData.forEach(p => {
-            pegawaiOptions += `<option value="${p.id}">${p.nama_lengkap}</option>`;
-          });
-        }
-        content = `<div class="row g-2"><div class="col-12"><select class="form-select form-select-sm" name="dosen[${dosenCounter}][pegawai_id]" required>${pegawaiOptions}</select></div><div class="col-md-6"><select class="form-select form-select-sm" name="dosen[${dosenCounter}][jabatan]"><option>Ketua</option><option>Anggota</option></select></div><div class="col-md-6"><select class="form-select form-select-sm" name="dosen[${dosenCounter}][status_aktif]"><option>Ya</option><option>Aktif</option></select></div></div>${removeButton}`;
-        newRow.innerHTML = content;
-        if (data) {
-          newRow.querySelector('[name*="[pegawai_id]"]').value = data.pegawai_id;
-          newRow.querySelector('[name*="[jabatan]"]').value = data.jabatan;
-          newRow.querySelector('[name*="[status_aktif]"]').value = data.status_aktif;
-        }
-        dosenCounter++;
-        break;
+    case "dosen":
+    let pegawaiOptions = '<option selected disabled value="">-- Pilih Dosen --</option>';
+    if (typeof pegawaiData !== 'undefined' && pegawaiData) {
+      pegawaiData.forEach(p => {
+        pegawaiOptions += `<option value="${p.id}">${p.nama_lengkap}</option>`;
+      });
+    }
+
+    // Buat parent relative supaya tombol bisa absolute
+    newRow.className = 'dynamic-row position-relative';
+
+    content = `<div class="row g-2">
+        <div class="col-12 position-relative">
+          <select class="form-select form-select-sm dosen-select" name="dosen[${dosenCounter}][pegawai_id]" required>
+            ${pegawaiOptions}
+          </select>
+          <button type="button" class="btn btn-sm dynamic-row-close-btn" style="position:absolute; top:5px; right:5px; z-index:1100;">
+            <i class="fa fa-times"></i>
+          </button>
+        </div>
+        <div class="col-md-6">
+          <select class="form-select form-select-sm" name="dosen[${dosenCounter}][jabatan]">
+            <option>Ketua</option>
+            <option>Anggota</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <select class="form-select form-select-sm" name="dosen[${dosenCounter}][status_aktif]">
+            <option>Ya</option>
+            <option>Aktif</option>
+          </select>
+        </div>
+      </div>`;
+
+    newRow.innerHTML = content;
+
+    // ======= Inisialisasi Select2 untuk dosen =======
+    const selectEl = newRow.querySelector('.dosen-select');
+    if (selectEl) {
+      $(selectEl).select2({
+        theme: 'bootstrap-5',
+        placeholder: '-- Pilih Dosen --',
+        allowClear: true,
+        width: '100%',
+        dropdownParent: $('#pengabdianModal .modal-content')
+      });
+    }
+
+    // Jika ada data edit
+    if (data) {
+      newRow.querySelector('[name*="[pegawai_id]"]').value = data.pegawai_id;
+      newRow.querySelector('[name*="[jabatan]"]').value = data.jabatan;
+      newRow.querySelector('[name*="[status_aktif]"]').value = data.status_aktif;
+      // trigger select2 agar value terlihat
+      $(newRow.querySelector('.dosen-select')).trigger('change');
+    }
+
+    dosenCounter++;
+    break;
       case "mahasiswa":
         content = `<div class="row g-2"><div class="col-md-6"><select class="form-select form-select-sm" name="mahasiswa[${mahasiswaCounter}][strata]"><option selected disabled value="">-- Strata --</option><option>D1</option><option>D2</option><option>D3</option><option>D4</option><option>S1</option><option>Profesi</option><option>S2</option><option>S3</option></select></div><div class="col-md-6"><input type="text" class="form-control form-control-sm" name="mahasiswa[${mahasiswaCounter}][nama]" placeholder="Nama Mahasiswa"></div><div class="col-md-6"><select class="form-select form-select-sm" name="mahasiswa[${mahasiswaCounter}][jabatan]"><option>Ketua</option><option selected>Anggota</option></select></div><div class="col-md-6"><select class="form-select form-select-sm" name="mahasiswa[${mahasiswaCounter}][status_aktif]"><option>Ya</option><option selected>Aktif</option></select></div></div>${removeButton}`;
         newRow.innerHTML = content;

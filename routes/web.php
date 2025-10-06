@@ -178,13 +178,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pembicara/export', [PembicaraController::class, 'export'])->name('pembicara.export');
 
     // Pengabdian
+    Route::get('/pengabdian/export', [PengabdianController::class, 'export'])->name('pengabdian.export');
     Route::get('/pengabdian', [PengabdianController::class, 'index'])->name('pengabdian.index');
     Route::post('/pengabdian', [PengabdianController::class, 'store'])->name('pengabdian.store');
     Route::get('/pengabdian/{pengabdian}/edit', [PengabdianController::class, 'edit'])->name('pengabdian.edit');
     Route::patch('/pengabdian/{pengabdian}', [PengabdianController::class, 'update'])->name('pengabdian.update');
     Route::delete('/pengabdian/{pengabdian}', [PengabdianController::class, 'destroy'])->name('pengabdian.destroy');
     Route::get('/pengabdian/{pengabdian}', [PengabdianController::class, 'show'])->name('pengabdian.show');
-    Route::get('/pengabdian/export', [PengabdianController::class, 'export'])->name('pengabdian.export');
 
     // Penunjang
     Route::get('/penunjang', [PenunjangController::class, 'index'])->name('penunjang.index');

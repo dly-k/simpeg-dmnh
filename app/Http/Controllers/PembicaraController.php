@@ -144,10 +144,7 @@ class PembicaraController extends Controller
         $filename .= '.xlsx';
 
         // Export ke Excel (pakai Export Class)
-        return \Maatwebsite\Excel\Facades\Excel::download(
-            new \App\Exports\PembicaraExport($data, $semester, $status, $request->search, $tingkat),
-            $filename
-        );
+        return \Maatwebsite\Excel\Facades\Excel::download( new \App\Exports\PembicaraExport($data, $semester, $status, $request->search, $tingkat), $filename );
     }
 
     /**

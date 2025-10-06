@@ -19,4 +19,16 @@ class Pengabdian extends Model
     {
         return $this->hasMany(PengabdianDokumen::class);
     }
+
+    public function pegawai()
+    {
+        return $this->hasManyThrough(
+            Pegawai::class,
+            PengabdianAnggota::class,
+            'pengabdian_id', // Foreign key di tabel pengabdian_anggotas
+            'id',             // Foreign key di tabel pegawais
+            'id',             // Local key di tabel pengabdians
+            'pegawai_id'      // Local key di tabel pengabdian_anggotas
+        );
+    }
 }

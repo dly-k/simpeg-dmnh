@@ -102,6 +102,76 @@ class PengabdianController extends Controller
         }
         return $options;
     }
+    
+    public function export(Request $request)
+    {
+        $query = Pengabdian::with('pegawai');
+
+        // Filter search
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('judul', 'like', '%' . $search . '%')
+                ->orWhere('lokasi', 'like', '%' . $search . '%')
+                ->orWhereHas('pegawai', function ($subq) use ($search) {
+                    $subq->where('nama_lengkap', 'like', '%' . $search . '%');
+                });
+            });
+        }
+
+        // Filter semester
+        $semester = null;
+        if ($request->filled('semester')) {
+            $semester = $request->semester;
+            [$semesterType, $year] = explode('_', $semester);
+
+            if ($semesterType === 'ganjil') {
+                $startMonth = 1;
+                $endMonth   = 6;
+            } else {
+                $startMonth = 7;
+                $endMonth   = 12;
+            }
+
+            $semesterStartDate = \Carbon\Carbon::create($year, $startMonth, 1)->startOfDay();
+            $semesterEndDate   = \Carbon\Carbon::create($year, $endMonth, 1)->endOfMonth()->endOfDay();
+
+            $query->whereBetween('tgl_mulai', [$semesterStartDate, $semesterEndDate]);
+        }
+
+        // Filter jenis pengabdian
+        $jenis = null;
+        if ($request->filled('jenis_pengabdian')) {
+            $jenis = $request->jenis_pengabdian;
+            $query->where('jenis_pengabdian', $jenis);
+        }
+
+        // Filter status
+        $status = null;
+        if ($request->filled('status')) {
+            $status = $request->status;
+            $query->where('status', $status);
+        }
+
+        // Ambil data
+        $data = $query->latest()->get();
+
+        // Buat nama file dinamis
+        $filename = 'Data_Pengabdian';
+        if ($semester) $filename .= '_' . $semester;
+        if ($jenis) $filename .= '_' . $jenis;
+        if ($status) $filename .= '_' . $status;
+        if ($request->filled('search')) {
+            $filename .= '_(' . preg_replace('/[^A-Za-z0-9\-]/', '', $request->search) . ')';
+        }
+        $filename .= '.xlsx';
+
+        // Export ke Excel
+        return \Maatwebsite\Excel\Facades\Excel::download(
+            new \App\Exports\PengabdianExport($data, $semester, $status, $request->search, $jenis),
+            $filename
+        );
+    }
 
     /**
      * Menyimpan data pengabdian baru ke database.
