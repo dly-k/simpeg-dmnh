@@ -142,6 +142,73 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // ================== BISA DIAKSES OLEH SEMUA ROLE (YANG SUDAH LOGIN) ==================
+    
+    // Surat Tugas
+    Route::resource('surat-tugas', SuratTugasController::class)->except(['show']);
+    Route::get('/surat-tugas/export', [SuratTugasController::class, 'export'])->name('surat-tugas.export');
+
+    // Pelatihan
+    Route::resource('pelatihan', PelatihanController::class)->except(['show']);
+    Route::get('/pelatihan/export', [PelatihanController::class, 'export'])->name('pelatihan.export');
+
+    // Penghargaan
+    Route::prefix('penghargaan')->name('penghargaan.')->controller(PenghargaanController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{id}/edit', 'edit')->name('edit');
+        Route::post('/{id}', 'update')->name('update');
+        Route::delete('/{id}', 'destroy')->name('destroy');
+    });
+    Route::get('/penghargaan/export', [PenghargaanController::class, 'export'])->name('penghargaan.export');
+
+    // Praktisi
+    Route::get('/praktisi-dunia-industri', [PraktisiController::class, 'index'])->name('praktisi.index');
+    Route::post('/praktisi-dunia-industri', [PraktisiController::class, 'store'])->name('praktisi.store');
+    Route::get('/praktisi-dunia-industri/{praktisi}', [PraktisiController::class, 'show'])->name('praktisi.show');
+    Route::put('/praktisi-dunia-industri/{praktisi}', [PraktisiController::class, 'update'])->name('praktisi.update');
+    Route::delete('/praktisi-dunia-industri/{praktisi}', [PraktisiController::class, 'destroy'])->name('praktisi.destroy');
+    Route::get('/praktisi/export', [PraktisiController::class, 'export'])->name('praktisi.export');
+
+    // Pembicara
+    Route::get('/pembicara', [PembicaraController::class, 'index'])->name('pembicara.index');
+    Route::post('/pembicara', [PembicaraController::class, 'store'])->name('pembicara.store');
+    Route::get('/pembicara/{pembicara}/edit', [PembicaraController::class, 'edit'])->name('pembicara.edit');
+    Route::put('/pembicara/{pembicara}', [PembicaraController::class, 'update'])->name('pembicara.update');
+    Route::delete('/pembicara/{pembicara}', [PembicaraController::class, 'destroy'])->name('pembicara.destroy');
+    Route::get('/pembicara/export', [PembicaraController::class, 'export'])->name('pembicara.export');
+
+    // Pengabdian
+    Route::get('/pengabdian', [PengabdianController::class, 'index'])->name('pengabdian.index');
+    Route::post('/pengabdian', [PengabdianController::class, 'store'])->name('pengabdian.store');
+    Route::get('/pengabdian/{pengabdian}/edit', [PengabdianController::class, 'edit'])->name('pengabdian.edit');
+    Route::patch('/pengabdian/{pengabdian}', [PengabdianController::class, 'update'])->name('pengabdian.update');
+    Route::delete('/pengabdian/{pengabdian}', [PengabdianController::class, 'destroy'])->name('pengabdian.destroy');
+    Route::get('/pengabdian/{pengabdian}', [PengabdianController::class, 'show'])->name('pengabdian.show');
+    Route::get('/pengabdian/export', [PengabdianController::class, 'export'])->name('pengabdian.export');
+
+    // Penunjang
+    Route::get('/penunjang', [PenunjangController::class, 'index'])->name('penunjang.index');
+    Route::post('/penunjang', [PenunjangController::class, 'store'])->name('penunjang.store');
+    Route::get('/penunjang/{penunjang}', [PenunjangController::class, 'show'])->name('penunjang.show');
+    Route::patch('/penunjang/{penunjang}', [PenunjangController::class, 'update'])->name('penunjang.update');
+    Route::delete('/penunjang/{penunjang}', [PenunjangController::class, 'destroy'])->name('penunjang.destroy');
+    Route::get('/penunjang/export', [PenunjangController::class, 'export'])->name('penunjang.export');
+
+    // Orasi Ilmiah
+    Route::get('/orasi-ilmiah', [OrasiIlmiahController::class, 'index'])->name('orasi-ilmiah.index');
+    Route::post('/orasi-ilmiah', [OrasiIlmiahController::class, 'store'])->name('orasi-ilmiah.store');
+    Route::get('/orasi-ilmiah/{orasiIlmiah}/edit', [OrasiIlmiahController::class, 'edit'])->name('orasi-ilmiah.edit');
+    Route::put('/orasi-ilmiah/{orasiIlmiah}', [OrasiIlmiahController::class, 'update'])->name('orasi-ilmiah.update');
+    Route::delete('/orasi-ilmiah/{orasiIlmiah}', [OrasiIlmiahController::class, 'destroy'])->name('orasi-ilmiah.destroy');
+    Route::get('/orasi-ilmiah/export', [OrasiIlmiahController::class, 'export'])->name('orasi-ilmiah.export');
+
+    // Sertifikat Kompetensi
+    Route::get('/sertifikat-kompetensi', [SertifikatKompetensiController::class, 'index'])->name('sertifikat-kompetensi.index');
+    Route::post('/sertifikat-kompetensi', [SertifikatKompetensiController::class, 'store'])->name('sertifikat-kompetensi.store');
+    Route::get('/sertifikat-kompetensi/{sertifikatKompetensi}/edit', [SertifikatKompetensiController::class, 'edit'])->name('sertifikat-kompetensi.edit');
+    Route::put('/sertifikat-kompetensi/{sertifikatKompetensi}', [SertifikatKompetensiController::class, 'update'])->name('sertifikat-kompetensi.update');
+    Route::delete('/sertifikat-kompetensi/{sertifikatKompetensi}', [SertifikatKompetensiController::class, 'destroy'])->name('sertifikat-kompetensi.destroy');
+    Route::get('/sertifikat-kompetensi/export', [SertifikatKompetensiController::class, 'export'])->name('sertifikat-kompetensi.export');
 
     // Pendidikan
     Route::get('/pendidikan', [PendidikanController::class, 'index'])->name('pendidikan.index');
@@ -171,6 +238,13 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/pendidikan/pembimbing-luar/{id}', [PendidikanController::class, 'updatePembimbingLuar'])->name('pendidikan.pembimbing-luar.update');
     Route::get('/pendidikan/pembimbing-luar/{id}', [PendidikanController::class, 'showPembimbingLuar']);
 
+    // Pengelola Jurnal
+    Route::get('/pengelola-jurnal', [PengelolaJurnalController::class, 'index'])->name('pengelola-jurnal.index');
+    Route::post('/pengelola-jurnal', [PengelolaJurnalController::class, 'store'])->name('pengelola-jurnal.store');
+    Route::get('/pengelola-jurnal/{pengelolaJurnal}/edit', [PengelolaJurnalController::class, 'edit'])->name('pengelola-jurnal.edit');
+    Route::post('/pengelola-jurnal/{pengelolaJurnal}', [PengelolaJurnalController::class, 'update'])->name('pengelola-jurnal.update');
+    Route::delete('/pengelola-jurnal/{pengelolaJurnal}', [PengelolaJurnalController::class, 'destroy'])->name('pengelola-jurnal.destroy');
+
     // Penelitian
     Route::get('/penelitian', [PenelitianController::class, 'index'])->name('penelitian.index');
     Route::post('/penelitian', [PenelitianController::class, 'store'])->name('penelitian.store');
@@ -178,83 +252,14 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/penelitian/{penelitian}', [PenelitianController::class, 'update'])->name('penelitian.update');
     Route::delete('/penelitian/{penelitian}', [PenelitianController::class, 'destroy'])->name('penelitian.destroy');
 
-    // Pengabdian
-    Route::get('/pengabdian', [PengabdianController::class, 'index'])->name('pengabdian.index');
-    Route::post('/pengabdian', [PengabdianController::class, 'store'])->name('pengabdian.store');
-    Route::get('/pengabdian/{pengabdian}/edit', [PengabdianController::class, 'edit'])->name('pengabdian.edit');
-    Route::patch('/pengabdian/{pengabdian}', [PengabdianController::class, 'update'])->name('pengabdian.update');
-    Route::delete('/pengabdian/{pengabdian}', [PengabdianController::class, 'destroy'])->name('pengabdian.destroy');
-    Route::get('/pengabdian/{pengabdian}', [PengabdianController::class, 'show'])->name('pengabdian.show');
-    
-    // Penunjang
-    Route::get('/penunjang', [PenunjangController::class, 'index'])->name('penunjang.index');
-    Route::post('/penunjang', [PenunjangController::class, 'store'])->name('penunjang.store');
-    Route::get('/penunjang/{penunjang}', [PenunjangController::class, 'show'])->name('penunjang.show');
-    Route::patch('/penunjang/{penunjang}', [PenunjangController::class, 'update'])->name('penunjang.update');
-    Route::delete('/penunjang/{penunjang}', [PenunjangController::class, 'destroy'])->name('penunjang.destroy');
-    
-    // Surat Tugas
-    Route::resource('surat-tugas', SuratTugasController::class)->except(['show']);
-    Route::get('/surat-tugas/export', [SuratTugasController::class, 'export'])->name('surat-tugas.export');
-
-    // Pelatihan
-    Route::resource('pelatihan', PelatihanController::class)->except(['show']);
-    Route::get('/pelatihan/export', [PelatihanController::class, 'export'])->name('pelatihan.export');
-
-    // Penghargaan
-    Route::prefix('penghargaan')->name('penghargaan.')->controller(PenghargaanController::class)->group(function () {
-        Route::get('/', 'index')->name('index');
-        Route::post('/', 'store')->name('store');
-        Route::get('/{id}/edit', 'edit')->name('edit');
-        Route::post('/{id}', 'update')->name('update');
-        Route::delete('/{id}', 'destroy')->name('destroy');
-    });
-    Route::get('/penghargaan/export', [PenghargaanController::class, 'export'])->name('penghargaan.export');
-
     // Kerjasama
     Route::resource('kerjasama', KerjasamaController::class);
     Route::get('/kerjasama/export', [KerjasamaController::class, 'export'])->name('kerjasama.export');
 
-    // Praktisi
-    Route::get('/praktisi-dunia-industri', [PraktisiController::class, 'index'])->name('praktisi.index');
-    Route::post('/praktisi-dunia-industri', [PraktisiController::class, 'store'])->name('praktisi.store');
-    Route::get('/praktisi-dunia-industri/{praktisi}', [PraktisiController::class, 'show'])->name('praktisi.show');
-    Route::put('/praktisi-dunia-industri/{praktisi}', [PraktisiController::class, 'update'])->name('praktisi.update');
-    Route::delete('/praktisi-dunia-industri/{praktisi}', [PraktisiController::class, 'destroy'])->name('praktisi.destroy');
-    Route::get('/praktisi/export', [PraktisiController::class, 'export'])->name('praktisi.export');
-
     // Lain-lain
     Route::get('/bahan-ajar', [BahanAjarController::class, 'index'])->name('bahan-ajar.index');
-    Route::get('/pembicara', [PembicaraController::class, 'index'])->name('pembicara.index');
-    Route::post('/pembicara', [PembicaraController::class, 'store'])->name('pembicara.store');
-    Route::get('/pembicara/{pembicara}/edit', [PembicaraController::class, 'edit'])->name('pembicara.edit');
-    Route::put('/pembicara/{pembicara}', [PembicaraController::class, 'update'])->name('pembicara.update');
-    Route::delete('/pembicara/{pembicara}', [PembicaraController::class, 'destroy'])->name('pembicara.destroy');
     Route::get('/organisasi-profesi', [OrganisasiProfesiController::class, 'index'])->name('organisasi-profesi.index');
     Route::get('/pembimbingan', [PembimbinganController::class, 'index'])->name('pembimbingan.index');
-
-    // ORASI ILMIAH
-    Route::get('/orasi-ilmiah', [OrasiIlmiahController::class, 'index'])->name('orasi-ilmiah.index');
-    Route::post('/orasi-ilmiah', [OrasiIlmiahController::class, 'store'])->name('orasi-ilmiah.store');
-    Route::get('/orasi-ilmiah/{orasiIlmiah}/edit', [OrasiIlmiahController::class, 'edit'])->name('orasi-ilmiah.edit');
-    Route::put('/orasi-ilmiah/{orasiIlmiah}', [OrasiIlmiahController::class, 'update'])->name('orasi-ilmiah.update');
-    Route::delete('/orasi-ilmiah/{orasiIlmiah}', [OrasiIlmiahController::class, 'destroy'])->name('orasi-ilmiah.destroy');
-
-    // SERTIFIKAT KOMPETENSI
-    Route::get('/sertifikat-kompetensi', [SertifikatKompetensiController::class, 'index'])->name('sertifikat-kompetensi.index');
-    Route::post('/sertifikat-kompetensi', [SertifikatKompetensiController::class, 'store'])->name('sertifikat-kompetensi.store');
-    Route::get('/sertifikat-kompetensi/{sertifikatKompetensi}/edit', [SertifikatKompetensiController::class, 'edit'])->name('sertifikat-kompetensi.edit');
-    Route::put('/sertifikat-kompetensi/{sertifikatKompetensi}', [SertifikatKompetensiController::class, 'update'])->name('sertifikat-kompetensi.update');
-    Route::delete('/sertifikat-kompetensi/{sertifikatKompetensi}', [SertifikatKompetensiController::class, 'destroy'])->name('sertifikat-kompetensi.destroy');
-
-    // PENGELOLA JURNAL
-    Route::get('/pengelola-jurnal', [PengelolaJurnalController::class, 'index'])->name('pengelola-jurnal.index');
-    Route::post('/pengelola-jurnal', [PengelolaJurnalController::class, 'store'])->name('pengelola-jurnal.store');
-    Route::get('/pengelola-jurnal/{pengelolaJurnal}/edit', [PengelolaJurnalController::class, 'edit'])->name('pengelola-jurnal.edit');
-    Route::post('/pengelola-jurnal/{pengelolaJurnal}', [PengelolaJurnalController::class, 'update'])->name('pengelola-jurnal.update');
-    Route::delete('/pengelola-jurnal/{pengelolaJurnal}', [PengelolaJurnalController::class, 'destroy'])->name('pengelola-jurnal.destroy');
-
-    // KEKAYAAN INTELEKTUAL
     Route::get('/kekayaan-intelektual', [KekayaanIntelektualController::class, 'index'])->name('kekayaan-intelektual.index');
 
 });

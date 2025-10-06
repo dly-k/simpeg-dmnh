@@ -18,7 +18,7 @@
         <div class="detail-card mb-3">
           <div class="detail-grid">
             <div>
-              <span>Nama</span>
+              <span>Nama Pegawai</span>
               <p id="detail-nama">-</p>
             </div>
             <div>

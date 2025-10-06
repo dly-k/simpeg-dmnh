@@ -75,6 +75,81 @@ class PembicaraController extends Controller
         return view('pages.pembicara', compact('pembicaras', 'pegawais', 'semesterOptions'));
     }
 
+    public function export(Request $request)
+    {
+        $query = Pembicara::with('pegawai');
+
+        // Filter search
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('judul_makalah', 'like', '%' . $search . '%')
+                ->orWhereHas('pegawai', function ($subq) use ($search) {
+                    $subq->where('nama_lengkap', 'like', '%' . $search . '%');
+                });
+            });
+        }
+
+        // Filter semester
+        $semester = null;
+        if ($request->filled('semester')) {
+            $semester = $request->semester;
+            [$semesterType, $year] = explode('_', $semester);
+
+            if ($semesterType === 'ganjil') {
+                $startMonth = 1;
+                $endMonth   = 6;
+            } else {
+                $startMonth = 7;
+                $endMonth   = 12;
+            }
+
+            $semesterStartDate = \Carbon\Carbon::create($year, $startMonth, 1)->startOfDay();
+            $semesterEndDate   = \Carbon\Carbon::create($year, $endMonth, 1)->endOfMonth()->endOfDay();
+
+            $query->whereBetween('tanggal_pelaksana', [$semesterStartDate, $semesterEndDate]);
+        }
+
+        // Filter tingkat
+        $tingkat = null;
+        if ($request->filled('tingkat')) {
+            $tingkat = $request->tingkat;
+            $query->where('tingkat_pertemuan', $tingkat);
+        }
+
+        // Filter status
+        $status = null;
+        if ($request->filled('status')) {
+            $status = $request->status;
+            $query->where('status_verifikasi', $status);
+        }
+
+        // Ambil data
+        $data = $query->latest()->get();
+
+        // Buat nama file dinamis
+        $filename = 'Data_Pembicara';
+        if ($semester) {
+            $filename .= '_' . $semester;
+        }
+        if ($tingkat) {
+            $filename .= '_' . $tingkat;
+        }
+        if ($status) {
+            $filename .= '_' . $status;
+        }
+        if ($request->filled('search')) {
+            $filename .= '_(' . preg_replace('/[^A-Za-z0-9\-]/', '', $request->search) . ')';
+        }
+        $filename .= '.xlsx';
+
+        // Export ke Excel (pakai Export Class)
+        return \Maatwebsite\Excel\Facades\Excel::download(
+            new \App\Exports\PembicaraExport($data, $semester, $status, $request->search, $tingkat),
+            $filename
+        );
+    }
+
     /**
      * [PERBAIKAN] Menyimpan data pembicara baru dari form tambah.
      * Logika filter sudah dihapus dari sini.

@@ -1,7 +1,7 @@
 <div class="modal fade" id="pembicaraModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-scrollable">
     <div class="modal-content">
-      <form action="{{ route('pembicara.store') }}" method="POST" enctype="multipart/form-data">
+      <form id="pembicaraForm" action="{{ route('pembicara.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="modal-header bg-success text-white">
           <h5 class="modal-title" id="modalTitle">
@@ -15,8 +15,8 @@
 
             <!-- Kegiatan -->
             <div class="col-12">
-              <label for="kegiatan" class="form-label">Kegiatan *</label>
-              <select name="kegiatan" id="kegiatan" class="form-select">
+              <label for="kegiatan" class="form-label">Kegiatan</label>
+              <select name="kegiatan" id="kegiatan" class="form-select form-select-sm select2-kegiatan" required>
                 <option value="">-- Pilih Kegiatan --</option>
                 <option value="jadwal_nasional">
                   Memberi latihan/penyuluhan/penataran/ceramah pada masyarakat: Terjadwal/Terprogram, kurang dari 1 semester (≥1 bulan), Tingkat Nasional
@@ -56,8 +56,8 @@
 
             <!-- Pegawai -->
             <div class="col-12">
-              <label for="pegawai_id" class="form-label">Nama Pegawai *</label>
-              <select name="pegawai_id" id="pegawai_id" class="form-select">
+              <label for="pegawai_id" class="form-label">Nama Pegawai</label>
+              <select name="pegawai_id" id="pegawai_id" class="form-select form-select-sm select2-pegawai" required>
                 <option value="" disabled selected>-- Pilih Pegawai --</option>
                 @foreach ($pegawais as $pegawai)
                     <option value="{{ $pegawai->id }}" {{ old('pegawai_id') == $pegawai->id ? 'selected' : '' }}>
@@ -70,7 +70,7 @@
             <!-- Kategori Capaian Luaran -->
             <div class="col-12">
               <label for="kategori_capaian" class="form-label">Kategori Capaian Luaran</label>
-              <select name="kategori_capaian" id="kategori_capaian" class="form-select">
+              <select name="kategori_capaian" id="kategori_capaian" class="form-select" required>
                 <option value="">-- Pilih kategori capaian --</option>
                 <option value="buku">Buku</option>
                 <option value="hki">HKI</option>
@@ -87,13 +87,13 @@
             <!-- Litabmas -->
             <div class="col-12">
               <label for="litabmas" class="form-label">Litabmas (dari SIMLITABMAS)</label>
-              <input type="text" name="litabmas" id="litabmas" class="form-control" placeholder="Masukkan kode/nama litabmas">
+              <input type="text" name="litabmas" id="litabmas" class="form-control" placeholder="Masukkan kode/nama litabmas" required>
             </div>
 
             <!-- Kategori Pembicara -->
             <div class="col-12">
-              <label for="kategori_pembicara" class="form-label">Kategori Pembicara *</label>
-              <select name="kategori_pembicara" id="kategori_pembicara" class="form-select">
+              <label for="kategori_pembicara" class="form-label">Kategori Pembicara</label>
+              <select name="kategori_pembicara" id="kategori_pembicara" class="form-select" required>
                 <option value="" disabled selected>-- Pilih Kategori --</option>
                 <option value="utama">Pembicara Kunci</option>
                 <option value="pleno">Pembicara pada Pertemuan Ilmiah</option>
@@ -103,20 +103,20 @@
 
             <!-- Judul Makalah -->
             <div class="col-12">
-              <label for="judul_makalah" class="form-label">Judul Makalah *</label>
-              <input type="text" name="judul_makalah" id="judul_makalah" class="form-control" placeholder="Masukkan judul makalah">
+              <label for="judul_makalah" class="form-label">Judul Makalah</label>
+              <input type="text" name="judul_makalah" id="judul_makalah" class="form-control" placeholder="Masukkan judul makalah" required>
             </div>
 
             <!-- Nama Pertemuan -->
             <div class="col-12">
-              <label for="nama_pertemuan" class="form-label">Nama Pertemuan Ilmiah *</label>
-              <input type="text" name="nama_pertemuan" id="nama_pertemuan" class="form-control" placeholder="Masukkan nama pertemuan">
+              <label for="nama_pertemuan" class="form-label">Nama Pertemuan Ilmiah</label>
+              <input type="text" name="nama_pertemuan" id="nama_pertemuan" class="form-control" placeholder="Masukkan nama pertemuan" required>
             </div>
 
             <!-- Tingkat Pertemuan -->
             <div class="col-md-6">
               <label for="tingkat_pertemuan" class="form-label">Tingkat Pertemuan</label>
-              <select name="tingkat_pertemuan" id="tingkat_pertemuan" class="form-select">
+              <select name="tingkat_pertemuan" id="tingkat_pertemuan" class="form-select" required>
                 <option value="" disabled selected>-- Pilih Tingkat --</option>
                 <option value="lokal">Lokal</option>
                 <option value="nasional">Nasional</option>
@@ -126,30 +126,30 @@
 
             <!-- Penyelenggara -->
             <div class="col-md-6">
-              <label for="penyelenggara" class="form-label">Penyelenggara *</label>
-              <input type="text" name="penyelenggara" id="penyelenggara" class="form-control" placeholder="Masukkan penyelenggara">
+              <label for="penyelenggara" class="form-label">Penyelenggara</label>
+              <input type="text" name="penyelenggara" id="penyelenggara" class="form-control" placeholder="Masukkan penyelenggara" required>
             </div>
 
             <!-- Tanggal Pelaksana -->
             <div class="col-md-6">
-              <label for="tanggal_pelaksana" class="form-label">Tanggal Pelaksana *</label>
-              <input type="date" name="tanggal_pelaksana" id="tanggal_pelaksana" class="form-control">
+              <label for="tanggal_pelaksana" class="form-label">Tanggal Pelaksana</label>
+              <input type="date" name="tanggal_pelaksana" id="tanggal_pelaksana" class="form-control" required>
             </div>
 
             <!-- Bahasa -->
             <div class="col-md-6">
               <label for="bahasa" class="form-label">Bahasa</label>
-              <input type="text" name="bahasa" id="bahasa" class="form-control" placeholder="Bahasa yang digunakan">
+              <input type="text" name="bahasa" id="bahasa" class="form-control" placeholder="Bahasa yang digunakan" required>
             </div>
 
             <!-- No. SK & Tanggal SK -->
             <div class="col-md-6">
               <label for="no_sk" class="form-label">No. SK Penugasan</label>
-              <input type="text" name="no_sk" id="no_sk" class="form-control" placeholder="Masukkan nomor SK">
+              <input type="text" name="no_sk" id="no_sk" class="form-control" placeholder="Masukkan nomor SK" required>
             </div>
             <div class="col-md-6">
               <label for="tanggal_sk" class="form-label">Tanggal SK Penugasan</label>
-              <input type="date" name="tanggal_sk" id="tanggal_sk" class="form-control">
+              <input type="date" name="tanggal_sk" id="tanggal_sk" class="form-control" required>
             </div>
 
             <!-- Dokumen -->

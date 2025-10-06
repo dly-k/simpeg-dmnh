@@ -26,6 +26,11 @@
   border: none;
 }
 
+.select2-container--bootstrap-5 .select2-results__option--highlighted {
+  background-color:  #1966d1 !important;
+  color: white !important;
+}
+
 /* =============================
    Pencarian dan Filter
    Gaya untuk tata letak baris pencarian dan filter

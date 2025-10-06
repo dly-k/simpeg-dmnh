@@ -17,8 +17,8 @@
             <input type="hidden" name="deleted_dokumen_ids" id="deleted_dokumen_ids">
 
             <div class="col-12">
-              <label for="edit_kegiatan" class="form-label">Kegiatan *</label>
-              <select name="kegiatan" id="edit_kegiatan" class="form-select">
+              <label for="edit_kegiatan" class="form-label">Kegiatan</label>
+              <select name="kegiatan" id="edit_kegiatan" class="form-select form-select-sm" data-value="{{ old('kegiatan', $pembicara->kegiatan ?? '') }}">
                 <option value="">-- Pilih Kegiatan --</option>
                 <option value="jadwal_nasional">Memberi latihan/penyuluhan/penataran/ceramah pada masyarakat: Terjadwal/Terprogram, kurang dari 1 semester (≥1 bulan), Tingkat Nasional</option>
                 <option value="jadwal_lokal">Memberi latihan/penyuluhan/penataran/ceramah pada masyarakat: Terjadwal/Terprogram, kurang dari 1 semester (≥1 bulan), Tingkat Lokal</option>
@@ -36,11 +36,12 @@
             </div>
 
             <div class="col-12">
-              <label for="edit_pegawai_id" class="form-label">Pegawai *</label>
-              <select name="pegawai_id" id="edit_pegawai_id" class="form-select">
-                <option value="" disabled selected>-- Pilih Pegawai --</option>
+              <label for="edit_pegawai_id" class="form-label">Nama Pegawai</label>
+              <select name="pegawai_id" id="edit_pegawai_id" class="form-select form-select-sm"
+                      data-value="{{ old('pegawai_id', $pembicara->pegawai_id ?? '') }}">
+                <option value="" disabled>-- Pilih Pegawai --</option>
                 @foreach ($pegawais as $pegawai)
-                    <option value="{{ $pegawai->id }}">{{ $pegawai->nama_lengkap }}</option>
+                  <option value="{{ $pegawai->id }}">{{ $pegawai->nama_lengkap }}</option>
                 @endforeach
               </select>
             </div>
@@ -66,7 +67,7 @@
             </div>
 
             <div class="col-12">
-              <label for="edit_kategori_pembicara" class="form-label">Kategori Pembicara *</label>
+              <label for="edit_kategori_pembicara" class="form-label">Kategori Pembicara</label>
               <select name="kategori_pembicara" id="edit_kategori_pembicara" class="form-select">
                   <option value="" disabled selected>-- Pilih Kategori --</option>
                   <option value="utama">Pembicara Kunci</option>
@@ -76,12 +77,12 @@
             </div>
             
             <div class="col-12">
-              <label for="edit_judul_makalah" class="form-label">Judul Makalah *</label>
+              <label for="edit_judul_makalah" class="form-label">Judul Makalah</label>
               <input type="text" name="judul_makalah" id="edit_judul_makalah" class="form-control" placeholder="Masukkan judul makalah">
             </div>
 
             <div class="col-12">
-              <label for="edit_nama_pertemuan" class="form-label">Nama Pertemuan Ilmiah *</label>
+              <label for="edit_nama_pertemuan" class="form-label">Nama Pertemuan Ilmiah</label>
               <input type="text" name="nama_pertemuan" id="edit_nama_pertemuan" class="form-control" placeholder="Masukkan nama pertemuan">
             </div>
 
@@ -96,12 +97,12 @@
             </div>
 
             <div class="col-md-6">
-              <label for="edit_penyelenggara" class="form-label">Penyelenggara *</label>
+              <label for="edit_penyelenggara" class="form-label">Penyelenggara</label>
               <input type="text" name="penyelenggara" id="edit_penyelenggara" class="form-control" placeholder="Masukkan penyelenggara">
             </div>
 
             <div class="col-md-6">
-              <label for="edit_tanggal_pelaksana" class="form-label">Tanggal Pelaksana *</label>
+              <label for="edit_tanggal_pelaksana" class="form-label">Tanggal Pelaksana</label>
               <input type="date" name="tanggal_pelaksana" id="edit_tanggal_pelaksana" class="form-control">
             </div>
 
@@ -134,7 +135,7 @@
 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-          <button type="submit" class="btn btn-warning">Simpan Perubahan</button>
+          <button type="submit" class="btn btn-success">Simpan Perubahan</button>
         </div>
       </form>
     </div>
