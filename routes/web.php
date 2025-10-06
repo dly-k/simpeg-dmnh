@@ -187,12 +187,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pengabdian/{pengabdian}', [PengabdianController::class, 'show'])->name('pengabdian.show');
 
     // Penunjang
+    Route::get('/penunjang/export', [PenunjangController::class, 'export'])->name('penunjang.export');
     Route::get('/penunjang', [PenunjangController::class, 'index'])->name('penunjang.index');
     Route::post('/penunjang', [PenunjangController::class, 'store'])->name('penunjang.store');
     Route::get('/penunjang/{penunjang}', [PenunjangController::class, 'show'])->name('penunjang.show');
     Route::patch('/penunjang/{penunjang}', [PenunjangController::class, 'update'])->name('penunjang.update');
     Route::delete('/penunjang/{penunjang}', [PenunjangController::class, 'destroy'])->name('penunjang.destroy');
-    Route::get('/penunjang/export', [PenunjangController::class, 'export'])->name('penunjang.export');
 
     // Orasi Ilmiah
     Route::get('/orasi-ilmiah', [OrasiIlmiahController::class, 'index'])->name('orasi-ilmiah.index');

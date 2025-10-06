@@ -14,7 +14,7 @@
           <div class="row g-3">
             <div class="col-12">
               <label class="form-label">Kegiatan</label>
-              <select name="kegiatan" class="form-select" required>
+              <select name="kegiatan" class="form-select form-select-sm select2-kegiatan" required>
                 <option selected disabled value="">-- Pilih Kegiatan --</option>
                 <option>Mewakili Perguruan Tinggi/Lembaga Pemerintah duduk dalam Panitia Antar Lembaga</option>
                 <option>Menjadi Reviewer: Proposal Penelitian/Pengembangan Institusi</option>

@@ -6,6 +6,8 @@ use App\Models\Pegawai;
 use App\Models\Penunjang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PenunjangExport;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -87,6 +89,109 @@ class PenunjangController extends Controller
             'penunjangs' => $penunjangs,
             'semesterOptions' => $this->generateSemesterOptions()
         ]);
+    }
+
+    public function export(Request $request)
+    {
+        $query = Penunjang::with('anggota.pegawai', 'dokumen');
+
+        // search filter
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('kegiatan', 'like', '%' . $request->search . '%')
+                ->orWhere('nama_kegiatan', 'like', '%' . $request->search . '%')
+                ->orWhere('nomor_sk', 'like', '%' . $request->search . '%')
+                ->orWhere('lingkup', 'like', '%' . $request->search . '%')
+                ->orWhere('instansi', 'like', '%' . $request->search . '%')
+                ->orWhere('status', 'like', '%' . $request->search . '%')
+                ->orWhereHas('anggota.pegawai', function ($subq) use ($request) {
+                    $subq->where('nama_lengkap', 'like', '%' . $request->search . '%');
+                });
+            });
+        }
+
+        // lingkup filter
+        $lingkup = null;
+        if ($request->filled('lingkup')) {
+            $lingkup = $request->lingkup;
+            $query->where('lingkup', $lingkup);
+        }
+
+        // status filter
+        $status = null;
+        if ($request->filled('status')) {
+            $status = $request->status;
+            $query->where('status', $status);
+        }
+
+        // semester filter (normalisasi beberapa format)
+        $semester = null;
+        if ($request->filled('semester')) {
+            $rawSemester = trim($request->semester);
+
+            // normalisasi: bisa menerima "Ganjil 2025", "2025-ganjil", "2025", "ganjil-2025"
+            $parts = preg_split('/[-_\s]+/', $rawSemester);
+            $year = null; $stype = null;
+            foreach ($parts as $p) {
+                if (preg_match('/^\d{4}$/', $p)) $year = $p;
+                if (in_array(strtolower($p), ['ganjil','genap'])) $stype = ucfirst(strtolower($p));
+            }
+            if ($year && $stype) {
+                $semester = $stype . ' ' . $year; // "Ganjil 2025"
+            } elseif ($year && !$stype) {
+                $semester = $year; // hanya tahun
+            } else {
+                $semester = $rawSemester; // fallback as-is
+            }
+
+            // jika ada year+type, terapkan filter tmt/tst seperti sebelumnya
+            if (preg_match('/^\d{4}$/', $semester)) {
+                // jika semester hanya tahun, kita filter sepanjang tahun
+                $start = Carbon::create($semester, 1, 1)->startOfDay();
+                $end   = Carbon::create($semester, 12, 31)->endOfDay();
+            } elseif (strpos($semester, 'Ganjil') !== false) {
+                [$stype, $y] = explode(' ', $semester);
+                $start = Carbon::create($y, 1, 1)->startOfDay();
+                $end   = Carbon::create($y, 6, 30)->endOfDay();
+            } elseif (strpos($semester, 'Genap') !== false) {
+                [$stype, $y] = explode(' ', $semester);
+                $start = Carbon::create($y, 7, 1)->startOfDay();
+                $end   = Carbon::create($y, 12, 31)->endOfDay();
+            } else {
+                $start = $end = null;
+            }
+
+            if ($start && $end) {
+                $query->where(function ($q) use ($start, $end) {
+                    $q->where('tmt_mulai', '<=', $end)
+                    ->where('tmt_selesai', '>=', $start);
+                });
+            }
+        }
+
+        $data = $query->get();
+
+        // buat nama file dinamis dan aman
+        $filename = 'Data_Penunjang';
+        if (!empty($semester)) {
+            $filename .= '_' . preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $semester));
+        }
+        if (!empty($lingkup)) {
+            $filename .= '_' . preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $lingkup));
+        }
+        if (!empty($status)) {
+            $filename .= '_' . preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $status));
+        }
+        if ($request->filled('search')) {
+            $filename .= '_(' . preg_replace('/[^A-Za-z0-9\-]/', '', $request->search) . ')';
+        }
+
+        $filename .= '.xlsx';
+
+        return Excel::download(
+            new PenunjangExport($data, $semester, $status, $request->search),
+            $filename
+        );
     }
 
     /**

@@ -11,6 +11,8 @@
   <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="{{ asset('assets/css/layout.css') }}" />
   <link rel="stylesheet" href="{{ asset('assets/css/penunjang.css') }}" />
@@ -75,7 +77,7 @@
 
               <!-- Buttons -->
               <div class="btn-tambah-container">
-                <a href="#" class="btn btn-export fw-bold">
+                <a href="{{ route('penunjang.export', request()->all()) }}" class="btn btn-export fw-bold">
                   <i class="fa fa-file-excel me-2"></i> Export Excel
                 </a>
                 <button class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#penunjangModal">
@@ -89,7 +91,7 @@
 
           <!-- Table -->
           <div class="table-responsive">
-            <table class="table table-hover table-bordered" data-user-role="{{ Auth::user()->role ?? '' }}">
+            <table id="penunjang-table" class="table table-hover table-bordered" data-pegawai='@json($pegawais)' data-user-role="{{ Auth::user()->role ?? '' }}">
               <thead class="table-light">
                 <tr class="text-center">
                   <th>No</th>
@@ -172,6 +174,8 @@
   <!-- Scripts -->
   <script src="{{ asset('assets/js/layout.js') }}"></script>
   <script src="{{ asset('assets/js/penunjang.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
