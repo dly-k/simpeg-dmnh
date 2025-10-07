@@ -19,8 +19,8 @@
             <!-- Pegawai -->
             {{-- Gunakan kode yang dinamis ini --}}
             <div class="col-12">
-                <label for="pegawai_id_edit" class="form-label">Pegawai *</label>
-                <select name="pegawai_id" id="pegawai_id_edit" class="form-select" required>
+                <label for="pegawai_id_edit" class="form-label">Nama Pegawai</label>
+                <select name="pegawai_id" id="pegawai_id_edit" class="form-select form-select-sm" required>
                     <option value="" disabled>-- Pilih Pegawai --</option>
                     {{-- Loop data pegawai aktif dari controller --}}
                     @foreach($pegawais as $pegawai)
@@ -37,7 +37,7 @@
 
             <!-- Kategori Pembicara & Lingkup -->
             <div class="col-md-6">
-              <label for="kategori_pembicara_edit" class="form-label">Kategori Pembicara *</label>
+              <label for="kategori_pembicara_edit" class="form-label">Kategori Pembicara</label>
               <select name="kategori_pembicara" id="kategori_pembicara_edit" class="form-select" required>
                 <option value="" disabled>-- Pilih Kategori --</option>
                 <option value="utama">Pembicara pada pertemuan Ilmiah</option>
@@ -46,7 +46,7 @@
               </select>
             </div>
             <div class="col-md-6">
-              <label for="lingkup_edit" class="form-label">Lingkup *</label>
+              <label for="lingkup_edit" class="form-label">Lingkup</label>
               <select name="lingkup" id="lingkup_edit" class="form-select" required>
                 <option value="" disabled>-- Pilih Lingkup --</option>
                 <option value="lokal">Lokal</option>
@@ -57,13 +57,13 @@
 
             <!-- Judul Makalah -->
             <div class="col-12">
-              <label for="judul_makalah_edit" class="form-label">Judul Makalah *</label>
+              <label for="judul_makalah_edit" class="form-label">Judul Makalah</label>
               <input type="text" name="judul_makalah" id="judul_makalah_edit" class="form-control" value="Pengaruh AI terhadap Pendidikan di Indonesia" required>
             </div>
 
             <!-- Nama Pertemuan & Penyelenggara sejajar -->
             <div class="col-md-6">
-              <label for="nama_pertemuan_edit" class="form-label">Nama Pertemuan Ilmiah *</label>
+              <label for="nama_pertemuan_edit" class="form-label">Nama Pertemuan Ilmiah</label>
               <input type="text" name="nama_pertemuan" id="nama_pertemuan_edit" class="form-control" value="Seminar Nasional Teknologi Informasi" required>
             </div>
             <div class="col-md-6">
@@ -86,7 +86,7 @@
 
             <!-- Jenis Dokumen -->
             <div class="col-12">
-              <label for="jenis_dokumen_edit" class="form-label">Jenis Dokumen *</label>
+              <label for="jenis_dokumen_edit" class="form-label">Jenis Dokumen</label>
               <select name="jenis_dokumen" id="jenis_dokumen_edit" class="form-select" required>
                 <option value="" disabled>-- Pilih Jenis Dokumen --</option>
                 <option value="sertifikat">Transkrip</option>

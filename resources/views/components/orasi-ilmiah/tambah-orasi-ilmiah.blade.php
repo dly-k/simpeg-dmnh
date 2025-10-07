@@ -1,7 +1,7 @@
 <div class="modal fade" id="orasiIlmiahModal" tabindex="-1" aria-labelledby="modalOrasiTitle" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-scrollable">
     <div class="modal-content">
-      <form action="{{ route('orasi-ilmiah.store') }}" method="POST" enctype="multipart/form-data">
+      <form id="orasiIlmiahForm" action="{{ route('orasi-ilmiah.store') }}" method="POST" enctype="multipart/form-data">
           @csrf
 
         <!-- Header -->
@@ -18,8 +18,8 @@
 
             <!-- Pegawai -->
             <div class="col-12">
-              <label for="pegawai_id" class="form-label">Pegawai *</label>
-                <select name="pegawai_id" id="pegawai_id" class="form-select" required>
+              <label for="pegawai_id" class="form-label">Nama Pegawai</label>
+                <select name="pegawai_id" id="pegawai_id" class="form-select form-select-sm" required>
                     <option value="" disabled selected>-- Pilih Pegawai --</option>
                     {{-- Loop data pegawai aktif dari controller --}}
                     @foreach($pegawais as $pegawai)
@@ -36,7 +36,7 @@
 
             <!-- Kategori Pembicara & Lingkup -->
             <div class="col-md-6">
-              <label for="kategori_pembicara" class="form-label">Kategori Pembicara *</label>
+              <label for="kategori_pembicara" class="form-label">Kategori Pembicara</label>
               <select name="kategori_pembicara" id="kategori_pembicara" class="form-select" required>
                 <option value="" disabled selected>-- Pilih Kategori --</option>
                 <option value="utama">Pembicara pada pertemuan Ilmiah</option>
@@ -56,23 +56,23 @@
 
             <!-- Judul Makalah -->
             <div class="col-12">
-              <label for="judul_makalah" class="form-label">Judul Makalah *</label>
+              <label for="judul_makalah" class="form-label">Judul Makalah</label>
               <input type="text" name="judul_makalah" id="judul_makalah" class="form-control" placeholder="Masukkan judul makalah" required>
             </div>
 
             <!-- Nama Pertemuan & Penyelenggara sejajar -->
             <div class="col-md-6">
-              <label for="nama_pertemuan" class="form-label">Nama Pertemuan Ilmiah *</label>
+              <label for="nama_pertemuan" class="form-label">Nama Pertemuan Ilmiah</label>
               <input type="text" name="nama_pertemuan" id="nama_pertemuan" class="form-control" placeholder="Masukkan nama pertemuan" required>
             </div>
             <div class="col-md-6">
-              <label for="penyelenggara" class="form-label">Penyelenggara *</label>
+              <label for="penyelenggara" class="form-label">Penyelenggara</label>
               <input type="text" name="penyelenggara" id="penyelenggara" class="form-control" placeholder="Masukkan penyelenggara" required>
             </div>
 
             <!-- Tanggal & Bahasa sejajar -->
             <div class="col-md-6">
-              <label for="tanggal_pelaksana" class="form-label">Tanggal Pelaksanaan *</label>
+              <label for="tanggal_pelaksana" class="form-label">Tanggal Pelaksanaan</label>
               <input type="date" name="tanggal_pelaksana" id="tanggal_pelaksana" class="form-control" required>
             </div>
             <div class="col-md-6">
@@ -85,7 +85,7 @@
 
             <!-- Jenis Dokumen -->
             <div class="col-12">
-              <label for="jenis_dokumen" class="form-label">Jenis Dokumen *</label>
+              <label for="jenis_dokumen" class="form-label">Jenis Dokumen</label>
               <select name="jenis_dokumen" id="jenis_dokumen" class="form-select" required>
                 <option value="" disabled selected>-- Pilih Jenis Dokumen --</option>
                 <option value="sertifikat">Transkrip</option>

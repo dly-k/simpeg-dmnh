@@ -18,7 +18,7 @@
         <!-- Informasi Orasi Ilmiah -->
         <div class="detail-grid-container">
           <div class="detail-item">
-            <small>Pegawai</small>
+            <small>Nama Pegawai</small>
             <p id="detail_orasi_pegawai">-</p>
           </div>
           <div class="detail-item">

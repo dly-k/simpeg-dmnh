@@ -48,6 +48,111 @@ class OrasiIlmiahController extends Controller
         return view('pages.orasi-ilmiah', compact('orasiIlmiahs', 'pegawais', 'semesterOptions'));
     }
 
+    public function export(Request $request)
+    {
+        // Inisialisasi query dengan relasi pegawai
+        $query = OrasiIlmiah::with('pegawai');
+
+        // ===============================
+        // Filter berdasarkan search
+        // ===============================
+        if ($request->filled('cari')) {
+            $search = $request->cari;
+            $query->where(function ($q) use ($search) {
+                $q->where('judul_makalah', 'like', "%{$search}%")
+                ->orWhere('nama_pertemuan', 'like', "%{$search}%")
+                ->orWhere('penyelenggara', 'like', "%{$search}%")
+                ->orWhereHas('pegawai', function ($subq) use ($search) {
+                    $subq->where('nama_lengkap', 'like', "%{$search}%");
+                });
+            });
+        }
+
+        // ===============================
+        // Filter berdasarkan status
+        // ===============================
+        $status = $request->filled('status') ? $request->status : null;
+        if ($status) {
+            $query->where('verifikasi', $status);
+        }
+
+        // ===============================
+        // Filter berdasarkan semester
+        // ===============================
+        $semester = null;
+        if ($request->filled('semester')) {
+            $rawSemester = trim($request->semester);
+
+            // Normalisasi input semester
+            $parts = preg_split('/[-_\s]+/', $rawSemester);
+            $year = null;
+            $stype = null;
+
+            foreach ($parts as $p) {
+                if (preg_match('/^\d{4}$/', $p)) $year = $p;
+                if (in_array(strtolower($p), ['ganjil','genap'])) $stype = ucfirst(strtolower($p));
+            }
+
+            if ($year && $stype) {
+                $semester = "{$stype} {$year}"; // Contoh: "Ganjil 2025"
+            } elseif ($year) {
+                $semester = $year; // Hanya tahun
+            } else {
+                $semester = $rawSemester; // Fallback
+            }
+
+            // Hitung range tanggal berdasarkan semester
+            if (preg_match('/^\d{4}$/', $semester)) {
+                $start = \Carbon\Carbon::create($semester, 1, 1)->startOfDay();
+                $end = \Carbon\Carbon::create($semester, 12, 31)->endOfDay();
+            } elseif (strpos($semester, 'Ganjil') !== false) {
+                [$stype, $y] = explode(' ', $semester);
+                $start = \Carbon\Carbon::create($y, 1, 1)->startOfDay();
+                $end = \Carbon\Carbon::create($y, 6, 30)->endOfDay();
+            } elseif (strpos($semester, 'Genap') !== false) {
+                [$stype, $y] = explode(' ', $semester);
+                $start = \Carbon\Carbon::create($y, 7, 1)->startOfDay();
+                $end = \Carbon\Carbon::create($y, 12, 31)->endOfDay();
+            } else {
+                $start = $end = null;
+            }
+
+            if ($start && $end) {
+                $query->whereBetween('tanggal_pelaksana', [$start, $end]);
+            }
+        }
+
+        // Ambil data
+        $data = $query->get();
+
+        // ===============================
+        // Buat nama file dinamis
+        // ===============================
+        $filenameParts = ['Data_Orasi_Ilmiah'];
+
+        if ($semester) {
+            $filenameParts[] = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $semester));
+        }
+
+        if ($status) {
+            $filenameParts[] = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $status));
+        }
+
+        if ($request->filled('search')) {
+            $filenameParts[] = '_(' . preg_replace('/[^A-Za-z0-9\-]/', '', $request->search) . ')';
+        }
+
+        $filename = implode('_', $filenameParts) . '.xlsx';
+
+        // ===============================
+        // Export file
+        // ===============================
+        return \Maatwebsite\Excel\Facades\Excel::download(
+            new \App\Exports\OrasiIlmiahExport($data, $semester, $status, $request->cari),
+            $filename
+        );
+    }
+
     /**
      * Menyimpan data orasi ilmiah baru dari form.
      */
