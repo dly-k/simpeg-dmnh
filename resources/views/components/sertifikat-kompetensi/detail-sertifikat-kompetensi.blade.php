@@ -16,7 +16,7 @@
       <div class="modal-body">
         <div class="detail-grid-container">
           <div class="detail-item">
-            <small>Nama</small>
+            <small>Nama Pegawai</small>
             <p id="detail_sertifikat_nama">-</p>
           </div>
           <div class="detail-item">

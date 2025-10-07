@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\SertifikatKompetensi;
 use App\Models\Pegawai;
+use App\Exports\SertifikatKompetensiExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -11,11 +13,27 @@ class SertifikatKompetensiController extends Controller
 {
     public function index(Request $request)
     {
+        // Inisialisasi query dengan relasi pegawai
+        $query = SertifikatKompetensi::with('pegawai');
+        
         // Ambil data sertifikat + relasi pegawai, pakai pagination
         $sertifikatKompetensis = SertifikatKompetensi::with('pegawai')
             ->latest()
             ->paginate(10)
             ->appends($request->query()); 
+
+        // Filter berdasarkan pencarian
+        if ($request->filled('cari')) {
+            $search = $request->cari;
+            $query->where(function ($q) use ($search) {
+                $q->where('kegiatan', 'like', "%{$search}%")
+                  ->orWhere('judul_kegiatan', 'like', "%{$search}%")
+                  ->orWhere('lembaga_sertifikasi', 'like', "%{$search}%")
+                  ->orWhereHas('pegawai', function ($subq) use ($search) {
+                      $subq->where('nama_lengkap', 'like', "%{$search}%");
+                  });
+            });
+        }
 
         // Data pegawai aktif
         $pegawais = Pegawai::where('status_pegawai', 'Aktif')
@@ -33,6 +51,77 @@ class SertifikatKompetensiController extends Controller
             'pegawais',
             'tahunOptions'
         ));
+    }
+
+    public function export(Request $request)
+    {
+        // ===============================
+        // Inisialisasi query
+        // ===============================
+        $query = SertifikatKompetensi::with('pegawai');
+
+        // ===============================
+        // Filter berdasarkan pencarian
+        // ===============================
+        if ($request->filled('cari')) {
+            $search = $request->cari;
+            $query->where(function ($q) use ($search) {
+                $q->where('kegiatan', 'like', "%{$search}%")
+                    ->orWhere('judul_kegiatan', 'like', "%{$search}%")
+                    ->orWhere('lembaga_sertifikasi', 'like', "%{$search}%")
+                    ->orWhereHas('pegawai', function ($subq) use ($search) {
+                        $subq->where('nama_lengkap', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        // ===============================
+        // Filter berdasarkan tahun sertifikasi
+        // ===============================
+        $tahun = $request->filled('tahun') ? $request->tahun : null;
+        if ($tahun) {
+            $query->where('tahun_sertifikasi', $tahun);
+        }
+
+        // ===============================
+        // Filter berdasarkan status verifikasi
+        // ===============================
+        $status = $request->filled('status') ? $request->status : null;
+        if ($status) {
+            $query->where('verifikasi', $status);
+        }
+
+        // ===============================
+        // Ambil semua data hasil filter
+        // ===============================
+        $data = $query->get();
+
+        // ===============================
+        // Buat nama file dinamis
+        // ===============================
+        $filenameParts = ['Data_Sertifikat_Kompetensi'];
+
+        if ($tahun) {
+            $filenameParts[] = "Tahun_{$tahun}";
+        }
+
+        if ($status) {
+            $filenameParts[] = preg_replace('/\s+/', '_', $status);
+        }
+
+        if ($request->filled('cari')) {
+            $filenameParts[] = 'Cari_' . preg_replace('/[^A-Za-z0-9\-]/', '', $request->cari);
+        }
+
+        $filename = implode('_', $filenameParts) . '.xlsx';
+
+        // ===============================
+        // Eksekusi export pakai class SertifikatKompetensiExport
+        // ===============================
+        return Excel::download(
+            new SertifikatKompetensiExport($data, $tahun, $status, $request->cari),
+            $filename
+        );
     }
 
 public function store(Request $request)

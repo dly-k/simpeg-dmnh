@@ -12,9 +12,9 @@
           <div class="row g-3">
             {{-- Dropdown Nama dinamis --}}
             <div class="col-12">
-              <label for="pegawai_id_edit" class="form-label">Nama *</label>
-              <select name="pegawai_id" id="pegawai_id_edit" class="form-select" required>
-                <option value="">-- Pilih Nama Pegawai --</option>
+              <label for="pegawai_id_edit" class="form-label">Nama Pegawai</label>
+              <select name="pegawai_id" id="pegawai_id_edit" class="form-select form-select-sm" required>
+                <option value="">-- Pilih Pegawai --</option>
                 @foreach($pegawais as $pegawai)
                   <option value="{{ $pegawai->id }}">{{ $pegawai->nama_lengkap }}</option>
                 @endforeach
@@ -22,7 +22,7 @@
             </div>
             {{-- Sesuaikan ID dan name agar snake_case --}}
             <div class="col-12">
-              <label for="kegiatan_edit" class="form-label">Kegiatan *</label>
+              <label for="kegiatan_edit" class="form-label">Kegiatan</label>
               <select name="kegiatan" id="kegiatan_edit" class="form-select" required>
                 <option value="">-- Pilih Kegiatan --</option>
                 <option value="nasional">Memperoleh sertifikat profesi: Bereputasi tingkat Nasional</option>
@@ -31,7 +31,7 @@
               </select>
             </div>
             <div class="col-12">
-              <label for="judul_kegiatan_edit" class="form-label">Judul Kegiatan *</label>
+              <label for="judul_kegiatan_edit" class="form-label">Judul Kegiatan</label>
               <input type="text" name="judul_kegiatan" id="judul_kegiatan_edit" class="form-control" required>
             </div>
             <div class="col-md-6">
@@ -39,15 +39,15 @@
               <input type="text" name="no_reg_pendidik" id="no_reg_pendidik_edit" class="form-control">
             </div>
             <div class="col-md-6">
-              <label for="no_sk_sertifikasi_edit" class="form-label">Nomor SK Sertifikasi *</label>
+              <label for="no_sk_sertifikasi_edit" class="form-label">Nomor SK Sertifikasi</label>
               <input type="text" name="no_sk_sertifikasi" id="no_sk_sertifikasi_edit" class="form-control" required>
             </div>
             <div class="col-md-6">
-              <label for="tahun_sertifikasi_edit" class="form-label">Tahun Sertifikasi *</label>
+              <label for="tahun_sertifikasi_edit" class="form-label">Tahun Sertifikasi</label>
               <input type="number" name="tahun_sertifikasi" id="tahun_sertifikasi_edit" class="form-control" min="1900" max="2099" required>
             </div>
             <div class="col-md-6">
-              <label for="tmt_sertifikasi_edit" class="form-label">TMT Sertifikasi *</label>
+              <label for="tmt_sertifikasi_edit" class="form-label">TMT Sertifikasi</label>
               <input type="date" name="tmt_sertifikasi" id="tmt_sertifikasi_edit" class="form-control" required>
             </div>
             <div class="col-md-6">
@@ -55,11 +55,11 @@
               <input type="date" name="tst_sertifikasi" id="tst_sertifikasi_edit" class="form-control">
             </div>
             <div class="col-md-6">
-              <label for="bidang_studi_edit" class="form-label">Bidang Studi *</label>
+              <label for="bidang_studi_edit" class="form-label">Bidang Studi</label>
               <input type="text" name="bidang_studi" id="bidang_studi_edit" class="form-control" required>
             </div>
             <div class="col-12">
-              <label for="lembaga_sertifikasi_edit" class="form-label">Lembaga Sertifikasi *</label>
+              <label for="lembaga_sertifikasi_edit" class="form-label">Lembaga Sertifikasi</label>
               <select name="lembaga_sertifikasi" id="lembaga_sertifikasi_edit" class="form-select" required>
                 <option value="">-- Pilih Lembaga --</option>
                 <option value="bpsdm">Badan Pengembangan SDM</option>

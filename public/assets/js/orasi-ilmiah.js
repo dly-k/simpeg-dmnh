@@ -85,13 +85,11 @@ document.addEventListener("DOMContentLoaded", () => {
         let noDataRow = document.getElementById('noDataFoundRow');
         if (visibleRowCount === 0) {
             if (!noDataRow) {
-                // Buat elemen noDataRow jika tidak ada
                 noDataRow = document.createElement('tr');
                 noDataRow.id = 'noDataFoundRow';
                 noDataRow.innerHTML = '<td colspan="12" class="text-center">Data tidak ditemukan.</td>';
                 tableBody.appendChild(noDataRow);
             } else {
-                // Pastikan isi dan kelas benar
                 noDataRow.innerHTML = '<td colspan="12" class="text-center">Data tidak ditemukan.</td>';
                 noDataRow.classList.remove('d-none');
             }
@@ -238,6 +236,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (!response.ok) throw new Error('Gagal mengambil data untuk diedit!');
                 const data = await response.json();
 
+                // Debugging: Log data dari server
+                console.log('Data dari server:', data);
+
                 // Mengisi field form dengan data dari server
                 form.querySelector('#pegawai_id_edit').value = data.pegawai_id || '';
                 form.querySelector('#litabmas_edit').value = data.litabmas || '';
@@ -258,6 +259,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     const fileName = data.dokumen.split('/').pop();
                     uploadAreaText.innerHTML = `File sudah ada: <strong>${fileName}</strong><br><small>Unggah file baru untuk mengganti.</small>`;
                 }
+
+                // Set nilai Select2 dan refresh
+                $('#pegawai_id_edit').val(data.pegawai_id).trigger('change');
             } catch (error) {
                 console.error('Error:', error);
                 alert('Terjadi kesalahan saat memuat data. Silakan coba lagi.');
@@ -271,7 +275,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const btnBatalHapus = document.getElementById('btnBatalHapus');
         let deleteUrl = '';
 
-        // Event delegation untuk tombol hapus
         document.body.addEventListener('click', (e) => {
             const deleteButton = e.target.closest('.btn-hapus[data-delete-url]');
             if (deleteButton) {
@@ -281,13 +284,11 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        // Menutup modal saat tombol batal diklik
         btnBatalHapus.addEventListener('click', () => {
             modalKonfirmasiHapus.classList.remove('show');
             deleteUrl = '';
         });
 
-        // Mengirim form hapus saat tombol konfirmasi diklik
         btnKonfirmasiHapus.addEventListener('click', () => {
             if (deleteUrl) {
                 addSpinner(btnKonfirmasiHapus, 'Menghapus...');
@@ -305,7 +306,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        // Menutup modal saat klik di luar modal
         window.addEventListener('click', (e) => {
             if (e.target === modalKonfirmasiHapus) {
                 modalKonfirmasiHapus.classList.remove('show');
@@ -321,7 +321,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const btnKembali = document.getElementById('popupBtnKembali');
         let verifikasiUrl = '';
 
-        // Event delegation untuk tombol verifikasi
         document.body.addEventListener('click', (e) => {
             const verifikasiButton = e.target.closest('.btn-verifikasi[data-verifikasi-url]');
             if (verifikasiButton) {
@@ -331,7 +330,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        // Fungsi untuk mengirim form verifikasi
         const submitVerifikasiForm = (status) => {
             if (verifikasiUrl) {
                 const form = document.createElement('form');
@@ -348,7 +346,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         };
 
-        // Event listener untuk tombol verifikasi
         btnTerima.addEventListener('click', () => submitVerifikasiForm('Sudah Diverifikasi'));
         btnTolak.addEventListener('click', () => submitVerifikasiForm('Ditolak'));
         btnKembali.addEventListener('click', () => {
@@ -366,7 +363,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Inisialisasi Select2 untuk modal tambah dan edit
     $(document).ready(() => {
-        // Inisialisasi Select2 untuk form tambah
         $('#pegawai_id').select2({
             dropdownParent: $('#orasiIlmiahModal'),
             theme: 'bootstrap-5',
@@ -374,7 +370,6 @@ document.addEventListener("DOMContentLoaded", () => {
             width: '100%'
         });
 
-        // Inisialisasi Select2 untuk form edit
         $('#pegawai_id_edit').select2({
             dropdownParent: $('#editOrasiIlmiahModal'),
             theme: 'bootstrap-5',
@@ -382,26 +377,12 @@ document.addEventListener("DOMContentLoaded", () => {
             width: '100%'
         });
 
-        // Saat modal tambah akan dibuka, reset Select2
         $('#orasiIlmiahModal').on('show.bs.modal', () => {
             $('#pegawai_id').val(null).trigger('change');
         });
 
-        // Saat modal edit akan dibuka, set nilai pegawai_id
-        $('#editOrasiIlmiahModal').on('show.bs.modal', (event) => {
-            const button = $(event.relatedTarget);
-            const pegawaiId = button.data('pegawai_id');
-            $('#pegawai_id_edit').val(pegawaiId).trigger('change');
-        });
-
-        // Setelah modal edit benar-benar tampil, trigger perubahan Select2
         $('#editOrasiIlmiahModal').on('shown.bs.modal', () => {
             $('#pegawai_id_edit').trigger('change');
-        });
-
-        // Setelah modal tambah benar-benar tampil, pastikan Select2 fokus
-        $('#orasiIlmiahModal').on('shown.bs.modal', () => {
-            $('#pegawai_id').trigger('change');
         });
     });
 
@@ -428,23 +409,16 @@ document.addEventListener("DOMContentLoaded", () => {
         const semesterValue = semesterFilter.value;
         const statusValue = statusFilter.value;
 
-        // Memperbarui URL dengan parameter filter
         const params = new URLSearchParams();
         if (searchTerm) params.append('cari', searchTerm);
         if (semesterValue) params.append('semester', semesterValue);
         if (statusValue) params.append('status', statusValue);
         const newUrl = `${window.location.pathname}${params.toString() ? `?${params.toString()}` : ''}`;
-
-        // Refresh halaman dengan URL baru
         window.location.href = newUrl;
     };
 
-    // Logika untuk filter tabel
     if (searchInput && semesterFilter && statusFilter) {
-        // Filter pencarian tetap di sisi klien (opsional, bisa juga di-refresh)
         searchInput.addEventListener('input', applyFiltersWithReload);
-
-        // Filter semester dan status memicu refresh halaman
         semesterFilter.addEventListener('change', applyFiltersWithReload);
         statusFilter.addEventListener('change', applyFiltersWithReload);
     }

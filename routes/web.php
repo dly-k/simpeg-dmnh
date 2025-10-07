@@ -203,12 +203,12 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/orasi-ilmiah/{orasiIlmiah}', [OrasiIlmiahController::class, 'destroy'])->name('orasi-ilmiah.destroy');
 
     // Sertifikat Kompetensi
+    Route::get('sertifikat-kompetensi/export', [SertifikatKompetensiController::class, 'export'])->name('sertifikat-kompetensi.export');
     Route::get('/sertifikat-kompetensi', [SertifikatKompetensiController::class, 'index'])->name('sertifikat-kompetensi.index');
     Route::post('/sertifikat-kompetensi', [SertifikatKompetensiController::class, 'store'])->name('sertifikat-kompetensi.store');
     Route::get('/sertifikat-kompetensi/{sertifikatKompetensi}/edit', [SertifikatKompetensiController::class, 'edit'])->name('sertifikat-kompetensi.edit');
     Route::put('/sertifikat-kompetensi/{sertifikatKompetensi}', [SertifikatKompetensiController::class, 'update'])->name('sertifikat-kompetensi.update');
     Route::delete('/sertifikat-kompetensi/{sertifikatKompetensi}', [SertifikatKompetensiController::class, 'destroy'])->name('sertifikat-kompetensi.destroy');
-    Route::get('/sertifikat-kompetensi/export', [SertifikatKompetensiController::class, 'export'])->name('sertifikat-kompetensi.export');
 
     // Pendidikan
     Route::get('/pendidikan', [PendidikanController::class, 'index'])->name('pendidikan.index');
