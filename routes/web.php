@@ -246,7 +246,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/pengelola-jurnal/{pengelolaJurnal}', [PengelolaJurnalController::class, 'update'])->name('pengelola-jurnal.update');
     Route::delete('/pengelola-jurnal/{pengelolaJurnal}', [PengelolaJurnalController::class, 'destroy'])->name('pengelola-jurnal.destroy');
 
-    // Penelitian
+   // Penelitian
+    Route::get('/penelitian/export', [PenelitianController::class, 'export'])->name('penelitian.export');
     Route::get('/penelitian', [PenelitianController::class, 'index'])->name('penelitian.index');
     Route::post('/penelitian', [PenelitianController::class, 'store'])->name('penelitian.store');
     Route::get('/penelitian/{penelitian}/edit', [PenelitianController::class, 'edit'])->name('penelitian.edit');
@@ -262,5 +263,4 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/organisasi-profesi', [OrganisasiProfesiController::class, 'index'])->name('organisasi-profesi.index');
     Route::get('/pembimbingan', [PembimbinganController::class, 'index'])->name('pembimbingan.index');
     Route::get('/kekayaan-intelektual', [KekayaanIntelektualController::class, 'index'])->name('kekayaan-intelektual.index');
-
 });

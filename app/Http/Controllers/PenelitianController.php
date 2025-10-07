@@ -82,6 +82,72 @@ class PenelitianController extends Controller
         return $options;
     }
 
+    public function export(Request $request)
+    {
+        $query = \App\Models\Penelitian::with('penulis.pegawai');
+
+        // Filter search (judul / penulis)
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('judul', 'like', '%' . $search . '%')
+                ->orWhereHas('penulis.pegawai', function ($subq) use ($search) {
+                    $subq->where('nama_lengkap', 'like', '%' . $search . '%');
+                });
+            });
+        }
+
+        // Filter periode (berdasarkan tanggal_terbit)
+        $periode = null;
+        if ($request->filled('periode')) {
+            $periode = $request->periode;
+            [$year, $semester] = explode('_', $periode);
+
+            $months = ($semester === 'ganjil') ? [1, 6] : [7, 12];
+            $query->whereYear('tanggal_terbit', $year)
+                ->whereBetween(DB::raw('MONTH(tanggal_terbit)'), $months);
+        }
+
+        // Filter jenis karya
+        $jenis = null;
+        if ($request->filled('jenis_karya_lengkap')) {
+            $jenis = $request->jenis_karya_lengkap;
+            $query->where('jenis_karya', $jenis);
+        }
+
+        // Filter status
+        $status = null;
+        if ($request->filled('status')) {
+            $status = $request->status;
+            $query->where('status', $status);
+        }
+
+        // Ambil data setelah semua filter
+        $data = $query->get();
+
+        // Buat nama file dinamis
+        $filename = 'Data_Penelitian';
+        if ($periode) {
+            $filename .= '_' . preg_replace('/[^A-Za-z0-9\-]/', '', $periode);
+        }
+        if ($jenis) {
+            $filename .= '_' . preg_replace('/[^A-Za-z0-9\-]/', '', $jenis);
+        }
+        if ($status) {
+            $filename .= '_' . preg_replace('/[^A-Za-z0-9\-]/', '', $status);
+        }
+        if ($request->filled('search')) {
+            $filename .= '_(' . preg_replace('/[^A-Za-z0-9\-]/', '', $request->search) . ')';
+        }
+        $filename .= '.xlsx';
+
+        // Export ke Excel
+        return \Maatwebsite\Excel\Facades\Excel::download(
+            new \App\Exports\PenelitianExport($data, $periode, $jenis, $status, $request->search),
+            $filename
+        );
+    }
+
     /**
      * Menyimpan data penelitian baru.
      */

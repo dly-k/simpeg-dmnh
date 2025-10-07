@@ -26,6 +26,54 @@
     border: none;
 }
 
+  /* Samakan tinggi semua elemen dalam input-group */
+.input-group .select2-container .select2-selection--single {
+  height: 38px !important;         /* Sesuaikan kalau pakai form-control-lg, bisa 42px */
+  line-height: 38px !important;
+  padding: 0 10px !important;
+  box-sizing: border-box;
+}
+
+/* Biar Select2 sejajar vertikal */
+.select2-container--default .select2-selection--single {
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* Styling Select2 di dalam input-group */
+.input-group .select2-container--default .select2-selection--single {
+  border-radius: 0.375rem 0 0 0.375rem !important; /* kiri melengkung, kanan rata */
+  height: 38px !important; /* samakan tinggi */
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* Supaya teks Select2 sejajar */
+.select2-selection__rendered {
+  line-height: 36px !important;
+}
+
+/* Supaya panah Select2 juga sejajar */
+.select2-selection__arrow {
+  height: 36px !important;
+}
+
+/* Hilangkan margin atau gap antar elemen input-group */
+.input-group > * {
+  margin: 0 !important;
+}
+
+/* Batasi lebar Select2 di dalam input-group */
+.input-group .select2-container {
+  width: auto !important; /* biar ngikut ukuran alami dari input-group */
+  flex: 1 1 auto !important; /* biar fleksibel tapi nggak maksa 100% */
+}
+
+/* Kalau masih kepanjangan, bisa pakai ukuran tetap */
+.input-group .select2-container--default .select2-selection--single {
+  width: 390px !important; /* contoh: ubah sesuai kebutuhanmu */
+}
+
 /* =============================
    Pencarian dan Filter
    Gaya untuk komponen pencarian dan filter
