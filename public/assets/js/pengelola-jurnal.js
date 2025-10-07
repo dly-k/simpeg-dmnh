@@ -415,72 +415,89 @@ detailButtons.forEach(btn => {
       }
     });
   });
-  const modalHapus = document.getElementById('modalKonfirmasiHapus'); // Menyesuaikan dengan ID modal Anda
-if (modalHapus) {
-  const btnKonfirmasiHapus = document.getElementById('btnKonfirmasiHapus'); // Menyesuaikan dengan ID tombol Anda
-  const btnBatalHapus = document.getElementById('btnBatalHapus');
-  const modalBerhasil = document.getElementById('modalBerhasil');
 
-  let currentDeleteUrl = ''; // Variabel untuk menyimpan URL yang akan dieksekusi
 
-  // Tampilkan modal saat tombol hapus di tabel diklik
-  document.querySelectorAll('.btn-hapus-data').forEach(button => {
-    button.addEventListener('click', function(e) {
-      e.preventDefault();
-      // Simpan URL dari tombol yang diklik
-      currentDeleteUrl = this.dataset.url;
-      
-      // Tampilkan modal
-      modalHapus.classList.add('show');
+
+  
+  const modalHapus = document.getElementById('modalKonfirmasiHapus');
+  if (modalHapus) {
+    const btnKonfirmasiHapus = document.getElementById('btnKonfirmasiHapus');
+    const btnBatalHapus = document.getElementById('btnBatalHapus');
+    const modalBerhasil = document.getElementById('modalBerhasil');
+    let currentDeleteUrl = '';
+
+    document.querySelectorAll('.btn-hapus-data').forEach(button => {
+      button.addEventListener('click', function (e) {
+        e.preventDefault();
+        currentDeleteUrl = this.dataset.url;
+
+        // Tambahkan kelas show + backdrop
+        modalHapus.classList.add('show');
+        modalHapus.classList.add('modal-active');
+        document.body.classList.add('modal-open'); // mencegah scroll body
+      });
     });
-  });
 
-  // Sembunyikan modal saat tombol batal diklik
-  btnBatalHapus.addEventListener('click', () => {
-    modalHapus.classList.remove('show');
-  });
+    // Tutup modal dengan tombol batal
+    btnBatalHapus.addEventListener('click', () => {
+      modalHapus.classList.remove('show', 'modal-active');
+      document.body.classList.remove('modal-open');
+    });
 
-  // Event listener untuk tombol konfirmasi, bukan form submit
-  btnKonfirmasiHapus.addEventListener('click', function() {
-    const submitButton = this;
-    const originalButtonText = submitButton.innerHTML;
-
-    submitButton.disabled = true;
-    submitButton.innerHTML = `<span class="spinner-border spinner-border-sm"></span>`;
-
-    // Buat FormData untuk mengirim _method DELETE
-    const formData = new FormData();
-    formData.append('_method', 'DELETE');
-
-    fetch(currentDeleteUrl, {
-      method: 'POST', // Method HTML tetap POST, Laravel akan mengartikannya sbg DELETE
-      headers: {
-        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-        'Accept': 'application/json',
-      },
-      body: formData,
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        modalHapus.classList.remove('show');
-        if(modalBerhasil) modalBerhasil.classList.add('show');
-        new Audio('/assets/sounds/Success.mp3').play();
-        setTimeout(() => {
-          if(modalBerhasil) modalBerhasil.classList.remove('show');
-          window.location.reload();
-        }, 1000);
-      } else {
-        alert(data.error || 'Terjadi kesalahan saat menghapus data.');
+    // Tutup modal jika klik di luar area konten
+    modalHapus.addEventListener('click', function (e) {
+      if (e.target === modalHapus) {
+        modalHapus.classList.remove('show', 'modal-active');
+        document.body.classList.remove('modal-open');
       }
-    })
-    .catch(error => console.error('Error:', error))
-    .finally(() => {
-      submitButton.disabled = false;
-      submitButton.innerHTML = originalButtonText;
     });
-  });
-}
+
+    // Tombol konfirmasi hapus
+    btnKonfirmasiHapus.addEventListener('click', function () {
+      const submitButton = this;
+      const originalButtonText = submitButton.innerHTML;
+
+      // ✅ Tambahkan spinner + teks “Menghapus…”
+      submitButton.disabled = true;
+      submitButton.innerHTML = `
+        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+        Menghapus...
+      `;
+
+      const formData = new FormData();
+      formData.append('_method', 'DELETE');
+
+      fetch(currentDeleteUrl, {
+        method: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+          'Accept': 'application/json',
+        },
+        body: formData,
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            modalHapus.classList.remove('show', 'modal-active');
+            document.body.classList.remove('modal-open');
+            if (modalBerhasil) modalBerhasil.classList.add('show');
+            new Audio('/assets/sounds/Success.mp3').play();
+            setTimeout(() => {
+              if (modalBerhasil) modalBerhasil.classList.remove('show');
+              window.location.reload();
+            }, 1000);
+          } else {
+            alert(data.error || 'Terjadi kesalahan saat menghapus data.');
+          }
+        })
+        .catch(error => console.error('Error:', error))
+        .finally(() => {
+          // ✅ Kembalikan tampilan tombol seperti semula
+          submitButton.disabled = false;
+          submitButton.innerHTML = originalButtonText;
+        });
+    });
+  }
 
 const filterForm = document.getElementById('filterForm');
   if (filterForm) {
@@ -508,5 +525,38 @@ const filterForm = document.getElementById('filterForm');
       }, 500); // Jeda 500 milidetik
     });
   }
+
+  $(document).ready(function () {
+    // === Modal Tambah Data ===
+    $('#pengelolaJurnalModal').on('shown.bs.modal', function () {
+      $('#nama').select2({
+        dropdownParent: $('#pengelolaJurnalModal'),
+        theme: 'bootstrap-5',
+        placeholder: "-- Pilih Pegawai --",
+        allowClear: true
+      });
+    });
+
+    // Saat modal tambah ditutup → reset pilihan nama pegawai & hapus Select2
+    $('#pengelolaJurnalModal').on('hidden.bs.modal', function () {
+      $('#nama').val('').trigger('change'); // reset isi select2 ke kosong
+      $('#nama').select2('destroy'); // hapus instance Select2 agar bisa re-init lagi
+    });
+
+    // === Modal Edit Data ===
+    $('#editPengelolaJurnalModal').on('shown.bs.modal', function () {
+      $('#edit_nama').select2({
+        dropdownParent: $('#editPengelolaJurnalModal'),
+        theme: 'bootstrap-5',
+        placeholder: "-- Pilih Pegawai --",
+        allowClear: true
+      });
+    });
+
+    // Hapus Select2 instance saat modal edit ditutup
+    $('#editPengelolaJurnalModal').on('hidden.bs.modal', function () {
+      $('#edit_nama').select2('destroy');
+    });
+  });
   
 });

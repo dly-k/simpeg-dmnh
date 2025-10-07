@@ -239,6 +239,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pendidikan/pembimbing-luar/{id}', [PendidikanController::class, 'showPembimbingLuar']);
 
     // Pengelola Jurnal
+    Route::get('/pengelola-jurnal/export', [PengelolaJurnalController::class, 'export'])->name('pengelola-jurnal.export');
     Route::get('/pengelola-jurnal', [PengelolaJurnalController::class, 'index'])->name('pengelola-jurnal.index');
     Route::post('/pengelola-jurnal', [PengelolaJurnalController::class, 'store'])->name('pengelola-jurnal.store');
     Route::get('/pengelola-jurnal/{pengelolaJurnal}/edit', [PengelolaJurnalController::class, 'edit'])->name('pengelola-jurnal.edit');

@@ -15,8 +15,8 @@
 
             <!-- Nama -->
             <div class="col-12">
-              <label for="nama" class="form-label">Nama *</label>
-              <select name="nama" id="nama" class="form-select">
+              <label for="nama" class="form-label">Nama Pegawai</label>
+              <select name="nama" id="nama" class="form-select form-select-sm" required>
                 <option value="">-- Pilih Nama Pegawai --</option>
                 {{-- Loop data pegawai dari controller --}}
                 @foreach ($pegawais as $pegawai)
@@ -27,8 +27,8 @@
 
             <!-- Kegiatan -->
             <div class="col-12">
-            <label for="kegiatan" class="form-label">Kegiatan *</label>
-            <select name="kegiatan" id="kegiatan" class="form-select">
+            <label for="kegiatan" class="form-label">Kegiatan</label>
+            <select name="kegiatan" id="kegiatan" class="form-select" required>
                 <option value="">-- Pilih Kegiatan --</option>
                 <option value="Berperan serta aktif dalam pengelolaan jurnal ilmiah (per tahun): Editor/ dewan penyunting/ dewan redaksi jurnal ilmiah nasional">
                 Berperan serta aktif dalam pengelolaan jurnal ilmiah (Nasional)
@@ -41,38 +41,38 @@
 
             <!-- Media Publikasi -->
             <div class="col-12">
-              <label for="media_publikasi" class="form-label">Media Publikasi *</label>
-              <input type="text" name="media_publikasi" id="media_publikasi" class="form-control" placeholder="Masukkan media publikasi">
+              <label for="media_publikasi" class="form-label">Media Publikasi</label>
+              <input type="text" name="media_publikasi" id="media_publikasi" class="form-control" placeholder="Masukkan media publikasi" required>
             </div>
 
             <!-- Peran -->
             <div class="col-12">
-              <label for="peran" class="form-label">Peran *</label>
-              <input type="text" name="peran" id="peran" class="form-control" placeholder="Masukkan peran">
+              <label for="peran" class="form-label">Peran</label>
+              <input type="text" name="peran" id="peran" class="form-control" placeholder="Masukkan peran" required>
             </div>
 
             <!-- Nomor SK Penugasan -->
             <div class="col-md-6">
-              <label for="no_sk" class="form-label">Nomor SK Penugasan *</label>
-              <input type="text" name="no_sk" id="no_sk" class="form-control" placeholder="Masukkan nomor SK">
+              <label for="no_sk" class="form-label">Nomor SK Penugasan</label>
+              <input type="text" name="no_sk" id="no_sk" class="form-control" placeholder="Masukkan nomor SK" required>
             </div>
 
             <!-- Tanggal Mulai -->
             <div class="col-md-3">
-              <label for="tanggal_mulai" class="form-label">Tanggal Mulai *</label>
-              <input type="date" name="tanggal_mulai" id="tanggal_mulai" class="form-control">
+              <label for="tanggal_mulai" class="form-label">Tanggal Mulai</label>
+              <input type="date" name="tanggal_mulai" id="tanggal_mulai" class="form-control" required>
             </div>
 
             <!-- Tanggal Selesai -->
             <div class="col-md-3">
-              <label for="tanggal_selesai" class="form-label">Tanggal Selesai *</label>
-              <input type="date" name="tanggal_selesai" id="tanggal_selesai" class="form-control">
+              <label for="tanggal_selesai" class="form-label">Tanggal Selesai</label>
+              <input type="date" name="tanggal_selesai" id="tanggal_selesai" class="form-control" required>
             </div>
 
             <!-- Status -->
             <div class="col-12">
-              <label for="status" class="form-label">Status *</label>
-              <select name="status" id="status" class="form-select">
+              <label for="status" class="form-label">Status</label>
+              <select name="status" id="status" class="form-select" required>
                 <option value="">-- Pilih Status --</option>
                 <option value="Aktif">Aktif</option>
                 <option value="Tidak Aktif">Tidak Aktif</option>
@@ -94,7 +94,7 @@
                   <div class="row g-2">
                     <div class="col-12">
                       <label class="form-label">Jenis Dokumen</label>
-                      <select name="dokumen[0][jenis]" class="form-select">
+                      <select name="dokumen[0][jenis]" class="form-select" required>
                         <option value="" disabled selected>-- Pilih Jenis Dokumen --</option>
                         <option value="Transkrip">Transkrip</option>
                         <option value="Surat Tugas">Surat Tugas</option>
@@ -108,7 +108,7 @@
                     </div>
                     <div class="col-md-4">
                       <label class="form-label">Nama Dokumen</label>
-                      <input type="text" name="dokumen[0][nama]" class="form-control" placeholder="Nama Dokumen">
+                      <input type="text" name="dokumen[0][nama]" class="form-control" placeholder="Nama Dokumen" required>
                     </div>
                     <div class="col-md-4">
                       <label class="form-label">Nomor</label>
@@ -121,7 +121,7 @@
                     <div class="col-12">
                       <label class="form-label">File <small class="text-muted">(Maksimal Ukuran File 5MB)</small></label>
                       <input type="file" name="dokumen[0][file]" class="form-control file-input"
-                        accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.txt">
+                        accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.txt" required>
                     </div>
                   </div>
                 </div>

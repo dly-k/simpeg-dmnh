@@ -6,6 +6,9 @@ use App\Models\Pegawai;
 use App\Models\PengelolaJurnal;
 use App\Models\DokumenPengelolaJurnal; // Tambahan penting
 use Illuminate\Http\Request;
+use App\Exports\PengelolaJurnalExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -84,6 +87,60 @@ public function index(Request $request) // Tambahkan Request $request
         'pengelolaJurnals', 
         'semesterOptions'
     ));
+}
+
+public function export(Request $request)
+{
+    $query = PengelolaJurnal::with('pegawai', 'dokumen');
+
+    // Filter search
+    if ($request->filled('search')) {
+        $query->where(function ($q) use ($request) {
+            $q->where('kegiatan', 'like', '%' . $request->search . '%')
+            ->orWhere('media_publikasi', 'like', '%' . $request->search . '%')
+            ->orWhereHas('pegawai', function ($subq) use ($request) {
+                $subq->where('nama_lengkap', 'like', '%' . $request->search . '%');
+            });
+        });
+    }
+
+    // Filter status verifikasi
+    $status = null;
+    if ($request->filled('status')) {
+        $status = $request->status;
+        $query->where('status_verifikasi', $status);
+    }
+
+    // Filter semester (pakai tanggal mulai)
+    $semester = null;
+    if ($request->filled('semester')) {
+        [$periode, $tahun] = explode('_', $request->semester);
+        $semester = $periode . ' ' . $tahun;
+
+        if ($periode == 'ganjil') {
+            $startMonth = 1;
+            $endMonth   = 6;
+        } else {
+            $startMonth = 7;
+            $endMonth   = 12;
+        }
+
+        $semesterStart = Carbon::create($tahun, $startMonth, 1)->startOfDay();
+        $semesterEnd   = Carbon::create($tahun, $endMonth, 1)->endOfMonth()->endOfDay();
+
+        $query->whereBetween('tanggal_mulai', [$semesterStart, $semesterEnd]);
+    }
+
+    $data = $query->get();
+
+    // Nama file dinamis
+    $filename = 'Data_Pengelola_Jurnal';
+    if ($semester) $filename .= '_' . str_replace(' ', '_', $semester);
+    if ($status) $filename .= '_' . preg_replace('/[^A-Za-z0-9\-]/', '', $status);
+    if ($request->filled('search')) $filename .= '_(' . preg_replace('/[^A-Za-z0-9\-]/', '', $request->search) . ')';
+    $filename .= '.xlsx';
+
+    return Excel::download(new PengelolaJurnalExport($data, $semester, $status, $request->search), $filename);
 }
 
     /**
