@@ -65,27 +65,10 @@
         </div>
 
         <!-- Dokumen -->
-        <h6 class="fw-bold mt-3">Dokumen Terlampir</h6>
-        <div class="row g-3" id="detail-dokumen-list">
-          <!-- Contoh dokumen -->
-          <div class="col-md-6">
-            <div class="detail-doc">
-              <span>File Sertifikat</span>
-              <a href="#" id="detail-sertifikat" class="btn btn-sm btn-success text-white mt-1 d-none" target="_blank">
-                <i class="fa fa-eye me-1"></i> Lihat File
-              </a>
-              <span id="nodata-sertifikat" class="text-muted fst-italic">Tidak ada file</span>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="detail-doc">
-              <span>File SK/Surat Tugas</span>
-              <a href="#" id="detail-sk" class="btn btn-sm btn-success text-white mt-1 d-none" target="_blank">
-                <i class="fa fa-eye me-1"></i> Lihat File
-              </a>
-              <span id="nodata-sk" class="text-muted fst-italic">Tidak ada file</span>
-            </div>
-          </div>
+        <h6 class="fw-bold mt-4">Dokumen Terlampir</h6>
+        <div class="row" id="detail-dokumen-list">
+          {{-- Konten dokumen akan dimuat oleh JavaScript di sini. --}}
+          {{-- Struktur statis yang lama sudah dihapus. --}}
         </div>
 
       </div>

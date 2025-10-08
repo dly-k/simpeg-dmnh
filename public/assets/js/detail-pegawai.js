@@ -336,6 +336,141 @@ const initPendidikanDetailModals = () => {
     });
 };
 
+const initSertifikatDetailModal = () => {
+  const modalDetail = document.getElementById('modalDetailSertifikatKompetensi');
+  if (!modalDetail) return;
+
+  modalDetail.addEventListener('show.bs.modal', function (event) {
+      const button = event.relatedTarget;
+      
+      const setDataText = (id, attribute) => {
+          const element = modalDetail.querySelector(`#${id}`);
+          if (element) element.textContent = button.getAttribute(attribute) || '-';
+      };
+
+      // Mengisi semua data teks seperti sebelumnya
+      setDataText('detail_sertifikat_nama', 'data-nama');
+      setDataText('detail_sertifikat_kegiatan', 'data-kegiatan');
+      setDataText('detail_sertifikat_judul', 'data-judul');
+      setDataText('detail_sertifikat_no_reg', 'data-no-reg');
+      setDataText('detail_sertifikat_no_sk', 'data-no-sk');
+      setDataText('detail_sertifikat_tahun', 'data-tahun');
+      setDataText('detail_sertifikat_tmt', 'data-tmt');
+      setDataText('detail_sertifikat_tst', 'data-tst');
+      setDataText('detail_sertifikat_bidang', 'data-bidang');
+      setDataText('detail_sertifikat_lembaga', 'data-lembaga');
+
+      // --- PERBAIKAN DIMULAI DI SINI ---
+      const viewer = modalDetail.querySelector('#detail_sertifikat_document_viewer');
+      const docUrl = button.getAttribute('data-dokumen');
+      const container = modalDetail.querySelector('.document-viewer-container');
+
+      if (viewer && container) {
+          if (docUrl) {
+              // Jika ada URL, set sumber dari embed dan pastikan elemen terlihat
+              viewer.setAttribute('src', docUrl);
+              container.style.display = 'block';
+          } else {
+              // Jika tidak ada URL, sembunyikan embed agar tidak menampilkan error
+              container.style.display = 'none';
+          }
+      }
+      // --- PERBAIKAN SELESAI ---
+  });
+
+  // Menambahkan event saat modal ditutup untuk membersihkan pratinjau
+  modalDetail.addEventListener('hidden.bs.modal', function () {
+    const viewer = modalDetail.querySelector('#detail_sertifikat_document_viewer');
+    if (viewer) {
+      viewer.setAttribute('src', ''); // Mengosongkan sumber agar tidak termuat di latar belakang
+    }
+  });
+};
+
+const initPembicaraDetailModal = () => {
+    const modalElement = document.getElementById('detailPembicaraModal');
+    if (!modalElement) return;
+
+    modalElement.addEventListener('show.bs.modal', async (event) => {
+        const button = event.relatedTarget;
+        const pembicaraId = button.dataset.id;
+        // URL untuk mengambil data detail pembicara
+        const url = `/pembicara/${pembicaraId}/edit`;
+
+        // Helper untuk mengisi teks di modal
+        const setDetailText = (id, text) => {
+            const el = modalElement.querySelector(`#${id}`);
+            if (el) el.textContent = text || '-';
+        };
+        
+        // Reset state modal saat dibuka
+        const docListContainer = document.getElementById('detail-dokumen-list');
+        docListContainer.innerHTML = '<p class="text-muted fst-italic col-12">Memuat dokumen...</p>';
+        
+        // Reset field teks utama
+        const fields = ['nama','kegiatan','capaian','kategori-pembicara','makalah','pertemuan','tanggal','penyelenggara','tingkat','bahasa','litabmas'];
+        fields.forEach(f => setDetailText(`detail-${f}`, 'Memuat...'));
+
+        try {
+            // Ambil data dari server
+            const response = await fetch(url, { headers: { 'Accept': 'application/json' } });
+            if (!response.ok) throw new Error('Gagal mengambil data dari server.');
+            const data = await response.json();
+
+            // Isi semua field teks utama dengan data yang diterima
+            setDetailText('detail-nama', data.pegawai?.nama_lengkap);
+            setDetailText('detail-kegiatan', data.kegiatan === 'lainnya' ? data.kegiatan_lainnya : data.kegiatan);
+            setDetailText('detail-capaian', data.kategori_capaian);
+            setDetailText('detail-kategori-pembicara', data.kategori_pembicara);
+            setDetailText('detail-makalah', data.judul_makalah);
+            setDetailText('detail-pertemuan', data.nama_pertemuan);
+            setDetailText('detail-tanggal', new Date(data.tanggal_pelaksana).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }));
+            setDetailText('detail-penyelenggara', data.penyelenggara);
+            setDetailText('detail-tingkat', data.tingkat_pertemuan);
+            setDetailText('detail-bahasa', data.bahasa);
+            setDetailText('detail-litabmas', data.is_litabmas ? 'Ya' : 'Tidak');
+            
+            // Render bagian dokumen
+            docListContainer.innerHTML = ''; 
+
+            if (data.dokumen && data.dokumen.length > 0) {
+                data.dokumen.forEach(doc => {
+                    // Daftar item detail dokumen
+                    const jenisHtml = doc.jenis_dokumen ? `<div class="doc-list-item"><span class="doc-list-label">Jenis:</span><span class="doc-list-value">${doc.jenis_dokumen}</span></div>` : '';
+                    const namaHtml = doc.nama_dokumen ? `<div class="doc-list-item"><span class="doc-list-label">Nama:</span><span class="doc-list-value">${doc.nama_dokumen}</span></div>` : '';
+                    const nomorHtml = doc.nomor ? `<div class="doc-list-item"><span class="doc-list-label">Nomor:</span><span class="doc-list-value">${doc.nomor}</span></div>` : '';
+                    const tautanHtml = doc.tautan ? `<div class="doc-list-item"><span class="doc-list-label">Tautan:</span><span class="doc-list-value"><a href="${doc.tautan.startsWith('http') ? doc.tautan : '//' + doc.tautan}" target="_blank">Kunjungi Tautan</a></span></div>` : '';
+                    
+                    // Tombol Lihat File (dengan URL Absolut)
+                    let fileButtonHtml = '';
+                    if (doc.file_path) {
+                        const absoluteUrl = `${window.location.origin}/${doc.file_path}`;
+                        fileButtonHtml = `<a href="${absoluteUrl}" class="btn btn-sm btn-success text-white doc-list-file-button" target="_blank"><i class="fa fa-eye me-1"></i>Lihat</a>`;
+                    }
+
+                    // Gabungkan semua menjadi satu kartu dokumen
+                    const docHtml = `
+                        <div class="col-lg-6 mb-3">
+                            <div class="detail-doc-list">
+                                ${fileButtonHtml}
+                                ${jenisHtml}
+                                ${namaHtml}
+                                ${nomorHtml}
+                                ${tautanHtml}
+                            </div>
+                        </div>`;
+                    docListContainer.innerHTML += docHtml;
+                });
+            } else {
+                docListContainer.innerHTML = '<p class="text-muted fst-italic col-12">Tidak ada dokumen yang terlampir.</p>';
+            }
+
+        } catch (error) {
+            console.error('Error fetching pembicara detail:', error);
+            docListContainer.innerHTML = '<p class="text-danger col-12">Gagal memuat data dokumen. Silakan coba lagi.</p>';
+        }
+    });
+};
   // Panggil semua fungsi inisialisasi
   initTabs();
   initDeleteConfirmation();
@@ -346,4 +481,6 @@ const initPendidikanDetailModals = () => {
   restoreTabsFromUrl();
   initAutoSearch();
   initPendidikanDetailModals();
+  initSertifikatDetailModal();
+  initPembicaraDetailModal();
 });
