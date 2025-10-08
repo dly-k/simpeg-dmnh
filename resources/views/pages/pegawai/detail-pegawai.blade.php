@@ -1365,19 +1365,13 @@
 <script src="{{ asset('assets/js/detail-pegawai.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
-{{-- --}}
+{{-- Asset JS --}}
 <script src="{{ asset('assets/js/penelitian.js') }}"></script>
 <script src="{{ asset('assets/js/pengabdian.js') }}"></script>
 <script src="{{ asset('assets/js/penunjang.js') }}"></script> 
 <script src="{{ asset('assets/js/diklat.js') }}"></script> 
-<script src="{{ asset('assets/js/penghargaan.js') }}"></script> {{-- 2. Tambahkan JS Penghargaan --}}
+<script src="{{ asset('assets/js/penghargaan.js') }}"></script>
 
 
-<!-- <script>
-    // Helper untuk mencegah error jika fungsi initPegawaiList tidak digunakan di halaman ini
-    if (typeof window.initPegawaiList === 'undefined') {
-        window.initPegawaiList = (data) => {}; 
-    }
-</script> -->
 </body>
 </html>
