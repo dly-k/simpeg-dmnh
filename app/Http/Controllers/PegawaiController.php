@@ -24,6 +24,7 @@ use App\Models\Penghargaan;
 use App\Models\SertifikatKompetensi;
 use App\Models\Pembicara;
 use App\Models\OrasiIlmiah;
+use App\Models\Praktisi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Exports\PegawaiExport;
@@ -239,6 +240,12 @@ class PegawaiController extends Controller
             ->latest()
             ->paginate(10, ['*'], 'orasiIlmiahPage')
             ->withQueryString();
+        
+        //-- praktisi dunia industri --
+            $praktisiPegawai = Praktisi::where('pegawai_id', $pegawai->id)
+            ->latest()
+            ->paginate(10, ['*'], 'praktisiPage')
+            ->withQueryString();
 
         // --- Relasi SK dengan Filter ---
         $pegawai->load([
@@ -263,7 +270,8 @@ class PegawaiController extends Controller
             'penghargaanPegawai',
             'sertifikatKompetensiPegawai',
             'pembicaraPegawai',
-            'orasiIlmiahPegawai'
+            'orasiIlmiahPegawai',
+            'praktisiPegawai'
         ));
     }
 

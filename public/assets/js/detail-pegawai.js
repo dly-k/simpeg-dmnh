@@ -535,6 +535,69 @@ const initOrasiIlmiahDetailModal = () => {
     });
   };
 
+  const initPraktisiDetailModal = () => {
+    const detailModalElement = document.getElementById("detailPraktisiModal");
+    if (!detailModalElement) return;
+
+    // Fungsi bantu
+    const formatDate = dateString => dateString ? new Date(dateString).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" }) : "-";
+    const setDetailText = (id, text) => { const el = detailModalElement.querySelector(`#${id}`); if (el) el.textContent = text || "-"; };
+    const updateDokumenDetail = (buttonId, noDataId, filePath) => {
+      const btn = detailModalElement.querySelector(`#${buttonId}`);
+      const noData = detailModalElement.querySelector(`#${noDataId}`);
+      if (btn && noData) {
+        if (filePath) {
+          // Gunakan URL absolut jika diperlukan
+          btn.href = `/storage/${filePath}`;
+          btn.style.display = "inline-block";
+          noData.style.display = "none";
+        } else {
+          btn.style.display = "none";
+          noData.style.display = "inline";
+        }
+      }
+    };
+
+    detailModalElement.addEventListener("show.bs.modal", function (event) {
+      const button = event.relatedTarget;
+      const url = button.getAttribute("data-url");
+      if (!url) return;
+
+      // Reset tampilan
+      const fields = ['nama', 'bidang', 'jenis', 'jabatan', 'instansi', 'divisi', 'deskripsi', 'mulai', 'selesai', 'area', 'kategori'];
+      fields.forEach(f => setDetailText(`detail-${f}`, 'Memuat...'));
+      updateDokumenDetail("detail-surat-ipb", "nodata-surat-ipb", null);
+      updateDokumenDetail("detail-surat-instansi", "nodata-surat-instansi", null);
+      updateDokumenDetail("detail-cv", "nodata-cv", null);
+      updateDokumenDetail("detail-profil", "nodata-profil", null);
+      
+      fetch(url)
+        .then(response => { if (!response.ok) throw new Error("Gagal mengambil data detail."); return response.json(); })
+        .then(data => {
+          setDetailText("detail-nama", data.pegawai ? data.pegawai.nama_lengkap : "Tidak Ditemukan");
+          setDetailText("detail-bidang", data.bidang_usaha);
+          setDetailText("detail-jenis", data.jenis_pekerjaan);
+          setDetailText("detail-jabatan", data.jabatan);
+          setDetailText("detail-instansi", data.instansi);
+          setDetailText("detail-divisi", data.divisi);
+          setDetailText("detail-deskripsi", data.deskripsi_kerja);
+          setDetailText("detail-mulai", formatDate(data.tmt));
+          setDetailText("detail-selesai", formatDate(data.tst));
+          setDetailText("detail-area", data.area_pekerjaan);
+          setDetailText("detail-kategori", data.kategori_pekerjaan);
+
+          updateDokumenDetail("detail-surat-ipb", "nodata-surat-ipb", data.surat_ipb);
+          updateDokumenDetail("detail-surat-instansi", "nodata-surat-instansi", data.surat_instansi);
+          updateDokumenDetail("detail-cv", "nodata-cv", data.cv);
+          updateDokumenDetail("detail-profil", "nodata-profil", data.profil_perusahaan);
+        })
+        .catch(error => { 
+            console.error("Error:", error); 
+            setDetailText("detail-nama", 'Gagal memuat data.');
+        });
+    });
+  };
+
 
   // Panggil semua fungsi inisialisasi
   initTabs();
@@ -549,4 +612,5 @@ const initOrasiIlmiahDetailModal = () => {
   initSertifikatDetailModal();
   initPembicaraDetailModal();
   initOrasiIlmiahDetailModal();
+  initPraktisiDetailModal();
 });
