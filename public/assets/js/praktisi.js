@@ -1,10 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-
-  /**
-   * ================================================================
-   * BAGIAN 1: MODAL NOTIFIKASI SUKSES
-   * ================================================================
-   */
+  // == Modal Notifikasi Sukses ==
   function showSuccessModal() {
     const successModalOverlay = document.getElementById("modalBerhasil");
     const closeButton = document.getElementById("btnSelesai");
@@ -32,11 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const flashSuccessMeta = document.querySelector('meta[name="flash-success"]');
   if (flashSuccessMeta && flashSuccessMeta.getAttribute("content")) showSuccessModal();
 
-  /**
-   * ================================================================
-   * BAGIAN 2: SELECT2
-   * ================================================================
-   */
+   // == Select2 ==
   const selectsInModal = {
     "#pegawai_id": "-- Pilih Pegawai --",
     "#bidang_usaha": "-- Pilih Bidang Usaha --"
@@ -73,11 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  /**
-   * ================================================================
-   * BAGIAN 3: MODAL TAMBAH DATA + SPINNER
-   * ================================================================
-   */
+  // == Modal Tambah ==
   const tambahModalElement = $("#pengalamanKerjaModal");
   if (tambahModalElement.length) {
     const tambahForm = tambahModalElement.find("form");
@@ -99,11 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  /**
-   * ================================================================
-   * BAGIAN 4: MODAL EDIT DATA + SPINNER
-   * ================================================================
-   */
+  // == Modal Edit ==
   const editModalElement = document.getElementById("editPengalamanKerjaModal");
   if (editModalElement) {
     const editPraktisiForm = document.getElementById("editPraktisiForm");
@@ -171,11 +154,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  /**
-   * ================================================================
-   * BAGIAN 5: MODAL DETAIL DATA
-   * ================================================================
-   */
+  // == Modal Detail Data ==
   const detailModalElement = document.getElementById("detailPraktisiModal");
   if (detailModalElement) {
     const formatDate = dateString => dateString ? new Date(dateString).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" }) : "-";
@@ -223,11 +202,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  /**
-   * ================================================================
-   * BAGIAN 6: KONFIRMASI HAPUS DATA + SPINNER
-   * ================================================================
-   */
+  // == Modal Konfirmasi Hapus ==
   const modalKonfirmasiHapus = document.getElementById("modalKonfirmasiHapus");
   if (modalKonfirmasiHapus) {
     const btnKonfirmasiHapus = document.getElementById("btnKonfirmasiHapus");
@@ -283,11 +258,7 @@ document.addEventListener("DOMContentLoaded", function () {
     btnBatalHapus.addEventListener("click", hideDeleteModal);
   }
 
-  /**
-   * ================================================================
-   * BAGIAN 7: KONFIRMASI VERIFIKASI
-   * ================================================================
-   */
+  // == Modal Konfirmasi Verifikasi ==
   const modalVerifikasi = document.getElementById("modalKonfirmasiVerifikasi");
   if (modalVerifikasi) {
     const btnTerima = document.getElementById("popupBtnTerima");
@@ -328,11 +299,7 @@ document.addEventListener("DOMContentLoaded", function () {
     btnKembali.addEventListener("click", hideVerifyModal);
   }
 
-  /**
-   * ================================================================
-   * BAGIAN 8: FILTER DAN PENCARIAN
-   * ================================================================
-   */
+  // == Filter dan Pendarian =
   const searchInput = document.getElementById("searchInput");
   const semesterFilter = document.getElementById("semesterFilter");
   const statusFilter = document.getElementById("statusFilter");
@@ -352,11 +319,7 @@ document.addEventListener("DOMContentLoaded", function () {
     searchInput.addEventListener("keyup", event => { if (event.key === "Enter") applyFilters(); });
   }
 
-  /**
-   * ================================================================
-   * BAGIAN 9: DATE PICKER + ERROR VALIDASI
-   * ================================================================
-   */
+  // == Date Picker ==
   document.querySelectorAll('input[type="date"]').forEach(el => { el.style.cursor = "pointer"; el.addEventListener("click", () => el.showPicker && el.showPicker()); });
 
   if (document.querySelector("meta[name='csrf-token']") && window.LaravelErrors && window.LaravelErrors.length > 0) {
@@ -364,11 +327,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (errorModalElement) new bootstrap.Modal(errorModalElement).show();
   }
 
-  /**
-   * ================================================================
-   * BAGIAN 10: TUTUP MODAL JIKA KLIK DI LUAR
-   * ================================================================
-   */
+  // == Tutup Modal ==
   function enableOutsideClickClose(modalElement, hideCallback) {
     if (!modalElement) return;
     modalElement.addEventListener("click", event => { if (event.target === modalElement) hideCallback(); });

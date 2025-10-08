@@ -13,7 +13,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('assets/css/layout.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/pendidikan.css') }}" />
 </head>
@@ -69,7 +69,7 @@
                                 <option value="menunggu" @if(request('status') == 'menunggu') selected @endif>Menunggu</option>
                             </select>
                             <div class="btn-tambah-container">
-                               <a href="#" class="btn btn-export fw-bold">
+                               <a href="{{ route('pengajaran-lama.export', request()->all()) }}" class="btn btn-export fw-bold">
                                 <i class="fa fa-file-excel me-2"></i> Export Excel
                                </a>
                                 <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalTambahEditPengajaranLama" id="btnTambahPengajaranLama">
@@ -145,7 +145,7 @@
                                 <option value="menunggu" @if(request('status') == 'menunggu') selected @endif>Menunggu</option>
                             </select>
                             <div class="btn-tambah-container">
-                              <a href="#" class="btn btn-export fw-bold">
+                              <a href="{{ route('pengajaran-luar.export', request()->all()) }}" class="btn btn-export fw-bold">
                                 <i class="fa fa-file-excel me-2"></i> Export Excel
                                </a>
                                 <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalPengajaranLuar" id="btnTambahPengajaranLuar">
@@ -219,7 +219,7 @@
                                 <option value="menunggu" @if(request('status') == 'menunggu') selected @endif>Menunggu</option>
                             </select>
                             <div class="btn-tambah-container">
-                              <a href="#" class="btn btn-export fw-bold">
+                              <a href="{{ route('pengujian-lama.export', request()->all()) }}" class="btn btn-export fw-bold">
                                 <i class="fa fa-file-excel me-2"></i> Export Excel
                                </a>
                                 <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalPengujianLama" id="btnTambahPengujianLama">
@@ -293,7 +293,7 @@
                                 <option value="menunggu" @if(request('status') == 'menunggu') selected @endif>Menunggu</option>
                             </select>
                             <div class="btn-tambah-container">
-                               <a href="#" class="btn btn-export fw-bold">
+                               <a href="{{ route('pembimbing-lama.export', request()->all()) }}" class="btn btn-export fw-bold">
                                 <i class="fa fa-file-excel me-2"></i> Export Excel
                                </a>
                                 <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalPembimbingLama" id="btnTambahPembimbingLama">
@@ -366,7 +366,7 @@
                                 <option value="menunggu" @if(request('status') == 'menunggu') selected @endif>Menunggu</option>
                             </select>
                             <div class="btn-tambah-container">
-                               <a href="#" class="btn btn-export fw-bold">
+                               <a href="{{ route('penguji-luar.export', request()->all()) }}" class="btn btn-export fw-bold">
                                 <i class="fa fa-file-excel me-2"></i> Export Excel
                                </a>
                                 <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalPengujiLuar" id="btnTambahPengujiLuar">
@@ -440,7 +440,7 @@
                                 <option value="menunggu" @if(request('status') == 'menunggu') selected @endif>Menunggu</option>
                             </select>
                             <div class="btn-tambah-container">
-                               <a href="#" class="btn btn-export fw-bold">
+                               <a href="{{ route('pembimbing-luar.export', request()->all()) }}" class="btn btn-export fw-bold">
                                 <i class="fa fa-file-excel me-2"></i> Export Excel
                                </a>
                                 <a href="#" class="btn btn-tambah fw-bold" data-bs-toggle="modal" data-bs-target="#modalPembimbingLuar" id="btnTambahPembimbingLuar">
@@ -523,8 +523,158 @@
   <!-- Scripts -->
   <script src="{{ asset('assets/js/layout.js') }}"></script>
   <script src="{{ asset('assets/js/pendidikan.js') }}"></script>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+<script>
+$(document).ready(function() {
+    // Jalankan Select2 setelah modal muncul agar tampil sempurna
+    $('#modalTambahEditPengajaranLama').on('shown.bs.modal', function () {
+        $('#nama').select2({
+            theme: 'bootstrap-5',
+            dropdownParent: $('#modalTambahEditPengajaranLama'),
+            placeholder: '-- Pilih Salah Satu --',
+            allowClear: true
+        });
+    });
+});
+
+$(document).ready(function() {
+    // Jalankan Select2 setelah modal Pengajaran Luar muncul
+    $('#modalPengajaranLuar').on('shown.bs.modal', function () {
+        $('#pl_nama').select2({
+            theme: 'bootstrap-5',
+            dropdownParent: $('#modalPengajaranLuar'),
+            placeholder: '-- Pilih Salah Satu --',
+            allowClear: true,
+            width: '100%'
+        });
+    });
+});
+
+ // Saat modal ditampilkan
+  $('#modalPengujianLama').on('shown.bs.modal', function () {
+    // Inisialisasi Select2 untuk Nama Dosen
+    $('#pjl_nama').select2({
+      theme: 'bootstrap-5',
+      dropdownParent: $('#modalPengujianLama'),
+      placeholder: '-- Pilih Salah Satu --',
+      width: '100%'
+    });
+
+    // Inisialisasi Select2 untuk Departemen
+    $('#pjl_departemen').select2({
+      theme: 'bootstrap-5',
+      dropdownParent: $('#modalPengujianLama'),
+      placeholder: '-- Pilih Salah Satu --',
+      width: '100%'
+    });
+  });
+
+$(document).ready(function () {
+  // Saat modal ditampilkan
+  $('#modalTambahEditPengajaranLama').on('show.bs.modal', function () {
+    const id = $('#editPengajaranId').val();
+
+    if (id) {
+      // Mode Edit
+      $('#modalTitleText').text('Edit Pengajaran Lama');
+      $('#btnSimpanPengajaran .btn-text').text('Simpan Perubahan');
+      $('#btnSimpanPengajaran').removeClass('btn-success').addClass('btn-success');
+    } else {
+      // Mode Tambah
+      $('#modalTitleText').text('Tambah Pengajaran Lama');
+      $('#btnSimpanPengajaran .btn-text').text('Simpan');
+      $('#btnSimpanPengajaran').removeClass('btn-Success').addClass('btn-success');
+    }
+
+    // Pastikan tombol aktif & spinner hilang
+    $('#btnSimpanPengajaran').prop('disabled', false);
+    $('#btnSimpanPengajaran .spinner-border').addClass('d-none');
+  });
+
+  // Saat tombol disimpan ditekan
+  $('#btnSimpanPengajaran').on('click', function () {
+    const $btn = $(this);
+    const $text = $btn.find('.btn-text');
+    const $spinner = $btn.find('.spinner-border');
+
+    // Ubah tampilan tombol jadi loading
+    $spinner.removeClass('d-none');
+    $btn.prop('disabled', true);
+    $text.text('Menyimpan...');
+
+    // Deteksi mode dari hidden input
+    const id = $('#editPengajaranId').val();
+    const mode = id ? 'edit' : 'tambah';
+
+    // Simulasi proses (nanti ganti pakai AJAX)
+    setTimeout(() => {
+      $spinner.addClass('d-none');
+      $btn.prop('disabled', false);
+      $text.text(mode === 'edit' ? 'Simpan Perubahan' : 'Simpan');
+      $('#modalTambahEditPengajaranLama').modal('hide');
+    }, 2000);
+  });
+});
+
+$(document).ready(function () {
+  // Event saat modal dibuka
+  $('#modalPengajaranLuar').on('show.bs.modal', function () {
+    const id = $('#editPengajaranLuarId').val();
+
+    if (id) {
+      // Mode EDIT
+      $('#modalTitleTextPengajaranLuar').text('Edit Kegiatan Pengajaran Luar IPB');
+      $('#btnSimpanPengajaranLuar')
+        .text('Simpan Perubahan');
+    } else {
+      // Mode TAMBAH
+      $('#modalTitleTextPengajaranLuar').text('Tambah Kegiatan Pengajaran Luar IPB');
+      $('#btnSimpanPengajaranLuar')
+        .text('Simpan');
+    }
+  });
+
+  // (Opsional) Reset nilai saat modal ditutup
+  $('#modalPengajaranLuar').on('hidden.bs.modal', function () {
+    $('#formPengajaranLuar')[0].reset();
+    $('#editPengajaranLuarId').val('');
+  });
+});
+
+$(document).ready(function () {
+  // Event saat modal dibuka
+  $('#modalPengujianLama').on('show.bs.modal', function () {
+    const id = $('#editPengujianLamaId').val();
+
+    if (id) {
+      // Mode EDIT
+      $('#modalTitleTextPengujianLama').text('Edit Kegiatan Pengujian Lama');
+      $('#btnSimpanPengujianLama')
+        .text('Simpan Perubahan');
+    } else {
+      // Mode TAMBAH
+      $('#modalTitleTextPengujianLama').text('Tambah Kegiatan Pengujian Lama');
+      $('#btnSimpanPengujianLama')
+        .text('Simpan');
+    }
+  });
+
+  // Reset form saat modal ditutup
+  $('#modalPengujianLama').on('hidden.bs.modal', function () {
+    $('#formPengujianLama')[0].reset();
+    $('#editPengujianLamaId').val('');
+
+    // Jika kamu pakai Select2 di form ini:
+    $('#pjl_nama').val('').trigger('change');
+    $('#pjl_departemen').val('').trigger('change');
+  });
+});
+
+
+</script>
+
 </body>
 </html>

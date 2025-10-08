@@ -15,7 +15,7 @@
 
           <div class="mb-3">
             <label for="pl_nama" class="form-label">Nama Dosen</label>
-            <select class="form-select" id="pl_nama" name="pegawai_id">
+            <select class="form-select form-select-sm" id="pl_nama" name="pegawai_id">
               <option selected disabled value="">-- Pilih Salah Satu --</option>
                @foreach($dosenAktif as $dosen)
                 <option value="{{ $dosen->id }}">{{ $dosen->nama_lengkap }}</option>
@@ -24,8 +24,17 @@
           </div>
 
           <div class="mb-3">
-            <label for="pl_tahun_semester" class="form-label">Tahun Semester</label>
-            <input type="text" class="form-control" id="pl_tahun_semester" name="tahun_semester" placeholder="Contoh: 2020/2021">
+          <label for="tahun_semester" class="form-label">Tahun Semester</label>
+            <select class="form-select" id="tahun_semester" name="tahun_semester" required>
+              @php
+                $tahunSekarang = date('Y');
+                for ($i = $tahunSekarang; $i >= 2015; $i--) {
+                    $next = $i + 1;
+                    echo "<option value='{$i}/{$next} Ganjil'>{$i}/{$next} Ganjil</option>";
+                    echo "<option value='{$i}/{$next} Genap'>{$i}/{$next} Genap</option>";
+                }
+              @endphp
+            </select>
           </div>
           <div class="row mb-3">
             <div class="col-md-6">
@@ -51,7 +60,17 @@
           <div class="row mb-3">
             <div class="col-md-6">
               <label for="pl_strata" class="form-label">Strata</label>
-              <select class="form-select" id="pl_strata" name="strata"><option selected disabled value="">-- Pilih --</option><option value="S1">S1</option><option value="S2">S2</option><option value="S3">S3</option></select>
+              <select class="form-select" id="pl_strata" name="strata">
+                <option selected disabled value="">-- Pilih --</option>
+                <option value="D1">Diploma I</option>
+                <option value="D2">Diploma II</option>
+                <option value="D3">Diploma III</option>
+                <option value="D4">Sarjana Terapan</option>
+                <option value="S1">Sarjana</option>
+                <option value="Profesi">Program Profesi</option>
+                <option value="S2">Magister</option>
+                <option value="S3">Doktor</option>
+              </select>
             </div>
             <div class="col-md-6">
               <label for="pl_program_studi" class="form-label">Program Studi</label>

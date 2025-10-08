@@ -22,7 +22,7 @@
             <p id="detail_pjl_kegiatan">-</p>
           </div>
           <div class="detail-item">
-            <small>Nama</small>
+            <small>Nama Dosen</small>
             <p id="detail_pjl_nama">-</p>
           </div>
           <div class="detail-item">

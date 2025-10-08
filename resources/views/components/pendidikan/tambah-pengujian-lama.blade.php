@@ -16,15 +16,15 @@
           <div class="mb-3">
             <label for="pjl_kegiatan" class="form-label">Kegiatan</label>
             <select class="form-select" id="pjl_kegiatan" name="kegiatan">
-              <option selected disabled value="">Bertugas sebagai penguji pada Ujian Akhir/Profesi (Setiap Mahasiswa): Ketua Penguji</option>
-              <option value="Ketua Penguji">Ketua Penguji</option>
-              <option value="Anggota Penguji">Anggota Penguji</option>
+              <option selected disabled value="">-- Pilih Salah Satu --</option>
+              <option value="Ketua Penguji">Bertugas sebagai penguji pada Ujian Akhir/Profesi (setiap mahasiswa): Ketua penguji</option>
+              <option value="Anggota Penguji">Bertugas sebagai penguji pada Ujian Akhir/Profesi (setiap mahasiswa): Anggota penguji</option>
             </select>
           </div>
 
           <div class="mb-3">
             <label for="pjl_nama" class="form-label">Nama Dosen</label>
-            <select class="form-select" id="pjl_nama" name="pegawai_id">
+            <select class="form-select form-select-sm" id="pjl_nama" name="pegawai_id">
               <option selected disabled value="">-- Pilih Salah Satu --</option>
                @foreach($dosenAktif as $dosen)
                 <option value="{{ $dosen->id }}">{{ $dosen->nama_lengkap }}</option>
@@ -32,27 +32,37 @@
             </select>
           </div>
 
-          <div class="row mb-3">
-            <div class="col-md-6">
-              <label for="pjl_strata" class="form-label">Strata</label>
-              <select class="form-select" id="pjl_strata" name="strata"><option selected disabled value="">-- Pilih --</option><option value="S1">S1</option><option value="S2">S2</option><option value="S3">S3</option></select>
-            </div>
-            <div class="col-md-6">
-              <label for="pjl_tahun_semester" class="form-label">Tahun Semester</label>
-              <input type="text" class="form-control" id="pjl_tahun_semester" name="tahun_semester" placeholder="Contoh: 2020/2021">
-            </div>
-          </div>
           <div class="mb-3">
-            <label for="pjl_nim" class="form-label">NIM</label>
-            <input type="text" class="form-control" id="pjl_nim" name="nim" placeholder="Masukkan NIM Mahasiswa">
+          <label for="tahun_semester" class="form-label">Tahun Semester</label>
+            <select class="form-select" id="tahun_semester" name="tahun_semester" required>
+              @php
+                $tahunSekarang = date('Y');
+                for ($i = $tahunSekarang; $i >= 2015; $i--) {
+                    $next = $i + 1;
+                    echo "<option value='{$i}/{$next} Ganjil'>{$i}/{$next} Ganjil</option>";
+                    echo "<option value='{$i}/{$next} Genap'>{$i}/{$next} Genap</option>";
+                }
+              @endphp
+            </select>
           </div>
-          <div class="mb-3">
-            <label for="pjl_nama_mahasiswa" class="form-label">Nama Mahasiswa</label>
-            <input type="text" class="form-control" id="pjl_nama_mahasiswa" name="nama_mahasiswa" placeholder="Masukkan Nama Mahasiswa">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="pjl_nim" class="form-label">NIM</label>
+              <input type="text" class="form-control" id="pjl_nim" name="nim" placeholder="Masukkan NIM Mahasiswa">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="pjl_nama_mahasiswa" class="form-label">Nama Mahasiswa</label>
+              <input type="text" class="form-control" id="pjl_nama_mahasiswa" name="nama_mahasiswa" placeholder="Masukkan Nama Mahasiswa">
+            </div>
           </div>
           <div class="mb-3">
             <label for="pjl_departemen" class="form-label">Departemen</label>
-            <select class="form-select" id="pjl_departemen" name="departemen"><option selected disabled value="">-- Pilih --</option><option value="Manajemen Hutan">Manajemen Hutan</option><option value="Teknologi Hasil Hutan">Teknologi Hasil Hutan</option></select>
+            <select class="form-select form-select-sm" id="pjl_departemen" name="departemen" required>
+              <option selected disabled value="">-- Pilih Salah Satu--</option>
+              @foreach($programStudi as $prodi)
+                <option value="{{ $prodi }}">{{ $prodi }}</option>
+              @endforeach
+            </select>
           </div>
           <div class="mb-3">
             <label class="form-label">Upload File</label>

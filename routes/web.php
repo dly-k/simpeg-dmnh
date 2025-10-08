@@ -213,26 +213,38 @@ Route::middleware(['auth'])->group(function () {
     // Pendidikan
     Route::get('/pendidikan', [PendidikanController::class, 'index'])->name('pendidikan.index');
     Route::delete('/pendidikan/hapus', [PendidikanController::class, 'hapus'])->name('pendidikan.hapus');
+
+    Route::get('/pendidikan/pengajaran-lama/export', [PendidikanController::class, 'exportPengajaranLama'])->name('pengajaran-lama.export');
     Route::post('/pendidikan/pengajaran-lama', [PendidikanController::class, 'storePengajaranLama'])->name('pendidikan.pengajaran-lama.store');
     Route::get('/pendidikan/pengajaran-lama/{id}/edit', [PendidikanController::class, 'editPengajaranLama']);
     Route::post('/pendidikan/pengajaran-lama/{id}', [PendidikanController::class, 'updatePengajaranLama'])->name('pendidikan.pengajaran-lama.update');
     Route::get('/pendidikan/pengajaran-lama/{id}', [PendidikanController::class, 'showPengajaranLama']);
+
+    Route::get('/pendidikan/pengajaran-luar/export', [PendidikanController::class, 'exportPengajaranLuar'])->name('pengajaran-luar.export');
     Route::post('/pendidikan/pengajaran-luar', [PendidikanController::class, 'storePengajaranLuar'])->name('pendidikan.pengajaran-luar.store');
     Route::get('/pendidikan/pengajaran-luar/{id}/edit', [PendidikanController::class, 'editPengajaranLuar']);
     Route::post('/pendidikan/pengajaran-luar/{id}', [PendidikanController::class, 'updatePengajaranLuar'])->name('pendidikan.pengajaran-luar.update');
     Route::get('/pendidikan/pengajaran-luar/{id}', [PendidikanController::class, 'showPengajaranLuar']);
+
+    Route::get('/pendidikan/pengujian-lama/export', [PendidikanController::class, 'exportPengujianLama'])->name('pengujian-lama.export');
     Route::post('/pendidikan/pengujian-lama', [PendidikanController::class, 'storePengujianLama'])->name('pendidikan.pengujian-lama.store');
     Route::get('/pendidikan/pengujian-lama/{id}/edit', [PendidikanController::class, 'editPengujianLama']);
     Route::post('/pendidikan/pengujian-lama/{id}', [PendidikanController::class, 'updatePengujianLama'])->name('pendidikan.pengujian-lama.update');
     Route::get('/pendidikan/pengujian-lama/{id}', [PendidikanController::class, 'showPengujianLama']);
+
+    Route::get('/pendidikan/pembimbing-lama/export', [PendidikanController::class, 'exportPembimbingLama'])->name('pembimbing-lama.export');
     Route::post('/pendidikan/pembimbing-lama', [PendidikanController::class, 'storePembimbingLama'])->name('pendidikan.pembimbing-lama.store');
     Route::get('/pendidikan/pembimbing-lama/{id}/edit', [PendidikanController::class, 'editPembimbingLama']);
     Route::post('/pendidikan/pembimbing-lama/{id}', [PendidikanController::class, 'updatePembimbingLama'])->name('pendidikan.pembimbing-lama.update');
     Route::get('/pendidikan/pembimbing-lama/{id}', [PendidikanController::class, 'showPembimbingLama']);
+
+    Route::get('/pendidikan/penguji-luar/export', [PendidikanController::class, 'exportPengujiLuar'])->name('penguji-luar.export');
     Route::post('/pendidikan/penguji-luar', [PendidikanController::class, 'storePengujiLuar'])->name('pendidikan.penguji-luar.store');
     Route::get('/pendidikan/penguji-luar/{id}/edit', [PendidikanController::class, 'editPengujiLuar']);
     Route::post('/pendidikan/penguji-luar/{id}', [PendidikanController::class, 'updatePengujiLuar'])->name('pendidikan.penguji-luar.update');
     Route::get('/pendidikan/penguji-luar/{id}', [PendidikanController::class, 'showPengujiLuar']);
+
+    Route::get('/pendidikan/pembimbing-luar/export', [PendidikanController::class, 'exportPembimbingLuar'])->name('pembimbing-luar.export');
     Route::post('/pendidikan/pembimbing-luar', [PendidikanController::class, 'storePembimbingLuar'])->name('pendidikan.pembimbing-luar.store');
     Route::get('/pendidikan/pembimbing-luar/{id}/edit', [PendidikanController::class, 'editPembimbingLuar']);
     Route::post('/pendidikan/pembimbing-luar/{id}', [PendidikanController::class, 'updatePembimbingLuar'])->name('pendidikan.pembimbing-luar.update');

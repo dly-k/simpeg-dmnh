@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('pegawai_id')->constrained('pegawais')->onDelete('cascade');
             $table->string('kegiatan');
-            $table->string('strata');
             $table->string('tahun_semester');
             $table->string('nim');
             $table->string('nama_mahasiswa');

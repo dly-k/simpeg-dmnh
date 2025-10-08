@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class PengujianLama extends Model {
     use HasFactory;
     protected $fillable = [
-        'pegawai_id', 'kegiatan', 'strata', 'tahun_semester', 'nim',
+        'pegawai_id', 'kegiatan', 'tahun_semester', 'nim',
         'nama_mahasiswa', 'departemen', 'file_path',
     ];
     public function pegawai(): BelongsTo {

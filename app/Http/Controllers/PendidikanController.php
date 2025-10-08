@@ -67,7 +67,8 @@ class PendidikanController extends Controller
         return $allTahun->unique()->sort()->values();
     }
 
-public function index(Request $request) {
+    public function index(Request $request)
+    {
         $dosenAktif = Pegawai::where('status_pegawai', 'Aktif')->orderBy('nama_lengkap')->get();
         $tahunAkademikOptions = $this->getTahunAkademikOptions();
 
@@ -202,7 +203,8 @@ public function index(Request $request) {
     }
 
     // Fungsi untuk meng-handle upload file
-    private function handleFileUpload(Request $request, $fieldName, $directory, $existingPath = null) {
+    private function handleFileUpload(Request $request, $fieldName, $directory, $existingPath = null)
+    {
         if ($request->hasFile($fieldName)) {
             if ($existingPath) {
                 Storage::disk('public')->delete($existingPath);
@@ -212,7 +214,160 @@ public function index(Request $request) {
         return $existingPath;
     }
 
-    private function storeData(Request $request, $modelClass, $validationRules, $directory) {
+    public function exportPengajaranLama(Request $request)
+    {
+        $query = \App\Models\PengajaranLama::with('pegawai');
+
+        // Filter search
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('nama_mk', 'like', '%' . $request->search . '%')
+                ->orWhere('kode_mk', 'like', '%' . $request->search . '%')
+                ->orWhereHas('pegawai', function ($subq) use ($request) {
+                    $subq->where('nama_lengkap', 'like', '%' . $request->search . '%');
+                });
+            });
+        }
+
+        // Filter tahun akademik (semester)
+        $semester = null;
+        if ($request->filled('tahun_akademik')) {
+            $semester = $request->tahun_akademik;
+            $query->where('tahun_semester', $semester);
+        }
+
+        // Filter status
+        $status = null;
+        if ($request->filled('status')) {
+            $status = $request->status;
+            $query->where('status_verifikasi', $status);
+        }
+
+        // Ambil data hasil filter
+        $data = $query->get();
+
+        // Buat nama file dinamis
+        $filename = 'Pengajaran_Lama';
+        if ($semester) {
+            $filename .= '_' . preg_replace('/[^A-Za-z0-9\-]/', '', $semester);
+        }
+        if ($status) {
+            $filename .= '_' . preg_replace('/[^A-Za-z0-9\-]/', '', $status);
+        }
+        if ($request->filled('search')) {
+            $filename .= '_(' . preg_replace('/[^A-Za-z0-9\-]/', '', $request->search) . ')';
+        }
+        $filename .= '.xlsx';
+
+        // Export ke Excel
+        return \Maatwebsite\Excel\Facades\Excel::download(
+            new \App\Exports\PengajaranLamaExport($data, $semester, $status, $request->search),
+            $filename
+        );
+    }
+
+    public function exportPengajaranLuar(Request $request)
+    {
+        $query = \App\Models\PengajaranLuar::with('pegawai');
+
+        // Filter search
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('nama_mk', 'like', '%' . $request->search . '%')
+                ->orWhere('kode_mk', 'like', '%' . $request->search . '%')
+                ->orWhere('universitas', 'like', '%' . $request->search . '%')
+                ->orWhereHas('pegawai', function ($subq) use ($request) {
+                    $subq->where('nama_lengkap', 'like', '%' . $request->search . '%');
+                });
+            });
+        }
+
+        // Filter tahun akademik (semester)
+        $semester = null;
+        if ($request->filled('tahun_akademik')) {
+            $semester = $request->tahun_akademik;
+            $query->where('tahun_semester', $semester);
+        }
+
+        // Filter status
+        $status = null;
+        if ($request->filled('status')) {
+            $status = $request->status;
+            $query->where('status_verifikasi', $status);
+        }
+
+        // Ambil data hasil filter
+        $data = $query->get();
+
+        // Buat nama file dinamis
+        $filename = 'Pengajaran_Luar_IPB';
+        if ($semester) {
+            $filename .= '_' . preg_replace('/[^A-Za-z0-9\-]/', '', $semester);
+        }
+        if ($status) {
+            $filename .= '_' . preg_replace('/[^A-Za-z0-9\-]/', '', $status);
+        }
+        if ($request->filled('search')) {
+            $filename .= '_(' . preg_replace('/[^A-Za-z0-9\-]/', '', $request->search) . ')';
+        }
+        $filename .= '.xlsx';
+
+        // Export ke Excel
+        return \Maatwebsite\Excel\Facades\Excel::download(
+            new \App\Exports\PengajaranLuarExport($data, $semester, $status, $request->search),
+            $filename
+        );
+    }
+
+    public function exportPengujianLama(Request $request)
+    {
+        $query = \App\Models\PengujianLama::with('pegawai');
+
+        // Filter pencarian
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('nama_mahasiswa', 'like', '%' . $request->search . '%')
+                ->orWhere('nim', 'like', '%' . $request->search . '%')
+                ->orWhereHas('pegawai', function ($sub) use ($request) {
+                    $sub->where('nama_lengkap', 'like', '%' . $request->search . '%');
+                });
+            });
+        }
+
+        // Filter semester dan status
+        $semester = $request->get('tahun_akademik');
+        $status = $request->get('status');
+
+        if ($semester) {
+            $query->where('tahun_semester', $semester);
+        }
+
+        if ($status) {
+            $query->where('status_verifikasi', $status);
+        }
+
+        $data = $query->get();
+
+        // Bangun nama file yang aman
+        $filenameParts = ['Pengujian_Lama'];
+
+        if ($semester) $filenameParts[] = $semester;
+        if ($status) $filenameParts[] = ucfirst($status);
+        if ($request->filled('search')) $filenameParts[] = 'Filter_' . $request->search;
+
+        // Gabungkan dan bersihkan nama file agar aman dari karakter ilegal
+        $filename = implode('_', $filenameParts);
+        $filename = preg_replace('/[\/\\\\:*?"<>|]+/', '-', $filename) . '.xlsx';
+
+        // Download file Excel
+        return \Maatwebsite\Excel\Facades\Excel::download(
+            new \App\Exports\PengujianLamaExport($data, $semester, $status, $request->search),
+            $filename
+        );
+    }
+
+    private function storeData(Request $request, $modelClass, $validationRules, $directory)
+    {
         $validationRules['pegawai_id'] = 'required|exists:pegawais,id';
         $validationRules['file'] = 'nullable|file|mimes:pdf,jpg,png,doc,docx|max:5120';
         
@@ -228,12 +383,14 @@ public function index(Request $request) {
         return response()->json(['success' => 'Data berhasil ditambahkan.']);
     }
 
-    private function editData($modelClass, $id) {
+    private function editData($modelClass, $id)
+    {
         $data = $modelClass::find($id);
         return $data ? response()->json($data) : response()->json(['error' => 'Data tidak ditemukan.'], 404);
     }
     
-    private function updateData(Request $request, $id, $modelClass, $validationRules, $directory) {
+    private function updateData(Request $request, $id, $modelClass, $validationRules, $directory)
+    {
         $dataModel = $modelClass::find($id);
         if (!$dataModel) {
             return response()->json(['error' => 'Data tidak ditemukan.'], 404);
@@ -254,61 +411,140 @@ public function index(Request $request) {
         return response()->json(['success' => 'Data berhasil diperbarui.']);
     }
 
-    public function storePengajaranLama(Request $request) {
-        return $this->storeData($request, PengajaranLama::class, ['tahun_semester' => 'required', 'nama_mk' => 'required', 'kode_mk' => 'required', 'jenis' => 'required', 'kelas_paralel' => 'required', 'jumlah_pertemuan' => 'required|integer'], 'pendidikan/pengajaran-lama');
+    public function storePengajaranLama(Request $request)
+    {
+        return $this->storeData(
+            $request,
+            PengajaranLama::class,
+            ['tahun_semester' => 'required', 'nama_mk' => 'required', 'kode_mk' => 'required', 'jenis' => 'required', 'kelas_paralel' => 'required', 'jumlah_pertemuan' => 'required|integer'],
+            'pendidikan/pengajaran-lama'
+        );
     }
     public function editPengajaranLama($id) { return $this->editData(PengajaranLama::class, $id); }
-    public function updatePengajaranLama(Request $request, $id) {
-        return $this->updateData($request, $id, PengajaranLama::class, ['tahun_semester' => 'required', 'nama_mk' => 'required', 'kode_mk' => 'required', 'jenis' => 'required', 'kelas_paralel' => 'required', 'jumlah_pertemuan' => 'required|integer'], 'pendidikan/pengajaran-lama');
+    public function updatePengajaranLama(Request $request, $id)
+    {
+        return $this->updateData(
+            $request,
+            $id,
+            PengajaranLama::class,
+            ['tahun_semester' => 'required', 'nama_mk' => 'required', 'kode_mk' => 'required', 'jenis' => 'required', 'kelas_paralel' => 'required', 'jumlah_pertemuan' => 'required|integer'],
+            'pendidikan/pengajaran-lama'
+        );
     }
     public function showPengajaranLama($id) { return $this->showDetail(PengajaranLama::class, $id); }
 
-    public function storePengajaranLuar(Request $request) {
-        return $this->storeData($request, PengajaranLuar::class, ['tahun_semester' => 'required', 'kode_mk' => 'required', 'nama_mk' => 'required', 'universitas' => 'required', 'strata' => 'required', 'program_studi' => 'required', 'jenis' => 'required', 'kelas_paralel' => 'required', 'jumlah_pertemuan' => 'required|integer', 'is_insidental' => 'required', 'is_lebih_satu_semester' => 'required'], 'pendidikan/pengajaran-luar');
+    public function storePengajaranLuar(Request $request)
+    {
+        return $this->storeData(
+            $request,
+            PengajaranLuar::class,
+            ['tahun_semester' => 'required', 'kode_mk' => 'required', 'nama_mk' => 'required', 'universitas' => 'required', 'strata' => 'required', 'program_studi' => 'required', 'jenis' => 'required', 'kelas_paralel' => 'required', 'jumlah_pertemuan' => 'required|integer', 'is_insidental' => 'required', 'is_lebih_satu_semester' => 'required'],
+            'pendidikan/pengajaran-luar'
+        );
     }
     public function editPengajaranLuar($id) { return $this->editData(PengajaranLuar::class, $id); }
-    public function updatePengajaranLuar(Request $request, $id) {
-        return $this->updateData($request, $id, PengajaranLuar::class, ['tahun_semester' => 'required', 'kode_mk' => 'required', 'nama_mk' => 'required', 'universitas' => 'required', 'strata' => 'required', 'program_studi' => 'required', 'jenis' => 'required', 'kelas_paralel' => 'required', 'jumlah_pertemuan' => 'required|integer', 'is_insidental' => 'required', 'is_lebih_satu_semester' => 'required'], 'pendidikan/pengajaran-luar');
+    public function updatePengajaranLuar(Request $request, $id)
+    {
+        return $this->updateData(
+            $request,
+            $id,
+            PengajaranLuar::class,
+            ['tahun_semester' => 'required', 'kode_mk' => 'required', 'nama_mk' => 'required', 'universitas' => 'required', 'strata' => 'required', 'program_studi' => 'required', 'jenis' => 'required', 'kelas_paralel' => 'required', 'jumlah_pertemuan' => 'required|integer', 'is_insidental' => 'required', 'is_lebih_satu_semester' => 'required'],
+            'pendidikan/pengajaran-luar'
+        );
     }
     public function showPengajaranLuar($id) { return $this->showDetail(PengajaranLuar::class, $id); }
 
-    public function storePengujianLama(Request $request) {
-        return $this->storeData($request, PengujianLama::class, ['kegiatan' => 'required', 'strata' => 'required', 'tahun_semester' => 'required', 'nim' => 'required', 'nama_mahasiswa' => 'required', 'departemen' => 'required'], 'pendidikan/pengujian-lama');
+    public function storePengujianLama(Request $request)
+    {
+        return $this->storeData(
+            $request,
+            PengujianLama::class,
+            ['kegiatan' => 'required', 'tahun_semester' => 'required', 'nim' => 'required', 'nama_mahasiswa' => 'required', 'departemen' => 'required'], // Hapus 'strata'
+            'pendidikan/pengujian-lama'
+        );
     }
     public function editPengujianLama($id) { return $this->editData(PengujianLama::class, $id); }
-    public function updatePengujianLama(Request $request, $id) {
-        return $this->updateData($request, $id, PengujianLama::class, ['kegiatan' => 'required', 'strata' => 'required', 'tahun_semester' => 'required', 'nim' => 'required', 'nama_mahasiswa' => 'required', 'departemen' => 'required'], 'pendidikan/pengujian-lama');
+    public function updatePengujianLama(Request $request, $id)
+    {
+        return $this->updateData(
+            $request,
+            $id,
+            PengujianLama::class,
+            ['kegiatan' => 'required', 'tahun_semester' => 'required', 'nim' => 'required', 'nama_mahasiswa' => 'required', 'departemen' => 'required'], // Hapus 'strata'
+            'pendidikan/pengujian-lama'
+        );
     }
     public function showPengujianLama($id) { return $this->showDetail(PengujianLama::class, $id); }
 
-    public function storePembimbingLama(Request $request) {
-        return $this->storeData($request, PembimbingLama::class, ['kegiatan' => 'required', 'tahun_semester' => 'required', 'nim' => 'required', 'nama_mahasiswa' => 'required', 'departemen' => 'required'], 'pendidikan/pembimbing-lama');
+    public function storePembimbingLama(Request $request)
+    {
+        return $this->storeData(
+            $request,
+            PembimbingLama::class,
+            ['kegiatan' => 'required', 'tahun_semester' => 'required', 'nim' => 'required', 'nama_mahasiswa' => 'required', 'departemen' => 'required'],
+            'pendidikan/pembimbing-lama'
+        );
     }
     public function editPembimbingLama($id) { return $this->editData(PembimbingLama::class, $id); }
-    public function updatePembimbingLama(Request $request, $id) {
-        return $this->updateData($request, $id, PembimbingLama::class, ['kegiatan' => 'required', 'tahun_semester' => 'required', 'nim' => 'required', 'nama_mahasiswa' => 'required', 'departemen' => 'required'], 'pendidikan/pembimbing-lama');
+    public function updatePembimbingLama(Request $request, $id)
+    {
+        return $this->updateData(
+            $request,
+            $id,
+            PembimbingLama::class,
+            ['kegiatan' => 'required', 'tahun_semester' => 'required', 'nim' => 'required', 'nama_mahasiswa' => 'required', 'departemen' => 'required'],
+            'pendidikan/pembimbing-lama'
+        );
     }
     public function showPembimbingLama($id) { return $this->showDetail(PembimbingLama::class, $id); }
 
-    public function storePengujiLuar(Request $request) {
-        return $this->storeData($request, PengujiLuar::class, ['kegiatan' => 'required', 'status' => 'required', 'tahun_semester' => 'required', 'nim' => 'required', 'nama_mahasiswa' => 'required', 'universitas' => 'required', 'strata' => 'required', 'program_studi' => 'required', 'is_insidental' => 'required', 'is_lebih_satu_semester' => 'required'], 'pendidikan/penguji-luar');
+    public function storePengujiLuar(Request $request)
+    {
+        return $this->storeData(
+            $request,
+            PengujiLuar::class,
+            ['kegiatan' => 'required', 'status' => 'required', 'tahun_semester' => 'required', 'nim' => 'required', 'nama_mahasiswa' => 'required', 'universitas' => 'required', 'strata' => 'required', 'program_studi' => 'required', 'is_insidental' => 'required', 'is_lebih_satu_semester' => 'required'],
+            'pendidikan/penguji-luar'
+        );
     }
     public function editPengujiLuar($id) { return $this->editData(PengujiLuar::class, $id); }
-    public function updatePengujiLuar(Request $request, $id) {
-        return $this->updateData($request, $id, PengujiLuar::class, ['kegiatan' => 'required', 'status' => 'required', 'tahun_semester' => 'required', 'nim' => 'required', 'nama_mahasiswa' => 'required', 'universitas' => 'required', 'strata' => 'required', 'program_studi' => 'required', 'is_insidental' => 'required', 'is_lebih_satu_semester' => 'required'], 'pendidikan/penguji-luar');
+    public function updatePengujiLuar(Request $request, $id)
+    {
+        return $this->updateData(
+            $request,
+            $id,
+            PengujiLuar::class,
+            ['kegiatan' => 'required', 'status' => 'required', 'tahun_semester' => 'required', 'nim' => 'required', 'nama_mahasiswa' => 'required', 'universitas' => 'required', 'strata' => 'required', 'program_studi' => 'required', 'is_insidental' => 'required', 'is_lebih_satu_semester' => 'required'],
+            'pendidikan/penguji-luar'
+        );
     }
     public function showPengujiLuar($id) { return $this->showDetail(PengujiLuar::class, $id); }
 
-    public function storePembimbingLuar(Request $request) {
-        return $this->storeData($request, PembimbingLuar::class, ['kegiatan' => 'required', 'status' => 'required', 'tahun_semester' => 'required', 'nim' => 'required', 'nama_mahasiswa' => 'required', 'universitas' => 'required', 'program_studi' => 'required', 'is_insidental' => 'required', 'is_lebih_satu_semester' => 'required'], 'pendidikan/pembimbing-luar');
+    public function storePembimbingLuar(Request $request)
+    {
+        return $this->storeData(
+            $request,
+            PembimbingLuar::class,
+            ['kegiatan' => 'required', 'status' => 'required', 'tahun_semester' => 'required', 'nim' => 'required', 'nama_mahasiswa' => 'required', 'universitas' => 'required', 'program_studi' => 'required', 'is_insidental' => 'required', 'is_lebih_satu_semester' => 'required'],
+            'pendidikan/pembimbing-luar'
+        );
     }
     public function editPembimbingLuar($id) { return $this->editData(PembimbingLuar::class, $id); }
-    public function updatePembimbingLuar(Request $request, $id) {
-        return $this->updateData($request, $id, PembimbingLuar::class, ['kegiatan' => 'required', 'status' => 'required', 'tahun_semester' => 'required', 'nim' => 'required', 'nama_mahasiswa' => 'required', 'universitas' => 'required', 'program_studi' => 'required', 'is_insidental' => 'required', 'is_lebih_satu_semester' => 'required'], 'pendidikan/pembimbing-luar');
+    public function updatePembimbingLuar(Request $request, $id)
+    {
+        return $this->updateData(
+            $request,
+            $id,
+            PembimbingLuar::class,
+            ['kegiatan' => 'required', 'status' => 'required', 'tahun_semester' => 'required', 'nim' => 'required', 'nama_mahasiswa' => 'required', 'universitas' => 'required', 'program_studi' => 'required', 'is_insidental' => 'required', 'is_lebih_satu_semester' => 'required'],
+            'pendidikan/pembimbing-luar'
+        );
     }
     public function showPembimbingLuar($id) { return $this->showDetail(PembimbingLuar::class, $id); }
 
-    private function showDetail($model, $id) {
+    private function showDetail($model, $id)
+    {
         $data = $model::with('pegawai')->find($id);
         return $data ? response()->json($data) : response()->json(['error' => 'Data tidak ditemukan.'], 404);
     }
