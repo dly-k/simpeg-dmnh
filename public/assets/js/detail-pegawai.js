@@ -428,7 +428,7 @@ const initPembicaraDetailModal = () => {
             setDetailText('detail-penyelenggara', data.penyelenggara);
             setDetailText('detail-tingkat', data.tingkat_pertemuan);
             setDetailText('detail-bahasa', data.bahasa);
-            setDetailText('detail-litabmas', data.is_litabmas ? 'Ya' : 'Tidak');
+            setDetailText('detail-litabmas', data.litabmas || '-');
             
             // Render bagian dokumen
             docListContainer.innerHTML = ''; 
