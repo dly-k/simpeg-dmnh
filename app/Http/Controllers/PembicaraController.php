@@ -77,7 +77,7 @@ class PembicaraController extends Controller
 
     public function export(Request $request)
     {
-        $query = Pembicara::with('pegawai');
+        $query = Pembicara::with(['pegawai', 'dokumen']);
 
         // Filter search
         if ($request->filled('search')) {
