@@ -481,6 +481,59 @@ const initPembicaraDetailModal = () => {
   observeModal(); // jalankan observer
 };
 
+const initOrasiIlmiahDetailModal = () => {
+    const modalDetail = document.getElementById('modalDetailOrasiIlmiah');
+    if (!modalDetail) return;
+
+    const setDataText = (id, attribute, button) => {
+        const target = modalDetail.querySelector(`#${id}`);
+        if (target) {
+            target.textContent = button.getAttribute(attribute) || '-';
+        }
+    };
+
+    modalDetail.addEventListener('show.bs.modal', (event) => {
+        const button = event.relatedTarget;
+        if (!button) return;
+
+        // Mengisi data utama ke dalam modal
+        setDataText('detail_orasi_pegawai', 'data-pegawai', button);
+        setDataText('detail_orasi_litabmas', 'data-litabmas', button);
+        setDataText('detail_orasi_kategori_pembicara', 'data-kategori', button);
+        setDataText('detail_orasi_lingkup', 'data-lingkup', button);
+        setDataText('detail_orasi_judul_makalah', 'data-judul', button);
+        setDataText('detail_orasi_nama_pertemuan', 'data-pertemuan', button);
+        setDataText('detail_orasi_penyelenggara', 'data-penyelenggara', button);
+        setDataText('detail_orasi_tanggal_pelaksana', 'data-tanggal', button);
+        setDataText('detail_orasi_bahasa', 'data-bahasa', button);
+        setDataText('detail_orasi_jenis_dokumen', 'data-jenis-dokumen', button);
+        setDataText('detail_orasi_nama_dokumen', 'data-nama-dokumen', button);
+        setDataText('detail_orasi_nomor_dokumen', 'data-nomor-dokumen', button);
+
+        // Mengisi tautan
+        const tautanElement = modalDetail.querySelector('#detail_orasi_tautan');
+        if (tautanElement) {
+            const tautan = button.getAttribute('data-tautan');
+            tautanElement.innerHTML = tautan ? `<a href="${tautan}" target="_blank">${tautan}</a>` : '-';
+        }
+
+        // Menampilkan viewer PDF
+        const viewer = modalDetail.querySelector('#detail_orasi_document_viewer');
+        if (viewer) {
+            const fileSrc = button.getAttribute('data-dokumen-src') || '';
+            viewer.setAttribute('src', fileSrc);
+            // Sembunyikan viewer jika tidak ada file
+            viewer.parentElement.style.display = fileSrc ? 'block' : 'none';
+        }
+    });
+
+    modalDetail.addEventListener('hidden.bs.modal', () => {
+        const viewer = modalDetail.querySelector('#detail_orasi_document_viewer');
+        if (viewer) {
+          viewer.setAttribute('src', ''); // Hentikan pemuatan PDF saat modal ditutup
+        }
+    });
+  };
 
 
   // Panggil semua fungsi inisialisasi
@@ -495,4 +548,5 @@ const initPembicaraDetailModal = () => {
   initPendidikanDetailModals();
   initSertifikatDetailModal();
   initPembicaraDetailModal();
+  initOrasiIlmiahDetailModal();
 });

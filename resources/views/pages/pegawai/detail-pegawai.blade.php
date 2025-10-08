@@ -426,7 +426,6 @@
                                     </table>
                                 </div>
                             </div>
-
                             <div class="sub-tab-content" id="sk-non-pns" style="display: none;">
                                 <div class="d-flex align-items-center flex-wrap gap-2 mb-3">
                                     <form action="{{ route('pegawai.show', $pegawai->id) }}" method="GET" class="d-flex gap-2 me-auto">
@@ -1152,6 +1151,89 @@
         </div>
     @endif
 </div>
+
+                        <div class="main-tab-content" id="orasi-ilmiah-content" style="display: none;">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered align-middle">
+                                    <thead class="table-light text-center">
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Kategori Pembicara</th>
+                                            <th>Judul Makalah</th>
+                                            <th>Nama Pertemuan</th>
+                                            <th>Tingkat</th>
+                                            <th>Penyelenggara</th>
+                                            <th>Tanggal</th>
+                                            <th>Verifikasi</th>
+                                            <th>Dokumen</th>
+                                            <th class="text-center">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="orasiIlmiahTableBody" class="text-center">
+                                        @forelse ($orasiIlmiahPegawai as $item)
+                                        <tr>
+                                            <td>{{ $loop->iteration + $orasiIlmiahPegawai->firstItem() - 1 }}</td>
+                                            <td>{{ $item->kategori_pembicara }}</td>
+                                            <td class="text-start">{{ Str::limit($item->judul_makalah, 30) }}</td>
+                                            <td class="text-start">{{ Str::limit($item->nama_pertemuan, 30) }}</td>
+                                            <td>{{ $item->lingkup }}</td>
+                                            <td>{{ $item->penyelenggara }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($item->tanggal_pelaksana)->format('d-m-Y') }}</td>
+                                            <td>
+                                                @if ($item->verifikasi == 'Sudah Diverifikasi')
+                                                  <span class="badge rounded-circle bg-success text-white" title="Sudah Diverifikasi"><i class="fa fa-check"></i></span>
+                                                @elseif ($item->verifikasi == 'Ditolak')
+                                                  <span class="badge rounded-circle bg-danger text-white" title="Ditolak"><i class="fa fa-times"></i></span>
+                                                @else
+                                                  <span class="badge rounded-circle bg-warning text-white" title="Belum Diverifikasi"><i class="fa fa-question"></i></span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($item->dokumen)
+                                                  <a href="{{ asset('storage/' . $item->dokumen) }}" class="btn btn-sm btn-lihat" target="_blank">Lihat</a>
+                                                @else
+                                                  -
+                                                @endif
+                                            </td>
+                                            <td class="text-center">
+                                                <button 
+                                                  class="btn-aksi btn-lihat" 
+                                                  title="Lihat Detail"
+                                                  data-bs-toggle="modal" 
+                                                  data-bs-target="#modalDetailOrasiIlmiah"
+                                                  data-pegawai="{{ $item->pegawai->nama_lengkap ?? 'N/A' }}"
+                                                  data-litabmas="{{ $item->litabmas ?? '-' }}"
+                                                  data-kategori="{{ $item->kategori_pembicara ?? '-' }}"
+                                                  data-lingkup="{{ $item->lingkup ?? '-' }}"
+                                                  data-judul="{{ $item->judul_makalah ?? '-' }}"
+                                                  data-pertemuan="{{ $item->nama_pertemuan ?? '-' }}"
+                                                  data-penyelenggara="{{ $item->penyelenggara ?? '-' }}"
+                                                  data-tanggal="{{ \Carbon\Carbon::parse($item->tanggal_pelaksana)->format('d F Y') }}"
+                                                  data-bahasa="{{ $item->bahasa ?? '-' }}"
+                                                  data-jenis-dokumen="{{ $item->jenis_dokumen ?? '-' }}"
+                                                  data-nama-dokumen="{{ $item->nama_dokumen ?? '-' }}"
+                                                  data-nomor-dokumen="{{ $item->nomor_dokumen ?? '-' }}"
+                                                  data-tautan="{{ $item->tautan_dokumen ?? '-' }}"
+                                                  data-dokumen-src="{{ $item->dokumen ? asset('storage/' . $item->dokumen) : '' }}">
+                                                  <i class="fas fa-eye"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        @empty
+                                        <tr>
+                                            <td colspan="10" class="text-center text-muted">Data Orasi Ilmiah belum tersedia</td>
+                                        </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+                            {{-- 4. Tambahkan Pagination --}}
+                            @if ($orasiIlmiahPegawai->hasPages())
+                                <div class="d-flex justify-content-end mt-4">
+                                    {{ $orasiIlmiahPegawai->appends(['tab' => 'orasi-ilmiah'])->links() }}
+                                </div>
+                            @endif
+                        </div>
                         
                         <div class="main-tab-content" id="sertifikat-content" style="display: none;">
     {{-- 1. Ganti placeholder dengan kode tabel di bawah --}}
@@ -1273,6 +1355,7 @@
     @include('components.penghargaan.detail-penghargaan') 
     @include('components.sertifikat-kompetensi.detail-sertifikat-kompetensi')
     @include('components.pembicara.detail-pembicara')
+    @include('components.orasi-ilmiah.detail-orasi-ilmiah')
 
     @if (session('success'))
         <div id="success-trigger" data-title="Berhasil!" data-message="{{ session('success') }}" data-active-tab="{{ session('active_tab') }}" data-active-subtab="{{ session('active_subtab') }}"></div>

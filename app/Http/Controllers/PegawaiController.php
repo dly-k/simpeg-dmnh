@@ -23,6 +23,7 @@ use App\Models\Pelatihan;
 use App\Models\Penghargaan;
 use App\Models\SertifikatKompetensi;
 use App\Models\Pembicara;
+use App\Models\OrasiIlmiah;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Exports\PegawaiExport;
@@ -233,6 +234,12 @@ class PegawaiController extends Controller
             ->paginate(10, ['*'], 'pembicaraPage')
             ->withQueryString();
 
+        //-- orasi ilmiah --
+            $orasiIlmiahPegawai = OrasiIlmiah::where('pegawai_id', $pegawai->id)
+            ->latest()
+            ->paginate(10, ['*'], 'orasiIlmiahPage')
+            ->withQueryString();
+
         // --- Relasi SK dengan Filter ---
         $pegawai->load([
             'efiles',
@@ -255,7 +262,8 @@ class PegawaiController extends Controller
             'pelatihanPegawai',
             'penghargaanPegawai',
             'sertifikatKompetensiPegawai',
-            'pembicaraPegawai'
+            'pembicaraPegawai',
+            'orasiIlmiahPegawai'
         ));
     }
 
