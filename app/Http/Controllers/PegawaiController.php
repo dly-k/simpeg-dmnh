@@ -21,6 +21,8 @@ use App\Models\Pengabdian;
 use App\Models\Penunjang;
 use App\Models\Pelatihan;
 use App\Models\Penghargaan;
+use App\Models\SertifikatKompetensi;
+use App\Models\Pembicara;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Exports\PegawaiExport;
@@ -218,6 +220,18 @@ class PegawaiController extends Controller
             ->paginate(10, ['*'], 'penghargaanPage')
             ->withQueryString();
 
+        //-- Sertifikat Kompetensi--
+                $sertifikatKompetensiPegawai = SertifikatKompetensi::where('pegawai_id', $pegawai->id)
+            ->latest()
+            ->paginate(10, ['*'], 'sertifikatPage')
+            ->withQueryString();
+        
+        //--Pembicara Pegawai--
+         $pembicaraPegawai = Pembicara::where('pegawai_id', $pegawai->id)
+            ->with('dokumen')
+            ->latest()
+            ->paginate(10, ['*'], 'pembicaraPage')
+            ->withQueryString();
 
         // --- Relasi SK dengan Filter ---
         $pegawai->load([
@@ -239,7 +253,9 @@ class PegawaiController extends Controller
             'pengabdianPegawai',
             'penunjangPegawai',
             'pelatihanPegawai',
-            'penghargaanPegawai'
+            'penghargaanPegawai',
+            'sertifikatKompetensiPegawai',
+            'pembicaraPegawai'
         ));
     }
 
