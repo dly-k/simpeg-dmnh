@@ -13,18 +13,49 @@
         <form id="formPembimbingLama" onsubmit="return false;">
           <input type="hidden" id="editPembimbingLamaId" name="id">
 
-          <div class="mb-3">
-            <label for="pbl_kegiatan" class="form-label">Kegiatan</label>
-            <select class="form-select" id="pbl_kegiatan" name="kegiatan">
-              <option selected disabled value="">-- Pilih Salah Satu --</option>
-              <option value="Membimbing dan ikut membimbing dalam menghasilkan disertasi">Membimbing dan ikut membimbing dalam menghasilkan disertasi</option>
-              <option value="Kegiatan Lain">Kegiatan Lain</option>
-            </select>
-          </div>
+        <div class="mb-3">
+          <label for="pbl_kegiatan" class="form-label">Kegiatan</label>
+          <select class="form-select" id="pbl_kegiatan" name="kegiatan" required>
+            <option selected disabled value="">-- Pilih Salah Satu --</option>
+            <option value="Membimbing seminar mahasiswa (setiap semester)">
+              Membimbing seminar mahasiswa (setiap semester)
+            </option>
+            <option value="Membimbing KKN, Praktik Kerja Nyata, Praktik Kerja Lapangan (setiap semester)">
+              Membimbing KKN, Praktik Kerja Nyata, Praktik Kerja Lapangan (setiap semester)
+            </option>
+            <option value="Membimbing disertasi – Pembimbing Utama per orang (setiap mahasiswa)">
+              Membimbing disertasi – Pembimbing Utama per orang (setiap mahasiswa)
+            </option>
+            <option value="Membimbing tesis – Pembimbing Utama per orang (setiap mahasiswa)">
+              Membimbing tesis – Pembimbing Utama per orang (setiap mahasiswa)
+            </option>
+            <option value="Membimbing skripsi – Pembimbing Utama per orang (setiap mahasiswa)">
+              Membimbing skripsi – Pembimbing Utama per orang (setiap mahasiswa)
+            </option>
+            <option value="Membimbing laporan akhir studi – Pembimbing Utama per orang (setiap mahasiswa)">
+              Membimbing laporan akhir studi – Pembimbing Utama per orang (setiap mahasiswa)
+            </option>
+            <option value="Membimbing disertasi – Pembimbing Pendamping/Pembantu per orang (setiap mahasiswa)">
+              Membimbing disertasi – Pembimbing Pendamping/Pembantu per orang (setiap mahasiswa)
+            </option>
+            <option value="Membimbing tesis – Pembimbing Pendamping/Pembantu per orang (setiap mahasiswa)">
+              Membimbing tesis – Pembimbing Pendamping/Pembantu per orang (setiap mahasiswa)
+            </option>
+            <option value="Membimbing skripsi – Pembimbing Pendamping/Pembantu per orang (setiap mahasiswa)">
+              Membimbing skripsi – Pembimbing Pendamping/Pembantu per orang (setiap mahasiswa)
+            </option>
+            <option value="Membimbing laporan akhir studi – Pembimbing Pendamping/Pembantu per orang (setiap mahasiswa)">
+              Membimbing laporan akhir studi – Pembimbing Pendamping/Pembantu per orang (setiap mahasiswa)
+            </option>
+            <option value="Membina kegiatan mahasiswa di bidang akademik dan kemahasiswaan, termasuk membimbing mahasiswa menghasilkan produk saintifik (setiap semester)">
+                Membina kegiatan mahasiswa di bidang akademik dan kemahasiswaan (setiap semester)
+            </option>
+          </select>
+        </div>
 
           <div class="mb-3">
             <label for="pbl_nama" class="form-label">Nama Dosen</label>
-            <select class="form-select" id="pbl_nama" name="pegawai_id">
+            <select class="form-select form-select-sm" id="pbl_nama" name="pegawai_id">
               <option selected disabled value="">-- Pilih Salah Satu --</option>
               @foreach($dosenAktif as $dosen)
                 <option value="{{ $dosen->id }}">{{ $dosen->nama_lengkap }}</option>
@@ -34,28 +65,52 @@
 
           <div class="mb-3">
             <label for="pbl_tahun_semester" class="form-label">Tahun Semester</label>
-            <input type="text" class="form-control" id="pbl_tahun_semester" name="tahun_semester" placeholder="Contoh: 2020/2021">
+            <select class="form-select form-select-sm" id="pbl_tahun_semester" name="tahun_semester" required>
+              @php
+                $tahunSekarang = date('Y');
+                for ($i = $tahunSekarang; $i >= 2015; $i--) {
+                    $next = $i + 1;
+                    echo "<option value='{$i}/{$next} Ganjil'>{$i}/{$next} Ganjil</option>";
+                    echo "<option value='{$i}/{$next} Genap'>{$i}/{$next} Genap</option>";
+                }
+              @endphp
+            </select>
           </div>
-          <div class="mb-3">
-            <label for="pbl_nim" class="form-label">NIM</label>
-            <input type="text" class="form-control" id="pbl_nim" name="nim" placeholder="Masukkan NIM Mahasiswa">
+
+          <!-- NIM & Nama sejajar -->
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="pbl_nim" class="form-label">NIM</label>
+              <input type="text" class="form-control" id="pbl_nim" name="nim" placeholder="Masukkan NIM Mahasiswa">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="pbl_nama_mahasiswa" class="form-label">Nama Mahasiswa</label>
+              <input type="text" class="form-control" id="pbl_nama_mahasiswa" name="nama_mahasiswa" placeholder="Masukkan Nama Mahasiswa">
+            </div>
           </div>
-          <div class="mb-3">
-            <label for="pbl_nama_mahasiswa" class="form-label">Nama Mahasiswa</label>
-            <input type="text" class="form-control" id="pbl_nama_mahasiswa" name="nama_mahasiswa" placeholder="Masukkan Nama Mahasiswa">
+
+          <!-- Departemen & Lokasi sejajar -->
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="pbl_departemen" class="form-label">Departemen</label>
+              <select class="form-select form-select-sm" id="pbl_departemen" name="departemen" required>
+                  <option selected disabled value="">-- Pilih Salah Satu--</option>
+                  @foreach($programStudi as $prodi)
+                    <option value="{{ $prodi }}">{{ $prodi }}</option>
+                  @endforeach
+              </select>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="pbl_lokasi" class="form-label">Lokasi (PL/KKN)</label>
+              <input type="text" class="form-control" id="pbl_lokasi" name="lokasi" placeholder="Masukkan Lokasi PL/KKN">
+            </div>
           </div>
-          <div class="mb-3">
-            <label for="pbl_departemen" class="form-label">Departemen</label>
-            <select class="form-select" id="pbl_departemen" name="departemen"><option selected disabled value="">-- Pilih --</option><option value="Manajemen Hutan">Manajemen Hutan</option><option value="Teknologi Hasil Hutan">Teknologi Hasil Hutan</option></select>
-          </div>
-          <div class="mb-3">
-            <label for="pbl_lokasi" class="form-label">Lokasi (PL/KKN)</label>
-            <input type="text" class="form-control" id="pbl_lokasi" name="lokasi" placeholder="Masukkan Lokasi PL/KKN">
-          </div>
+
           <div class="mb-3">
             <label for="pbl_nama_dokumen" class="form-label">Nama Dokumen</label>
             <input type="text" class="form-control" id="pbl_nama_dokumen" name="nama_dokumen" placeholder="Contoh: Surat Tugas">
           </div>
+
           <div class="mb-3">
             <label class="form-label">Upload File</label>
             <div class="file-drop-area">
@@ -67,6 +122,7 @@
           </div>
         </form>
       </div>
+
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
         <button type="button" class="btn btn-success" id="btnSimpanPembimbingLama">Simpan</button>

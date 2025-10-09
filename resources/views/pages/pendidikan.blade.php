@@ -529,16 +529,30 @@
   
 <script>
 $(document).ready(function() {
-    // Jalankan Select2 setelah modal muncul agar tampil sempurna
-    $('#modalTambahEditPengajaranLama').on('shown.bs.modal', function () {
-        $('#nama').select2({
-            theme: 'bootstrap-5',
-            dropdownParent: $('#modalTambahEditPengajaranLama'),
-            placeholder: '-- Pilih Salah Satu --',
-            allowClear: true
-        });
+  // Jalankan Select2 setelah modal muncul agar tampil sempurna
+  $('#modalTambahEditPengajaranLama').on('shown.bs.modal', function () {
+
+    // Inisialisasi Select2 untuk Nama Dosen
+    $('#nama').select2({
+      theme: 'bootstrap-5',
+      dropdownParent: $('#modalTambahEditPengajaranLama'),
+      placeholder: '-- Pilih Salah Satu --',
+      allowClear: true,
+      width: '100%'
     });
+
+    // Inisialisasi Select2 untuk Tahun Semester
+    $('#pla_tahun_semester').select2({
+      theme: 'bootstrap-5',
+      dropdownParent: $('#modalTambahEditPengajaranLama'),
+      placeholder: '-- Pilih Salah Satu --',
+      allowClear: true,
+      width: '100%'
+    });
+
+  });
 });
+
 
 $(document).ready(function() {
     // Jalankan Select2 setelah modal Pengajaran Luar muncul
@@ -550,27 +564,105 @@ $(document).ready(function() {
             allowClear: true,
             width: '100%'
         });
+      // Inisialisasi Select2 untuk Tahun Semester
+    $('#pl_tahun_semester').select2({
+        theme: 'bootstrap-5',
+        dropdownParent: $('#modalPengajaranLuar'),
+        placeholder: '-- Pilih Salah Satu --',
+        allowClear: true,
+        width: '100%'
     });
+
+  });
 });
 
- // Saat modal ditampilkan
-  $('#modalPengujianLama').on('shown.bs.modal', function () {
-    // Inisialisasi Select2 untuk Nama Dosen
-    $('#pjl_nama').select2({
-      theme: 'bootstrap-5',
-      dropdownParent: $('#modalPengujianLama'),
-      placeholder: '-- Pilih Salah Satu --',
-      width: '100%'
-    });
+// Saat modal ditampilkan
+$('#modalPengujianLama').on('shown.bs.modal', function () {
+  // Inisialisasi Select2 untuk Nama Dosen
+  $('#pjl_nama').select2({
+    theme: 'bootstrap-5',
+    dropdownParent: $('#modalPengujianLama'),
+    placeholder: '-- Pilih Salah Satu --',
+    allowClear: true,
+    width: '100%'
+  });
 
-    // Inisialisasi Select2 untuk Departemen
-    $('#pjl_departemen').select2({
+  // Inisialisasi Select2 untuk Departemen
+  $('#pjl_departemen').select2({
+    theme: 'bootstrap-5',
+    dropdownParent: $('#modalPengujianLama'),
+    placeholder: '-- Pilih Salah Satu --',
+    allowClear: true,
+    width: '100%'
+  });
+
+  // Inisialisasi Select2 untuk Tahun Semester
+  $('#pjl_tahun_semester').select2({
+    theme: 'bootstrap-5',
+    dropdownParent: $('#modalPengujianLama'),
+    placeholder: '-- Pilih Salah Satu --',
+    allowClear: true,
+    width: '100%'
+  });
+});
+  
+  // ===== Modal: Pembimbing Lama =====
+  $('#modalPembimbingLama').on('shown.bs.modal', function () {
+    $('#pbl_nama, #pbl_departemen, #pbl_tahun_semester').select2({
       theme: 'bootstrap-5',
-      dropdownParent: $('#modalPengujianLama'),
+      dropdownParent: $('#modalPembimbingLama'),
       placeholder: '-- Pilih Salah Satu --',
+      allowClear: true,
       width: '100%'
     });
   });
+
+$(document).ready(function() {
+  // Jalankan Select2 setelah modal Penguji Luar muncul
+  $('#modalPengujiLuar').on('shown.bs.modal', function () {
+
+    // Inisialisasi Select2 untuk Nama Dosen
+    $('#pjl_nama').select2({
+      theme: 'bootstrap-5',
+      dropdownParent: $('#modalPengujiLuar'),
+      placeholder: '-- Pilih Salah Satu --',
+      allowClear: true,
+      width: '100%'
+    });
+
+    // Inisialisasi Select2 untuk Tahun Semester
+    $('#tahun_semester').select2({
+      theme: 'bootstrap-5',
+      dropdownParent: $('#modalPengujiLuar'),
+      placeholder: '-- Pilih Tahun Semester --',
+      allowClear: true,
+      width: '100%'
+    });
+
+  });
+});
+
+ $(document).ready(function() {
+    // Inisialisasi Select2 untuk dropdown tahun semester
+    $('#tahun_semester').select2({
+      theme: 'bootstrap-5', // jika kamu pakai bootstrap 5
+      dropdownParent: $('#modalPembimbingLama'), // penting agar tampil di dalam modal
+      placeholder: '-- Pilih Tahun Semester --',
+      width: '100%'
+    });
+  });
+
+$(document).ready(function() {
+  $('#modalPengujiLuar').on('shown.bs.modal', function () {
+    $('#pjl_nama, #tahun_semester').select2({
+      theme: 'bootstrap-5',
+      dropdownParent: $('#modalPengujiLuar'),
+      placeholder: '-- Pilih Salah Satu --',
+      allowClear: true,
+      width: '100%'
+    });
+  });
+});
 
 $(document).ready(function () {
   // Saat modal ditampilkan
@@ -673,7 +765,26 @@ $(document).ready(function () {
   });
 });
 
+$(document).ready(function () {
+  $('#modalPengujiLuar').on('show.bs.modal', function () {
+    const id = $('#editPengujiLuarId').val();
 
+    if (id) {
+      $('#modalTitleTextPengujiLuar').text('Edit Kegiatan Penguji Luar IPB');
+      $('#btnSimpanPengujiLuar').text('Simpan Perubahan');
+    } else {
+      $('#modalTitleTextPengujiLuar').text('Tambah Kegiatan Penguji Luar IPB');
+      $('#btnSimpanPengujiLuar').text('Simpan');
+    }
+  });
+
+  $('#modalPengujiLuar').on('hidden.bs.modal', function () {
+    $('#formPengujiLuar')[0].reset();
+    $('#editPengujiLuarId').val('');
+    $('#pjl_nama').val('').trigger('change');
+    $('#tahun_semester').val('').trigger('change');
+  });
+})
 </script>
 
 </body>

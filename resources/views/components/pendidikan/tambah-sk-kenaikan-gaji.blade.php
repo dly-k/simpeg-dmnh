@@ -38,7 +38,7 @@
                 </div>
             </div>
             <div class="mb-3">
-              <label for="gaji_berkala_dokumen" class="form-label">Upload File <span class="text-muted">(Opsional)</span></label>
+              <label for="gaji_berkala_dokumen" class="form-label">Unggah Dokumen <span class="text-muted">(Opsional)</span></label>
               <input type="file" name="dokumen" id="gaji_berkala_dokumen" class="form-control">
               <div class="form-text" id="gajiBerkalaFileHelp"></div>
             </div>

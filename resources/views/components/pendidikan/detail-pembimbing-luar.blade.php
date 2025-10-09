@@ -26,10 +26,6 @@
             <p id="detail_pbl_luar_nama">-</p>
           </div>
           <div class="detail-item">
-            <small>Status</small>
-            <p id="detail_pbl_luar_status">-</p>
-          </div>
-          <div class="detail-item">
             <small>Tahun Semester</small>
             <p id="detail_pbl_luar_tahun_semester">-</p>
           </div>

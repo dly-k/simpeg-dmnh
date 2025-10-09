@@ -31,7 +31,7 @@
           <div class="row">
             <div class="col-md-6 mb-3">
             <label for="tahun_semester" class="form-label">Tahun Semester</label>
-            <select class="form-select" id="tahun_semester" name="tahun_semester" required>
+            <select class="form-select form-select-sm" id="pla_tahun_semester" name="tahun_semester" required>
               @php
                 $tahunSekarang = date('Y');
                 for ($i = $tahunSekarang; $i >= 2015; $i--) {

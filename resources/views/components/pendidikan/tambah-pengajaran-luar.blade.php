@@ -25,7 +25,7 @@
 
           <div class="mb-3">
           <label for="tahun_semester" class="form-label">Tahun Semester</label>
-            <select class="form-select" id="tahun_semester" name="tahun_semester" required>
+            <select class="form-select form-select-sm" id="pl_tahun_semester" name="tahun_semester" required>
               @php
                 $tahunSekarang = date('Y');
                 for ($i = $tahunSekarang; $i >= 2015; $i--) {
@@ -102,7 +102,7 @@
             </div>
           </div>
           <div class="mb-3">
-            <label class="form-label">Upload File</label>
+            <label class="form-label">Unggah Dokumen</label>
             <div class="file-drop-area">
               <i class="fas fa-cloud-upload-alt fa-3x mb-2 text-muted"></i>
               <span class="file-message">Drag & Drop File here</span>

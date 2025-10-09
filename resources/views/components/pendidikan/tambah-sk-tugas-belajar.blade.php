@@ -35,7 +35,7 @@
                 </div>
             </div>
             <div class="mb-3">
-              <label for="tugas_belajar_dokumen" class="form-label">Upload File <span class="text-muted">(Opsional)</span></label>
+              <label for="tugas_belajar_dokumen" class="form-label">Unggah Dokumen <span class="text-muted">(Opsional)</span></label>
               <input type="file" name="dokumen" id="tugas_belajar_dokumen" class="form-control">
               <div class="form-text" id="tugasBelajarFileHelp"></div>
             </div>

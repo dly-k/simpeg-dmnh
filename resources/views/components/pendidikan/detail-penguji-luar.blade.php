@@ -22,12 +22,8 @@
             <p id="detail_pjl_luar_kegiatan">-</p>
           </div>
           <div class="detail-item">
-            <small>Nama</small>
+            <small>Nama Dosen</small>
             <p id="detail_pjl_luar_nama">-</p>
-          </div>
-          <div class="detail-item">
-            <small>Status</small>
-            <p id="detail_pjl_luar_status">-</p>
           </div>
           <div class="detail-item">
             <small>Tahun Semester</small>

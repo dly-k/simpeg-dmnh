@@ -366,6 +366,106 @@ class PendidikanController extends Controller
         );
     }
 
+    public function exportPembimbingLama(Request $request)
+    {
+        $query = \App\Models\PembimbingLama::with('pegawai');
+
+        // 🔍 Filter pencarian
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('nama_mahasiswa', 'like', '%' . $request->search . '%')
+                ->orWhere('kegiatan', 'like', '%' . $request->search . '%')
+                ->orWhereHas('pegawai', function ($sub) use ($request) {
+                    $sub->where('nama_lengkap', 'like', '%' . $request->search . '%');
+                });
+            });
+        }
+
+        // 🎓 Filter tahun akademik dan status
+        $semester = $request->get('tahun_akademik');
+        $status = $request->get('status');
+
+        if ($semester) {
+            $query->where('tahun_semester', $semester);
+        }
+
+        if ($status) {
+            $query->where('status_verifikasi', $status);
+        }
+
+        // Ambil data
+        $data = $query->get();
+
+        // 📁 Bangun nama file aman
+        $filenameParts = ['Pembimbing_Lama'];
+        if ($semester) $filenameParts[] = $semester;
+        if ($status) $filenameParts[] = ucfirst($status);
+        if ($request->filled('search')) $filenameParts[] = 'Filter_' . $request->search;
+
+        $filename = implode('_', $filenameParts);
+        $filename = preg_replace('/[\/\\\\:*?"<>|]+/', '-', $filename) . '.xlsx';
+
+        // 📤 Download file Excel
+        return \Maatwebsite\Excel\Facades\Excel::download(
+            new \App\Exports\PembimbingLamaExport($data, $semester, $status, $request->search),
+            $filename
+        );
+    }
+
+    public function exportPengujiLuar(Request $request)
+    {
+        $query = \App\Models\PengujiLuar::with('pegawai');
+
+        // 🔍 Filter pencarian
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('nama_mahasiswa', 'like', '%' . $request->search . '%')
+                    ->orWhereHas('pegawai', function ($sub) use ($request) {
+                        $sub->where('nama_lengkap', 'like', '%' . $request->search . '%');
+                    });
+            });
+        }
+
+        // 🎓 Filter tahun akademik
+        if ($request->filled('tahun_akademik')) {
+            $query->where('tahun_semester', $request->tahun_akademik);
+        }
+
+        // 📋 Filter status
+        if ($request->filled('status')) {
+            $query->where('status_verifikasi', $request->status);
+        }
+
+        $data = $query->get();
+
+        // 📁 Nama file export — aman dari karakter ilegal
+        $filename = 'Penguji_Luar';
+
+        if ($request->filled('tahun_akademik')) {
+            // ganti karakter / dan \ dengan strip biar gak error
+            $tahun = str_replace(['/', '\\'], '-', $request->tahun_akademik);
+            $filename .= '_' . $tahun;
+        }
+
+        if ($request->filled('status')) {
+            $filename .= '_' . ucfirst($request->status);
+        }
+
+        if ($request->filled('search')) {
+            // hapus karakter aneh di search (biar aman)
+            $filter = preg_replace('/[^A-Za-z0-9_-]/', '', $request->search);
+            $filename .= '_Filter_' . $filter;
+        }
+
+        $filename .= '.xlsx';
+
+        // 💾 Download file Excel
+        return \Maatwebsite\Excel\Facades\Excel::download(
+            new \App\Exports\PengujiLuarExport($data, $request->tahun_akademik, $request->status, $request->search),
+            $filename
+        );
+    }
+
     private function storeData(Request $request, $modelClass, $validationRules, $directory)
     {
         $validationRules['pegawai_id'] = 'required|exists:pegawais,id';
@@ -504,7 +604,7 @@ class PendidikanController extends Controller
         return $this->storeData(
             $request,
             PengujiLuar::class,
-            ['kegiatan' => 'required', 'status' => 'required', 'tahun_semester' => 'required', 'nim' => 'required', 'nama_mahasiswa' => 'required', 'universitas' => 'required', 'strata' => 'required', 'program_studi' => 'required', 'is_insidental' => 'required', 'is_lebih_satu_semester' => 'required'],
+            ['kegiatan' => 'required', 'tahun_semester' => 'required', 'nim' => 'required', 'nama_mahasiswa' => 'required', 'universitas' => 'required', 'strata' => 'required', 'program_studi' => 'required', 'is_insidental' => 'required', 'is_lebih_satu_semester' => 'required'],
             'pendidikan/penguji-luar'
         );
     }
@@ -515,7 +615,7 @@ class PendidikanController extends Controller
             $request,
             $id,
             PengujiLuar::class,
-            ['kegiatan' => 'required', 'status' => 'required', 'tahun_semester' => 'required', 'nim' => 'required', 'nama_mahasiswa' => 'required', 'universitas' => 'required', 'strata' => 'required', 'program_studi' => 'required', 'is_insidental' => 'required', 'is_lebih_satu_semester' => 'required'],
+            ['kegiatan' => 'required', 'tahun_semester' => 'required', 'nim' => 'required', 'nama_mahasiswa' => 'required', 'universitas' => 'required', 'strata' => 'required', 'program_studi' => 'required', 'is_insidental' => 'required', 'is_lebih_satu_semester' => 'required'],
             'pendidikan/penguji-luar'
         );
     }
@@ -526,7 +626,7 @@ class PendidikanController extends Controller
         return $this->storeData(
             $request,
             PembimbingLuar::class,
-            ['kegiatan' => 'required', 'status' => 'required', 'tahun_semester' => 'required', 'nim' => 'required', 'nama_mahasiswa' => 'required', 'universitas' => 'required', 'program_studi' => 'required', 'is_insidental' => 'required', 'is_lebih_satu_semester' => 'required'],
+            ['kegiatan' => 'required', 'tahun_semester' => 'required', 'nim' => 'required', 'nama_mahasiswa' => 'required', 'universitas' => 'required', 'program_studi' => 'required', 'is_insidental' => 'required', 'is_lebih_satu_semester' => 'required'],
             'pendidikan/pembimbing-luar'
         );
     }
@@ -537,7 +637,7 @@ class PendidikanController extends Controller
             $request,
             $id,
             PembimbingLuar::class,
-            ['kegiatan' => 'required', 'status' => 'required', 'tahun_semester' => 'required', 'nim' => 'required', 'nama_mahasiswa' => 'required', 'universitas' => 'required', 'program_studi' => 'required', 'is_insidental' => 'required', 'is_lebih_satu_semester' => 'required'],
+            ['kegiatan' => 'required', 'tahun_semester' => 'required', 'nim' => 'required', 'nama_mahasiswa' => 'required', 'universitas' => 'required', 'program_studi' => 'required', 'is_insidental' => 'required', 'is_lebih_satu_semester' => 'required'],
             'pendidikan/pembimbing-luar'
         );
     }

@@ -45,7 +45,7 @@
                 </div>
             </div>
             <div class="mb-3">
-              <label for="pangkat_dokumen" class="form-label">Upload File <span class="text-muted">(Opsional)</span></label>
+              <label for="pangkat_dokumen" class="form-label">Unggah Dokumen <span class="text-muted">(Opsional)</span></label>
               <input type="file" name="dokumen" id="pangkat_dokumen" class="form-control">
               <div class="form-text" id="pangkatFileHelp"></div>
             </div>
