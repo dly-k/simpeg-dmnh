@@ -1,95 +1,97 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // ===============================================
-    // == PENANGANAN EVENT & ELEMEN GLOBAL ==
-    // ===============================================
-
-    // -- Mengingat Tab Aktif --
+    // Inisialisasi elemen dan variabel global
     const tabs = document.querySelectorAll('#pendidikanTab .nav-link');
-    const activeTabTarget = localStorage.getItem('activePendidikanTab');
-    if (activeTabTarget) {
-        const tabElement = document.querySelector(`#pendidikanTab button[data-bs-target="${activeTabTarget}"]`);
-        if (tabElement) {
-            new bootstrap.Tab(tabElement).show();
-        }
-    }
-    tabs.forEach(tab => {
-        tab.addEventListener('shown.bs.tab', event => {
-            localStorage.setItem('activePendidikanTab', event.target.getAttribute('data-bs-target'));
-        });
-    });
-
-    // -- Elemen & Event Listener untuk Modal Berhasil Kustom --
     const modalBerhasil = document.getElementById("modalBerhasil");
     const btnSelesai = document.getElementById("btnSelesai");
-    if (btnSelesai && modalBerhasil) {
-        btnSelesai.addEventListener('click', () => {
-            modalBerhasil.classList.remove("show");
-        });
-    }
-    
-    // -- Elemen & Event Listener untuk Modal Verifikasi Kustom --
     const modalVerifikasi = document.getElementById('modalKonfirmasiVerifikasi');
     const btnTerima = document.getElementById('popupBtnTerima');
     const btnTolak = document.getElementById('popupBtnTolak');
     const btnKembali = document.getElementById('popupBtnKembali');
-    let verificationId = null;
-    let verificationType = null;
-    
-    btnTerima?.addEventListener('click', () => submitVerification('diverifikasi'));
-    btnTolak?.addEventListener('click', () => submitVerification('ditolak'));
-    btnKembali?.addEventListener('click', () => {
-        modalVerifikasi.classList.remove('show');
-    });
-
-    // -- Elemen & Event Listener untuk Modal Hapus Kustom --
     const modalHapus = document.getElementById('modalKonfirmasiHapus');
     const btnKonfirmasiHapus = document.getElementById('btnKonfirmasiHapus');
     const btnBatalHapus = document.getElementById('btnBatalHapus');
+    let verificationId = null;
+    let verificationType = null;
     let deleteId = null;
     let deleteType = null;
 
-    btnKonfirmasiHapus?.addEventListener('click', () => submitDelete());
-    btnBatalHapus?.addEventListener('click', () => {
-        modalHapus.classList.remove('show');
-    });
-
-    // ===============================================
-    // == FUNGSI BANTUAN & KONFIGURASI ==
-    // ===============================================
-
-    // -- Bantuan untuk Modal Bootstrap --
-    const getModalInstance = (modalId) => {
-        const modalElement = document.getElementById(modalId);
-        return modalElement ? bootstrap.Modal.getOrCreateInstance(modalElement) : null;
+    // Konfigurasi form untuk tambah dan edit data
+    const formConfigs = {
+        'pengajaran-lama': {
+            modalId: "modalTambahEditPengajaranLama",
+            formId: "formPengajaranLama",
+            btnId: "btnSimpanPengajaran",
+            url: "/pendidikan/pengajaran-lama",
+            title: "Pengajaran Lama"
+        },
+        'pengajaran-luar': {
+            modalId: "modalPengajaranLuar",
+            formId: "formPengajaranLuar",
+            btnId: "btnSimpanPengajaranLuar",
+            url: "/pendidikan/pengajaran-luar",
+            title: "Pengajaran Luar IPB"
+        },
+        'pengujian-lama': {
+            modalId: "modalPengujianLama",
+            formId: "formPengujianLama",
+            btnId: "btnSimpanPengujianLama",
+            url: "/pendidikan/pengujian-lama",
+            title: "Pengujian Lama"
+        },
+        'pembimbing-lama': {
+            modalId: "modalPembimbingLama",
+            formId: "formPembimbingLama",
+            btnId: "btnSimpanPembimbingLama",
+            url: "/pendidikan/pembimbing-lama",
+            title: "Pembimbing Lama"
+        },
+        'penguji-luar': {
+            modalId: "modalPengujiLuar",
+            formId: "formPengujiLuar",
+            btnId: "btnSimpanPengujiLuar",
+            url: "/pendidikan/penguji-luar",
+            title: "Penguji Luar IPB"
+        },
+        'pembimbing-luar': {
+            modalId: "modalPembimbingLuar",
+            formId: "formPembimbingLuar",
+            btnId: "btnSimpanPembimbingLuar",
+            url: "/pendidikan/pembimbing-luar",
+            title: "Pembimbing Luar IPB"
+        }
     };
 
-    // -- Fungsi untuk Menampilkan Modal Berhasil Kustom & Memainkan Audio --
+    // Mengelola tab aktif menggunakan localStorage
+    const manageActiveTab = () => {
+        const activeTabTarget = localStorage.getItem('activePendidikanTab');
+        if (activeTabTarget) {
+            const tabElement = document.querySelector(`#pendidikanTab button[data-bs-target="${activeTabTarget}"]`);
+            if (tabElement) new bootstrap.Tab(tabElement).show();
+        }
+        tabs.forEach(tab => {
+            tab.addEventListener('shown.bs.tab', event => {
+                localStorage.setItem('activePendidikanTab', event.target.getAttribute('data-bs-target'));
+            });
+        });
+    };
+
+    // Menampilkan modal sukses dengan pesan dan memutar audio
     const showSuccessModal = (message) => {
         const berhasilSubtitle = document.getElementById("berhasil-subtitle");
-        if (berhasilSubtitle) {
-            berhasilSubtitle.textContent = message;
-        }
+        if (berhasilSubtitle) berhasilSubtitle.textContent = message;
         if (modalBerhasil) {
             modalBerhasil.classList.add("show");
             document.getElementById('success-sound')?.play();
         }
     };
-    
-    // -- Konfigurasi Form untuk Tambah & Edit --
-    const formConfigs = {
-        'pengajaran-lama':    { modalId: "modalTambahEditPengajaranLama", formId: "formPengajaranLama", btnId: "btnSimpanPengajaran", url: "/pendidikan/pengajaran-lama", title: "Pengajaran Lama" },
-        'pengajaran-luar':  { modalId: "modalPengajaranLuar", formId: "formPengajaranLuar", btnId: "btnSimpanPengajaranLuar", url: "/pendidikan/pengajaran-luar", title: "Pengajaran Luar IPB"},
-        'pengujian-lama':   { modalId: "modalPengujianLama", formId: "formPengujianLama", btnId: "btnSimpanPengujianLama", url: "/pendidikan/pengujian-lama", title: "Pengujian Lama" },
-        'pembimbing-lama':  { modalId: "modalPembimbingLama", formId: "formPembimbingLama", btnId: "btnSimpanPembimbingLama", url: "/pendidikan/pembimbing-lama", title: "Pembimbing Lama" },
-        'penguji-luar':     { modalId: "modalPengujiLuar", formId: "formPengujiLuar", btnId: "btnSimpanPengujiLuar", url: "/pendidikan/penguji-luar", title: "Penguji Luar IPB" },
-        'pembimbing-luar':  { modalId: "modalPembimbingLuar", formId: "formPembimbingLuar", btnId: "btnSimpanPembimbingLuar", url: "/pendidikan/pembimbing-luar", title: "Pembimbing Luar IPB" },
+
+    // Mendapatkan instance modal Bootstrap
+    const getModalInstance = (modalId) => {
+        const modalElement = document.getElementById(modalId);
+        return modalElement ? bootstrap.Modal.getOrCreateInstance(modalElement) : null;
     };
 
-    // ===============================================
-    // == LOGIKA INTI (CRUD, VERIFIKASI, HAPUS, FILTER) ==
-    // ===============================================
-
-    // -- Fungsi untuk Submit Form Tambah & Edit --
+    // Menangani submit form untuk tambah/edit data
     const handleFormSubmit = async (config) => {
         const form = document.getElementById(config.formId);
         const saveButton = document.getElementById(config.btnId);
@@ -101,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const id = formData.get('id');
         const isUpdate = !!id;
         const url = isUpdate ? `${config.url}/${id}` : config.url;
-        
+
         saveButton.disabled = true;
         saveButton.innerHTML = `<span class="spinner-border spinner-border-sm"></span> Menyimpan...`;
 
@@ -109,7 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const response = await fetch(url, {
                 method: 'POST',
                 headers: { 'X-CSRF-TOKEN': csrfToken, 'Accept': 'application/json' },
-                body: formData,
+                body: formData
             });
             const data = await response.json();
             if (!response.ok) {
@@ -130,12 +132,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         if (activeTab) {
                             localStorage.setItem('activePendidikanTab', activeTab.getAttribute('data-bs-target'));
                         }
-                        setTimeout(() => { location.reload(); }, 1600);
+                        setTimeout(() => location.reload(), 1600);
                     }, { once: true });
                 }
             }
         } catch (error) {
-            console.error('Submit Error:', error);
+            console.error('Error saat menyimpan:', error);
             alert('Gagal menyimpan data. Pastikan semua isian valid dan coba lagi.');
         } finally {
             saveButton.disabled = false;
@@ -143,7 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    // -- Fungsi untuk Submit Verifikasi --
+    // Menangani proses verifikasi
     const submitVerification = async (status) => {
         if (!verificationId || !verificationType) return;
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -151,213 +153,220 @@ document.addEventListener("DOMContentLoaded", () => {
             const response = await fetch('/pendidikan/verifikasi', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrfToken, 'Accept': 'application/json' },
-                body: JSON.stringify({ id: verificationId, type: verificationType, status: status })
+                body: JSON.stringify({ id: verificationId, type: verificationType, status })
             });
             const data = await response.json();
-            if (!response.ok) {
-                throw new Error(data.error || 'Terjadi kesalahan pada server.');
-            }
+            if (!response.ok) throw new Error(data.error || 'Terjadi kesalahan pada server.');
             modalVerifikasi.classList.remove('show');
             showSuccessModal(data.success);
-            setTimeout(() => { location.reload(); }, 1600);
+            setTimeout(() => location.reload(), 1600);
         } catch (error) {
-            console.error('Verification Error:', error);
-            alert('Gagal memproses verifikasi: ' + error.message);
+            console.error('Error saat verifikasi:', error);
+            alert(`Gagal memproses verifikasi: ${error.message}`);
         } finally {
             verificationId = null;
             verificationType = null;
         }
     };
 
-    // -- Fungsi untuk Submit Hapus --
+    // Menangani proses penghapusan
     const submitDelete = async () => {
         if (!deleteId || !deleteType) return;
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         try {
             const response = await fetch('/pendidikan/hapus', {
                 method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken,
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    id: deleteId,
-                    type: deleteType
-                })
+                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrfToken, 'Accept': 'application/json' },
+                body: JSON.stringify({ id: deleteId, type: deleteType })
             });
             const data = await response.json();
-            if (!response.ok) {
-                throw new Error(data.error || 'Terjadi kesalahan pada server.');
-            }
+            if (!response.ok) throw new Error(data.error || 'Terjadi kesalahan pada server.');
             modalHapus.classList.remove('show');
             showSuccessModal(data.success);
-            setTimeout(() => { location.reload(); }, 1600);
+            setTimeout(() => location.reload(), 1600);
         } catch (error) {
-            console.error('Delete Error:', error);
-            alert('Gagal menghapus data: ' + error.message);
+            console.error('Error saat menghapus:', error);
+            alert(`Gagal menghapus data: ${error.message}`);
         } finally {
             deleteId = null;
             deleteType = null;
         }
     };
 
-    // -- Menyiapkan Event Listener untuk semua Tombol (Tambah & Simpan) --
-    Object.values(formConfigs).forEach((config) => {
-        const saveButton = document.getElementById(config.btnId);
-        saveButton?.addEventListener("click", () => handleFormSubmit(config));
-        
-        const btnTambah = document.getElementById(`btnTambah${config.title.replace(/\s+/g, '')}`);
-        btnTambah?.addEventListener('click', () => {
-            const form = document.getElementById(config.formId);
-            form.reset();
-            form.querySelector('input[name="id"]').value = '';
-            resetFileInput(form);
-            const modalTitle = document.querySelector(`#${config.modalId} .modal-title span`);
-            if (modalTitle) modalTitle.textContent = `Tambah ${config.title}`;
-        });
-    });
-
-    // -- Event Listener Terpusat untuk Aksi (Edit, Verifikasi, Hapus) --
-    document.body.addEventListener('click', async (e) => {
-        const editButton = e.target.closest('.btn-edit');
-        const verifikasiButton = e.target.closest('.btn-verifikasi');
-        const hapusButton = e.target.closest('.btn-hapus');
-
-        if (editButton) {
-            e.preventDefault();
-            const key = Object.keys(formConfigs).find(k => editButton.classList.contains(`btn-edit-${k.replace('_','-')}`));
-            if (!key) return;
-            const config = formConfigs[key];
-            const id = editButton.dataset.id;
-            const form = document.getElementById(config.formId);
-            try {
-                const response = await fetch(`${config.url}/${id}/edit`);
-                if (!response.ok) throw new Error('Gagal memuat data untuk diedit.');
-                const data = await response.json();
-                form.reset();
-                resetFileInput(form);
-                Object.keys(data).forEach(fieldName => {
-                    const field = form.querySelector(`[name="${fieldName}"]`);
-                    if (field) {
-                        // Khusus untuk Select2, perlu perlakuan khusus
-                        if (fieldName === 'pengampu' && $(field).hasClass('select2-hidden-accessible')) {
-                            $(field).val(data[fieldName]).trigger('change');
-                        } else {
-                            field.value = data[fieldName];
-                        }
-                    }
-                });
-                const modalTitle = document.querySelector(`#${config.modalId} .modal-title span`);
-                if (modalTitle) modalTitle.textContent = `Edit ${config.title}`;
-                getModalInstance(config.modalId).show();
-            } catch (error) {
-                console.error('Edit Error:', error);
-                alert(error.message);
-            }
-        }
-
-        if (verifikasiButton) {
-            e.preventDefault();
-            verificationId = verifikasiButton.dataset.id;
-            verificationType = verifikasiButton.dataset.type;
-            modalVerifikasi.classList.add('show');
-        }
-
-        if (hapusButton) {
-            e.preventDefault();
-            deleteId = hapusButton.dataset.id;
-            deleteType = hapusButton.dataset.type;
-            modalHapus.classList.add('show');
-        }
-    });
-
-    // -- Fungsi untuk Filter Otomatis --
-    document.querySelectorAll('.filter-form').forEach(form => {
-        const debounce = (func, delay) => {
-            let timeoutId;
-            const cancel = () => clearTimeout(timeoutId);
-            const debounced = (...args) => {
-                clearTimeout(timeoutId);
-                timeoutId = setTimeout(() => {
-                    func.apply(this, args);
-                }, delay);
-            };
-            debounced.cancel = cancel;
-            return debounced;
-        };
-
-        const debouncedSubmit = debounce(() => {
-            form.submit();
-        }, 500);
-
-        form.querySelectorAll('.filter-select').forEach(select => {
-            select.addEventListener('change', () => {
-                form.submit();
+    // Mengatur event listener untuk tombol selesai pada modal berhasil
+    const setupSuccessModal = () => {
+        if (btnSelesai && modalBerhasil) {
+            btnSelesai.addEventListener('click', () => {
+                modalBerhasil.classList.remove("show");
             });
-        });
-
-        const searchInput = form.querySelector('.search-input');
-        if (searchInput) {
-            searchInput.addEventListener('keyup', (event) => {
-                if (event.key === 'Enter') {
-                    debouncedSubmit.cancel();
-                    form.submit();
-                } else {
-                    debouncedSubmit();
-                }
-            });
-        }
-    });
-
-    // -- Inisialisasi Select2 untuk Dropdown Pengampu --
-    $('#pengampu').select2({
-        theme: 'bootstrap-5',
-        placeholder: '-- Pilih Program Studi --',
-        dropdownParent: $('#modalTambahEditPengajaranLama .modal-content')
-    });
-
-    // -- Reset Select2 saat modal ditutup --
-    $('#modalTambahEditPengajaranLama').on('hidden.bs.modal', function () {
-        $(this).find('#pengampu').val(null).trigger('change');
-    });
-
-    // ===============================================
-    // == FUNGSI UTILITAS & TAMPILAN (FILE INPUT, LIHAT DETAIL) ==
-    // ===============================================
-
-    // -- Fungsi untuk Reset Tampilan File Input --
-    const resetFileInput = (form) => {
-        const fileInput = form.querySelector('.file-input');
-        if (fileInput) {
-            const fileDropArea = fileInput.closest('.file-drop-area');
-            const fileMessage = fileDropArea.querySelector('.file-message');
-            fileInput.value = '';
-            fileMessage.textContent = 'Drag & Drop File here';
-            fileDropArea.classList.remove('file-selected');
         }
     };
-    
-    // -- Event Listener untuk Tampilan File Input --
-    document.querySelectorAll('.file-input').forEach(inputElement => {
-        inputElement.addEventListener('change', function() {
-            const fileDropArea = this.closest('.file-drop-area');
-            const fileMessage = fileDropArea.querySelector('.file-message');
-            if (this.files.length > 0) {
-                fileMessage.textContent = this.files[0].name;
-                fileDropArea.classList.add('file-selected');
-            } else {
-                fileMessage.textContent = 'Drag & Drop File here';
-                fileDropArea.classList.remove('file-selected');
+
+    // Mengatur event listener untuk tombol verifikasi
+    const setupVerificationButtons = () => {
+        btnTerima?.addEventListener('click', () => submitVerification('diverifikasi'));
+        btnTolak?.addEventListener('click', () => submitVerification('ditolak'));
+        btnKembali?.addEventListener('click', () => {
+            modalVerifikasi.classList.remove('show');
+        });
+    };
+
+    // Mengatur event listener untuk tombol hapus
+    const setupDeleteButton = () => {
+        btnKonfirmasiHapus?.addEventListener('click', async () => {
+            const originalHTML = btnKonfirmasiHapus.innerHTML;
+            btnKonfirmasiHapus.disabled = true;
+            btnKonfirmasiHapus.innerHTML = `<span class="spinner-border spinner-border-sm"></span> Menghapus...`;
+
+            await submitDelete();
+
+            btnKonfirmasiHapus.disabled = false;
+            btnKonfirmasiHapus.innerHTML = originalHTML;
+        });
+    };
+
+    // Mengatur event listener untuk tombol tambah dan simpan
+    const setupFormButtons = () => {
+        Object.values(formConfigs).forEach((config) => {
+            const saveButton = document.getElementById(config.btnId);
+            saveButton?.addEventListener("click", () => handleFormSubmit(config));
+
+            const btnTambah = document.getElementById(`btnTambah${config.title.replace(/\s+/g, '')}`);
+            btnTambah?.addEventListener('click', () => {
+                const form = document.getElementById(config.formId);
+                form.reset();
+                form.querySelector('input[name="id"]').value = '';
+                resetFileInput(form);
+                const modalTitle = document.querySelector(`#${config.modalId} .modal-title span`);
+                if (modalTitle) modalTitle.textContent = `Tambah ${config.title}`;
+            });
+        });
+    };
+
+    // Mengatur event listener terpusat untuk aksi edit, verifikasi, dan hapus
+    const setupCentralEventListener = () => {
+        document.body.addEventListener('click', async (e) => {
+            const editButton = e.target.closest('.btn-edit');
+            const verifikasiButton = e.target.closest('.btn-verifikasi');
+            const hapusButton = e.target.closest('.btn-hapus');
+
+            if (editButton) {
+                e.preventDefault();
+                const key = Object.keys(formConfigs).find(k => editButton.classList.contains(`btn-edit-${k.replace('_','-')}`));
+                if (!key) return;
+                const config = formConfigs[key];
+                const id = editButton.dataset.id;
+                const form = document.getElementById(config.formId);
+                try {
+                    const response = await fetch(`${config.url}/${id}/edit`);
+                    if (!response.ok) throw new Error('Gagal memuat data untuk diedit.');
+                    const data = await response.json();
+                    form.reset();
+                    resetFileInput(form);
+                    Object.keys(data).forEach(fieldName => {
+                        const field = form.querySelector(`[name="${fieldName}"]`);
+                        if (field) {
+                            if (fieldName === 'pengampu' && $(field).hasClass('select2-hidden-accessible')) {
+                                $(field).val(data[fieldName]).trigger('change');
+                            } else {
+                                field.value = data[fieldName];
+                            }
+                        }
+                    });
+                    const modalTitle = document.querySelector(`#${config.modalId} .modal-title span`);
+                    if (modalTitle) modalTitle.textContent = `Edit ${config.title}`;
+                    getModalInstance(config.modalId).show();
+                } catch (error) {
+                    console.error('Error saat mengedit:', error);
+                    alert(error.message);
+                }
+            }
+
+            if (verifikasiButton) {
+                e.preventDefault();
+                verificationId = verifikasiButton.dataset.id;
+                verificationType = verifikasiButton.dataset.type;
+                modalVerifikasi.classList.add('show');
+            }
+
+            if (hapusButton) {
+                e.preventDefault();
+                deleteId = hapusButton.dataset.id;
+                deleteType = hapusButton.dataset.type;
+                modalHapus.classList.add('show');
             }
         });
-    });
+    };
 
-    // -- Fungsi-fungsi untuk Menampilkan Detail Data --
+    // Mengatur filter otomatis dengan debounce
+    const setupFilterForms = () => {
+        document.querySelectorAll('.filter-form').forEach(form => {
+            const debounce = (func, delay) => {
+                let timeoutId;
+                const cancel = () => clearTimeout(timeoutId);
+                const debounced = (...args) => {
+                    clearTimeout(timeoutId);
+                    timeoutId = setTimeout(() => func.apply(this, args), delay);
+                };
+                debounced.cancel = cancel;
+                return debounced;
+            };
+
+            const debouncedSubmit = debounce(() => form.submit(), 500);
+
+            form.querySelectorAll('.filter-select').forEach(select => {
+                select.addEventListener('change', () => form.submit());
+            });
+
+            const searchInput = form.querySelector('.search-input');
+            if (searchInput) {
+                searchInput.addEventListener('keyup', (event) => {
+                    if (event.key === 'Enter') {
+                        debouncedSubmit.cancel();
+                        form.submit();
+                    } else {
+                        debouncedSubmit();
+                    }
+                });
+            }
+        });
+    };
+
+    // Mengatur input file
+    const setupFileInputs = () => {
+        document.querySelectorAll('.file-input').forEach(inputElement => {
+            inputElement.addEventListener('change', function() {
+                const fileDropArea = this.closest('.file-drop-area');
+                const fileMessage = fileDropArea.querySelector('.file-message');
+                if (this.files.length > 0) {
+                    fileMessage.textContent = this.files[0].name;
+                    fileDropArea.classList.add('file-selected');
+                } else {
+                    fileMessage.textContent = 'Drag & Drop File here';
+                    fileDropArea.classList.remove('file-selected');
+                }
+            });
+        });
+    };
+
+    // Mengatur elemen audio untuk suara sukses
+    const setupSuccessSound = () => {
+        const successSound = document.createElement('audio');
+        successSound.id = 'success-sound';
+        successSound.preload = 'auto';
+        const source = document.createElement('source');
+        source.src = '/assets/sounds/Success.mp3';
+        source.type = 'audio/mpeg';
+        successSound.appendChild(source);
+        document.body.appendChild(successSound);
+    };
+
+    // Mengisi elemen dan dokumen viewer
     const fillElement = (id, value) => {
         const element = document.getElementById(id);
         if (element) element.textContent = value || '-';
     };
+
     const fillDocumentViewer = (id, path) => {
         const viewer = document.getElementById(id);
         if (viewer) {
@@ -369,6 +378,45 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
     };
+
+    // Mereset modal detail
+    const resetPengajaranLamaModal = () => {
+        const fields = ['kegiatan', 'nama', 'tahun_semester', 'kode_mk', 'nama_mk', 'pengampu', 'sks_kuliah', 'sks_praktikum', 'jenis', 'kelas_paralel', 'jumlah_pertemuan'];
+        fields.forEach(field => fillElement(`detail_pl_${field}`, 'Memuat...'));
+        fillDocumentViewer('detail_pl_document_viewer', '');
+    };
+
+    const resetPengajaranLuarModal = () => {
+        const fields = ['nama', 'tahun_semester', 'universitas', 'kode_mk', 'nama_mk', 'program_studi', 'sks_kuliah', 'sks_praktikum', 'jenis', 'kelas_paralel', 'jumlah_pertemuan', 'insidental', 'lebih_satu_semester'];
+        fields.forEach(field => fillElement(`detail_pluar_${field}`, 'Memuat...'));
+        fillDocumentViewer('detail_pluar_document_viewer', '');
+    };
+
+    const resetPengujianLamaModal = () => {
+        const fields = ['kegiatan', 'nama', 'tahun_semester', 'nim', 'nama_mahasiswa', 'departemen'];
+        fields.forEach(field => fillElement(`detail_pjl_${field}`, 'Memuat...'));
+        fillDocumentViewer('detail_pjl_document_viewer', '');
+    };
+
+    const resetPembimbingLamaModal = () => {
+        const fields = ['kegiatan', 'nama', 'tahun_semester', 'lokasi', 'nim', 'nama_mahasiswa', 'departemen', 'nama_dokumen'];
+        fields.forEach(field => fillElement(`detail_pbl_${field}`, 'Memuat...'));
+        fillDocumentViewer('detail_pbl_document_viewer', '');
+    };
+
+    const resetPengujiLuarModal = () => {
+        const fields = ['kegiatan', 'nama', 'status', 'tahun_semester', 'nim', 'nama_mahasiswa', 'universitas', 'program_studi', 'insidental', 'lebih_satu_semester'];
+        fields.forEach(field => fillElement(`detail_pjl_luar_${field}`, 'Memuat...'));
+        fillDocumentViewer('detail_pjl_luar_document_viewer', '');
+    };
+
+    const resetPembimbingLuarModal = () => {
+        const fields = ['kegiatan', 'nama', 'status', 'tahun_semester', 'nim', 'nama_mahasiswa', 'universitas', 'program_studi', 'insidental', 'lebih_satu_semester'];
+        fields.forEach(field => fillElement(`detail_pbl_luar_${field}`, 'Memuat...'));
+        fillDocumentViewer('detail_pbl_luar_document_viewer', '');
+    };
+
+    // Menangani tampilan detail
     const handleViewDetail = async (button, url, fillFunction) => {
         const id = button.getAttribute('data-id');
         if (!id) return;
@@ -378,165 +426,359 @@ document.addEventListener("DOMContentLoaded", () => {
             const data = await response.json();
             fillFunction(data);
         } catch (error) {
-            console.error('Error fetching detail:', error);
+            console.error('Error saat mengambil detail:', error);
             alert('Tidak dapat memuat detail data.');
         }
     };
 
-    // -- Fungsi untuk Mereset Modal Detail --
-    const resetPengajaranLamaModal = () => {
-        const fields = ['kegiatan', 'nama', 'tahun_semester', 'kode_mk', 'nama_mk', 'pengampu', 'sks_kuliah', 'sks_praktikum', 'jenis', 'kelas_paralel', 'jumlah_pertemuan'];
-        fields.forEach(field => fillElement(`detail_pl_${field}`, 'Memuat...'));
-        fillDocumentViewer('detail_pl_document_viewer', '');
-    };
-    const resetPengajaranLuarModal = () => {
-        const fields = ['nama', 'tahun_semester', 'universitas', 'kode_mk', 'nama_mk', 'program_studi', 'sks_kuliah', 'sks_praktikum', 'jenis', 'kelas_paralel', 'jumlah_pertemuan', 'insidental', 'lebih_satu_semester'];
-        fields.forEach(field => fillElement(`detail_pluar_${field}`, 'Memuat...'));
-        fillDocumentViewer('detail_pluar_document_viewer', '');
-    };
-    const resetPengujianLamaModal = () => {
-        const fields = ['kegiatan', 'nama', 'tahun_semester', 'nim', 'nama_mahasiswa', 'departemen'];
-        fields.forEach(field => fillElement(`detail_pjl_${field}`, 'Memuat...'));
-        fillDocumentViewer('detail_pjl_document_viewer', '');
-    };
-    const resetPembimbingLamaModal = () => {
-        const fields = ['kegiatan', 'nama', 'tahun_semester', 'lokasi', 'nim', 'nama_mahasiswa', 'departemen', 'nama_dokumen'];
-        fields.forEach(field => fillElement(`detail_pbl_${field}`, 'Memuat...'));
-        fillDocumentViewer('detail_pbl_document_viewer', '');
-    };
-    const resetPengujiLuarModal = () => {
-        const fields = ['kegiatan', 'nama', 'status', 'tahun_semester', 'nim', 'nama_mahasiswa', 'universitas', 'program_studi', 'insidental', 'lebih_satu_semester'];
-        fields.forEach(field => fillElement(`detail_pjl_luar_${field}`, 'Memuat...'));
-        fillDocumentViewer('detail_pjl_luar_document_viewer', '');
-    };
-    const resetPembimbingLuarModal = () => {
-        const fields = ['kegiatan', 'nama', 'status', 'tahun_semester', 'nim', 'nama_mahasiswa', 'universitas', 'program_studi', 'insidental', 'lebih_satu_semester'];
-        fields.forEach(field => fillElement(`detail_pbl_luar_${field}`, 'Memuat...'));
-        fillDocumentViewer('detail_pbl_luar_document_viewer', '');
-    };
-
-    // -- Event Listener untuk Tombol Lihat Detail di Setiap Tabel --
-    document.querySelectorAll('.btn-lihat-pengajaran-lama').forEach(button => {
-        button.addEventListener('click', () => {
-            resetPengajaranLamaModal();
-            handleViewDetail(button, '/pendidikan/pengajaran-lama', data => {
-                const kegiatanText = data.kegiatan || 'Melaksanakan perkuliahan/tutorial dan membimbing, menguji serta menyelenggarakan pendidikan di laboratorium.';
-                fillElement('detail_pl_kegiatan', kegiatanText);
-                fillElement('detail_pl_nama', data.pegawai?.nama_lengkap);
-                fillElement('detail_pl_tahun_semester', data.tahun_semester);
-                fillElement('detail_pl_kode_mk', data.kode_mk);
-                fillElement('detail_pl_nama_mk', data.nama_mk);
-                fillElement('detail_pl_pengampu', data.pengampu);
-                fillElement('detail_pl_sks_kuliah', data.sks_kuliah);
-                fillElement('detail_pl_sks_praktikum', data.sks_praktikum);
-                fillElement('detail_pl_jenis', data.jenis);
-                fillElement('detail_pl_kelas_paralel', data.kelas_paralel);
-                fillElement('detail_pl_jumlah_pertemuan', data.jumlah_pertemuan);
-                fillDocumentViewer('detail_pl_document_viewer', data.file_path);
+    // Mengatur event listener untuk tombol lihat detail
+    const setupDetailButtons = () => {
+        document.querySelectorAll('.btn-lihat-pengajaran-lama').forEach(button => {
+            button.addEventListener('click', () => {
+                resetPengajaranLamaModal();
+                handleViewDetail(button, '/pendidikan/pengajaran-lama', data => {
+                    const kegiatanText = data.kegiatan || 'Melaksanakan perkuliahan/tutorial dan membimbing, menguji serta menyelenggarakan pendidikan di laboratorium.';
+                    fillElement('detail_pl_kegiatan', kegiatanText);
+                    fillElement('detail_pl_nama', data.pegawai?.nama_lengkap);
+                    fillElement('detail_pl_tahun_semester', data.tahun_semester);
+                    fillElement('detail_pl_kode_mk', data.kode_mk);
+                    fillElement('detail_pl_nama_mk', data.nama_mk);
+                    fillElement('detail_pl_pengampu', data.pengampu);
+                    fillElement('detail_pl_sks_kuliah', data.sks_kuliah);
+                    fillElement('detail_pl_sks_praktikum', data.sks_praktikum);
+                    fillElement('detail_pl_jenis', data.jenis);
+                    fillElement('detail_pl_kelas_paralel', data.kelas_paralel);
+                    fillElement('detail_pl_jumlah_pertemuan', data.jumlah_pertemuan);
+                    fillDocumentViewer('detail_pl_document_viewer', data.file_path);
+                });
             });
         });
-    });
-    document.querySelectorAll('.btn-lihat-pengajaran-luar').forEach(button => {
-        button.addEventListener('click', () => {
-            resetPengajaranLuarModal();
-            handleViewDetail(button, '/pendidikan/pengajaran-luar', data => {
-                fillElement('detail_pluar_nama', data.pegawai?.nama_lengkap);
-                fillElement('detail_pluar_tahun_semester', data.tahun_semester);
-                fillElement('detail_pluar_universitas', data.universitas);
-                fillElement('detail_pluar_kode_mk', data.kode_mk);
-                fillElement('detail_pluar_nama_mk', data.nama_mk);
-                fillElement('detail_pluar_program_studi', data.program_studi);
-                fillElement('detail_pluar_sks_kuliah', data.sks_kuliah);
-                fillElement('detail_pluar_sks_praktikum', data.sks_praktikum);
-                fillElement('detail_pluar_jenis', data.jenis);
-                fillElement('detail_pluar_kelas_paralel', data.kelas_paralel);
-                fillElement('detail_pluar_jumlah_pertemuan', data.jumlah_pertemuan);
-                fillElement('detail_pluar_insidental', data.is_insidental);
-                fillElement('detail_pluar_lebih_satu_semester', data.is_lebih_satu_semester);
-                fillDocumentViewer('detail_pluar_document_viewer', data.file_path);
+
+        document.querySelectorAll('.btn-lihat-pengajaran-luar').forEach(button => {
+            button.addEventListener('click', () => {
+                resetPengajaranLuarModal();
+                handleViewDetail(button, '/pendidikan/pengajaran-luar', data => {
+                    fillElement('detail_pluar_nama', data.pegawai?.nama_lengkap);
+                    fillElement('detail_pluar_tahun_semester', data.tahun_semester);
+                    fillElement('detail_pluar_universitas', data.universitas);
+                    fillElement('detail_pluar_kode_mk', data.kode_mk);
+                    fillElement('detail_pluar_nama_mk', data.nama_mk);
+                    fillElement('detail_pluar_program_studi', data.program_studi);
+                    fillElement('detail_pluar_sks_kuliah', data.sks_kuliah);
+                    fillElement('detail_pluar_sks_praktikum', data.sks_praktikum);
+                    fillElement('detail_pluar_jenis', data.jenis);
+                    fillElement('detail_pluar_kelas_paralel', data.kelas_paralel);
+                    fillElement('detail_pluar_jumlah_pertemuan', data.jumlah_pertemuan);
+                    fillElement('detail_pluar_insidental', data.is_insidental);
+                    fillElement('detail_pluar_lebih_satu_semester', data.is_lebih_satu_semester);
+                    fillDocumentViewer('detail_pluar_document_viewer', data.file_path);
+                });
             });
         });
-    });
-    document.querySelectorAll('.btn-lihat-pengujian-lama').forEach(button => {
-        button.addEventListener('click', () => {
-            resetPengujianLamaModal();
-            handleViewDetail(button, '/pendidikan/pengujian-lama', data => {
-                fillElement('detail_pjl_kegiatan', data.kegiatan);
-                fillElement('detail_pjl_nama', data.pegawai?.nama_lengkap);
-                fillElement('detail_pjl_tahun_semester', data.tahun_semester);
-                fillElement('detail_pjl_nim', data.nim);
-                fillElement('detail_pjl_nama_mahasiswa', data.nama_mahasiswa);
-                fillElement('detail_pjl_departemen', data.departemen);
-                fillDocumentViewer('detail_pjl_document_viewer', data.file_path);
+
+        document.querySelectorAll('.btn-lihat-pengujian-lama').forEach(button => {
+            button.addEventListener('click', () => {
+                resetPengujianLamaModal();
+                handleViewDetail(button, '/pendidikan/pengujian-lama', data => {
+                    fillElement('detail_pjl_kegiatan', data.kegiatan);
+                    fillElement('detail_pjl_nama', data.pegawai?.nama_lengkap);
+                    fillElement('detail_pjl_tahun_semester', data.tahun_semester);
+                    fillElement('detail_pjl_nim', data.nim);
+                    fillElement('detail_pjl_nama_mahasiswa', data.nama_mahasiswa);
+                    fillElement('detail_pjl_departemen', data.departemen);
+                    fillDocumentViewer('detail_pjl_document_viewer', data.file_path);
+                });
             });
         });
-    });
-    document.querySelectorAll('.btn-lihat-pembimbing-lama').forEach(button => {
-        button.addEventListener('click', () => {
-            resetPembimbingLamaModal();
-            handleViewDetail(button, '/pendidikan/pembimbing-lama', data => {
-                fillElement('detail_pbl_kegiatan', data.kegiatan);
-                fillElement('detail_pbl_nama', data.pegawai?.nama_lengkap);
-                fillElement('detail_pbl_tahun_semester', data.tahun_semester);
-                fillElement('detail_pbl_lokasi', data.lokasi);
-                fillElement('detail_pbl_nim', data.nim);
-                fillElement('detail_pbl_nama_mahasiswa', data.nama_mahasiswa);
-                fillElement('detail_pbl_departemen', data.departemen);
-                fillElement('detail_pbl_nama_dokumen', data.nama_dokumen);
-                fillDocumentViewer('detail_pbl_document_viewer', data.file_path);
+
+        document.querySelectorAll('.btn-lihat-pembimbing-lama').forEach(button => {
+            button.addEventListener('click', () => {
+                resetPembimbingLamaModal();
+                handleViewDetail(button, '/pendidikan/pembimbing-lama', data => {
+                    fillElement('detail_pbl_kegiatan', data.kegiatan);
+                    fillElement('detail_pbl_nama', data.pegawai?.nama_lengkap);
+                    fillElement('detail_pbl_tahun_semester', data.tahun_semester);
+                    fillElement('detail_pbl_lokasi', data.lokasi);
+                    fillElement('detail_pbl_nim', data.nim);
+                    fillElement('detail_pbl_nama_mahasiswa', data.nama_mahasiswa);
+                    fillElement('detail_pbl_departemen', data.departemen);
+                    fillElement('detail_pbl_nama_dokumen', data.nama_dokumen);
+                    fillDocumentViewer('detail_pbl_document_viewer', data.file_path);
+                });
             });
         });
-    });
-    document.querySelectorAll('.btn-lihat-penguji-luar').forEach(button => {
-        button.addEventListener('click', () => {
-            resetPengujiLuarModal();
-            handleViewDetail(button, '/pendidikan/penguji-luar', data => {
-                fillElement('detail_pjl_luar_kegiatan', data.kegiatan);
-                fillElement('detail_pjl_luar_nama', data.pegawai?.nama_lengkap);
-                fillElement('detail_pjl_luar_status', data.status);
-                fillElement('detail_pjl_luar_tahun_semester', data.tahun_semester);
-                fillElement('detail_pjl_luar_nim', data.nim);
-                fillElement('detail_pjl_luar_nama_mahasiswa', data.nama_mahasiswa);
-                fillElement('detail_pjl_luar_universitas', data.universitas);
-                fillElement('detail_pjl_luar_program_studi', data.program_studi);
-                fillElement('detail_pjl_luar_insidental', data.is_insidental);
-                fillElement('detail_pjl_luar_lebih_satu_semester', data.is_lebih_satu_semester);
-                fillDocumentViewer('detail_pjl_luar_document_viewer', data.file_path);
+
+        document.querySelectorAll('.btn-lihat-penguji-luar').forEach(button => {
+            button.addEventListener('click', () => {
+                resetPengujiLuarModal();
+                handleViewDetail(button, '/pendidikan/penguji-luar', data => {
+                    fillElement('detail_pjl_luar_kegiatan', data.kegiatan);
+                    fillElement('detail_pjl_luar_nama', data.pegawai?.nama_lengkap);
+                    fillElement('detail_pjl_luar_status', data.status);
+                    fillElement('detail_pjl_luar_tahun_semester', data.tahun_semester);
+                    fillElement('detail_pjl_luar_nim', data.nim);
+                    fillElement('detail_pjl_luar_nama_mahasiswa', data.nama_mahasiswa);
+                    fillElement('detail_pjl_luar_universitas', data.universitas);
+                    fillElement('detail_pjl_luar_program_studi', data.program_studi);
+                    fillElement('detail_pjl_luar_insidental', data.is_insidental);
+                    fillElement('detail_pjl_luar_lebih_satu_semester', data.is_lebih_satu_semester);
+                    fillDocumentViewer('detail_pjl_luar_document_viewer', data.file_path);
+                });
             });
         });
-    });
-    document.querySelectorAll('.btn-lihat-pembimbing-luar').forEach(button => {
-        button.addEventListener('click', () => {
-            resetPembimbingLuarModal();
-            handleViewDetail(button, '/pendidikan/pembimbing-luar', data => {
-                fillElement('detail_pbl_luar_kegiatan', data.kegiatan);
-                fillElement('detail_pbl_luar_nama', data.pegawai?.nama_lengkap);
-                fillElement('detail_pbl_luar_status', data.status);
-                fillElement('detail_pbl_luar_tahun_semester', data.tahun_semester);
-                fillElement('detail_pbl_luar_nim', data.nim);
-                fillElement('detail_pbl_luar_nama_mahasiswa', data.nama_mahasiswa);
-                fillElement('detail_pbl_luar_universitas', data.universitas);
-                fillElement('detail_pbl_luar_program_studi', data.program_studi);
-                fillElement('detail_pbl_luar_insidental', data.is_insidental);
-                fillElement('detail_pbl_luar_lebih_satu_semester', data.is_lebih_satu_semester);
-                fillDocumentViewer('detail_pbl_luar_document_viewer', data.file_path);
+
+        document.querySelectorAll('.btn-lihat-pembimbing-luar').forEach(button => {
+            button.addEventListener('click', () => {
+                resetPembimbingLuarModal();
+                handleViewDetail(button, '/pendidikan/pembimbing-luar', data => {
+                    fillElement('detail_pbl_luar_kegiatan', data.kegiatan);
+                    fillElement('detail_pbl_luar_nama', data.pegawai?.nama_lengkap);
+                    fillElement('detail_pbl_luar_status', data.status);
+                    fillElement('detail_pbl_luar_tahun_semester', data.tahun_semester);
+                    fillElement('detail_pbl_luar_nim', data.nim);
+                    fillElement('detail_pbl_luar_nama_mahasiswa', data.nama_mahasiswa);
+                    fillElement('detail_pbl_luar_universitas', data.universitas);
+                    fillElement('detail_pbl_luar_program_studi', data.program_studi);
+                    fillElement('detail_pbl_luar_insidental', data.is_insidental);
+                    fillElement('detail_pbl_luar_lebih_satu_semester', data.is_lebih_satu_semester);
+                    fillDocumentViewer('detail_pbl_luar_document_viewer', data.file_path);
+                });
             });
         });
-    });
+    };
 
-    // Membuat elemen audio untuk suara sukses
-    const successSound = document.createElement('audio');
-    successSound.id = 'success-sound';
-    successSound.preload = 'auto';
+    // Mereset input file
+    const resetFileInput = (form) => {
+        const fileInput = form.querySelector('.file-input');
+        if (fileInput) {
+            const fileDropArea = fileInput.closest('.file-drop-area');
+            const fileMessage = fileDropArea.querySelector('.file-message');
+            fileInput.value = '';
+            fileMessage.textContent = 'Drag & Drop File here';
+            fileDropArea.classList.remove('file-selected');
+        }
+    };
 
-    // Tambahkan source
-    const source = document.createElement('source');
-    source.src = '/assets/sounds/Success.mp3'; // pastikan path sesuai public folder
-    source.type = 'audio/mpeg';
+    // Inisialisasi Select2 untuk dropdown
+    const setupSelect2 = () => {
+        $(document).ready(() => {
+            $('#pengampu').select2({
+                theme: 'bootstrap-5',
+                placeholder: '-- Pilih Program Studi --',
+                dropdownParent: $('#modalTambahEditPengajaranLama .modal-content')
+            });
 
-    successSound.appendChild(source);
+            $('#modalTambahEditPengajaranLama').on('hidden.bs.modal', function () {
+                $(this).find('#pengampu').val(null).trigger('change');
+            });
 
-    // Masukkan ke body supaya bisa diputar
-    document.body.appendChild(successSound);
+            $('#modalTambahEditPengajaranLama').on('shown.bs.modal', () => {
+                $('#nama, #pla_tahun_semester').select2({
+                    theme: 'bootstrap-5',
+                    dropdownParent: $('#modalTambahEditPengajaranLama'),
+                    placeholder: '-- Pilih Salah Satu --',
+                    allowClear: true,
+                    width: '100%'
+                });
+            });
 
+            $('#modalPengajaranLuar').on('shown.bs.modal', () => {
+                $('#pl_nama, #pl_tahun_semester').select2({
+                    theme: 'bootstrap-5',
+                    dropdownParent: $('#modalPengajaranLuar'),
+                    placeholder: '-- Pilih Salah Satu --',
+                    allowClear: true,
+                    width: '100%'
+                });
+            });
+
+            $('#modalPengujianLama').on('shown.bs.modal', () => {
+                $('#pjla_nama, #pjl_departemen, #pjl_tahun_semester').select2({
+                    theme: 'bootstrap-5',
+                    dropdownParent: $('#modalPengujianLama'),
+                    placeholder: '-- Pilih Salah Satu --',
+                    allowClear: true,
+                    width: '100%'
+                });
+            });
+
+            $('#modalPembimbingLama').on('shown.bs.modal', () => {
+                $('#pbl_nama, #pbl_departemen, #pbla_tahun_semester').select2({
+                    theme: 'bootstrap-5',
+                    dropdownParent: $('#modalPembimbingLama'),
+                    placeholder: '-- Pilih Salah Satu --',
+                    allowClear: true,
+                    width: '100%'
+                });
+            });
+
+            $('#modalPengujiLuar').on('shown.bs.modal', () => {
+                $('#pjl_nama, #tahun_semester').select2({
+                    theme: 'bootstrap-5',
+                    dropdownParent: $('#modalPengujiLuar'),
+                    placeholder: '-- Pilih Salah Satu --',
+                    allowClear: true,
+                    width: '100%'
+                });
+            });
+
+            $('#modalPembimbingLuar').on('shown.bs.modal', () => {
+                $('#pbl_nama_luar, #pbl_tahun_semester').select2({
+                    theme: 'bootstrap-5',
+                    dropdownParent: $('#modalPembimbingLuar'),
+                    placeholder: '-- Pilih Salah Satu --',
+                    allowClear: true,
+                    width: '100%'
+                });
+            });
+
+            $('#tahun_semester').select2({
+                theme: 'bootstrap-5',
+                dropdownParent: $('#modalPembimbingLama'),
+                placeholder: '-- Pilih Tahun Semester --',
+                width: '100%'
+            });
+        });
+    };
+
+    // Mengatur logika mode tambah/edit untuk setiap modal
+    const setupModalModes = () => {
+        $(document).ready(() => {
+            $('#modalTambahEditPengajaranLama').on('show.bs.modal', () => {
+                const id = $('#editPengajaranId').val();
+                const modalTitle = $('#modalTitleText');
+                const saveButton = $('#btnSimpanPengajaran .btn-text');
+                if (id) {
+                    modalTitle.text('Edit Pengajaran Lama');
+                    saveButton.text('Simpan Perubahan');
+                } else {
+                    modalTitle.text('Tambah Pengajaran Lama');
+                    saveButton.text('Simpan');
+                }
+                $('#btnSimpanPengajaran').prop('disabled', false);
+                $('#btnSimpanPengajaran .spinner-border').addClass('d-none');
+            });
+
+            $('#btnSimpanPengajaran').on('click', function () {
+                const $btn = $(this);
+                const $text = $btn.find('.btn-text');
+                const $spinner = $btn.find('.spinner-border');
+                $spinner.removeClass('d-none');
+                $btn.prop('disabled', true);
+                $text.text('Menyimpan...');
+                const id = $('#editPengajaranId').val();
+                const mode = id ? 'edit' : 'tambah';
+                setTimeout(() => {
+                    $spinner.addClass('d-none');
+                    $btn.prop('disabled', false);
+                    $text.text(mode === 'edit' ? 'Simpan Perubahan' : 'Simpan');
+                    $('#modalTambahEditPengajaranLama').modal('hide');
+                }, 2000);
+            });
+
+            $('#modalPengajaranLuar').on('show.bs.modal', () => {
+                const id = $('#editPengajaranLuarId').val();
+                if (id) {
+                    $('#modalTitleTextPengajaranLuar').text('Edit Kegiatan Pengajaran Luar IPB');
+                    $('#btnSimpanPengajaranLuar').text('Simpan Perubahan');
+                } else {
+                    $('#modalTitleTextPengajaranLuar').text('Tambah Kegiatan Pengajaran Luar IPB');
+                    $('#btnSimpanPengajaranLuar').text('Simpan');
+                }
+            });
+
+            $('#modalPengajaranLuar').on('hidden.bs.modal', () => {
+                $('#formPengajaranLuar')[0].reset();
+                $('#editPengajaranLuarId').val('');
+            });
+
+            $('#modalPengujianLama').on('show.bs.modal', () => {
+                const id = $('#editPengujianLamaId').val();
+                if (id) {
+                    $('#modalTitleTextPengujianLama').text('Edit Kegiatan Pengujian Lama');
+                    $('#btnSimpanPengujianLama').text('Simpan Perubahan');
+                } else {
+                    $('#modalTitleTextPengujianLama').text('Tambah Kegiatan Pengujian Lama');
+                    $('#btnSimpanPengujianLama').text('Simpan');
+                }
+            });
+
+            $('#modalPengujianLama').on('hidden.bs.modal', () => {
+                $('#formPengujianLama')[0].reset();
+                $('#editPengujianLamaId').val('');
+                $('#pjl_nama, #pjl_departemen').val('').trigger('change');
+            });
+
+            $('#modalPengujiLuar').on('show.bs.modal', () => {
+                const id = $('#editPengujiLuarId').val();
+                if (id) {
+                    $('#modalTitleTextPengujiLuar').text('Edit Kegiatan Penguji Luar IPB');
+                    $('#btnSimpanPengujiLuar').text('Simpan Perubahan');
+                } else {
+                    $('#modalTitleTextPengujiLuar').text('Tambah Kegiatan Penguji Luar IPB');
+                    $('#btnSimpanPengujiLuar').text('Simpan');
+                }
+            });
+
+            $('#modalPengujiLuar').on('hidden.bs.modal', () => {
+                $('#formPengujiLuar')[0].reset();
+                $('#editPengujiLuarId').val('');
+                $('#pjl_nama, #tahun_semester').val('').trigger('change');
+            });
+
+            $('#modalPembimbingLuar').on('show.bs.modal', () => {
+                const id = $('#editPembimbingLuarId').val();
+                if (id) {
+                    $('#modalTitleTextPembimbingLuar').text('Edit Kegiatan Pembimbing Luar IPB');
+                    $('#btnSimpanPembimbingLuar').text('Simpan Perubahan');
+                } else {
+                    $('#modalTitleTextPembimbingLuar').text('Tambah Kegiatan Pembimbing Luar IPB');
+                    $('#btnSimpanPembimbingLuar').text('Simpan');
+                }
+            });
+
+            $('#modalPembimbingLuar').on('hidden.bs.modal', () => {
+                $('#formPembimbingLuar')[0].reset();
+                $('#editPembimbingLuarId').val('');
+                $('#pbl_nama_luar, #pbl_tahun_semester').val('').trigger('change');
+            });
+        });
+    };
+
+    // Menutup modal jika klik di luar area konten
+    const setupModalClose = () => {
+        modalHapus.addEventListener('click', function (e) {
+            if (e.target === modalHapus) {
+                modalHapus.classList.remove('show', 'modal-active');
+                document.body.classList.remove('modal-open');
+            }
+        });
+
+        modalVerifikasi.addEventListener('click', function (e) {
+            if (e.target === modalVerifikasi) {
+                modalVerifikasi.classList.remove('show', 'modal-active');
+                document.body.classList.remove('modal-open');
+            }
+        });
+    };
+
+    // Inisialisasi semua fungsi
+    const initialize = () => {
+        manageActiveTab();
+        setupSuccessModal();
+        setupVerificationButtons();
+        setupDeleteButton();
+        setupFormButtons();
+        setupCentralEventListener();
+        setupFilterForms();
+        setupFileInputs();
+        setupSuccessSound();
+        setupDetailButtons();
+        setupSelect2();
+        setupModalModes();
+        setupModalClose();
+    };
+
+    // Jalankan inisialisasi
+    initialize();
 });

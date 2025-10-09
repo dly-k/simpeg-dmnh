@@ -64,8 +64,8 @@
           </div>
 
           <div class="mb-3">
-            <label for="pbl_tahun_semester" class="form-label">Tahun Semester</label>
-            <select class="form-select form-select-sm" id="pbl_tahun_semester" name="tahun_semester" required>
+            <label for="pbla_tahun_semester" class="form-label">Tahun Semester</label>
+            <select class="form-select form-select-sm" id="pbla_tahun_semester" name="tahun_semester" required>
               @php
                 $tahunSekarang = date('Y');
                 for ($i = $tahunSekarang; $i >= 2015; $i--) {

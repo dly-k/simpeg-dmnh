@@ -23,8 +23,8 @@
           </div>
 
           <div class="mb-3">
-            <label for="pjl_nama" class="form-label">Nama Dosen</label>
-            <select class="form-select form-select-sm" id="pjl_nama" name="pegawai_id">
+            <label for="pjla_nama" class="form-label">Nama Dosen</label>
+            <select class="form-select form-select-sm" id="pjla_nama" name="pegawai_id">
               <option selected disabled value="">-- Pilih Salah Satu --</option>
                @foreach($dosenAktif as $dosen)
                 <option value="{{ $dosen->id }}">{{ $dosen->nama_lengkap }}</option>
