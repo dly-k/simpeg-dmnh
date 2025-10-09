@@ -35,34 +35,40 @@ class PembicaraExport implements FromArray, WithHeadings, ShouldAutoSize, WithSt
         $no   = 1;
         $rows = [];
 
-        foreach ($this->data as $item) {
-            // Gabungkan dokumen
-            $dokumen = [];
-            if ($item->file_sertifikat) {
-                $dokumen[] = "File Sertifikat";
-            }
-            if ($item->file_sk) {
-                $dokumen[] = "File SK/Surat Tugas";
-            }
-            $dokumenText = count($dokumen) > 0 ? implode("\n", $dokumen) : 'Tidak ada dokumen';
-
-            $rows[] = [
-                $no++,
-                $item->pegawai->nama_lengkap ?? '-',
-                $item->kegiatan === 'lainnya' ? $item->kegiatan_lainnya : ucfirst(str_replace('_', ' ', $item->kegiatan)),
-                $item->kategori_capaian ?? '-',
-                $item->kategori_pembicara ?? '-',
-                $item->judul_makalah ?? '-',
-                $item->nama_pertemuan ?? '-',
-                $item->tanggal_pelaksana ? Carbon::parse($item->tanggal_pelaksana)->format('d-m-Y') : '-',
-                $item->penyelenggara ?? '-',
-                $item->tingkat ?? '-',
-                $item->bahasa ?? '-',
-                $item->litabmas ?? '-',
-                $item->status_verifikasi ?? '-',
-                $dokumenText,
-            ];
+foreach ($this->data as $item) {
+    // Gabungkan semua dokumen relasi
+    $dokumenText = 'Tidak ada dokumen';
+    if ($item->dokumen && count($item->dokumen) > 0) {
+        $dokumenList = [];
+        foreach ($item->dokumen as $doc) {
+            $dokumenList[] = 
+                ($doc->jenis_dokumen ? "{$doc->jenis_dokumen}" : '-') . ' - ' .
+                ($doc->nama_dokumen ?? '-') .
+                ($doc->nomor ? " (No: {$doc->nomor})" : '') .
+                ($doc->tautan ? "\nTautan: {$doc->tautan}" : '') .
+                ($doc->file_path ? "\nFile: " . url($doc->file_path) : '');
         }
+        $dokumenText = implode("\n\n", $dokumenList);
+    }
+
+    $rows[] = [
+        $no++,
+        $item->pegawai->nama_lengkap ?? '-',
+        $item->kegiatan === 'lainnya' ? $item->kegiatan_lainnya : ucfirst(str_replace('_', ' ', $item->kegiatan)),
+        $item->kategori_capaian ?? '-',
+        $item->kategori_pembicara ?? '-',
+        $item->judul_makalah ?? '-',
+        $item->nama_pertemuan ?? '-',
+        $item->tanggal_pelaksana ? Carbon::parse($item->tanggal_pelaksana)->format('d-m-Y') : '-',
+        $item->penyelenggara ?? '-',
+        $item->tingkat_pertemuan ?? '-', // perbaikan nama field
+        $item->bahasa ?? '-',
+        $item->litabmas ?? '-',
+        $item->status_verifikasi ?? '-',
+        $dokumenText,
+    ];
+}
+
 
         return $rows;
     }

@@ -426,7 +426,6 @@
                                     </table>
                                 </div>
                             </div>
-
                             <div class="sub-tab-content" id="sk-non-pns" style="display: none;">
                                 <div class="d-flex align-items-center flex-wrap gap-2 mb-3">
                                     <form action="{{ route('pegawai.show', $pegawai->id) }}" method="GET" class="d-flex gap-2 me-auto">
@@ -1006,6 +1005,84 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="main-tab-content" id="pengelola-jurnal-content" style="display: none;">
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered align-middle">
+            <thead class="table-light text-center">
+                <tr>
+                    <th>No</th>
+                    <th>Kegiatan</th>
+                    <th>Media Publikasi</th>
+                    <th>Peran</th>
+                    <th>Tahun</th>
+                    <th>Verifikasi</th>
+                    <th>Dokumen</th>
+                    <th class="text-center">Aksi</th>
+                </tr>
+            </thead>
+            <tbody class="text-center">
+                {{-- 2. Gunakan variabel $pengelolaJurnalPegawai --}}
+                @forelse ($pengelolaJurnalPegawai as $jurnal)
+                <tr>
+                    <td>{{ $loop->iteration + $pengelolaJurnalPegawai->firstItem() - 1 }}</td>
+                    <td>{{ $jurnal->kegiatan }}</td>
+                    <td>{{ $jurnal->media_publikasi }}</td>
+                    <td>{{ $jurnal->peran }}</td>
+                    <td>{{ \Carbon\Carbon::parse($jurnal->tanggal_mulai)->format('Y') }}</td>
+                    <td>
+                        @if ($jurnal->status_verifikasi == 'Sudah Diverifikasi')
+                        <span class="badge rounded-circle bg-success text-white" title="Sudah Diverifikasi"><i class="fa fa-check"></i></span>
+                        @elseif ($jurnal->status_verifikasi == 'Ditolak')
+                        <span class="badge rounded-circle bg-danger text-white" title="Ditolak"><i class="fa fa-times"></i></span>
+                        @else
+                        <span class="badge rounded-circle bg-warning text-white" title="Belum Diverifikasi"><i class="fa fa-question"></i></span>
+                        @endif
+                    </td>
+                    <td>
+                        @if ($jurnal->dokumen->isNotEmpty())
+                            @php $firstDocument = $jurnal->dokumen->first(); @endphp
+                            @if ($firstDocument->path_file)
+                                <a href="{{ Storage::url($firstDocument->path_file) }}" class="btn btn-sm btn-lihat" target="_blank">Lihat</a>
+                            @else
+                                <a href="{{ $firstDocument->tautan_dokumen ?? '#' }}" class="btn btn-sm btn-lihat" target="_blank">Lihat</a>
+                            @endif
+                        @else
+                            -
+                        @endif
+                    </td>
+                    <td class="text-center">
+                        {{-- Sederhanakan Aksi hanya menjadi Lihat Detail --}}
+                        <button class="btn-aksi btn-lihat btn-detail-pengelola-jurnal" title="Lihat Detail"
+                            data-bs-toggle="modal" data-bs-target="#detailPengelolaJurnalModal"
+                            data-nama="{{ $jurnal->pegawai->nama_lengkap ?? 'N/A' }}"
+                            data-kegiatan="{{ $jurnal->kegiatan }}"
+                            data-media="{{ $jurnal->media_publikasi }}"
+                            data-peran="{{ $jurnal->peran }}"
+                            data-no-sk="{{ $jurnal->no_sk }}"
+                            data-tgl-mulai="{{ \Carbon\Carbon::parse($jurnal->tanggal_mulai)->isoFormat('D MMMM YYYY') }}"
+                            data-tgl-selesai="{{ \Carbon\Carbon::parse($jurnal->tanggal_selesai)->isoFormat('D MMMM YYYY') }}"
+                            data-status="{{ $jurnal->status }}"
+                            data-dokumen='@json($jurnal->dokumen)'>
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="8" class="text-center text-muted">Data Pengelola Jurnal belum tersedia.</td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+
+    {{-- Pagination --}}
+    @if ($pengelolaJurnalPegawai->hasPages())
+    <div class="d-flex justify-content-end mt-4">
+        {{ $pengelolaJurnalPegawai->appends(['tab' => 'pengelola-jurnal'])->links() }}
+    </div>
+    @endif
+</div>
                         <div class="main-tab-content" id="penghargaan-content" style="display: none;">
                             <div class="table-responsive">
                                 <table class="table table-hover table-bordered">
@@ -1145,95 +1222,246 @@
                             </table>
                         </div>
     
-    {{-- 4. Tambahkan Pagination --}}
-    @if ($pembicaraPegawai->hasPages())
-        <div class="d-flex justify-content-end mt-4">
-            {{ $pembicaraPegawai->appends(['tab' => 'pembicara'])->links() }}
-        </div>
-    @endif
-</div>
+                    {{-- 4. Tambahkan Pagination --}}
+                    @if ($pembicaraPegawai->hasPages())
+                        <div class="d-flex justify-content-end mt-4">
+                            {{ $pembicaraPegawai->appends(['tab' => 'pembicara'])->links() }}
+                        </div>
+                    @endif
+                </div>
+
+                        <div class="main-tab-content" id="orasi-ilmiah-content" style="display: none;">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered align-middle">
+                                    <thead class="table-light text-center">
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Kategori Pembicara</th>
+                                            <th>Judul Makalah</th>
+                                            <th>Nama Pertemuan</th>
+                                            <th>Tingkat</th>
+                                            <th>Penyelenggara</th>
+                                            <th>Tanggal</th>
+                                            <th>Verifikasi</th>
+                                            <th>Dokumen</th>
+                                            <th class="text-center">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="orasiIlmiahTableBody" class="text-center">
+                                        @forelse ($orasiIlmiahPegawai as $item)
+                                        <tr>
+                                            <td>{{ $loop->iteration + $orasiIlmiahPegawai->firstItem() - 1 }}</td>
+                                            <td>{{ $item->kategori_pembicara }}</td>
+                                            <td class="text-start">{{ Str::limit($item->judul_makalah, 30) }}</td>
+                                            <td class="text-start">{{ Str::limit($item->nama_pertemuan, 30) }}</td>
+                                            <td>{{ $item->lingkup }}</td>
+                                            <td>{{ $item->penyelenggara }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($item->tanggal_pelaksana)->format('d-m-Y') }}</td>
+                                            <td>
+                                                @if ($item->verifikasi == 'Sudah Diverifikasi')
+                                                  <span class="badge rounded-circle bg-success text-white" title="Sudah Diverifikasi"><i class="fa fa-check"></i></span>
+                                                @elseif ($item->verifikasi == 'Ditolak')
+                                                  <span class="badge rounded-circle bg-danger text-white" title="Ditolak"><i class="fa fa-times"></i></span>
+                                                @else
+                                                  <span class="badge rounded-circle bg-warning text-white" title="Belum Diverifikasi"><i class="fa fa-question"></i></span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($item->dokumen)
+                                                  <a href="{{ asset('storage/' . $item->dokumen) }}" class="btn btn-sm btn-lihat" target="_blank">Lihat</a>
+                                                @else
+                                                  -
+                                                @endif
+                                            </td>
+                                            <td class="text-center">
+                                                <button 
+                                                  class="btn-aksi btn-lihat" 
+                                                  title="Lihat Detail"
+                                                  data-bs-toggle="modal" 
+                                                  data-bs-target="#modalDetailOrasiIlmiah"
+                                                  data-pegawai="{{ $item->pegawai->nama_lengkap ?? 'N/A' }}"
+                                                  data-litabmas="{{ $item->litabmas ?? '-' }}"
+                                                  data-kategori="{{ $item->kategori_pembicara ?? '-' }}"
+                                                  data-lingkup="{{ $item->lingkup ?? '-' }}"
+                                                  data-judul="{{ $item->judul_makalah ?? '-' }}"
+                                                  data-pertemuan="{{ $item->nama_pertemuan ?? '-' }}"
+                                                  data-penyelenggara="{{ $item->penyelenggara ?? '-' }}"
+                                                  data-tanggal="{{ \Carbon\Carbon::parse($item->tanggal_pelaksana)->format('d F Y') }}"
+                                                  data-bahasa="{{ $item->bahasa ?? '-' }}"
+                                                  data-jenis-dokumen="{{ $item->jenis_dokumen ?? '-' }}"
+                                                  data-nama-dokumen="{{ $item->nama_dokumen ?? '-' }}"
+                                                  data-nomor-dokumen="{{ $item->nomor_dokumen ?? '-' }}"
+                                                  data-tautan="{{ $item->tautan_dokumen ?? '-' }}"
+                                                  data-dokumen-src="{{ $item->dokumen ? asset('storage/' . $item->dokumen) : '' }}">
+                                                  <i class="fas fa-eye"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        @empty
+                                        <tr>
+                                            <td colspan="10" class="text-center text-muted">Data Orasi Ilmiah belum tersedia</td>
+                                        </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+                            {{-- 4. Tambahkan Pagination --}}
+                            @if ($orasiIlmiahPegawai->hasPages())
+                                <div class="d-flex justify-content-end mt-4">
+                                    {{ $orasiIlmiahPegawai->appends(['tab' => 'orasi-ilmiah'])->links() }}
+                                </div>
+                            @endif
+                        </div>
                         
                         <div class="main-tab-content" id="sertifikat-content" style="display: none;">
-    {{-- 1. Ganti placeholder dengan kode tabel di bawah --}}
-    <div class="table-responsive">
-        <table class="table table-hover table-bordered align-middle">
-            <thead class="table-light text-center">
-                <tr>
-                    <th>No</th>
-                    <th>Kegiatan</th>
-                    <th>Judul Kegiatan</th>
-                    <th>Lembaga Sertifikasi</th>
-                    <th>Tahun</th>
-                    <th>Verifikasi</th>
-                    <th>Dokumen</th>
-                    <th class="text-center">Aksi</th>
-                </tr>
-            </thead>
-            <tbody class="text-center">
-                {{-- 2. Ganti variabel di forelse --}}
-                @forelse ($sertifikatKompetensiPegawai as $item)
-                <tr>
-                    <td>{{ $loop->iteration + $sertifikatKompetensiPegawai->firstItem() - 1 }}</td>
-                    <td>{{ $item->kegiatan }}</td>
-                    <td>{{ $item->judul_kegiatan }}</td>
-                    <td>{{ $item->lembaga_sertifikasi }}</td>
-                    <td>{{ $item->tahun_sertifikasi }}</td>
-                    <td>
-                        @if ($item->verifikasi == 'Sudah Diverifikasi')
-                        <span class="badge rounded-circle bg-success text-white" title="Sudah Diverifikasi">
-                            <i class="fa fa-check"></i>
-                        </span>
-                        @elseif ($item->verifikasi == 'Ditolak')
-                        <span class="badge rounded-circle bg-danger text-white" title="Ditolak">
-                            <i class="fa fa-times"></i>
-                        </span>
-                        @else
-                        <span class="badge rounded-circle bg-warning text-white" title="Belum Diverifikasi">
-                            <i class="fa fa-question"></i>
-                        </span>
-                        @endif
-                    </td>
-                    <td>
-                        @if ($item->dokumen)
-                        <a href="{{ asset('storage/' . $item->dokumen) }}" class="btn btn-sm btn-lihat" target="_blank">Lihat</a>
-                        @else - @endif
-                    </td>
-                    <td class="text-center">
-                        {{-- 3. Sederhanakan kolom Aksi --}}
-                        <button class="btn-aksi btn-lihat" data-bs-toggle="modal"
-                            data-bs-target="#modalDetailSertifikatKompetensi" title="Lihat Detail"
-                            data-nama="{{ $pegawai->nama_lengkap ?? 'N/A' }}"
-                            data-kegiatan="{{ $item->kegiatan }}"
-                            data-judul="{{ $item->judul_kegiatan }}"
-                            data-no-reg="{{ $item->no_reg_pendidik ?? '-' }}"
-                            data-no-sk="{{ $item->no_sk_sertifikasi }}"
-                            data-tahun="{{ $item->tahun_sertifikasi }}"
-                            data-tmt="{{ \Carbon\Carbon::parse($item->tmt_sertifikasi)->format('d F Y') }}"
-                            data-tst="{{ $item->tst_sertifikasi ? \Carbon\Carbon::parse($item->tst_sertifikasi)->format('d F Y') : '-' }}"
-                            data-bidang="{{ $item->bidang_studi }}"
-                            data-lembaga="{{ $item->lembaga_sertifikasi }}"
-                            data-dokumen="{{ $item->dokumen ? asset('storage/' . $item->dokumen) : '' }}">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                    </td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="8" class="text-center text-muted">
-                        Data Sertifikat Kompetensi belum tersedia untuk pegawai ini.
-                    </td>
-                </tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div>
+                {{-- 1. Ganti placeholder dengan kode tabel di bawah --}}
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered align-middle">
+                        <thead class="table-light text-center">
+                            <tr>
+                                <th>No</th>
+                                <th>Kegiatan</th>
+                                <th>Judul Kegiatan</th>
+                                <th>Lembaga Sertifikasi</th>
+                                <th>Tahun</th>
+                                <th>Verifikasi</th>
+                                <th>Dokumen</th>
+                                <th class="text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+                            {{-- 2. Ganti variabel di forelse --}}
+                            @forelse ($sertifikatKompetensiPegawai as $item)
+                            <tr>
+                                <td>{{ $loop->iteration + $sertifikatKompetensiPegawai->firstItem() - 1 }}</td>
+                                <td>{{ $item->kegiatan }}</td>
+                                <td>{{ $item->judul_kegiatan }}</td>
+                                <td>{{ $item->lembaga_sertifikasi }}</td>
+                                <td>{{ $item->tahun_sertifikasi }}</td>
+                                <td>
+                                    @if ($item->verifikasi == 'Sudah Diverifikasi')
+                                    <span class="badge rounded-circle bg-success text-white" title="Sudah Diverifikasi">
+                                        <i class="fa fa-check"></i>
+                                    </span>
+                                    @elseif ($item->verifikasi == 'Ditolak')
+                                    <span class="badge rounded-circle bg-danger text-white" title="Ditolak">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                    @else
+                                    <span class="badge rounded-circle bg-warning text-white" title="Belum Diverifikasi">
+                                        <i class="fa fa-question"></i>
+                                    </span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($item->dokumen)
+                                    <a href="{{ asset('storage/' . $item->dokumen) }}" class="btn btn-sm btn-lihat" target="_blank">Lihat</a>
+                                    @else - @endif
+                                </td>
+                                <td class="text-center">
+                                    {{-- 3. Sederhanakan kolom Aksi --}}
+                                    <button class="btn-aksi btn-lihat" data-bs-toggle="modal"
+                                        data-bs-target="#modalDetailSertifikatKompetensi" title="Lihat Detail"
+                                        data-nama="{{ $pegawai->nama_lengkap ?? 'N/A' }}"
+                                        data-kegiatan="{{ $item->kegiatan }}"
+                                        data-judul="{{ $item->judul_kegiatan }}"
+                                        data-no-reg="{{ $item->no_reg_pendidik ?? '-' }}"
+                                        data-no-sk="{{ $item->no_sk_sertifikasi }}"
+                                        data-tahun="{{ $item->tahun_sertifikasi }}"
+                                        data-tmt="{{ \Carbon\Carbon::parse($item->tmt_sertifikasi)->format('d F Y') }}"
+                                        data-tst="{{ $item->tst_sertifikasi ? \Carbon\Carbon::parse($item->tst_sertifikasi)->format('d F Y') : '-' }}"
+                                        data-bidang="{{ $item->bidang_studi }}"
+                                        data-lembaga="{{ $item->lembaga_sertifikasi }}"
+                                        data-dokumen="{{ $item->dokumen ? asset('storage/' . $item->dokumen) : '' }}">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="8" class="text-center text-muted">
+                                    Data Sertifikat Kompetensi belum tersedia untuk pegawai ini.
+                                </td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
     
-    {{-- 4. Tambahkan Pagination --}}
-    @if ($sertifikatKompetensiPegawai->hasPages())
-        <div class="d-flex justify-content-end mt-4">
-            {{ $sertifikatKompetensiPegawai->appends(['tab' => 'sertifikat'])->links() }}
+                {{-- 4. Tambahkan Pagination --}}
+                @if ($sertifikatKompetensiPegawai->hasPages())
+                    <div class="d-flex justify-content-end mt-4">
+                        {{ $sertifikatKompetensiPegawai->appends(['tab' => 'sertifikat'])->links() }}
+                    </div>
+                @endif
+            </div>
+
+            <div class="main-tab-content" id="praktisi-content" style="display: none;">
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered align-middle">
+                    <thead class="table-light text-center">
+                        <tr>
+                            <th>No</th>
+                            <th>Institusi</th>
+                            <th>Jenis Pekerjaan</th>
+                            <th>TMT</th>
+                            <th>TST</th>
+                            <th>Surat Tugas</th>
+                            <th>Verifikasi</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        @forelse ($praktisiPegawai as $index => $praktisi)
+                        <tr>
+                            <td>{{ $praktisiPegawai->firstItem() + $index }}</td>
+                            <td class="text-start">{{ $praktisi->instansi }}</td>
+                            <td class="text-start">{{ $praktisi->jenis_pekerjaan }}</td>
+                            <td>{{ \Carbon\Carbon::parse($praktisi->tmt)->isoFormat('DD MMM YYYY') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($praktisi->tst)->isoFormat('DD MMM YYYY') }}</td>
+                            <td>
+                                @if ($praktisi->surat_instansi)
+                                <a href="{{ asset('storage/' . $praktisi->surat_instansi) }}" target="_blank" class="btn btn-sm btn-lihat text-white px-3">Lihat</a>
+                                @else
+                                <span class="text-muted fst-italic">Tidak Ada</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($praktisi->status == 'Belum Diverifikasi')
+                                <span class="badge rounded-circle bg-warning text-white" title="Belum Diverifikasi"><i class="fa fa-question"></i></span>
+                                @elseif($praktisi->status == 'Sudah Diverifikasi')
+                                <span class="badge rounded-circle bg-success text-white" title="Sudah Diverifikasi"><i class="fa fa-check"></i></span>
+                                @else
+                                <span class="badge rounded-circle bg-danger text-white" title="Ditolak"><i class="fa fa-times"></i></span>
+                                @endif
+                            </td>
+                            <td class="text-center">
+                                {{-- 3. Aksi hanya berisi tombol lihat detail --}}
+                                <a href="#" class="btn-aksi btn-lihat" title="Lihat Detail"
+                                    data-bs-toggle="modal" data-bs-target="#detailPraktisiModal"
+                                    data-url="{{ route('praktisi.show', $praktisi->id) }}">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="8" class="text-center text-muted">Data Praktisi Dunia Industri belum tersedia</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+            
+            {{-- Pagination --}}
+            @if ($praktisiPegawai->hasPages())
+                <div class="d-flex justify-content-end mt-4">
+                    {{ $praktisiPegawai->appends(['tab' => 'praktisi'])->links() }}
+                </div>
+            @endif
         </div>
-    @endif
+
+    </div>
 </div>
                     </div> 
                 </div>
@@ -1273,6 +1501,9 @@
     @include('components.penghargaan.detail-penghargaan') 
     @include('components.sertifikat-kompetensi.detail-sertifikat-kompetensi')
     @include('components.pembicara.detail-pembicara')
+    @include('components.orasi-ilmiah.detail-orasi-ilmiah')
+    @include('components.praktisi.detail-praktisiindustri')
+    @include('components.pengelola-jurnal.detail-pengelola-jurnal')
 
     @if (session('success'))
         <div id="success-trigger" data-title="Berhasil!" data-message="{{ session('success') }}" data-active-tab="{{ session('active_tab') }}" data-active-subtab="{{ session('active_subtab') }}"></div>
@@ -1282,19 +1513,13 @@
 <script src="{{ asset('assets/js/detail-pegawai.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
-{{-- --}}
+{{-- Asset JS --}}
 <script src="{{ asset('assets/js/penelitian.js') }}"></script>
 <script src="{{ asset('assets/js/pengabdian.js') }}"></script>
 <script src="{{ asset('assets/js/penunjang.js') }}"></script> 
 <script src="{{ asset('assets/js/diklat.js') }}"></script> 
-<script src="{{ asset('assets/js/penghargaan.js') }}"></script> {{-- 2. Tambahkan JS Penghargaan --}}
+<script src="{{ asset('assets/js/penghargaan.js') }}"></script>
 
 
-<!-- <script>
-    // Helper untuk mencegah error jika fungsi initPegawaiList tidak digunakan di halaman ini
-    if (typeof window.initPegawaiList === 'undefined') {
-        window.initPegawaiList = (data) => {}; 
-    }
-</script> -->
 </body>
 </html>

@@ -10,73 +10,17 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
   <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
   <link rel="stylesheet" href="{{ asset('assets/css/layout.css') }}" />
   <link rel="stylesheet" href="{{ asset('assets/css/edit-pegawai.css') }}" />
 </head>
 
 <body>
 <div class="layout">
-    <aside class="sidebar" id="sidebar">
-        <div class="brand">SI<span>KEMAH</span></div>
-        <div class="menu-wrapper">
-            <div class="menu">
-                <a href="/dashboard"><i class="lni lni-grid-alt"></i> Dashboard</a>
-                <p>Menu Utama</p>
-                <a href="/daftar-pegawai" class="active"><i class="lni lni-users"></i> Daftar Pegawai</a>
-                <a href="/surat-tugas"><i class="lni lni-folder"></i> Manajemen Surat Tugas</a>
-                <button class="collapsed" data-bs-toggle="collapse" data-bs-target="#editorKegiatan" aria-expanded="true">
-                    <i class="lni lni-pencil-alt"></i> Editor Kegiatan 
-                    <i class="lni lni-chevron-down toggle-icon"></i>
-                </button>
-                <div class="collapse show submenu" id="editorKegiatan">
-                    <a href="/pendidikan">Pendidikan</a>
-                    <a href="/penelitian">Penelitian</a>
-                    <a href="/pengabdian">Pengabdian</a>
-                    <a href="/penunjang">Penunjang</a>
-                    <a href="/pelatihan">Pelatihan</a>
-                    <a href="/penghargaan">Penghargaan</a>
-                    <a href="/sk-non-pns">SK Non PNS</a>
-                </div>
-                <a href="/kerjasama"><i class="lni lni-handshake"></i> Kerjasama</a>
-                <a href="/master-data"><i class="lni lni-database"></i> Master Data</a>
-            </div>
-        </div>
-    </aside>
+@include('layouts.sidebar')
 
     <div class="overlay" id="overlay"></div>
     <div class="main-wrapper">
-        <nav class="navbar-custom">
-            <button class="btn btn-link text-dark me-3" id="toggleSidebar" aria-label="Toggle Sidebar">
-                <i class="lni lni-menu"></i>
-            </button>
-            <div class="d-flex align-items-center">
-                <div class="time-date me-3">
-                    <div><i class="lni lni-calendar"></i> <span id="current-date"></span></div>
-                    <div><i class="lni lni-timer"></i> <span id="current-time"></span></div>
-                </div>
-                <div class="dropdown">
-                    <a href="#" class="account text-decoration-none text-dark" data-bs-toggle="dropdown">
-                        <span class="icon-circle"><i class="lni lni-user"></i></span>
-                        <span class="d-none d-sm-inline">Halo, Ketua TU</span>
-                        <i class="lni lni-chevron-down ms-1"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end shadow">
-                        <li>
-                            <a class="dropdown-item d-flex align-items-center" href="/ubah-password">
-                                <i class="lni lni-key me-2"></i> Ubah Password
-                            </a>
-                        </li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li>
-                            <a class="dropdown-item d-flex align-items-center dropdown-item-danger" href="/logout">
-                                <i class="lni lni-exit me-2"></i> Keluar
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        @include('layouts.header')
 
         <div class="title-bar d-flex align-items-center justify-content-between">
             <h1 class="m-0">
