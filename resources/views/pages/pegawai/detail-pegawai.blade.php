@@ -1005,6 +1005,84 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="main-tab-content" id="pengelola-jurnal-content" style="display: none;">
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered align-middle">
+            <thead class="table-light text-center">
+                <tr>
+                    <th>No</th>
+                    <th>Kegiatan</th>
+                    <th>Media Publikasi</th>
+                    <th>Peran</th>
+                    <th>Tahun</th>
+                    <th>Verifikasi</th>
+                    <th>Dokumen</th>
+                    <th class="text-center">Aksi</th>
+                </tr>
+            </thead>
+            <tbody class="text-center">
+                {{-- 2. Gunakan variabel $pengelolaJurnalPegawai --}}
+                @forelse ($pengelolaJurnalPegawai as $jurnal)
+                <tr>
+                    <td>{{ $loop->iteration + $pengelolaJurnalPegawai->firstItem() - 1 }}</td>
+                    <td>{{ $jurnal->kegiatan }}</td>
+                    <td>{{ $jurnal->media_publikasi }}</td>
+                    <td>{{ $jurnal->peran }}</td>
+                    <td>{{ \Carbon\Carbon::parse($jurnal->tanggal_mulai)->format('Y') }}</td>
+                    <td>
+                        @if ($jurnal->status_verifikasi == 'Sudah Diverifikasi')
+                        <span class="badge rounded-circle bg-success text-white" title="Sudah Diverifikasi"><i class="fa fa-check"></i></span>
+                        @elseif ($jurnal->status_verifikasi == 'Ditolak')
+                        <span class="badge rounded-circle bg-danger text-white" title="Ditolak"><i class="fa fa-times"></i></span>
+                        @else
+                        <span class="badge rounded-circle bg-warning text-white" title="Belum Diverifikasi"><i class="fa fa-question"></i></span>
+                        @endif
+                    </td>
+                    <td>
+                        @if ($jurnal->dokumen->isNotEmpty())
+                            @php $firstDocument = $jurnal->dokumen->first(); @endphp
+                            @if ($firstDocument->path_file)
+                                <a href="{{ Storage::url($firstDocument->path_file) }}" class="btn btn-sm btn-lihat" target="_blank">Lihat</a>
+                            @else
+                                <a href="{{ $firstDocument->tautan_dokumen ?? '#' }}" class="btn btn-sm btn-lihat" target="_blank">Lihat</a>
+                            @endif
+                        @else
+                            -
+                        @endif
+                    </td>
+                    <td class="text-center">
+                        {{-- Sederhanakan Aksi hanya menjadi Lihat Detail --}}
+                        <button class="btn-aksi btn-lihat btn-detail-pengelola-jurnal" title="Lihat Detail"
+                            data-bs-toggle="modal" data-bs-target="#detailPengelolaJurnalModal"
+                            data-nama="{{ $jurnal->pegawai->nama_lengkap ?? 'N/A' }}"
+                            data-kegiatan="{{ $jurnal->kegiatan }}"
+                            data-media="{{ $jurnal->media_publikasi }}"
+                            data-peran="{{ $jurnal->peran }}"
+                            data-no-sk="{{ $jurnal->no_sk }}"
+                            data-tgl-mulai="{{ \Carbon\Carbon::parse($jurnal->tanggal_mulai)->isoFormat('D MMMM YYYY') }}"
+                            data-tgl-selesai="{{ \Carbon\Carbon::parse($jurnal->tanggal_selesai)->isoFormat('D MMMM YYYY') }}"
+                            data-status="{{ $jurnal->status }}"
+                            data-dokumen='@json($jurnal->dokumen)'>
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="8" class="text-center text-muted">Data Pengelola Jurnal belum tersedia.</td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+
+    {{-- Pagination --}}
+    @if ($pengelolaJurnalPegawai->hasPages())
+    <div class="d-flex justify-content-end mt-4">
+        {{ $pengelolaJurnalPegawai->appends(['tab' => 'pengelola-jurnal'])->links() }}
+    </div>
+    @endif
+</div>
                         <div class="main-tab-content" id="penghargaan-content" style="display: none;">
                             <div class="table-responsive">
                                 <table class="table table-hover table-bordered">
@@ -1425,6 +1503,7 @@
     @include('components.pembicara.detail-pembicara')
     @include('components.orasi-ilmiah.detail-orasi-ilmiah')
     @include('components.praktisi.detail-praktisiindustri')
+    @include('components.pengelola-jurnal.detail-pengelola-jurnal')
 
     @if (session('success'))
         <div id="success-trigger" data-title="Berhasil!" data-message="{{ session('success') }}" data-active-tab="{{ session('active_tab') }}" data-active-subtab="{{ session('active_subtab') }}"></div>

@@ -598,6 +598,69 @@ const initOrasiIlmiahDetailModal = () => {
     });
   };
 
+const initPengelolaJurnalDetailModal = () => {
+    const modalElement = document.getElementById('detailPengelolaJurnalModal');
+    if (!modalElement) return;
+
+    modalElement.addEventListener('show.bs.modal', function(event) {
+        const button = event.relatedTarget;
+        if (!button.classList.contains('btn-detail-pengelola-jurnal')) return;
+
+        // 1. Mengisi data utama dari atribut data-*
+        const setDataText = (id, attribute) => {
+            const el = modalElement.querySelector(`#${id}`);
+            if (el) el.textContent = button.dataset[attribute] || '-';
+        };
+
+        setDataText('detail-nama', 'nama');
+        setDataText('detail-kegiatan', 'kegiatan');
+        setDataText('detail-media', 'media');
+        setDataText('detail-peran', 'peran');
+        setDataText('detail-no-sk', 'noSk');
+        setDataText('detail-tgl-mulai', 'tglMulai');
+        setDataText('detail-tgl-selesai', 'tglSelesai');
+        setDataText('detail-status', 'status');
+
+        // 2. Mengelola daftar dokumen
+        const detailDokumenList = modalElement.querySelector("#detail-dokumen-list");
+        if (!detailDokumenList) return;
+        
+        detailDokumenList.innerHTML = ''; // Kosongkan daftar sebelum diisi
+
+        // 3. Ambil dan parse data dokumen dari atribut data-dokumen
+        const dokumenData = JSON.parse(button.dataset.dokumen || '[]');
+
+        // 4. Bangun daftar dokumen secara dinamis
+        if (dokumenData.length > 0) {
+            dokumenData.forEach(doc => {
+                let tombolAksi = '<span class="text-muted fst-italic">Tidak ada file/tautan</span>';
+                if (doc.path_file) {
+                    tombolAksi = `<a href="/storage/${doc.path_file}" class="btn btn-sm btn-success text-white mt-1" target="_blank"><i class="fa fa-eye me-1"></i> Lihat File</a>`;
+                } else if (doc.tautan_dokumen) {
+                    tombolAksi = `<a href="${doc.tautan_dokumen}" class="btn btn-sm btn-info text-white mt-1" target="_blank"><i class="fa fa-link me-1"></i> Lihat Tautan</a>`;
+                }
+
+                const docItemHTML = `
+                    <div class="col-md-6">
+                        <div class="detail-doc">
+                            <span>${doc.nama_dokumen || doc.jenis_dokumen}</span>
+                            <small class="text-muted d-block">No: ${doc.nomor_dokumen || '-'}</small>
+                            ${tombolAksi}
+                        </div>
+                    </div>
+                `;
+                detailDokumenList.innerHTML += docItemHTML;
+            });
+        } else {
+            // Tampilkan pesan jika tidak ada dokumen
+            detailDokumenList.innerHTML = `
+                <div class="col-12">
+                    <p class="text-muted fst-italic">Tidak ada dokumen yang dilampirkan.</p>
+                </div>
+            `;
+        }
+    });
+};
 
   // Panggil semua fungsi inisialisasi
   initTabs();
@@ -613,4 +676,5 @@ const initOrasiIlmiahDetailModal = () => {
   initPembicaraDetailModal();
   initOrasiIlmiahDetailModal();
   initPraktisiDetailModal();
+  initPengelolaJurnalDetailModal();
 });

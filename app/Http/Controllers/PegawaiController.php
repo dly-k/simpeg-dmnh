@@ -25,6 +25,7 @@ use App\Models\SertifikatKompetensi;
 use App\Models\Pembicara;
 use App\Models\OrasiIlmiah;
 use App\Models\Praktisi;
+use App\Models\PengelolaJurnal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Exports\PegawaiExport;
@@ -247,6 +248,13 @@ class PegawaiController extends Controller
             ->paginate(10, ['*'], 'praktisiPage')
             ->withQueryString();
 
+        // -- pengelola jurnal --
+            $pengelolaJurnalPegawai = PengelolaJurnal::where('pegawai_id', $pegawai->id)
+            ->with('dokumen') // Eager load dokumen agar tersedia di view
+            ->latest()
+            ->paginate(10, ['*'], 'pengelolaJurnalPage')
+            ->withQueryString();
+
         // --- Relasi SK dengan Filter ---
         $pegawai->load([
             'efiles',
@@ -271,7 +279,8 @@ class PegawaiController extends Controller
             'sertifikatKompetensiPegawai',
             'pembicaraPegawai',
             'orasiIlmiahPegawai',
-            'praktisiPegawai'
+            'praktisiPegawai',
+            'pengelolaJurnalPegawai'
         ));
     }
 
