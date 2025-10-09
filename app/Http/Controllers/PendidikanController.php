@@ -466,6 +466,58 @@ class PendidikanController extends Controller
         );
     }
 
+    public function exportPembimbingLuar(Request $request)
+    {
+        $query = \App\Models\PembimbingLuar::with('pegawai');
+
+        // 🔍 Filter pencarian
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('nama_mahasiswa', 'like', '%' . $request->search . '%')
+                    ->orWhereHas('pegawai', function ($sub) use ($request) {
+                        $sub->where('nama_lengkap', 'like', '%' . $request->search . '%');
+                    });
+            });
+        }
+
+        // 🎓 Filter tahun akademik
+        if ($request->filled('tahun_akademik')) {
+            $query->where('tahun_semester', $request->tahun_akademik);
+        }
+
+        // 📋 Filter status
+        if ($request->filled('status')) {
+            $query->where('status_verifikasi', $request->status);
+        }
+
+        $data = $query->get();
+
+        // 📁 Nama file export — aman dari karakter ilegal
+        $filename = 'Pembimbing_Luar';
+
+        if ($request->filled('tahun_akademik')) {
+            $tahun = str_replace(['/', '\\'], '-', $request->tahun_akademik);
+            $filename .= '_' . $tahun;
+        }
+
+        if ($request->filled('status')) {
+            $filename .= '_' . ucfirst($request->status);
+        }
+
+        if ($request->filled('search')) {
+            $filter = preg_replace('/[^A-Za-z0-9_-]/', '', $request->search);
+            $filename .= '_Filter_' . $filter;
+        }
+
+        $filename .= '.xlsx';
+
+        // 💾 Download file Excel
+        return \Maatwebsite\Excel\Facades\Excel::download(
+            new \App\Exports\PembimbingLuarExport($data, $request->tahun_akademik, $request->status, $request->search),
+            $filename
+        );
+    }
+
     private function storeData(Request $request, $modelClass, $validationRules, $directory)
     {
         $validationRules['pegawai_id'] = 'required|exists:pegawais,id';

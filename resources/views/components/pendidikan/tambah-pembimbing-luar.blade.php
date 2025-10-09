@@ -33,7 +33,7 @@
           <!-- Nama Dosen -->
           <div class="mb-3">
             <label for="pbl_nama_luar" class="form-label">Nama Dosen</label>
-            <select class="form-select" id="pbl_nama_luar" name="pegawai_id">
+            <select class="form-select select2 form-select-sm" id="pbl_nama_luar" name="pegawai_id" style="width: 100%;">
               <option selected disabled value="">-- Pilih Salah Satu --</option>
               @foreach($dosenAktif as $dosen)
                 <option value="{{ $dosen->id }}">{{ $dosen->nama_lengkap }}</option>
@@ -43,8 +43,8 @@
 
           <!-- Tahun Semester -->
           <div class="mb-3">
-            <label for="pbl_tahun_semester_luar" class="form-label">Tahun Semester</label>
-            <select class="form-select form-select-sm" id="pbl_tahun_semester" name="tahun_semester" required>
+            <label for="pbl_tahun_semester" class="form-label">Tahun Semester</label>
+            <select class="form-select select2 form-select-sm" id="pbl_tahun_semester" name="tahun_semester" style="width: 100%;">
               @php
                 $tahunSekarang = date('Y');
                 for ($i = $tahunSekarang; $i >= 2015; $i--) {

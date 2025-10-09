@@ -664,6 +664,20 @@ $(document).ready(function() {
   });
 });
 
+ $(document).ready(function () {
+    // Aktifkan Select2 saat modal tampil
+    $('#modalPembimbingLuar').on('shown.bs.modal', function () {
+      $('#pbl_nama_luar, #pbl_tahun_semester').select2({
+        theme: 'bootstrap-5',
+        dropdownParent: $('#modalPembimbingLuar'),
+        placeholder: '-- Pilih Salah Satu --',
+        allowClear: true,
+        width: '100%'
+      });
+    });
+  });
+
+
 $(document).ready(function () {
   // Saat modal ditampilkan
   $('#modalTambahEditPengajaranLama').on('show.bs.modal', function () {
