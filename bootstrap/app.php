@@ -11,10 +11,17 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        // Tambahkan baris ini untuk mendaftarkan middleware 'role'
+        
+        // Middleware 'role' Anda yang sudah ada
         $middleware->alias([
             'role' => \App\Http\Middleware\RoleMiddleware::class,
         ]);
+
+        // Tambahkan baris ini untuk mencegah caching halaman
+        $middleware->web(append: [
+            \App\Http\Middleware\PreventBackHistory::class,
+        ]);
+
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
