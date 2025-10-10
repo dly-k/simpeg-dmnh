@@ -77,6 +77,7 @@
                         <button class="nav-link text-start" data-main-tab="pelatihan">Diklat</button>
                         <button class="nav-link text-start" data-main-tab="penghargaan">Penghargaan</button>
                         <button class="nav-link text-start" data-main-tab="praktisi">Praktisi Dunia Industri</button>
+                        <button class="nav-link text-start" data-main-tab="surat-tugas">Surat Tugas</button>
                     </div>
                     <div class="flex-grow-1">
                         <div class="main-tab-content" id="biodata-content">
@@ -1459,7 +1460,67 @@
                     {{ $praktisiPegawai->appends(['tab' => 'praktisi'])->links() }}
                 </div>
             @endif
-        </div>
+            </div>
+
+            <div class="main-tab-content" id="surat-tugas-content" style="display: none;">
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered">
+                    <thead class="table-light text-center">
+                        <tr>
+                            <th>No</th>
+                            <th>Peran</th>
+                            <th>Diminta Sebagai</th>
+                            <th>Mitra/Instansi</th>
+                            <th>No & Tgl Surat Instansi</th>
+                            <th>No & Tgl Surat Kadep</th>
+                            <th>Tgl Kegiatan</th>
+                            <th>Lokasi</th>
+                            <th>Dokumen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($suratTugasPegawai as $index => $item)
+                        <tr>
+                            <td class="text-center">{{ $suratTugasPegawai->firstItem() + $index }}</td>
+                            <td>{{ $item->peran }}</td>
+                            <td>{{ $item->diminta_sebagai ?? '-' }}</td>
+                            <td>{{ $item->mitra_instansi ?? '-' }}</td>
+                            <td>
+                                {{ $item->no_surat_instansi ?? '-' }}<br>
+                                <small>{{ $item->tgl_surat_instansi ? \Carbon\Carbon::parse($item->tgl_surat_instansi)->format('d M Y') : '' }}</small>
+                            </td>
+                            <td>
+                                {{ $item->no_surat_kadep ?? '-' }}<br>
+                                <small>{{ $item->tgl_surat_kadep ? \Carbon\Carbon::parse($item->tgl_surat_kadep)->format('d M Y') : '' }}</small>
+                            </td>
+                            <td>{{ $item->tgl_kegiatan ? \Carbon\Carbon::parse($item->tgl_kegiatan)->format('d M Y') : '-' }}</td>
+                            <td>{{ $item->lokasi ?? '-' }}</td>
+                            <td class="text-center">
+                                @if($item->dokumen)
+                                <a href="{{ asset('storage/'.$item->dokumen) }}" target="_blank" class="btn btn-sm text-white px-3 btn-lihat">
+                                    Lihat
+                                </a>
+                                @else
+                                -
+                                @endif
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="9" class="text-center text-muted">Pegawai ini belum memiliki data surat tugas.</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+
+            {{-- Pagination --}}
+            @if ($suratTugasPegawai->hasPages())
+            <div class="d-flex justify-content-end mt-4">
+                {{ $suratTugasPegawai->appends(['tab' => 'surat-tugas'])->links() }}
+            </div>
+            @endif
+            </div>
 
     </div>
 </div>

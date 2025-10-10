@@ -255,6 +255,12 @@ class PegawaiController extends Controller
             ->paginate(10, ['*'], 'pengelolaJurnalPage')
             ->withQueryString();
 
+        // -- Surat Tugas --
+            $suratTugasPegawai = \App\Models\SuratTugas::where('pegawai_id', $pegawai->id)
+            ->latest()
+            ->paginate(10, ['*'], 'suratTugasPage')
+            ->withQueryString();
+
         // --- Relasi SK dengan Filter ---
         $pegawai->load([
             'efiles',
@@ -280,7 +286,8 @@ class PegawaiController extends Controller
             'pembicaraPegawai',
             'orasiIlmiahPegawai',
             'praktisiPegawai',
-            'pengelolaJurnalPegawai'
+            'pengelolaJurnalPegawai',
+            'suratTugasPegawai'
         ));
     }
 
