@@ -316,7 +316,14 @@
 
         fields.forEach((field) => {
           const el = document.getElementById(`detail_penghargaan_${field}`);
-          if (el) el.textContent = data[field] || "-";
+          
+          if (el) {
+            if (field === 'tautan' && data[field] && data[field] !== '-') {
+                el.innerHTML = `<a href="${data[field]}" target="_blank" class="text-primary text-decoration-underline">${data[field]}</a>`;
+            } else {
+                el.textContent = data[field] || "-";
+            }
+          }
         });
         document.getElementById("detail_penghargaan_document_viewer")?.setAttribute("src", data.dokumen_path || "");
       });
