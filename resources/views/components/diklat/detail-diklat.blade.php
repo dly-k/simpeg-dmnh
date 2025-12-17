@@ -86,9 +86,27 @@
             <p id="detail_pelatihan_sertifikasi">-</p>
           </div>
 
-        </div>
+          <div class="detail-item">
+            <small>Jenis Dokumen</small>
+            <p id="detail_pelatihan_jenis_dokumen">-</p>
+          </div>
 
-        <!-- Document Viewer -->
+          <div class="detail-item">
+            <small>Nama Dokumen</small>
+            <p id="detail_pelatihan_nama_dokumen">-</p>
+          </div>
+
+          <div class="detail-item">
+            <small>Nomor Dokumen</small>
+            <p id="detail_pelatihan_nomor_dokumen">-</p>
+          </div>
+
+          <div class="detail-item">
+            <small>Tautan</small>
+            <p id="detail_pelatihan_tautan">-</p>
+          </div>
+          </div>
+
         <h6 class="mt-4">Dokumen</h6>
         <div class="document-viewer-container">
           <embed id="detail_pelatihan_document_viewer" src="" type="application/pdf" width="100%" height="600px">

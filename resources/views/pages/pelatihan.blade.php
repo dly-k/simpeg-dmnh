@@ -154,6 +154,10 @@
                           data-hari="{{ $pelatihan->jumlah_hari }}"
                           data-struktural="{{ $pelatihan->struktural ? 'Ya' : 'Tidak' }}"
                           data-sertifikasi="{{ $pelatihan->sertifikasi ? 'Ya' : 'Tidak' }}"
+                          data-jenis_dokumen="{{ $pelatihan->jenis_dokumen }}"
+                          data-nama_dokumen="{{ $pelatihan->nama_dokumen }}"
+                          data-nomor_dokumen="{{ $pelatihan->nomor_dokumen }}"
+                          data-tautan="{{ $pelatihan->tautan }}"
                           data-dokumen_path="{{ asset('storage/' . $pelatihan->file_path) }}"
                         >
                           <i class="fa fa-eye"></i>

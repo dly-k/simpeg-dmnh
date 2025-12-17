@@ -307,11 +307,22 @@
         if (detailButton) {
           event.preventDefault();
           const data = detailButton.dataset;
-          const fields = ["pegawai", "nama_kegiatan", "posisi", "kota", "lokasi", "penyelenggara", "jenis_diklat", "tgl_mulai", "tgl_selesai", "lingkup", "jam", "hari", "struktural", "sertifikasi"];
+          const fields = ["pegawai", "nama_kegiatan", "posisi", "kota", "lokasi", "penyelenggara", "jenis_diklat", "tgl_mulai", "tgl_selesai", "lingkup", "jam", "hari", "struktural", "sertifikasi","jenis_dokumen",
+            "nama_dokumen",
+            "nomor_dokumen",
+            "tautan"];
           fields.forEach((field) => {
             const el = document.getElementById(`detail_pelatihan_${field}`);
-            if (el) el.textContent = data[field] || "-";
+            if (el) {
+                // 2. Logika khusus untuk membuat Link bisa diklik
+                if (field === 'tautan' && data[field] && data[field] !== '-') {
+                    el.innerHTML = `<a href="${data[field]}" target="_blank" class="text-primary text-decoration-underline">${data[field]}</a>`;
+                } else {
+                    el.textContent = data[field] || "-";
+                }
+            }
           });
+          
           document.getElementById("detail_pelatihan_document_viewer")?.setAttribute("src", data.dokumen_path || "");
         }
         if (hapusButton && hapusButton.hasAttribute("data-id")) {
