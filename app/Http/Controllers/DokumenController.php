@@ -8,23 +8,17 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DokumenController extends Controller
 {
-    public function show($path)
-    {
-        if (!Storage::disk('public')->exists($path)) {
-            abort(404, 'File tidak ditemukan.');
-        }
+    // app/Http/Controllers/DokumenController.php
 
-        $file = Storage::disk('public')->get($path);
-
-        $fullPath = Storage::disk('public')->path($path);
-
-        $type = File::mimeType($fullPath);
-        
-        $headers = [
-            'Content-Type' => $type,
-            'Content-Disposition' => 'inline; filename="' . basename($path) . '"'
-        ];
-
-        return new Response($file, 200, $headers);
+public function show($path)
+{
+    if (!Storage::disk('public')->exists($path)) {
+        abort(404, 'File tidak ditemukan.');
     }
+
+    // Menggunakan helper response() Laravel alih-alih Symfony Response
+    return response()->file(Storage::disk('public')->path($path), [
+        'Content-Disposition' => 'inline; filename="' . basename($path) . '"'
+    ]);
+}
 }
