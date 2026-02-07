@@ -9,17 +9,11 @@ class EFile extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'pegawai_id',
-        'kategori_dokumen',
-        'nama_dokumen',
-        'nomor_dokumen', // Pastikan kolom ini juga ada jika digunakan
-        'keaslian_dokumen', // TAMBAHKAN INI
-        'tanggal_dokumen',
-        'file_path',
-        'file_name',
-    ];
-
+protected $fillable = [
+    'pegawai_id', 'kategori_dokumen', 'nama_dokumen', 
+    'keaslian_dokumen', 'tanggal_dokumen', 'file_path', 
+    'link_url', 'is_link'
+];
     public function pegawai()
     {
         return $this->belongsTo(Pegawai::class);

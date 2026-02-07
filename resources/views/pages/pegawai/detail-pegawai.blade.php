@@ -151,7 +151,12 @@
                            <div class="sub-tab-content" id="efile" style="display: none;">
                                 <div class="efile-header">
                                     <h4>Dokumen</h4>
-                                    <button class="btn btn-tambah" data-bs-toggle="modal" data-bs-target="#tambahDokumenModal"><i class="lni lni-plus me-1"></i> Tambah</button>
+                                    <button class="btn btn-tambah" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#tambahDokumenModal" 
+                                            data-store-url="{{ route('efile.store', $pegawai->id) }}">
+                                        Tambah Dokumen
+                                    </button>
                                 </div>
                                 @php
                                     $groupedFiles = $pegawai->efiles->groupBy('kategori_dokumen');
@@ -166,24 +171,45 @@
                                                 <p class="file-category-title">{{ $namaKategori }}</p>
                                                 <div class="file-grid">
                                                     @foreach($groupedFiles[$key] as $file)
-                                                        <div class="file-item" data-file-url="{{ asset('storage/' . $file->file_path) }}">
-                                                            @php
-                                                                $keaslian = strtolower($file->keaslian_dokumen ?? '');
-                                                                $badgeClass = 'badge-scan';
-                                                                if ($keaslian == 'asli') $badgeClass = 'badge-asli';
-                                                                if ($keaslian == 'legalisir') $badgeClass = 'badge-legalisir';
-                                                            @endphp
-                                                            <span class="file-badge {{ $badgeClass }}">{{ $file->keaslian_dokumen ?? 'N/A' }}</span>
-                                                            <div class="file-item-icon"><i class="lni lni-files"></i></div>
-                                                            <p title="{{ $file->file_name }}">{{ $file->nama_dokumen }}<span>{{ \Carbon\Carbon::parse($file->tanggal_dokumen)->isoFormat('D MMM YYYY') }}</span></p>
-                                                            <div class="file-item-actions">
-                                                                <a href="{{ asset('storage/' . $file->file_path) }}" target="_blank" class="btn btn-sm btn-outline-secondary">Lihat</a>
-                                                                <form action="{{ route('efile.destroy', $file->id) }}" method="POST" class="d-inline form-hapus-efile w-100">
-                                                                    @csrf @method('DELETE')
-                                                                    <button type="submit" class="btn btn-sm btn-outline-danger w-100" data-nama="{{ $file->nama_dokumen }}">Hapus</button>
-                                                                </form>
-                                                            </div>
-                                                        </div>
+<div class="file-item">
+    @php
+        $keaslian = strtolower($file->keaslian_dokumen ?? '');
+        $badgeClass = 'badge-scan';
+        if ($keaslian == 'asli') $badgeClass = 'badge-asli';
+        if ($keaslian == 'legalisir') $badgeClass = 'badge-legalisir';
+        
+        // Tentukan URL Lihat
+        $urlLihat = $file->is_link ? $file->link_url : asset('storage/' . $file->file_path);
+    @endphp
+
+    <span class="file-badge {{ $badgeClass }}">{{ $file->keaslian_dokumen }}</span>
+    
+    <div class="file-item-icon">
+        @if($file->is_link)
+            <i class="fas fa-link text-primary" title="Tautan Cloud"></i>
+        @else
+            <i class="fas fa-file-pdf text-danger" title="Dokumen PDF"></i>
+        @endif
+    </div>
+
+    <p title="{{ $file->nama_dokumen }}">
+        {{ $file->nama_dokumen }}
+        <span>{{ \Carbon\Carbon::parse($file->tanggal_dokumen)->isoFormat('D MMM YYYY') }}</span>
+        @if($file->is_link)
+            <small class="text-primary d-block" style="font-size: 0.65rem;">(Link Cloud)</small>
+        @endif
+    </p>
+
+    <div class="file-item-actions">
+        <a href="{{ $urlLihat }}" target="_blank" class="btn btn-sm {{ $file->is_link ? 'btn-outline-primary' : 'btn-outline-secondary' }}">
+            Lihat
+        </a>
+        <form action="{{ route('efile.destroy', $file->id) }}" method="POST" class="d-inline form-hapus-efile w-100">
+            @csrf @method('DELETE')
+            <button type="submit" class="btn btn-sm btn-outline-danger w-100">Hapus</button>
+        </form>
+    </div>
+</div>
                                                     @endforeach
                                                 </div>
                                             </div>

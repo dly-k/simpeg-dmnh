@@ -192,60 +192,105 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /**
-   * Menginisialisasi dan mengelola semua modal form (Tambah & Edit).
-   */
-  const initFormModals = () => {
+ * Menginisialisasi dan mengelola semua modal form (Tambah & Edit).
+ * Mendukung fitur Hybrid E-File (File & Link).
+ */
+const initFormModals = () => {
     document.body.addEventListener('click', function(e) {
-      const addButton = e.target.closest('.btn-tambah');
-      const editButton = e.target.closest('.btn-edit');
-      
-      if (!addButton && !editButton) return;
-
-      const button = addButton || editButton;
-      const modalTargetId = button.dataset.bsTarget;
-      const modalElement = document.querySelector(modalTargetId);
-      if (!modalElement) return;
-
-      const form = modalElement.querySelector('form');
-      const title = modalElement.querySelector('.modal-title');
-      const methodField = form.querySelector('input[name="_method"]');
-      const submitButton = modalElement.querySelector('button[type="submit"]');
-      const fileHelpText = form.querySelector('.form-text');
-
-      form.reset();
-      form.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
-      form.querySelectorAll('.invalid-feedback').forEach(el => el.textContent = '');
-
-      if (addButton) {
-        title.innerHTML = '<i class="fas fa-plus-circle me-2"></i> Tambah Data';
-        form.setAttribute('action', button.dataset.storeUrl);
-        if (methodField) methodField.value = 'POST';
-        submitButton.className = 'btn btn-success';
-        submitButton.textContent = 'Simpan';
-        if (fileHelpText) fileHelpText.textContent = 'Tipe file: PDF, JPG, PNG. Maks: 5 MB.';
-      } else if (editButton) {
-        const itemData = JSON.parse(button.dataset.item || '{}');
+        const addButton = e.target.closest('.btn-tambah');
+        const editButton = e.target.closest('.btn-edit');
         
-        title.innerHTML = '<i class="fas fa-edit me-2"></i> Edit Data';
-        form.setAttribute('action', button.dataset.updateUrl);
-        if (methodField) methodField.value = 'PUT';
-        submitButton.className = 'btn btn-warning';
-        submitButton.textContent = 'Update';
-        if (fileHelpText) fileHelpText.textContent = 'Kosongkan jika tidak ingin mengubah file.';
-        
-        for (const key in itemData) {
-          const input = form.querySelector(`[name="${key}"]`);
-          if (input) {
-            if (input.type === 'date') {
-                 input.value = itemData[key] ? itemData[key].split(' ')[0] : '';
-            } else {
-                 input.value = itemData[key];
+        if (!addButton && !editButton) return;
+
+        const button = addButton || editButton;
+        const modalTargetId = button.dataset.bsTarget;
+        const modalElement = document.querySelector(modalTargetId);
+        if (!modalElement) return;
+
+        const form = modalElement.querySelector('form');
+        const title = modalElement.querySelector('.modal-title');
+        const methodField = form.querySelector('input[name="_method"]');
+        const submitButton = modalElement.querySelector('button[type="submit"]');
+        const fileHelpText = form.querySelector('.form-text');
+
+        // Elemen khusus Hybrid E-File (Metode File/Link)
+        const wrapperFile = form.querySelector('#input-file-div');
+        const wrapperLink = form.querySelector('#input-link-div');
+        const metodeRadios = form.querySelectorAll('input[name="metode"]');
+
+        // Reset form awal
+        form.reset();
+        form.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+        form.querySelectorAll('.invalid-feedback').forEach(el => el.textContent = '');
+
+        if (addButton) {
+            // KONFIGURASI TAMBAH DATA
+            title.innerHTML = '<i class="fas fa-plus-circle me-2"></i> Tambah Data';
+            
+            // Mengambil URL dari data-store-url (mencegah error undefined)
+            const storeUrl = button.dataset.storeUrl;
+            form.setAttribute('action', storeUrl || '');
+            
+            if (methodField) methodField.value = 'POST';
+            submitButton.className = 'btn btn-success btn-sm px-4';
+            submitButton.textContent = 'Simpan';
+            
+            if (fileHelpText) fileHelpText.textContent = 'Tipe file: PDF, JPG, PNG. Maks: 5 MB.';
+
+            // Reset tampilan ke 'Upload File' sebagai default saat tambah baru
+            if (wrapperFile) wrapperFile.style.display = 'block';
+            if (wrapperLink) wrapperLink.style.display = 'none';
+            const fileRadio = form.querySelector('input[value="file"]');
+            if (fileRadio) fileRadio.checked = true;
+
+        } else if (editButton) {
+            // KONFIGURASI EDIT DATA
+            const itemData = JSON.parse(button.dataset.item || '{}');
+            
+            title.innerHTML = '<i class="fas fa-edit me-2"></i> Edit Data';
+            
+            // Mengambil URL dari data-update-url
+            const updateUrl = button.dataset.updateUrl;
+            form.setAttribute('action', updateUrl || '');
+            
+            if (methodField) methodField.value = 'PUT';
+            submitButton.className = 'btn btn-warning btn-sm px-4';
+            submitButton.textContent = 'Update';
+            
+            if (fileHelpText) fileHelpText.textContent = 'Kosongkan jika tidak ingin mengubah file.';
+            
+            // Isi data ke input secara otomatis
+            for (const key in itemData) {
+                const input = form.querySelector(`[name="${key}"]`);
+                if (input) {
+                    if (input.type === 'date') {
+                        input.value = itemData[key] ? itemData[key].split(' ')[0] : '';
+                    } else if (input.type === 'radio') {
+                        // Menangani radio button metode (file/link)
+                        if (input.value === itemData[key]) {
+                            input.checked = true;
+                        }
+                    } else {
+                        input.value = itemData[key];
+                    }
+                }
             }
-          }
+
+            // Logika Hybrid: Sesuaikan tampilan input berdasarkan data yang divalidasi
+            if (itemData.is_link || itemData.link_url) {
+                if (wrapperFile) wrapperFile.style.display = 'none';
+                if (wrapperLink) wrapperLink.style.display = 'block';
+                const linkRadio = form.querySelector('input[value="link"]');
+                if (linkRadio) linkRadio.checked = true;
+            } else {
+                if (wrapperFile) wrapperFile.style.display = 'block';
+                if (wrapperLink) wrapperLink.style.display = 'none';
+                const fileRadio = form.querySelector('input[value="file"]');
+                if (fileRadio) fileRadio.checked = true;
+            }
         }
-      }
     });
-  };
+};
   
   /**
    * Pencarian otomatis saat mengetik atau menekan Enter.

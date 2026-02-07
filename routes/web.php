@@ -80,7 +80,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/daftar-pegawai/export', [PegawaiController::class, 'export'])->name('pegawai.export');
 
         // E-File dan Relasi Pegawai Lainnya
-        Route::post('/pegawai/{pegawai}/efile', [EFileController::class, 'store'])->name('efile.store');
+        Route::post('/pegawai/{id}/efile', [App\Http\Controllers\EFileController::class, 'store'])->name('efile.store');
         Route::delete('/efile/{efile}', [EFileController::class, 'destroy'])->name('efile.destroy');
 
         // SK Pegawai
