@@ -31,6 +31,7 @@ use App\Http\Controllers\PengelolaJurnalController;
 use App\Http\Controllers\PenelitianController;
 use App\Http\Controllers\KekayaanIntelektualController;
 use App\Http\Controllers\KerjasamaController;
+use App\Http\Controllers\MonitoringController;
 
 /*
 |--------------------------------------------------------------------------
@@ -280,4 +281,8 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/admin/monitoring', [App\Http\Controllers\MonitoringController::class, 'indexAdmin'])->name('monitoring.admin.index');
 Route::get('/admin/monitoring/{id}', [App\Http\Controllers\MonitoringController::class, 'detailAdmin'])->name('monitoring.admin.detail');
 Route::get('/dosen/monitoring', [App\Http\Controllers\MonitoringController::class, 'indexDosen'])->name('monitoring.dosen.index');
+// routes/web.php
+Route::put('/admin/monitoring/target/{id}', [App\Http\Controllers\MonitoringController::class, 'updateTarget'])
+    ->name('monitoring.admin.updateTarget');
+
 });

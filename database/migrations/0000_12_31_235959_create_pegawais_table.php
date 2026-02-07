@@ -67,6 +67,9 @@ return new class extends Migration
             $table->string('provinsi_ktp')->nullable();
             $table->string('kabupaten_ktp')->nullable();
             $table->text('alamat_ktp')->nullable();
+            
+            $table->string('jabatan_tujuan')->nullable();
+            $table->date('estimasi_pensiun_manual')->nullable();
 
             $table->timestamps();
         });

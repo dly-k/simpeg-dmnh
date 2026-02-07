@@ -66,7 +66,6 @@
 
         @include('layouts.footer')
     </div>
-</div>
 
 {{-- SCRIPT --}}
 <script src="{{ asset('assets/js/layout.js') }}"></script>

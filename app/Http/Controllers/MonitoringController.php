@@ -19,6 +19,22 @@ public function indexAdmin()
     return view('pages.monitoring.admin.index', compact('perencanaan', 'kebijakan', 'pemanenan'));
 }
 
+public function updateTarget(Request $request, $id)
+{
+    $request->validate([
+        'jabatan_tujuan' => 'required',
+        'estimasi_pensiun_manual' => 'required|date',
+    ]);
+
+    $pegawai = \App\Models\Pegawai::findOrFail($id);
+    $pegawai->update([
+        'jabatan_tujuan' => $request->jabatan_tujuan,
+        'estimasi_pensiun_manual' => $request->estimasi_pensiun_manual,
+    ]);
+
+    return back()->with('success', 'Data target berhasil diperbarui');
+}
+
 public function detailAdmin($id)
 {
     // Pastikan data dummy memiliki key yang sesuai dengan view
