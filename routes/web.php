@@ -275,4 +275,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/organisasi-profesi', [OrganisasiProfesiController::class, 'index'])->name('organisasi-profesi.index');
     Route::get('/pembimbingan', [PembimbinganController::class, 'index'])->name('pembimbingan.index');
     Route::get('/kekayaan-intelektual', [KekayaanIntelektualController::class, 'index'])->name('kekayaan-intelektual.index');
+
+ //TESTTT
+Route::get('/admin/monitoring', [App\Http\Controllers\MonitoringController::class, 'indexAdmin'])->name('monitoring.admin.index');
+Route::get('/admin/monitoring/{id}', [App\Http\Controllers\MonitoringController::class, 'detailAdmin'])->name('monitoring.admin.detail');
+Route::get('/dosen/monitoring', [App\Http\Controllers\MonitoringController::class, 'indexDosen'])->name('monitoring.dosen.index');
 });

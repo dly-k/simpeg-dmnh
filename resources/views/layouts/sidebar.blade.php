@@ -99,6 +99,19 @@
                     <i class="lni lni-database"></i> Master Data
                 </a>
             @endif
+            {{-- Monitoring Admin --}}
+            <a href="{{ route('monitoring.admin.index') }}" 
+            class="{{ Request::is('admin/monitoring*') ? 'active' : '' }}">
+                <i class="lni lni-timer"></i> 
+                <span>Monitoring Jabatan (Admin)</span>
+            </a>
+
+            {{-- Monitoring Dosen --}}
+            <a href="{{ route('monitoring.dosen.index') }}" 
+            class="{{ Request::is('dosen/monitoring*') ? 'active' : '' }}">
+                <i class="lni lni-consulting"></i> 
+                <span>Progres Jabatan Saya</span>
+            </a>
         </div>
     </div>
 </div>

@@ -1,0 +1,42 @@
+/* public/assets/css/monitoring.css */
+
+/* 1. Header & Wrapper (Identik dengan dashboard.css) */
+.content-wrapper {
+    padding: 20px;
+    background-color: #f4f6f9;
+    min-height: calc(100vh - 120px); /* Menghitung tinggi navbar & footer */
+}
+
+/* 2. Identitas Navy IPB (Identik dengan header.blade.php) */
+.card-monitoring .card-header {
+    background-color: #001f3f !important; /* Navy */
+    color: #ffffff;
+    font-weight: bold;
+}
+
+/* 3. Gaya Tabel (Identik dengan daftar-pegawai.css) */
+.table-monitoring {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.table-monitoring thead th {
+    background-color: #f8f9fa;
+    color: #333;
+    border-bottom: 2px solid #dee2e6;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+/* 4. Progress Bar Custom */
+.progress-monitoring {
+    height: 10px;
+    border-radius: 5px;
+    background-color: #e9ecef;
+}
+
+.progress-monitoring .progress-bar {
+    background-color: #28a745; /* Green Success */
+    border-radius: 5px;
+}
