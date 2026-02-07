@@ -1,45 +1,24 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Pegawai; // Tambahkan ini
 
 use Illuminate\Http\Request;
 
 class MonitoringController extends Controller
 {
+// app/Http/Controllers/MonitoringController.php
+
 public function indexAdmin()
 {
-    // Data dummy yang sudah dilengkapi sesuai kolom tabel baru
-    $submissions = [
-        [
-            'id' => 1, 
-            'nama' => 'Dr. Ahmad Forest', 
-            'nip' => '198501012010011001', 
-            'usia' => 41,
-            'jabatan_terakhir' => 'Lektor (III/d)',
-            'target' => 'Lektor Kepala (IV/a)', 
-            'nilai_konversi' => 38.5,
-            'tgl_pensiun' => '01 Jan 2045',
-            'is_eligible' => true, // Untuk status kelayakan nilai
-            'progress' => 75, 
-            'status' => 'Verifikasi Berkas'
-        ],
-        [
-            'id' => 2, 
-            'nama' => 'Siti Rimba, M.Si', 
-            'nip' => '199002022015022002', 
-            'usia' => 36,
-            'jabatan_terakhir' => 'Asisten Ahli (III/b)',
-            'target' => 'Lektor (III/c)', 
-            'nilai_konversi' => 12.0,
-            'tgl_pensiun' => '02 Feb 2050',
-            'is_eligible' => false,
-            'progress' => 40, 
-            'status' => 'Lengkapi Berkas'
-        ],
-    ];
+    // Mengambil data dosen berdasarkan divisinya masing-masing
+    $perencanaan = Pegawai::where('divisi', 'perencanaan')->get();
+    $kebijakan = Pegawai::where('divisi', 'kebijakan')->get();
+    $pemanenan = Pegawai::where('divisi', 'pemanenan')->get();
 
-    return view('pages.monitoring.admin.index', compact('submissions'));
+    return view('pages.monitoring.admin.index', compact('perencanaan', 'kebijakan', 'pemanenan'));
 }
+
 public function detailAdmin($id)
 {
     // Pastikan data dummy memiliki key yang sesuai dengan view

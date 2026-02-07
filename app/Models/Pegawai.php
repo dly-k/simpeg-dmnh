@@ -16,7 +16,7 @@ class Pegawai extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'nip', 'nama_lengkap', 'status_kepegawaian', 'jabatan_fungsional',
+        'nip', 'nama_lengkap', 'status_kepegawaian', 'jabatan_fungsional','divisi',
         'jabatan_struktural', 'pangkat_golongan', 'status_pegawai', 'agama',
         'status_pernikahan', 'jenis_kelamin', 'pendidikan_terakhir', 'tempat_lahir',
         'bidang_ilmu', 'tanggal_lahir', 'foto_profil', 'nomor_arsip', 'tmt_pangkat',

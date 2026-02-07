@@ -46,69 +46,20 @@
                 </div>
 
                 <div class="tab-content mt-4" id="divisiTabContent">
+                    {{-- TAB PERENCANAAN --}}
                     <div class="tab-pane fade show active" id="perencanaan" role="tabpanel">
-                        {{-- Fitur Cari --}}
-                        <div class="search-group mb-4">
-                            <div class="input-group bg-white shadow-sm" style="max-width: 400px; border-radius: 8px; overflow: hidden;">
-                                <span class="input-group-text bg-light border-0"><i class="fas fa-search"></i></span>
-                                <input type="text" class="form-control border-0" placeholder="Cari Nama atau NIP..." />
-                            </div>
-                        </div>
-
-                        <div class="table-responsive">
-                            <table class="table table-hover table-bordered align-middle">
-                                <thead class="table-light text-center small fw-bold">
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Nama & NIP</th>
-                                        <th>Usia</th>
-                                        <th>Jabatan Terakhir</th>
-                                        <th>Jabatan Tujuan</th>
-                                        <th>Nilai Konversi</th>
-                                        <th>Estimasi Pensiun</th>
-                                        <th>Status Kelayakan</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($submissions as $index => $s)
-                                    <tr>
-                                        <td class="text-center">{{ $index + 1 }}</td>
-                                        <td>
-                                            <div class="fw-bold">{{ $s['nama'] }}</div>
-                                            <small class="text-muted">{{ $s['nip'] }}</small>
-                                        </td>
-                                        <td class="text-center">{{ $s['usia'] }} Thn</td>
-                                        <td class="text-center small">{{ $s['jabatan_terakhir'] }}</td>
-                                        <td class="text-center small fw-bold text-primary">{{ $s['target'] }}</td>
-                                        <td class="text-center">
-                                            <span class="badge bg-light text-dark border">{{ $s['nilai_konversi'] }}</span>
-                                        </td>
-                                        <td class="text-center small text-danger">{{ $s['tgl_pensiun'] }}</td>
-                                        <td class="text-center">
-                                            @if($s['is_eligible'])
-                                                <span class="badge rounded-pill bg-success px-3">Layak Nilai</span>
-                                            @else
-                                                <span class="badge rounded-pill bg-warning text-dark px-3">Belum Layak</span>
-                                            @endif
-                                        </td>
-                                        <td class="text-center">
-                                            <div class="d-flex gap-2 justify-content-center">
-                                                <a href="{{ route('monitoring.admin.detail', $s['id']) }}" class="btn-aksi btn-lihat" title="Detail Verifikasi">
-                                                    <i class="fa fa-eye"></i>
-                                                </a>
-                                                <button class="btn-aksi btn-edit" title="Ubah Jabatan Tujuan" data-bs-toggle="modal" data-bs-target="#modalEditJabatan{{ $s['id'] }}">
-                                                    <i class="fa fa-edit"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                        @include('pages.monitoring.admin._table_content', ['data' => $perencanaan])
                     </div>
-                    {{-- Tabpane Kebijakan dan Pemanenan bisa menggunakan struktur yang sama --}}
+
+                    {{-- TAB KEBIJAKAN --}}
+                    <div class="tab-pane fade" id="kebijakan" role="tabpanel">
+                        @include('pages.monitoring.admin._table_content', ['data' => $kebijakan])
+                    </div>
+
+                    {{-- TAB PEMANENAN --}}
+                    <div class="tab-pane fade" id="pemanenan" role="tabpanel">
+                        @include('pages.monitoring.admin._table_content', ['data' => $pemanenan])
+                    </div>
                 </div>
             </div>
         </div>
@@ -117,9 +68,10 @@
     </div>
 </div>
 
+{{-- SCRIPT --}}
 <script src="{{ asset('assets/js/layout.js') }}"></script>
 <script src="{{ asset('assets/js/daftar-pegawai.js') }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

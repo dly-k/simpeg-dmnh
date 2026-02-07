@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('jabatan_struktural')->nullable();
             $table->string('pangkat_golongan')->nullable();
             $table->string('status_pegawai')->default('Aktif');
+            $table->enum('divisi', ['perencanaan', 'kebijakan', 'pemanenan'])->nullable();
 
             // Kolom lainnya yang tidak wajib diisi
             $table->string('agama')->nullable();

@@ -97,6 +97,7 @@ class PegawaiController extends Controller
         $validatedData = $request->validate([
             'nip' => 'required|string|max:255|unique:pegawais,nip',
             'nama_lengkap' => 'required|string|max:255',
+            'divisi' => 'required|in:perencanaan,kebijakan,pemanenan',
             'foto_profil' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'agama' => 'nullable|string|max:255',
             'status_pernikahan' => 'nullable|string|max:255',
@@ -307,6 +308,7 @@ class PegawaiController extends Controller
         $validatedData = $request->validate([
             'nip' => 'required|string|max:255|unique:pegawais,nip,' . $pegawai->id,
             'nama_lengkap' => 'required|string|max:255',
+            'divisi' => 'required|in:perencanaan,kebijakan,pemanenan',
             'foto_profil' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'agama' => 'nullable|string|max:255',
             'status_pernikahan' => 'nullable|string|max:255',

@@ -204,9 +204,17 @@
                                         <label class="small text-dark fw-medium mb-1">Unit Kerja</label>
                                         <input type="text" class="form-control form-control-sm readonly-input" value="Fakultas Kehutanan dan Lingkungan" readonly>
                                     </div>
-                                    <div class="col-md-6 form-group">
-                                        <label class="small text-dark fw-medium mb-1">Divisi</label>
-                                        <input type="text" class="form-control form-control-sm readonly-input" value="Departemen Manajemen Hutan" readonly>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label fw-bold">Divisi <span class="text-danger">*</span></label>
+                                        <select name="divisi" class="form-select @error('divisi') is-invalid @enderror" required>
+                                            <option value="" selected disabled>-- Pilih Divisi --</option>
+                                            <option value="perencanaan" {{ old('divisi') == 'perencanaan' ? 'selected' : '' }}>Perencanaan</option>
+                                            <option value="kebijakan" {{ old('divisi') == 'kebijakan' ? 'selected' : '' }}>Kebijakan</option>
+                                            <option value="pemanenan" {{ old('divisi') == 'pemanenan' ? 'selected' : '' }}>Pemanenan</option>
+                                        </select>
+                                        @error('divisi')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     <div class="col-md-6 form-group">
                                         <label class="small text-dark fw-medium mb-1">Nomor Arsip Berkas Kepegawaian</label>
