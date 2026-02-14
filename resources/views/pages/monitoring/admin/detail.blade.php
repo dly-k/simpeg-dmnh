@@ -118,7 +118,7 @@
 </div>
 
 <div class="col-lg-8">
-    <div class="table-card h-100">
+    <div class="table-card h-100 bg-white shadow-sm" style="border-radius: 12px; overflow: hidden;">
         {{-- TAB NAVIGASI BERKAS --}}
         <div class="tab-bar-container border-bottom">
             <ul class="nav nav-pills p-3" id="dokumenTab" role="tablist">
@@ -137,93 +137,116 @@
 
         <div class="tab-content" id="dokumenTabContent">
             {{-- SUB-TAB 1: DOKUMEN YANG DIUPLOAD DOSEN --}}
-<div class="tab-pane fade show active" id="upload-dosen" role="tabpanel">
-    <div class="table-responsive p-3">
-        <table class="table table-hover align-middle border">
-            <thead class="table-light">
-                <tr class="text-center small">
-                    <th class="text-start ps-3">Nama Dokumen</th>
-                    <th style="width: 120px;">Status</th>
-                    <th style="width: 220px;">Aksi Verifikator</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($requirements as $index => $req)
-                <tr>
-                    <td class="ps-3">
-                        <div class="fw-bold">{{ $req['name'] }}</div>
-                        <small class="text-muted fst-italic">Sumber: E-File / Link Drive</small>
-                    </td>
-                    <td class="text-center">
-                        @if($req['is_uploaded'])
-                            <span class="badge rounded-pill bg-success px-3">Tersedia</span>
-                        @else
-                            <span class="badge rounded-pill bg-secondary px-3">Kosong</span>
-                        @endif
-                    </td>
-                    <td class="text-center">
-                        <div class="d-flex gap-1 justify-content-center">
-                            @if($req['is_uploaded'])
-                                <a href="{{ $req['is_link'] ? $req['path'] : asset('storage/'.$req['path']) }}" 
-                                   target="_blank" class="btn btn-sm btn-info text-white" title="Pratinjau Berkas">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                                <button class="btn btn-sm btn-warning text-dark" title="Beri Catatan">
-                                    <i class="fas fa-comment-dots"></i>
-                                </button>
-                                <button class="btn btn-sm btn-success" title="Validasi Final">
-                                    <i class="fas fa-check"></i>
-                                </button>
-                            @else
-                                {{-- TOMBOL UPLOAD KHUSUS ADMIN JIKA BERKAS MASIH KOSONG --}}
-                                <button class="btn btn-sm btn-outline-primary fw-bold px-3" 
-                                        data-bs-toggle="modal" 
-                                        data-bs-target="#modalUploadAdmin{{ $index }}">
-                                    <i class="fas fa-upload me-1"></i> Upload Admin
-                                </button>
-                            @endif
-                        </div>
-                    </td>
-                </tr>
+            <div class="tab-pane fade show active" id="upload-dosen" role="tabpanel">
+                <div class="table-responsive p-3">
+                    <table class="table table-hover align-middle border">
+                        <thead class="table-light">
+                            <tr class="text-center small">
+                                <th class="text-start ps-3">Nama Dokumen</th>
+                                <th style="width: 120px;">Status</th>
+                                <th style="width: 220px;">Aksi Verifikator</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($requirements as $index => $req)
+                            <tr>
+                                <td class="ps-3">
+                                    <div class="fw-bold text-navy">{{ $req['name'] }}</div>
+                                    <small class="text-muted fst-italic">Sumber: E-File / Kenaikan Jabatan</small>
+                                </td>
+                                <td class="text-center">
+                                    @if($req['is_uploaded'])
+                                        <span class="badge rounded-pill bg-success px-3">Tersedia</span>
+                                    @else
+                                        <span class="badge rounded-pill bg-secondary px-3">Kosong</span>
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    <div class="d-flex gap-1 justify-content-center">
+                                        @if($req['is_uploaded'])
+                                            {{-- Pratinjau Berkas (Handle Link atau File Storage) --}}
+                                            <a href="{{ ($req['is_link'] ?? false) ? $req['path'] : asset('storage/'.$req['path']) }}" 
+                                               target="_blank" class="btn btn-sm btn-info text-white" title="Pratinjau Berkas">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <button class="btn btn-sm btn-warning text-dark" title="Beri Catatan">
+                                                <i class="fas fa-comment-dots"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-success" title="Validasi Final">
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                        @else
+                                            {{-- TOMBOL UPLOAD ADMIN --}}
+                                            <button class="btn btn-sm btn-outline-primary fw-bold px-3" 
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#modalUploadAdmin{{ $index }}">
+                                                <i class="fas fa-upload me-1"></i> Upload Admin
+                                            </button>
+                                        @endif
+                                    </div>
+                                </td>
+                            </tr>
 
-                {{-- MODAL UPLOAD ADMIN --}}
-                <div class="modal fade" id="modalUploadAdmin{{ $index }}" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header bg-navy text-white">
-                                <h5 class="modal-title small fw-bold">Upload Dokumen (Oleh Admin)</h5>
-                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                            {{-- MODAL UPLOAD ADMIN --}}
+                            <div class="modal fade" id="modalUploadAdmin{{ $index }}" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-navy text-white">
+                                            <h5 class="modal-title small fw-bold">Upload Dokumen (Oleh Admin)</h5>
+                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        {{-- Pastikan route ini mengirim parameter ID pegawai --}}
+                                        <form action="{{ route('efile.store', $pegawai->id) }}" method="POST" enctype="multipart/form-data">
+                                            @csrf
+                                            <input type="hidden" name="pegawai_id" value="{{ $pegawai->id }}">
+                                            <input type="hidden" name="kategori_dokumen" value="Lain-lain">
+                                            <input type="hidden" name="nama_dokumen" value="{{ $req['name'] }}">
+                                            
+                                            <div class="modal-body text-start">
+                                                <div class="mb-3">
+                                                    <label class="form-label small fw-bold">Jenis Dokumen</label>
+                                                    <input type="text" class="form-control bg-light" value="{{ $req['name'] }}" readonly>
+                                                </div>
+
+                                                {{-- Opsi 1: Upload File --}}
+                                                <div class="mb-3">
+                                                    <label class="form-label small fw-bold text-primary">
+                                                        <i class="fas fa-file-pdf me-1"></i>Pilih File PDF
+                                                    </label>
+                                                    <input type="file" class="form-control" name="file_path" accept=".pdf">
+                                                    <div class="form-text small italic">Format: PDF (Max 2MB)</div>
+                                                </div>
+
+                                                <div class="divider d-flex align-items-center my-3">
+                                                    <hr class="flex-grow-1">
+                                                    <span class="mx-2 small text-muted fw-bold">ATAU</span>
+                                                    <hr class="flex-grow-1">
+                                                </div>
+
+                                                {{-- Opsi 2: Input Link --}}
+                                                <div class="mb-3">
+                                                    <label class="form-label small fw-bold text-success">
+                                                        <i class="fas fa-link me-1"></i>Gunakan Link (Google Drive/Cloud)
+                                                    </label>
+                                                    <input type="url" class="form-control" name="link_url" placeholder="https://drive.google.com/...">
+                                                    <div class="form-text small italic text-muted">Pastikan link dapat diakses publik/verifikator.</div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
+                                                <button type="submit" class="btn btn-primary btn-sm fw-bold">
+                                                    <i class="fas fa-save me-1"></i>Simpan Berkas
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
-                            <form action="#" method="POST" enctype="multipart/form-data">
-                                @csrf
-                                <div class="modal-body">
-                                    <div class="mb-3">
-                                        <label class="form-label small fw-bold">Jenis Dokumen</label>
-                                        <input type="text" class="form-control bg-light" value="{{ $req['name'] }}" readonly>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label small fw-bold">Pilih File PDF</label>
-                                        <input type="file" class="form-control" name="file_admin" accept=".pdf">
-                                        <div class="form-text small italic">Max size: 2MB (Format PDF)</div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label small fw-bold">Atau Gunakan Link (Hybrid)</label>
-                                        <input type="url" class="form-control" name="link_admin" placeholder="https://drive.google.com/...">
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
-                                    <button type="submit" class="btn btn-primary btn-sm fw-bold">Simpan Berkas</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-</div>
+            </div>
 
             {{-- SUB-TAB 2: DOKUMEN FINAL --}}
             <div class="tab-pane fade" id="dokumen-final" role="tabpanel">
@@ -240,19 +263,29 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- Contoh data jika sudah ada yang divalidasi --}}
+                            @php
+                                $finalDocs = collect($requirements)->where('is_uploaded', true);
+                            @endphp
+                            @forelse($finalDocs as $doc)
                             <tr class="bg-light-subtle">
-                                <td class="ps-3 fw-bold"><i class="fas fa-file-pdf text-danger me-2"></i>SK Jabatan Terakhir (Final)</td>
-                                <td class="text-center small">07 Feb 2026</td>
+                                <td class="ps-3 fw-bold">
+                                    <i class="fas fa-file-pdf text-danger me-2"></i>{{ $doc['name'] }} (Final)
+                                </td>
+                                <td class="text-center small">{{ now()->isoFormat('D MMM YYYY') }}</td>
                                 <td class="text-center">
                                     <button class="btn btn-sm btn-outline-danger"><i class="fas fa-undo me-1"></i>Batal</button>
                                 </td>
                             </tr>
+                            @empty
+                            <tr>
+                                <td colspan="3" class="text-center py-4 text-muted small italic">Belum ada berkas yang divalidasi final.</td>
+                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
                     
                     <div class="mt-4 text-end">
-                        <button class="btn btn-navy fw-bold shadow-sm px-4 rounded-pill" disabled>
+                        <button class="btn btn-navy fw-bold shadow-sm px-4 rounded-pill" {{ $finalDocs->count() == 0 ? 'disabled' : '' }}>
                             <i class="fas fa-file-export me-2"></i>Kompilasi Berkas (ZIP/PDF)
                         </button>
                     </div>

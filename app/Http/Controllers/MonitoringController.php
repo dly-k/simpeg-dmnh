@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Pegawai; // Tambahkan ini
-
+use App\Models\Pegawai;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class MonitoringController extends Controller
@@ -37,9 +37,9 @@ public function updateTarget(Request $request, $id)
 
 public function detailAdmin($id)
 {
-    $pegawai = Pegawai::findOrFail($id);
+    $pegawai = \App\Models\Pegawai::findOrFail($id);
 
-    // Definisi Ambang Batas KUM (Threshold)
+    // --- LOGIKA NILAI KUM ---
     $thresholds = [
         'Asisten Ahli (III/b)' => 150,
         'Lektor (III/c)'       => 200,
@@ -51,17 +51,49 @@ public function detailAdmin($id)
         'Guru Besar (IV/e)'    => 1050,
     ];
 
-    // Ambil target KUM berdasarkan string jabatan_tujuan yang tersimpan di DB
     $targetKUM = $thresholds[$pegawai->jabatan_tujuan] ?? 0;
-    
-    // Perhitungan Total KUM Saat Ini
     $currentKUM = $pegawai->ak_lama + $pegawai->ak_baru;
-
-    // Data requirements tetap dikirim agar tidak error
-    $requirements = [
-        ['name' => 'SK Jabatan Terakhir', 'is_uploaded' => true, 'is_link' => false, 'path' => '#', 'status' => 'Valid'],
-        ['name' => 'PAK Terakhir', 'is_uploaded' => true, 'is_link' => false, 'path' => '#', 'status' => 'Valid'],
+    $target = $pegawai->jabatan_tujuan ?? '';
+    
+    // 1. Berkas Dasar (Semua Jabatan Wajib Ada)
+    $docTypes = [
+        'SK Jabatan Fungsional Terakhir',
+        'PAK Terakhir (Integrasi)',
+        'Ijazah Pendidikan Terakhir',
+        'SKP 2 Tahun Terakhir'
     ];
+
+    // 2. Tambah Berkas Khusus (Hanya tambah, jangan didefinisikan ulang di bawah)
+    if (\Illuminate\Support\Str::contains($target, 'Lektor Kepala', ignoreCase: true)) {
+        $docTypes[] = 'Bukti Publikasi Jurnal Nasional Terakreditasi';
+        $docTypes[] = 'Surat Pernyataan Keabsahan Karya Ilmiah';
+        $docTypes[] = 'Lembar Hasil Penilaian Peer Review';
+    } 
+    elseif (\Illuminate\Support\Str::contains($target, 'Guru Besar', ignoreCase: true)) {
+        $docTypes[] = 'Bukti Publikasi Jurnal Internasional Bereputasi';
+        $docTypes[] = 'Ijazah Doktor (S3)';
+        $docTypes[] = 'Surat Pernyataan Pemenuhan Persyaratan Khusus';
+        $docTypes[] = 'Lembar Hasil Penilaian Peer Review (GB)';
+    }
+
+    // 3. Ambil data dari e_files
+    $uploadedFiles = \App\Models\EFile::where('pegawai_id', $id)
+        ->where('kategori_dokumen', 'Lain-lain')
+        ->get()
+        ->keyBy('nama_dokumen'); 
+
+    $requirements = [];
+    foreach ($docTypes as $type) {
+        $file = $uploadedFiles->get($type);
+        $requirements[] = [
+            'name' => $type,
+            'is_uploaded' => !!$file,
+            'path' => $file ? $file->file_path : null,
+            'id_file' => $file ? $file->id : null,
+            'status' => $file ? 'Tersedia' : 'Kosong',
+            'is_link' => $file ? $file->is_link : false 
+        ];
+    }
 
     return view('pages.monitoring.admin.detail', compact('pegawai', 'currentKUM', 'targetKUM', 'requirements'));
 }
