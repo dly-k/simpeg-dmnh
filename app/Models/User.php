@@ -33,4 +33,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Pegawai::class);
     }
+    
+    public function isStaff()
+    {
+        // Kelompok yang memiliki akses administratif ke data pegawai lain
+        return in_array($this->role, ['admin', 'admin_verifikator', 'tata_usaha']);
+    }
 }

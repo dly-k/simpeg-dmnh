@@ -31,47 +31,33 @@
         <div class="main-content">
             <div class="row g-4">
                 <div class="col-lg-5">
-                    <div class="table-card p-4 h-100 shadow-sm border-0" style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);">
-                        <h5 class="fw-bold mb-4" style="color: #001f3f;">Status Kelayakan KUM</h5>
-                        
-                        <div class="text-center mb-4">
-                            <span class="text-muted small text-uppercase fw-bold">Target Jabatan</span>
-                            <h4 class="fw-bold text-navy">{{ $data['target_jabatan'] }}</h4>
-                        </div>
+                <div class="table-card p-4 h-100 shadow-sm border-0" style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);">
+                    <h5 class="fw-bold mb-4" style="color: #001f3f;">Status Kelayakan KUM</h5>
 
-                        <div class="progress-container text-center py-4 px-3 rounded-4 border bg-white mb-4 shadow-sm">
-                            <div class="display-4 fw-bold text-primary mb-0">{{ $data['current_kum'] }}</div>
-                            <div class="text-muted small">Angka Kredit Saat Ini (Integrasi + Konversi)</div>
-                            <div class="progress mt-3" style="height: 12px; border-radius: 10px;">
-                                <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" 
-                                     style="width: {{ ($data['current_kum']/$data['target_kum'])*100 }}%"></div>
-                            </div>
-                            <div class="mt-2 fw-bold small text-success">Target: {{ $data['target_kum'] }} KUM</div>
-                        </div>
-
-                        @if($data['current_kum'] < $data['target_kum'])
-                        <div class="alert alert-warning border-0 shadow-sm d-flex align-items-center">
-                            <i class="fas fa-info-circle fa-2x me-3"></i>
-                            <div>
-                                <small class="d-block fw-bold">Kekurangan Nilai:</small>
-                                <span class="h5 fw-bold mb-0">{{ $data['target_kum'] - $data['current_kum'] }} KUM</span>
-                            </div>
-                        </div>
-                        @else
-                        <div class="alert alert-success border-0 shadow-sm d-flex align-items-center">
-                            <i class="fas fa-check-double fa-2x me-3"></i>
-                            <div>
-                                <small class="d-block fw-bold">Status:</small>
-                                <span class="h5 fw-bold mb-0">LAYAK SECARA NILAI</span>
-                            </div>
-                        </div>
-                        @endif
-
-                        <div class="mt-4 p-3 rounded-3 bg-light border-start border-danger border-4">
-                            <small class="text-muted d-block">Estimasi Masa Pensiun:</small>
-                            <strong class="text-danger">{{ $data['tgl_pensiun'] }}</strong>
-                        </div>
+                    <div class="text-center mb-4">
+                        <span class="text-muted small text-uppercase fw-bold">Target Jabatan</span>
+                        {{-- Ganti $data['target_jabatan'] menjadi $pegawai->jabatan_tujuan --}}
+                        <h4 class="fw-bold text-navy">{{ $pegawai->jabatan_tujuan ?? 'Belum Ditentukan' }}</h4>
                     </div>
+
+                    <div class="progress-container text-center py-4 px-3 rounded-4 border bg-white mb-4 shadow-sm">
+                        {{-- Ganti $data['current_kum'] menjadi $currentKUM --}}
+                        <div class="display-4 fw-bold text-primary mb-0">{{ $currentKUM }}</div>
+                        <div class="text-muted small">Angka Kredit Saat Ini (Integrasi + Konversi)</div>
+                        
+                        <div class="progress mt-3" style="height: 12px; border-radius: 10px;">
+                            {{-- Hitung persentase secara dinamis --}}
+                            @php
+                                $percentage = $targetKUM > 0 ? min(($currentKUM / $targetKUM) * 100, 100) : 0;
+                            @endphp
+                            <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" 
+                                style="width: {{ $percentage }}%"></div>
+                        </div>
+                        
+                        {{-- Ganti $data['target_kum'] menjadi $targetKUM --}}
+                        <div class="mt-2 fw-bold small text-success">Target: {{ $targetKUM }} KUM</div>
+                    </div>
+                </div>
                 </div>
 
                 <div class="col-lg-7">
@@ -89,75 +75,46 @@
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    @foreach($data['requirements'] as $index => $req)
-                                    <tr>
-                                        <td class="ps-3">
-                                            <div class="fw-bold small">{{ $req['name'] }}</div>
-                                            @if($req['note'])
-                                            <div class="text-danger small" style="font-size: 0.75rem;">
-                                                <i class="fas fa-exclamation-circle me-1"></i>Catatan: {{ $req['note'] }}
-                                            </div>
-                                            @endif
-                                        </td>
-                                        <td class="text-center">
-                                            @php
-                                                $badgeClass = 'bg-secondary';
-                                                if($req['status'] == 'Valid') $badgeClass = 'bg-success';
-                                                elseif($req['status'] == 'Perlu Revisi') $badgeClass = 'bg-danger';
-                                            @endphp
-                                            <span class="badge rounded-pill {{ $badgeClass }} px-3" style="font-size: 0.7rem;">
-                                                {{ $req['status'] }}
-                                            </span>
-                                        </td>
-                                        <td class="text-center">
-                                            @if($req['status'] == 'Valid')
-                                                <button class="btn btn-sm btn-light border" disabled><i class="fas fa-check text-success"></i></button>
-                                            @else
-                                                <button class="btn btn-sm btn-primary fw-bold" 
-                                                        style="font-size: 0.75rem;"
-                                                        data-bs-toggle="modal" 
-                                                        data-bs-target="#modalUpload{{ $index }}">
-                                                    <i class="fas fa-upload me-1"></i> Unggah
-                                                </button>
-                                            @endif
-                                        </td>
-                                    </tr>
-
-                                    <div class="modal fade" id="modalUpload{{ $index }}" tabindex="-1" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered">
-                                            <div class="modal-content shadow-lg border-0">
-                                                <div class="modal-header bg-navy text-white">
-                                                    <h6 class="modal-title fw-bold">Lengkapi {{ $req['name'] }}</h6>
-                                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                                                </div>
-                                                <form action="#" method="POST" enctype="multipart/form-data">
-                                                    @csrf
-                                                    <div class="modal-body">
-                                                        <div class="mb-4">
-                                                            <label class="form-label small fw-bold">Opsi 1: Unggah File Lokal (PDF)</label>
-                                                            <input type="file" class="form-control" name="file_upload" accept=".pdf">
-                                                            <div class="form-text small">Maksimal file 2MB</div>
-                                                        </div>
-                                                        <div class="text-center my-3">
-                                                            <span class="badge bg-light text-dark border">ATAU</span>
-                                                        </div>
-                                                        <div class="mb-2">
-                                                            <label class="form-label small fw-bold">Opsi 2: Tautkan Link Cloud (Google Drive/Dropbox)</label>
-                                                            <input type="url" class="form-control" name="link_upload" placeholder="https://drive.google.com/...">
-                                                            <div class="form-text small">Pastikan link dapat diakses oleh Admin TU</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer bg-light">
-                                                        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                                        <button type="submit" class="btn btn-sm btn-navy fw-bold px-4">Kirim Berkas</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    @endforeach
-                                </tbody>
+                               <tbody>
+    @foreach($requirements as $index => $req)
+    <tr>
+        <td class="ps-3">
+            <div class="fw-bold small">{{ $req['name'] }}</div>
+            {{-- Sesuaikan pengecekan catatan jika Anda memiliki kolom 'note' di database --}}
+            @if(isset($req['note']) && $req['note'])
+            <div class="text-danger small" style="font-size: 0.75rem;">
+                <i class="fas fa-exclamation-circle me-1"></i>Catatan: {{ $req['note'] }}
+            </div>
+            @endif
+        </td>
+        <td class="text-center">
+            @if($req['is_uploaded'])
+                <span class="badge rounded-pill bg-light-success text-success border border-success px-3">
+                    <i class="fas fa-check-circle me-1"></i>Tersedia
+                </span>
+            @else
+                <span class="badge rounded-pill bg-light-danger text-danger border border-danger px-3">
+                    <i class="fas fa-times-circle me-1"></i>Kosong
+                </span>
+            @endif
+        </td>
+        <td class="text-center">
+            <div class="d-flex gap-1 justify-content-center">
+                @if($req['is_uploaded'])
+                    {{-- Pratinjau Berkas --}}
+                    <a href="{{ $req['is_link'] ? $req['path'] : asset('storage/'.$req['path']) }}" 
+                       target="_blank" class="btn btn-sm btn-info text-white" title="Lihat Dokumen">
+                        <i class="fas fa-eye"></i>
+                    </a>
+                @else
+                    {{-- Info jika kosong --}}
+                    <span class="text-muted small italic text-center">Menunggu Admin</span>
+                @endif
+            </div>
+        </td>
+    </tr>
+    @endforeach
+</tbody>
                             </table>
                         </div>
                     </div>

@@ -70,6 +70,13 @@ Route::middleware(['auth'])->group(function () {
 
     // ================== TIDAK BISA DIAKSES OLEH ROLE: tata_usaha ==================
     Route::middleware(['role:admin,admin_verifikator'])->group(function () {
+
+        // monitoring
+        Route::get('/admin/monitoring', [MonitoringController::class, 'indexAdmin'])->name('monitoring.admin.index');
+        Route::get('/admin/monitoring/{id}', [MonitoringController::class, 'detailAdmin'])->name('monitoring.admin.detail');
+        Route::put('/admin/monitoring/target/{id}', [MonitoringController::class, 'updateTarget'])->name('monitoring.admin.updateTarget');
+        Route::put('/admin/monitoring/update-ak/{id}', [MonitoringController::class, 'updateAK'])->name('monitoring.admin.updateAK');
+
         // Pegawai
         Route::get('/daftar-pegawai', [PegawaiController::class, 'index'])->name('pegawai.index');
         Route::get('/tambah-pegawai', [PegawaiController::class, 'create'])->name('pegawai.create');
@@ -278,10 +285,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/kekayaan-intelektual', [KekayaanIntelektualController::class, 'index'])->name('kekayaan-intelektual.index');
 
  //TESTTT
-Route::get('/admin/monitoring', [App\Http\Controllers\MonitoringController::class, 'indexAdmin'])->name('monitoring.admin.index');
-Route::get('/admin/monitoring/{id}', [App\Http\Controllers\MonitoringController::class, 'detailAdmin'])->name('monitoring.admin.detail');
-Route::get('/dosen/monitoring', [App\Http\Controllers\MonitoringController::class, 'indexDosen'])->name('monitoring.dosen.index');
-// routes/web.php
-Route::put('/admin/monitoring/target/{id}', [App\Http\Controllers\MonitoringController::class, 'updateTarget'])
-    ->name('monitoring.admin.updateTarget');
-Route::put('/admin/monitoring/update-ak/{id}', [App\Http\Controllers\MonitoringController::class, 'updateAK'])->name('monitoring.admin.updateAK');});
+Route::get('/dosen/monitoring', [MonitoringController::class, 'indexDosen'])
+        ->name('monitoring.dosen.index');
+});

@@ -66,6 +66,7 @@
                 <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
                 <option value="admin_verifikator" {{ old('role') == 'admin_verifikator' ? 'selected' : '' }}>Admin & Verifikator</option>
                 <option value="tata_usaha" {{ old('role') == 'tata_usaha' ? 'selected' : '' }}>Tata Usaha</option>
+                <option value="dosen" {{ old('role') == 'dosen' ? 'selected' : '' }}>Dosen</option>
               </select>
               @error('role')
                 <div class="invalid-feedback">{{ $message }}</div>

@@ -114,19 +114,72 @@ public function updateAK(Request $request, $id)
 }
 public function indexDosen()
 {
-    $data = [
-        'nama' => 'Dr. Fadly Akademisi',
-        'target_jabatan' => 'Lektor Kepala (IV/a)',
-        'current_kum' => 385.5,
-        'target_kum' => 400,
-        'tgl_pensiun' => '12 Des 2035',
-        'requirements' => [
-            ['name' => 'SK Jabatan Terakhir', 'status' => 'Valid', 'is_uploaded' => true, 'path' => 'sk.pdf', 'note' => ''],
-            ['name' => 'PAK Terakhir', 'status' => 'Perlu Revisi', 'is_uploaded' => true, 'path' => 'pak_lama.pdf', 'note' => 'File tidak terbaca, mohon scan ulang'],
-            ['name' => 'Ijazah Pendidikan Terakhir', 'status' => 'Kosong', 'is_uploaded' => false, 'path' => '', 'note' => ''],
-        ]
+    // 1. Ambil ID pegawai dari user yang sedang login
+    $id = auth()->user()->pegawai_id;
+
+    if (!$id) {
+        return redirect()->back()->with('error', 'Akun Anda belum terhubung dengan data Pegawai.');
+    }
+
+    // 2. Gunakan logika yang sama dengan detailAdmin untuk mengambil data asli
+    $pegawai = \App\Models\Pegawai::findOrFail($id);
+
+    // --- LOGIKA NILAI KUM ---
+    $thresholds = [
+        'Asisten Ahli (III/b)' => 150,
+        'Lektor (III/c)'       => 200,
+        'Lektor (III/d)'       => 300,
+        'Lektor Kepala (IV/a)' => 400,
+        'Lektor Kepala (IV/b)' => 550,
+        'Lektor Kepala (IV/c)' => 700,
+        'Guru Besar (IV/d)'    => 850,
+        'Guru Besar (IV/e)'    => 1050,
     ];
-    return view('pages.monitoring.dosen.index', compact('data'));
+
+    $targetKUM = $thresholds[$pegawai->jabatan_tujuan] ?? 0;
+    $currentKUM = $pegawai->ak_lama + $pegawai->ak_baru;
+    $target = $pegawai->jabatan_tujuan ?? '';
+    
+    // --- LOGIKA BERKAS ---
+    $docTypes = [
+        'SK Jabatan Fungsional Terakhir',
+        'PAK Terakhir (Integrasi)',
+        'Ijazah Pendidikan Terakhir',
+        'SKP 2 Tahun Terakhir'
+    ];
+
+    if (\Illuminate\Support\Str::contains($target, 'Lektor Kepala', ignoreCase: true)) {
+        $docTypes[] = 'Bukti Publikasi Jurnal Nasional Terakreditasi';
+        $docTypes[] = 'Surat Pernyataan Keabsahan Karya Ilmiah';
+        $docTypes[] = 'Lembar Hasil Penilaian Peer Review';
+    } 
+    elseif (\Illuminate\Support\Str::contains($target, 'Guru Besar', ignoreCase: true)) {
+        $docTypes[] = 'Bukti Publikasi Jurnal Internasional Bereputasi';
+        $docTypes[] = 'Ijazah Doktor (S3)';
+        $docTypes[] = 'Surat Pernyataan Pemenuhan Persyaratan Khusus';
+        $docTypes[] = 'Lembar Hasil Penilaian Peer Review (GB)';
+    }
+
+    $uploadedFiles = \App\Models\EFile::where('pegawai_id', $id)
+        ->where('kategori_dokumen', 'Lain-lain')
+        ->get()
+        ->keyBy('nama_dokumen'); 
+
+    $requirements = [];
+    foreach ($docTypes as $type) {
+        $file = $uploadedFiles->get($type);
+        $requirements[] = [
+            'name' => $type,
+            'is_uploaded' => !!$file,
+            'path' => $file ? $file->file_path : null,
+            'id_file' => $file ? $file->id : null,
+            'status' => $file ? 'Tersedia' : 'Kosong',
+            'is_link' => $file ? $file->is_link : false 
+        ];
+    }
+
+    // 3. Kirim ke view khusus dosen dengan variabel yang sama seperti detailAdmin
+    return view('pages.monitoring.dosen.index', compact('pegawai', 'currentKUM', 'targetKUM', 'requirements'));
 }
 
 }

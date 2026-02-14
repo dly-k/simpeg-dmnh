@@ -10,9 +10,6 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
-    /**
-     * Menampilkan halaman master data dengan daftar pengguna.
-     */
     public function index(Request $request)
     {
         $search = $request->input('search');
@@ -26,7 +23,8 @@ class UserController extends Controller
             })
             ->paginate(10);
 
-        $pegawais = Pegawai::whereDoesntHave('user')->get(); // Hanya pegawai yang belum punya akun
+        // Hanya pegawai yang belum punya akun
+        $pegawais = Pegawai::whereDoesntHave('user')->get(); 
 
         return view('auth.master-data', compact('users', 'pegawais'));
     }
@@ -40,13 +38,15 @@ class UserController extends Controller
             'pegawai_id' => 'required|exists:pegawais,id|unique:users,pegawai_id',
             'username' => 'required|string|max:255|unique:users',
             'password' => 'required|string|min:8',
-            'role' => 'required|in:admin,admin_verifikator,tata_usaha',
+            // PERBAIKAN: Tambahkan 'dosen' ke dalam validasi
+            'role' => 'required|in:admin,admin_verifikator,tata_usaha,dosen', 
         ]);
 
         User::create([
             'pegawai_id' => $request->pegawai_id,
             'username' => $request->username,
-            'password' => $request->password,
+            // Pastikan password di-hash jika Model User belum menggunakan casts hashed
+            'password' => Hash::make($request->password), 
             'role' => $request->role,
         ]);
 
@@ -60,14 +60,14 @@ class UserController extends Controller
     {
         $request->validate([
             'username' => ['required', 'string', 'max:255', Rule::unique('users')->ignore($user->id)],
-            'role' => 'required|in:admin,admin_verifikator,tata_usaha',
-            'password' => 'nullable|string|min:8', // Password boleh kosong
+            // PERBAIKAN: Tambahkan 'dosen' ke dalam validasi
+            'role' => 'required|in:admin,admin_verifikator,tata_usaha,dosen', 
+            'password' => 'nullable|string|min:8', 
         ]);
 
         $user->username = $request->username;
         $user->role = $request->role;
         
-        // Hanya update password jika diisi
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
         }
