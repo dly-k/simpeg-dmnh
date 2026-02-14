@@ -9,9 +9,11 @@
     <div class="menu-wrapper">
         <div class="menu">
             {{-- Dashboard --}}
-            <a href="/dashboard" aria-label="Dashboard" class="{{ Request::is('dashboard') ? 'active' : '' }}">
-                <i class="lni lni-grid-alt"></i> Dashboard
-            </a>
+            @if(Auth::user()->role !== 'dosen')
+                <a href="/dashboard" aria-label="Dashboard" class="{{ Request::is('dashboard') ? 'active' : '' }}">
+                    <i class="lni lni-grid-alt"></i> Dashboard
+                </a>
+            @endif
 
             {{-- MENU PROGRES PERSONAL (Bisa diakses SEMUA ROLE termasuk DOSEN) --}}
             {{-- Menu ini diletakkan di atas agar mudah diakses oleh dosen --}}
