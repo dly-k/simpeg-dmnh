@@ -26,7 +26,7 @@ class Pegawai extends Model
         'provinsi_domisili', 'alamat_domisili', 'kota_domisili', 'kode_pos_domisili',
         'kecamatan_domisili', 'no_telepon', 'kelurahan_domisili', 'email', 'nomor_ktp',
         'kecamatan_ktp', 'nomor_kk', 'kelurahan_ktp', 'warga_negara', 'kode_pos_ktp',
-        'provinsi_ktp', 'kabupaten_ktp', 'alamat_ktp', 'jabatan_tujuan', 'estimasi_pensiun_manual',
+        'provinsi_ktp', 'kabupaten_ktp', 'alamat_ktp', 'jabatan_tujuan', 'estimasi_pensiun_manual','ak_lama','ak_baru',
     ];
 
     // --- RELASI BAWAAN ---

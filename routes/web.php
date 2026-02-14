@@ -284,5 +284,4 @@ Route::get('/dosen/monitoring', [App\Http\Controllers\MonitoringController::clas
 // routes/web.php
 Route::put('/admin/monitoring/target/{id}', [App\Http\Controllers\MonitoringController::class, 'updateTarget'])
     ->name('monitoring.admin.updateTarget');
-
-});
+Route::put('/admin/monitoring/update-ak/{id}', [App\Http\Controllers\MonitoringController::class, 'updateAK'])->name('monitoring.admin.updateAK');});

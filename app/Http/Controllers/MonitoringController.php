@@ -37,27 +37,49 @@ public function updateTarget(Request $request, $id)
 
 public function detailAdmin($id)
 {
-    // Pastikan data dummy memiliki key yang sesuai dengan view
-    $dosen = [
-        'nama' => 'Dr. Ahmad Forest', 
-        'nip' => '198501012010011001', 
-        'jabatan_terakhir' => 'Lektor (III/d)', // Tambahan key
-        'target' => 'Lektor Kepala (IV/a)',
-        'tgl_pensiun' => '01 Jan 2045' // Tambahan key
+    $pegawai = Pegawai::findOrFail($id);
+
+    // Definisi Ambang Batas KUM (Threshold)
+    $thresholds = [
+        'Asisten Ahli (III/b)' => 150,
+        'Lektor (III/c)'       => 200,
+        'Lektor (III/d)'       => 300,
+        'Lektor Kepala (IV/a)' => 400,
+        'Lektor Kepala (IV/b)' => 550,
+        'Lektor Kepala (IV/c)' => 700,
+        'Guru Besar (IV/d)'    => 850,
+        'Guru Besar (IV/e)'    => 1050,
     ];
 
-    $currentKUM = 380;
-    $targetKUM = 400;
+    // Ambil target KUM berdasarkan string jabatan_tujuan yang tersimpan di DB
+    $targetKUM = $thresholds[$pegawai->jabatan_tujuan] ?? 0;
+    
+    // Perhitungan Total KUM Saat Ini
+    $currentKUM = $pegawai->ak_lama + $pegawai->ak_baru;
 
+    // Data requirements tetap dikirim agar tidak error
     $requirements = [
-        ['name' => 'SK Jabatan Terakhir', 'is_uploaded' => true, 'is_link' => false, 'path' => 'sk_jabatan.pdf', 'status' => 'Valid'],
-        ['name' => 'PAK Terakhir', 'is_uploaded' => true, 'is_link' => true, 'path' => 'https://drive.google.com/example', 'status' => 'Valid'],
-        ['name' => 'Publikasi Jurnal Sinta 1/2', 'is_uploaded' => false, 'is_link' => false, 'path' => '', 'status' => 'Belum Ada'],
+        ['name' => 'SK Jabatan Terakhir', 'is_uploaded' => true, 'is_link' => false, 'path' => '#', 'status' => 'Valid'],
+        ['name' => 'PAK Terakhir', 'is_uploaded' => true, 'is_link' => false, 'path' => '#', 'status' => 'Valid'],
     ];
 
-    return view('pages.monitoring.admin.detail', compact('dosen', 'currentKUM', 'targetKUM', 'requirements'));
+    return view('pages.monitoring.admin.detail', compact('pegawai', 'currentKUM', 'targetKUM', 'requirements'));
 }
 
+// Tambahkan Fungsi Simpan Nilai AK Baru
+public function updateAK(Request $request, $id)
+{
+    $request->validate([
+        'ak_baru' => 'required|numeric|min:0',
+    ]);
+
+    $pegawai = Pegawai::findOrFail($id);
+    $pegawai->update([
+        'ak_baru' => $request->ak_baru,
+    ]);
+
+    return back()->with('success', 'Nilai Angka Kredit SKP berhasil diperbarui');
+}
 public function indexDosen()
 {
     $data = [

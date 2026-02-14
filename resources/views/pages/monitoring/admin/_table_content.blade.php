@@ -65,19 +65,37 @@
                 </td>
                 
                 {{-- Nilai Konversi --}}
-                <td>
-                    <span class="badge bg-light text-dark border">0.00</span>
-                </td>
+                <td class="text-center">
+                        @php
+                            $totalKUM = ($p->ak_lama ?? 0) + ($p->ak_baru ?? 0);
+                        @endphp
+                        <span class="badge bg-light text-dark border">{{ number_format($totalKUM, 2) }}</span>
+                    </td>
                 
                 {{-- Status Nilai --}}
-                <td>
-                    @if(\Carbon\Carbon::parse($p->tanggal_lahir)->age < 65)
-                        <span class="badge rounded-pill bg-success px-3">Memenuhi</span>
-                    @else
-                        <span class="badge rounded-pill bg-warning text-dark px-3">Belum Memenuhi</span>
-                    @endif
-                </td>
+                <td class="text-center">
+                        @php
+                            // Ambil threshold berdasarkan jabatan_tujuan
+                            $thresholds = [
+                                'Asisten Ahli (III/b)' => 150,
+                                'Lektor (III/c)'       => 200,
+                                'Lektor (III/d)'       => 300,
+                                'Lektor Kepala (IV/a)' => 400,
+                                'Lektor Kepala (IV/b)' => 550,
+                                'Lektor Kepala (IV/c)' => 700,
+                                'Guru Besar (IV/d)'    => 850,
+                                'Guru Besar (IV/e)'    => 1050,
+                            ];
+                            $targetKUM = $thresholds[$p->jabatan_tujuan] ?? 0;
+                            $isMemenuhi = ($totalKUM >= $targetKUM && $targetKUM > 0);
+                        @endphp
 
+                        @if($isMemenuhi)
+                            <span class="badge rounded-pill bg-success px-3">Memenuhi</span>
+                        @else
+                            <span class="badge rounded-pill bg-warning text-dark px-3">Belum Memenuhi</span>
+                        @endif
+                    </td>
                 {{-- Aksi --}}
                 <td>
                     <div class="d-flex gap-2 justify-content-center">
