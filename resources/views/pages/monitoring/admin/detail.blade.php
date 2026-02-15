@@ -156,9 +156,11 @@
                                 </td>
                                 <td class="text-center">
                                     @if($req['is_uploaded'])
-                                        <span class="badge rounded-pill bg-success px-3">Tersedia</span>
+                                        <span class="badge {{ $req['status_verifikasi'] == 'Perlu Revisi' ? 'bg-danger' : ($req['status_verifikasi'] == 'Disetujui' ? 'bg-success' : 'bg-warning text-dark') }}">
+                                            {{ $req['status_verifikasi'] }}
+                                        </span>
                                     @else
-                                        <span class="badge rounded-pill bg-secondary px-3">Kosong</span>
+                                        <span class="badge bg-secondary">Belum Ada</span>
                                     @endif
                                 </td>
                                 <td class="text-center">
@@ -169,12 +171,21 @@
                                                target="_blank" class="btn btn-sm btn-info text-white" title="Pratinjau Berkas">
                                                 <i class="fas fa-eye"></i>
                                             </a>
-                                            <button class="btn btn-sm btn-warning text-dark" title="Beri Catatan">
-                                                <i class="fas fa-comment-dots"></i>
+                                        {{-- 2. Tombol Komen (Modal Revisi) --}}
+                                        <button class="btn btn-sm btn-warning text-dark" data-bs-toggle="modal" 
+                                                data-bs-target="#modalKomen{{ $index }}" title="Beri Catatan">
+                                            <i class="fas fa-comment-dots"></i>
+                                        </button>
+
+                                        {{-- 3. Tombol Verifikasi Final (Status Disetujui) --}}
+                                        <form action="{{ route('efile.verify', $req['id_file']) }}" method="POST">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="btn btn-sm btn-success" title="Verifikasi Final" 
+                                                    onclick="return confirm('Setujui dokumen ini sebagai berkas final?')">
+                                                <i class="fas fa-check-double"></i>
                                             </button>
-                                            <button class="btn btn-sm btn-success" title="Validasi Final">
-                                                <i class="fas fa-check"></i>
-                                            </button>
+                                        </form>
                                         @else
                                             {{-- TOMBOL UPLOAD ADMIN --}}
                                             <button class="btn btn-sm btn-outline-primary fw-bold px-3" 
@@ -187,122 +198,168 @@
                                 </td>
                             </tr>
 
-                            {{-- MODAL UPLOAD ADMIN --}}
-{{-- MODAL UPLOAD ADMIN --}}
-<div class="modal fade" id="modalUploadAdmin{{ $index }}" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-navy text-white">
-                <h5 class="modal-title small fw-bold">Upload Dokumen (Oleh Admin)</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            
-            <form action="{{ route('efile.store', $pegawai->id) }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                {{-- Data Hidden untuk mapping Controller --}}
-                <input type="hidden" name="kategori" value="Lain-lain">
-                <input type="hidden" name="nama_dokumen" value="{{ $req['name'] }}">
-                <input type="hidden" name="keaslian" value="Asli"> {{-- Memberikan nilai default sesuai validasi --}}
 
-                <div class="modal-body text-start">
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold">Jenis Dokumen</label>
-                        <input type="text" class="form-control bg-light" value="{{ $req['name'] }}" readonly>
-                    </div>
+                                {{-- MODAL UPLOAD ADMIN --}}
+                                <div class="modal fade" id="modalUploadAdmin{{ $index }}" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-navy text-white">
+                                                <h5 class="modal-title small fw-bold">Upload Dokumen (Oleh Admin)</h5>
+                                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            
+                                            <form action="{{ route('efile.store', $pegawai->id) }}" method="POST" enctype="multipart/form-data">
+                                                @csrf
+                                                {{-- Data Hidden untuk mapping Controller --}}
+                                                <input type="hidden" name="kategori" value="Lain-lain">
+                                                <input type="hidden" name="nama_dokumen" value="{{ $req['name'] }}">
+                                                <input type="hidden" name="keaslian" value="Asli"> {{-- Memberikan nilai default sesuai validasi --}}
 
-                    {{-- Tambahkan Input Tanggal (Wajib sesuai validasi Controller) --}}
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold">Tanggal Dokumen / SK</label>
-                        <input type="date" name="tanggal_dokumen" class="form-control" required value="{{ date('Y-m-d') }}">
-                    </div>
+                                                <div class="modal-body text-start">
+                                                    <div class="mb-3">
+                                                        <label class="form-label small fw-bold">Jenis Dokumen</label>
+                                                        <input type="text" class="form-control bg-light" value="{{ $req['name'] }}" readonly>
+                                                    </div>
 
-                    {{-- Tambahkan Input Metode (Wajib sesuai validasi Controller) --}}
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold">Metode Unggah</label>
-                        <select name="metode" id="metode{{ $index }}" class="form-select form-select-sm" onchange="toggleMetode({{ $index }})" required>
-                            <option value="file">Unggah Berkas PDF</option>
-                            <option value="link">Gunakan Link URL</option>
-                        </select>
-                    </div>
+                                                    {{-- Tambahkan Input Tanggal (Wajib sesuai validasi Controller) --}}
+                                                    <div class="mb-3">
+                                                        <label class="form-label small fw-bold">Tanggal Dokumen / SK</label>
+                                                        <input type="date" name="tanggal_dokumen" class="form-control" required value="{{ date('Y-m-d') }}">
+                                                    </div>
 
-                    {{-- Opsi 1: Upload File --}}
-                    <div id="div_file{{ $index }}" class="mb-3">
-                        <label class="form-label small fw-bold text-primary">
-                            <i class="fas fa-file-pdf me-1"></i>Pilih File PDF
-                        </label>
-                        <input type="file" class="form-control" name="dokumen" accept=".pdf"> {{-- Name diganti jadi 'dokumen' sesuai Controller --}}
-                        <div class="form-text small italic">Format: PDF (Max 2MB)</div>
-                    </div>
+                                                    {{-- Tambahkan Input Metode (Wajib sesuai validasi Controller) --}}
+                                                    <div class="mb-3">
+                                                        <label class="form-label small fw-bold">Metode Unggah</label>
+                                                        <select name="metode" id="metode{{ $index }}" class="form-select form-select-sm" onchange="toggleMetode({{ $index }})" required>
+                                                            <option value="file">Unggah Berkas PDF</option>
+                                                            <option value="link">Gunakan Link URL</option>
+                                                        </select>
+                                                    </div>
 
-                    {{-- Opsi 2: Input Link --}}
-                    <div id="div_link{{ $index }}" class="mb-3" style="display: none;">
-                        <label class="form-label small fw-bold text-success">
-                            <i class="fas fa-link me-1"></i>Gunakan Link (Google Drive/Cloud)
-                        </label>
-                        <input type="url" class="form-control" name="link_url" placeholder="https://drive.google.com/...">
-                        <div class="form-text small italic text-muted">Pastikan link dapat diakses publik/verifikator.</div>
-                    </div>
-                </div>
+                                                    {{-- Opsi 1: Upload File --}}
+                                                    <div id="div_file{{ $index }}" class="mb-3">
+                                                        <label class="form-label small fw-bold text-primary">
+                                                            <i class="fas fa-file-pdf me-1"></i>Pilih File PDF
+                                                        </label>
+                                                        <input type="file" class="form-control" name="dokumen" accept=".pdf"> {{-- Name diganti jadi 'dokumen' sesuai Controller --}}
+                                                        <div class="form-text small italic">Format: PDF (Max 2MB)</div>
+                                                    </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary btn-sm fw-bold">
-                        <i class="fas fa-save me-1"></i>Simpan Berkas
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+                                                    {{-- Opsi 2: Input Link --}}
+                                                    <div id="div_link{{ $index }}" class="mb-3" style="display: none;">
+                                                        <label class="form-label small fw-bold text-success">
+                                                            <i class="fas fa-link me-1"></i>Gunakan Link (Google Drive/Cloud)
+                                                        </label>
+                                                        <input type="url" class="form-control" name="link_url" placeholder="https://drive.google.com/...">
+                                                        <div class="form-text small italic text-muted">Pastikan link dapat diakses publik/verifikator.</div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
+                                                    <button type="submit" class="btn btn-primary btn-sm fw-bold">
+                                                        <i class="fas fa-save me-1"></i>Simpan Berkas
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{-- MODAL KOMENTAR / REVISI --}}
+                                @if($req['is_uploaded'])
+                                    {{-- Modal ini hanya dibuat JIKA dokumen sudah diupload (ID tidak null) --}}
+                                    <div class="modal fade" id="modalKomen{{ $index }}" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            {{-- Parameter ID sekarang pasti ada --}}
+                                            <form action="{{ route('efile.comment', $req['id_file']) }}" method="POST">
+                                                @csrf
+                                                @method('PATCH')
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title small fw-bold">Beri Catatan Revisi: {{ $req['name'] }}</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                    </div>
+                                                    <div class="modal-body text-start">
+                                                        <label class="form-label small fw-bold">Catatan untuk Dosen</label>
+                                                        {{-- Pastikan name="catatan_verifikator" --}}
+                                                        <textarea name="catatan_verifikator" class="form-control" rows="3" required>{{ $req['catatan_verifikator'] }}</textarea>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-primary btn-sm">Simpan Catatan</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                @endif
                             @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            {{-- SUB-TAB 2: DOKUMEN FINAL --}}
-            <div class="tab-pane fade" id="dokumen-final" role="tabpanel">
-                <div class="table-responsive p-3">
-                    <div class="alert alert-success py-2 small mb-3 border-0 shadow-none">
-                        <i class="fas fa-archive me-2"></i> Daftar dokumen yang sudah divalidasi dan siap untuk proses kompilasi universitas.
-                    </div>
-                    <table class="table table-hover align-middle border">
-                        <thead class="table-dark small">
-                            <tr class="text-center">
-                                <th class="text-start ps-3">Dokumen Terverifikasi</th>
-                                <th style="width: 150px;">Tgl Validasi</th>
-                                <th style="width: 120px;">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @php
-                                $finalDocs = collect($requirements)->where('is_uploaded', true);
-                            @endphp
-                            @forelse($finalDocs as $doc)
-                            <tr class="bg-light-subtle">
-                                <td class="ps-3 fw-bold">
-                                    <i class="fas fa-file-pdf text-danger me-2"></i>{{ $doc['name'] }} (Final)
-                                </td>
-                                <td class="text-center small">{{ now()->isoFormat('D MMM YYYY') }}</td>
-                                <td class="text-center">
-                                    <button class="btn btn-sm btn-outline-danger"><i class="fas fa-undo me-1"></i>Batal</button>
-                                </td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="3" class="text-center py-4 text-muted small italic">Belum ada berkas yang divalidasi final.</td>
-                            </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                    
-                    <div class="mt-4 text-end">
-                        <button class="btn btn-navy fw-bold shadow-sm px-4 rounded-pill" {{ $finalDocs->count() == 0 ? 'disabled' : '' }}>
-                            <i class="fas fa-file-export me-2"></i>Kompilasi Berkas (ZIP/PDF)
-                        </button>
+                {{-- SUB-TAB 2: DOKUMEN FINAL --}}
+                <div class="tab-pane fade" id="dokumen-final" role="tabpanel">
+                    <div class="table-responsive p-3">
+                        <div class="alert alert-success py-2 small mb-3 border-0 shadow-none">
+                            <i class="fas fa-archive me-2"></i> Daftar dokumen yang sudah divalidasi dan siap untuk proses kompilasi universitas.
+                        </div>
+                        <table class="table table-hover align-middle border">
+                            <thead class="table-dark small">
+                                <tr class="text-center">
+                                    <th class="text-start ps-3">Dokumen Terverifikasi</th>
+                                    <th style="width: 150px;">Tgl Validasi</th>
+                                    <th style="width: 120px;">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    // Ambil dokumen dari database yang sudah 'Disetujui' untuk pegawai ini
+                                    $finalDocs = \App\Models\EFile::where('pegawai_id', $pegawai->id)
+                                                ->where('status_verifikasi', 'Disetujui')
+                                                ->get();
+                                @endphp
+
+                                @forelse($finalDocs as $doc)
+                                <tr class="bg-light-subtle">
+                                    <td class="ps-3 fw-bold">
+                                        <i class="fas fa-file-pdf text-danger me-2"></i>{{ $doc->nama_dokumen }}
+                                    </td>
+                                    <td class="text-center small">
+                                        {{ $doc->updated_at->isoFormat('D MMM YYYY') }}
+                                    </td>
+                                    <td class="text-center">
+                                        {{-- Tombol Batal Verifikasi (Mengubah status kembali ke Pending) --}}
+                                        <form action="{{ route('efile.comment', $doc->id) }}" method="POST" onsubmit="return confirm('Batalkan verifikasi dokumen ini?')">
+                                            @csrf
+                                            @method('PATCH')
+                                            <input type="hidden" name="catatan_verifikator" value="Verifikasi dibatalkan oleh admin.">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger" title="Batalkan Verifikasi">
+                                                <i class="fas fa-undo me-1"></i>Batal
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="3" class="text-center py-4 text-muted small italic">Belum ada berkas yang divalidasi final (Disetujui).</td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                        
+                        <div class="mt-4 text-end">
+                            {{-- Form untuk Download ZIP --}}
+                            <form action="{{ route('efile.downloadZip', $pegawai->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-navy fw-bold shadow-sm px-4 rounded-pill" 
+                                    {{ $finalDocs->count() == 0 ? 'disabled' : '' }}>
+                                    <i class="fas fa-file-export me-2"></i>Kompilasi Berkas (ZIP)
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
 </div>

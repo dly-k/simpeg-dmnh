@@ -85,14 +85,16 @@ public function detailAdmin($id)
     $requirements = [];
     foreach ($docTypes as $type) {
         $file = $uploadedFiles->get($type);
-        // Di MonitoringController
         $requirements[] = [
             'name' => $type,
             'is_uploaded' => !!$file,
             'path' => $file ? ($file->is_link ? $file->link_url : $file->file_path) : null,
-            'id_file' => $file ? $file->id : null,
+            'id_file' => $file ? $file->id : null, // ID ini yang digunakan untuk route
             'status' => $file ? 'Tersedia' : 'Kosong',
-            'is_link' => $file ? $file->is_link : false, // Ambil data boolean is_link dari DB
+            'is_link' => $file ? $file->is_link : false,
+            // TAMBAHKAN BARIS DI BAWAH INI
+            'status_verifikasi' => $file ? $file->status_verifikasi : 'Menunggu Verifikasi',
+            'catatan_verifikator' => $file ? $file->catatan_verifikator : null,
         ];
     }
 
@@ -169,19 +171,17 @@ public function indexDosen()
     $requirements = [];
     foreach ($docTypes as $type) {
         $file = $uploadedFiles->get($type);
-$requirements = [];
-foreach ($docTypes as $type) {
-    $file = $uploadedFiles->get($type);
-    $requirements[] = [
-        'name' => $type,
-        'is_uploaded' => !!$file,
-        // Jika is_link true, ambil link_url. Jika false, ambil file_path.
-        'path' => $file ? ($file->is_link ? $file->link_url : $file->file_path) : null,
-        'id_file' => $file ? $file->id : null,
-        'status' => $file ? 'Tersedia' : 'Kosong',
-        'is_link' => $file ? $file->is_link : false, // <--- Baris ini sangat penting
-    ];
-}
+        $requirements[] = [
+            'name' => $type,
+            'is_uploaded' => !!$file,
+            'path' => $file ? ($file->is_link ? $file->link_url : $file->file_path) : null,
+            'id_file' => $file ? $file->id : null, // ID ini yang digunakan untuk route
+            'status' => $file ? 'Tersedia' : 'Kosong',
+            'is_link' => $file ? $file->is_link : false,
+            // TAMBAHKAN BARIS DI BAWAH INI
+            'status_verifikasi' => $file ? $file->status_verifikasi : 'Menunggu Verifikasi',
+            'catatan_verifikator' => $file ? $file->catatan_verifikator : null,
+        ];
     }
 
     // 3. Kirim ke view khusus dosen dengan variabel yang sama seperti detailAdmin

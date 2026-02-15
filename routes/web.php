@@ -80,7 +80,16 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/admin/monitoring/{id}', [MonitoringController::class, 'detailAdmin'])->name('monitoring.admin.detail');
         Route::put('/admin/monitoring/target/{id}', [MonitoringController::class, 'updateTarget'])->name('monitoring.admin.updateTarget');
         Route::put('/admin/monitoring/update-ak/{id}', [MonitoringController::class, 'updateAK'])->name('monitoring.admin.updateAK');
-        Route::post('/admin/monitoring/upload-file', [MonitoringController::class, 'uploadFile'])->name('monitoring.admin.uploadFile');
+        // Route::post('/admin/monitoring/upload-file', [MonitoringController::class, 'uploadFile'])->name('monitoring.admin.uploadFile');
+        // Route khusus verifikasi final (mengubah status ke Disetujui)
+        Route::patch('/efile/{id}/verify', [App\Http\Controllers\EFileController::class, 'verify'])
+            ->name('efile.verify');
+        // Route untuk memberikan catatan/komentar revisi
+        Route::patch('/efile/{id}/comment', [App\Http\Controllers\EFileController::class, 'updateComment'])
+            ->name('efile.comment');
+        Route::post('/pegawai/{id}/efile/download-zip', [App\Http\Controllers\EFileController::class, 'downloadZip'])
+        ->name('efile.downloadZip');
+
 
         // Pegawai
         Route::get('/daftar-pegawai', [PegawaiController::class, 'index'])->name('pegawai.index');

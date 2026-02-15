@@ -12,7 +12,7 @@ class EFile extends Model
 protected $fillable = [
     'pegawai_id', 'kategori_dokumen', 'nama_dokumen', 
     'keaslian_dokumen', 'tanggal_dokumen', 'file_path', 
-    'link_url', 'is_link'
+    'link_url', 'is_link', 'catatan_verifikator', 'status_verifikasi',  
 ];
     public function pegawai()
     {

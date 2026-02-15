@@ -79,20 +79,27 @@
 @foreach($requirements as $index => $req)
 <tr>
     <td>
-        <div class="fw-bold">{{ $req['name'] }}</div>
-        {{-- Tampilkan Catatan Revisi dari Admin jika ada --}}
-        @if($req['is_uploaded'] && isset($req['catatan_verifikator']) && $req['catatan_verifikator'])
-            <div class="text-danger small mt-1">
-                <i class="fas fa-exclamation-circle me-1"></i>Catatan: {{ $req['catatan_verifikator'] }}
+        <div class="fw-bold text-navy">{{ $req['name'] }}</div>
+
+        {{-- Tampilkan Pesan Catatan Admin --}}
+        @if($req['catatan_verifikator'])
+            <div class="alert alert-danger py-2 px-3 mt-2 mb-0 small border-start border-danger border-4">
+                <strong><i class="fas fa-comment-dots"></i> Catatan Admin:</strong><br>
+                {{ $req['catatan_verifikator'] }}
             </div>
         @endif
     </td>
-    <td>
+    <td class="text-center">
         @if($req['is_uploaded'])
-            {{-- Status bisa dinamis jika Anda menambahkan kolom status_verifikasi --}}
-            <span class="badge bg-success">Tersedia</span>
+            @if($req['status_verifikasi'] == 'Perlu Revisi')
+                <span class="badge bg-danger">Perlu Revisi</span>
+            @elseif($req['status_verifikasi'] == 'Disetujui')
+                <span class="badge bg-success">Terverifikasi</span>
+            @else
+                <span class="badge bg-warning text-dark">Menunggu Verifikasi</span>
+            @endif
         @else
-            <span class="badge bg-danger">Kosong</span>
+            <span class="badge bg-secondary">Kosong</span>
         @endif
     </td>
     <td>
