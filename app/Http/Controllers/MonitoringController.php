@@ -11,12 +11,47 @@ class MonitoringController extends Controller
 
 public function indexAdmin()
 {
-    // Mengambil data dosen berdasarkan divisinya masing-masing
-    $perencanaan = Pegawai::where('divisi', 'perencanaan')->get();
-    $kebijakan = Pegawai::where('divisi', 'kebijakan')->get();
-    $pemanenan = Pegawai::where('divisi', 'pemanenan')->get();
+    $divisi = ['perencanaan', 'kebijakan', 'pemanenan'];
+    $data = [];
 
-    return view('pages.monitoring.admin.index', compact('perencanaan', 'kebijakan', 'pemanenan'));
+    foreach ($divisi as $div) {
+        $pegawais = Pegawai::where('divisi', $div)->get();
+
+        foreach ($pegawais as $pegawai) {
+            // Panggil logika syarat dokumen yang sama dengan yang ada di detailAdmin
+            $docTypes = $this->getRequirementsFor($pegawai->jabatan_tujuan);
+            $totalSyarat = count($docTypes);
+
+            // Hitung dokumen milik pegawai ini yang statusnya 'Disetujui'
+            $totalVerified = \App\Models\EFile::where('pegawai_id', $pegawai->id)
+                ->whereIn('nama_dokumen', $docTypes)
+                ->where('status_verifikasi', 'Disetujui')
+                ->count();
+
+            // Simpan hasil perhitungan ke objek pegawai secara temporary
+            $pegawai->total_syarat = $totalSyarat;
+            $pegawai->total_verified = $totalVerified;
+            $pegawai->progres_persen = $totalSyarat > 0 ? ($totalVerified / $totalSyarat) * 100 : 0;
+        }
+        $data[$div] = $pegawais;
+    }
+
+    return view('pages.monitoring.admin.index', [
+        'perencanaan' => $data['perencanaan'],
+        'kebijakan' => $data['kebijakan'],
+        'pemanenan' => $data['pemanenan']
+    ]);
+}
+private function getRequirementsFor($target)
+{
+    $docTypes = ['SK Jabatan Fungsional Terakhir', 'PAK Terakhir', 'Ijazah Pendidikan Terakhir', 'SKP 2 Tahun Terakhir'];
+
+    if (\Illuminate\Support\Str::contains($target, 'Lektor Kepala', true)) {
+        $docTypes = array_merge($docTypes, ['Bukti Publikasi Jurnal Nasional Terakreditasi', 'Surat Pernyataan Keabsahan Karya Ilmiah', 'Lembar Hasil Penilaian Peer Review']);
+    } elseif (\Illuminate\Support\Str::contains($target, 'Guru Besar', true)) {
+        $docTypes = array_merge($docTypes, ['Bukti Publikasi Jurnal Internasional Bereputasi', 'Ijazah Doktor (S3)', 'Surat Pernyataan Pemenuhan Persyaratan Khusus', 'Lembar Hasil Penilaian Peer Review (GB)']);
+    }
+    return $docTypes;
 }
 
 public function updateTarget(Request $request, $id)

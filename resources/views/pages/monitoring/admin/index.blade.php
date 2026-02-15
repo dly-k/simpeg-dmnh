@@ -48,17 +48,18 @@
                 <div class="tab-content mt-4" id="divisiTabContent">
                     {{-- TAB PERENCANAAN --}}
                     <div class="tab-pane fade show active" id="perencanaan" role="tabpanel">
-                        @include('pages.monitoring.admin._table_content', ['data' => $perencanaan])
+                        {{-- SESUAIKAN: Kirim variabel dengan nama 'pegawais' --}}
+                        @include('pages.monitoring.admin._table_content', ['pegawais' => $perencanaan])
                     </div>
 
                     {{-- TAB KEBIJAKAN --}}
                     <div class="tab-pane fade" id="kebijakan" role="tabpanel">
-                        @include('pages.monitoring.admin._table_content', ['data' => $kebijakan])
+                        @include('pages.monitoring.admin._table_content', ['pegawais' => $kebijakan])
                     </div>
 
                     {{-- TAB PEMANENAN --}}
                     <div class="tab-pane fade" id="pemanenan" role="tabpanel">
-                        @include('pages.monitoring.admin._table_content', ['data' => $pemanenan])
+                        @include('pages.monitoring.admin._table_content', ['pegawais' => $pemanenan])
                     </div>
                 </div>
             </div>
@@ -66,6 +67,7 @@
 
         @include('layouts.footer')
     </div>
+</div>
 
 {{-- SCRIPT --}}
 <script src="{{ asset('assets/js/layout.js') }}"></script>
