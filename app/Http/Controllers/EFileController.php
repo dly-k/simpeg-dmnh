@@ -53,6 +53,8 @@ public function store(Request $request, $id)
             'file_path' => !$isLink ? $path : null,
             'link_url' => $isLink ? $path : null,
             'is_link' => $isLink,
+            'status_verifikasi' => 'Menunggu Verifikasi', // Status balik jadi kuning
+            'catatan_verifikator' => null,                // Hapus pesan error/revisi lama
         ]
     );
 
