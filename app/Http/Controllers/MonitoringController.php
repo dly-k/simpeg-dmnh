@@ -85,13 +85,14 @@ public function detailAdmin($id)
     $requirements = [];
     foreach ($docTypes as $type) {
         $file = $uploadedFiles->get($type);
+        // Di MonitoringController
         $requirements[] = [
             'name' => $type,
             'is_uploaded' => !!$file,
-            'path' => $file ? $file->file_path : null,
+            'path' => $file ? ($file->is_link ? $file->link_url : $file->file_path) : null,
             'id_file' => $file ? $file->id : null,
             'status' => $file ? 'Tersedia' : 'Kosong',
-            'is_link' => $file ? $file->is_link : false 
+            'is_link' => $file ? $file->is_link : false, // Ambil data boolean is_link dari DB
         ];
     }
 
@@ -168,14 +169,19 @@ public function indexDosen()
     $requirements = [];
     foreach ($docTypes as $type) {
         $file = $uploadedFiles->get($type);
-        $requirements[] = [
-            'name' => $type,
-            'is_uploaded' => !!$file,
-            'path' => $file ? $file->file_path : null,
-            'id_file' => $file ? $file->id : null,
-            'status' => $file ? 'Tersedia' : 'Kosong',
-            'is_link' => $file ? $file->is_link : false 
-        ];
+$requirements = [];
+foreach ($docTypes as $type) {
+    $file = $uploadedFiles->get($type);
+    $requirements[] = [
+        'name' => $type,
+        'is_uploaded' => !!$file,
+        // Jika is_link true, ambil link_url. Jika false, ambil file_path.
+        'path' => $file ? ($file->is_link ? $file->link_url : $file->file_path) : null,
+        'id_file' => $file ? $file->id : null,
+        'status' => $file ? 'Tersedia' : 'Kosong',
+        'is_link' => $file ? $file->is_link : false, // <--- Baris ini sangat penting
+    ];
+}
     }
 
     // 3. Kirim ke view khusus dosen dengan variabel yang sama seperti detailAdmin

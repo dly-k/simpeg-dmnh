@@ -25,14 +25,16 @@ public function store(Request $request, $id)
     $path = null;
     $isLink = false;
 
-    // Logika berdasarkan metode
     if ($request->metode === 'file') {
         if ($request->hasFile('dokumen')) {
             $path = $request->file('dokumen')->store('uploads/efile', 'public');
-            $isLink = false;
         }
     } elseif ($request->metode === 'link') {
         $path = $request->link_url;
+        // Pastikan link memiliki http atau https agar tidak dianggap path lokal
+        if (!preg_match("~^(?:f|ht)tps?://~i", $path)) {
+            $path = "https://" . $path;
+        }
         $isLink = true;
     }
 

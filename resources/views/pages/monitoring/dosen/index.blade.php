@@ -96,30 +96,31 @@
         @endif
     </td>
     <td>
-        <div class="d-flex gap-2">
-            @if($req['is_uploaded'])
-                {{-- Tombol Lihat --}}
-                <a href="{{ $req['is_link'] ? $req['path'] : asset('storage/'.$req['path']) }}" 
-                   target="_blank" class="btn btn-sm btn-info text-white" title="Lihat Berkas">
-                    <i class="fas fa-eye"></i>
-                </a>
-                
-                {{-- TOMBOL UNGGAH LAGI (REVISI) --}}
-                <button class="btn btn-sm btn-warning text-dark fw-bold" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#modalUpload{{ $index }}" 
-                        title="Ganti/Revisi Berkas">
-                    <i class="fas fa-sync-alt"></i> Ganti
-                </button>
-            @else
-                {{-- Tombol Unggah Pertama Kali --}}
-                <button class="btn btn-sm btn-primary fw-bold" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#modalUpload{{ $index }}">
-                    <i class="fas fa-upload"></i> Unggah
-                </button>
-            @endif
-        </div>
+<div class="d-flex gap-2">
+    @if($req['is_uploaded'])
+        {{-- Logika Penanganan Link vs File Storage --}}
+        <a href="{{ $req['is_link'] ? $req['path'] : asset('storage/'.$req['path']) }}" 
+           target="_blank" 
+           class="btn btn-sm btn-info text-white" 
+           title="Lihat Berkas">
+            <i class="fas fa-eye"></i> Lihat
+        </a>
+        
+        <button class="btn btn-sm btn-warning text-dark fw-bold" 
+                data-bs-toggle="modal" 
+                data-bs-target="#modalUpload{{ $index }}" 
+                title="Ganti/Revisi Berkas">
+            <i class="fas fa-sync-alt"></i> Ganti
+        </button>
+    @else
+        {{-- Tombol jika masih kosong --}}
+        <button class="btn btn-sm btn-primary fw-bold" 
+                data-bs-toggle="modal" 
+                data-bs-target="#modalUpload{{ $index }}">
+            <i class="fas fa-upload"></i> Unggah
+        </button>
+    @endif
+</div>
     </td>
 </tr>
 
