@@ -188,60 +188,72 @@
                             </tr>
 
                             {{-- MODAL UPLOAD ADMIN --}}
-                            <div class="modal fade" id="modalUploadAdmin{{ $index }}" tabindex="-1" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header bg-navy text-white">
-                                            <h5 class="modal-title small fw-bold">Upload Dokumen (Oleh Admin)</h5>
-                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        {{-- Pastikan route ini mengirim parameter ID pegawai --}}
-                                        <form action="{{ route('efile.store', $pegawai->id) }}" method="POST" enctype="multipart/form-data">
-                                            @csrf
-                                            <input type="hidden" name="pegawai_id" value="{{ $pegawai->id }}">
-                                            <input type="hidden" name="kategori_dokumen" value="Lain-lain">
-                                            <input type="hidden" name="nama_dokumen" value="{{ $req['name'] }}">
-                                            
-                                            <div class="modal-body text-start">
-                                                <div class="mb-3">
-                                                    <label class="form-label small fw-bold">Jenis Dokumen</label>
-                                                    <input type="text" class="form-control bg-light" value="{{ $req['name'] }}" readonly>
-                                                </div>
+{{-- MODAL UPLOAD ADMIN --}}
+<div class="modal fade" id="modalUploadAdmin{{ $index }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-navy text-white">
+                <h5 class="modal-title small fw-bold">Upload Dokumen (Oleh Admin)</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            <form action="{{ route('efile.store', $pegawai->id) }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                {{-- Data Hidden untuk mapping Controller --}}
+                <input type="hidden" name="kategori" value="Lain-lain">
+                <input type="hidden" name="nama_dokumen" value="{{ $req['name'] }}">
+                <input type="hidden" name="keaslian" value="Asli"> {{-- Memberikan nilai default sesuai validasi --}}
 
-                                                {{-- Opsi 1: Upload File --}}
-                                                <div class="mb-3">
-                                                    <label class="form-label small fw-bold text-primary">
-                                                        <i class="fas fa-file-pdf me-1"></i>Pilih File PDF
-                                                    </label>
-                                                    <input type="file" class="form-control" name="file_path" accept=".pdf">
-                                                    <div class="form-text small italic">Format: PDF (Max 2MB)</div>
-                                                </div>
+                <div class="modal-body text-start">
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Jenis Dokumen</label>
+                        <input type="text" class="form-control bg-light" value="{{ $req['name'] }}" readonly>
+                    </div>
 
-                                                <div class="divider d-flex align-items-center my-3">
-                                                    <hr class="flex-grow-1">
-                                                    <span class="mx-2 small text-muted fw-bold">ATAU</span>
-                                                    <hr class="flex-grow-1">
-                                                </div>
+                    {{-- Tambahkan Input Tanggal (Wajib sesuai validasi Controller) --}}
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Tanggal Dokumen / SK</label>
+                        <input type="date" name="tanggal_dokumen" class="form-control" required value="{{ date('Y-m-d') }}">
+                    </div>
 
-                                                {{-- Opsi 2: Input Link --}}
-                                                <div class="mb-3">
-                                                    <label class="form-label small fw-bold text-success">
-                                                        <i class="fas fa-link me-1"></i>Gunakan Link (Google Drive/Cloud)
-                                                    </label>
-                                                    <input type="url" class="form-control" name="link_url" placeholder="https://drive.google.com/...">
-                                                    <div class="form-text small italic text-muted">Pastikan link dapat diakses publik/verifikator.</div>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
-                                                <button type="submit" class="btn btn-primary btn-sm fw-bold">
-                                                    <i class="fas fa-save me-1"></i>Simpan Berkas
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
+                    {{-- Tambahkan Input Metode (Wajib sesuai validasi Controller) --}}
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Metode Unggah</label>
+                        <select name="metode" id="metode{{ $index }}" class="form-select form-select-sm" onchange="toggleMetode({{ $index }})" required>
+                            <option value="file">Unggah Berkas PDF</option>
+                            <option value="link">Gunakan Link URL</option>
+                        </select>
+                    </div>
+
+                    {{-- Opsi 1: Upload File --}}
+                    <div id="div_file{{ $index }}" class="mb-3">
+                        <label class="form-label small fw-bold text-primary">
+                            <i class="fas fa-file-pdf me-1"></i>Pilih File PDF
+                        </label>
+                        <input type="file" class="form-control" name="dokumen" accept=".pdf"> {{-- Name diganti jadi 'dokumen' sesuai Controller --}}
+                        <div class="form-text small italic">Format: PDF (Max 2MB)</div>
+                    </div>
+
+                    {{-- Opsi 2: Input Link --}}
+                    <div id="div_link{{ $index }}" class="mb-3" style="display: none;">
+                        <label class="form-label small fw-bold text-success">
+                            <i class="fas fa-link me-1"></i>Gunakan Link (Google Drive/Cloud)
+                        </label>
+                        <input type="url" class="form-control" name="link_url" placeholder="https://drive.google.com/...">
+                        <div class="form-text small italic text-muted">Pastikan link dapat diakses publik/verifikator.</div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary btn-sm fw-bold">
+                        <i class="fas fa-save me-1"></i>Simpan Berkas
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
                             @endforeach
                         </tbody>
                     </table>
@@ -304,6 +316,22 @@
 <script src="{{ asset('assets/js/layout.js') }}"></script>
 <script src="{{ asset('assets/js/daftar-pegawai.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+function toggleMetode(index) {
+    const metode = document.getElementById('metode' + index).value;
+    const divFile = document.getElementById('div_file' + index);
+    const divLink = document.getElementById('div_link' + index);
+
+    if (metode === 'file') {
+        divFile.style.display = 'block';
+        divLink.style.display = 'none';
+    } else {
+        divFile.style.display = 'none';
+        divLink.style.display = 'block';
+    }
+}
+</script>
 
 <style>
     .bg-success-subtle { background-color: #e8f5e9; }

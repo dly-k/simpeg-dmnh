@@ -9,35 +9,50 @@ use Illuminate\Support\Facades\Storage;
 
 class EFileController extends Controller
 {
-    public function store(Request $request, $id)
+public function store(Request $request, $id)
 {
+    // Validasi - sesuaikan dengan nama field di form
     $request->validate([
-        'kategori' => 'required',
-        'nama_dokumen' => 'required',
-        'keaslian' => 'required',
+        'kategori' => 'required|string',           // ubah dari kategori_dokumen
+        'nama_dokumen' => 'required|string',
+        'keaslian' => 'required|string',           // ubah dari keaslian_dokumen
         'tanggal_dokumen' => 'required|date',
-        'metode' => 'required|in:file,link',
-        'dokumen' => 'required_if:metode,file|nullable|file|max:5120',
+        'metode' => 'required|in:file,link',       // tambahkan kembali field metode
+        'dokumen' => 'required_if:metode,file|nullable|file|mimes:pdf|max:2048', // kembalikan ke 'dokumen'
         'link_url' => 'required_if:metode,link|nullable|url',
     ]);
 
-    $efile = new \App\Models\EFile();
-    $efile->pegawai_id = $id;
-    $efile->kategori_dokumen = $request->kategori;
-    $efile->nama_dokumen = $request->nama_dokumen;
-    $efile->keaslian_dokumen = $request->keaslian;
-    $efile->tanggal_dokumen = $request->tanggal_dokumen;
+    $path = null;
+    $isLink = false;
 
+    // Logika berdasarkan metode
     if ($request->metode === 'file') {
-        $efile->file_path = $request->file('dokumen')->store('efiles', 'public');
-        $efile->is_link = false;
-    } else {
-        $efile->link_url = $request->link_url;
-        $efile->is_link = true;
+        if ($request->hasFile('dokumen')) {
+            $path = $request->file('dokumen')->store('uploads/efile', 'public');
+            $isLink = false;
+        }
+    } elseif ($request->metode === 'link') {
+        $path = $request->link_url;
+        $isLink = true;
     }
 
-    $efile->save();
-    return back()->with('success', 'Berhasil menambahkan ' . ($efile->is_link ? 'tautan' : 'dokumen'));
+    // Simpan data
+    \App\Models\EFile::updateOrCreate(
+        [
+            'pegawai_id' => $id,
+            'nama_dokumen' => $request->nama_dokumen,
+        ],
+        [
+            'kategori_dokumen' => $request->kategori,     // mapping dari 'kategori'
+            'keaslian_dokumen' => $request->keaslian,     // mapping dari 'keaslian'
+            'tanggal_dokumen' => $request->tanggal_dokumen,
+            'file_path' => !$isLink ? $path : null,
+            'link_url' => $isLink ? $path : null,
+            'is_link' => $isLink,
+        ]
+    );
+
+    return back()->with('success', 'Dokumen ' . $request->nama_dokumen . ' berhasil disimpan.');
 }
 
     public function destroy(EFile $efile)

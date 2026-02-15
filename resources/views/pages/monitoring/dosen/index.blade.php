@@ -76,44 +76,119 @@
                                     </tr>
                                 </thead>
                                <tbody>
-    @foreach($requirements as $index => $req)
-    <tr>
-        <td class="ps-3">
-            <div class="fw-bold small">{{ $req['name'] }}</div>
-            {{-- Sesuaikan pengecekan catatan jika Anda memiliki kolom 'note' di database --}}
-            @if(isset($req['note']) && $req['note'])
-            <div class="text-danger small" style="font-size: 0.75rem;">
-                <i class="fas fa-exclamation-circle me-1"></i>Catatan: {{ $req['note'] }}
+@foreach($requirements as $index => $req)
+<tr>
+    <td>
+        <div class="fw-bold">{{ $req['name'] }}</div>
+        {{-- Tampilkan Catatan Revisi dari Admin jika ada --}}
+        @if($req['is_uploaded'] && isset($req['catatan_verifikator']) && $req['catatan_verifikator'])
+            <div class="text-danger small mt-1">
+                <i class="fas fa-exclamation-circle me-1"></i>Catatan: {{ $req['catatan_verifikator'] }}
             </div>
-            @endif
-        </td>
-        <td class="text-center">
+        @endif
+    </td>
+    <td>
+        @if($req['is_uploaded'])
+            {{-- Status bisa dinamis jika Anda menambahkan kolom status_verifikasi --}}
+            <span class="badge bg-success">Tersedia</span>
+        @else
+            <span class="badge bg-danger">Kosong</span>
+        @endif
+    </td>
+    <td>
+        <div class="d-flex gap-2">
             @if($req['is_uploaded'])
-                <span class="badge rounded-pill bg-light-success text-success border border-success px-3">
-                    <i class="fas fa-check-circle me-1"></i>Tersedia
-                </span>
+                {{-- Tombol Lihat --}}
+                <a href="{{ $req['is_link'] ? $req['path'] : asset('storage/'.$req['path']) }}" 
+                   target="_blank" class="btn btn-sm btn-info text-white" title="Lihat Berkas">
+                    <i class="fas fa-eye"></i>
+                </a>
+                
+                {{-- TOMBOL UNGGAH LAGI (REVISI) --}}
+                <button class="btn btn-sm btn-warning text-dark fw-bold" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#modalUpload{{ $index }}" 
+                        title="Ganti/Revisi Berkas">
+                    <i class="fas fa-sync-alt"></i> Ganti
+                </button>
             @else
-                <span class="badge rounded-pill bg-light-danger text-danger border border-danger px-3">
-                    <i class="fas fa-times-circle me-1"></i>Kosong
-                </span>
+                {{-- Tombol Unggah Pertama Kali --}}
+                <button class="btn btn-sm btn-primary fw-bold" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#modalUpload{{ $index }}">
+                    <i class="fas fa-upload"></i> Unggah
+                </button>
             @endif
-        </td>
-        <td class="text-center">
-            <div class="d-flex gap-1 justify-content-center">
-                @if($req['is_uploaded'])
-                    {{-- Pratinjau Berkas --}}
-                    <a href="{{ $req['is_link'] ? $req['path'] : asset('storage/'.$req['path']) }}" 
-                       target="_blank" class="btn btn-sm btn-info text-white" title="Lihat Dokumen">
-                        <i class="fas fa-eye"></i>
-                    </a>
-                @else
-                    {{-- Info jika kosong --}}
-                    <span class="text-muted small italic text-center">Menunggu Admin</span>
-                @endif
+        </div>
+    </td>
+</tr>
+
+{{-- MODAL UPLOAD (Digunakan untuk Unggah Baru maupun Ganti) --}}
+<div class="modal fade" id="modalUpload{{ $index }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <form action="{{ route('efile.store', $pegawai->id) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            {{-- Mapping field agar sesuai dengan Controller Store EFile Anda --}}
+            <input type="hidden" name="nama_dokumen" value="{{ $req['name'] }}">
+            <input type="hidden" name="kategori" value="Lain-lain">
+            <input type="hidden" name="metode" id="metode_val{{ $index }}" value="file"> {{-- Default metode file --}}
+
+            <div class="modal-content">
+                <div class="modal-header {{ $req['is_uploaded'] ? 'bg-warning' : 'bg-primary' }} text-white">
+                    <h5 class="modal-title">
+                        <i class="fas fa-file-upload me-2"></i>
+                        {{ $req['is_uploaded'] ? 'Ganti/Revisi Berkas' : 'Unggah Berkas' }}
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-info py-2 small">
+                        <i class="fas fa-info-circle me-1"></i> 
+                        Dokumen: <strong>{{ $req['name'] }}</strong>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Tanggal Dokumen</label>
+                        <input type="date" name="tanggal_dokumen" class="form-control" required value="{{ date('Y-m-d') }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Keaslian</label>
+                        <select name="keaslian" class="form-select" required>
+                            <option value="Asli">Asli (Scan Warna)</option>
+                            <option value="Fotokopi">Fotokopi Legalisir</option>
+                        </select>
+                    </div>
+
+                    {{-- Pilihan Metode --}}
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Metode Unggah</label>
+                        <select class="form-select" onchange="document.getElementById('metode_val{{ $index }}').value = this.value; toggleDosenMetode(this.value, {{ $index }})">
+                            <option value="file">Unggah Berkas PDF</option>
+                            <option value="link">Gunakan Link URL</option>
+                        </select>
+                    </div>
+
+                    <div id="div_dosen_file{{ $index }}">
+                        <label class="form-label small fw-bold text-primary">Pilih File PDF (Max 2MB)</label>
+                        <input type="file" name="dokumen" class="form-control" accept=".pdf">
+                    </div>
+
+                    <div id="div_dosen_link{{ $index }}" style="display: none;">
+                        <label class="form-label small fw-bold text-success">Link Cloud (G-Drive/OneDrive)</label>
+                        <input type="url" name="link_url" class="form-control" placeholder="https://...">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn {{ $req['is_uploaded'] ? 'btn-warning' : 'btn-primary' }} w-100 fw-bold">
+                        {{ $req['is_uploaded'] ? 'Update & Simpan Perubahan' : 'Simpan Dokumen' }}
+                    </button>
+                </div>
             </div>
-        </td>
-    </tr>
-    @endforeach
+        </form>
+    </div>
+</div>
+@endforeach
 </tbody>
                             </table>
                         </div>
@@ -128,6 +203,20 @@
 
 <script src="{{ asset('assets/js/layout.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+function toggleDosenMetode(val, index) {
+    const dFile = document.getElementById('div_dosen_file' + index);
+    const dLink = document.getElementById('div_dosen_link' + index);
+    if(val === 'file') {
+        dFile.style.display = 'block';
+        dLink.style.display = 'none';
+    } else {
+        dFile.style.display = 'none';
+        dLink.style.display = 'block';
+    }
+}
+</script>
 
 <style>
     .text-navy { color: #001f3f; }

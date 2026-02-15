@@ -68,6 +68,10 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/master-data/{user}', [UserController::class, 'destroy'])->name('master-data.destroy');
     });
 
+    // penyesuaian efile
+    Route::post('/pegawai/{id}/efile', [App\Http\Controllers\EFileController::class, 'store'])->name('efile.store');
+    Route::get('/dosen/monitoring', [MonitoringController::class, 'indexDosen'])->name('monitoring.dosen.index');
+
     // ================== TIDAK BISA DIAKSES OLEH ROLE: tata_usaha ==================
     Route::middleware(['role:admin,admin_verifikator'])->group(function () {
 
@@ -76,6 +80,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/admin/monitoring/{id}', [MonitoringController::class, 'detailAdmin'])->name('monitoring.admin.detail');
         Route::put('/admin/monitoring/target/{id}', [MonitoringController::class, 'updateTarget'])->name('monitoring.admin.updateTarget');
         Route::put('/admin/monitoring/update-ak/{id}', [MonitoringController::class, 'updateAK'])->name('monitoring.admin.updateAK');
+        Route::post('/admin/monitoring/upload-file', [MonitoringController::class, 'uploadFile'])->name('monitoring.admin.uploadFile');
 
         // Pegawai
         Route::get('/daftar-pegawai', [PegawaiController::class, 'index'])->name('pegawai.index');
@@ -88,7 +93,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/daftar-pegawai/export', [PegawaiController::class, 'export'])->name('pegawai.export');
 
         // E-File dan Relasi Pegawai Lainnya
-        Route::post('/pegawai/{id}/efile', [App\Http\Controllers\EFileController::class, 'store'])->name('efile.store');
         Route::delete('/efile/{efile}', [EFileController::class, 'destroy'])->name('efile.destroy');
 
         // SK Pegawai
