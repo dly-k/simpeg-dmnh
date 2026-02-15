@@ -21,11 +21,15 @@ use App\Models\PengujiLuar;
 use App\Models\PenulisPenelitian;
 use App\Models\PengabdianAnggota;
 use App\Models\PenunjangAnggota;
+use App\Models\User;
 
 class DashboardController extends Controller
 {
     public function index()
     {
+        if (auth()->user()->role === 'dosen') {
+        return redirect()->route('monitoring.dosen.index');
+    }
         // --- STAT CARD COUNTS ---
         $totalPegawai = Pegawai::count();
         $totalPenelitian = Penelitian::count();
