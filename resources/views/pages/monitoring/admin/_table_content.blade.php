@@ -1,11 +1,3 @@
-{{-- Fitur Cari --}}
-<div class="search-group mb-4">
-    <div class="input-group bg-white shadow-sm" style="max-width: 400px; border-radius: 8px; overflow: hidden;">
-        <span class="input-group-text bg-light border-0"><i class="fas fa-search"></i></span>
-        <input type="text" class="form-control border-0" placeholder="Cari Nama atau NIP..." />
-    </div>
-</div>
-
 <div class="table-responsive">
     <table class="table table-hover table-bordered align-middle text-center">
         <thead class="table-light small fw-bold">

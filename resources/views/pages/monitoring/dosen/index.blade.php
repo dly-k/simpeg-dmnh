@@ -105,7 +105,7 @@
     <td>
 <div class="d-flex gap-2">
     @if($req['is_uploaded'])
-        {{-- Logika Penanganan Link vs File Storage --}}
+        {{-- Tombol LIHAT selalu muncul --}}
         <a href="{{ $req['is_link'] ? $req['path'] : asset('storage/'.$req['path']) }}" 
            target="_blank" 
            class="btn btn-sm btn-info text-white" 
@@ -113,12 +113,21 @@
             <i class="fas fa-eye"></i> Lihat
         </a>
         
-        <button class="btn btn-sm btn-warning text-dark fw-bold" 
-                data-bs-toggle="modal" 
-                data-bs-target="#modalUpload{{ $index }}" 
-                title="Ganti/Revisi Berkas">
-            <i class="fas fa-sync-alt"></i> Ganti
-        </button>
+        {{-- Logika: Sembunyikan tombol GANTI jika sudah 'Disetujui' --}}
+        @if($req['status_verifikasi'] !== 'Disetujui')
+            <button class="btn btn-sm btn-warning text-dark fw-bold" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#modalUpload{{ $index }}" 
+                    title="Ganti/Revisi Berkas">
+                <i class="fas fa-sync-alt"></i> Ganti
+            </button>
+        @else
+            {{-- Opsional: Tampilkan ikon kunci untuk memberi info bahwa berkas terkunci --}}
+            <span class="btn btn-sm btn-light disabled text-muted">
+                <i class="fas fa-lock"></i> Terkunci
+            </span>
+        @endif
+
     @else
         {{-- Tombol jika masih kosong --}}
         <button class="btn btn-sm btn-primary fw-bold" 

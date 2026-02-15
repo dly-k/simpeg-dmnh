@@ -166,28 +166,29 @@
                                 <td class="text-center">
                                     <div class="d-flex gap-1 justify-content-center">
                                         @if($req['is_uploaded'])
-                                            {{-- Pratinjau Berkas (Handle Link atau File Storage) --}}
+                                            {{-- Tombol LIHAT selalu muncul untuk mengecek berkas --}}
                                             <a href="{{ ($req['is_link'] ?? false) ? $req['path'] : asset('storage/'.$req['path']) }}" 
-                                               target="_blank" class="btn btn-sm btn-info text-white" title="Pratinjau Berkas">
+                                            target="_blank" class="btn btn-sm btn-info text-white" title="Pratinjau Berkas">
                                                 <i class="fas fa-eye"></i>
                                             </a>
-                                        {{-- 2. Tombol Komen (Modal Revisi) --}}
-                                        <button class="btn btn-sm btn-warning text-dark" data-bs-toggle="modal" 
-                                                data-bs-target="#modalKomen{{ $index }}" title="Beri Catatan">
-                                            <i class="fas fa-comment-dots"></i>
-                                        </button>
 
-                                        {{-- 3. Tombol Verifikasi Final (Status Disetujui) --}}
-                                        <form action="{{ route('efile.verify', $req['id_file']) }}" method="POST">
-                                            @csrf
-                                            @method('PATCH')
-                                            <button type="submit" class="btn btn-sm btn-success" title="Verifikasi Final" 
-                                                    onclick="return confirm('Setujui dokumen ini sebagai berkas final?')">
-                                                <i class="fas fa-check-double"></i>
-                                            </button>
-                                        </form>
+                                            {{-- Logika: Sembunyikan Tombol Komen & Verif jika sudah 'Disetujui' --}}
+                                            @if($req['status_verifikasi'] !== 'Disetujui')
+                                                {{-- Tombol Komen --}}
+                                                <button class="btn btn-sm btn-warning text-dark" data-bs-toggle="modal" 
+                                                        data-bs-target="#modalKomen{{ $index }}" title="Beri Catatan">
+                                                    <i class="fas fa-comment-dots"></i>
+                                                </button>
+
+                                                {{-- Tombol Verifikasi (Memicu Modal Konfirmasi) --}}
+                                                <button type="button" class="btn btn-sm btn-success" title="Verifikasi Final" 
+                                                        onclick="openVerifModal('{{ route('efile.verify', $req['id_file']) }}', {{ $index }})">
+                                                    <i class="fas fa-check-double"></i>
+                                                </button>
+                                            @endif
+
                                         @else
-                                            {{-- TOMBOL UPLOAD ADMIN --}}
+                                            {{-- Tombol Upload Admin jika berkas kosong --}}
                                             <button class="btn btn-sm btn-outline-primary fw-bold px-3" 
                                                     data-bs-toggle="modal" 
                                                     data-bs-target="#modalUploadAdmin{{ $index }}">
@@ -298,18 +299,19 @@
                 </div>
             </div>
 
-                {{-- SUB-TAB 2: DOKUMEN FINAL --}}
                 <div class="tab-pane fade" id="dokumen-final" role="tabpanel">
                     <div class="table-responsive p-3">
-                        <div class="alert alert-success py-2 small mb-3 border-0 shadow-none">
+                        <div class="alert alert-success py-2 small mb-3 border-0 shadow-none" style="background-color: #e8f5e9; color: #2e7d32;">
                             <i class="fas fa-archive me-2"></i> Daftar dokumen yang sudah divalidasi dan siap untuk proses kompilasi universitas.
                         </div>
+                        
                         <table class="table table-hover align-middle border">
-                            <thead class="table-dark small">
-                                <tr class="text-center">
-                                    <th class="text-start ps-3">Dokumen Terverifikasi</th>
-                                    <th style="width: 150px;">Tgl Validasi</th>
-                                    <th style="width: 120px;">Aksi</th>
+                            {{-- Perubahan Warna Header ke Navy --}}
+                            <thead style="background-color: #001f3f; color: white;" class="small text-center">
+                                <tr>
+                                    <th class="text-start ps-3 fw-semibold">Dokumen Terverifikasi</th>
+                                    <th style="width: 150px;" class="fw-semibold">Tgl Validasi</th>
+                                    <th style="width: 120px;" class="fw-semibold">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -322,34 +324,37 @@
 
                                 @forelse($finalDocs as $doc)
                                 <tr class="bg-light-subtle">
-                                    <td class="ps-3 fw-bold">
-                                        <i class="fas fa-file-pdf text-danger me-2"></i>{{ $doc->nama_dokumen }}
+                                    <td class="ps-3">
+                                        <div class="fw-bold text-navy">
+                                            <i class="fas fa-check-circle text-success me-2"></i>{{ $doc->nama_dokumen }}
+                                        </div>
+                                        <small class="text-muted" style="font-size: 0.75rem;">Status: Terverifikasi Final</small>
                                     </td>
-                                    <td class="text-center small">
+                                    <td class="text-center small text-secondary">
                                         {{ $doc->updated_at->isoFormat('D MMM YYYY') }}
                                     </td>
                                     <td class="text-center">
-                                        {{-- Tombol Batal Verifikasi (Mengubah status kembali ke Pending) --}}
-                                        <form action="{{ route('efile.comment', $doc->id) }}" method="POST" onsubmit="return confirm('Batalkan verifikasi dokumen ini?')">
-                                            @csrf
-                                            @method('PATCH')
-                                            <input type="hidden" name="catatan_verifikator" value="Verifikasi dibatalkan oleh admin.">
-                                            <button type="submit" class="btn btn-sm btn-outline-danger" title="Batalkan Verifikasi">
-                                                <i class="fas fa-undo me-1"></i>Batal
-                                            </button>
-                                        </form>
+                                        {{-- Tombol Batal Verifikasi memicu Modal Konfirmasi Smooth --}}
+                                        <button type="button" class="btn btn-sm btn-outline-danger border-0" 
+                                                onclick="openBatalModal('{{ route('efile.comment', $doc->id) }}')" 
+                                                title="Batalkan Verifikasi">
+                                            <i class="fas fa-undo-alt me-1"></i> Batal
+                                        </button>
                                     </td>
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="3" class="text-center py-4 text-muted small italic">Belum ada berkas yang divalidasi final (Disetujui).</td>
+                                    <td colspan="3" class="text-center py-5 text-muted small italic">
+                                        <i class="fas fa-folder-open d-block mb-2" style="font-size: 2rem; opacity: 0.3;"></i>
+                                        Belum ada berkas yang divalidasi final (Disetujui).
+                                    </td>
                                 </tr>
                                 @endforelse
                             </tbody>
                         </table>
-                        
+
+                        {{-- Tombol Kompilasi --}}
                         <div class="mt-4 text-end">
-                            {{-- Form untuk Download ZIP --}}
                             <form action="{{ route('efile.downloadZip', $pegawai->id) }}" method="POST">
                                 @csrf
                                 <button type="submit" class="btn btn-navy fw-bold shadow-sm px-4 rounded-pill" 
@@ -368,6 +373,49 @@
 
         @include('layouts.footer')
     </div>
+
+    <div id="modalKonfirmasiVerifikasi" class="custom-modal-overlay" style="display: none;">
+        <div class="custom-modal-box">
+            <div class="custom-modal-icon">
+                <i class="fas fa-file-signature"></i>
+            </div>
+            <div class="custom-modal-content">
+                <h5 class="modal-title-text text-navy">Konfirmasi Validasi</h5>
+                <p class="modal-subtitle-text">Apakah berkas ini sudah diperiksa dan layak disetujui sebagai dokumen final?</p>
+            </div>
+            <div class="custom-modal-actions">
+                <button class="btn-custom-modal btn-modal-accept" id="btnTerimaVerif">
+                    <i class="fas fa-check-circle me-1"></i> Setujui
+                </button>
+                <button class="btn-custom-modal btn-modal-reject" id="btnTolakVerif">
+                    <i class="fas fa-times-circle me-1"></i> Beri Catatan
+                </button>
+                <button class="btn-custom-modal btn-modal-cancel" onclick="closeAllModals()">
+                    Batal
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalKonfirmasiBatal" class="custom-modal-overlay" style="display: none;">
+        <div class="custom-modal-box border-top border-danger border-4">
+            <div class="custom-modal-icon bg-danger-subtle text-danger">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="custom-modal-content">
+                <h5 class="modal-title-text text-danger">Batalkan Verifikasi</h5>
+                <p class="modal-subtitle-text">Yakin ingin membatalkan verifikasi ini? Berkas akan dikembalikan ke daftar review untuk diperbaiki dosen.</p>
+            </div>
+            <div class="custom-modal-actions" style="grid-template-columns: 1fr;">
+                <button class="btn-custom-modal btn-modal-reject w-100" id="btnProsesBatal">
+                    <i class="fas fa-undo me-1"></i> Ya, Batalkan Verifikasi
+                </button>
+                <button class="btn-custom-modal btn-modal-cancel w-100 mt-2" onclick="closeAllModals()">
+                    Kembali
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="{{ asset('assets/js/layout.js') }}"></script>
@@ -375,6 +423,63 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
+// modal verifikasi
+let targetActionUrl = '';
+let targetRowIndex = null;
+
+// Fungsi Modal Hijau (Tab 1)
+function openVerifModal(url, index) {
+    targetActionUrl = url;
+    targetRowIndex = index;
+    closeAllModals();
+    document.getElementById('modalKonfirmasiVerifikasi').style.display = 'flex';
+}
+
+// Fungsi Modal Merah (Tab 2)
+function openBatalModal(url) {
+    targetActionUrl = url;
+    closeAllModals();
+    document.getElementById('modalKonfirmasiBatal').style.display = 'flex';
+}
+
+function closeAllModals() {
+    document.getElementById('modalKonfirmasiVerifikasi').style.display = 'none';
+    document.getElementById('modalKonfirmasiBatal').style.display = 'none';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Aksi Setujui (Hijau)
+    document.getElementById('btnTerimaVerif').addEventListener('click', function() {
+        submitActionForm(targetActionUrl);
+    });
+
+    // Aksi Batal Verifikasi (Merah)
+    document.getElementById('btnProsesBatal').addEventListener('click', function() {
+        submitActionForm(targetActionUrl, "Verifikasi dibatalkan oleh admin.");
+    });
+
+    // Aksi Beri Catatan (Pindah ke modal bootstrap)
+    document.getElementById('btnTolakVerif').addEventListener('click', function() {
+        closeAllModals();
+        const modalKomenId = 'modalKomen' + targetRowIndex;
+        const bootstrapModal = new bootstrap.Modal(document.getElementById(modalKomenId));
+        bootstrapModal.show();
+    });
+
+    // Helper Submit Form
+    function submitActionForm(url, catatan = null) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = url;
+        let html = `@csrf @method('PATCH')`;
+        if (catatan) {
+            html += `<input type="hidden" name="catatan_verifikator" value="${catatan}">`;
+        }
+        form.innerHTML = html;
+        document.body.appendChild(form);
+        form.submit();
+    }
+});
 function toggleMetode(index) {
     const metode = document.getElementById('metode' + index).value;
     const divFile = document.getElementById('div_file' + index);
@@ -403,6 +508,104 @@ function toggleMetode(index) {
     .bg-light-subtle { background-color: #f8f9fa; }
     .nav-pills .nav-link.active { background-color: #001f3f !important; }
     .nav-pills .nav-link { color: #6c757d; }
+    .text-navy { color: #001f3f; }
+    .table thead th { border: none; padding: 12px; }
+    .table-hover tbody tr:hover { background-color: #f0f4f8; }
+
+/* verifikasi */
+    .custom-modal-overlay {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 31, 63, 0.4); /* Navy transparan */
+        backdrop-filter: blur(4px); /* Efek blur halus */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: all 0.3s ease;
+    }
+
+    .custom-modal-box {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        width: 100%;
+        max-width: 380px;
+        text-align: center;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        animation: slideUp 0.3s ease-out;
+    }
+
+    @keyframes slideUp {
+        from { transform: translateY(20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+
+    .custom-modal-icon {
+        width: 50px;
+        height: 50px;
+        background: #f0f7ff;
+        color: #001f3f; /* Navy */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        margin: 0 auto 1rem;
+        font-size: 1.2rem;
+    }
+
+    .modal-title-text {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #001f3f;
+        margin-bottom: 0.5rem;
+    }
+
+    .modal-subtitle-text {
+        font-size: 0.85rem;
+        color: #6c757d;
+        line-height: 1.4;
+        margin-bottom: 1.5rem;
+    }
+
+    .custom-modal-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    .btn-custom-modal {
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        border: none;
+        transition: all 0.2s;
+        cursor: pointer;
+    }
+
+    .btn-modal-accept {
+        background: #198754;
+        color: white;
+    }
+
+    .btn-modal-reject {
+        background: #dc3545;
+        color: white;
+    }
+
+    .btn-modal-cancel {
+        background: #e9ecef;
+        color: #495057;
+        grid-column: span 2; /* Tombol batal di baris baru */
+        margin-top: 4px;
+    }
+
+    .btn-custom-modal:hover {
+        filter: brightness(90%);
+        transform: translateY(-1px);
+    }
+
 </style>
 
 </body>
