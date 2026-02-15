@@ -101,30 +101,44 @@ public function verify(Request $request, $id)
 public function downloadZip($pegawaiId)
 {
     $pegawai = \App\Models\Pegawai::findOrFail($pegawaiId);
+    
+    // Ambil SEMUA file yang sudah disetujui (baik fisik maupun link)
     $files = EFile::where('pegawai_id', $pegawaiId)
                   ->where('status_verifikasi', 'Disetujui')
-                  ->where('is_link', false) // Hanya bisa mengompres file fisik
                   ->get();
 
     if ($files->isEmpty()) {
-        return back()->with('error', 'Tidak ada dokumen fisik yang siap diunduh.');
+        return back()->with('error', 'Tidak ada dokumen yang siap dikompilasi.');
     }
 
-    $zipFileName = 'Berkas_Kenaikan_' . str_replace(' ', '_', $pegawai->nama_lengkap) . '.zip';
+    $zipFileName = 'Berkas_Kenaikan_' . str_replace(' ', '_', $pegawai->nama_lengkap) . '_' . time() . '.zip';
     $zip = new ZipArchive;
     $zipPath = storage_path('app/public/' . $zipFileName);
 
     if ($zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
         foreach ($files as $file) {
-            $filePath = storage_path('app/public/' . $file->file_path);
-            if (File::exists($filePath)) {
-                // Menambahkan file ke dalam ZIP dengan nama asli dokumennya
-                $zip->addFile($filePath, $file->nama_dokumen . '.pdf');
+            if ($file->is_link) {
+                // --- CASE 1: JIKA LINK ---
+                // Buat file .txt berisi URL dokumen tersebut
+                $content = "Nama Dokumen: " . $file->nama_dokumen . "\r\n";
+                $content .= "Link Akses: " . $file->link_url . "\r\n";
+                $content .= "\r\nSilakan salin link di atas ke browser Anda untuk melihat dokumen.";
+                
+                $zip->addFromString($file->nama_dokumen . '.txt', $content);
+            } else {
+                // --- CASE 2: JIKA FILE FISIK ---
+                $filePath = storage_path('app/public/' . $file->file_path);
+                if (File::exists($filePath)) {
+                    // Gunakan ekstensi asli dari file yang tersimpan
+                    $extension = pathinfo($filePath, PATHINFO_EXTENSION);
+                    $zip->addFile($filePath, $file->nama_dokumen . '.' . $extension);
+                }
             }
         }
         $zip->close();
     }
 
+    // Download file lalu hapus dari server setelah terkirim
     return response()->download($zipPath)->deleteFileAfterSend(true);
 }
 
