@@ -486,4 +486,16 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
+
+      // == Tutup Modal ==
+  function enableOutsideClickClose(modalElement, hideCallback) {
+    if (!modalElement) return;
+    modalElement.addEventListener("click", event => { if (event.target === modalElement) hideCallback(); });
+  }
+
+  if (modalKonfirmasiHapus) enableOutsideClickClose(modalKonfirmasiHapus, () => modalKonfirmasiHapus.classList.remove("show"));
+  if (modalVerifikasi) enableOutsideClickClose(modalVerifikasi, () => modalVerifikasi.classList.remove("show"));
+  if (document.getElementById("modalBerhasil")) enableOutsideClickClose(document.getElementById("modalBerhasil"), () => document.getElementById("modalBerhasil").style.display = "none");
+  if (editModalElement) enableOutsideClickClose(editModalElement, () => bootstrap.Modal.getInstance(editModalElement)?.hide());
+  if (detailModalElement) enableOutsideClickClose(detailModalElement, () => bootstrap.Modal.getInstance(detailModalElement)?.hide());
 });

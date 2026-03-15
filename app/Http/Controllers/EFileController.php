@@ -61,14 +61,18 @@ public function store(Request $request, $id)
     return back()->with('success', 'Dokumen ' . $request->nama_dokumen . ' berhasil disimpan.');
 }
 
-    public function destroy(EFile $efile)
-    {
-        if (Storage::disk('public')->exists($efile->file_path)) {
-            Storage::disk('public')->delete($efile->file_path);
-        }
-        $efile->delete();
-        return back()->with('success', 'Dokumen E-File berhasil dihapus.');
+public function destroy(EFile $efile)
+{
+    // Hapus file jika memang file upload
+    if (!$efile->is_link && $efile->file_path && Storage::disk('public')->exists($efile->file_path)) {
+        Storage::disk('public')->delete($efile->file_path);
     }
+
+    // Hapus data database
+    $efile->delete();
+
+    return back()->with('success', 'Dokumen E-File berhasil dihapus.');
+}
 
 // Fungsi 1: Hanya Update Komentar (Status tetap 'Menunggu Verifikasi' atau 'Perlu Revisi')
 public function updateComment(Request $request, $id)

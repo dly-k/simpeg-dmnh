@@ -30,7 +30,7 @@
             {{-- PEMBATASAN UNTUK ROLE DOSEN --}}
             {{-- Jika role adalah 'dosen', maka menu di bawah ini tidak akan tampil --}}
             @if(Auth::user()->role !== 'dosen')
-                <p>Menu Utama</p>
+                <p>Menu Administrasi</p>
 
                 {{-- Daftar Pegawai (Admin & Verifikator) --}}
                 @if (in_array(Auth::user()->role, ['admin', 'admin_verifikator']))
@@ -90,7 +90,7 @@
                     <a href="/pembicara" class="{{ Request::is('pembicara*') ? 'active' : '' }}">Pembicara</a>
                     <a href="/pengabdian" class="{{ Request::is('pengabdian*') ? 'active' : '' }}">Pengabdian</a>
                     <a href="/penunjang" class="{{ Request::is('penunjang*') ? 'active' : '' }}">Penunjang</a>
-                    <a href="/orasi-ilmiah" class="{{ Request::is('orasi-ilmiah*') ? 'active' : '' }}">Orasi Ilmiah</a>
+                   {{-- <a href="/orasi-ilmiah" class="{{ Request::is('orasi-ilmiah*') ? 'active' : '' }}">Orasi Ilmiah</a> --}}
                     <a href="/sertifikat-kompetensi" class="{{ Request::is('sertifikat-kompetensi*') ? 'active' : '' }}">
                         Sertifikat Kompetensi
                     </a>

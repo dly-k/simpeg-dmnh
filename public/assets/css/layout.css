@@ -222,6 +222,11 @@ body {
     transform: rotate(-90deg);
 }
 
+.notif {
+    margin-left: 5px;
+    margin-right: 10px;
+}
+
 /* =============================
    Bilah Judul
    Gaya untuk bilah judul di atas konten

@@ -71,7 +71,7 @@
                         <button class="nav-link text-start" data-main-tab="pengabdian">Pengabdian</button>
                         <button class="nav-link text-start" data-main-tab="penunjang">Penunjang</button>
                         <button class="nav-link text-start" data-main-tab="pembicara">Pembicara</button>
-                        <button class="nav-link text-start" data-main-tab="orasi-ilmiah">Orasi Ilmiah</button>
+                        {{-- <button class="nav-link text-start" data-main-tab="orasi-ilmiah">Orasi Ilmiah</button> --}}
                         <button class="nav-link text-start" data-main-tab="sertifikat">Sertifikat Kompetensi</button>
                         <button class="nav-link text-start" data-main-tab="pengelola-jurnal">Pengelola Jurnal</button>
                         <button class="nav-link text-start" data-main-tab="pelatihan">Diklat</button>

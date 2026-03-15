@@ -143,7 +143,6 @@
                       <td class="text-center">
                         <div class="d-flex justify-content-center gap-2">
                           @if (Auth::user()->role == 'admin_verifikator')
-                            @if ($item->verifikasi != 'Sudah Diverifikasi')
                               <a 
                                 href="#" 
                                 class="btn-aksi btn-verifikasi" 
@@ -152,7 +151,6 @@
                               >
                                 <i class="fa fa-check"></i>
                               </a>
-                            @endif
                           @endif
 
                           <button 
