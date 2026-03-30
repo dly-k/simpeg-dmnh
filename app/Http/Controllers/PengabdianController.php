@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Notifications\SubmisiBaruNotification;
+use Illuminate\Support\Facades\Notification;
 use App\Models\Pegawai;
 use App\Models\Pengabdian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class PengabdianController extends Controller
@@ -243,6 +247,38 @@ class PengabdianController extends Controller
             }
             
             DB::commit();
+
+            // ================== PENGIRIMAN NOTIFIKASI ==================
+            // 1. Ambil Nama Pegawai (Dosen Terkait dari input 'dosen')
+            $namaPegawai = 'Dosen Terkait';
+            if ($request->has('dosen') && isset($request->dosen[0]['pegawai_id'])) {
+                $pegawai = \App\Models\Pegawai::find($request->dosen[0]['pegawai_id']);
+                if ($pegawai) {
+                    $namaPegawai = $pegawai->nama_lengkap ?? $pegawai->nama;
+                }
+            }
+
+            // 2. URL tujuan saat notifikasi diklik
+            $urlTujuan = route('pengabdian.index');
+
+            // 3. Cari akun Verifikator, TAPI kecualikan jika yang login adalah verifikator itu sendiri
+            $verifikators = User::where('role', 'admin_verifikator')
+                                ->where('id', '!=', Auth::id())
+                                ->get();
+
+            // 4. Kirim notifikasi HANYA JIKA ada verifikator lain yang ditemukan
+            if ($verifikators->isNotEmpty()) {
+                Notification::send(
+                    $verifikators,
+                    new SubmisiBaruNotification(
+                        $pengabdian,    // 1. Data objeknya
+                        'Pengabdian',   // 2. Kategori kegiatannya
+                        $namaPegawai,   // 3. Nama Dosennya
+                        $urlTujuan      // 4. Link halamannya
+                    )
+                );
+            }
+            // ===========================================================
 
             $newPengabdian = Pengabdian::with('anggota.pegawai', 'dokumen')->find($pengabdian->id);
 

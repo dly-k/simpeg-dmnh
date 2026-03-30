@@ -35,17 +35,97 @@ class DashboardController extends Controller
         if (Auth::user()->role === 'dosen') {
         return redirect()->route('monitoring.dosen.index');
     }
+
         // --- Kartu Metriks ---
         $totalPegawaiAktif = Pegawai::where('status_pegawai', 'Aktif')->count();
+        $totalDosen = Pegawai::where('status_pegawai', 'Aktif')
+            ->whereIn('status_kepegawaian', [
+                'Dosen PNS',
+                'Dosen Tetap',
+                'Dosen Tamu'
+            ])
+            ->count();
+        $totalTendik = Pegawai::where('status_pegawai', 'Aktif')
+            ->whereIn('status_kepegawaian', [
+                'Tendik PNS',
+                'Tendik Tetap',
+                'Tendik Kontrak',
+                'Tenaga Harian Lepas (THL)'
+            ])
+            ->count();
         $totalSuratTugas = SuratTugas::count();
         $totalKerjasama = Kerjasama::count();
-                     
-        $totalPenelitian = Penelitian::count();
-        $totalPengabdian = Pengabdian::count();
+
+        $totalPelatihan = Pelatihan::count();
         $totalPenghargaan = Penghargaan::count();
+        $totalPraktisi = Praktisi::count();
+        $totalPembicara = Pembicara::count();
+        $totalPengabdian = Pengabdian::count();
         $totalPenunjang = Penunjang::count();
+        $totalSemuaPendidikan = PengajaranLama::count() + PembimbingLama::count() + PengujianLama::count() + PengajaranLuar::count() + PembimbingLuar::count() +PengujiLuar::count();
         $totalSertifikatKompetensi = SertifikatKompetensi::count();
-        $totalSemuaPendidikan = PengajaranLama::count() + PembimbingLama::count() + PengujianLama::count() + PengajaranLuar::count() + PembimbingLuar::count() + PengujiLuar::count();
+        $totalPengelolaJurnal = PengelolaJurnal::count();
+        $totalPenelitian = Penelitian::count();
+
+        $totalSubmisi = collect([
+            $totalPelatihan,
+            $totalPenghargaan,
+            $totalPraktisi,
+            $totalPembicara,
+            $totalPengabdian,
+            $totalPenunjang,
+            $totalSertifikatKompetensi,
+            $totalSemuaPendidikan,
+            $totalPengelolaJurnal,
+            $totalPenelitian
+        ])->sum();
+
+        $startThisMonth = Carbon::now()->startOfMonth();
+        $startLastMonth = Carbon::now()->subMonth()->startOfMonth();
+        $endLastMonth = Carbon::now()->subMonth()->endOfMonth();
+
+        $getMonthlyCount = function ($model, $column = 'created_at') use ($startThisMonth, $startLastMonth, $endLastMonth) {
+
+            $thisMonth = $model::where($column, '>=', $startThisMonth)->count();
+
+            $lastMonth = $model::whereBetween($column, [$startLastMonth, $endLastMonth])->count();
+
+            return [$thisMonth, $lastMonth];
+        };
+
+        $models = [
+            Pelatihan::class,
+            Penelitian::class,
+            Pengabdian::class,
+            Penghargaan::class,
+            Penunjang::class,
+            Praktisi::class,
+            Pembicara::class,
+            SertifikatKompetensi::class,
+            PengelolaJurnal::class
+        ];
+
+        $bulanIni = 0;
+        $bulanLalu = 0;
+
+        foreach ($models as $model) {
+            [$now, $last] = $getMonthlyCount($model);
+            $bulanIni += $now;
+            $bulanLalu += $last;
+        }
+        $growthSubmisi = $bulanLalu > 0
+            ? (($bulanIni - $bulanLalu) / $bulanLalu) * 100
+            : 0;
+
+        [$suratNow, $suratLast] = $getMonthlyCount(SuratTugas::class);
+        $growthSuratTugas = $suratLast > 0
+            ? (($suratNow - $suratLast) / $suratLast) * 100
+            : 0;
+
+        [$kerjaNow, $kerjaLast] = $getMonthlyCount(Kerjasama::class);
+        $growthKerjasama = $kerjaLast > 0
+            ? (($kerjaNow - $kerjaLast) / $kerjaLast) * 100
+            : 0;
 
         // --- Distribusi Status Pendidikan ---
         $distribusiPendidikan = Pegawai::select('pendidikan_terakhir', DB::raw('count(*) as total'))
@@ -99,31 +179,110 @@ class DashboardController extends Controller
         }
 
         $jabatanLabels = $jabatanList;
-        
-        // --- LINE CHART: Peningkatan Submisi per Bulan (LOGIKA BARU) ---
-        $months = collect(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']);
-        $monthlyTotals = collect(array_fill_keys($months->all(), 0));
 
-        $modelsForLineChart = [
-            Pelatihan::class,  Penghargaan::class, Praktisi::class, Pengabdian::class, PengajaranLama::class, 
-            Penunjang::class, SertifikatKompetensi::class, PembimbingLama::class, PengujianLama::class, PengajaranLuar::class, 
-            PembimbingLuar::class, PengujiLuar::class, Penelitian::class, PengelolaJurnal::class
+        // --- LINE CHART: Tren Submisi Tahunan ---
+        $years = collect(range(date('Y') - 2, date('Y'))); // 3 tahun terakhir
+        $initYearArray = function () use ($years) {
+            return collect(array_fill_keys($years->toArray(), 0));
+        };
+
+        $pendidikanModels = [
+            PengajaranLama::class,
+            PembimbingLama::class,
+            PengujianLama::class,
+            PengajaranLuar::class,
+            PembimbingLuar::class,
+            PengujiLuar::class
         ];
 
-        foreach ($modelsForLineChart as $modelClass) {
-            $monthlyCounts = app($modelClass)->select(DB::raw("DATE_FORMAT(created_at, '%b') as month"), DB::raw('count(*) as count'))
-                ->whereYear('created_at', date('Y'))
-                ->groupBy('month')
-                ->pluck('count', 'month');
+        $pendidikanTrend = $initYearArray();
 
-            foreach ($monthlyCounts as $month => $count) {
-                if ($monthlyTotals->has($month)) {
-                    $monthlyTotals[$month] += $count;
+        foreach ($pendidikanModels as $model) {
+            $data = app($model)->select(
+                    DB::raw('YEAR(created_at) as year'),
+                    DB::raw('count(*) as total')
+                )
+                ->groupBy('year')
+                ->pluck('total', 'year');
+
+            foreach ($data as $year => $count) {
+                if ($pendidikanTrend->has($year)) {
+                    $pendidikanTrend[$year] += $count;
                 }
             }
         }
-        $lineChartLabels = $monthlyTotals->keys();
-        $lineChartData = $monthlyTotals->values();
+
+        $penelitianData = Penelitian::select(
+                DB::raw('YEAR(created_at) as year'),
+                DB::raw('count(*) as total')
+            )
+            ->groupBy('year')
+            ->pluck('total', 'year');
+
+        $penelitianFinal = $initYearArray();
+        foreach ($penelitianData as $year => $count) {
+            if ($penelitianFinal->has($year)) {
+                $penelitianFinal[$year] = $count;
+            }
+        }
+
+        $pengabdianData = Pengabdian::select(
+                DB::raw('YEAR(created_at) as year'),
+                DB::raw('count(*) as total')
+            )
+            ->groupBy('year')
+            ->pluck('total', 'year');
+
+        $pengabdianFinal = $initYearArray();
+        foreach ($pengabdianData as $year => $count) {
+            if ($pengabdianFinal->has($year)) {
+                $pengabdianFinal[$year] = $count;
+            }
+        }
+
+        $penunjangModels = [
+            Penunjang::class,
+            Praktisi::class,
+            PengelolaJurnal::class
+        ];
+
+        $penunjangData = $initYearArray();
+
+        foreach ($penunjangModels as $model) {
+            $data = app($model)->select(
+                    DB::raw('YEAR(created_at) as year'),
+                    DB::raw('count(*) as total')
+                )
+                ->groupBy('year')
+                ->pluck('total', 'year');
+
+            foreach ($data as $year => $count) {
+                if ($penunjangData->has($year)) {
+                    $penunjangData[$year] += $count;
+                }
+            }
+        }
+
+        $lineChartLabels = $years->toArray();
+
+        $lineChartDatasets = [
+            [
+                'label' => 'Pendidikan',
+                'data' => array_values($pendidikanTrend->toArray())
+            ],
+            [
+                'label' => 'Penelitian',
+                'data' => array_values($penelitianFinal->toArray())
+            ],
+            [
+                'label' => 'Pengabdian',
+                'data' => array_values($pengabdianFinal->toArray())
+            ],
+            [
+                'label' => 'Penunjang',
+                'data' => array_values($penunjangData->toArray())
+            ]
+        ];
 
         // --- PIE CHART: Jumlah Submisi per Kategori --- 
         $pieChartData = [
@@ -323,25 +482,24 @@ class DashboardController extends Controller
             $statusCounts['Pendidikan / Akademik']['ditolak'] += $result['ditolak'] ?? 0;
         }
         
-return view('pages.dashboard', compact(
-    'totalPegawaiAktif',
-    'totalSemuaPendidikan',
-    'totalPenelitian',
-    'totalPengabdian',
-    'totalPenghargaan',
-    'totalSertifikatKompetensi',
-    'totalPenunjang',
-    'totalSuratTugas',
-    'totalKerjasama',
-    'lineChartLabels',
-    'lineChartData',
-    'pieChartData',
-    'topPegawai',
-    'statusCounts',
-    'pendidikanLabels',
-    'pendidikanData', 'pegawaiByPendidikan', 'jabatanLabels',
-'jabatanLaki',
-'jabatanPerempuan', 'pangkatDosen' 
+    return view('pages.dashboard', compact(
+        'totalPegawaiAktif','totalSemuaPendidikan', 'totalDosen', 'totalTendik',
+        'totalPenelitian', 'totalPelatihan', 'totalPraktisi', 'totalPembicara', 'totalPengelolaJurnal',
+        'totalPengabdian', 'totalPenghargaan', 'growthSuratTugas', 'growthKerjasama',
+        'totalSertifikatKompetensi', 'totalPenunjang',
+        'totalSuratTugas', 'totalKerjasama', 'lineChartLabels', 'lineChartDatasets', 'pieChartData', 'topPegawai', 'statusCounts',
+        'pendidikanLabels', 'pendidikanData', 'pendidikanTrend', 'pegawaiByPendidikan', 'jabatanLabels', 'jabatanLaki', 'jabatanPerempuan', 'pangkatDosen',
+        'totalSubmisi', 'growthSubmisi',
 ));
+    }
+
+    public function markAsRead($id)
+    {
+        $notification = Auth::user()->notifications->find($id);
+        if ($notification) {
+            $notification->markAsRead(); // Ini yang bikin angka merah hilang
+            return redirect($notification->data['url'] ?? '/dashboard');
+        }
+        return back();
     }
 }

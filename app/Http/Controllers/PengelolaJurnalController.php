@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Notifications\SubmisiBaruNotification;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Pegawai;
 use App\Models\PengelolaJurnal;
 use App\Models\DokumenPengelolaJurnal; // Tambahan penting
@@ -148,7 +152,7 @@ public function export(Request $request)
      */
     public function store(Request $request)
     {
-        // 2. Validasi data yang masuk
+        // 1. Validasi data yang masuk
         $validator = Validator::make($request->all(), [
             'nama' => 'required|exists:pegawais,id',
             'kegiatan' => 'required|string',
@@ -162,14 +166,14 @@ public function export(Request $request)
             'dokumen.*.nama' => 'nullable|string|max:255',
             'dokumen.*.nomor' => 'nullable|string|max:255',
             'dokumen.*.tautan' => 'nullable|url',
-            'dokumen.*.file' => 'nullable|file|mimes:pdf,jpg,jpeg,png,doc,docx,xls,xlsx,txt|max:5120', // Maksimal 5MB
+            'dokumen.*.file' => 'nullable|file|mimes:pdf,jpg,jpeg,png,doc,docx,xls,xlsx,txt|max:5120',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        // 3. Menggunakan DB Transaction untuk memastikan semua data tersimpan
+        // 2. Menggunakan DB Transaction untuk memastikan semua data tersimpan
         DB::beginTransaction();
         try {
             $pengelolaJurnal = PengelolaJurnal::create([
@@ -183,7 +187,7 @@ public function export(Request $request)
                 'status' => $request->status,
             ]);
 
-            // 4. Menyimpan dokumen jika ada
+            // 3. Menyimpan dokumen jika ada
             if ($request->has('dokumen')) {
                 foreach ($request->dokumen as $index => $doc) {
                     $path_file = null;
@@ -202,15 +206,45 @@ public function export(Request $request)
                 }
             }
 
-            DB::commit(); // Konfirmasi semua perubahan jika berhasil
+            DB::commit();
+
+            // ================== PENGIRIMAN NOTIFIKASI ==================
+            // 1. Ambil Nama Dosen
+            $pegawai = Pegawai::find($request->nama);
+            $namaPegawai = $pegawai ? ($pegawai->nama_lengkap ?? $pegawai->nama) : 'Dosen Terkait';
+
+            // 2. URL tujuan saat notifikasi diklik
+            $urlTujuan = route('pengelola-jurnal.index');
+
+            // 3. Cari akun Verifikator (kecuali dirinya sendiri)
+            $verifikators = User::where('role', 'admin_verifikator')
+                                ->where('id', '!=', Auth::id())
+                                ->get();
+
+            // 4. Kirim notifikasi
+            if ($verifikators->isNotEmpty()) {
+                Notification::send(
+                    $verifikators,
+                    new SubmisiBaruNotification(
+                        $pengelolaJurnal,    // Data
+                        'Pengelola Jurnal',  // Kategori
+                        $namaPegawai,        // Nama Dosen
+                        $urlTujuan           // URL Link
+                    )
+                );
+            }
+            // ===========================================================
+
             return response()->json(['success' => 'Data pengelola jurnal berhasil disimpan!'], 200);
 
         } catch (\Exception $e) {
-            DB::rollBack(); // Batalkan semua perubahan jika terjadi error
+            DB::rollBack();
             Log::error('Error saving pengelola jurnal: ' . $e->getMessage());
             return response()->json(['error' => 'Terjadi kesalahan pada server.'], 500);
         }
     }
+
+    
     public function verifikasi(Request $request, PengelolaJurnal $pengelolaJurnal)
     {
         // 1. Validasi input agar sesuai dengan nilai di ENUM database

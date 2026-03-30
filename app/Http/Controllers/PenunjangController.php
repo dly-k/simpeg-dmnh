@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Notifications\SubmisiBaruNotification;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Pegawai;
 use App\Models\Penunjang;
 use Illuminate\Http\Request;
@@ -250,6 +254,38 @@ class PenunjangController extends Controller
             }
             
             DB::commit();
+
+            // ================== PENGIRIMAN NOTIFIKASI ==================
+            // 1. Ambil Nama Pegawai (Anggota pertama di form Penunjang)
+            $namaPegawai = 'Pegawai Terkait';
+            if ($request->has('anggota') && isset($request->anggota[0]['pegawai_id'])) {
+                $pegawai = \App\Models\Pegawai::find($request->anggota[0]['pegawai_id']);
+                if ($pegawai) {
+                    $namaPegawai = $pegawai->nama_lengkap ?? $pegawai->nama;
+                }
+            }
+
+            // 2. URL tujuan saat notifikasi diklik
+            $urlTujuan = route('penunjang.index');
+
+            // 3. Cari akun Verifikator, TAPI kecualikan jika yang login adalah verifikator itu sendiri
+            $verifikators = User::where('role', 'admin_verifikator')
+                                ->where('id', '!=', Auth::id())
+                                ->get();
+
+            // 4. Kirim notifikasi HANYA JIKA ada verifikator lain yang ditemukan
+            if ($verifikators->isNotEmpty()) {
+                Notification::send(
+                    $verifikators,
+                    new SubmisiBaruNotification(
+                        $penunjang,     // Data objeknya
+                        'Penunjang',    // Kategori kegiatannya
+                        $namaPegawai,   // Nama Dosennya
+                        $urlTujuan      // Link halamannya
+                    )
+                );
+            }
+            // ===========================================================
             
             return response()->json([
                 'success' => 'Data penunjang berhasil ditambahkan.',

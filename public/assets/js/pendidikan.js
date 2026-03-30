@@ -63,6 +63,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Mengelola tab aktif menggunakan localStorage
     const manageActiveTab = () => {
+        // --- 3 BARIS KODE BARU (Membaca Hash URL dari Notifikasi) ---
+        if (window.location.hash) {
+            localStorage.setItem('activePendidikanTab', window.location.hash);
+        }
+        // ------------------------------------------------------------
+
         const activeTabTarget = localStorage.getItem('activePendidikanTab');
         if (activeTabTarget) {
             const tabElement = document.querySelector(`#pendidikanTab button[data-bs-target="${activeTabTarget}"]`);

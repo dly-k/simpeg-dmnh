@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Notifications\SubmisiBaruNotification;
+use Illuminate\Support\Facades\Notification;
 use App\Models\Pegawai;
 use App\Models\Penelitian;
 use App\Models\PenulisPenelitian;
@@ -9,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class PenelitianController extends Controller
@@ -148,7 +152,7 @@ class PenelitianController extends Controller
         );
     }
 
-    /**
+  /**
      * Menyimpan data penelitian baru.
      */
     public function store(Request $request)
@@ -187,7 +191,40 @@ class PenelitianController extends Controller
             $this->simpanPenulis($request, $penelitian->id);
             
             DB::commit();
-            return redirect()->route('penelitian.index')->with('success', 'Data penelitian berhasil disimpan!');
+
+            // ================== PENGIRIMAN NOTIFIKASI ==================
+            // 1. Ambil Nama Pegawai (Dosen Terkait)
+            $namaPegawai = 'Dosen Terkait';
+            if (!empty($request->penulis_ipb) && isset($request->penulis_ipb[0]['pegawai_id'])) {
+                $pegawai = \App\Models\Pegawai::find($request->penulis_ipb[0]['pegawai_id']);
+                if ($pegawai) {
+                    $namaPegawai = $pegawai->nama_lengkap ?? $pegawai->nama;
+                }
+            }
+
+            // 2. URL tujuan saat notifikasi diklik
+            $urlTujuan = route('penelitian.index');
+
+            // 3. Cari akun Verifikator
+            $verifikators = \App\Models\User::where('role', 'admin_verifikator')
+                                            ->where('id', '!=', Auth::id())
+                                            ->get();
+
+            // 4. Kirim notifikasi HANYA JIKA ada verifikator lain yang ditemukan
+            if ($verifikators->isNotEmpty()) {
+                \Illuminate\Support\Facades\Notification::send(
+                    $verifikators,
+                    new \App\Notifications\SubmisiBaruNotification(
+                        $penelitian,    // 1. Data objeknya
+                        'Penelitian',   // 2. Kategori kegiatannya
+                        $namaPegawai,   // 3. Nama Dosennya
+                        $urlTujuan      // 4. Link halamannya
+                    )
+                );
+            }
+            // ===========================================================
+
+            return redirect()->route('penelitian.index')->with('success', 'Data penelitian berhasil disimpan & Notifikasi dikirim!');
 
         } catch (\Exception $e) {
             DB::rollBack();

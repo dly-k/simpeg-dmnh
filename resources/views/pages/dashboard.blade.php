@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="line-chart-data" content='@json($lineChartData)'>
     <meta name="line-chart-labels" content='@json($lineChartLabels)'>
+    <meta name="line-chart-datasets" content='@json($lineChartDatasets)'>
     <meta name="pie-chart-data" content='@json($pieChartData)'>
     <meta name="pendidikan-labels" content='@json($pendidikanLabels)'>
     <meta name="pendidikan-data" content='@json($pendidikanData)'>
@@ -46,48 +46,240 @@
             <!-- Statistik Utama -->
             <div class="card-container">
 
-                <div class="stat-card">
+                <!-- Jumlah Pegawai -->
+                <div class="stat-card blue">
                     <div class="card-icon icon-blue">
                         <i class="fas fa-user-check"></i>
                     </div>
                     <div>
                         <div class="card-label">Jumlah Pegawai Aktif</div>
                         <div class="card-value">{{ $totalPegawaiAktif }}</div>
+
+                @if(auth()->user()->role === 'admin_verifikator')
+                <div class="fw-semibold">
+                    <span class="text-primary">Dosen: {{ $totalDosen }}</span>
+                    <span class="mx-2">|</span>
+                    <span class="text-secondary">Tendik: {{ $totalTendik }}</span>
+                </div>
+                @endif
                     </div>
                 </div>
 
-                <div class="stat-card">
-                    <div class="card-icon icon-teal">
+                {{-- Role Admin--}}
+                @if(auth()->user()->role === 'admin')
+                    <div class="stat-card purple">
+                        <div class="card-icon icon-purple">
+                            <i class="fas fa-users-cog"></i>
+                        </div>
+                        <div>
+                            <div class="card-label">Total Akun Pengguna</div>
+                            <div class="card-value">{{ \App\Models\User::count() }}</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card green">
+                        <div class="card-icon icon-green">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div>
+                            <div class="card-label">Admin & Verifikator</div>
+                            <div class="card-value">
+                                {{ \App\Models\User::whereIn('role', ['admin', 'admin_verifikator'])->count() }}
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
+                @if(auth()->user()->role === 'admin_verifikator')
+                <div class="stat-card orange" data-bs-toggle="modal" data-bs-target="#modalSubmisi">
+                    <div class="card-icon icon-orange">
                         <i class="fas fa-book-open"></i>
                     </div>
                     <div>
-                        <div class="card-label">Total Aktivitas Tridharma</div>
-                        <div class="card-value">0</div>
+                        <div class="card-label">Total Submisi</div>
+                        <div class="card-value">{{ $totalSubmisi }}</div>
+
+                        <small class="{{ $growthSubmisi >= 0 ? 'text-success' : 'text-danger' }}">
+                            {{ $growthSubmisi >= 0 ? '▲' : '▼' }} 
+                            {{ number_format($growthSubmisi, 1) }}% dari bulan lalu
+                        </small>
                     </div>
                 </div>
+                @endif
 
-                <div class="stat-card">
+                @if(in_array(auth()->user()->role, ['admin_verifikator', 'tata_usaha']))
+                <!-- Surat Tugas -->
+                <div class="stat-card indigo">
                     <div class="card-icon icon-indigo">
                         <i class="fas fa-file-signature"></i>
                     </div>
                     <div>
                         <div class="card-label">Surat Tugas Dosen</div>
                         <div class="card-value">{{ $totalSuratTugas }}</div>
+
+                        @if(auth()->user()->role === 'admin_verifikator')
+                        <small class="{{ $growthSuratTugas >= 0 ? 'text-success' : 'text-danger' }}">
+                            {{ $growthSuratTugas >= 0 ? '▲' : '▼' }}
+                            {{ number_format($growthSuratTugas, 1) }}% dari bulan lalu
+                        </small>
+                        @endif
                     </div>
                 </div>
 
-                <div class="stat-card">
+                <!-- Kerjasama -->
+                <div class="stat-card pink">
                     <div class="card-icon icon-pink">
                         <i class="fas fa-handshake"></i>
                     </div>
                     <div>
                         <div class="card-label">Program Kerjasama</div>
                         <div class="card-value">{{ $totalKerjasama }}</div>
+
+                        @if(auth()->user()->role === 'admin_verifikator')
+                        <small class="{{ $growthKerjasama >= 0 ? 'text-success' : 'text-danger' }}">
+                            {{ $growthKerjasama >= 0 ? '▲' : '▼' }}
+                            {{ number_format($growthKerjasama, 1) }}% dari bulan lalu
+                        </small>
+                        @endif
+                    </div>
+                </div>
+                @endif
+            </div>
+
+            @if(auth()->user()->role === 'tata_usaha')
+            <div class="card-container">
+                {{-- DIKLAT --}}
+                <div class="stat-card orange">
+                    <div class="card-icon icon-orange">
+                        <i class="fa-solid fa-chalkboard-user"></i>
+                    </div>
+                    <div>
+                        <div class="card-label">Diklat</div>
+                        <div class="card-value">{{ $totalPelatihan }}</div>
                     </div>
                 </div>
 
-            </div>
+                {{-- PENGHARGAAN --}}
+                <div class="stat-card yellow">
+                    <div class="card-icon icon-yellow">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <div>
+                        <div class="card-label">Penghargaan</div>
+                        <div class="card-value">{{ $totalPenghargaan }}</div>
+                    </div>
+                </div>
 
+                {{-- PRAKTISI --}}
+                <div class="stat-card dark">
+                    <div class="card-icon icon-dark">
+                        <i class="fa-solid fa-industry"></i>
+                    </div>
+                    <div>
+                        <div class="card-label">Praktisi Industri</div>
+                        <div class="card-value">{{ $totalPraktisi }}</div>
+                    </div>
+                </div>
+
+                {{-- PEMBICARA --}}
+                <div class="stat-card cyan">
+                    <div class="card-icon icon-cyan">
+                        <i class="fa-solid fa-microphone"></i>
+                    </div>
+                    <div>
+                        <div class="card-label">Pembicara</div>
+                        <div class="card-value">{{ $totalPembicara }}</div>
+                    </div>
+                </div>
+
+                {{-- PENGABDIAN --}}
+                <div class="stat-card teal">
+                    <div class="card-icon icon-teal">
+                        <i class="fa-solid fa-hand-holding-heart"></i>
+                    </div>
+                    <div>
+                        <div class="card-label">Pengabdian</div>
+                        <div class="card-value">{{ $totalPengabdian }}</div>
+                    </div>
+                </div>
+
+                {{-- PENUNJANG --}}
+                <div class="stat-card gray">
+                    <div class="card-icon icon-secondary">
+                        <i class="fa-solid fa-screwdriver-wrench"></i>
+                    </div>
+                    <div>
+                        <div class="card-label">Penunjang</div>
+                        <div class="card-value">{{ $totalPenunjang }}</div>
+                    </div>
+                </div>
+
+                {{-- SERTIFIKAT --}}
+                <div class="stat-card sky">
+                    <div class="card-icon icon-sky">
+                        <i class="fa-solid fa-certificate"></i>
+                    </div>
+                    <div>
+                        <div class="card-label">Sertifikat Kompetensi</div>
+                        <div class="card-value">{{ $totalSertifikatKompetensi }}</div>
+                    </div>
+                </div>
+
+                {{-- PENDIDIKAN --}}
+                <div class="stat-card purple">
+                    <div class="card-icon icon-purple">
+                        <i class="fa-solid fa-user-graduate"></i>
+                    </div>
+                    <div>
+                        <div class="card-label">Pendidikan / Akademik</div>
+                        <div class="card-value">{{ $totalSemuaPendidikan }}</div>
+                    </div>
+                </div>
+
+                {{-- JURNAL --}}
+                <div class="stat-card blue">
+                    <div class="card-icon icon-blue">
+                        <i class="fa-solid fa-book-open"></i>
+                    </div>
+                    <div>
+                        <div class="card-label">Pengelola Jurnal</div>
+                        <div class="card-value">{{ $totalPengelolaJurnal }}</div>
+                    </div>
+                </div>
+
+                {{-- PENELITIAN --}}
+                <div class="stat-card red">
+                    <div class="card-icon icon-red">
+                        <i class="fa-solid fa-flask"></i>
+                    </div>
+                    <div>
+                        <div class="card-label">Penelitian</div>
+                        <div class="card-value">{{ $totalPenelitian }}</div>
+                    </div>
+                </div>
+            </div>
+            @endif
+
+            <!-- Role Admin -->
+            @if(auth()->user()->role === 'admin')
+            <div class="table-box full-width">
+                <h3>
+                    <i class="fas fa-database text-danger"></i> 
+                    Manajemen Master Data
+                </h3>
+                <p>Sebagai Admin, Anda bertanggung jawab penuh atas pengelolaan akun dan hak akses sistem.</p>
+                
+                <div class="d-flex gap-3">
+                    <a href="{{ route('master-data.index') }}" class="btn btn-success">
+                        <i class="fas fa-user-plus"></i> Kelola Akun Pengguna
+                    </a>
+                    <a href="{{ route('pegawai.index') }}" class="btn btn-outline-success">
+                        <i class="fas fa-address-card"></i> Sinkronisasi Data Pegawai
+                    </a>
+                </div>
+            @endif
+
+            @if(auth()->user()->role === 'admin_verifikator')
             <!-- Grafik -->
             <div class="chart-grid">
 
@@ -242,7 +434,7 @@
                     </div>
 
                 </div>
-
+                @endif
             </div>
 
         </div>

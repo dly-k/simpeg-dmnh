@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Notifications\SubmisiBaruNotification;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
@@ -531,7 +535,47 @@ class PendidikanController extends Controller
         $data = $request->except(['file', 'id']);
         $data['file_path'] = $this->handleFileUpload($request, 'file', $directory);
         
-        $modelClass::create($data);
+        // Simpan data dan tangkap record-nya ke dalam variabel $record
+        $record = $modelClass::create($data);
+
+        // ================== PENGIRIMAN NOTIFIKASI (6 IN 1) ==================
+        // 1. Ambil Nama Dosen
+        $pegawai = Pegawai::find($request->pegawai_id);
+        $namaPegawai = $pegawai ? ($pegawai->nama_lengkap ?? $pegawai->nama) : 'Dosen Terkait';
+
+        // 2. Peta Pintar untuk membedakan Kategori dan Tab URL (Tanda Pagar #)
+        $kategoriMap = [
+            PengajaranLama::class => ['nama' => 'Pengajaran Lama', 'hash' => '#pengajaran-lama'],
+            PengajaranLuar::class => ['nama' => 'Pengajaran Luar IPB', 'hash' => '#pengajaran-luar'],
+            PengujianLama::class  => ['nama' => 'Pengujian Lama', 'hash' => '#pengujian-lama'],
+            PembimbingLama::class => ['nama' => 'Pembimbing Lama', 'hash' => '#pembimbing-lama'],
+            PengujiLuar::class    => ['nama' => 'Penguji Luar IPB', 'hash' => '#penguji-luar'],
+            PembimbingLuar::class => ['nama' => 'Pembimbing Luar IPB', 'hash' => '#pembimbing-luar'],
+        ];
+
+        // 3. Tentukan Nama Kategori dan Rute URL dengan Tepat
+        $kategoriInfo = $kategoriMap[$modelClass] ?? ['nama' => 'Pendidikan', 'hash' => ''];
+        $urlTujuan = route('pendidikan.index') . $kategoriInfo['hash'];
+
+        // 4. Cari Verifikator
+        $verifikators = User::where('role', 'admin_verifikator')
+                            ->where('id', '!=', Auth::id())
+                            ->get();
+
+        // 5. Kirim Notifikasi
+        if ($verifikators->isNotEmpty()) {
+            Notification::send(
+                $verifikators,
+                new SubmisiBaruNotification(
+                    $record,                // Data
+                    $kategoriInfo['nama'],  // Kategori (Otomatis menyesuaikan tab)
+                    $namaPegawai,           // Nama Dosen
+                    $urlTujuan              // URL Tujuan dengan tanda pagar (#)
+                )
+            );
+        }
+        // ====================================================================
+
         return response()->json(['success' => 'Data berhasil ditambahkan.']);
     }
 

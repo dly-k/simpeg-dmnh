@@ -51,11 +51,13 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
+
 // ================== SEMUA RUTE DI BAWAH INI MEMBUTUHKAN LOGIN ====================
 Route::middleware(['auth'])->group(function () {
 
     // HALAMAN UTAMA SETELAH LOGIN
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/notifikasi/{id}/read', [DashboardController::class, 'markAsRead'])->name('notifikasi.read')->middleware('auth');
     Route::view('/ubah-password', 'auth.ubah-password');
     Route::post('/ubah-password', [AuthController::class, 'updatePassword'])->name('password.update');
     Route::get('/dokumen/preview/{path}', [DokumenController::class, 'show'])->where('path', '.*')->name('dokumen.preview');

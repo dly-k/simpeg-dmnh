@@ -1,35 +1,41 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     // =================================
-    // ==== AMBIL DATA DARI META TAG ====
+    // ==== HELPER AMBIL META (AMAN) ====
     // =================================
-    const lineChartMeta = document.querySelector('meta[name="line-chart-data"]');
-    const lineChartLabelsMeta = document.querySelector('meta[name="line-chart-labels"]');
-    const pieChartMeta = document.querySelector('meta[name="pie-chart-data"]');
-    const pendidikanLabelsMeta = document.querySelector('meta[name="pendidikan-labels"]');
-    const pendidikanDataMeta = document.querySelector('meta[name="pendidikan-data"]');
+    function getMeta(name, defaultValue = []) {
+        const el = document.querySelector(`meta[name="${name}"]`);
+        if (!el) return defaultValue;
 
-    const pangkatLabelsMeta = document.querySelector('meta[name="pangkat-labels"]');
-    const pangkatDataMeta = document.querySelector('meta[name="pangkat-data"]');
-
-    const lineChartData = {
-        labels: lineChartLabelsMeta ? JSON.parse(lineChartLabelsMeta.content) : [],
-        data: lineChartMeta ? JSON.parse(lineChartMeta.content) : []
-    };
-
-    const pieChartData = pieChartMeta ? JSON.parse(pieChartMeta.content) : {};
-
-    const pendidikanLabels = pendidikanLabelsMeta ? JSON.parse(pendidikanLabelsMeta.content) : [];
-    const pendidikanData = pendidikanDataMeta ? JSON.parse(pendidikanDataMeta.content) : [];
-
-    const pangkatLabels = pangkatLabelsMeta ? JSON.parse(pangkatLabelsMeta.content) : [];
-    const pangkatData = pangkatDataMeta ? JSON.parse(pangkatDataMeta.content) : [];
+        try {
+            return JSON.parse(el.content);
+        } catch (e) {
+            return defaultValue;
+        }
+    }
 
     // =================================
-    // ==== ANIMASI HITUNG NAIK ====
+    // ==== AMBIL DATA ====
+    // =================================
+    const lineChartLabels = getMeta("line-chart-labels");
+    const lineChartDatasets = getMeta("line-chart-datasets");
+
+    const pieChartData = getMeta("pie-chart-data", {});
+    const pendidikanLabels = getMeta("pendidikan-labels");
+    const pendidikanData = getMeta("pendidikan-data");
+
+    const pangkatLabels = getMeta("pangkat-labels");
+    const pangkatData = getMeta("pangkat-data");
+
+    const jabatanLabels = getMeta("jabatan-labels");
+    const lakiData = getMeta("jabatan-laki");
+    const perempuanData = getMeta("jabatan-perempuan");
+
+    // =================================
+    // ==== ANIMASI ANGKA ====
     // =================================
     function animateValue(el) {
-        const target = parseInt(el.getAttribute("data-value"), 10);
+        const target = parseInt(el.getAttribute("data-value"), 10) || 0;
         const duration = 1500;
         let startTimestamp = null;
 
@@ -41,84 +47,101 @@ document.addEventListener("DOMContentLoaded", () => {
             el.textContent = currentValue.toLocaleString('id-ID');
 
             if (progress < 1) {
-                window.requestAnimationFrame(step);
+                requestAnimationFrame(step);
             } else {
                 el.textContent = target.toLocaleString('id-ID');
             }
         };
 
-        window.requestAnimationFrame(step);
+        requestAnimationFrame(step);
     }
 
     document.querySelectorAll('.card-value').forEach(card => {
-        const finalValue = card.textContent.replace(/\./g,'');
+        const finalValue = card.textContent.replace(/\./g,'') || 0;
         card.setAttribute('data-value', finalValue);
         card.textContent = '0';
         animateValue(card);
     });
 
     // =================================
-    // ==== LINE CHART ====
+    // ==== LINE CHART (FIX UTAMA) ====
     // =================================
     const lineChartEl = document.getElementById('lineChart');
 
-    if (lineChartEl && lineChartData.labels.length) {
+    if (lineChartEl && lineChartLabels.length && lineChartDatasets.length) {
 
-        const ctxLine = lineChartEl.getContext('2d');
+        const ctx = lineChartEl.getContext('2d');
 
-        const gradient = ctxLine.createLinearGradient(0, 0, 0, 300);
-        gradient.addColorStop(0, "rgba(54,162,235,0.6)");
-        gradient.addColorStop(1, "rgba(54,162,235,0.1)");
+        const colors = ['#3b82f6','#10b981','#f59e0b','#ef4444'];
 
-        new Chart(ctxLine, {
+        const datasets = lineChartDatasets.map((ds, i) => ({
+            label: ds.label,
+            data: ds.data,
+            fill: false,
+            borderColor: colors[i % colors.length],
+            backgroundColor: colors[i % colors.length],
+            tension: 0.4,
+            pointRadius: 4
+        }));
+
+        new Chart(ctx, {
             type: 'line',
             data: {
-                labels: lineChartData.labels,
-                datasets: [{
-                    label: 'Jumlah Submisi',
-                    data: lineChartData.data,
-                    fill: true,
-                    backgroundColor: gradient,
-                    borderColor: 'rgba(54,162,235,1)',
-                    tension: 0.4,
-                    pointBackgroundColor: 'rgba(54,162,235,1)',
-                }]
+                labels: lineChartLabels,
+                datasets: datasets
             },
             options: {
                 responsive: true,
-                plugins: { legend: { display: false } },
-                scales: { y: { beginAtZero: true } }
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                            pointStyle: 'circle',
+                            font: { size: 10 }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { stepSize: 1 }
+                    }
+                }
             }
         });
     }
 
     // =================================
-    // ==== PIE CHART DISTRIBUSI PENDIDIKAN ====
+    // ==== PIE PENDIDIKAN ====
     // =================================
     const pegawaiData = JSON.parse(
         document.querySelector('meta[name="pegawai-pendidikan"]').content
     );
-
     const pendidikanChartEl = document.getElementById('pendidikanChart');
 
-    if (pendidikanChartEl && pendidikanLabels.length) {
+    // Pastikan elemen dan data tersedia
+    if (pendidikanChartEl && pendidikanLabels.length > 0) {
+        const ctx = pendidikanChartEl.getContext('2d');
 
-        new Chart(pendidikanChartEl.getContext('2d'), {
+        new Chart(ctx, {
             type: 'pie',
             data: {
                 labels: pendidikanLabels,
-                datasets: [{
-                    data: pendidikanData,
-                    backgroundColor: [
-                        '#4e73df',
-                        '#1cc88a',
-                        '#36b9cc',
-                        '#f6c23e',
-                        '#e74a3b'
-                    ],
-                    borderWidth: 2,
-                    borderColor: '#ffffff'
-                }]
+                datasets: [
+                    {
+                        data: pendidikanData,
+                        backgroundColor: [
+                            '#4e73df',
+                            '#1cc88a',
+                            '#36b9cc',
+                            '#f6c23e',
+                            '#e74a3b'
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }
+                ]
             },
             options: {
                 responsive: true,
@@ -131,29 +154,15 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // =================================
-    // ==== BAR CHART JABATAN ====
-    // =================================
-    const jabatanLabels = JSON.parse(
-        document.querySelector('meta[name="jabatan-labels"]').content
-    );
-
-    const lakiData = JSON.parse(
-        document.querySelector('meta[name="jabatan-laki"]').content
-    );
-
-    const perempuanData = JSON.parse(
-        document.querySelector('meta[name="jabatan-perempuan"]').content
-    );
-
+    // ======================
+    // ==== BAR JABATAN ====
+    // =====================
     const jabatanCtx = document.getElementById("JabatanChart");
 
-    if (jabatanCtx) {
+    if (jabatanCtx && jabatanLabels.length) {
 
         new Chart(jabatanCtx, {
-
             type: 'bar',
-
             data: {
                 labels: jabatanLabels,
                 datasets: [
@@ -169,19 +178,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                 ]
             },
-
             options: {
-                responsive: true,
                 indexAxis: 'y',
                 plugins: {
                     legend: { position: 'bottom' },
-                    datalabels:{
-                        color:'#000',
-                        anchor:'end',
-                        align:'right',
-                        formatter:function(value){
-                            return value === 0 ? '' : value;
-                        }
+                    datalabels: {
+                        anchor: 'end',
+                        align: 'right',
+                        formatter: (v) => v === 0 ? '' : v
                     }
                 },
                 scales: {
@@ -191,93 +195,81 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                 }
             },
-
             plugins: [ChartDataLabels]
-
         });
-
     }
 
- // =================================
-// ==== BAR CHART PANGKAT DOSEN ====
-// =================================
-const pangkatCtx = document.getElementById('pangkatChart');
+    // =======================
+    // ==== BAR PANGKAT ====
+    // =======================
+    const pangkatCtx = document.getElementById('pangkatChart');
 
-if (pangkatCtx && pangkatLabels.length) {
+    if (pangkatCtx && pangkatLabels.length > 0) {
 
-    new Chart(pangkatCtx, {
+    // Fungsi generate warna random
+    const generateColors = (total) => {
+        const colors = [];
+        for (let i = 0; i < total; i++) {
+        const hue = Math.floor((360 / total) * i); // biar merata
+        colors.push(`hsl(${hue}, 70%, 60%)`);
+        }
+        return colors;
+    };
+
+    const pangkatChart = new Chart(pangkatCtx, {
         type: 'bar',
         data: {
-            labels: pangkatLabels,
-            datasets: [{
-                label: 'Jumlah Dosen',
-                data: pangkatData,
-                backgroundColor: '#4f46e5',
-                borderRadius: 8,
-                barThickness: 40,
-                maxBarThickness: 50
-            }]
+        labels: pangkatLabels,
+        datasets: [
+            {
+            label: 'Jumlah Dosen',
+            data: pangkatData,
+            backgroundColor: generateColors(pangkatLabels.length),
+            borderRadius: 8,
+            barThickness: 40,
+            maxBarThickness: 50
+            }
+        ]
         },
         options: {
-            responsive: true,
-            maintainAspectRatio: true,
-            aspectRatio: 1.2,
-
-            plugins: {
-                legend: {
-                    display: false
-                }
+        responsive: true,
+        maintainAspectRatio: true,
+        aspectRatio: 1.2,
+        plugins: {
+            legend: {
+            display: false
+            }
+        },
+        scales: {
+            y: {
+            beginAtZero: true,
+            ticks: {
+                stepSize: 1
+            }
             },
-
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        stepSize: 1
-                    }
-                },
-                x: {
-                    grid: {
-                        display: false
-                    }
-                }
+            x: {
+            grid: {
+                display: false
+            }
             }
         }
+        }
     });
-
-}
+    }
 
     // =================================
-    // ==== PIE CHART SUBMISI ====
+    // ==== PIE SUBMISI ====
     // =================================
     const pieChartEl = document.getElementById('pieChart');
 
     if (pieChartEl && Object.keys(pieChartData).length) {
-
-        new Chart(pieChartEl.getContext('2d'), {
+        new Chart(pieChartEl, {
             type: 'pie',
             data: {
                 labels: Object.keys(pieChartData),
                 datasets: [{
-                    label: 'Jumlah Submisi',
-                    data: Object.values(pieChartData),
-                    backgroundColor: [
-                        '#198754',
-                        '#20c997',
-                        '#fd7e14',
-                        '#6f42c1',
-                        '#ffc107',
-                        '#0dcaf0'
-                    ]
+                    data: Object.values(pieChartData)
                 }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'right'
-                    }
-                }
             }
         });
     }

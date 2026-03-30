@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Notifications\SubmisiBaruNotification;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Auth;
 use App\Models\DokumenPembicara;
 use App\Models\Pegawai;
 use App\Models\Pembicara;
@@ -186,7 +190,36 @@ class PembicaraController extends Controller
                     }
                 }
             }
+            
             DB::commit();
+
+            // ================== PENGIRIMAN NOTIFIKASI ==================
+            // 1. Ambil Nama Dosen
+            $pegawai = Pegawai::find($request->pegawai_id);
+            $namaPegawai = $pegawai ? ($pegawai->nama_lengkap ?? $pegawai->nama) : 'Dosen Terkait';
+
+            // 2. URL tujuan saat notifikasi diklik
+            $urlTujuan = route('pembicara.index');
+
+            // 3. Cari akun Verifikator (kecuali dirinya sendiri)
+            $verifikators = User::where('role', 'admin_verifikator')
+                                ->where('id', '!=', Auth::id())
+                                ->get();
+
+            // 4. Kirim notifikasi
+            if ($verifikators->isNotEmpty()) {
+                Notification::send(
+                    $verifikators,
+                    new SubmisiBaruNotification(
+                        $pembicara,      // Data
+                        'Pembicara',     // Kategori
+                        $namaPegawai,    // Nama Dosen
+                        $urlTujuan       // URL Link
+                    )
+                );
+            }
+            // ===========================================================
+
             return redirect()->route('pembicara.index')->with('success', 'Data pembicara berhasil ditambahkan!');
         } catch (\Exception $e) {
             DB::rollBack();
