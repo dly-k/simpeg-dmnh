@@ -29,6 +29,44 @@
         </div>
 
         <div class="main-content">
+            {{-- FORM FILTER PENCARIAN (OTOMATIS SUBMIT) --}}
+            <div class="filter-section mb-4 bg-white p-3 shadow-sm border" style="border-radius: 12px; border-left: 5px solid #001f3f !important;">
+                <form action="{{ url()->current() }}" method="GET" class="row g-3 align-items-end">
+                    
+                    {{-- Filter Jabatan Terakhir --}}
+                    <div class="col-md-5">
+                        <label for="jabatan" class="form-label small fw-bold text-navy mb-1"><i class="fas fa-briefcase me-1"></i> Jabatan Terakhir</label>
+                        {{-- Tambahkan onchange="this.form.submit()" di sini --}}
+                        <select name="jabatan" id="jabatan" class="form-select form-select-sm border-secondary shadow-none" onchange="this.form.submit()">
+                            <option value="">-- Semua Jabatan --</option>
+                            @if(isset($listJabatan))
+                                @foreach($listJabatan as $jab)
+                                    <option value="{{ $jab }}" {{ request('jabatan') == $jab ? 'selected' : '' }}>{{ $jab }}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
+
+                    {{-- Filter Rentang Usia --}}
+                    <div class="col-md-5">
+                        <label for="age_range" class="form-label small fw-bold text-navy mb-1"><i class="fas fa-calendar-alt me-1"></i> Rentang Usia</label>
+                        {{-- Tambahkan onchange="this.form.submit()" di sini --}}
+                        <select name="age_range" id="age_range" class="form-select form-select-sm border-secondary shadow-none" onchange="this.form.submit()">
+                            <option value="">-- Semua Usia --</option>
+                            <option value="20-25" {{ request('age_range') == '20-25' ? 'selected' : '' }}>20 - 25 Tahun</option>
+                            <option value="26-30" {{ request('age_range') == '26-30' ? 'selected' : '' }}>26 - 30 Tahun</option>
+                            <option value="31-35" {{ request('age_range') == '31-35' ? 'selected' : '' }}>31 - 35 Tahun</option>
+                            <option value="36-40" {{ request('age_range') == '36-40' ? 'selected' : '' }}>36 - 40 Tahun</option>
+                            <option value="41-45" {{ request('age_range') == '41-45' ? 'selected' : '' }}>41 - 45 Tahun</option>
+                            <option value="46-50" {{ request('age_range') == '46-50' ? 'selected' : '' }}>46 - 50 Tahun</option>
+                            <option value="51-55" {{ request('age_range') == '51-55' ? 'selected' : '' }}>51 - 55 Tahun</option>
+                            <option value="56-60" {{ request('age_range') == '56-60' ? 'selected' : '' }}>56 - 60 Tahun</option>
+                            <option value="61-65" {{ request('age_range') == '61-65' ? 'selected' : '' }}>61 - 65 Tahun</option>
+                            <option value="66-70" {{ request('age_range') == '66-70' ? 'selected' : '' }}>66 - 70 Tahun</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
             <div class="table-card">
                 {{-- TAB DIVISI --}}
                 <div class="tab-bar-container d-flex justify-content-between align-items-center">
@@ -73,6 +111,29 @@
 <script src="{{ asset('assets/js/layout.js') }}"></script>
 <script src="{{ asset('assets/js/daftar-pegawai.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // 1. Ambil ID tab yang tersimpan di SessionStorage (jika ada)
+        let activeTabId = sessionStorage.getItem('activeMonitoringTab');
 
+        // 2. Jika ada, aktifkan tab tersebut menggunakan Bootstrap API
+        if (activeTabId) {
+            let tabToActivate = document.getElementById(activeTabId);
+            if (tabToActivate) {
+                let tabInstance = new bootstrap.Tab(tabToActivate);
+                tabInstance.show();
+            }
+        }
+
+        // 3. Pasang event listener: Setiap kali tab diklik/diubah, simpan ID-nya ke SessionStorage
+        let tabElements = document.querySelectorAll('button[data-bs-toggle="tab"]');
+        tabElements.forEach(function(tabEl) {
+            tabEl.addEventListener('shown.bs.tab', function (event) {
+                // event.target.id akan menghasilkan "perencanaan-tab", "kebijakan-tab", dll
+                sessionStorage.setItem('activeMonitoringTab', event.target.id);
+            });
+        });
+    });
+</script>
 </body>
 </html>

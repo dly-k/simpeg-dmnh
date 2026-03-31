@@ -9,16 +9,48 @@ class MonitoringController extends Controller
 {
 // app/Http/Controllers/MonitoringController.php
 
-public function indexAdmin()
+public function indexAdmin(\Illuminate\Http\Request $request)
 {
     $divisi = ['perencanaan', 'kebijakan', 'pemanenan'];
     $data = [];
 
+    // 1. Ambil input filter dari URL
+    $filterJabatan = $request->input('jabatan');
+    $filterUsia = $request->input('age_range');
+
+    // 2. Ambil daftar jabatan yang tersedia di database untuk opsi dropdown
+    $listJabatan = \App\Models\Pegawai::select('jabatan_fungsional')
+                    ->whereNotNull('jabatan_fungsional')
+                    ->distinct()
+                    ->pluck('jabatan_fungsional');
+
     foreach ($divisi as $div) {
-        $pegawais = Pegawai::where('divisi', $div)->get();
+        // 3. Mulai Query dasar berdasarkan divisi
+        $query = \App\Models\Pegawai::where('divisi', $div);
+
+        // --- TERAPKAN FILTER JABATAN ---
+        if (!empty($filterJabatan)) {
+            $query->where('jabatan_fungsional', $filterJabatan);
+        }
+
+        // --- TERAPKAN FILTER USIA ---
+        if (!empty($filterUsia) && str_contains($filterUsia, '-')) {
+            [$minUsia, $maxUsia] = explode('-', $filterUsia);
+            
+            // Kalkulasi tanggal lahir berdasarkan usia
+            // Contoh: rentang 20-25 berarti lahir antara (hari ini - 26 tahun + 1 hari) hingga (hari ini - 20 tahun)
+            $startDate = \Carbon\Carbon::today()->subYears($maxUsia + 1)->addDay()->format('Y-m-d');
+            $endDate = \Carbon\Carbon::today()->subYears($minUsia)->format('Y-m-d');
+            
+            $query->whereNotNull('tanggal_lahir')
+                  ->whereBetween('tanggal_lahir', [$startDate, $endDate]);
+        }
+
+        // Eksekusi query
+        $pegawais = $query->get();
 
         foreach ($pegawais as $pegawai) {
-            // Panggil logika syarat dokumen yang sama dengan yang ada di detailAdmin
+            // Panggil logika syarat dokumen
             $docTypes = $this->getRequirementsFor($pegawai->jabatan_tujuan);
             $totalSyarat = count($docTypes);
 
@@ -36,10 +68,12 @@ public function indexAdmin()
         $data[$div] = $pegawais;
     }
 
+    // 4. Return view dan kirimkan data filter
     return view('pages.monitoring.admin.index', [
         'perencanaan' => $data['perencanaan'],
         'kebijakan' => $data['kebijakan'],
-        'pemanenan' => $data['pemanenan']
+        'pemanenan' => $data['pemanenan'],
+        'listJabatan' => $listJabatan // Kirim ke blade
     ]);
 }
 private function getRequirementsFor($target)
