@@ -49,7 +49,7 @@
                                 @php
                                     $pensiun = $pegawai->estimasi_pensiun_manual 
                                         ? \Carbon\Carbon::parse($pegawai->estimasi_pensiun_manual)
-                                        : \Carbon\Carbon::parse($pegawai->tanggal_lahir)->addYears(65);
+                                        : \Carbon\Carbon::parse($pegawai->tanggal_lahir)->addYears(69);
                                 @endphp
                                 {{ $pensiun->isoFormat('D MMMM YYYY') }}
                             </span>
