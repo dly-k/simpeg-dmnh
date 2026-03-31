@@ -323,6 +323,7 @@ public function selesaikanKenaikan($id)
         $pegawai->update([
             'jabatan_fungsional' => $jabatanFungsional,
             'pangkat_golongan'   => $pangkatGolongan,
+            'tmt_pangkat'        => now()->toDateString(),
             'jabatan_tujuan'     => null, // Reset target
             'ak_lama'            => 0,    // Reset KUM untuk periode berikutnya
             'ak_baru'            => 0     // Reset Konversi untuk periode berikutnya
