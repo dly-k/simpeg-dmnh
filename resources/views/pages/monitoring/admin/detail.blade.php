@@ -77,7 +77,7 @@
             </div>
             <div class="col-6">
                 <div class="p-3 text-center rounded bg-light border">
-                    <small class="text-muted d-block fw-bold" style="font-size: 0.65rem;">KONVERSI</small>
+                    <small class="text-muted d-block fw-bold" style="font-size: 0.65rem;">ANGKA KONVERSI</small>
                     <h3 class="fw-bold {{ $currentKonversi >= $targetKonversi ? 'text-success' : 'text-danger' }} mb-0">
                         {{ number_format($currentKonversi, 2) }}
                     </h3>
@@ -371,7 +371,8 @@
                         </table>
 
                         {{-- Tombol Kompilasi --}}
-                        <div class="mt-4 text-end">
+                        {{-- Tombol Kompilasi & Selesaikan Kenaikan --}}
+                        <div class="mt-4 text-end d-flex justify-content-end gap-2">
                             <form action="{{ route('efile.downloadZip', $pegawai->id) }}" method="POST">
                                 @csrf
                                 <button type="submit" class="btn btn-navy fw-bold shadow-sm px-4 rounded-pill" 
@@ -379,6 +380,13 @@
                                     <i class="fas fa-file-export me-2"></i>Kompilasi Berkas (ZIP)
                                 </button>
                             </form>
+
+                            {{-- Munculkan tombol selesai HANYA jika nilainya sudah layak (isEligible) --}}
+                            @if(isset($isEligible) && $isEligible)
+                                <button type="button" class="btn btn-success fw-bold shadow-sm px-4 rounded-pill" onclick="openSelesaiModal()">
+                                    <i class="fas fa-check-circle me-2"></i>Proses Kenaikan Selesai
+                                </button>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -427,6 +435,30 @@
                 <button class="btn-custom-modal btn-modal-reject w-100" id="btnProsesBatal">
                     <i class="fas fa-undo me-1"></i> Ya, Batalkan Verifikasi
                 </button>
+                <button class="btn-custom-modal btn-modal-cancel w-100 mt-2" onclick="closeAllModals()">
+                    Kembali
+                </button>
+            </div>
+        </div>
+    </div>
+
+    {{-- MODAL KONFIRMASI SELESAI --}}
+    <div id="modalKonfirmasiSelesai" class="custom-modal-overlay" style="display: none;">
+        <div class="custom-modal-box border-top border-success border-4">
+            <div class="custom-modal-icon bg-success-subtle text-success">
+                <i class="fas fa-medal"></i>
+            </div>
+            <div class="custom-modal-content">
+                <h5 class="modal-title-text text-success">Selesaikan Kenaikan Jabatan</h5>
+                <p class="modal-subtitle-text">Apakah proses administrasi universitas sudah selesai? Sistem akan memperbarui Jabatan dan Pangkat pegawai secara otomatis menjadi <strong class="text-dark">{{ $pegawai->jabatan_tujuan }}</strong>.</p>
+            </div>
+            <div class="custom-modal-actions" style="grid-template-columns: 1fr;">
+                <form action="{{ route('monitoring.admin.selesai', $pegawai->id) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn-custom-modal btn-modal-accept w-100">
+                        <i class="fas fa-check me-1"></i> Ya, Perbarui Data Pegawai
+                    </button>
+                </form>
                 <button class="btn-custom-modal btn-modal-cancel w-100 mt-2" onclick="closeAllModals()">
                     Kembali
                 </button>
@@ -509,6 +541,20 @@ function toggleMetode(index) {
         divFile.style.display = 'none';
         divLink.style.display = 'block';
     }
+}
+// Tambahkan di bawah fungsi openBatalModal(url)
+
+// Fungsi Modal Selesai (Update Jabatan)
+function openSelesaiModal() {
+    closeAllModals();
+    document.getElementById('modalKonfirmasiSelesai').style.display = 'flex';
+}
+
+// Perbarui fungsi closeAllModals() yang sudah ada menjadi seperti ini:
+function closeAllModals() {
+    document.getElementById('modalKonfirmasiVerifikasi').style.display = 'none';
+    document.getElementById('modalKonfirmasiBatal').style.display = 'none';
+    document.getElementById('modalKonfirmasiSelesai').style.display = 'none';
 }
 </script>
 

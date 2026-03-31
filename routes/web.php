@@ -91,6 +91,7 @@ Route::middleware(['auth'])->group(function () {
             ->name('efile.comment');
         Route::post('/pegawai/{id}/efile/download-zip', [App\Http\Controllers\EFileController::class, 'downloadZip'])
         ->name('efile.downloadZip');
+        Route::post('/admin/monitoring/selesai/{id}', [MonitoringController::class, 'selesaikanKenaikan'])->name('monitoring.admin.selesai');
 
 
         // Pegawai

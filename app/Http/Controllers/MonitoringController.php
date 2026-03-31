@@ -257,4 +257,45 @@ public function indexDosen()
     return view('pages.monitoring.dosen.index', compact('pegawai', 'currentKUM', 'targetKUM', 'currentKonversi', 'targetKonversi', 'requirements'));
 }
 
+public function selesaikanKenaikan($id)
+{
+    $pegawai = \App\Models\Pegawai::findOrFail($id);
+    $target = $pegawai->jabatan_tujuan;
+
+    if (!$target) {
+        return back()->with('error', 'Jabatan tujuan belum ditentukan.');
+    }
+
+    // Menggunakan regex untuk memisahkan Jabatan Fungsional dan Pangkat/Golongan
+    // Contoh: "Lektor Kepala (IV/a)" -> $matches[1] = Lektor Kepala, $matches[2] = IV/a
+    if (preg_match('/^(.*?)\s*\((.*?)\)$/', $target, $matches)) {
+        $jabatanFungsional = trim($matches[1]);
+        $pangkatGolongan   = trim($matches[2]);
+
+        // --- LOGIKA PENGOSONGAN BERKAS ---
+        // 1. Ambil daftar nama dokumen yang menjadi syarat untuk jabatan target saat ini
+        $docTypes = $this->getRequirementsFor($target);
+
+        // 2. Hapus berkas persyaratan tersebut dari database agar statusnya kembali "Kosong"
+        // Kita hanya menghapus berkas yang termasuk dalam kategori 'Lain-lain' (berkas kenaikan)
+        \App\Models\EFile::where('pegawai_id', $pegawai->id)
+            ->whereIn('nama_dokumen', $docTypes)
+            ->delete();
+
+        // --- UPDATE DATA PEGAWAI ---
+        // 3. Simpan jabatan baru ke profil utama dan reset target serta nilai AK
+        $pegawai->update([
+            'jabatan_fungsional' => $jabatanFungsional,
+            'pangkat_golongan'   => $pangkatGolongan,
+            'jabatan_tujuan'     => null, // Reset target
+            'ak_lama'            => 0,    // Reset KUM untuk periode berikutnya
+            'ak_baru'            => 0     // Reset Konversi untuk periode berikutnya
+        ]);
+
+        return redirect()->route('monitoring.admin.index')->with('success', 'Selamat! Kenaikan jabatan berhasil diproses. Data profil telah diperbarui dan berkas persyaratan telah dikosongkan untuk periode audit selanjutnya.');
+    }
+
+    return back()->with('error', 'Format nama jabatan tujuan tidak dikenali oleh sistem.');
+}
+
 }
