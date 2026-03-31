@@ -79,6 +79,7 @@ Route::middleware(['auth'])->group(function () {
 
         // monitoring
         Route::get('/admin/monitoring', [MonitoringController::class, 'indexAdmin'])->name('monitoring.admin.index');
+        Route::get('/admin/monitoring/export', [MonitoringController::class, 'exportExcel'])->name('monitoring.admin.export');
         Route::get('/admin/monitoring/{id}', [MonitoringController::class, 'detailAdmin'])->name('monitoring.admin.detail');
         Route::put('/admin/monitoring/target/{id}', [MonitoringController::class, 'updateTarget'])->name('monitoring.admin.updateTarget');
         Route::put('/admin/monitoring/update-ak/{id}', [MonitoringController::class, 'updateAK'])->name('monitoring.admin.updateAK');

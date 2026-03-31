@@ -9,7 +9,7 @@
                 <th>Jabatan Tujuan</th>
                 <th>Estimasi Pensiun</th>
                 <th>Progres Berkas</th>
-                <th>Nilai Konversi</th>
+                <th>Nilai</th>
                 <th>Status Nilai</th>
                 <th>Aksi</th>
             </tr>

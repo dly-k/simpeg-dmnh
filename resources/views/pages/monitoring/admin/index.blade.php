@@ -36,7 +36,6 @@
                     {{-- Filter Jabatan Terakhir --}}
                     <div class="col-md-5">
                         <label for="jabatan" class="form-label small fw-bold text-navy mb-1"><i class="fas fa-briefcase me-1"></i> Jabatan Terakhir</label>
-                        {{-- Tambahkan onchange="this.form.submit()" di sini --}}
                         <select name="jabatan" id="jabatan" class="form-select form-select-sm border-secondary shadow-none" onchange="this.form.submit()">
                             <option value="">-- Semua Jabatan --</option>
                             @if(isset($listJabatan))
@@ -48,9 +47,8 @@
                     </div>
 
                     {{-- Filter Rentang Usia --}}
-                    <div class="col-md-5">
+                    <div class="col-md-4">
                         <label for="age_range" class="form-label small fw-bold text-navy mb-1"><i class="fas fa-calendar-alt me-1"></i> Rentang Usia</label>
-                        {{-- Tambahkan onchange="this.form.submit()" di sini --}}
                         <select name="age_range" id="age_range" class="form-select form-select-sm border-secondary shadow-none" onchange="this.form.submit()">
                             <option value="">-- Semua Usia --</option>
                             <option value="20-25" {{ request('age_range') == '20-25' ? 'selected' : '' }}>20 - 25 Tahun</option>
@@ -65,8 +63,17 @@
                             <option value="66-70" {{ request('age_range') == '66-70' ? 'selected' : '' }}>66 - 70 Tahun</option>
                         </select>
                     </div>
+
+                    {{-- Tombol Export --}}
+                    <div class="col-md-3 d-flex justify-content-end">
+                        <a href="{{ route('monitoring.admin.export', request()->all()) }}" id="btn-export-excel" class="btn btn-success btn-sm fw-bold shadow-sm rounded-pill px-4 py-2">
+                            <i class="fas fa-file-excel me-2"></i> Ekspor ke Excel
+                        </a>
+                    </div>
+
                 </form>
             </div>
+
             <div class="table-card">
                 {{-- TAB DIVISI --}}
                 <div class="tab-bar-container d-flex justify-content-between align-items-center">
@@ -113,24 +120,41 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // 1. Ambil ID tab yang tersimpan di SessionStorage (jika ada)
-        let activeTabId = sessionStorage.getItem('activeMonitoringTab');
+        // --- LOGIKA UPDATE URL EKSPOR ---
+        const exportBtn = document.getElementById('btn-export-excel');
+        // Gunakan URL yang sudah membawa filter jabatan/usia bawaan Laravel request()->all()
+        const baseUrl = new URL(exportBtn.href, window.location.origin);
 
-        // 2. Jika ada, aktifkan tab tersebut menggunakan Bootstrap API
-        if (activeTabId) {
-            let tabToActivate = document.getElementById(activeTabId);
-            if (tabToActivate) {
-                let tabInstance = new bootstrap.Tab(tabToActivate);
-                tabInstance.show();
-            }
+        function updateExportUrl(tabId) {
+            // Ubah 'perencanaan-tab' menjadi 'perencanaan'
+            const divisi = tabId.replace('-tab', '');
+            // Setel parameter 'divisi' ke URL
+            baseUrl.searchParams.set('divisi', divisi);
+            // Perbarui href pada tombol ekspor
+            exportBtn.href = baseUrl.toString();
         }
 
-        // 3. Pasang event listener: Setiap kali tab diklik/diubah, simpan ID-nya ke SessionStorage
+        // --- LOGIKA TAB SEBELUMNYA ---
+        let activeTabId = sessionStorage.getItem('activeMonitoringTab') || 'perencanaan-tab'; // Beri default 'perencanaan-tab'
+        
+        // 1. Setel URL ekspor saat halaman pertama kali dimuat
+        updateExportUrl(activeTabId);
+
+        // 2. Aktifkan tab berdasarkan session storage
+        let tabToActivate = document.getElementById(activeTabId);
+        if (tabToActivate) {
+            let tabInstance = new bootstrap.Tab(tabToActivate);
+            tabInstance.show();
+        }
+
+        // 3. Pasang event listener: Setiap kali tab diklik/diubah
         let tabElements = document.querySelectorAll('button[data-bs-toggle="tab"]');
         tabElements.forEach(function(tabEl) {
             tabEl.addEventListener('shown.bs.tab', function (event) {
-                // event.target.id akan menghasilkan "perencanaan-tab", "kebijakan-tab", dll
+                // Simpan id tab ke session
                 sessionStorage.setItem('activeMonitoringTab', event.target.id);
+                // Update URL tombol ekspor setiap kali pindah tab
+                updateExportUrl(event.target.id);
             });
         });
     });

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\Pegawai;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Exports\MonitoringExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MonitoringController extends Controller
 {
@@ -331,5 +333,14 @@ public function selesaikanKenaikan($id)
 
     return back()->with('error', 'Format nama jabatan tujuan tidak dikenali oleh sistem.');
 }
+
+public function exportExcel(\Illuminate\Http\Request $request)
+    {
+        // Mengunduh file excel menggunakan class Export yang baru kita buat
+        return \Maatwebsite\Excel\Facades\Excel::download(
+            new \App\Exports\MonitoringExport($request), 
+            'Data_Monitoring_Progress_Jabatan.xlsx'
+        );
+    }
 
 }
