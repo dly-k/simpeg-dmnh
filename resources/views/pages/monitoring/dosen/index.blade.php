@@ -31,33 +31,54 @@
         <div class="main-content">
             <div class="row g-4">
                 <div class="col-lg-5">
-                <div class="table-card p-4 h-100 shadow-sm border-0" style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);">
-                    <h5 class="fw-bold mb-4" style="color: #001f3f;">Status Kelayakan KUM</h5>
+<div class="table-card p-4 shadow-sm border-0 bg-white" style="border-radius: 15px;">
+    <h5 class="fw-bold mb-4 text-navy"><i class="fas fa-user-shield me-2"></i>Audit Kelayakan Saya</h5>
+    
+    @php 
+        // 1. Definisikan logika status terlebih dahulu
+        $isKUMOk = (($currentKUM ?? 0) >= ($targetKUM ?? 0) && ($targetKUM ?? 0) > 0);
+        $isKonversiOk = (($currentKonversi ?? 0) >= ($targetKonversi ?? 0) && ($targetKonversi ?? 0) > 0);
+        $isEligible = ($isKUMOk && $isKonversiOk);
+        
+        // 2. Hitung nilai progress bar
+        $progress = 0;
+        if($isEligible) {
+            $progress = 100;
+        } elseif($isKUMOk || $isKonversiOk) {
+            $progress = 50;
+        }
+    @endphp
 
-                    <div class="text-center mb-4">
-                        <span class="text-muted small text-uppercase fw-bold">Target Jabatan</span>
-                        {{-- Ganti $data['target_jabatan'] menjadi $pegawai->jabatan_tujuan --}}
-                        <h4 class="fw-bold text-navy">{{ $pegawai->jabatan_tujuan ?? 'Belum Ditentukan' }}</h4>
-                    </div>
+    <div class="row g-3 text-center mb-4">
+        {{-- Bagian Angka Kredit (KUM) --}}
+        <div class="col-6">
+            <div class="small fw-bold text-muted mb-1">ANGKA KREDIT</div>
+            <div class="h2 fw-bold text-primary mb-0">{{ number_format($currentKUM ?? 0, 2) }}</div>
+            <div class="badge {{ $isKUMOk ? 'bg-success' : 'bg-danger' }} rounded-pill mt-2">
+                {{ $isKUMOk ? 'Terpenuhi' : 'Kurang ' . number_format(($targetKUM ?? 0) - ($currentKUM ?? 0), 2) }}
+            </div>
+        </div>
 
-                    <div class="progress-container text-center py-4 px-3 rounded-4 border bg-white mb-4 shadow-sm">
-                        {{-- Ganti $data['current_kum'] menjadi $currentKUM --}}
-                        <div class="display-4 fw-bold text-primary mb-0">{{ $currentKUM }}</div>
-                        <div class="text-muted small">Angka Kredit Saat Ini (Integrasi + Konversi)</div>
-                        
-                        <div class="progress mt-3" style="height: 12px; border-radius: 10px;">
-                            {{-- Hitung persentase secara dinamis --}}
-                            @php
-                                $percentage = $targetKUM > 0 ? min(($currentKUM / $targetKUM) * 100, 100) : 0;
-                            @endphp
-                            <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" 
-                                style="width: {{ $percentage }}%"></div>
-                        </div>
-                        
-                        {{-- Ganti $data['target_kum'] menjadi $targetKUM --}}
-                        <div class="mt-2 fw-bold small text-success">Target: {{ $targetKUM }} KUM</div>
-                    </div>
-                </div>
+        {{-- Bagian Konversi --}}
+        <div class="col-6 border-start">
+            <div class="small fw-bold text-muted mb-1">KONVERSI</div>
+            <div class="h2 fw-bold text-info mb-0">{{ number_format($currentKonversi ?? 0, 2) }}</div>
+            <div class="badge {{ $isKonversiOk ? 'bg-success' : 'bg-danger' }} rounded-pill mt-2">
+                {{ $isKonversiOk ? 'Terpenuhi' : 'Kurang ' . number_format(($targetKonversi ?? 0) - ($currentKonversi ?? 0), 2) }}
+            </div>
+        </div>
+    </div>
+
+    {{-- Bagian Progress Bar --}}
+    <div class="progress-info mb-1 d-flex justify-content-between small">
+        <span class="fw-bold">Progres Kelayakan Nilai</span>
+        <span class="text-navy fw-bold">{{ $progress }}%</span>
+    </div>
+    <div class="progress" style="height: 12px; border-radius: 10px;">
+        <div class="progress-bar progress-bar-striped progress-bar-animated {{ $progress == 100 ? 'bg-success' : 'bg-primary' }}" 
+             style="width: {{ $progress }}%"></div>
+    </div>
+</div>
                 </div>
 
                 <div class="col-lg-7">

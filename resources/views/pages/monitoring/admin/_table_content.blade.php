@@ -64,35 +64,59 @@
                     </div>
                 </td>
                 
-                <td class="text-center">
-                    @php
-                        $totalKUM = ($p->ak_lama ?? 0) + ($p->ak_baru ?? 0);
-                    @endphp
-                    <span class="badge bg-light text-dark border">{{ number_format($totalKUM, 2) }}</span>
-                </td>
-                
-                <td class="text-center">
-                    @php
-                        $thresholds = [
-                            'Asisten Ahli (III/b)' => 150,
-                            'Lektor (III/c)'       => 200,
-                            'Lektor (III/d)'       => 300,
-                            'Lektor Kepala (IV/a)' => 400,
-                            'Lektor Kepala (IV/b)' => 550,
-                            'Lektor Kepala (IV/c)' => 700,
-                            'Guru Besar (IV/d)'    => 850,
-                            'Guru Besar (IV/e)'    => 1050,
-                        ];
-                        $targetKUM = $thresholds[$p->jabatan_tujuan] ?? 0;
-                        $isMemenuhi = ($totalKUM >= $targetKUM && $targetKUM > 0);
-                    @endphp
+            <td class="text-center align-middle">
+                <div class="mb-1" title="Angka Kredit Integrasi (Lama)">
+                    <span class="text-muted small me-1">KUM:</span> 
+                    <span class="fw-bold">{{ number_format($p->ak_lama ?? 0, 2) }}</span>
+                </div>
+                <div class="border-top pt-1" title="Angka Kredit Konversi (Baru)">
+                    <span class="text-muted small me-1">Konversi:</span> 
+                    <span class="fw-bold text-info">{{ number_format($p->ak_baru ?? 0, 2) }}</span>
+                </div>
+            </td>
+                            
+<td class="text-center align-middle">
+    @php
+        // 1. Definisikan Threshold
+        // Jika standar KUM dan Konversi kampus Anda berbeda angkanya, 
+        // Anda bisa membuat dua array terpisah (misal: $thresholdsKUM dan $thresholdsKonversi)
+        $thresholds = [
+            'Asisten Ahli (III/b)' => 150,
+            'Lektor (III/c)'       => 200,
+            'Lektor (III/d)'       => 300,
+            'Lektor Kepala (IV/a)' => 400,
+            'Lektor Kepala (IV/b)' => 550,
+            'Lektor Kepala (IV/c)' => 700,
+            'Guru Besar (IV/d)'    => 850,
+            'Guru Besar (IV/e)'    => 1050,
+        ];
+        
+        // 2. Ambil Target & Nilai Saat Ini
+        $target = $thresholds[$p->jabatan_tujuan] ?? 0;
+        $nilaiKUM = $p->ak_lama ?? 0;
+        $nilaiKonversi = $p->ak_baru ?? 0;
 
-                    @if($isMemenuhi)
-                        <span class="badge rounded-pill bg-success px-3">Memenuhi</span>
-                    @else
-                        <span class="badge rounded-pill bg-warning text-dark px-3">Belum Memenuhi</span>
-                    @endif
-                </td>
+        // 3. Evaluasi Terpisah
+        $kumMemenuhi = ($target > 0 && $nilaiKUM >= $target);
+        $konversiMemenuhi = ($target > 0 && $nilaiKonversi >= $target);
+    @endphp
+
+    @if($target == 0)
+        <span class="badge rounded-pill bg-secondary px-3">Target Belum Diset</span>
+    @else
+        <div class="d-flex flex-column align-items-center gap-1">
+            {{-- Badge Status KUM --}}
+            <span class="badge rounded-pill {{ $kumMemenuhi ? 'bg-success' : 'bg-warning text-dark' }} px-3 w-100" title="Target: {{ $target }}">
+                KUM: {{ $kumMemenuhi ? 'Memenuhi' : 'Belum' }}
+            </span>
+            
+            {{-- Badge Status Konversi --}}
+            <span class="badge rounded-pill {{ $konversiMemenuhi ? 'bg-info text-dark' : 'bg-warning text-dark' }} px-3 w-100" title="Target: {{ $target }}">
+                Konversi: {{ $konversiMemenuhi ? 'Memenuhi' : 'Belum' }}
+            </span>
+        </div>
+    @endif
+</td>
 
                 <td>
                     <div class="d-flex gap-2 justify-content-center">

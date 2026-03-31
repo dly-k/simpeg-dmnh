@@ -74,8 +74,9 @@ public function detailAdmin($id)
 {
     $pegawai = \App\Models\Pegawai::findOrFail($id);
 
-    // --- LOGIKA NILAI KUM ---
-    $thresholds = [
+    // --- LOGIKA NILAI KUM & KONVERSI ---
+    // 1. Target Angka Kredit (KUM Integrasi)
+    $thresholdsKUM = [
         'Asisten Ahli (III/b)' => 150,
         'Lektor (III/c)'       => 200,
         'Lektor (III/d)'       => 300,
@@ -86,8 +87,25 @@ public function detailAdmin($id)
         'Guru Besar (IV/e)'    => 1050,
     ];
 
-    $targetKUM = $thresholds[$pegawai->jabatan_tujuan] ?? 0;
-    $currentKUM = $pegawai->ak_lama + $pegawai->ak_baru;
+    // 2. Target Angka Konversi (SKP)
+    // Sesuaikan nilai di bawah ini dengan standar peraturan kampus Anda
+    $thresholdsKonversi = [
+        'Asisten Ahli (III/b)' => 150,
+        'Lektor (III/c)'       => 200,
+        'Lektor (III/d)'       => 300,
+        'Lektor Kepala (IV/a)' => 400,
+        'Lektor Kepala (IV/b)' => 550,
+        'Lektor Kepala (IV/c)' => 700,
+        'Guru Besar (IV/d)'    => 850,
+        'Guru Besar (IV/e)'    => 1050,
+    ];
+
+    $targetKUM = $thresholdsKUM[$pegawai->jabatan_tujuan] ?? 0;
+    $targetKonversi = $thresholdsKonversi[$pegawai->jabatan_tujuan] ?? 0;
+
+    // Memisahkan nilai, ak_lama untuk KUM, ak_baru untuk Konversi
+    $currentKUM = $pegawai->ak_lama ?? 0;
+    $currentKonversi = $pegawai->ak_baru ?? 0;
     $target = $pegawai->jabatan_tujuan ?? '';
     
     // 1. Berkas Dasar (Semua Jabatan Wajib Ada)
@@ -127,29 +145,32 @@ public function detailAdmin($id)
             'id_file' => $file ? $file->id : null, // ID ini yang digunakan untuk route
             'status' => $file ? 'Tersedia' : 'Kosong',
             'is_link' => $file ? $file->is_link : false,
-            // TAMBAHKAN BARIS DI BAWAH INI
             'status_verifikasi' => $file ? $file->status_verifikasi : 'Menunggu Verifikasi',
             'catatan_verifikator' => $file ? $file->catatan_verifikator : null,
         ];
     }
 
-    return view('pages.monitoring.admin.detail', compact('pegawai', 'currentKUM', 'targetKUM', 'requirements'));
+    // Tambahkan variabel Konversi ke return view
+    return view('pages.monitoring.admin.detail', compact('pegawai', 'currentKUM', 'targetKUM', 'currentKonversi', 'targetKonversi', 'requirements'));
 }
 
-// Tambahkan Fungsi Simpan Nilai AK Baru
+// Tambahkan Fungsi Simpan Nilai AK Baru (KUM dan Konversi)
 public function updateAK(Request $request, $id)
 {
     $request->validate([
-        'ak_baru' => 'required|numeric|min:0',
+        'ak_lama' => 'required|numeric|min:0', // Validasi input KUM
+        'ak_baru' => 'required|numeric|min:0', // Validasi input Konversi
     ]);
 
-    $pegawai = Pegawai::findOrFail($id);
+    $pegawai = \App\Models\Pegawai::findOrFail($id);
     $pegawai->update([
-        'ak_baru' => $request->ak_baru,
+        'ak_lama' => $request->ak_lama, // Menyimpan Angka Kredit
+        'ak_baru' => $request->ak_baru, // Menyimpan Angka Konversi
     ]);
 
-    return back()->with('success', 'Nilai Angka Kredit SKP berhasil diperbarui');
+    return back()->with('success', 'Nilai Angka Kredit dan Konversi berhasil diperbarui');
 }
+
 public function indexDosen()
 {
     // 1. Ambil ID pegawai dari user yang sedang login
@@ -162,8 +183,8 @@ public function indexDosen()
     // 2. Gunakan logika yang sama dengan detailAdmin untuk mengambil data asli
     $pegawai = \App\Models\Pegawai::findOrFail($id);
 
-    // --- LOGIKA NILAI KUM ---
-    $thresholds = [
+    // --- LOGIKA NILAI KUM & KONVERSI ---
+    $thresholdsKUM = [
         'Asisten Ahli (III/b)' => 150,
         'Lektor (III/c)'       => 200,
         'Lektor (III/d)'       => 300,
@@ -174,8 +195,22 @@ public function indexDosen()
         'Guru Besar (IV/e)'    => 1050,
     ];
 
-    $targetKUM = $thresholds[$pegawai->jabatan_tujuan] ?? 0;
-    $currentKUM = $pegawai->ak_lama + $pegawai->ak_baru;
+    $thresholdsKonversi = [
+        'Asisten Ahli (III/b)' => 150,
+        'Lektor (III/c)'       => 200,
+        'Lektor (III/d)'       => 300,
+        'Lektor Kepala (IV/a)' => 400,
+        'Lektor Kepala (IV/b)' => 550,
+        'Lektor Kepala (IV/c)' => 700,
+        'Guru Besar (IV/d)'    => 850,
+        'Guru Besar (IV/e)'    => 1050,
+    ];
+
+    $targetKUM = $thresholdsKUM[$pegawai->jabatan_tujuan] ?? 0;
+    $targetKonversi = $thresholdsKonversi[$pegawai->jabatan_tujuan] ?? 0;
+
+    $currentKUM = $pegawai->ak_lama ?? 0;
+    $currentKonversi = $pegawai->ak_baru ?? 0;
     $target = $pegawai->jabatan_tujuan ?? '';
     
     // --- LOGIKA BERKAS ---
@@ -213,14 +248,13 @@ public function indexDosen()
             'id_file' => $file ? $file->id : null, // ID ini yang digunakan untuk route
             'status' => $file ? 'Tersedia' : 'Kosong',
             'is_link' => $file ? $file->is_link : false,
-            // TAMBAHKAN BARIS DI BAWAH INI
             'status_verifikasi' => $file ? $file->status_verifikasi : 'Menunggu Verifikasi',
             'catatan_verifikator' => $file ? $file->catatan_verifikator : null,
         ];
     }
 
-    // 3. Kirim ke view khusus dosen dengan variabel yang sama seperti detailAdmin
-    return view('pages.monitoring.dosen.index', compact('pegawai', 'currentKUM', 'targetKUM', 'requirements'));
+    // 3. Kirim ke view khusus dosen dengan variabel tambahan konversi
+    return view('pages.monitoring.dosen.index', compact('pegawai', 'currentKUM', 'targetKUM', 'currentKonversi', 'targetKonversi', 'requirements'));
 }
 
 }

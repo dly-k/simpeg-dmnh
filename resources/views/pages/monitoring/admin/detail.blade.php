@@ -60,59 +60,76 @@
             <div class="row g-4">
 <div class="col-lg-4">
     <div class="table-card p-4 h-100">
-        <h5 class="fw-bold mb-4 border-bottom pb-2" style="color: #001f3f;">
+        <h5 class="fw-bold mb-4 border-bottom pb-2 text-navy">
             <i class="fas fa-calculator me-2"></i>Audit Kelayakan Nilai
         </h5>
-        
-        <div class="mb-4">
-            <label class="text-muted small text-uppercase fw-bold">Jabatan yang Dituju:</label>
-            <div class="d-flex align-items-center mt-1">
-                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 30px; height: 30px;">
-                    <i class="fas fa-arrow-up small"></i>
+
+        {{-- Status Indikator Berdampingan --}}
+        <div class="row g-2 mb-4">
+            <div class="col-6">
+                <div class="p-3 text-center rounded bg-light border">
+                    <small class="text-muted d-block fw-bold" style="font-size: 0.65rem;">ANGKA KREDIT</small>
+                    <h3 class="fw-bold {{ $currentKUM >= $targetKUM ? 'text-success' : 'text-danger' }} mb-0">
+                        {{ number_format($currentKUM, 2) }}
+                    </h3>
+                    <small class="text-muted" style="font-size: 0.7rem;">Target: {{ $targetKUM }}</small>
                 </div>
-                <h6 class="fw-bold mb-0 text-dark">{{ $pegawai->jabatan_tujuan ?? 'Belum Diatur' }}</h6>
             </div>
-            <p class="text-muted small mt-1 ps-4">Syarat Minimum: <strong>{{ number_format($targetKUM, 0) }} KUM</strong></p>
-        </div>
-
-        <div class="text-center py-4 mb-4 bg-light rounded-3 border">
-            <h1 class="display-4 fw-bold text-primary mb-0">{{ number_format($currentKUM, 2) }}</h1>
-            <p class="text-muted small text-uppercase">Total KUM Saat Ini</p>
-            <div class="small text-muted">AK Lama: {{ $pegawai->ak_lama }}</div>
-        </div>
-
-        @php $isEligible = ($currentKUM >= $targetKUM && $targetKUM > 0); @endphp
-        <div class="p-3 mb-4 rounded-3 border {{ $isEligible ? 'bg-success-subtle text-success border-success' : 'bg-warning-subtle text-warning border-warning' }}">
-            <div class="d-flex align-items-center justify-content-center mb-1">
-                <i class="fas {{ $isEligible ? 'fa-check-circle' : 'fa-exclamation-triangle' }} me-2 fa-lg"></i>
-                <span class="fw-bold text-uppercase">{{ $isEligible ? 'Memenuhi' : 'Belum Memenuhi' }}</span>
+            <div class="col-6">
+                <div class="p-3 text-center rounded bg-light border">
+                    <small class="text-muted d-block fw-bold" style="font-size: 0.65rem;">KONVERSI</small>
+                    <h3 class="fw-bold {{ $currentKonversi >= $targetKonversi ? 'text-success' : 'text-danger' }} mb-0">
+                        {{ number_format($currentKonversi, 2) }}
+                    </h3>
+                    <small class="text-muted" style="font-size: 0.7rem;">Target: {{ $targetKonversi }}</small>
+                </div>
             </div>
-            
-            @if(!$isEligible && $targetKUM > 0)
-                <div class="text-center mt-2 pt-2 border-top border-warning border-opacity-25">
-                    <span class="small text-dark">Kekurangan:</span>
-                    <h4 class="fw-bold text-danger mb-0">{{ number_format($targetKUM - $currentKUM, 2) }} <span class="small">KUM</span></h4>
-                </div>
-            @elseif($targetKUM > 0)
-                <div class="text-center mt-2 pt-2 border-top border-success border-opacity-25">
-                    <small class="fw-bold italic">Syarat nilai minimum terpenuhi</small>
-                </div>
-            @endif
         </div>
 
+        {{-- Status Kelayakan Final --}}
+        @php 
+            $isKUMOk = ($currentKUM >= $targetKUM && $targetKUM > 0);
+            $isKonversiOk = ($currentKonversi >= $targetKonversi && $targetKonversi > 0);
+            $isEligible = ($isKUMOk && $isKonversiOk);
+        @endphp
+
+        <div class="alert {{ $isEligible ? 'alert-success' : 'alert-warning' }} border-0 shadow-sm mb-4">
+            <div class="d-flex align-items-center">
+                <i class="fas {{ $isEligible ? 'fa-check-circle' : 'fa-exclamation-triangle' }} fa-2x me-3"></i>
+                <div>
+                    <div class="fw-bold text-uppercase" style="font-size: 0.8rem;">
+                        {{ $isEligible ? 'Layak Naik Jabatan' : 'Belum Memenuhi Syarat' }}
+                    </div>
+                    <small style="font-size: 0.75rem;">
+                        {{ !$isKUMOk ? 'KUM kurang ' . ($targetKUM - $currentKUM) : (!$isKonversiOk ? 'Konversi kurang ' . ($targetKonversi - $currentKonversi) : 'Semua syarat nilai terpenuhi') }}
+                    </small>
+                </div>
+            </div>
+        </div>
+
+        {{-- Form Update Nilai Berdampingan --}}
         <form action="{{ route('monitoring.admin.updateAK', $pegawai->id) }}" method="POST">
-            @csrf
-            @method('PUT')
+            @csrf @method('PUT')
             <div class="mb-3">
-                <label class="form-label small fw-bold">Update AK Konversi (SKP)</label>
-                <div class="input-group">
-                    <input type="number" step="0.001" class="form-control" name="ak_baru" value="{{ $pegawai->ak_baru }}" placeholder="0.00">
-                    <button class="btn btn-primary fw-bold" type="submit" title="Simpan Perubahan">
-                        <i class="fas fa-save"></i>
-                    </button>
+                <label class="form-label small fw-bold">Update Nilai Audit</label>
+                <div class="row g-2">
+                    <div class="col-6">
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-text bg-navy text-black">KUM</span>
+                            <input type="number" step="0.001" name="ak_lama" class="form-control" value="{{ $pegawai->ak_lama }}">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-text bg-info text-white">Konv</span>
+                            <input type="number" step="0.001" name="ak_baru" class="form-control" value="{{ $pegawai->ak_baru }}">
+                        </div>
+                    </div>
                 </div>
-                <div class="form-text small italic text-muted">*Nilai akan otomatis menjumlahkan total KUM kumulatif.</div>
             </div>
+            <button type="submit" class="btn btn-navy btn-sm w-100 fw-bold">
+                <i class="fas fa-save me-1"></i> Simpan Perubahan Nilai
+            </button>
         </form>
     </div>
 </div>
