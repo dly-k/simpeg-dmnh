@@ -404,6 +404,9 @@ class PenunjangController extends Controller
     /**
      * Memperbarui status verifikasi data penunjang.
      */
+    /**
+     * Memperbarui status verifikasi data penunjang.
+     */
     public function verifikasi(Request $request, Penunjang $penunjang)
     {
         $validator = Validator::make($request->all(), [
@@ -418,7 +421,23 @@ class PenunjangController extends Controller
         }
 
         try {
+            // 1. Update status di database
             $penunjang->update(['status' => $request->status]);
+
+            // ================== PENGHAPUS NOTIFIKASI OTOMATIS ==================
+            // Cari notifikasi lonceng yang belum dibaca
+            foreach (Auth::user()->unreadNotifications as $notif) {
+                // Hapus jika ID cocok dan kategorinya Penunjang
+                if (
+                    isset($notif->data['item_id']) && 
+                    $notif->data['item_id'] == $penunjang->id &&
+                    $notif->data['kategori'] == 'Penunjang' // Kategori disesuaikan
+                ) {
+                    $notif->markAsRead(); // Hilangkan dari lonceng
+                }
+            }
+            // ===================================================================
+
             return response()->json([
                 'success' => 'Status verifikasi berhasil diperbarui.',
                 'new_status' => $request->status,

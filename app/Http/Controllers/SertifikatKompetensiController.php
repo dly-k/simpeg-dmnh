@@ -253,18 +253,33 @@ public function edit(SertifikatKompetensi $sertifikatKompetensi)
     // 3. Redirect kembali dengan pesan sukses
     return redirect()->route('sertifikat-kompetensi.index')->with('success', 'Data berhasil dihapus!');
 }
+
 public function verifikasi(Request $request, SertifikatKompetensi $sertifikatKompetensi)
-{
-    // 1. Validasi input status
-    $request->validate([
-        'status' => 'required|in:Sudah Diverifikasi,Ditolak',
-    ]);
+    {
+        // 1. Validasi input status
+        $request->validate([
+            'status' => 'required|in:Sudah Diverifikasi,Ditolak',
+        ]);
 
-    // 2. Update kolom verifikasi di database
-    $sertifikatKompetensi->verifikasi = $request->status;
-    $sertifikatKompetensi->save();
+        // 2. Update kolom verifikasi di database
+        $sertifikatKompetensi->verifikasi = $request->status;
+        $sertifikatKompetensi->save();
 
-    // 3. Redirect kembali dengan pesan sukses
-    return redirect()->route('sertifikat-kompetensi.index')->with('success', 'Status verifikasi berhasil diperbarui!');
-}
+        // ================== PENGHAPUS NOTIFIKASI OTOMATIS ==================
+        // Cari notifikasi lonceng yang belum dibaca
+        foreach (Auth::user()->unreadNotifications as $notif) {
+            // Hapus jika ID cocok dan kategorinya Sertifikat Kompetensi
+            if (
+                isset($notif->data['item_id']) && 
+                $notif->data['item_id'] == $sertifikatKompetensi->id &&
+                $notif->data['kategori'] == 'Sertifikat Kompetensi' // Kategori disesuaikan
+            ) {
+                $notif->markAsRead(); // Hilangkan dari lonceng
+            }
+        }
+        // ===================================================================
+
+        // 3. Redirect kembali dengan pesan sukses
+        return redirect()->route('sertifikat-kompetensi.index')->with('success', 'Status verifikasi berhasil diperbarui!');
+    }
 }

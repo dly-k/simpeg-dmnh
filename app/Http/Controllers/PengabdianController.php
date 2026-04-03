@@ -418,7 +418,6 @@ class PengabdianController extends Controller
         $validator = Validator::make($request->all(), [
             'status' => [
                 'required',
-                // Pastikan status yang dikirim hanya salah satu dari dua nilai ini
                 Rule::in(['Sudah Diverifikasi', 'Ditolak']),
             ],
         ]);
@@ -430,6 +429,20 @@ class PengabdianController extends Controller
         try {
             // 2. Update status di database
             $pengabdian->update(['status' => $request->status]);
+
+            // ================== PENGHAPUS NOTIFIKASI OTOMATIS ==================
+            // Cari semua notifikasi lonceng yang belum dibaca oleh Pimpinan
+            foreach (Auth::user()->unreadNotifications as $notif) {
+                // Jika ID data dan Kategorinya cocok dengan yang sedang diverifikasi
+                if (
+                    isset($notif->data['item_id']) && 
+                    $notif->data['item_id'] == $pengabdian->id &&
+                    $notif->data['kategori'] == 'Pengabdian' // Sesuaikan dengan kategori
+                ) {
+                    $notif->markAsRead(); // Hilangkan dari lonceng
+                }
+            }
+            // ===================================================================
 
             // 3. Kirim respons sukses beserta status baru
             return response()->json([

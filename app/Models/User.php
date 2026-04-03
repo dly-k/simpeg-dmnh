@@ -39,4 +39,10 @@ class User extends Authenticatable
         // Kelompok yang memiliki akses administratif ke data pegawai lain
         return in_array($this->role, ['admin', 'admin_verifikator', 'tata_usaha']);
     }
+
+    public function routeNotificationForMail($notification)
+    {
+        // Mengambil alamat email dari relasi tabel pegawais
+        return $this->pegawai->email; 
+    }
 }

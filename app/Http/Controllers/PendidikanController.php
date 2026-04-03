@@ -763,6 +763,16 @@ class PendidikanController extends Controller
             'penguji-luar' => PengujiLuar::class, 'pembimbing-luar' => PembimbingLuar::class,
         ];
 
+        // Peta Kategori untuk mencocokkan dengan nama kategori lonceng saat kita nyimpan data
+        $kategoriMap = [
+            'pengajaran-lama' => 'Pengajaran Lama',
+            'pengajaran-luar' => 'Pengajaran Luar IPB',
+            'pengujian-lama' => 'Pengujian Lama',
+            'pembimbing-lama' => 'Pembimbing Lama',
+            'penguji-luar' => 'Penguji Luar IPB',
+            'pembimbing-luar' => 'Pembimbing Luar IPB',
+        ];
+
         $type = $request->input('type');
         if (!isset($modelMapping[$type])) {
             return response()->json(['error' => 'Tipe data tidak valid.'], 400);
@@ -775,8 +785,24 @@ class PendidikanController extends Controller
             return response()->json(['error' => 'Data tidak ditemukan.'], 404);
         }
 
+        // 1. Update status verifikasi ke database
         $record->status_verifikasi = $request->input('status');
         $record->save();
+
+        // ================== PENGHAPUS NOTIFIKASI OTOMATIS ==================
+        $kategoriTarget = $kategoriMap[$type] ?? '';
+        
+        foreach (Auth::user()->unreadNotifications as $notif) {
+            // Hapus jika ID cocok dan kategorinya sesuai dengan Tab yang diverifikasi
+            if (
+                isset($notif->data['item_id']) && 
+                $notif->data['item_id'] == $record->id &&
+                $notif->data['kategori'] == $kategoriTarget
+            ) {
+                $notif->markAsRead(); // Hilangkan dari lonceng
+            }
+        }
+        // ===================================================================
 
         return response()->json(['success' => 'Status verifikasi berhasil diperbarui.']);
     }

@@ -49,13 +49,13 @@ public function logout(Request $request)
             'password_baru' => 'required|min:8|confirmed',
         ]);
 
-        if (!Hash::check($request->password_lama, auth()->user()->password)) {
+        if (!Hash::check($request->password_lama, Auth::user()->password)) {
             throw ValidationException::withMessages([
                 'password_lama' => ['Kata sandi lama Anda tidak cocok.'],
             ]);
         }
 
-        auth()->user()->update([
+        Auth::user()->update([
             'password' => Hash::make($request->password_baru),
         ]);
 

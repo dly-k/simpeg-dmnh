@@ -244,7 +244,7 @@ public function export(Request $request)
         }
     }
 
-    
+
     public function verifikasi(Request $request, PengelolaJurnal $pengelolaJurnal)
     {
         // 1. Validasi input agar sesuai dengan nilai di ENUM database
@@ -256,12 +256,27 @@ public function export(Request $request)
             // 2. Update kolom status_verifikasi dengan data yang sudah divalidasi
             $pengelolaJurnal->update(['status_verifikasi' => $validated['status']]);
             
+            // ================== PENGHAPUS NOTIFIKASI OTOMATIS ==================
+            // Cari notifikasi lonceng yang belum dibaca
+            foreach (Auth::user()->unreadNotifications as $notif) {
+                // Hapus jika ID cocok dan kategorinya Pengelola Jurnal
+                if (
+                    isset($notif->data['item_id']) && 
+                    $notif->data['item_id'] == $pengelolaJurnal->id &&
+                    $notif->data['kategori'] == 'Pengelola Jurnal' // Kategori disesuaikan
+                ) {
+                    $notif->markAsRead(); // Hilangkan dari lonceng
+                }
+            }
+            // ===================================================================
+
             return response()->json(['success' => 'Status verifikasi berhasil diperbarui!']);
         } catch (\Exception $e) {
             Log::error('Verification failed: ' . $e->getMessage());
             return response()->json(['error' => 'Gagal memperbarui status.'], 500);
         }
     }
+
     public function edit(PengelolaJurnal $pengelolaJurnal)
     {
         // Muat relasi dokumen agar datanya ikut terkirim

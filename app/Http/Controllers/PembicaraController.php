@@ -240,6 +240,20 @@ class PembicaraController extends Controller
             $pembicara->status_verifikasi = $request->status;
             $pembicara->save();
 
+            // ================== PENGHAPUS NOTIFIKASI OTOMATIS ==================
+            // Cari notifikasi lonceng yang belum dibaca
+            foreach (Auth::user()->unreadNotifications as $notif) {
+                // Hapus jika ID cocok dan kategorinya Pembicara
+                if (
+                    isset($notif->data['item_id']) && 
+                    $notif->data['item_id'] == $pembicara->id &&
+                    $notif->data['kategori'] == 'Pembicara' // Sesuaikan kategori
+                ) {
+                    $notif->markAsRead(); // Hilangkan dari lonceng
+                }
+            }
+            // ===================================================================
+
             // Tentukan pesan sukses berdasarkan status
             $pesan = $request->status === 'sudah_diverifikasi' 
                 ? 'Data pembicara berhasil diverifikasi.' 
@@ -254,6 +268,7 @@ class PembicaraController extends Controller
             return response()->json(['success' => false, 'message' => 'Terjadi kesalahan di server.'], 500);
         }
     }
+
     /**
      * Mengambil data spesifik untuk diedit dan mengembalikannya sebagai JSON.
      */

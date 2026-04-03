@@ -35,7 +35,7 @@ class SubmisiBaruNotification extends Notification
         if ($this->jenis_notifikasi === 'submisi_baru') {
             return ['database']; // Input harian hanya dikirim ke Lonceng Web
         }
-        return ['mail', 'database']; // Peringatan penting dikirim ke Email + Lonceng Web
+        return ['database']; // Lonceng Web
     }
 
     // 3. Merakit Isi Email
@@ -105,6 +105,7 @@ class SubmisiBaruNotification extends Notification
 
         // Kunci array (pesan, keterangan, kategori, url) wajib sesuai dengan di file Header Anda
         return [
+            'item_id' => $this->item->id ?? null, 
             'pesan' => $pesan_singkat,
             'keterangan' => $nama_dokumen,
             'kategori' => $this->kategori,

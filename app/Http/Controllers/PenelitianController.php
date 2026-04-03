@@ -290,6 +290,20 @@ class PenelitianController extends Controller
         $penelitian->status = $request->status;
         $penelitian->save();
 
+        // ================== PENGHAPUS NOTIFIKASI OTOMATIS ==================
+        // Cari notifikasi lonceng yang belum dibaca
+        foreach (Auth::user()->unreadNotifications as $notif) {
+            // Hapus jika ID cocok dan kategorinya Penelitian
+            if (
+                isset($notif->data['item_id']) && 
+                $notif->data['item_id'] == $penelitian->id &&
+                $notif->data['kategori'] == 'Penelitian' // Kategori disesuaikan
+            ) {
+                $notif->markAsRead(); // Hilangkan dari lonceng
+            }
+        }
+        // ===================================================================
+
         $newStatusHtml = '';
         if ($penelitian->status == 'Sudah Diverifikasi') {
             $newStatusHtml = '<i class="fas fa-check-circle text-success" title="Sudah Diverifikasi"></i>';

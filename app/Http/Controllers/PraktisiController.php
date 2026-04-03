@@ -321,6 +321,9 @@ class PraktisiController extends Controller
     /**
      * Memperbarui status verifikasi data.
      */
+    /**
+     * Memperbarui status verifikasi data.
+     */
     public function verify(Request $request, Praktisi $praktisi)
     {
         $validated = $request->validate([
@@ -328,7 +331,23 @@ class PraktisiController extends Controller
         ]);
 
         try {
+            // 1. Update status di database
             $praktisi->update(['status' => $validated['status']]);
+
+            // ================== PENGHAPUS NOTIFIKASI OTOMATIS ==================
+            // Cari notifikasi lonceng yang belum dibaca
+            foreach (Auth::user()->unreadNotifications as $notif) {
+                // Hapus jika ID cocok dan kategorinya Praktisi
+                if (
+                    isset($notif->data['item_id']) && 
+                    $notif->data['item_id'] == $praktisi->id &&
+                    $notif->data['kategori'] == 'Praktisi Dunia Industri' // Harus sama persis dengan yg di store()
+                ) {
+                    $notif->markAsRead(); // Hilangkan dari lonceng
+                }
+            }
+            // ===================================================================
+
             return redirect()->route('praktisi.index')->with('success', 'Status data berhasil diperbarui!');
 
         } catch (\Exception $e) {
