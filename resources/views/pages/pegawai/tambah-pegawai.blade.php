@@ -205,7 +205,7 @@
                                         <input type="text" class="form-control form-control-sm readonly-input" value="Fakultas Kehutanan dan Lingkungan" readonly>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label fw-bold">Divisi <span class="text-danger">*</span></label>
+                                        <label class="form-label fw-medium">Divisi <span class="text-danger">*</span></label>
                                         <select name="divisi" class="form-select @error('divisi') is-invalid @enderror" required>
                                             <option value="" selected disabled>-- Pilih Divisi --</option>
                                             <option value="perencanaan" {{ old('divisi') == 'perencanaan' ? 'selected' : '' }}>Perencanaan</option>

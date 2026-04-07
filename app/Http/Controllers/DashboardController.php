@@ -242,8 +242,6 @@ class DashboardController extends Controller
 
         $penunjangModels = [
             Penunjang::class,
-            Praktisi::class,
-            PengelolaJurnal::class
         ];
 
         $penunjangData = $initYearArray();
@@ -482,24 +480,90 @@ class DashboardController extends Controller
             $statusCounts['Pendidikan / Akademik']['ditolak'] += $result['ditolak'] ?? 0;
         }
         
-    return view('pages.dashboard', compact(
-        'totalPegawaiAktif','totalSemuaPendidikan', 'totalDosen', 'totalTendik',
-        'totalPenelitian', 'totalPelatihan', 'totalPraktisi', 'totalPembicara', 'totalPengelolaJurnal',
-        'totalPengabdian', 'totalPenghargaan', 'growthSuratTugas', 'growthKerjasama',
-        'totalSertifikatKompetensi', 'totalPenunjang',
-        'totalSuratTugas', 'totalKerjasama', 'lineChartLabels', 'lineChartDatasets', 'pieChartData', 'topPegawai', 'statusCounts',
-        'pendidikanLabels', 'pendidikanData', 'pendidikanTrend', 'pegawaiByPendidikan', 'jabatanLabels', 'jabatanLaki', 'jabatanPerempuan', 'pangkatDosen',
-        'totalSubmisi', 'growthSubmisi',
-));
+        // ========================================================================
+        // 1. DATA UNTUK MODAL POP-UP PEGAWAI AKTIF
+        // ========================================================================
+        $dosenList = \App\Models\Pegawai::where('status_pegawai', 'Aktif')
+            ->whereIn('status_kepegawaian', ['Dosen PNS', 'Dosen Tetap', 'Dosen Tamu'])
+            ->orderBy('nama_lengkap')->pluck('nama_lengkap')->toArray();
+            
+        $tendikList = \App\Models\Pegawai::where('status_pegawai', 'Aktif')
+            ->whereIn('status_kepegawaian', ['Tendik PNS', 'Tendik Tetap', 'Tendik Kontrak', 'Tenaga Harian Lepas (THL)'])
+            ->orderBy('nama_lengkap')->pluck('nama_lengkap')->toArray();
+
+        // ========================================================================
+        // 2. DATA UNTUK MODAL POP-UP RINCIAN SUBMISI
+        // ========================================================================
+        $submisiBreakdown = [
+            'Pendidikan / Akademik' => $totalSemuaPendidikan,
+            'Penelitian' => $totalPenelitian,
+            'Pengabdian' => $totalPengabdian,
+            'Diklat & Sertifikasi' => $totalPelatihan + $totalSertifikatKompetensi,
+            'Penunjang (Praktisi, Jurnal, Pembicara)' => $totalPenunjang + $totalPraktisi + $totalPengelolaJurnal + $totalPembicara,
+            'Penghargaan' => $totalPenghargaan,
+        ];
+
+        // ========================================================================
+        // 3. DATA UNTUK MODAL POP-UP GRAFIK (PENDIDIKAN, JABATAN, PANGKAT)
+        // ========================================================================
+        $pegawaiByPendidikan = \App\Models\Pegawai::select('nama_lengkap', 'pendidikan_terakhir')
+            ->where('status_pegawai', 'Aktif')
+            ->whereNotNull('pendidikan_terakhir')
+            ->get()
+            ->groupBy('pendidikan_terakhir')
+            ->map(function ($items) { return $items->pluck('nama_lengkap')->toArray(); })
+            ->toArray();
+
+        // --- MENGAMBIL DATA JABATAN + GENDER ---
+        $pegawaiByJabatanGender = \App\Models\Pegawai::select('nama_lengkap', 'jabatan_fungsional', 'jenis_kelamin')
+            ->where('status_pegawai', 'Aktif')
+            ->whereNotNull('jabatan_fungsional')
+            ->get()
+            ->groupBy('jabatan_fungsional')
+            ->map(function ($items) {
+                return $items->groupBy('jenis_kelamin')->map(function ($genders) {
+                    return $genders->pluck('nama_lengkap')->toArray();
+                });
+            })->toArray();
+
+        $pegawaiByPangkat = \App\Models\Pegawai::select('nama_lengkap', 'pangkat_golongan')
+            ->where('status_pegawai', 'Aktif')
+            ->whereNotNull('pangkat_golongan')
+            ->get()
+            ->groupBy('pangkat_golongan')
+            ->map(function ($items) { return $items->pluck('nama_lengkap')->toArray(); })
+            ->toArray();
+
+        return view('pages.dashboard', compact(
+            'totalPegawaiAktif', 'totalSemuaPendidikan', 'totalDosen', 'totalTendik',
+            'totalPenelitian', 'totalPelatihan', 'totalPraktisi', 'totalPembicara', 'totalPengelolaJurnal',
+            'totalPengabdian', 'totalPenghargaan', 'growthSuratTugas', 'growthKerjasama',
+            'totalSertifikatKompetensi', 'totalPenunjang',
+            'totalSuratTugas', 'totalKerjasama', 'lineChartLabels', 'lineChartDatasets', 'pieChartData', 'topPegawai', 'statusCounts',
+            'pendidikanLabels', 'pendidikanData', 'pendidikanTrend', 'pegawaiByPendidikan', 'jabatanLabels', 'jabatanLaki', 'jabatanPerempuan', 'pangkatDosen',
+            'totalSubmisi', 'growthSubmisi', 
+            'dosenList', 'tendikList', 'submisiBreakdown', 'pegawaiByPendidikan', 'pegawaiByJabatanGender', 'pegawaiByPangkat'
+        ));
     }
 
     public function markAsRead($id)
     {
         $notification = Auth::user()->notifications->find($id);
         if ($notification) {
-            $notification->markAsRead(); // Ini yang bikin angka merah hilang
+            $notification->markAsRead(); 
             return redirect($notification->data['url'] ?? '/dashboard');
         }
         return back();
+    }
+
+    /**
+     * Menandai semua notifikasi milik user yang sedang login menjadi "Sudah Dibaca"
+     */
+    public function markAllAsRead()
+    {
+        // Fitur bawaan Laravel untuk menandai semua notifikasi
+        Auth::user()->unreadNotifications->markAsRead();
+
+        return back()->with('success', 'Semua notifikasi berhasil ditandai telah dibaca.');
     }
 }

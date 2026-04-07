@@ -23,8 +23,17 @@ class SubmisiBaruNotification extends Notification
     {
         $this->item = $item;
         $this->kategori = $kategori;
-        $this->namaPegawai = $namaPegawai;
-        $this->urlLink = $urlLink;
+        
+        // PENGAMAN UTAMA: Pastikan namaPegawai benar-benar ada nilainya
+        $this->namaPegawai = !empty(trim($namaPegawai)) ? trim($namaPegawai) : 'Pengusul';
+        
+        // Jika URL belum memiliki '?search=' dan nama dosennya ada, tambahkan otomatis!
+        if (!str_contains($urlLink, '?search=') && $this->namaPegawai !== 'Sistem' && $this->namaPegawai !== 'Pengusul' && $this->namaPegawai !== 'Dosen Terkait') {
+            $this->urlLink = $urlLink . '?search=' . urlencode($this->namaPegawai);
+        } else {
+            $this->urlLink = $urlLink;
+        }
+
         $this->jenis_notifikasi = $jenis_notifikasi;
         $this->pesan_tambahan = $pesan_tambahan;
     }
@@ -32,10 +41,8 @@ class SubmisiBaruNotification extends Notification
     // 2. Logika Jalur Pengiriman (Anti-Spam)
     public function via(object $notifiable): array
     {
-        if ($this->jenis_notifikasi === 'submisi_baru') {
-            return ['database']; // Input harian hanya dikirim ke Lonceng Web
-        }
-        return ['database']; // Lonceng Web
+        // Hanya dikirim ke Lonceng Web
+        return ['database']; 
     }
 
     // 3. Merakit Isi Email
@@ -83,11 +90,12 @@ class SubmisiBaruNotification extends Notification
     // 4. Merakit Isi Lonceng Web
     public function toArray(object $notifiable): array
     {
+        // Pengaman berlapis untuk judul dokumen
         $nama_dokumen = $this->item->judul_penelitian 
             ?? $this->item->judul 
             ?? $this->item->nama_kegiatan 
             ?? $this->item->nama_dokumen 
-            ?? 'Data Baru';
+            ?? 'Dokumen ' . $this->kategori;
 
         $pesan_singkat = '';
 
@@ -103,13 +111,13 @@ class SubmisiBaruNotification extends Notification
             $pesan_singkat = 'Notifikasi ' . $this->kategori . ' a.n ' . $this->namaPegawai;
         }
 
-        // Kunci array (pesan, keterangan, kategori, url) wajib sesuai dengan di file Header Anda
         return [
             'item_id' => $this->item->id ?? null, 
-            'pesan' => $pesan_singkat,
+            'pesan' => $pesan_singkat, 
             'keterangan' => $nama_dokumen,
             'kategori' => $this->kategori,
-            'url' => $this->urlLink,
+            'url' => $this->urlLink,             
+            'namaPegawai_static' => $this->namaPegawai 
         ];
     }
 }

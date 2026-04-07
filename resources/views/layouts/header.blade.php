@@ -20,9 +20,9 @@
             </div>
         </div>
 
-            {{-- Icon Notifikasi --}}
-            @if(auth()->check() && auth()->user()->role === 'admin_verifikator')
-            <div class="dropdown me-2">
+        {{-- Icon Notifikasi --}}
+        @if(auth()->check() && auth()->user()->role === 'admin_verifikator')
+        <div class="dropdown me-1">
             <a href="#" 
             class="text-dark text-decoration-none d-flex align-items-center" 
             role="button" 
@@ -41,11 +41,23 @@
 
             <ul class="dropdown-menu dropdown-menu-end p-2 shadow" style="width: 350px; max-height: 400px; overflow-y: auto;">
                 <li>
-                    <div class="dropdown-header d-flex justify-content-between align-items-center border-bottom pb-2">
-                        <h6 class="text-dark fw-bold mb-0">Notifikasi Terbaru</h6>
-                        <span class="badge bg-primary">
-                            {{ auth()->user()->unreadNotifications->count() }} Baru
-                        </span>
+                    <div class="dropdown-header border-bottom pb-2">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h6 class="text-dark fw-bold mb-0">Notifikasi Terbaru</h6>
+                            <span class="badge bg-primary">
+                                {{ auth()->user()->unreadNotifications->count() }} Baru
+                            </span>
+                        </div>
+                        
+                        {{-- Tombol Read All --}}
+                        @if(auth()->user()->unreadNotifications->count() > 0)
+                            <form action="{{ route('notifikasi.readAll') }}" method="POST" class="m-0 d-grid">
+                                @csrf
+                                <button type="submit" class="btn btn-sm btn-outline-success" style="font-size: 0.75rem; padding: 4px;">
+                                    <i class="lni lni-checkmark-circle"></i> Tandai Semua Dibaca
+                                </button>
+                            </form>
+                        @endif
                     </div>
                 </li>
                 

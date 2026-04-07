@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta name="line-chart-labels" content='@json($lineChartLabels)'>
+    <meta name="pegawai-jabatan-gender" content='@json($pegawaiByJabatanGender ?? [])'>
+    <meta name="pegawai-pangkat" content='@json($pegawaiByPangkat ?? [])'>
     <meta name="line-chart-datasets" content='@json($lineChartDatasets)'>
     <meta name="pie-chart-data" content='@json($pieChartData)'>
     <meta name="pendidikan-labels" content='@json($pendidikanLabels)'>
@@ -47,21 +49,20 @@
             <div class="card-container">
 
                 <!-- Jumlah Pegawai -->
-                <div class="stat-card blue">
+                <div class="stat-card blue" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#modalPegawaiAktif" title="Klik untuk lihat daftar nama">
                     <div class="card-icon icon-blue">
                         <i class="fas fa-user-check"></i>
                     </div>
                     <div>
                         <div class="card-label">Jumlah Pegawai Aktif</div>
                         <div class="card-value">{{ $totalPegawaiAktif }}</div>
-
-                @if(auth()->user()->role === 'admin_verifikator')
-                <div class="fw-semibold">
-                    <span class="text-primary">Dosen: {{ $totalDosen }}</span>
-                    <span class="mx-2">|</span>
-                    <span class="text-secondary">Tendik: {{ $totalTendik }}</span>
-                </div>
-                @endif
+                        @if(auth()->user()->role === 'admin_verifikator')
+                        <div class="fw-semibold mt-1">
+                            <span class="text-primary">Dosen: {{ $totalDosen }}</span>
+                            <span class="mx-2">|</span>
+                            <span class="text-secondary">Tendik: {{ $totalTendik }}</span>
+                        </div>
+                        @endif
                     </div>
                 </div>
 
@@ -91,14 +92,13 @@
                 @endif
 
                 @if(auth()->user()->role === 'admin_verifikator')
-                <div class="stat-card orange" data-bs-toggle="modal" data-bs-target="#modalSubmisi">
+                <div class="stat-card orange" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#modalSubmisi" title="Klik untuk lihat rincian dokumen">
                     <div class="card-icon icon-orange">
                         <i class="fas fa-book-open"></i>
                     </div>
                     <div>
                         <div class="card-label">Total Submisi</div>
                         <div class="card-value">{{ $totalSubmisi }}</div>
-
                         <small class="{{ $growthSubmisi >= 0 ? 'text-success' : 'text-danger' }}">
                             {{ $growthSubmisi >= 0 ? '▲' : '▼' }} 
                             {{ number_format($growthSubmisi, 1) }}% dari bulan lalu
@@ -283,12 +283,12 @@
             <!-- Grafik -->
             <div class="chart-grid">
 
-                <div class="chart-box pie-box">
+                <div class="chart-box pie-box" id="cardPendidikan">
                     <h3>
                         <i class="fas fa-user-graduate text-primary"></i>
                          Komposisi Pendidikan Pegawai
                     </h3>
-                    <canvas id="pendidikanChart"></canvas>
+                    <canvas style="cursor: pointer;" id="pendidikanChart" title="Klik grafik untuk lihat detail"></canvas>
                 </div>
 
                 <div class="chart-box bar-box">
@@ -296,7 +296,7 @@
                         <i class="fas fa-user-tie text-success"></i>
                          Sebaran Jabatan Akademik Dosen
                     </h3>
-                    <canvas id="JabatanChart"></canvas>
+                    <canvas style="cursor: pointer;" id="JabatanChart" title="Klik untuk lihat daftar nama"></canvas>
                 </div>
 
                 <div class="chart-box line-box">
@@ -313,12 +313,14 @@
             <div class="table-container">
 
                 <!-- Pangkat -->
-                <div class="table-box">
+                <div class="table-box d-flex flex-column" id="cardPangkat">
                     <h3>
-                        <i class="fas fa-layer-group text-primary"></i>
-                         Distribusi Pangkat Akademik
+                        <i class="fas fa-layer-group text-info"></i> 
+                        Distribusi Pangkat Akademik 
                     </h3>
-                    <canvas id="pangkatChart"></canvas>
+                    <div style="flex-grow: 1; position: relative;">
+                        <canvas id="pangkatChart"  style="cursor: pointer;" title="Klik untuk lihat daftar nama"></canvas>
+                    </div>
                 </div>
 
                 <!-- Top Dosen -->
@@ -446,6 +448,199 @@
 
 </div>
 
+<div class="modal fade" id="modalSubmisi" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0 shadow-lg">
+                    <div class="modal-header border-bottom bg-white px-4 py-3">
+                        <h5 class="modal-title fw-bold text-dark">
+                            <i class="fas fa-book-open me-2" style="color: #fd7e14;"></i> Rincian Submisi per Kategori
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-3 bg-light">
+                        <div class="list-group shadow-sm">
+                            @forelse($submisiBreakdown as $label => $jumlah)
+                                <div class="list-group-item d-flex justify-content-between align-items-center border-0 mb-1 rounded px-3 py-3" style="background-color: #ffffff;">
+                                    <div class="text-dark fw-medium" style="font-size: 0.95rem;">
+                                        <i class="fas fa-check-circle opacity-50 me-2" style="color: #198754;"></i> 
+                                        {{ $label }}
+                                    </div>
+                                    <div class="fw-bold text-dark" style="font-size: 1.1rem;">
+                                        {{ $jumlah }} <span class="text-muted fw-normal" style="font-size: 0.75rem;">Submisi</span>
+                                    </div>
+                                </div>
+                            @empty
+                                <div class="text-center text-muted py-4">Belum ada data yang dimasukkan.</div>
+                            @endforelse
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modalPegawaiAktif" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content border-0 shadow">
+                    <div class="modal-header border-bottom bg-light">
+                        <h5 class="modal-title fw-bold text-dark"><i class="fas fa-users text-primary me-2"></i> Daftar Pegawai Aktif</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body p-0">
+                        <ul class="nav nav-tabs nav-justified" id="pegawaiTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active fw-semibold text-primary" data-bs-toggle="tab" data-bs-target="#tab-dosen" type="button">
+                                    <i class="fas fa-chalkboard-teacher me-1"></i> Dosen ({{ count($dosenList) }})
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link fw-semibold text-secondary" data-bs-toggle="tab" data-bs-target="#tab-tendik" type="button">
+                                    <i class="fas fa-user-cog me-1"></i> Tendik ({{ count($tendikList) }})
+                                </button>
+                            </li>
+                        </ul>
+                        <div class="tab-content p-3" id="pegawaiTabContent">
+                            <div class="tab-pane fade show active" id="tab-dosen">
+                                <div class="list-group list-group-flush">
+                                    @forelse($dosenList as $dosen) 
+                                        <div class="list-group-item px-2 py-2 text-dark" style="font-size: 0.9rem;"><i class="fas fa-circle text-primary opacity-50 me-2" style="font-size: 8px;"></i> {{ $dosen }}</div> 
+                                    @empty
+                                        <div class="text-center text-muted py-3">Tidak ada data dosen aktif</div>
+                                    @endforelse
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="tab-tendik">
+                                <div class="list-group list-group-flush">
+                                    @forelse($tendikList as $tendik) 
+                                        <div class="list-group-item px-2 py-2 text-dark" style="font-size: 0.9rem;"><i class="fas fa-circle text-secondary opacity-50 me-2" style="font-size: 8px;"></i> {{ $tendik }}</div> 
+                                    @empty
+                                        <div class="text-center text-muted py-3">Tidak ada data tendik aktif</div>
+                                    @endforelse
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modalPendidikan" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content border-0 shadow-lg">
+                    <div class="modal-header border-bottom bg-white px-4 py-3">
+                        <h5 class="modal-title fw-bold text-dark">
+                            <i class="fas fa-user-graduate text-primary me-2"></i> Data Pendidikan Pegawai
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body p-3 bg-light text-start"> 
+                        <div class="accordion" id="accPendidikan">
+                            @forelse($pegawaiByPendidikan as $jenjang => $namaPegawai)
+                            <div class="accordion-item border-0 mb-2 shadow-sm rounded overflow-hidden">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed fw-bold text-dark px-4 py-3" type="button" data-bs-toggle="collapse" data-bs-target="#pend-{{ Str::slug($jenjang) }}">
+                                        {{ $jenjang }} 
+                                        <span class="badge bg-primary rounded-pill ms-auto" style="font-size: 0.85rem; padding: 0.4em 0.8em;">
+                                            {{ count($namaPegawai) }} Orang
+                                        </span>
+                                    </button>
+                                </h2>
+                                <div id="pend-{{ Str::slug($jenjang) }}" class="accordion-collapse collapse" data-bs-parent="#accPendidikan">
+                                    <div class="accordion-body p-0 bg-white">
+                                        <div class="list-group list-group-flush">
+                                            @foreach($namaPegawai as $nama) 
+                                                <div class="list-group-item px-4 py-2 text-dark d-flex justify-content-between align-items-center" style="font-size: 0.9rem; border-color: #eaecf4;">
+                                                    <div><i class="fas fa-user-circle text-primary opacity-50 me-2 fs-5"></i> {{ $nama }}</div>
+                                                    <small class="text-muted fst-italic" style="font-size: 0.75rem;">#{{ $loop->iteration }}</small>
+                                                </div> 
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @empty
+                                <div class="text-center text-muted py-5">
+                                    <p class="mb-0">Belum ada data pendidikan.</p>
+                                </div>
+                            @endforelse
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modalPendidikanAuto" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header border-bottom px-4">
+                <h5 class="modal-title fw-bold text-dark">
+                    <i class="fas fa-user-graduate text-primary me-2"></i> 
+                    Detail Pegawai: <span id="labelJenjangTerpilih" class="text-primary"></span>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-3 bg-light text-start">
+                <div id="listPegawaiPendidikan" class="list-group shadow-sm">
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalJabatanAuto" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header border-bottom px-4 py-3">
+                <h5 class="modal-title fw-bold text-dark">
+                    <i class="fas fa-user-tie text-success me-2"></i> 
+                    Jabatan: <span id="labelJabatanTerpilih" class="text-success"></span>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-0 bg-light text-start">
+                <ul class="nav nav-tabs nav-justified bg-white" role="tablist">
+                    <li class="nav-item">
+                        <button class="nav-link active fw-bold text-primary py-3" data-bs-toggle="tab" data-bs-target="#tab-laki" type="button">
+                            <i class="fas fa-mars me-1"></i> Laki-laki (<span id="cnt-laki">0</span>)
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link fw-bold text-danger py-3" data-bs-toggle="tab" data-bs-target="#tab-perempuan" type="button">
+                            <i class="fas fa-venus me-1"></i> Perempuan (<span id="cnt-perempuan">0</span>)
+                        </button>
+                    </li>
+                </ul>
+                
+                <div class="tab-content p-3">
+                    <div class="tab-pane fade show active" id="tab-laki">
+                        <div id="list-laki" class="list-group shadow-sm"></div>
+                    </div>
+                    <div class="tab-pane fade" id="tab-perempuan">
+                        <div id="list-perempuan" class="list-group shadow-sm"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalPangkatAuto" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header border-bottom px-4">
+                <h5 class="modal-title fw-bold text-dark">
+                    <i class="fas fa-layer-group text-info me-2"></i> 
+                    Golongan Pangkat: <span id="labelPangkatTerpilih" class="text-info"></span>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-3 bg-light text-start">
+                <div id="listPegawaiPangkat" class="list-group shadow-sm">
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+        
 <!-- JS -->
 <script src="{{ asset('assets/js/layout.js') }}"></script>
 <script src="{{ asset('assets/js/dashboard.js') }}"></script>

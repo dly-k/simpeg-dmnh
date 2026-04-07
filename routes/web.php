@@ -164,6 +164,7 @@ Route::middleware(['auth'])->group(function () {
         Route::patch('/orasi-ilmiah/{orasiIlmiah}/verifikasi', [OrasiIlmiahController::class, 'verifikasi'])->name('orasi-ilmiah.verifikasi');
         Route::patch('/sertifikat-kompetensi/{sertifikatKompetensi}/verifikasi', [SertifikatKompetensiController::class, 'verifikasi'])->name('sertifikat-kompetensi.verifikasi');
         Route::patch('/pengelola-jurnal/{pengelolaJurnal}/verifikasi', [PengelolaJurnalController::class, 'verifikasi'])->name('pengelola-jurnal.verifikasi');
+        Route::post('/notifikasi/read-all', [App\Http\Controllers\DashboardController::class, 'markAllAsRead'])->name('notifikasi.readAll');
     });
 
     // ================== BISA DIAKSES OLEH SEMUA ROLE (YANG SUDAH LOGIN) ==================
