@@ -17,8 +17,8 @@ class PengingatDokumenMandek extends Command
 
     public function handle()
     {
-        // WAKTU TESTING 1 JAM (Jika pengujian skripsi selesai, ubah subHours(1) menjadi subDays(30))
-        $batasWaktu = Carbon::now()->subHours(1); 
+        // Batas dokumen mandek = 30 hari (untuk pelaporan)
+        $batasWaktu = Carbon::now()->subDays(30); 
         $totalMandek = 0;
 
         $modelsToCheck = [
