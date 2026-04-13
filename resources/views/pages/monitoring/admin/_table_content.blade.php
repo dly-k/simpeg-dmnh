@@ -167,8 +167,10 @@
                                                     }
                                                     $availableOptions = [];
                                                     if ($currentIndex !== -1) {
-                                                        if (isset($hierarchy[$currentIndex + 1])) $availableOptions[] = $hierarchy[$currentIndex + 1];
-                                                        if (isset($hierarchy[$currentIndex + 2])) $availableOptions[] = $hierarchy[$currentIndex + 2];
+                                                        // Ambil semua tingkatan setelah jabatan saat ini
+                                                        for ($i = $currentIndex + 1; $i < count($hierarchy); $i++) {
+                                                            $availableOptions[] = $hierarchy[$i];
+                                                        }
                                                     } else {
                                                         $availableOptions = $hierarchy;
                                                     }
@@ -182,7 +184,7 @@
                                                     </option>
                                                 @endforeach
                                             </select>
-                                            <small class="text-muted">*Pilihan dibatasi satu tingkat di atas posisi saat ini.</small>
+                                            <small class="text-muted">*Pilihan dibatasi pada tingkat di atas posisi saat ini.</small>
                                         </div>
 
                                         <div class="mb-3">
