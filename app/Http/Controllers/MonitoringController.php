@@ -52,20 +52,31 @@ public function indexAdmin(\Illuminate\Http\Request $request)
         $pegawais = $query->get();
 
         foreach ($pegawais as $pegawai) {
-            // Panggil logika syarat dokumen
-            $docTypes = $this->getRequirementsFor($pegawai->jabatan_tujuan);
-            $totalSyarat = count($docTypes);
+            $target = $pegawai->jabatan_tujuan;
 
-            // Hitung dokumen milik pegawai ini yang statusnya 'Disetujui'
-            $totalVerified = \App\Models\EFile::where('pegawai_id', $pegawai->id)
-                ->whereIn('nama_dokumen', $docTypes)
-                ->where('status_verifikasi', 'Disetujui')
-                ->count();
+            // Jika target belum diset, beri nilai 0
+            if (!$target) {
+                $pegawai->total_syarat = 0;
+                $pegawai->total_verified = 0;
+                $pegawai->progres_persen = 0;
+            } else {
+                // Panggil logika syarat dokumen
+                $docTypes = $this->getRequirementsFor($target);
+                $totalSyarat = count($docTypes);
 
-            // Simpan hasil perhitungan ke objek pegawai secara temporary
-            $pegawai->total_syarat = $totalSyarat;
-            $pegawai->total_verified = $totalVerified;
-            $pegawai->progres_persen = $totalSyarat > 0 ? ($totalVerified / $totalSyarat) * 100 : 0;
+                // Hitung dokumen milik pegawai ini yang statusnya 'Disetujui'
+                // Gunakan distinct agar jika ada duplikasi unggah file yang sama, hanya dihitung 1
+                $totalVerified = \App\Models\EFile::where('pegawai_id', $pegawai->id)
+                    ->whereIn('nama_dokumen', $docTypes)
+                    ->where('status_verifikasi', 'Disetujui')
+                    ->distinct('nama_dokumen')
+                    ->count('nama_dokumen');
+
+                // Simpan hasil perhitungan ke objek pegawai secara temporary
+                $pegawai->total_syarat = $totalSyarat;
+                $pegawai->total_verified = $totalVerified;
+                $pegawai->progres_persen = $totalSyarat > 0 ? ($totalVerified / $totalSyarat) * 100 : 0;
+            }
         }
         $data[$div] = $pegawais;
     }
@@ -80,13 +91,30 @@ public function indexAdmin(\Illuminate\Http\Request $request)
 }
 private function getRequirementsFor($target)
 {
-    $docTypes = ['SK Jabatan Fungsional Terakhir', 'PAK Terakhir', 'Ijazah Pendidikan Terakhir', 'SKP 2 Tahun Terakhir'];
+    // FIX: Sinkronisasi nama string array agar sesuai dengan detailAdmin & database
+    $docTypes = [
+        'SK Jabatan Fungsional Terakhir', 
+        'PAK Terakhir (Integrasi)', 
+        'Ijazah Pendidikan Terakhir', 
+        'SKP 2 Tahun Terakhir'
+    ];
 
-    if (\Illuminate\Support\Str::contains($target, 'Lektor Kepala', true)) {
-        $docTypes = array_merge($docTypes, ['Bukti Publikasi Jurnal Nasional Terakreditasi', 'Surat Pernyataan Keabsahan Karya Ilmiah', 'Lembar Hasil Penilaian Peer Review']);
-    } elseif (\Illuminate\Support\Str::contains($target, 'Guru Besar', true)) {
-        $docTypes = array_merge($docTypes, ['Bukti Publikasi Jurnal Internasional Bereputasi', 'Ijazah Doktor (S3)', 'Surat Pernyataan Pemenuhan Persyaratan Khusus', 'Lembar Hasil Penilaian Peer Review (GB)']);
+    // Menambahkan (string) pada $target untuk mencegah error pada php 8+ saat target bernilai Null
+    if (\Illuminate\Support\Str::contains((string)$target, 'Lektor Kepala', true)) {
+        $docTypes = array_merge($docTypes, [
+            'Bukti Publikasi Jurnal Nasional Terakreditasi', 
+            'Surat Pernyataan Keabsahan Karya Ilmiah', 
+            'Lembar Hasil Penilaian Peer Review'
+        ]);
+    } elseif (\Illuminate\Support\Str::contains((string)$target, 'Guru Besar', true)) {
+        $docTypes = array_merge($docTypes, [
+            'Bukti Publikasi Jurnal Internasional Bereputasi', 
+            'Ijazah Doktor (S3)', 
+            'Surat Pernyataan Pemenuhan Persyaratan Khusus', 
+            'Lembar Hasil Penilaian Peer Review (GB)'
+        ]);
     }
+    
     return $docTypes;
 }
 
