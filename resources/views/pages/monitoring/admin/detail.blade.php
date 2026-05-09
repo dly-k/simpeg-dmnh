@@ -380,13 +380,31 @@
                                     <i class="fas fa-file-export me-2"></i>Kompilasi Berkas (ZIP)
                                 </button>
                             </form>
+                            {{-- Logika Validasi Tombol Selesai --}}
+                            @php
+                                // Cek apakah seluruh dokumen persyaratan sudah diunggah dan disetujui
+                                $semuaDokumenTerverifikasi = true;
+                                if(empty($requirements)) {
+                                    $semuaDokumenTerverifikasi = false;
+                                } else {
+                                    foreach ($requirements as $req) {
+                                        if (!$req['is_uploaded'] || $req['status_verifikasi'] !== 'Disetujui') {
+                                            $semuaDokumenTerverifikasi = false;
+                                            break;
+                                        }
+                                    }
+                                }
+                                
+                                // Syarat Aktif: Target ada, Nilai KUM & Konversi terpenuhi, dan SEMUA dokumen statusnya "Disetujui"
+                                $bisaSelesai = (isset($isEligible) && $isEligible) && $semuaDokumenTerverifikasi;
+                            @endphp
 
-                            {{-- Munculkan tombol selesai HANYA jika nilainya sudah layak (isEligible) --}}
-                            @if(isset($isEligible) && $isEligible)
-                                <button type="button" class="btn btn-success fw-bold shadow-sm px-4 rounded-pill" onclick="openSelesaiModal()">
-                                    <i class="fas fa-check-circle me-2"></i>Proses Kenaikan Selesai
-                                </button>
-                            @endif
+                            <button type="button" 
+                                class="btn {{ $bisaSelesai ? 'btn-success' : 'btn-secondary' }} fw-bold shadow-sm px-4 rounded-pill" 
+                                {{ $bisaSelesai ? 'onclick=openSelesaiModal()' : 'disabled' }}
+                                title="{{ $bisaSelesai ? 'Selesaikan Proses Kenaikan Jabatan' : 'Pastikan KUM, Konversi terpenuhi & Semua Dokumen telah Disetujui' }}">
+                                <i class="fas {{ $bisaSelesai ? 'fa-check-circle' : 'fa-lock' }} me-2"></i>Proses Kenaikan Selesai
+                            </button>
                         </div>
                     </div>
                 </div>
