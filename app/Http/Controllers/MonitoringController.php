@@ -330,8 +330,7 @@ public function selesaikanKenaikan($id)
         return back()->with('error', 'Jabatan tujuan belum ditentukan.');
     }
 
-    // Menggunakan regex untuk memisahkan Jabatan Fungsional dan Pangkat/Golongan
-    // Contoh: "Lektor Kepala (IV/a)" -> $matches[1] = Lektor Kepala, $matches[2] = IV/a
+    // regex untuk memisahkan Jabatan Fungsional dan Pangkat/Golongan
     if (preg_match('/^(.*?)\s*\((.*?)\)$/', $target, $matches)) {
         $jabatanFungsional = trim($matches[1]);
         $pangkatGolongan   = trim($matches[2]);
@@ -341,7 +340,6 @@ public function selesaikanKenaikan($id)
         $docTypes = $this->getRequirementsFor($target);
 
         // 2. Hapus berkas persyaratan tersebut dari database agar statusnya kembali "Kosong"
-        // Kita hanya menghapus berkas yang termasuk dalam kategori 'Lain-lain' (berkas kenaikan)
         \App\Models\EFile::where('pegawai_id', $pegawai->id)
             ->whereIn('nama_dokumen', $docTypes)
             ->delete();
@@ -357,7 +355,9 @@ public function selesaikanKenaikan($id)
             'ak_baru'            => 0     // Reset Konversi untuk periode berikutnya
         ]);
 
-        return redirect()->route('monitoring.admin.index')->with('success', 'Selamat! Kenaikan jabatan berhasil diproses. Data profil telah diperbarui dan berkas persyaratan telah dikosongkan untuk periode audit selanjutnya.');
+        return redirect()->route('monitoring.admin.index')->
+        with('success', 'Selamat! Kenaikan jabatan berhasil diproses. 
+        Data profil telah diperbarui dan berkas persyaratan telah dikosongkan untuk periode audit selanjutnya.');
     }
 
     return back()->with('error', 'Format nama jabatan tujuan tidak dikenali oleh sistem.');

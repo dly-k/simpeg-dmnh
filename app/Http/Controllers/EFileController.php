@@ -122,18 +122,15 @@ public function downloadZip($pegawaiId)
     if ($zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
         foreach ($files as $file) {
             if ($file->is_link) {
-                // --- CASE 1: JIKA LINK ---
-                // Buat file .txt berisi URL dokumen tersebut
+                // file .txt berisi URL dokumen
                 $content = "Nama Dokumen: " . $file->nama_dokumen . "\r\n";
                 $content .= "Link Akses: " . $file->link_url . "\r\n";
                 $content .= "\r\nSilakan salin link di atas ke browser Anda untuk melihat dokumen.";
                 
                 $zip->addFromString($file->nama_dokumen . '.txt', $content);
             } else {
-                // --- CASE 2: JIKA FILE FISIK ---
                 $filePath = storage_path('app/public/' . $file->file_path);
                 if (File::exists($filePath)) {
-                    // Gunakan ekstensi asli dari file yang tersimpan
                     $extension = pathinfo($filePath, PATHINFO_EXTENSION);
                     $zip->addFile($filePath, $file->nama_dokumen . '.' . $extension);
                 }
