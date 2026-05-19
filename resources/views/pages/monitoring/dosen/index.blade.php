@@ -193,15 +193,15 @@
 
                                                         @else
                                                             {{-- Tombol jika masih kosong --}}
-                                                        <button class="btn btn-sm {{ $isEligible ? 'btn-navy' : 'btn-secondary' }}" 
+                                                        <button class="btn btn-sm btn-primary fw-bold shadow-sm" 
                                                             data-bs-toggle="modal" 
-                                                            data-bs-target="#modalDosen{{ $index }}"
+                                                            data-bs-target="#modalUpload{{ $index }}"
                                                             {{ !$isEligible ? 'disabled' : '' }}>
                                                             
                                                             @if(!$isEligible)
                                                                 <i class="fas fa-lock me-1"></i> Terkunci
                                                             @else
-                                                                <i class="fas fa-upload me-1"></i> Update Berkas
+                                                                <i class="fas fa-upload me-1"></i> Unggah
                                                             @endif
                                                         </button>
                                                         @endif
