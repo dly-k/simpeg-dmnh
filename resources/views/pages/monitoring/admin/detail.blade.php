@@ -70,7 +70,7 @@
                 <div class="p-3 text-center rounded bg-light border">
                     <small class="text-muted d-block fw-bold" style="font-size: 0.65rem;">ANGKA KREDIT</small>
                     <h3 class="fw-bold {{ $currentKUM >= $targetKUM ? 'text-success' : 'text-danger' }} mb-0">
-                        {{ number_format($currentKUM, 2) }}
+                        {{ number_format($currentKUM, 0, ',', '.') }}
                     </h3>
                     <small class="text-muted" style="font-size: 0.7rem;">Target: {{ $targetKUM }}</small>
                 </div>
@@ -79,7 +79,7 @@
                 <div class="p-3 text-center rounded bg-light border">
                     <small class="text-muted d-block fw-bold" style="font-size: 0.65rem;">ANGKA KONVERSI</small>
                     <h3 class="fw-bold {{ $currentKonversi >= $targetKonversi ? 'text-success' : 'text-danger' }} mb-0">
-                        {{ number_format($currentKonversi, 2) }}
+                        {{ number_format($currentKonversi, 0, ',', '.')}}
                     </h3>
                     <small class="text-muted" style="font-size: 0.7rem;">Target: {{ $targetKonversi }}</small>
                 </div>
@@ -116,13 +116,13 @@
                     <div class="col-6">
                         <div class="input-group input-group-sm">
                             <span class="input-group-text bg-navy text-black">KUM</span>
-                            <input type="number" step="0.001" name="ak_lama" class="form-control" value="{{ $pegawai->ak_lama }}">
+                            <input type="number" step="0.001" name="ak_lama" class="form-control" value="{{ (float)$pegawai->ak_lama }}">
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="input-group input-group-sm">
                             <span class="input-group-text bg-info text-white">Konv</span>
-                            <input type="number" step="0.001" name="ak_baru" class="form-control" value="{{ $pegawai->ak_baru }}">
+                            <input type="number" step="0.001" name="ak_baru" class="form-control" value="{{ (float)$pegawai->ak_baru }}">
                         </div>
                     </div>
                 </div>
@@ -205,18 +205,20 @@
 
                                                 {{-- Tombol Verifikasi (Memicu Modal Konfirmasi) --}}
                                                 <button type="button" class="btn btn-sm btn-success" title="Verifikasi Final" 
-                                                        onclick="openVerifModal('{{ route('efile.verify', $req['id_file']) }}', {{ $index }})">
+                                                        onclick="openVerifModal('{{ route('efile.verify', $req['id_file']) }}', {{ $index }})"
+                                                        {{ !$isEligible ? 'disabled' : '' }}>
                                                     <i class="fas fa-check-double"></i>
                                                 </button>
                                             @endif
 
                                         @else
                                             {{-- Tombol Upload Admin jika berkas kosong --}}
-                                            <button class="btn btn-sm btn-outline-primary fw-bold px-3" 
-                                                    data-bs-toggle="modal" 
-                                                    data-bs-target="#modalUploadAdmin{{ $index }}">
-                                                <i class="fas fa-upload me-1"></i> Upload Admin
-                                            </button>
+                                        <button class="btn btn-sm btn-outline-primary fw-bold px-3" 
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#modalUploadAdmin{{ $index }}"
+                                                {{ !$isEligible ? 'disabled' : '' }}>
+                                            <i class="fas fa-upload me-1"></i> Upload Admin
+                                        </button>
                                         @endif
                                     </div>
                                 </td>

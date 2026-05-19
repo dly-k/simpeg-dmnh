@@ -269,6 +269,8 @@ public function indexDosen()
     $currentKUM = $pegawai->ak_lama ?? 0;
     $currentKonversi = $pegawai->ak_baru ?? 0;
     $target = $pegawai->jabatan_tujuan ?? '';
+    // Logika ambang batas: syarat wajib untuk membuka kunci input/upload
+    $isEligible = ($targetKUM > 0 && $currentKUM >= $targetKUM && $currentKonversi >= $targetKonversi);
     
     // --- LOGIKA BERKAS ---
     $docTypes = $this->getRequirementsFor($target);
@@ -296,7 +298,7 @@ public function indexDosen()
     // 3. Kirim ke view khusus dosen dengan variabel tambahan konversi
     // Di dalam detailAdmin dan indexDosen:
     $legalBasis = $this->getLegalBasisFor($target);
-    return view('pages.monitoring.dosen.index', compact('pegawai', 'currentKUM', 'targetKUM', 'currentKonversi', 'targetKonversi', 'requirements', 'legalBasis'));
+    return view('pages.monitoring.dosen.index', compact('pegawai', 'currentKUM', 'targetKUM', 'currentKonversi', 'targetKonversi', 'requirements', 'legalBasis','isEligible'));
 }
 
 public function selesaikanKenaikan($id)
