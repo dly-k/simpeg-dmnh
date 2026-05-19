@@ -96,22 +96,32 @@ private function getRequirementsFor($target)
         'SK Jabatan Fungsional Terakhir', 
         'PAK Terakhir (Integrasi)', 
         'Ijazah Pendidikan Terakhir', 
-        'SKP 2 Tahun Terakhir'
+        'SKP 2 Tahun Terakhir',
+        'Bukti BKD 4 Semester Terakhir'
     ];
 
     // Menambahkan (string) pada $target untuk mencegah error pada php 8+ saat target bernilai Null
-    if (\Illuminate\Support\Str::contains((string)$target, 'Lektor Kepala', true)) {
+        if (\Illuminate\Support\Str::contains((string)$target, 'Lektor Kepala', true)) {
         $docTypes = array_merge($docTypes, [
-            'Bukti Publikasi Jurnal Nasional Terakreditasi', 
+            'Bukti Publikasi Syarat Khusus (Jurnal Nas/Int/Karya Seni)',
             'Surat Pernyataan Keabsahan Karya Ilmiah', 
-            'Lembar Hasil Penilaian Peer Review'
+            'Lembar Hasil Penilaian Peer Review',
+            'Dokumen Uji Kemiripan (Turnitin/Sejenis)',
+            'Dokumen Korespondensi Jurnal',
+            'Resume Tesis/Disertasi',
+            'Tautan SINTA/SJR/Scopus/Web Jurnal'
         ]);
     } elseif (\Illuminate\Support\Str::contains((string)$target, 'Guru Besar', true)) {
         $docTypes = array_merge($docTypes, [
-            'Bukti Publikasi Jurnal Internasional Bereputasi', 
+            'Bukti Publikasi Syarat Khusus (Jurnal Int/Karya Seni)',
             'Ijazah Doktor (S3)', 
             'Surat Pernyataan Pemenuhan Persyaratan Khusus', 
-            'Lembar Hasil Penilaian Peer Review (GB)'
+            'Lembar Hasil Penilaian Peer Review (GB)',
+            'Syarat Khusus Tambahan (Hibah/Bimbing/Uji/Reviewer)',
+            'Dokumen Uji Kemiripan (Turnitin/Sejenis)',
+            'Dokumen Korespondensi Jurnal',
+            'Resume Disertasi',
+            'Tautan SINTA/SJR/Scopus/Web Jurnal'
         ]);
     }
     
@@ -172,26 +182,8 @@ public function detailAdmin($id)
     $currentKonversi = $pegawai->ak_baru ?? 0;
     $target = $pegawai->jabatan_tujuan ?? '';
     
-    // 1. Berkas Dasar (Semua Jabatan Wajib Ada)
-    $docTypes = [
-        'SK Jabatan Fungsional Terakhir',
-        'PAK Terakhir (Integrasi)',
-        'Ijazah Pendidikan Terakhir',
-        'SKP 2 Tahun Terakhir'
-    ];
-
-    // 2. Tambah Berkas Khusus (Hanya tambah, jangan didefinisikan ulang di bawah)
-    if (\Illuminate\Support\Str::contains($target, 'Lektor Kepala', ignoreCase: true)) {
-        $docTypes[] = 'Bukti Publikasi Jurnal Nasional Terakreditasi';
-        $docTypes[] = 'Surat Pernyataan Keabsahan Karya Ilmiah';
-        $docTypes[] = 'Lembar Hasil Penilaian Peer Review';
-    } 
-    elseif (\Illuminate\Support\Str::contains($target, 'Guru Besar', ignoreCase: true)) {
-        $docTypes[] = 'Bukti Publikasi Jurnal Internasional Bereputasi';
-        $docTypes[] = 'Ijazah Doktor (S3)';
-        $docTypes[] = 'Surat Pernyataan Pemenuhan Persyaratan Khusus';
-        $docTypes[] = 'Lembar Hasil Penilaian Peer Review (GB)';
-    }
+    // Panggil daftar persyaratan secara dinamis dari fungsi utama
+    $docTypes = $this->getRequirementsFor($target);
 
     // 3. Ambil data dari e_files
     $uploadedFiles = \App\Models\EFile::where('pegawai_id', $id)
@@ -215,7 +207,8 @@ public function detailAdmin($id)
     }
 
     // Tambahkan variabel Konversi ke return view
-    return view('pages.monitoring.admin.detail', compact('pegawai', 'currentKUM', 'targetKUM', 'currentKonversi', 'targetKonversi', 'requirements'));
+    $legalBasis = $this->getLegalBasisFor($target);
+    return view('pages.monitoring.admin.detail', compact('pegawai', 'currentKUM', 'targetKUM', 'currentKonversi', 'targetKonversi', 'requirements', 'legalBasis'));
 }
 
 // Tambahkan Fungsi Simpan Nilai AK Baru (KUM dan Konversi)
@@ -278,24 +271,7 @@ public function indexDosen()
     $target = $pegawai->jabatan_tujuan ?? '';
     
     // --- LOGIKA BERKAS ---
-    $docTypes = [
-        'SK Jabatan Fungsional Terakhir',
-        'PAK Terakhir (Integrasi)',
-        'Ijazah Pendidikan Terakhir',
-        'SKP 2 Tahun Terakhir'
-    ];
-
-    if (\Illuminate\Support\Str::contains($target, 'Lektor Kepala', ignoreCase: true)) {
-        $docTypes[] = 'Bukti Publikasi Jurnal Nasional Terakreditasi';
-        $docTypes[] = 'Surat Pernyataan Keabsahan Karya Ilmiah';
-        $docTypes[] = 'Lembar Hasil Penilaian Peer Review';
-    } 
-    elseif (\Illuminate\Support\Str::contains($target, 'Guru Besar', ignoreCase: true)) {
-        $docTypes[] = 'Bukti Publikasi Jurnal Internasional Bereputasi';
-        $docTypes[] = 'Ijazah Doktor (S3)';
-        $docTypes[] = 'Surat Pernyataan Pemenuhan Persyaratan Khusus';
-        $docTypes[] = 'Lembar Hasil Penilaian Peer Review (GB)';
-    }
+    $docTypes = $this->getRequirementsFor($target);
 
     $uploadedFiles = \App\Models\EFile::where('pegawai_id', $id)
         ->where('kategori_dokumen', 'Lain-lain')
@@ -318,7 +294,9 @@ public function indexDosen()
     }
 
     // 3. Kirim ke view khusus dosen dengan variabel tambahan konversi
-    return view('pages.monitoring.dosen.index', compact('pegawai', 'currentKUM', 'targetKUM', 'currentKonversi', 'targetKonversi', 'requirements'));
+    // Di dalam detailAdmin dan indexDosen:
+    $legalBasis = $this->getLegalBasisFor($target);
+    return view('pages.monitoring.admin.detail', compact('pegawai', 'currentKUM', 'targetKUM', 'currentKonversi', 'targetKonversi', 'requirements', 'legalBasis'));
 }
 
 public function selesaikanKenaikan($id)
@@ -371,5 +349,14 @@ public function exportExcel(\Illuminate\Http\Request $request)
             'Data_Monitoring_Progress_Jabatan.xlsx'
         );
     }
+
+// fungsi peraturan
+private function getLegalBasisFor($target)
+{
+    if (\Illuminate\Support\Str::contains((string)$target, 'Lektor Kepala', true) || \Illuminate\Support\Str::contains((string)$target, 'Guru Besar', true)) {
+        return "Berdasarkan Kepmendiktisaintek Nomor 63/M/KEP/2025 tentang Petunjuk Teknis Layanan Pembinaan dan Pengembangan Profesi dan Karier Dosen.";
+    }
+    return "Berdasarkan peraturan kepegawaian yang berlaku di lingkungan IPB University.";
+}
 
 }

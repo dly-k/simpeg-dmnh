@@ -156,6 +156,12 @@
             {{-- SUB-TAB 1: DOKUMEN YANG DIUPLOAD DOSEN --}}
             <div class="tab-pane fade show active" id="upload-dosen" role="tabpanel">
                 <div class="table-responsive p-3">
+                    <div class="alert alert-info" style="margin-bottom: 15px; padding: 10px; border-left: 5px solid #007bff; background: #e7f3ff;">
+                        <strong>Dasar Hukum Persyaratan:</strong> 
+                        <p style="margin: 0; font-size: 0.9em; color: #333;">
+                            {{ $legalBasis }}
+                        </p>
+                    </div>
                     <table class="table table-hover align-middle border">
                         <thead class="table-light">
                             <tr class="text-center small">
@@ -321,7 +327,6 @@
                         <div class="alert alert-success py-2 small mb-3 border-0 shadow-none" style="background-color: #e8f5e9; color: #2e7d32;">
                             <i class="fas fa-archive me-2"></i> Daftar dokumen yang sudah divalidasi dan siap untuk proses kompilasi universitas.
                         </div>
-                        
                         <table class="table table-hover align-middle border">
                             {{-- Perubahan Warna Header ke Navy --}}
                             <thead style="background-color: #001f3f; color: white;" class="small text-center">

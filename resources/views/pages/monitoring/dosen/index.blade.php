@@ -124,6 +124,12 @@
                             @else
                                 {{-- TAMPILAN JIKA ADA TARGET (Tampilkan Tabel Asli) --}}
                                 <div class="table-responsive">
+                                    <div class="alert alert-info" style="margin-bottom: 15px; padding: 10px; border-left: 5px solid #007bff; background: #e7f3ff;">
+                                        <strong>Dasar Hukum Persyaratan:</strong> 
+                                        <p style="margin: 0; font-size: 0.9em; color: #333;">
+                                            {{ $legalBasis }}
+                                        </p>
+                                    </div>
                                     <table class="table table-hover align-middle border">
                                         <thead class="table-light small fw-bold">
                                             <tr class="text-center">
