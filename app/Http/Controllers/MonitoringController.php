@@ -296,7 +296,7 @@ public function indexDosen()
     // 3. Kirim ke view khusus dosen dengan variabel tambahan konversi
     // Di dalam detailAdmin dan indexDosen:
     $legalBasis = $this->getLegalBasisFor($target);
-    return view('pages.monitoring.admin.detail', compact('pegawai', 'currentKUM', 'targetKUM', 'currentKonversi', 'targetKonversi', 'requirements', 'legalBasis'));
+    return view('pages.monitoring.dosen.index', compact('pegawai', 'currentKUM', 'targetKUM', 'currentKonversi', 'targetKonversi', 'requirements', 'legalBasis'));
 }
 
 public function selesaikanKenaikan($id)
