@@ -126,18 +126,18 @@
                                 {{-- Bagian Angka Kredit (KUM) --}}
                                 <div class="col-6">
                                     <div class="small fw-bold text-muted mb-1">ANGKA KREDIT</div>
-                                    <div class="h2 fw-bold text-primary mb-0">{{ number_format($currentKUM ?? 0, 0, ',', '.')}}</div>
+                                    <div class="h2 fw-bold text-primary mb-0">{{ number_format($currentKUM ?? 0, 2, ',', '.')}}</div>
                                     <div class="badge {{ $isKUMOk ? 'bg-success' : 'bg-danger' }} rounded-pill mt-2">
-                                        {{ $isKUMOk ? 'Terpenuhi' : 'Kurang ' . number_format(($targetKUM ?? 0) - ($currentKUM ?? 0)) }}
+                                        {{ $isKUMOk ? 'Terpenuhi' : 'Kurang ' . number_format(($targetKUM ?? 0) - ($currentKUM ?? 0), 2, ',', '.') }}
                                     </div>
                                 </div>
 
                                 {{-- Bagian Konversi --}}
                                 <div class="col-6 border-start">
                                     <div class="small fw-bold text-muted mb-1">KONVERSI</div>
-                                    <div class="h2 fw-bold text-info mb-0">{{ number_format($currentKonversi ?? 0, 0, ',', '.')}}</div>
+                                    <div class="h2 fw-bold text-info mb-0">{{ number_format($currentKonversi ?? 0, 2, ',', '.')}}</div>
                                     <div class="badge {{ $isKonversiOk ? 'bg-success' : 'bg-danger' }} rounded-pill mt-2">
-                                        {{ $isKonversiOk ? 'Terpenuhi' : 'Kurang ' . number_format(($targetKonversi ?? 0) - ($currentKonversi ?? 0)) }}
+                                        {{ $isKonversiOk ? 'Terpenuhi' : 'Kurang ' . number_format(($targetKonversi ?? 0) - ($currentKonversi ?? 0), 2, ',', '.') }}
                                     </div>
                                 </div>
                             </div>
@@ -382,10 +382,12 @@ function toggleDosenMetode(val, index) {
         position: absolute;
         content: "";
         border-bottom: 3px solid #e9ecef;
-        width: 100%;
-        top: 22px;
-        left: -50%;
-        z-index: -1;
+        /* Lebar 100% dikurangi lebar lingkaran (45px) ditambah sedikit jarak/gap (10px) */
+        width: calc(100% - 55px);
+        top: 22px; /* Titik tengah lingkaran */
+        /* Mulai garis dari tepian luar lingkaran sebelumnya, bukan dari tengah */
+        left: calc(-50% + 27.5px); 
+        z-index: 1;
         transition: 0.3s ease-in-out;
     }
     .stepper-item:first-child::before {
@@ -408,7 +410,7 @@ function toggleDosenMetode(val, index) {
         color: #6c757d;
         font-size: 18px;
         margin-bottom: 8px;
-        border: 4px solid white;
+        /* Border putih dihapus karena garis sudah dipotong dan tidak butuh ditimpa lagi */
         transition: 0.3s ease-in-out;
     }
     .stepper-item.completed .step-counter {

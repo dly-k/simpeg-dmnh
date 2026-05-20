@@ -124,7 +124,7 @@
                             <div class="p-3 text-center rounded bg-light border">
                                 <small class="text-muted d-block fw-bold" style="font-size: 0.65rem;">ANGKA KREDIT</small>
                                 <h3 class="fw-bold {{ $currentKUM >= $targetKUM ? 'text-success' : 'text-danger' }} mb-0">
-                                    {{ number_format($currentKUM, 0, ',', '.') }}
+                                    {{ number_format($currentKUM, 2, ',', '.') }}
                                 </h3>
                                 <small class="text-muted" style="font-size: 0.7rem;">Target: {{ $targetKUM }}</small>
                             </div>
@@ -133,7 +133,7 @@
                             <div class="p-3 text-center rounded bg-light border">
                                 <small class="text-muted d-block fw-bold" style="font-size: 0.65rem;">ANGKA KONVERSI</small>
                                 <h3 class="fw-bold {{ $currentKonversi >= $targetKonversi ? 'text-success' : 'text-danger' }} mb-0">
-                                    {{ number_format($currentKonversi, 0, ',', '.')}}
+                                    {{ number_format($currentKonversi, 2, ',', '.')}}
                                 </h3>
                                 <small class="text-muted" style="font-size: 0.7rem;">Target: {{ $targetKonversi }}</small>
                             </div>
@@ -170,13 +170,13 @@
                                 <div class="col-6">
                                     <div class="input-group input-group-sm">
                                         <span class="input-group-text bg-navy text-black">KUM</span>
-                                        <input type="number" step="0.001" name="ak_lama" class="form-control" value="{{ (float)$pegawai->ak_lama }}">
+                                        <input type="number" step="0.01" name="ak_lama" class="form-control" value="{{ number_format((float)$pegawai->ak_lama, 2, '.', '') }}">
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="input-group input-group-sm">
                                         <span class="input-group-text bg-info text-white">Konv</span>
-                                        <input type="number" step="0.001" name="ak_baru" class="form-control" value="{{ (float)$pegawai->ak_baru }}">
+                                        <input type="number" step="0.01" name="ak_baru" class="form-control" value="{{ number_format((float)$pegawai->ak_baru, 2, '.', '') }}">
                                     </div>
                                 </div>
                             </div>
@@ -762,14 +762,16 @@ function closeAllModals() {
         flex: 1;
         z-index: 1;
     }
-    .stepper-item::before {
+.stepper-item::before {
         position: absolute;
         content: "";
         border-bottom: 3px solid #e9ecef;
-        width: 100%;
-        top: 22px;
-        left: -50%;
-        z-index: -1;
+        /* Lebar 100% dikurangi lebar lingkaran (45px) ditambah sedikit jarak/gap (10px) */
+        width: calc(100% - 55px);
+        top: 22px; /* Titik tengah lingkaran */
+        /* Mulai garis dari tepian luar lingkaran sebelumnya, bukan dari tengah */
+        left: calc(-50% + 27.5px); 
+        z-index: 1;
         transition: 0.3s ease-in-out;
     }
     .stepper-item:first-child::before {
@@ -792,7 +794,7 @@ function closeAllModals() {
         color: #6c757d;
         font-size: 18px;
         margin-bottom: 8px;
-        border: 4px solid white;
+        /* Border putih dihapus karena garis sudah dipotong dan tidak butuh ditimpa lagi */
         transition: 0.3s ease-in-out;
     }
     .stepper-item.completed .step-counter {
