@@ -132,7 +132,7 @@
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content border-0 shadow">
                                 <div class="modal-header bg-light">
-                                    <h5 class="modal-title fw-bold">Setting Target Kenaikan: {{ $p->nama_lengkap }}</h5>
+                                    <h5 class="modal-title fw-bold">Pengaturan Target Jabatan: <br>{{ $p->nama_lengkap }}</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                 </div>
                                 <form action="{{ route('monitoring.admin.updateTarget', $p->id) }}" method="POST">

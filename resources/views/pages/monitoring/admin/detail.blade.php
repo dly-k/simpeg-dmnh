@@ -464,7 +464,7 @@
                                 class="btn {{ $bisaSelesai ? 'btn-success' : 'btn-secondary' }} fw-bold shadow-sm px-4 rounded-pill" 
                                 {{ $bisaSelesai ? 'onclick=openSelesaiModal()' : 'disabled' }}
                                 title="{{ $bisaSelesai ? 'Selesaikan Proses Kenaikan Jabatan' : 'Pastikan KUM, Konversi terpenuhi & Semua Dokumen telah Disetujui' }}">
-                                <i class="fas {{ $bisaSelesai ? 'fa-check-circle' : 'fa-lock' }} me-2"></i>Proses Kenaikan Selesai
+                                <i class="fas {{ $bisaSelesai ? 'fa-check-circle' : 'fa-lock' }} me-2"></i>Pengajuan Kenaikan Selesai
                             </button>
                         </div>
                     </div>
