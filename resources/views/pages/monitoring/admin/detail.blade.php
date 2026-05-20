@@ -57,82 +57,136 @@
                 </div>
             </div>
 
+            {{-- AWAL PROGRES BAR KENAIKAN JABATAN --}}
+            @php
+                $targetAda = !empty($pegawai->jabatan_tujuan);
+                $isKUMOk = $targetAda && ($currentKUM >= $targetKUM && $targetKUM > 0);
+                $isKonversiOk = $targetAda && ($currentKonversi >= $targetKonversi && $targetKonversi > 0);
+                $syaratNilaiOk = $isKUMOk && $isKonversiOk;
+
+                $semuaTerunggah = true;
+                $semuaDisetujui = true;
+                
+                if(empty($requirements) || !$targetAda) {
+                    $semuaTerunggah = false;
+                    $semuaDisetujui = false;
+                } else {
+                    foreach($requirements as $req) {
+                        if(!$req['is_uploaded']) $semuaTerunggah = false;
+                        if($req['status_verifikasi'] !== 'Disetujui') $semuaDisetujui = false;
+                    }
+                }
+            @endphp
+
+            <div class="stepper-wrapper mb-4 bg-white p-4 shadow-sm" style="border-radius: 12px; border: 1px solid #eee;">
+                {{-- Tahap 1: Target Jabatan --}}
+                <div class="stepper-item {{ $targetAda ? 'completed' : 'active' }}">
+                    <div class="step-counter"><i class="fas fa-bullseye"></i></div>
+                    <div class="step-name">Jabatan Tujuan<br>Diatur</div>
+                </div>
+
+                {{-- Tahap 2: Nilai KUM --}}
+                <div class="stepper-item {{ $isKUMOk ? 'completed' : ($targetAda && !$isKUMOk ? 'active' : '') }}">
+                    <div class="step-counter"><i class="fas fa-chart-line"></i></div>
+                    <div class="step-name">Nilai KUM<br>Memenuhi</div>
+                </div>
+
+                {{-- Tahap 3: Nilai Konversi --}}
+                <div class="stepper-item {{ $isKonversiOk ? 'completed' : ($targetAda && !$isKonversiOk ? 'active' : '') }}">
+                    <div class="step-counter"><i class="fas fa-exchange-alt"></i></div>
+                    <div class="step-name">Angka Konversi<br>Memenuhi</div>
+                </div>
+
+                {{-- Tahap 4: Pengumpulan Dokumen --}}
+                <div class="stepper-item {{ $semuaTerunggah ? 'completed' : ($syaratNilaiOk && !$semuaTerunggah ? 'active' : '') }}">
+                    <div class="step-counter"><i class="fas fa-file-upload"></i></div>
+                    <div class="step-name">Pengumpulan<br>Dokumen</div>
+                </div>
+
+                {{-- Tahap 5: Verifikasi Dokumen --}}
+                <div class="stepper-item {{ $semuaDisetujui ? 'completed' : ($semuaTerunggah && !$semuaDisetujui ? 'active' : '') }}">
+                    <div class="step-counter"><i class="fas fa-check-double"></i></div>
+                    <div class="step-name">Penyerahan<br>Dokumen</div>
+                </div>
+            </div>
+            {{-- AKHIR PROGRES BAR --}}
+
             <div class="row g-4">
-<div class="col-lg-4">
-    <div class="table-card p-4 h-100">
-        <h5 class="fw-bold mb-4 border-bottom pb-2 text-navy">
-            <i class="fas fa-calculator me-2"></i>Audit Kelayakan Nilai
-        </h5>
+                <div class="col-lg-4">
+                <div class="table-card p-4 h-100">
+                    <h5 class="fw-bold mb-4 border-bottom pb-2 text-navy">
+                        <i class="fas fa-calculator me-2"></i>Audit Kelayakan Nilai
+                    </h5>
 
-        {{-- Status Indikator Berdampingan --}}
-        <div class="row g-2 mb-4">
-            <div class="col-6">
-                <div class="p-3 text-center rounded bg-light border">
-                    <small class="text-muted d-block fw-bold" style="font-size: 0.65rem;">ANGKA KREDIT</small>
-                    <h3 class="fw-bold {{ $currentKUM >= $targetKUM ? 'text-success' : 'text-danger' }} mb-0">
-                        {{ number_format($currentKUM, 0, ',', '.') }}
-                    </h3>
-                    <small class="text-muted" style="font-size: 0.7rem;">Target: {{ $targetKUM }}</small>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="p-3 text-center rounded bg-light border">
-                    <small class="text-muted d-block fw-bold" style="font-size: 0.65rem;">ANGKA KONVERSI</small>
-                    <h3 class="fw-bold {{ $currentKonversi >= $targetKonversi ? 'text-success' : 'text-danger' }} mb-0">
-                        {{ number_format($currentKonversi, 0, ',', '.')}}
-                    </h3>
-                    <small class="text-muted" style="font-size: 0.7rem;">Target: {{ $targetKonversi }}</small>
-                </div>
-            </div>
-        </div>
-
-        {{-- Status Kelayakan Final --}}
-        @php 
-            $isKUMOk = ($currentKUM >= $targetKUM && $targetKUM > 0);
-            $isKonversiOk = ($currentKonversi >= $targetKonversi && $targetKonversi > 0);
-            $isEligible = ($isKUMOk && $isKonversiOk);
-        @endphp
-
-        <div class="alert {{ $isEligible ? 'alert-success' : 'alert-warning' }} border-0 shadow-sm mb-4">
-            <div class="d-flex align-items-center">
-                <i class="fas {{ $isEligible ? 'fa-check-circle' : 'fa-exclamation-triangle' }} fa-2x me-3"></i>
-                <div>
-                    <div class="fw-bold text-uppercase" style="font-size: 0.8rem;">
-                        {{ $isEligible ? 'Layak Naik Jabatan' : 'Belum Memenuhi Syarat' }}
-                    </div>
-                    <small style="font-size: 0.75rem;">
-                        {{ !$isKUMOk ? 'KUM kurang ' . ($targetKUM - $currentKUM) : (!$isKonversiOk ? 'Konversi kurang ' . ($targetKonversi - $currentKonversi) : 'Semua syarat nilai terpenuhi') }}
-                    </small>
-                </div>
-            </div>
-        </div>
-
-        {{-- Form Update Nilai Berdampingan --}}
-        <form action="{{ route('monitoring.admin.updateAK', $pegawai->id) }}" method="POST">
-            @csrf @method('PUT')
-            <div class="mb-3">
-                <label class="form-label small fw-bold">Update Nilai Audit</label>
-                <div class="row g-2">
-                    <div class="col-6">
-                        <div class="input-group input-group-sm">
-                            <span class="input-group-text bg-navy text-black">KUM</span>
-                            <input type="number" step="0.001" name="ak_lama" class="form-control" value="{{ (float)$pegawai->ak_lama }}">
+                    {{-- Status Indikator Berdampingan --}}
+                    <div class="row g-2 mb-4">
+                        <div class="col-6">
+                            <div class="p-3 text-center rounded bg-light border">
+                                <small class="text-muted d-block fw-bold" style="font-size: 0.65rem;">ANGKA KREDIT</small>
+                                <h3 class="fw-bold {{ $currentKUM >= $targetKUM ? 'text-success' : 'text-danger' }} mb-0">
+                                    {{ number_format($currentKUM, 0, ',', '.') }}
+                                </h3>
+                                <small class="text-muted" style="font-size: 0.7rem;">Target: {{ $targetKUM }}</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="p-3 text-center rounded bg-light border">
+                                <small class="text-muted d-block fw-bold" style="font-size: 0.65rem;">ANGKA KONVERSI</small>
+                                <h3 class="fw-bold {{ $currentKonversi >= $targetKonversi ? 'text-success' : 'text-danger' }} mb-0">
+                                    {{ number_format($currentKonversi, 0, ',', '.')}}
+                                </h3>
+                                <small class="text-muted" style="font-size: 0.7rem;">Target: {{ $targetKonversi }}</small>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-6">
-                        <div class="input-group input-group-sm">
-                            <span class="input-group-text bg-info text-white">Konv</span>
-                            <input type="number" step="0.001" name="ak_baru" class="form-control" value="{{ (float)$pegawai->ak_baru }}">
+
+                    {{-- Status Kelayakan Final --}}
+                    @php 
+                        $isKUMOk = ($currentKUM >= $targetKUM && $targetKUM > 0);
+                        $isKonversiOk = ($currentKonversi >= $targetKonversi && $targetKonversi > 0);
+                        $isEligible = ($isKUMOk && $isKonversiOk);
+                    @endphp
+
+                    <div class="alert {{ $isEligible ? 'alert-success' : 'alert-warning' }} border-0 shadow-sm mb-4">
+                        <div class="d-flex align-items-center">
+                            <i class="fas {{ $isEligible ? 'fa-check-circle' : 'fa-exclamation-triangle' }} fa-2x me-3"></i>
+                            <div>
+                                <div class="fw-bold text-uppercase" style="font-size: 0.8rem;">
+                                    {{ $isEligible ? 'Layak Naik Jabatan' : 'Belum Memenuhi Syarat' }}
+                                </div>
+                                <small style="font-size: 0.75rem;">
+                                    {{ !$isKUMOk ? 'KUM kurang ' . ($targetKUM - $currentKUM) : (!$isKonversiOk ? 'Konversi kurang ' . ($targetKonversi - $currentKonversi) : 'Semua syarat nilai terpenuhi') }}
+                                </small>
+                            </div>
                         </div>
                     </div>
+
+                    {{-- Form Update Nilai Berdampingan --}}
+                    <form action="{{ route('monitoring.admin.updateAK', $pegawai->id) }}" method="POST">
+                        @csrf @method('PUT')
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">Update Nilai Audit</label>
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-text bg-navy text-black">KUM</span>
+                                        <input type="number" step="0.001" name="ak_lama" class="form-control" value="{{ (float)$pegawai->ak_lama }}">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-text bg-info text-white">Konv</span>
+                                        <input type="number" step="0.001" name="ak_baru" class="form-control" value="{{ (float)$pegawai->ak_baru }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-navy btn-sm w-100 fw-bold">
+                            <i class="fas fa-save me-1"></i> Simpan Perubahan Nilai
+                        </button>
+                    </form>
                 </div>
             </div>
-            <button type="submit" class="btn btn-navy btn-sm w-100 fw-bold">
-                <i class="fas fa-save me-1"></i> Simpan Perubahan Nilai
-            </button>
-        </form>
-    </div>
-</div>
 
 <div class="col-lg-8">
     <div class="table-card h-100 bg-white shadow-sm" style="border-radius: 12px; overflow: hidden;">
@@ -693,7 +747,76 @@ function closeAllModals() {
         filter: brightness(90%);
         transform: translateY(-1px);
     }
-
+/* progres bar */
+/* Stepper Progress Bar */
+    .stepper-wrapper {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+    }
+    .stepper-item {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1;
+        z-index: 1;
+    }
+    .stepper-item::before {
+        position: absolute;
+        content: "";
+        border-bottom: 3px solid #e9ecef;
+        width: 100%;
+        top: 22px;
+        left: -50%;
+        z-index: -1;
+        transition: 0.3s ease-in-out;
+    }
+    .stepper-item:first-child::before {
+        content: none;
+    }
+    .stepper-item.completed::before,
+    .stepper-item.active::before {
+        border-bottom-color: #198754;
+    }
+    .step-counter {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: #e9ecef;
+        color: #6c757d;
+        font-size: 18px;
+        margin-bottom: 8px;
+        border: 4px solid white;
+        transition: 0.3s ease-in-out;
+    }
+    .stepper-item.completed .step-counter {
+        background-color: #198754;
+        color: white;
+    }
+    .stepper-item.active .step-counter {
+        background-color: #0d6efd;
+        color: white;
+        box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.2);
+    }
+    .step-name {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #6c757d;
+        text-align: center;
+        line-height: 1.2;
+    }
+    .stepper-item.completed .step-name {
+        color: #198754;
+    }
+    .stepper-item.active .step-name {
+        color: #0d6efd;
+    }
 </style>
 
 </body>

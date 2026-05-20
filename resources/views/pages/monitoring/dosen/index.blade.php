@@ -29,6 +29,57 @@
         </div>
 
         <div class="main-content">
+            @php 
+                $targetAda = !empty($pegawai->jabatan_tujuan); 
+                
+                $isKUMOk = ($currentKUM >= $targetKUM && $targetKUM > 0 && $targetAda);
+                $isKonversiOk = ($currentKonversi >= $targetKonversi && $targetKonversi > 0 && $targetAda);
+                $syaratNilaiOk = ($isKUMOk && $isKonversiOk);
+                $isEligible = $syaratNilaiOk;
+                
+                $semuaTerunggah = true;
+                $semuaDisetujui = true;
+                if(empty($requirements) || !$targetAda) {
+                    $semuaTerunggah = false;
+                    $semuaDisetujui = false;
+                } else {
+                    foreach($requirements as $req) {
+                        if(!$req['is_uploaded']) $semuaTerunggah = false;
+                        if($req['status_verifikasi'] !== 'Disetujui') $semuaDisetujui = false;
+                    }
+                }
+
+                // Kalkulasi untuk persentase progress bar kotak sebelah kiri
+                $progress = 0;
+                if($semuaDisetujui && $syaratNilaiOk) $progress = 100;
+                elseif($semuaTerunggah && $syaratNilaiOk) $progress = 80;
+                elseif($syaratNilaiOk) $progress = 60;
+                elseif($isKUMOk || $isKonversiOk) $progress = 40;
+                elseif($targetAda) $progress = 20;
+            @endphp
+
+            <div class="stepper-wrapper mb-4 bg-white p-4 shadow-sm border-0" style="border-radius: 15px;">
+                <div class="stepper-item {{ $targetAda ? 'completed' : 'active' }}">
+                    <div class="step-counter"><i class="fas fa-bullseye"></i></div>
+                    <div class="step-name">Jabatan Tujuan<br>Diatur</div>
+                </div>
+                <div class="stepper-item {{ $isKUMOk ? 'completed' : ($targetAda && !$isKUMOk ? 'active' : '') }}">
+                    <div class="step-counter"><i class="fas fa-chart-line"></i></div>
+                    <div class="step-name">Nilai KUM<br>Memenuhi</div>
+                </div>
+                <div class="stepper-item {{ $isKonversiOk ? 'completed' : ($targetAda && !$isKonversiOk ? 'active' : '') }}">
+                    <div class="step-counter"><i class="fas fa-exchange-alt"></i></div>
+                    <div class="step-name">Angka Konversi<br>Memenuhi</div>
+                </div>
+                <div class="stepper-item {{ $semuaTerunggah ? 'completed' : ($syaratNilaiOk && !$semuaTerunggah ? 'active' : '') }}">
+                    <div class="step-counter"><i class="fas fa-file-upload"></i></div>
+                    <div class="step-name">Pengumpulan<br>Dokumen</div>
+                </div>
+                <div class="stepper-item {{ $semuaDisetujui ? 'completed' : ($semuaTerunggah && !$semuaDisetujui ? 'active' : '') }}">
+                    <div class="step-counter"><i class="fas fa-check-double"></i></div>
+                    <div class="step-name">Penyerahan<br>Dokumen</div>
+                </div>
+            </div>
             <div class="row g-4">
                 
                 @php 
@@ -311,6 +362,77 @@ function toggleDosenMetode(val, index) {
     .bg-navy { background-color: #001f3f; }
     .btn-navy { background-color: #001f3f; color: white; }
     .btn-navy:hover { background-color: #001226; color: white; }
+
+    /* progres bar */
+/* Stepper Progress Bar */
+    .stepper-wrapper {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+    }
+    .stepper-item {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1;
+        z-index: 1;
+    }
+    .stepper-item::before {
+        position: absolute;
+        content: "";
+        border-bottom: 3px solid #e9ecef;
+        width: 100%;
+        top: 22px;
+        left: -50%;
+        z-index: -1;
+        transition: 0.3s ease-in-out;
+    }
+    .stepper-item:first-child::before {
+        content: none;
+    }
+    .stepper-item.completed::before,
+    .stepper-item.active::before {
+        border-bottom-color: #198754;
+    }
+    .step-counter {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: #e9ecef;
+        color: #6c757d;
+        font-size: 18px;
+        margin-bottom: 8px;
+        border: 4px solid white;
+        transition: 0.3s ease-in-out;
+    }
+    .stepper-item.completed .step-counter {
+        background-color: #198754;
+        color: white;
+    }
+    .stepper-item.active .step-counter {
+        background-color: #0d6efd;
+        color: white;
+        box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.2);
+    }
+    .step-name {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #6c757d;
+        text-align: center;
+        line-height: 1.2;
+    }
+    .stepper-item.completed .step-name {
+        color: #198754;
+    }
+    .stepper-item.active .step-name {
+        color: #0d6efd;
+    }
 </style>
 
 </body>
