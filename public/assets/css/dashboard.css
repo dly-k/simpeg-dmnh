@@ -17,16 +17,62 @@ body.sidebar-collapsed .main-content {
 
 .chart-grid{
     display:grid;
-    grid-template-columns: 1fr 1.5fr 1.5fr;
+    grid-template-columns: 1fr 1fr 1.5fr;
     margin-top: 40px;
     gap:20px;
 }
 
-.chart-box{
-    background:white;
-    padding:20px;
-    border-radius:12px;
-    box-shadow:0 2px 8px rgba(0,0,0,0.05);
+/* Baris 2 */
+.chart-row-50 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 20px;
+    gap: 20px;
+}
+
+.chart-grid, 
+.chart-row-50 {
+    min-width: 0 !important;
+}
+
+.chart-box {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    overflow: hidden !important; /* Mencegah grafik meluber */
+}
+
+.tab-content {
+    min-width: 0 !important;
+    max-width: 100% !important;
+}
+
+.chart-box > div,
+.tab-pane > div {
+    max-width: 100% !important;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .chart-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .chart-row-50 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Baris 1 */
+#pendidikanBox {
+    grid-column: 1 / 2;
+}
+
+#umurBox {
+    grid-column: 2 / 3;
+}
+
+#jabatanBox {
+    grid-column: 3 / 4;
 }
 
 /* Pie chart lebih kecil */
@@ -114,17 +160,49 @@ body.sidebar-collapsed .main-content {
     gap: 20px;
 }
 
-.chart-box {
-    background-color: var(--white);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px var(--black-01);
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.6s ease forwards;
-    animation-delay: 0.4s;
-}
+    /* =======================================================
+        1. OBAT ANTI GRAFIK MELEBAR (RESPONSIVE FIX)
+    ======================================================= */
+    .chart-grid, 
+    .chart-row-50 {
+        min-width: 0 !important;
+    }
+    .chart-box {
+        min-width: 0 !important;
+        max-width: 100% !important;
+        overflow: hidden !important; 
+    }
+    .tab-content {
+        min-width: 0 !important;
+        max-width: 100% !important;
+    }
+    .chart-box > div,
+    .tab-pane > div {
+        max-width: 100% !important;
+    }
 
+    /* =======================================================
+        2. OBAT KARTU TERLALU TINGGI (COMPACT FIX)
+    ======================================================= */
+    /* Mengunci tinggi box agar seragam dan tidak kepanjangan */
+    .chart-grid .chart-box {
+        height: 300px !important; 
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    /* Membatasi tinggi grafiknya agar tidak membesar sendiri */
+    .chart-box canvas {
+        max-height: 200px !important; 
+    }
+    
+    /* Memperkecil judul agar rapi */
+    .chart-box h3 {
+        font-size: 1rem !important;
+        margin-bottom: 10px !important;
+    }
+    
 .chart-box h3 {
     font-size: 15px;
     font-weight: 600;
@@ -134,7 +212,7 @@ body.sidebar-collapsed .main-content {
 
 .table-container{
     display: grid;
-    grid-template-columns: 1.2fr 1fr 1.3fr;
+    grid-template-columns: 1 fr 1fr;
     gap: 20px;
     margin-top: 25px;
 }
@@ -666,4 +744,182 @@ max-height:220px;
 .badge.bg-warning {
     background-color: #d39e00 !important;
     color: #fff !important; /* Mengubah warna teks menjadi putih untuk keterbacaan */
+}
+
+/* =======================================================
+   SETTING PDF / PRINT UNTUK AKREDITASI (FIX OVERFLOW)
+======================================================= */
+@media print {
+    /* 1. Sembunyikan elemen UI Navigasi bawaan web */
+    .sidebar, header, .header, .navbar-custom, .d-print-none, .footer, .footer-custom, .hamburger {
+        display: none !important;
+    }
+
+    /* 2. Reset Layout: Hilangkan Margin/Padding bawaan web agar full kertas A4 */
+    .layout, 
+    .main-wrapper, 
+    .main-content {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        transform: none !important;
+    }
+
+    /* 3. JUDUL DASHBOARD: Background Hijau & Teks Putih */
+    .title-bar {
+        position: relative !important;
+        top: 0 !important;
+        left: 0 !important;
+        margin: 0 0 15px 0 !important;
+        padding: 12px 20px !important;
+        box-shadow: none !important;
+        background-color: #198754 !important; /* Warna Hijau Bawaan */
+        border-radius: 8px !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    .title-bar h1,
+    .title-bar h1 i {
+        color: #ffffff !important; /* Teks Putih Mutlak */
+        font-size: 20px !important;
+        margin: 0 !important;
+    }
+
+    /* Paksa warna background dan grafik agar ikut tercetak */
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    /* 4. TATA LETAK HALAMAN 1 (PENDIDIKAN & UMUR SEJAJAR BERDAMPINGAN) */
+    .chart-grid {
+        display: flex !important;
+        flex-direction: row !important; /* Paksa berjejer ke samping */
+        flex-wrap: wrap !important;     /* Izinkan komponen jabatan turun ke bawahnya */
+        gap: 15px !important;
+        margin-top: 0 !important;
+        margin-bottom: 15px !important;
+        width: 100% !important;
+    }
+
+    /* KUNCI LEBAR: Pendidikan & Umur berbagi ruang 50:50 dengan aman */
+    #pendidikanBox, 
+    #umurBox {
+        flex: 1 1 calc(50% - 10px) !important;
+        width: calc(50% - 10px) !important;
+        max-width: calc(50% - 10px) !important;
+        box-sizing: border-box !important;
+    }
+
+    /* KUNCI JABATAN: Diturunkan ke bawah dan dilebarkan 100% penuh */
+    #jabatanBox {
+        flex: 1 1 100% !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-top: 5px !important;
+    }
+
+    /* KOTAK GRAFIK (CHART BOX): Dilepas tingginya agar auto-expand mengikuti isi */
+    .chart-box {
+        background-color: #ffffff !important;
+        border: 1px solid #ddd !important;
+        border-radius: 10px !important;
+        padding: 15px !important;
+        box-shadow: none !important;
+        height: auto !important;        /* Lepas tinggi kaku agar isi tidak luber */
+        min-height: 280px !important;  /* Beri batas minimal saja agar tetap rapi */
+        max-height: none !important;
+        overflow: visible !important;   /* Biarkan konten terlihat jika membesar */
+        page-break-inside: avoid !important;
+    }
+
+    .chart-box h3 {
+        font-size: 13px !important;
+        font-weight: 600 !important;
+        margin-top: 0 !important;
+        margin-bottom: 15px !important;
+        color: #000 !important;
+    }
+
+    /* KUNCI KHUSUS: Perkecil canvas Chart.js agar muat di cetakan A4 */
+    .chart-box canvas {
+        max-height: 140px !important; /* Perkecil grafik lingkaran agar tidak menabrak teks */
+        width: 100% !important;
+    }
+    
+    /* Khusus untuk grafik Jabatan (Bar Chart), boleh sedikit lebih tinggi agar jelas */
+    #jabatanBox canvas {
+        max-height: 180px !important;
+    }
+
+    /* 5. LOGIKA AMAN UNTUK GRAFIK UMUR (DOSEN & TENDIK BERSEBELAHAN) */
+    #umurTabs {
+        display: none !important; /* Sembunyikan tombol tab */
+    }
+    #umurBox .tab-content {
+        display: flex !important;
+        flex-direction: row !important; /* Dosen & Tendik berjejer ke samping */
+        gap: 10px !important;
+        height: auto !important;
+        width: 100% !important;
+    }
+    #umurBox .tab-content .tab-pane {
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        flex: 1 1 50% !important; /* Bagi dua adil 50:50 di dalam kotak */
+        max-width: 50% !important;
+        height: auto !important;
+        position: relative !important;
+    }
+    /* Label teks otomatis di atas lingkaran umur */
+    #umurDosenPane::before {
+        content: "▼ Kategori: DOSEN";
+        font-weight: bold; font-size: 9px; display: block; text-align: center; margin-bottom: 5px; color: #555;
+    }
+    #umurTendikPane::before {
+        content: "▼ Kategori: TENDIK";
+        font-weight: bold; font-size: 9px; display: block; text-align: center; margin-bottom: 5px; color: #555;
+    }
+    /* Perkecil khusus canvas umur agar muat berdampingan berdua */
+    #umurBox canvas {
+        max-height: 110px !important; 
+    }
+
+    /* 6. PAKSA HALAMAN 2 UNTUK BARIS PANGKAT, TREN, & TABEL BAWAH */
+    .chart-row-50 {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 15px !important;
+        margin-top: 0 !important;
+        page-break-before: always !important; /* KUNCI POTONG HALAMAN 2 */
+    }
+
+    /* Konten Tabel di Halaman 2 */
+    .table-container {
+        margin-top: 15px !important;
+        page-break-inside: avoid !important;
+    }
+    .table-container > .row {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 15px !important;
+    }
+    .table-box {
+        background: #fff;
+        padding: 12px !important;
+        border: 1px solid #ddd !important;
+        border-radius: 12px;
+        box-shadow: none !important;
+        height: 100% !important;
+    }
+    .table-box h3 { font-size: 13px !important; margin-bottom: 8px; }
+    .table-box table td, 
+    .table-box table th { padding: 6px !important; font-size: 10px !important; }
+
+    /* Aturan Kertas PDF */
+    @page {
+        size: A4 portrait;
+        margin: 1.2cm 1.2cm;
+    }
 }
