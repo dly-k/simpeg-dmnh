@@ -165,6 +165,9 @@ Route::middleware(['auth'])->group(function () {
         Route::patch('/sertifikat-kompetensi/{sertifikatKompetensi}/verifikasi', [SertifikatKompetensiController::class, 'verifikasi'])->name('sertifikat-kompetensi.verifikasi');
         Route::patch('/pengelola-jurnal/{pengelolaJurnal}/verifikasi', [PengelolaJurnalController::class, 'verifikasi'])->name('pengelola-jurnal.verifikasi');
         Route::post('/notifikasi/read-all', [App\Http\Controllers\DashboardController::class, 'markAllAsRead'])->name('notifikasi.readAll');
+        Route::get('/dashboard/export-excel', function () {
+            return \Maatwebsite\Excel\Facades\Excel::download(new \App\Exports\MonitoringPegawaiExport, 'Monitoring_Pegawai_MNH_' . date('Y') . '.xlsx');
+        })->name('dashboard.export.excel')->middleware('auth');
     });
 
     // ================== BISA DIAKSES OLEH SEMUA ROLE (YANG SUDAH LOGIN) ==================
