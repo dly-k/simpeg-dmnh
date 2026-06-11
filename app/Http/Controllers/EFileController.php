@@ -28,6 +28,12 @@ public function store(Request $request, $id)
     $isLink = false;
 
     if ($request->metode === 'file') {
+        $request->validate([
+            'dokumen' => 'required|file|mimes:pdf|max:2048',
+        ], [
+            'dokumen.mimes' => 'Format dokumen harus berupa file PDF.',
+            'dokumen.max'   => 'Ukuran dokumen tidak boleh lebih dari 2MB.'
+        ]);
         if ($request->hasFile('dokumen')) {
             $path = $request->file('dokumen')->store('uploads/efile', 'public');
         }

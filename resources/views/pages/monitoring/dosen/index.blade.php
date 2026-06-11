@@ -308,7 +308,9 @@
 
                                                                 <div id="div_dosen_file{{ $index }}">
                                                                     <label class="form-label small fw-bold text-primary">Pilih File PDF (Max 2MB)</label>
-                                                                    <input type="file" name="dokumen" class="form-control" accept=".pdf">
+                                                                    <input type="file" name="dokumen" class="form-control" accept=".pdf,application/pdf" id="inputFile{{ $index }}" onchange="validasiFile(this, {{ $index }})">
+                                                                    {{-- Tempat untuk menampilkan pesan error --}}
+                                                                    <div id="pesanError{{ $index }}" class="text-danger small mt-1 fw-bold" style="display: none;"></div>
                                                                 </div>
 
                                                                 <div id="div_dosen_link{{ $index }}" style="display: none;">
@@ -317,7 +319,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="submit" class="btn {{ $req['is_uploaded'] ? 'btn-warning' : 'btn-primary' }} w-100 fw-bold">
+                                                                <button type="submit" id="btnSubmit{{ $index }}" class="btn {{ $req['is_uploaded'] ? 'btn-warning' : 'btn-primary' }} w-100 fw-bold">
                                                                     {{ $req['is_uploaded'] ? 'Update & Simpan Perubahan' : 'Simpan Dokumen' }}
                                                                 </button>
                                                             </div>
@@ -355,6 +357,45 @@ function toggleDosenMetode(val, index) {
         dLink.style.display = 'block';
     }
 }
+
+// Fungsi BARU untuk validasi file
+function validasiFile(input, index) {
+    const errorDiv = document.getElementById('pesanError' + index);
+    const submitBtn = document.getElementById('btnSubmit' + index);
+    
+    // Maksimal ukuran file 2MB dalam bytes (2 * 1024 * 1024)
+    const maxSize = 2097152; 
+
+    // Reset pesan error dan tombol submit
+    errorDiv.style.display = 'none';
+    errorDiv.innerHTML = '';
+    submitBtn.disabled = false;
+
+    if (input.files && input.files[0]) {
+        const file = input.files[0];
+
+        // 1. Validasi Tipe File (Harus PDF)
+        if (file.type !== 'application/pdf') {
+            errorDiv.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Gagal: Format file harus PDF.';
+            errorDiv.style.display = 'block';
+            submitBtn.disabled = true; // Nonaktifkan tombol simpan
+            input.value = ''; // Kosongkan file yang dipilih
+            return;
+        }
+
+        // 2. Validasi Ukuran File (Maksimal 2MB)
+        if (file.size > maxSize) {
+            // Konversi ukuran file ke MB untuk ditampilkan ke pengguna
+            let fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+            errorDiv.innerHTML = `<i class="fas fa-exclamation-triangle"></i> Gagal: Ukuran file ${fileSizeMB} MB melebihi batas maksimal 2MB.`;
+            errorDiv.style.display = 'block';
+            submitBtn.disabled = true; // Nonaktifkan tombol simpan
+            input.value = ''; // Kosongkan file yang dipilih
+            return;
+        }
+    }
+}
+
 </script>
 
 <style>
