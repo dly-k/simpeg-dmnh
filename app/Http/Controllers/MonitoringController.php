@@ -322,7 +322,10 @@ public function selesaikanKenaikan($id)
         // 2. Hapus berkas persyaratan tersebut dari database agar statusnya kembali "Kosong"
         \App\Models\EFile::where('pegawai_id', $pegawai->id)
             ->whereIn('nama_dokumen', $docTypes)
-            ->delete();
+            ->update([
+                'kategori_dokumen' => 'Arsip Kenaikan - ' . $target, // Mengubah kategori agar tidak terbaca di modul monitoring aktif
+                'status_verifikasi' => 'Disetujui (Arsip)'           // Opsional: menandai status verifikasi arsip
+            ]);
 
         // --- UPDATE DATA PEGAWAI ---
         // 3. Simpan jabatan baru ke profil utama dan reset target serta nilai AK

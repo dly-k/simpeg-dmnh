@@ -261,6 +261,11 @@ class PegawaiController extends Controller
             ->latest()
             ->paginate(10, ['*'], 'suratTugasPage')
             ->withQueryString();
+        // Ambil data E-File yang sudah menjadi Arsip (hasil soft reset)
+        $efilesArsip = \App\Models\EFile::where('pegawai_id', $pegawai->id)
+                        ->where('kategori_dokumen', 'like', 'Arsip Kenaikan%')
+                        ->orderBy('created_at', 'desc')
+                        ->get();
 
         // --- Relasi SK dengan Filter ---
         $pegawai->load([
@@ -288,7 +293,7 @@ class PegawaiController extends Controller
             'orasiIlmiahPegawai',
             'praktisiPegawai',
             'pengelolaJurnalPegawai',
-            'suratTugasPegawai'
+            'suratTugasPegawai','efilesArsip'
         ));
     }
 
