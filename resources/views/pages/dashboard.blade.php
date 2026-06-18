@@ -54,7 +54,8 @@
                     <i class="lni lni-grid-alt"></i>
                     Dashboard
                 </h1>
-
+                
+                @if(auth()->user()->role === 'admin_verifikator')
                 <div class="d-flex gap-2 d-print-none">
                     <button onclick="window.print()" class="btn btn-danger shadow-sm">
                         <i class="fas fa-file-pdf me-1"></i> PDF
@@ -63,6 +64,7 @@
                         <i class="fas fa-file-excel me-1"></i> Excel
                     </a>
                 </div>
+                @endif
             </div> <div class="card-container">
 
                 <div class="stat-card blue" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#modalPegawaiAktif" title="Klik untuk lihat daftar nama">
