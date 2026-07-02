@@ -329,4 +329,17 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    // ========================================================
+    // ==== OBAT ANTI BLANK SAAT TAB TENDIK DIKLIK ============
+    // ========================================================
+    const umurTabs = document.querySelectorAll('button[data-bs-toggle="pill"]');
+    umurTabs.forEach(tab => {
+        tab.addEventListener('shown.bs.tab', function (event) {
+            // Paksa Chart.js menggambar ulang saat tab baru saja terbuka
+            for (let id in Chart.instances) {
+                Chart.instances[id].resize();
+            }
+        });
+    });
+
 });

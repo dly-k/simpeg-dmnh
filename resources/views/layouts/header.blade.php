@@ -39,50 +39,79 @@
                 </div>
             </a>
 
-            <ul class="dropdown-menu dropdown-menu-end p-2 shadow" style="width: 350px; max-height: 400px; overflow-y: auto;">
+            <ul class="dropdown-menu dropdown-menu-end p-0 shadow-lg" style="width: 400px; max-height: 500px; overflow-y: auto; border-radius: 12px;">
+                {{-- Header Panel --}}
                 <li>
-                    <div class="dropdown-header border-bottom pb-2">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <h6 class="text-dark fw-bold mb-0">Notifikasi Terbaru</h6>
-                            <span class="badge bg-primary">
+                    <div class="px-4 py-3 border-bottom d-flex justify-content-between align-items-center bg-white" style="border-radius: 12px 12px 0 0;">
+                        <span class="fw-bold text-dark" style="font-size: 0.95rem;">Notifikasi Terbaru</span>
+                        @if(auth()->user()->unreadNotifications->count() > 0)
+                            <span class="rounded-pill px-3 py-1" style="font-size:0.72rem; font-weight:600; background:#f3f4f6; color:#374151; border:1px solid #d1d5db;">
                                 {{ auth()->user()->unreadNotifications->count() }} Baru
                             </span>
-                        </div>
-                        
-                        {{-- Tombol Read All --}}
-                        @if(auth()->user()->unreadNotifications->count() > 0)
-                            <form action="{{ route('notifikasi.readAll') }}" method="POST" class="m-0 d-grid">
-                                @csrf
-                                <button type="submit" class="btn btn-sm btn-outline-success" style="font-size: 0.75rem; padding: 4px;">
-                                    <i class="lni lni-checkmark-circle"></i> Tandai Semua Dibaca
-                                </button>
-                            </form>
                         @endif
                     </div>
                 </li>
+
+                {{-- Tombol Tandai Semua --}}
+                @if(auth()->user()->unreadNotifications->count() > 0)
+                <li>
+                    <div class="px-3 py-2 border-bottom">
+                        <form action="{{ route('notifikasi.readAll') }}" method="POST" class="m-0">
+                            @csrf
+                            <button type="submit"
+                                class="w-100 border rounded fw-semibold py-2"
+                                style="font-size: 0.82rem; cursor:pointer; background:#fff; color:#16a34a; border-color:#16a34a !important; transition: all 0.2s;"
+                                onmouseover="this.style.background='#f0fdf4'"
+                                onmouseout="this.style.background='#fff'">
+                                <i class="fas fa-check-circle me-1"></i> Tandai Semua Dibaca
+                            </button>
+                        </form>
+                    </div>
+                </li>
+                @endif
                 
                 @forelse(auth()->user()->unreadNotifications as $notification)
+                    @php
+                        $pesan   = $notification->data['pesan'] ?? 'Ada notifikasi baru.';
+                        $ket     = $notification->data['keterangan'] ?? '';
+                        $isPending = str_contains(strtolower($pesan), 'tertunda') || str_contains(strtolower($pesan), '30 hari');
+                        $badgeBg     = $isPending ? '#fef3c7' : '#dbeafe';
+                        $badgeColor  = $isPending ? '#92400e' : '#1e40af';
+                        $badgeBorder = $isPending ? '#fcd34d' : '#93c5fd';
+                        $badgeLabel  = $isPending ? 'Tertunda >30 Hari' : 'Submisi Masuk';
+                    @endphp
                     <li>
-                        <a class="dropdown-item py-2 border-bottom text-wrap"
-                        href="{{ route('notifikasi.read', $notification->id) }}">
-                            
-                            <div class="d-flex justify-content-between align-items-center mb-1">
-                                <small class="text-primary fw-bold">
-                                    {{ $notification->data['kategori'] ?? 'Sistem' }}
-                                </small>
-                                <small class="text-muted" style="font-size: 0.7rem;">
+                        <a class="text-decoration-none d-block px-4 py-3 border-bottom"
+                           href="{{ route('notifikasi.read', $notification->id) }}"
+                           style="background:#fff; transition: background 0.15s;"
+                           onmouseover="this.style.background='#f9fafb'" onmouseout="this.style.background='#fff'">
+
+                            {{-- Baris 1: Badge + Timestamp --}}
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="rounded-pill px-2 py-1" style="font-size:0.68rem; font-weight:600; background:{{ $badgeBg }}; color:{{ $badgeColor }}; border:1px solid {{ $badgeBorder }};">
+                                    {{ $badgeLabel }}
+                                </span>
+                                <small class="text-muted" style="font-size:0.7rem;">
                                     {{ $notification->created_at->diffForHumans() }}
                                 </small>
                             </div>
-                            
-                            <p class="mb-0 text-dark fw-semibold" style="font-size: 0.85rem;">
-                                {{ $notification->data['pesan'] ?? 'Ada submisi baru.' }}
-                            </p>
-                            
-                            <p class="mb-0 text-muted" style="font-size: 0.75rem;">
-                                <i class="lni lni-files me-1"></i> 
-                                {{ $notification->data['keterangan'] ?? '' }}
-                            </p>
+
+                            {{-- Baris 2: Icon + Judul & Deskripsi --}}
+                            <div class="d-flex align-items-start gap-3">
+                                <div class="flex-shrink-0 d-flex align-items-center justify-content-center rounded" style="width:36px; height:36px; background:#f3f4f6; margin-top:2px;">
+                                    <i class="fas fa-envelope" style="font-size:0.85rem; color:#6b7280;"></i>
+                                </div>
+                                <div class="flex-grow-1" style="min-width:0;">
+                                    <p class="mb-1 fw-semibold text-dark text-wrap" style="font-size:0.85rem; line-height:1.4;">
+                                        {{ $pesan }}
+                                    </p>
+                                    @if($ket)
+                                    <p class="mb-0 text-wrap" style="font-size:0.75rem; color:#6b7280; line-height:1.3;">
+                                        {{ $ket }}
+                                    </p>
+                                    @endif
+                                </div>
+                            </div>
 
                         </a>
                     </li>
